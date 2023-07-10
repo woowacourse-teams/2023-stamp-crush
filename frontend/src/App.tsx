@@ -1,10 +1,9 @@
-import test from './assets/test.png';
+import Router from './Router';
 
 const App = () => {
   return (
     <>
-      hello
-      <img src={test} />
+      <Router />
     </>
   );
 };
