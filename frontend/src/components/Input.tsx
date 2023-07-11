@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute } from 'react';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
@@ -59,20 +59,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   const InputComponent = InputVariation[variant ?? 'basic'];
 
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { value } = event.target;
-    if (maxLength !== undefined && value.length > maxLength) return;
-  };
-
   return (
     <InputComponent
       ref={ref}
       type={type}
       $width={width}
       value={value}
-      placeholder={placeholder}
       maxLength={maxLength}
-      onChange={handleInputChange}
+      placeholder={placeholder}
     />
   );
 });
