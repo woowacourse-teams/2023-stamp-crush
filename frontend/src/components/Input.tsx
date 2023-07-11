@@ -1,5 +1,4 @@
-import { HTMLInputTypeAttribute } from 'react';
-import { forwardRef } from 'react';
+import { HTMLInputTypeAttribute, forwardRef } from 'react';
 import styled from 'styled-components';
 
 const REQUIRED = '*' as const;
