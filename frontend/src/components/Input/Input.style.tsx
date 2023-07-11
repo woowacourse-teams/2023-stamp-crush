@@ -42,7 +42,7 @@ export const LabelWrapper = styled.div<StyledInputProps>`
   flex-direction: row;
 `;
 
-export const InputWrapper = styled.div`
+export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
