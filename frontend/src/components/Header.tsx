@@ -3,12 +3,18 @@ import AdminHeaderLogo from '../assets/admin_header_logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // log out 로직
+    navigate('/login');
+  };
   return (
     <GlobalHeader>
       <Link to="/">
         <LogoImg src={AdminHeaderLogo} />
       </Link>
-      <LoginLink to="/login">로그인</LoginLink>
+      <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
     </GlobalHeader>
   );
 };
