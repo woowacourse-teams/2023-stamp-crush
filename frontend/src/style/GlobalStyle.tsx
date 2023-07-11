@@ -130,10 +130,6 @@ table {
   border-spacing: 0;
 }
 :root {
-  --primary-color: #EBE5CE;
-  --primary-text-color: #253C76;
-  --dark-gray: #333333;
-  --gray: #9c9a9a;
   }
 * {
   box-sizing: border-box;
