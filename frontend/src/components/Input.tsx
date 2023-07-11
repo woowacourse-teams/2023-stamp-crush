@@ -77,7 +77,7 @@ const Label = styled.label`
 `;
 
 const Required = styled.span`
-  color: red;
+  color: #ff0505;
 `;
 
 const LabelWrapper = styled.div<StyledInputProps>`
