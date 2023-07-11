@@ -1,5 +1,5 @@
 import { HeaderContainer, LogoImg, LogoutButton } from './Header.style';
-import AdminHeaderLogo from '../assets/admin_header_logo.png';
+import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
