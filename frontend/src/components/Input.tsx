@@ -10,12 +10,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   variant?: 'basic' | 'underlined';
   maxLength?: number;
+  required?: boolean;
 }
 
 type StyledInputProps = {
   $width?: number;
   $center?: boolean;
   disabled?: boolean;
+  $required?: boolean;
 };
 
 const BaseInput = styled.input<StyledInputProps>`
@@ -30,10 +32,6 @@ const BaseInput = styled.input<StyledInputProps>`
   &::placeholder {
     color: #aaa;
   }
-
-  &:focus {
-    background: #ddd;
-  }
 `;
 
 const BasicInput = styled(BaseInput)`
@@ -44,10 +42,12 @@ const UnderlinedInput = styled(BaseInput)`
   background: transparent;
   border-radius: 8px;
   border-bottom: 2px solid #bbb;
+  transition: 0.4s ease-in-out;
 
   &:focus {
-    border-bottom: 2px solid #ebe5ce;
+    border-bottom: 2px solid #3399ff;
     outline: none;
+    transition: 0.4s ease-in-out;
   }
 `;
 
@@ -57,13 +57,16 @@ const InputVariation = {
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { id, label, type, placeholder, width, value, variant, maxLength } = props;
+  const { id, label, type, placeholder, width, value, variant, maxLength, required } = props;
 
   const InputComponent = InputVariation[variant ?? 'basic'];
 
   return (
     <InputWrapper>
-      <Label htmlFor={id}>{label}</Label>
+      <LabelWrapper>
+        <Label htmlFor={id}>{label}</Label>
+        {required ? <Required>*</Required> : null}
+      </LabelWrapper>
       <InputComponent
         ref={ref}
         id={id}
@@ -72,6 +75,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         value={value}
         maxLength={maxLength}
         placeholder={placeholder}
+        required={required}
       />
     </InputWrapper>
   );
@@ -81,6 +85,15 @@ Input.displayName = 'Input';
 
 const Label = styled.label`
   font-weight: 700;
+`;
+
+const Required = styled.span`
+  color: red;
+`;
+
+const LabelWrapper = styled.div<StyledInputProps>`
+  display: flex;
+  flex-direction: row;
 `;
 
 const InputWrapper = styled.div`
