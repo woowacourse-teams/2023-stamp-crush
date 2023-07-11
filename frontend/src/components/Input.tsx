@@ -2,6 +2,8 @@ import { HTMLInputTypeAttribute } from 'react';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
+const REQUIRED = '*' as const;
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
@@ -25,7 +27,6 @@ const BaseInput = styled.input<StyledInputProps>`
   padding: 12px;
 
   border: none;
-  border-radius: 8px;
   text-align: ${(props) => (props.$center ? 'center' : 'initial')};
   font-size: 18px;
 
@@ -40,8 +41,7 @@ const BasicInput = styled(BaseInput)`
 
 const UnderlinedInput = styled(BaseInput)`
   background: transparent;
-  border-radius: 8px;
-  border-bottom: 2px solid #bbb;
+  border-bottom: 1px solid #000;
   transition: 0.4s ease-in-out;
 
   &:focus {
@@ -51,32 +51,21 @@ const UnderlinedInput = styled(BaseInput)`
   }
 `;
 
-const InputVariation = {
+const InputVariant = {
   basic: BasicInput,
   underlined: UnderlinedInput,
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { id, label, type, placeholder, width, value, variant, maxLength, required } = props;
-
-  const InputComponent = InputVariation[variant ?? 'basic'];
+  const InputComponent = InputVariant[props.variant ?? 'basic'];
 
   return (
     <InputWrapper>
       <LabelWrapper>
-        <Label htmlFor={id}>{label}</Label>
-        {required ? <Required>*</Required> : null}
+        <Label htmlFor={props.id}>{props.label}</Label>
+        {props.required ? <Required>{REQUIRED}</Required> : null}
       </LabelWrapper>
-      <InputComponent
-        ref={ref}
-        id={id}
-        type={type}
-        $width={width}
-        value={value}
-        maxLength={maxLength}
-        placeholder={placeholder}
-        required={required}
-      />
+      <InputComponent ref={ref} $width={props.width} />
     </InputWrapper>
   );
 });
