@@ -3,6 +3,8 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: string;
+  label?: string;
   type?: HTMLInputTypeAttribute;
   width?: number;
   placeholder?: string;
@@ -55,20 +57,33 @@ const InputVariation = {
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { type, placeholder, width, value, variant, maxLength } = props;
+  const { id, label, type, placeholder, width, value, variant, maxLength } = props;
 
   const InputComponent = InputVariation[variant ?? 'basic'];
 
   return (
-    <InputComponent
-      ref={ref}
-      type={type}
-      $width={width}
-      value={value}
-      maxLength={maxLength}
-      placeholder={placeholder}
-    />
+    <InputWrapper>
+      <Label htmlFor={id}>{label}</Label>
+      <InputComponent
+        ref={ref}
+        id={id}
+        type={type}
+        $width={width}
+        value={value}
+        maxLength={maxLength}
+        placeholder={placeholder}
+      />
+    </InputWrapper>
   );
 });
 
 Input.displayName = 'Input';
+
+const Label = styled.label`
+  font-weight: 700;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
