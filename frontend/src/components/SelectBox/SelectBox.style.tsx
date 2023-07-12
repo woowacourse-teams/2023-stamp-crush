@@ -42,9 +42,15 @@ export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
     content: '';
     position: absolute;
     right: 12px;
-    top: 14px;
-    border: 5px solid ${({ theme }) => theme.colors.point};
-    border-color: ${({ theme }) => theme.colors.point} transparent transparent transparent;
+    top: 10px;
+
+    width: 6px;
+    height: 6px;
+
+    border-top: 2px solid ${({ theme }) => theme.colors.gray};
+    border-right: 2px solid ${({ theme }) => theme.colors.gray};
+    transform: rotate(-225deg);
+
     transition: 0.4s all ease-in-out;
   }
   &.expanded {
@@ -66,8 +72,8 @@ export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
     }
 
     &::after {
-      transform: rotate(-180deg);
-      top: 8px;
+      transform: rotate(-45deg);
+      top: 12px;
     }
   }
 `;
