@@ -11,8 +11,8 @@ export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
   margin-right: 1px;
   min-height: ${(props) => `${props.$minHeight}px`};
   max-height: ${(props) => `${props.$minHeight}px`};
-  overflow: hidden;
   min-width: ${(props) => `${props.$minWidth}px`};
+  overflow: hidden;
 
   cursor: pointer;
   text-align: left;
