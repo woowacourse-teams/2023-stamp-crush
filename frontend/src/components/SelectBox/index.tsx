@@ -15,7 +15,7 @@ const SelectBox = ({ options }: SelectBoxProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
-    event.stopPropagation();
+
     setIsExpanded(!isExpanded);
 
     if (event.target instanceof HTMLLabelElement) {
