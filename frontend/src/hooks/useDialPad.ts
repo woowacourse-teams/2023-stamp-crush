@@ -27,6 +27,9 @@ const useDialPad = () => {
   };
 
   const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 4 && e.target.value[e.target.value.length - 1] === '-')
+      e.target.value = e.target.value.substring(0, e.target.value.length - 1);
+
     if (!REGEX.number.test(e.target.value.replaceAll('-', ''))) return;
 
     setPhoneNumber(addHypen(e.target.value));
