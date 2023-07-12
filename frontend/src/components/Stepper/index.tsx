@@ -23,23 +23,23 @@ const Stepper = ({
   setValue,
   height = 42,
 }: StepperProps) => {
-  const onIncreaseNumber = () => {
+  const increaseNumber = () => {
     if (value + step > maxValue) return;
     setValue(value + step);
   };
 
-  const onDecreaseNumber = () => {
+  const decreaseNumber = () => {
     if (value - step < minValue) return;
     setValue(value - step);
   };
 
   return (
     <StepperWrapper $height={height}>
-      <LeftStepperButton $height={height} onClick={onIncreaseNumber}>
+      <LeftStepperButton $height={height} onClick={increaseNumber}>
         +
       </LeftStepperButton>
       <BaseStepperInput $height={height} value={value} />
-      <RightStepperButton $height={height} onClick={onDecreaseNumber}>
+      <RightStepperButton $height={height} onClick={decreaseNumber}>
         -
       </RightStepperButton>
     </StepperWrapper>
