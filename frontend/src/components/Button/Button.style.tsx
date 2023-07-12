@@ -1,5 +1,10 @@
 import { styled } from 'styled-components';
 
+interface StyledButtonProps {
+  $variant: 'primary' | 'secondary';
+  $size: 'medium' | 'large';
+}
+
 const TYPE: Record<string, Record<string, string>> = {
   primary: {
     color: 'point',
@@ -23,7 +28,7 @@ const SIZE: Record<string, Record<string, string>> = {
   },
 };
 
-export const BaseButton = styled.button<{ $variant: string; $size: string }>`
+export const BaseButton = styled.button<StyledButtonProps>`
   outline: none;
   border: 0 solid transparent;
   border-radius: 7px;
