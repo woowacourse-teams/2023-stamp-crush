@@ -25,7 +25,6 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
   return (
     <SideBarContainer $width={width} $height={height}>
       {options.map(({ key, value }) => {
-        console.log(value === current);
         return (
           <SideBarContent key={key} $isSelected={value === current}>
             <SideBarLink to={value}>
