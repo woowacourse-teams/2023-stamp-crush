@@ -56,8 +56,6 @@ const useDialPad = () => {
   const pressPad = (dialKey: string, index: number) => () => {
     if (phoneNumberRef.current) phoneNumberRef.current.focus();
 
-    if (phoneNumber.length > 12) return;
-
     if (index === REMOVE_KEY_INDEX) {
       removeNumber();
       return;
@@ -66,6 +64,8 @@ const useDialPad = () => {
       enter();
       return;
     }
+
+    if (phoneNumber.length > 12) return;
 
     setPhoneNumber((prev) => addHypen(prev + dialKey));
   };
