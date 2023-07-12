@@ -1,16 +1,16 @@
 import styled from 'styled-components';
-interface TabBarSelect {
+interface StyledTabBarSelect {
   $isSelect: boolean;
 }
 
-interface TabBarWidth {
+interface StyledTabBarWidth {
   $height: number;
   $width: number;
 }
 
-type TabBarContentProps = TabBarSelect & TabBarWidth;
+type StyledTabBarContentProps = StyledTabBarSelect & StyledTabBarWidth;
 
-export const TabBarContainer = styled.div<TabBarWidth>`
+export const TabBarContainer = styled.div<StyledTabBarWidth>`
   display: flex;
   width: ${(props) => `${props.$width}px`};
   position: relative;
@@ -24,7 +24,7 @@ export const TabBarLabel = styled.label`
   width: 100%;
 `;
 
-export const LabelContent = styled.span<TabBarContentProps>`
+export const LabelContent = styled.span<StyledTabBarContentProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +34,7 @@ export const LabelContent = styled.span<TabBarContentProps>`
   height: ${(props) => `${props.$height}px`};
 `;
 
-export const TabBarItem = styled.div<TabBarSelect>`
+export const TabBarItem = styled.div<StyledTabBarSelect>`
   transition: all 0.4s ease;
   border-bottom: 1px solid ${(props) => (props.$isSelect ? 'black' : '#eee')};
 `;
