@@ -15,7 +15,14 @@ interface StepperProps {
   height: number;
 }
 
-const Stepper = ({ minValue, maxValue, step, value, setValue, height }: StepperProps) => {
+const Stepper = ({
+  minValue = 0,
+  maxValue = 10,
+  step = 1,
+  value,
+  setValue,
+  height = 42,
+}: StepperProps) => {
   const onIncreaseNumber = () => {
     if (value + step > maxValue) return;
     setValue(value + step);
