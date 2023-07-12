@@ -12,7 +12,16 @@ import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import History from './pages/History';
 
-const Root = () => {
+const AdminRoot = () => {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+};
+
+const CustomerRoot = () => {
   return (
     <>
       <Header />
@@ -23,33 +32,34 @@ const Root = () => {
 
 const Router = () => {
   const router = createBrowserRouter([
-    //사장모드
-    { path: '/login', element: <Login /> },
-    { path: '/sign-up', element: <SignUp /> },
-    { path: '/enter', element: <EnterPhoneNumber /> },
+    // 사장
     {
-      path: '/',
-      element: <Root />,
+      path: '/admin',
+      element: <AdminRoot />,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <CustomerList /> },
+        { path: 'login', element: <Login /> },
+        { path: 'sign-up', element: <SignUp /> },
         { path: 'register-cafe', element: <RegisterCafe /> },
         { path: 'make-coupon-policy', element: <MakeCouponPolicy /> },
         { path: 'manage-cafe', element: <ManageCafe /> },
+        { path: 'enter', element: <EnterPhoneNumber /> },
       ],
     },
-    //고객모드
+    // 고객
     {
-      path: '/coupon-list',
-      element: <CouponList />,
-    },
-    {
-      path: '/my-page',
-      element: <MyPage />,
-    },
-    {
-      path: '/history',
-      element: <History />,
+      path: '/',
+      element: <CustomerRoot />,
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <CustomerList /> },
+        { path: 'login', element: <Login /> },
+        { path: 'sign-up', element: <SignUp /> },
+        { path: 'coupon-list', element: <CouponList /> },
+        { path: '/my-page', element: <MyPage /> },
+        { path: '/history', element: <History /> },
+      ],
     },
   ]);
 
