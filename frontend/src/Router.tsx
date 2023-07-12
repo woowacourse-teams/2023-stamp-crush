@@ -11,12 +11,15 @@ import Header from './components/Header';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import History from './pages/History';
+import Template from './components/Template';
 
 const AdminRoot = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <Template>
+        <Outlet />
+      </Template>
     </>
   );
 };
@@ -25,7 +28,9 @@ const CustomerRoot = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <Template>
+        <Outlet />
+      </Template>
     </>
   );
 };
