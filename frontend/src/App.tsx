@@ -1,4 +1,4 @@
-import GlobalStyle from 'style/GlobalStyle';
+import GlobalStyle from './style/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import Router from './Router';
 import { theme } from './style/theme';
