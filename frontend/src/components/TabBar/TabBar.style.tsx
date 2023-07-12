@@ -12,8 +12,8 @@ type StyledTabBarContentProps = StyledTabBarSelect & StyledTabBarWidth;
 
 export const TabBarContainer = styled.div<StyledTabBarWidth>`
   display: flex;
-  width: ${(props) => `${props.$width}px`};
   position: relative;
+  width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
 `;
 
