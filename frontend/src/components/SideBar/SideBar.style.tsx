@@ -31,13 +31,15 @@ export const SideBarContainer = styled.div<SideBarSize>`
 export const LabelContent = styled.span<SideBarStyleProps>`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
 
   font-weight: ${(props) => (props.$isSelected ? 'bold' : 'normal')};
   color: ${({ theme }) => theme.colors.gray};
+
+  padding-left: 20px;
 
   transition: all 0.4s ease;
   cursor: pointer;
@@ -53,7 +55,8 @@ export const SideBarContent = styled.div<SideBarSelect>`
 `;
 
 export const Arrow = styled.span`
-  position: relative;
+  position: absolute;
+  right: 35px;
 
   &::after {
     position: absolute;
