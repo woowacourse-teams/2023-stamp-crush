@@ -1,5 +1,6 @@
-import { EARN_KEY_INDEX, REGEX, REMOVE_KEY_INDEX } from '../constants';
+import { REGEX } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import { DialKeyType } from '../components/Dialpad';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -23,11 +24,11 @@ const useDialPad = () => {
   };
 
   const enter = () => {
-    // 추후에 모달이 열리게 구현 예정
+    // TODO: 추후에 모달이 열리게 구현 예정
   };
 
   const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 4 && e.target.value[e.target.value.length - 1] === '-')
+    if (e.target.value.length > 4 && e.target.value.endsWith('-'))
       e.target.value = e.target.value.substring(0, e.target.value.length - 1);
 
     if (!REGEX.number.test(e.target.value.replaceAll('-', ''))) return;
@@ -49,14 +50,14 @@ const useDialPad = () => {
     }
   };
 
-  const pressPad = (dialKey: string, index: number) => () => {
+  const pressPad = (dialKey: DialKeyType) => () => {
     if (phoneNumberRef.current) phoneNumberRef.current.focus();
 
-    if (index === REMOVE_KEY_INDEX) {
+    if (dialKey === '←') {
       removeNumber();
       return;
     }
-    if (index === EARN_KEY_INDEX) {
+    if (dialKey === '적립') {
       enter();
       return;
     }
