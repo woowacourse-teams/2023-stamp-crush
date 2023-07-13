@@ -13,6 +13,7 @@ interface SelectBoxProps {
 const SelectBox = ({ options }: SelectBoxProps) => {
   const [checkedOption, setCheckedOption] = useState(options[0].value);
   const [isExpanded, setIsExpanded] = useState(false);
+
   const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
 
