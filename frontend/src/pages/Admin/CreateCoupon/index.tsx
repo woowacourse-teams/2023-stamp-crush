@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import {
@@ -8,18 +9,23 @@ import {
   Text,
   Title,
 } from './CreateCoupon.style';
+import RadioInputs from './RadioInputs';
 
 const ParagraphSpacing = () => <Spacing $size={8} />;
 
 const SectionSpacing = () => <Spacing $size={40} />;
 
 const CreateCoupon = () => {
+  // TODO: defined type
+  const [createdType, setCreatedType] = useState('');
+
   return (
     <CreateCouponContainer>
       <Title>쿠폰 제작 및 변경</Title>
       <ParagraphSpacing />
       <SubTitle>어떻게 제작하시겠어요?</SubTitle>
-      {/* Radio Buttons */}
+      <ParagraphSpacing />
+      <RadioInputs setValue={setCreatedType} />
       <SectionSpacing />
       <SubTitle>목표 스탬프 갯수</SubTitle>
       <ParagraphSpacing />
