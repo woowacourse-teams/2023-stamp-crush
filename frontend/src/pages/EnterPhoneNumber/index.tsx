@@ -1,7 +1,12 @@
-import React from 'react';
+import Dialpad from '../../components/Dialpad';
 
 const EnterPhoneNumber = () => {
-  return <div>EnterPhoneNumber</div>;
+  return (
+    <div>
+      EnterPhoneNumber
+      <Dialpad />
+    </div>
+  );
 };
 
 export default EnterPhoneNumber;
