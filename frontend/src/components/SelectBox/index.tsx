@@ -29,7 +29,7 @@ const SelectBox = ({ options }: SelectBoxProps) => {
 
   return (
     <BaseSelectBox
-      className={isExpanded ? 'expanded' : ''}
+      $expanded={isExpanded}
       $minWidth={120}
       $minHeight={32}
       onClick={toggleExpandSelectBox}

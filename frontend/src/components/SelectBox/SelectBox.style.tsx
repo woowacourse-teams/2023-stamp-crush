@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface StyledSelectBoxProps {
   $minWidth: number;
   $minHeight: number;
+  $expanded: boolean;
 }
 
 export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
@@ -53,29 +54,32 @@ export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
 
     transition: 0.4s all ease-in-out;
   }
-  &.expanded {
-    border: 1px solid ${({ theme }) => theme.colors.point};
-    background: #fff;
-    border-radius: 12px;
-    padding: 0;
-    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
-    max-height: 400px;
 
-    label {
-      border-top: 1px solid ${({ theme }) => theme.colors.gray};
-      &:hover {
+  ${(props) =>
+    props.$expanded &&
+    css`
+      border: 1px solid ${({ theme }) => theme.colors.point};
+      background: #fff;
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
+      max-height: 400px;
+
+      label {
+        border-top: 1px solid ${({ theme }) => theme.colors.gray};
+        &:hover {
+          color: ${({ theme }) => theme.colors.main600};
+        }
+      }
+      input:checked + label {
         color: ${({ theme }) => theme.colors.main600};
       }
-    }
-    input:checked + label {
-      color: ${({ theme }) => theme.colors.main600};
-    }
 
-    &::after {
-      transform: rotate(-45deg);
-      top: 12px;
-    }
-  }
+      &::after {
+        transform: rotate(-45deg);
+        top: 12px;
+      }
+    `}
 `;
 
 export const SelectContent = styled.input`
