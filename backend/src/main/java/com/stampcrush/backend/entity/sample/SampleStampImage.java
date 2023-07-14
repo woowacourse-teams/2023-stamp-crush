@@ -1,5 +1,6 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.sample;
 
+import com.stampcrush.backend.entity.baseentity.BaseDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -9,7 +10,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Entity
-public class SampleFrontImage extends BaseDate {
+public class SampleStampImage extends BaseDate {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -1,4 +1,4 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.user;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

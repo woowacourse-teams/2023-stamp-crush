@@ -1,5 +1,6 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.sample;
 
+import com.stampcrush.backend.entity.baseentity.BaseDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

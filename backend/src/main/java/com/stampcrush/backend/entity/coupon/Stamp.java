@@ -1,5 +1,7 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.coupon;
 
+import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.entity.coupon.Coupon;
 import jakarta.persistence.*;
 import lombok.Getter;
 

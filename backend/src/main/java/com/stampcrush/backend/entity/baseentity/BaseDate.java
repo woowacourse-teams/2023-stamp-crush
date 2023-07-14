@@ -1,4 +1,4 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.baseentity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

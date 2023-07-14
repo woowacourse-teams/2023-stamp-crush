@@ -1,5 +1,6 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.entity.baseentity.BaseDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -9,14 +10,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Entity
-public class CouponDesign extends BaseDate {
+public class Owner extends BaseDate {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
-    private String frontImageUrl;
-
-    private String backImageUrl;
-
-    private String stampImageUrl;
+    private String name;
+    private String loginId;
+    private String encryptedPassword;
+    private String phoneNumber;
 }

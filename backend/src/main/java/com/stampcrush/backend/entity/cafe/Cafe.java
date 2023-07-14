@@ -1,5 +1,7 @@
-package com.stampcrush.backend.entity;
+package com.stampcrush.backend.entity.cafe;
 
+import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.entity.baseentity.BaseDate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
