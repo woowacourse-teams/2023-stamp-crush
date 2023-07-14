@@ -2,7 +2,7 @@ import { FormEventHandler, MouseEventHandler, useRef } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import Template from '../../../components/Template';
-import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm } from './style';
+import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -33,7 +33,7 @@ const RegisterCafe = () => {
     <Template>
       <ContentContainer>
         <RegisterCafeInputForm onSubmit={submitCafeInfo}>
-          <h1>내 카페 등록</h1>
+          <Title>내 카페 등록</Title>
           <InputWithButtonWrapper>
             <Input
               id={'business-registration-number-input'}

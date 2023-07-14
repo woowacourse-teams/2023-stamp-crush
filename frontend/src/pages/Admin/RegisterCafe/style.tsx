@@ -3,11 +3,6 @@ import styled from 'styled-components';
 export const ContentContainer = styled.main`
   display: flex;
   justify-content: center;
-
-  h1 {
-    font-size: 34px;
-    font-weight: 700;
-  }
 `;
 
 export const RegisterCafeInputForm = styled.form`
@@ -40,4 +35,9 @@ export const InputWithButtonWrapper = styled.div`
   button {
     height: 42px;
   }
+`;
+
+export const Title = styled.header`
+  font-size: 34px;
+  font-weight: 700;
 `;
