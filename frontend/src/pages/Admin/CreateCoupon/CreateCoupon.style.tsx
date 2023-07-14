@@ -4,7 +4,9 @@ interface StyledSpacingProps {
   $size: number;
 }
 
-export const CreateCouponContainer = styled.div``;
+export const CreateCouponContainer = styled.div`
+  margin: 0 auto;
+`;
 
 export const Spacing = styled.div<StyledSpacingProps>`
   width: 100%;
