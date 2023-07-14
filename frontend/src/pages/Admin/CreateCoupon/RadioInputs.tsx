@@ -1,6 +1,6 @@
 import React from 'react';
 import { RadioInputsContainer, Label, LabelText, RadioInput } from './RadioInputs.style';
-import { Spacing } from './CreateCoupon.style';
+import { Spacing } from '../../../style/layout/common';
 
 interface RadioInputsProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
