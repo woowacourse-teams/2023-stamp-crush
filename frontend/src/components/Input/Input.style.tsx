@@ -9,7 +9,7 @@ type StyledInputProps = {
 
 export const BaseInput = styled.input<StyledInputProps>`
   width: ${(props) => (props.$width ? `${props.$width}px` : '100%')};
-  padding: 12px;
+  padding: 12px 0px;
 
   border: none;
   text-align: ${(props) => (props.$center ? 'center' : 'initial')};
