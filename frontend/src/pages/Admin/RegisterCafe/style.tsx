@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const ContentContainer = styled.main`
   display: flex;
-  flex-direction: row;
-  gap: 60px;
+  justify-content: center;
 
   h1 {
     font-size: 34px;

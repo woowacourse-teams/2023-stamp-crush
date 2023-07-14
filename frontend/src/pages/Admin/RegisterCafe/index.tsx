@@ -1,17 +1,8 @@
 import { FormEventHandler, MouseEventHandler, useRef } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import SideBar, { SideBarOptions } from '../../../components/SideBar';
 import Template from '../../../components/Template';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm } from './style';
-
-const SIDE_BAR_MENU: SideBarOptions[] = [
-  { key: '내 카페 등록', value: '/admin/register-cafe' },
-  { key: '내 카페 관리', value: '/admin/manage-cafe' },
-  { key: '쿠폰 디자인 제작 및 변경', value: 'admin/manage-cafe' },
-  { key: '쿠폰 정책 등록 및 변경', value: '/admin/make-coupon-policy' },
-  { key: '내 고객 목록', value: '/admin' },
-];
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +32,6 @@ const RegisterCafe = () => {
   return (
     <Template>
       <ContentContainer>
-        <SideBar width={250} height={250} options={SIDE_BAR_MENU} />
         <RegisterCafeInputForm onSubmit={submitCafeInfo}>
           <h1>내 카페 등록</h1>
           <InputWithButtonWrapper>
