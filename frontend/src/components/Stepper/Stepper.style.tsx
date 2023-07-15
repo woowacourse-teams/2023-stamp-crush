@@ -3,12 +3,17 @@ import { styled } from 'styled-components';
 interface StyledStepperProps {
   $height: number;
 }
+
+interface StepperButtonProps extends StyledStepperProps {
+  $position: 'left' | 'right';
+}
+
 export const StepperWrapper = styled.div<StyledStepperProps>`
   display: flex;
   height: ${({ $height }) => `${$height}px`};
 `;
 
-export const BaseStepperButton = styled.button<StyledStepperProps>`
+export const BaseStepperButton = styled.button<StepperButtonProps>`
   display: block;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.black};
@@ -16,16 +21,8 @@ export const BaseStepperButton = styled.button<StyledStepperProps>`
   &:hover {
     background-color: ${({ theme }) => theme.colors.gray100};
   }
-`;
-
-export const LeftStepperButton = styled(BaseStepperButton)`
-  border-radius: 3px 0 0 3px;
   width: ${({ $height }) => `${$height}px`};
-`;
-
-export const RightStepperButton = styled(BaseStepperButton)`
-  border-radius: 0 3px 3px 0;
-  width: ${({ $height }) => `${$height}px`};
+  border-radius: ${({ $position }) => ($position === 'left' ? '3px 0 0 3px' : '0 3px 3px 0')};
 `;
 
 export const BaseStepperInput = styled.input<StyledStepperProps>`
