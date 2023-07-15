@@ -13,6 +13,10 @@ export const Spacing = styled.div<StyledSpacingProps>`
   height: ${({ $size }) => `${$size}px`};
 `;
 
+export const RowSpacing = styled.div<StyledSpacingProps>`
+  width: ${({ $size }) => `${$size}px`};
+  height: 100%;
+`;
 export const Title = styled.h2`
   font-size: 36px;
   font-weight: 700;
