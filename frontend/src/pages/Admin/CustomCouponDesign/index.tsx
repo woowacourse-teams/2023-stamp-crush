@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import {
   CouponContainer,
   CustomCouponDesignContainer,
   C예상쿠폰이미지컨테이너,
+  C템플릿고르기컨테이너,
   ImageUploadContainer,
   SaveButtonWrapper,
 } from './style';
@@ -9,22 +11,42 @@ import { RowSpacing, Spacing, SubTitle, Title } from '../../../style/layout/comm
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
+import TabBar from '../../../components/TabBar';
 
 const SectionSpacing = () => <Spacing $size={40} />;
 
+const TEMPLATE_OPTIONS = [
+  {
+    key: 'coupon-front',
+    value: '쿠폰(앞)',
+  },
+  {
+    key: 'coupon-back',
+    value: '쿠폰(뒤)',
+  },
+  {
+    key: 'stamp',
+    value: '스탬프',
+  },
+];
 const CustomCouponDesign = () => {
+  const [templateSelect, setTemplateSelect] = useState('쿠폰(앞)');
+
+  const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTemplateSelect(e.target.value);
+  };
   return (
     <CustomCouponDesignContainer>
       <C예상쿠폰이미지컨테이너>
-      <Title>쿠폰 제작 및 변경</Title>
-      <SectionSpacing />
-      <SubTitle>예상 쿠폰 이미지</SubTitle>
-      <Spacing $size={20} />
+        <Title>쿠폰 제작 및 변경</Title>
+        <SectionSpacing />
+        <SubTitle>예상 쿠폰 이미지</SubTitle>
+        <Spacing $size={20} />
         <ImageUploadContainer>
           <CouponContainer>
-      <CustomCouponSection label="쿠폰 앞면" uploadImageInputId="coupon-front-image-input" />
-      <Spacing $size={32} />
-      <CustomCouponSection label="쿠폰 뒷면" uploadImageInputId="coupon-back-image-input" />
+            <CustomCouponSection label="쿠폰 앞면" uploadImageInputId="coupon-front-image-input" />
+            <Spacing $size={32} />
+            <CustomCouponSection label="쿠폰 뒷면" uploadImageInputId="coupon-back-image-input" />
           </CouponContainer>
           <RowSpacing $size={72} />
           <CustomStampSection label="스탬프" uploadImageInputId="stamp-image-input" />
@@ -36,6 +58,16 @@ const CustomCouponDesign = () => {
           </Button>
         </SaveButtonWrapper>
       </C예상쿠폰이미지컨테이너>
+      <C템플릿고르기컨테이너>
+        <TabBar
+          name="template-type"
+          options={TEMPLATE_OPTIONS}
+          selectedValue={templateSelect}
+          onChange={selectTabBar}
+          height={54}
+          width={350}
+        />
+      </C템플릿고르기컨테이너>
     </CustomCouponDesignContainer>
   );
 };
