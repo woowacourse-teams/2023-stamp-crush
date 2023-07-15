@@ -1,5 +1,5 @@
 import { MouseEventHandler, useState, Dispatch, SetStateAction } from 'react';
-import { BaseSelectBox, LabelContent, SelectContent } from './SelectBox.style';
+import { BaseSelectBox, LabelContent, SelectBoxWrapper, SelectContent } from './SelectBox.style';
 
 export type SelectBoxOption = {
   key: string;
@@ -30,25 +30,27 @@ const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps)
   };
 
   return (
-    <BaseSelectBox
-      $expanded={isExpanded}
-      $minWidth={120}
-      $minHeight={32}
-      onClick={toggleExpandSelectBox}
-    >
-      {options.map(({ key, value }) => (
-        <>
-          <SelectContent
-            key={key}
-            type="radio"
-            value={checkedOption}
-            checked={checkedOption === value}
-            id={key}
-          />
-          <LabelContent htmlFor={key}>{value}</LabelContent>
-        </>
-      ))}
-    </BaseSelectBox>
+    <SelectBoxWrapper>
+      <BaseSelectBox
+        $expanded={isExpanded}
+        $minWidth={120}
+        $minHeight={32}
+        onClick={toggleExpandSelectBox}
+      >
+        {options.map(({ key, value }) => (
+          <>
+            <SelectContent
+              key={key}
+              type="radio"
+              value={checkedOption}
+              checked={checkedOption === value}
+              id={key}
+            />
+            <LabelContent htmlFor={key}>{value}</LabelContent>
+          </>
+        ))}
+      </BaseSelectBox>
+    </SelectBoxWrapper>
   );
 };
 
