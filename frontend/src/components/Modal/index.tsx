@@ -1,29 +1,20 @@
 import ReactDOM from 'react-dom';
 import { BaseModal, CloseButton, ModalBackdrop } from './Modal.style';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
-interface ModalProps extends PropsWithChildren {
-  id?: string;
+interface ModalProps {
+  closeModal: () => void;
 }
 
-const Modal = ({ children }: ModalProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-
+const Modal = ({ closeModal, children }: PropsWithChildren<ModalProps>) => {
   return ReactDOM.createPortal(
-    isModalOpen && (
-      <>
-        <ModalBackdrop />
-        <BaseModal>
-          {children}
-          <CloseButton />
-        </BaseModal>
-      </>
-    ),
+    <>
+      <ModalBackdrop onClick={closeModal} />
+      <BaseModal>
+        {children}
+        <CloseButton onClick={closeModal} />
+      </BaseModal>
+    </>,
     document.querySelector('body') as HTMLBodyElement,
   );
 };
