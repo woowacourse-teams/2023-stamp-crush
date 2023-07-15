@@ -1,14 +1,13 @@
-import {
-  CustomCouponSectionContainer,
-  CouponPreviewHeader,
-  CouponPreviewLabel,
-  ImageUpLoadInput,
-  PreviewImageWrapper,
-  PreviewImage,
-  ImageUpLoadInputLabel,
-} from './CustomCouponSection.style';
+import { CustomCouponSectionContainer, CouponPreviewHeader } from './CustomCouponSection.style';
 import { Spacing, Text } from '../../../style/layout/common';
 import { useState } from 'react';
+import {
+  ImageUpLoadInput,
+  ImageUpLoadInputLabel,
+  PreviewImage,
+  PreviewImageWrapper,
+  PreviewLabel,
+} from './style';
 
 interface CustomCouponSectionProps {
   label: string;
@@ -27,7 +26,7 @@ const CustomCouponSection = ({ label, uploadImageInputId }: CustomCouponSectionP
   return (
     <CustomCouponSectionContainer>
       <CouponPreviewHeader>
-        <CouponPreviewLabel>{label}</CouponPreviewLabel>
+        <PreviewLabel>{label}</PreviewLabel>
         <ImageUpLoadInput
           id={uploadImageInputId}
           type="file"
@@ -37,8 +36,8 @@ const CustomCouponSection = ({ label, uploadImageInputId }: CustomCouponSectionP
         <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>이미지 업로드 +</ImageUpLoadInputLabel>
       </CouponPreviewHeader>
       <Spacing $size={12} />
-      <PreviewImageWrapper>
-        <PreviewImage src={imgFileUrl} />
+      <PreviewImageWrapper $height={150} $width={270}>
+        <PreviewImage src={imgFileUrl} $height={150} $width={270} />
       </PreviewImageWrapper>
       <Spacing $size={8} />
       <Text>270 * 150 의 이미지만 올려주세요.</Text>
