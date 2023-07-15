@@ -8,3 +8,5 @@ export const NextButtonWrapper = styled.div`
   flex-direction: row-reverse;
   width: 100%;
 `;
+
+export const SelectBoxWrapper = styled.div``;
