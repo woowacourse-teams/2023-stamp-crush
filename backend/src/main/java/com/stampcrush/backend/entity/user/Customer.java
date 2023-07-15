@@ -1,11 +1,16 @@
 package com.stampcrush.backend.entity.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.InheritanceType.JOINED;
+import static lombok.AccessLevel.PROTECTED;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
 @DiscriminatorColumn(name = "dtype")
