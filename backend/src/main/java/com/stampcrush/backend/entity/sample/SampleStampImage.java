@@ -17,4 +17,11 @@ public class SampleStampImage extends BaseDate {
     private Long id;
 
     private String imageUrl;
+
+    public SampleStampImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    protected SampleStampImage() {
+    }
 }

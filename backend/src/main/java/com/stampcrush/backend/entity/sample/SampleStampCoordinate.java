@@ -24,4 +24,17 @@ public class SampleStampCoordinate extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sample_back_image_id")
     private SampleBackImage sampleBackImage;
+
+    public SampleStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate) {
+        this.stampOrder = stampOrder;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+    }
+
+    public void setSampleBackImage(SampleBackImage sampleBackImage) {
+        this.sampleBackImage = sampleBackImage;
+    }
+
+    protected SampleStampCoordinate() {
+    }
 }
