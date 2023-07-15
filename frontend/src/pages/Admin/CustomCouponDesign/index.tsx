@@ -29,6 +29,7 @@ const TEMPLATE_OPTIONS = [
     value: '스탬프',
   },
 ];
+
 const CustomCouponDesign = () => {
   const [templateSelect, setTemplateSelect] = useState('쿠폰(앞)');
 
