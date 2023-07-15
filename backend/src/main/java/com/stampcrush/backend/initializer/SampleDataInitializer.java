@@ -13,9 +13,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class SampleDataInitializer implements ApplicationRunner {
@@ -31,26 +28,19 @@ public class SampleDataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         SampleFrontImage sampleFrontImage = new SampleFrontImage(SAMPLE_FRONT_IMAGE_URL);
-        sampleFrontImageRepository.save(sampleFrontImage);
+        SampleFrontImage savedFrontImage = sampleFrontImageRepository.save(sampleFrontImage);
 
         SampleBackImage sampleBackImage = new SampleBackImage(SAMPLE_BACK_IMAGE_URL);
-        sampleBackImageRepository.save(sampleBackImage);
+        SampleBackImage savedSampleBackImage = sampleBackImageRepository.save(sampleBackImage);
 
-        List<SampleStampCoordinate> sampleStampCoordinates = new ArrayList<>();
-
-        sampleStampCoordinates.add(new SampleStampCoordinate(1, 1, 2));
-        sampleStampCoordinates.add(new SampleStampCoordinate(2, 2, 2));
-        sampleStampCoordinates.add(new SampleStampCoordinate(3, 3, 2));
-        sampleStampCoordinates.add(new SampleStampCoordinate(4, 4, 2));
-        sampleStampCoordinates.add(new SampleStampCoordinate(5, 1, 1));
-        sampleStampCoordinates.add(new SampleStampCoordinate(6, 2, 1));
-        sampleStampCoordinates.add(new SampleStampCoordinate(7, 3, 1));
-        sampleStampCoordinates.add(new SampleStampCoordinate(8, 4, 1));
-
-        for (SampleStampCoordinate coordinate : sampleStampCoordinates) {
-            SampleStampCoordinate savedCoordinate = sampleStampCoordinateRepository.save(coordinate);
-            sampleBackImage.addCoordinates(savedCoordinate);
-        }
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(1, 1, 2, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(2, 2, 2, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(3, 3, 2, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(4, 4, 2, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(5, 1, 1, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(6, 2, 1, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(7, 3, 1, sampleBackImage));
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(8, 4, 1, sampleBackImage));
 
         SampleStampImage sampleStampImage = new SampleStampImage(SAMPLE_STAMP_IMAGE_URL);
         sampleStampImageRepository.save(sampleStampImage);

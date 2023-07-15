@@ -31,6 +31,13 @@ public class SampleStampCoordinate extends BaseDate {
         this.yCoordinate = yCoordinate;
     }
 
+    public SampleStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate, SampleBackImage sampleBackImage) {
+        this.stampOrder = stampOrder;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.sampleBackImage = sampleBackImage;
+    }
+
     public void setSampleBackImage(SampleBackImage sampleBackImage) {
         this.sampleBackImage = sampleBackImage;
     }
