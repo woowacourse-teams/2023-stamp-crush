@@ -6,7 +6,7 @@ export const ModalBackdrop = styled.div`
   left: 0;
 
   width: 100vw;
-  height: 100vh;
+  height: 120vh;
 
   z-index: 0;
 
@@ -18,8 +18,8 @@ export const BaseModal = styled.div`
 
   top: 50%;
   left: 50%;
-  width: 70vw;
-  height: 50vh;
+  width: 60vw;
+  height: 60vh;
 
   padding: 35px;
   border-radius: 10px;
