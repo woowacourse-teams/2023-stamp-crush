@@ -7,8 +7,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
@@ -52,5 +54,35 @@ public class Coupon extends BaseDate {
     }
 
     protected Coupon() {
+    }
+
+    public void reward() {
+        this.status = CouponStatus.REWARDED;
+    }
+
+    public boolean isUsing() {
+        return this.status == CouponStatus.USING;
+    }
+
+    public boolean isRewarded() {
+        return this.status == CouponStatus.REWARDED;
+    }
+
+    public int getStampCount() {
+        return stamps.size();
+    }
+
+    public int calculateVisitCount() {
+        return stamps.stream()
+                .map(BaseDate::getCreatedAt)
+                .collect(Collectors.toSet())
+                .size();
+    }
+
+    public LocalDateTime compareVisitTime(LocalDateTime visitTime) {
+        if (this.getCreatedAt().isBefore(visitTime)) {
+            return this.getCreatedAt();
+        }
+        return visitTime;
     }
 }
