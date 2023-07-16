@@ -1,6 +1,7 @@
 package com.stampcrush.backend.service;
 
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,14 @@ public class CustomerService {
         } catch (IllegalArgumentException e) {
             return Collections.emptyList();
         }
+    }
+
+    public Long createTemporaryCustomer(String phoneNumber) {
+        String nickname = phoneNumber.substring(phoneNumber.length() - 4);
+        TemporaryCustomer temporaryCustomer = new TemporaryCustomer(nickname, phoneNumber);
+
+        TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
+
+        return savedTemporaryCustomer.getId();
     }
 }

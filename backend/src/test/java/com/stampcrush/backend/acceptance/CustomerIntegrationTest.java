@@ -5,6 +5,7 @@ import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.service.CustomerResponse;
+import com.stampcrush.backend.service.TemporaryCustomerRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -70,6 +72,20 @@ public class CustomerIntegrationTest extends IntegrationTest {
         customerRepository.deleteAll();
     }
 
+    @Test
+    void 임시_고객을_생성한다() {
+        // given
+        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("01012345678");
+
+        // when
+        Long temporaryCustomerId = createTemporaryCustomer(temporaryCustomerRequest);
+        Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
+
+        // then
+        assertThat(temporaryCustomer.getNickname()).isEqualTo("5678");
+        assertThat(temporaryCustomer.getPhoneNumber()).isEqualTo("01012345678");
+    }
+
     private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(String phoneNumber) {
         return given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -79,5 +95,22 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .then()
                 .log().all()
                 .extract();
+    }
+
+    private Long createTemporaryCustomer(TemporaryCustomerRequest request) {
+        ExtractableResponse<Response> response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when()
+                .post("/temporary-customers")
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract();
+
+        return getIdFromCreatedResponse(response);
+    }
+
+    private long getIdFromCreatedResponse(ExtractableResponse<Response> response) {
+        return Long.parseLong(response.header("Location").split("/")[2]);
     }
 }
