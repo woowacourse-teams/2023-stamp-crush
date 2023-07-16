@@ -26,4 +26,15 @@ public class CafePolicy extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
+
+    public CafePolicy(Integer maxStampCount, String reward, Integer expirePeriod, Boolean deleted, Cafe cafe) {
+        this.maxStampCount = maxStampCount;
+        this.reward = reward;
+        this.expirePeriod = expirePeriod;
+        this.deleted = deleted;
+        this.cafe = cafe;
+    }
+
+    protected CafePolicy() {
+    }
 }
