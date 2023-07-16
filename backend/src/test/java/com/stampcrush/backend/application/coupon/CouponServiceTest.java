@@ -188,4 +188,30 @@ class CouponServiceTest {
                 false);
         assertThat(result).containsExactly(customerUsingCoupon);
     }
+
+    @Test
+    void 첫_방문일자를_계산한다() {
+        CouponDesign couponDesign6 = couponDesignRepository.save(new CouponDesign());
+        CouponPolicy couponPolicy6 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 10));
+
+        Coupon coupon6 = new Coupon(LocalDate.now(), tmpCustomer1, cafe1, couponDesign6, couponPolicy6);
+        Stamp stamp6 = new Stamp();
+
+        stamp6.registerCoupon(coupon6);
+        couponRepository.save(coupon6);
+
+        CafeCustomersResponseDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
+        // 첫 방문일자는 먼저 저장된 coupon1의 createdAt이어야 한다.
+        CafeCustomerInfoResponseDto expected = new CafeCustomerInfoResponseDto(
+                tmpCustomer1.getId(),
+                tmpCustomer1.getNickname(),
+                coupon6.getStampCount(),
+                1,
+                3,
+                coupon1.getCreatedAt(),
+                false
+        );
+
+        assertThat(customersResponseDto.getCustomers()).containsAnyOf(expected);
+    }
 }
