@@ -5,6 +5,7 @@ import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.service.CustomerResponse;
+import com.stampcrush.backend.service.CustomersResponse;
 import com.stampcrush.backend.service.TemporaryCustomerRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -12,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,11 +31,11 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        List<CustomerResponse> customers = response.jsonPath().getList(".", CustomerResponse.class);
+        CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers).containsExactly(CustomerResponse.from(customer));
+        assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
 
         customerRepository.deleteAll();
     }
@@ -50,11 +48,11 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        List<CustomerResponse> customers = response.jsonPath().getList(".", CustomerResponse.class);
+        CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers).containsExactly(CustomerResponse.from(customer));
+        assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
 
         customerRepository.deleteAll();
     }
@@ -63,11 +61,11 @@ public class CustomerIntegrationTest extends IntegrationTest {
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        List<CustomerResponse> customers = response.jsonPath().getList(".", CustomerResponse.class);
+        CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers.size()).isEqualTo(0);
+        assertThat(customers.getCustomer().size()).isEqualTo(0);
 
         customerRepository.deleteAll();
     }

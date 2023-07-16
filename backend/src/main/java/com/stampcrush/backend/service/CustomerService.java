@@ -27,12 +27,15 @@ public class CustomerService {
 //        }
 //    }
 
-    public List<CustomerResponse> findCustomer(String phoneNumber) {
+    public CustomersResponse findCustomer(String phoneNumber) {
         try {
             List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
-            return customers.stream().map(CustomerResponse::from).collect(Collectors.toList());
+
+            return new CustomersResponse(customers.stream()
+                    .map(CustomerResponse::from)
+                    .collect(Collectors.toList()));
         } catch (IllegalArgumentException e) {
-            return Collections.emptyList();
+            return new CustomersResponse(Collections.emptyList());
         }
     }
 
