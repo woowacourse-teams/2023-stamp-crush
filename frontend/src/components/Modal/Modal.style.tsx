@@ -32,7 +32,6 @@ export const BaseModal = styled.div`
 
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     width: 70vw;
-    height: 60vh;
   }
 `;
 
