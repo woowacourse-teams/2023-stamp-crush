@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -143,15 +144,21 @@ class CouponRepositoryTest {
 
     @Test
     void 쿠폰X_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
-
         List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe1, tmpCustomer1, CouponStatus.USING);
         assertThat(customerCoupon).isEmpty();
     }
 
     @Test
     void 쿠폰O_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
-
         List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.USING);
         assertThat(customerCoupon).containsExactly(coupon4);
+    }
+
+    @Test
+    void 쿠폰의_유효기간_만료일을_계산한다() {
+        LocalDateTime expiredDate = coupon1.calculateExpireDate();
+        LocalDateTime expected = coupon1.getCreatedAt().plusMonths(couponPolicy1.getExpiredPeriod());
+
+        assertThat(expiredDate).isEqualTo(expected);
     }
 }
