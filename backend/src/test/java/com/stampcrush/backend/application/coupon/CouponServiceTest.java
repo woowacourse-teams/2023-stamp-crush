@@ -2,18 +2,20 @@ package com.stampcrush.backend.application.coupon;
 
 import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResponseDto;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomersResponseDto;
+import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResponseDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.Stamp;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
+import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import com.stampcrush.backend.repository.user.TemporaryCustomersRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +53,7 @@ class CouponServiceTest {
     private CouponDesignRepository couponDesignRepository;
 
     @Autowired
-    private EntityManager em;
+    private CouponPolicyRepository couponPolicyRepository;
 
     private TemporaryCustomer tmpCustomer1;
     private TemporaryCustomer tmpCustomer2;
@@ -67,6 +70,23 @@ class CouponServiceTest {
     private CouponDesign couponDesign3;
     private CouponDesign couponDesign4;
     private CouponDesign couponDesign5;
+
+    private CouponPolicy couponPolicy1;
+    private CouponPolicy couponPolicy2;
+    private CouponPolicy couponPolicy3;
+    private CouponPolicy couponPolicy4;
+    private CouponPolicy couponPolicy5;
+
+    // coupon1, REWARD상태, cafe1 -> stamp0개, 임시유저
+    // coupon2, USING상태, cafe1 -> stamp1개
+    // coupon3, USING상태, cafe2 -> stamp1개
+    // coupon4, USING상태, cafe2 -> stamp0개
+    // coupon5, USING상태, cafe2 -> stamp0개
+    private Coupon coupon1;
+    private Coupon coupon2;
+    private Coupon coupon3;
+    private Coupon coupon4;
+    private Coupon coupon5;
 
     @BeforeEach
     void setUp() {
@@ -85,6 +105,36 @@ class CouponServiceTest {
         couponDesign3 = couponDesignRepository.save(new CouponDesign());
         couponDesign4 = couponDesignRepository.save(new CouponDesign());
         couponDesign5 = couponDesignRepository.save(new CouponDesign());
+
+        couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy3 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+
+        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
+        Stamp stamp1 = new Stamp();
+        Stamp stamp2 = new Stamp();
+        stamp1.registerCoupon(coupon1);
+        stamp2.registerCoupon(coupon1);
+        Coupon save = couponRepository.save(coupon1);
+        save.reward();
+
+        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2, couponPolicy2);
+        Stamp stamp3 = new Stamp();
+        stamp3.registerCoupon(coupon2);
+        couponRepository.save(coupon2);
+
+        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3, couponPolicy3);
+        Stamp stamp4 = new Stamp();
+        stamp4.registerCoupon(coupon3);
+        couponRepository.save(coupon3);
+
+        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4, couponPolicy4);
+        couponRepository.save(coupon4);
+
+        coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
+        couponRepository.save(coupon5);
     }
 
     @Test
@@ -95,36 +145,6 @@ class CouponServiceTest {
 
     @Test
     void 카페_별_고객들의_정보를_조회한다() {
-        // given
-        // coupon1, REWARD상태, cafe1 -> stamp0개, 임시유저
-        // coupon2, USING상태, cafe1 -> stamp1개
-        // coupon3, USING상태, cafe2 -> stamp1개
-        // coupon4, USING상태, cafe2 -> stamp0개
-        // coupon5, USING상태, cafe2 -> stamp0개
-        Coupon coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1);
-        Stamp stamp1 = new Stamp();
-        Stamp stamp2 = new Stamp();
-        stamp1.registerCoupon(coupon1);
-        stamp2.registerCoupon(coupon1);
-        Coupon savedCoupon = couponRepository.save(coupon1);
-        savedCoupon.reward();
-
-        Coupon coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2);
-        Stamp stamp3 = new Stamp();
-        stamp3.registerCoupon(coupon2);
-        couponRepository.save(coupon2);
-
-        Coupon coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3);
-        Stamp stamp4 = new Stamp();
-        stamp4.registerCoupon(coupon3);
-        couponRepository.save(coupon3);
-
-        Coupon coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4);
-        couponRepository.save(coupon4);
-
-        Coupon coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5);
-        couponRepository.save(coupon5);
-
         // when
         CafeCustomersResponseDto customers = couponService.findCouponsByCafe(cafe1.getId());
 
@@ -148,5 +168,24 @@ class CouponServiceTest {
                 true
         );
         assertThat(customers.getCustomers()).containsExactlyInAnyOrder(customer1Info, customer2Info);
+    }
+
+    @Test
+    void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
+        List<CustomerUsingCouponResponseDto> result = couponService.findUsingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
+        List<CustomerUsingCouponResponseDto> result = couponService.findUsingCoupon(cafe1.getId(), registerCustomer1.getId());
+        CustomerUsingCouponResponseDto customerUsingCoupon = new CustomerUsingCouponResponseDto(
+                coupon2.getId(),
+                registerCustomer1.getId(),
+                registerCustomer1.getNickname(),
+                coupon2.getStampCount(),
+                coupon2.calculateExpireDate(),
+                false);
+        assertThat(result).containsExactly(customerUsingCoupon);
     }
 }
