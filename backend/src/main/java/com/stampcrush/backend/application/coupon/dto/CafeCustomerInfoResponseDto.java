@@ -1,6 +1,5 @@
 package com.stampcrush.backend.application.coupon.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -16,8 +15,6 @@ public class CafeCustomerInfoResponseDto {
     private final int stampCount;
     private final int rewardCount;
     private final int visitCount;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime firstVisitDate;
 
     private final boolean isRegistered;
