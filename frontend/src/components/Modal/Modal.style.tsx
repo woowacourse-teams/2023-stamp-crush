@@ -18,7 +18,7 @@ export const BaseModal = styled.div`
 
   top: 50%;
   left: 50%;
-  width: 50vw;
+  width: 70vw;
   height: 50vh;
 
   padding: 35px;
@@ -29,14 +29,19 @@ export const BaseModal = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 
   transform: translate(-50%, -50%);
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 70vw;
+    height: 60vh;
+  }
 `;
 
 export const CloseButton = styled.button`
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 
   border: 2px solid black;
   border-radius: 50%;
@@ -51,7 +56,7 @@ export const CloseButton = styled.button`
     left: 50%;
     top: 50%;
 
-    width: 20px;
+    width: 12px;
     height: 2px;
 
     border-radius: 4px;
