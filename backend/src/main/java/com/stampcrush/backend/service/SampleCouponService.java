@@ -11,6 +11,7 @@ import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import com.stampcrush.backend.service.dto.SampleCouponsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class SampleCouponService {
     private final SampleStampCoordinateRepository sampleStampCoordinateRepository;
     private final SampleStampImageRepository sampleStampImageRepository;
 
+    @Transactional(readOnly = true)
     public SampleCouponsDto findSampleCouponsBy(Integer maxStampCount) {
         List<SampleFrontImage> sampleFrontImages = sampleFrontImageRepository.findAll();
         List<SampleStampImage> sampleStampImages = sampleStampImageRepository.findAll();
