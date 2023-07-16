@@ -105,6 +105,7 @@ public class CafeService {
         return sampleStampImages.get(0);
     }
 
+    @Transactional(readOnly = true)
     public List<CafeFindResult> findAllCafes(Long ownerId) {
         List<Cafe> cafes = cafeRepository.findAllByOwnerId(ownerId);
         return cafes.stream()
