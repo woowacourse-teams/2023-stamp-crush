@@ -1,4 +1,4 @@
-import { REGEX } from '../constants';
+import { PHONE_NUMBER_LENGTH, REGEX } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../components/Dialpad';
 import useModal from './useModal';
@@ -27,6 +27,10 @@ const useDialPad = () => {
   };
 
   const enter = () => {
+    if (phoneNumber.length !== PHONE_NUMBER_LENGTH) {
+      alert('올바른 전화번호를 입력해주세요.');
+      return;
+    }
     openModal();
   };
 
