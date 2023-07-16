@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class SampleCouponService {
 
     private final SampleFrontImageRepository sampleFrontImageRepository;
