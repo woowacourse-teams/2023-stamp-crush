@@ -1,7 +1,7 @@
 package com.stampcrush.backend.entity.cafe;
 
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.entity.user.Owner;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,4 +45,19 @@ public class Cafe extends BaseDate {
 
     @OneToMany(mappedBy = "cafe")
     private List<CafePolicy> policies = new ArrayList<>();
+
+    public Cafe(String name, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
+        this.name = name;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.telephoneNumber = telephoneNumber;
+        this.cafeImageUrl = cafeImageUrl;
+        this.roadAddress = roadAddress;
+        this.detailAddress = detailAddress;
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.owner = owner;
+    }
+
+    protected Cafe() {
+    }
 }
