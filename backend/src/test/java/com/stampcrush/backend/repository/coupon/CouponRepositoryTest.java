@@ -1,16 +1,12 @@
 package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponStatus;
-import com.stampcrush.backend.entity.coupon.Stamp;
+import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import com.stampcrush.backend.repository.user.TemporaryCustomersRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +38,7 @@ class CouponRepositoryTest {
     private CouponDesignRepository couponDesignRepository;
 
     @Autowired
-    private EntityManager em;
+    private CouponPolicyRepository couponPolicyRepository;
 
     private TemporaryCustomer tmpCustomer1;
     private TemporaryCustomer tmpCustomer2;
@@ -59,6 +55,12 @@ class CouponRepositoryTest {
     private CouponDesign couponDesign3;
     private CouponDesign couponDesign4;
     private CouponDesign couponDesign5;
+
+    private CouponPolicy couponPolicy1;
+    private CouponPolicy couponPolicy2;
+    private CouponPolicy couponPolicy3;
+    private CouponPolicy couponPolicy4;
+    private CouponPolicy couponPolicy5;
 
     // coupon1, REWARD상태, cafe1 -> stamp2개
     // coupon2, USING상태, cafe1 -> stamp1개
@@ -89,7 +91,13 @@ class CouponRepositoryTest {
         couponDesign4 = couponDesignRepository.save(new CouponDesign());
         couponDesign5 = couponDesignRepository.save(new CouponDesign());
 
-        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1);
+        couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy3 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+
+        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
         Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
@@ -97,20 +105,20 @@ class CouponRepositoryTest {
         Coupon save = couponRepository.save(coupon1);
         save.reward();
 
-        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2);
+        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2, couponPolicy2);
         Stamp stamp3 = new Stamp();
         stamp3.registerCoupon(coupon2);
         couponRepository.save(coupon2);
 
-        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3);
+        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3, couponPolicy3);
         Stamp stamp4 = new Stamp();
         stamp4.registerCoupon(coupon3);
         couponRepository.save(coupon3);
 
-        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4);
+        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4, couponPolicy4);
         couponRepository.save(coupon4);
 
-        coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5);
+        coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
         couponRepository.save(coupon5);
     }
 
@@ -142,7 +150,7 @@ class CouponRepositoryTest {
 
     @Test
     void 쿠폰O_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
-        
+
         List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.USING);
         assertThat(customerCoupon).containsExactly(coupon4);
     }

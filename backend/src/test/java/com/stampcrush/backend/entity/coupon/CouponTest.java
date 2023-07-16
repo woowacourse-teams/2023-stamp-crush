@@ -14,7 +14,7 @@ class CouponTest {
 
     @Test
     void 쿠폰이_현재_USING_상태인지_확인한다() {
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer(), new Cafe(), new CouponDesign());
+        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer(), new Cafe(), new CouponDesign(), new CouponPolicy());
         assertAll(
                 () -> assertThat(coupon.isUsing()).isTrue(),
                 () -> assertThat(coupon.isRewarded()).isFalse()
@@ -23,7 +23,7 @@ class CouponTest {
 
     @Test
     void 쿠폰이_현재_REWARD_상태인지_확인한다() {
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer(), new Cafe(), new CouponDesign());
+        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer(), new Cafe(), new CouponDesign(), new CouponPolicy());
         coupon.reward();
         assertAll(
                 () -> assertThat(coupon.isUsing()).isFalse(),

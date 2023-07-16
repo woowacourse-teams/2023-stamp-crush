@@ -43,14 +43,19 @@ public class Coupon extends BaseDate {
     @JoinColumn(name = "coupon_design_id")
     private CouponDesign couponDesign;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "coupon_policy_id")
+    private CouponPolicy couponPolicy;
+
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, fetch = EAGER)
     private List<Stamp> stamps = new ArrayList<>();
 
-    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign) {
+    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
         this.expiredDate = expiredDate;
         this.customer = customer;
         this.cafe = cafe;
         this.couponDesign = couponDesign;
+        this.couponPolicy = couponPolicy;
     }
 
     protected Coupon() {
@@ -84,5 +89,9 @@ public class Coupon extends BaseDate {
             return this.getCreatedAt();
         }
         return visitTime;
+    }
+
+    public LocalDateTime calculateExpireDate() {
+        return this.getCreatedAt().plusMonths(this.couponPolicy.getExpiredPeriod());
     }
 }
