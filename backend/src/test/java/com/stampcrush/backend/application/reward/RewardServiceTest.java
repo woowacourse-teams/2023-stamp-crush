@@ -78,7 +78,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        rewardService.updateUsed(rewardUsedUpdate);
+        rewardService.useReward(rewardUsedUpdate);
 
         // then
         assertThat(unusedReward.getUsed()).isTrue();
@@ -90,7 +90,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), Long.MAX_VALUE, cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -100,7 +100,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(Long.MAX_VALUE, registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -110,7 +110,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), Long.MAX_VALUE, true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -120,7 +120,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), temporaryCustomer.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -128,10 +128,10 @@ class RewardServiceTest {
     void 이미_사용된_리워드를_사용려하면_예외를_던진다() {
         //given
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
-        rewardService.updateUsed(rewardUsedUpdate);
+        rewardService.useReward(rewardUsedUpdate);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -141,7 +141,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_2.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -151,7 +151,7 @@ class RewardServiceTest {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_2.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.updateUsed(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -32,7 +32,7 @@ public class RewardService {
                 .toList();
     }
 
-    public void updateUsed(RewardUsedUpdate rewardUsedUpdate) {
+    public void useReward(RewardUsedUpdate rewardUsedUpdate) {
         Reward reward = rewardRepository.findById(rewardUsedUpdate.getRewardId())
                 .orElseThrow(IllegalArgumentException::new);
         Customer customer = customerRepository.findById(rewardUsedUpdate.getCustomerId())

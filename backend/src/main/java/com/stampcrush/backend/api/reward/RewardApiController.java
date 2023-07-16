@@ -8,6 +8,7 @@ import com.stampcrush.backend.application.reward.RewardService;
 import com.stampcrush.backend.application.reward.dto.RewardFind;
 import com.stampcrush.backend.application.reward.dto.RewardFindResult;
 import com.stampcrush.backend.application.reward.dto.RewardUsedUpdate;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,9 @@ public class RewardApiController {
     @PatchMapping("/customers/{customerId}/rewards/{rewardId}")
     public ResponseEntity<Void> updateRewardUsed(@PathVariable("customerId") Long customerId,
                                                  @PathVariable("rewardId") Long rewardId,
-                                                 @RequestBody RewardUsedUpdateRequest rewardUsedUpdateRequest) {
+                                                 @RequestBody @Valid RewardUsedUpdateRequest rewardUsedUpdateRequest) {
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(rewardId, customerId, rewardUsedUpdateRequest.getCafeId(), rewardUsedUpdateRequest.isUsed());
-        rewardService.updateUsed(rewardUsedUpdate);
+        rewardService.useReward(rewardUsedUpdate);
         return ResponseEntity.ok().build();
     }
 }
