@@ -3,6 +3,7 @@ package com.stampcrush.backend.repository.coupon;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Stamp;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
@@ -59,6 +60,17 @@ class CouponRepositoryTest {
     private CouponDesign couponDesign4;
     private CouponDesign couponDesign5;
 
+    // coupon1, REWARD상태, cafe1 -> stamp2개
+    // coupon2, USING상태, cafe1 -> stamp1개
+    // coupon3, USING상태, cafe2 -> stamp1개
+    // coupon4, USING상태, cafe2 -> stamp0개
+    // coupon5, USING상태, cafe2 -> stamp0개
+    private Coupon coupon1;
+    private Coupon coupon2;
+    private Coupon coupon3;
+    private Coupon coupon4;
+    private Coupon coupon5;
+
     @BeforeEach
     void setUp() {
         tmpCustomer1 = temporaryCustomersRepository.save(new TemporaryCustomer());
@@ -76,17 +88,8 @@ class CouponRepositoryTest {
         couponDesign3 = couponDesignRepository.save(new CouponDesign());
         couponDesign4 = couponDesignRepository.save(new CouponDesign());
         couponDesign5 = couponDesignRepository.save(new CouponDesign());
-    }
 
-    @Test
-    void 카페에_맞는_쿠폰_정보를_조회한다() {
-        // given
-        // coupon1, REWARD상태, cafe1 -> stamp2개
-        // coupon2, USING상태, cafe1 -> stamp1개
-        // coupon3, USING상태, cafe2 -> stamp1개
-        // coupon4, USING상태, cafe2 -> stamp0개
-        // coupon5, USING상태, cafe2 -> stamp0개
-        Coupon coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1);
+        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1);
         Stamp stamp1 = new Stamp();
         Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
@@ -94,21 +97,25 @@ class CouponRepositoryTest {
         Coupon save = couponRepository.save(coupon1);
         save.reward();
 
-        Coupon coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2);
+        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2);
         Stamp stamp3 = new Stamp();
         stamp3.registerCoupon(coupon2);
         couponRepository.save(coupon2);
 
-        Coupon coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3);
+        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3);
         Stamp stamp4 = new Stamp();
         stamp4.registerCoupon(coupon3);
         couponRepository.save(coupon3);
 
-        Coupon coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4);
+        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4);
         couponRepository.save(coupon4);
 
-        Coupon coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5);
+        coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5);
         couponRepository.save(coupon5);
+    }
+
+    @Test
+    void 카페에_맞는_쿠폰_정보를_조회한다() {
 
         // when
         List<Coupon> couponsCafe1 = couponRepository.findByCafe(cafe1);
@@ -124,5 +131,19 @@ class CouponRepositoryTest {
                 () -> assertThat(couponsCafe2).containsExactlyInAnyOrder(coupon3, coupon4, coupon5),
                 () -> assertThat(couponsCafe2).doesNotContain(coupon1, coupon2)
         );
+    }
+
+    @Test
+    void 쿠폰X_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
+
+        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe1, tmpCustomer1, CouponStatus.USING);
+        assertThat(customerCoupon).isEmpty();
+    }
+
+    @Test
+    void 쿠폰O_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
+        
+        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.USING);
+        assertThat(customerCoupon).containsExactly(coupon4);
     }
 }
