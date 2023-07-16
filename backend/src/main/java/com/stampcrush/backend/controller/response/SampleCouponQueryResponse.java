@@ -30,7 +30,7 @@ public class SampleCouponQueryResponse {
                         sampleBackImage.getImageUrl(),
                         sampleCoupons.getSampleStampCoordinates().stream().filter(
                                         sampleStampCoordinate -> sampleStampCoordinate.getSampleBackImage().equals(sampleBackImage))
-                                .map(sampleStampCoordinate -> new SampleStampCoordinateDto(
+                                .map(sampleStampCoordinate -> new SampleBackImageDto.SampleStampCoordinateDto(
                                         sampleStampCoordinate.getId(),
                                         sampleStampCoordinate.getStampOrder(),
                                         sampleStampCoordinate.getXCoordinate(),
@@ -48,5 +48,40 @@ public class SampleCouponQueryResponse {
                 .toList();
 
         return new SampleCouponQueryResponse(sampleFrontImages, sampleBackImages, sampleStampImages);
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class SampleFrontImageDto {
+
+        private final Long id;
+        private final String imageUrl;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class SampleBackImageDto {
+
+        private final Long id;
+        private final String imageUrl;
+        private final List<SampleStampCoordinateDto> stampCoordinates;
+
+        @Getter
+        @RequiredArgsConstructor
+        public static class SampleStampCoordinateDto {
+
+            private final Long id;
+            private final Integer stampOrder;
+            private final Integer xCoordinate;
+            private final Integer yCoordinate;
+        }
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class SampleStampImageDto {
+
+        private final Long id;
+        private final String imageUrl;
     }
 }
