@@ -20,4 +20,6 @@ public abstract class Customer {
     private String nickname;
 
     private String phoneNumber;
+
+    public abstract boolean isRegistered();
 }

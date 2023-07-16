@@ -11,5 +11,18 @@ public class RegisterCustomer extends Customer {
 
     private String loginId;
     private String encryptedPassword;
+
+    public RegisterCustomer(String loginId, String encryptedPassword) {
+        this.loginId = loginId;
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    protected RegisterCustomer() {
+    }
+
+    @Override
+    public boolean isRegistered() {
+        return true;
+    }
 }
 
