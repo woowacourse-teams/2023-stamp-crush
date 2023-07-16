@@ -70,7 +70,8 @@ public class CouponService {
         customers.add(new CafeCustomerInfoResponseDto(
                 customer.getId(),
                 customer.getNickname(),
-                stampCount, rewardCount,
+                stampCount,
+                rewardCount,
                 visitCount,
                 firstVisitDate,
                 customer.isRegistered()
