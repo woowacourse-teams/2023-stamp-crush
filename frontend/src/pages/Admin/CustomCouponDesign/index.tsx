@@ -11,7 +11,7 @@ import { RowSpacing, Spacing, SubTitle, Title } from '../../../style/layout/comm
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
-import TabBar from '../../../components/TabBar';
+import { useLocation } from 'react-router-dom';
 
 const SectionSpacing = () => <Spacing $size={40} />;
 
@@ -31,7 +31,8 @@ const TEMPLATE_OPTIONS = [
 ];
 
 const CustomCouponDesign = () => {
-  const [templateSelect, setTemplateSelect] = useState('쿠폰(앞)');
+  const location = useLocation();
+  const prevState = { ...location.state };
 
   const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTemplateSelect(e.target.value);
