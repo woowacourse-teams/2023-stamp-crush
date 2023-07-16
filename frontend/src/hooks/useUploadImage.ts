@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useUploadImage = () => {
-  const [imgFileUrl, setImgFileUrl] = useState<string>();
+  const [imgFileUrl, setImgFileUrl] = useState<string>('');
 
   const uploadImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -11,7 +11,7 @@ const useUploadImage = () => {
     setImgFileUrl(imgUrl);
   };
 
-  return { imgFileUrl, uploadImageFile };
+  return [imgFileUrl, uploadImageFile, setImgFileUrl] as const;
 };
 
 export default useUploadImage;

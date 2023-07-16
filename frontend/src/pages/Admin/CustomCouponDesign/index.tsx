@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
 import {
   CouponContainer,
   CustomCouponDesignContainer,
   C예상쿠폰이미지컨테이너,
-  C템플릿고르기컨테이너,
   ImageUploadContainer,
   SaveButtonWrapper,
 } from './style';
@@ -12,31 +10,18 @@ import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
 import { useLocation } from 'react-router-dom';
+import ChoiceTemplate from './ChoiceTemplate';
+import useUploadImage from '../../../hooks/useUploadImage';
 
 const SectionSpacing = () => <Spacing $size={40} />;
-
-const TEMPLATE_OPTIONS = [
-  {
-    key: 'coupon-front',
-    value: '쿠폰(앞)',
-  },
-  {
-    key: 'coupon-back',
-    value: '쿠폰(뒤)',
-  },
-  {
-    key: 'stamp',
-    value: '스탬프',
-  },
-];
 
 const CustomCouponDesign = () => {
   const location = useLocation();
   const prevState = { ...location.state };
+  const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
+  const [backImage, uploadBackImage, setBackImage] = useUploadImage();
+  const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
 
-  const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTemplateSelect(e.target.value);
-  };
   return (
     <CustomCouponDesignContainer>
       <C예상쿠폰이미지컨테이너>
@@ -46,12 +31,27 @@ const CustomCouponDesign = () => {
         <Spacing $size={20} />
         <ImageUploadContainer>
           <CouponContainer>
-            <CustomCouponSection label="쿠폰 앞면" uploadImageInputId="coupon-front-image-input" />
+            <CustomCouponSection
+              label="쿠폰 앞면"
+              uploadImageInputId="coupon-front-image-input"
+              imgFileUrl={frontImage}
+              uploadImageFile={uploadFrontImage}
+            />
             <Spacing $size={32} />
-            <CustomCouponSection label="쿠폰 뒷면" uploadImageInputId="coupon-back-image-input" />
+            <CustomCouponSection
+              label="쿠폰 뒷면"
+              uploadImageInputId="coupon-back-image-input"
+              imgFileUrl={backImage}
+              uploadImageFile={uploadBackImage}
+            />
           </CouponContainer>
           <RowSpacing $size={72} />
-          <CustomStampSection label="스탬프" uploadImageInputId="stamp-image-input" />
+          <CustomStampSection
+            label="스탬프"
+            uploadImageInputId="stamp-image-input"
+            imgFileUrl={stampImage}
+            uploadImageFile={uploadStampImage}
+          />
         </ImageUploadContainer>
         <Spacing $size={40} />
         <SaveButtonWrapper>
@@ -60,16 +60,15 @@ const CustomCouponDesign = () => {
           </Button>
         </SaveButtonWrapper>
       </C예상쿠폰이미지컨테이너>
-      <C템플릿고르기컨테이너>
-        <TabBar
-          name="template-type"
-          options={TEMPLATE_OPTIONS}
-          selectedValue={templateSelect}
-          onChange={selectTabBar}
-          height={54}
-          width={350}
-        />
-      </C템플릿고르기컨테이너>
+      <RowSpacing $size={100} />
+      <ChoiceTemplate
+        frontImage={frontImage}
+        backImage={backImage}
+        stampImage={stampImage}
+        setFrontImage={setFrontImage}
+        setBackImage={setBackImage}
+        setStampImage={setStampImage}
+      />
     </CustomCouponDesignContainer>
   );
 };

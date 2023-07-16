@@ -7,14 +7,19 @@ import {
   PreviewImageWrapper,
   PreviewLabel,
 } from './style';
-import useUploadImage from '../../../hooks/useUploadImage';
 
 interface CustomCouponSectionProps {
   label: string;
   uploadImageInputId: string;
+  imgFileUrl: string;
+  uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const CustomCouponSection = ({ label, uploadImageInputId }: CustomCouponSectionProps) => {
-  const { imgFileUrl, uploadImageFile } = useUploadImage();
+const CustomCouponSection = ({
+  label,
+  uploadImageInputId,
+  imgFileUrl,
+  uploadImageFile,
+}: CustomCouponSectionProps) => {
   return (
     <CustomCouponSectionContainer>
       <CouponPreviewHeader>

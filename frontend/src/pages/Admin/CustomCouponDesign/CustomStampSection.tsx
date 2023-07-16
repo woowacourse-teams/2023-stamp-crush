@@ -7,15 +7,19 @@ import {
   PreviewImageWrapper,
   PreviewLabel,
 } from './style';
-import useUploadImage from '../../../hooks/useUploadImage';
 
 interface CustomStampSectionProps {
   label: string;
   uploadImageInputId: string;
+  imgFileUrl: string;
+  uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const CustomStampSection = ({ label, uploadImageInputId }: CustomStampSectionProps) => {
-  const { imgFileUrl, uploadImageFile } = useUploadImage();
-
+const CustomStampSection = ({
+  label,
+  uploadImageInputId,
+  imgFileUrl,
+  uploadImageFile,
+}: CustomStampSectionProps) => {
   return (
     <CustomStampSectionContainer>
       <PreviewLabel>{label}</PreviewLabel>
