@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreate;
+import com.stampcrush.backend.application.cafe.dto.CafeFindResult;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -102,5 +103,12 @@ public class CafeService {
             throw new IllegalArgumentException("저장된 샘플 스탬프 이미지가 없습니다.");
         }
         return sampleStampImages.get(0);
+    }
+
+    public List<CafeFindResult> findAllCafes(Long ownerId) {
+        List<Cafe> cafes = cafeRepository.findAllByOwnerId(ownerId);
+        return cafes.stream()
+                .map(CafeFindResult::from)
+                .toList();
     }
 }

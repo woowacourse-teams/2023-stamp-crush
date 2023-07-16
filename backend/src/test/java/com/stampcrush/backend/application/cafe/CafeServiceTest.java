@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreate;
+import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
@@ -11,6 +12,7 @@ import com.stampcrush.backend.entity.sample.SampleStampImage;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
@@ -42,6 +44,9 @@ public class CafeServiceTest {
     private CafeService cafeService;
 
     @Autowired
+    private CafeRepository cafeRepository;
+
+    @Autowired
     private OwnerRepository ownerRepository;
 
     @Autowired
@@ -65,14 +70,16 @@ public class CafeServiceTest {
     @Autowired
     private CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
-    private Owner owner;
+    private Owner owner_1;
+    private Owner owner_2;
     private SampleFrontImage sampleFrontImage;
     private SampleBackImage sampleBackImage;
     private SampleStampImage sampleStampImage;
 
     @BeforeEach
     void setUp() {
-        owner = ownerRepository.save(new Owner("lisa", "lisa@naver.com", "1234", "01011111111"));
+        owner_1 = ownerRepository.save(new Owner("lisa", "lisa@naver.com", "1234", "01011111111"));
+        owner_2 = ownerRepository.save(new Owner("hardy", "ehdgur4814@naver.com", "1234", "01011111111"));
         sampleFrontImage = sampleFrontImageRepository.save(new SampleFrontImage("http://www.sampleFrontImage.com"));
         sampleBackImage = sampleBackImageRepository.save(new SampleBackImage("http://www.sampleBackImage.com"));
         sampleStampImage = sampleStampImageRepository.save(new SampleStampImage("http://www.sampleStampImage.com"));
@@ -168,7 +175,7 @@ public class CafeServiceTest {
 
     private CafeCreate getCafeCreateDto() {
         return new CafeCreate(
-                owner.getId(),
+                owner_1.getId(),
                 "윤생까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -177,5 +184,44 @@ public class CafeServiceTest {
                 "잠실동12길",
                 "14층",
                 "11111111");
+    }
+
+    @Test
+    void 카페목록을_조회한다() {
+        // given
+        Integer expectedSize = 2;
+        createCafe();
+        createCafe();
+        // when
+        List<Cafe> cafes = cafeRepository.findAllByOwnerId(owner_2.getId());
+
+        // then
+        assertThat(cafes.size()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    void 카페를_소유하지_않은_사장이_카페목록을_조회하면_빈_배열을_반환한다() {
+        // given
+        Integer expectedSize = 0;
+
+        // when
+        List<Cafe> cafes = cafeRepository.findAllByOwnerId(owner_2.getId());
+
+        // then
+        assertThat(cafes.size()).isEqualTo(expectedSize);
+    }
+
+    private void createCafe() {
+        cafeRepository.save(
+                new Cafe(
+                        "하디까페",
+                        LocalTime.of(12, 30),
+                        LocalTime.of(18, 30),
+                        "0211111111",
+                        "http://www.cafeImage.com",
+                        "잠실동12길",
+                        "14층",
+                        "11111111",
+                        owner_2));
     }
 }
