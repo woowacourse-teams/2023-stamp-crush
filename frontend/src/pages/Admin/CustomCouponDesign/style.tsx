@@ -20,10 +20,6 @@ export const SaveButtonWrapper = styled.div`
 
 export const C예상쿠폰이미지컨테이너 = styled.div``;
 
-export const C템플릿고르기컨테이너 = styled.div`
-  border-left: 1px solid ${({ theme }) => theme.colors.black};
-`;
-
 interface StyledImageSizeProps {
   $width: number;
   $height: number;
