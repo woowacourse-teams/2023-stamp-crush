@@ -7,11 +7,11 @@ import jakarta.persistence.Entity;
 @Entity
 public class TemporaryCustomer extends Customer {
 
-    protected TemporaryCustomer() {
-    }
-
     public TemporaryCustomer(String nickname, String phoneNumber) {
         super(nickname, phoneNumber);
+    }
+
+    protected TemporaryCustomer() {
     }
 
     @Override

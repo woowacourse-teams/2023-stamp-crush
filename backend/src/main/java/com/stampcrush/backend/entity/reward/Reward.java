@@ -29,14 +29,14 @@ public class Reward extends BaseDate {
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-    protected Reward() {
-    }
-
     public Reward(String name, Boolean used, Customer customer, Cafe cafe) {
         this.name = name;
         this.used = used;
         this.customer = customer;
         this.cafe = cafe;
+    }
+
+    protected Reward() {
     }
 
     public void useReward(Customer customer, Cafe cafe) {

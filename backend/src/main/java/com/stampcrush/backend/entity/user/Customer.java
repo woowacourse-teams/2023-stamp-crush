@@ -21,12 +21,12 @@ public abstract class Customer {
 
     private String phoneNumber;
 
-    protected Customer() {
-    }
-
     public Customer(String nickname, String phoneNumber) {
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
+    }
+
+    protected Customer() {
     }
 
     public abstract boolean isRegistered();

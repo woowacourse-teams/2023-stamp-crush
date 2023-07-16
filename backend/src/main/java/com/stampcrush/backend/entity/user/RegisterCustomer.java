@@ -12,13 +12,13 @@ public class RegisterCustomer extends Customer {
     private String loginId;
     private String encryptedPassword;
 
-    protected RegisterCustomer() {
-    }
-
     public RegisterCustomer(String nickname, String phoneNumber, String loginId, String encryptedPassword) {
         super(nickname, phoneNumber);
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
+    }
+
+    protected RegisterCustomer() {
     }
 
     @Override
