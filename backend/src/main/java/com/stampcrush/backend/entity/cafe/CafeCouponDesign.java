@@ -37,4 +37,8 @@ public class CafeCouponDesign extends BaseDate {
 
     protected CafeCouponDesign() {
     }
+
+    public void softDelete() {
+        this.deleted = true;
+    }
 }

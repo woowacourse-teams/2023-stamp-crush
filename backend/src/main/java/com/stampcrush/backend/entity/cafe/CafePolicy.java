@@ -37,4 +37,8 @@ public class CafePolicy extends BaseDate {
 
     protected CafePolicy() {
     }
+
+    public void softDelete() {
+        this.deleted = true;
+    }
 }
