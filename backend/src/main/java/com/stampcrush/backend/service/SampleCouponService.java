@@ -41,7 +41,7 @@ public class SampleCouponService {
         List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll()
                 .stream()
                 .filter(isSameMaxStampCount(maxStampCount))
-                .collect(Collectors.toList());
+                .toList();
 
         List<SampleStampCoordinate> coordinates = new ArrayList<>();
         for (SampleBackImage sampleBackImage : sampleBackImages) {
