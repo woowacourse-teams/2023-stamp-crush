@@ -45,7 +45,7 @@ public class SampleCouponService {
 
         List<SampleStampCoordinate> coordinates = new ArrayList<>();
         for (SampleBackImage sampleBackImage : sampleBackImages) {
-            coordinates.addAll(sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImageId(sampleBackImage.getId()));
+            coordinates.addAll(sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(sampleBackImage));
         }
 
         return new SampleCouponsDto(sampleFrontImages, sampleBackImages, coordinates, sampleStampImages);
@@ -53,7 +53,7 @@ public class SampleCouponService {
 
     private Predicate<SampleBackImage> isSameMaxStampCount(int maxStampCount) {
         return sampleBackImage -> {
-            List<SampleStampCoordinate> coordinates = sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImageId(sampleBackImage.getId());
+            List<SampleStampCoordinate> coordinates = sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(sampleBackImage);
             return coordinates.size() == maxStampCount;
         };
     }
