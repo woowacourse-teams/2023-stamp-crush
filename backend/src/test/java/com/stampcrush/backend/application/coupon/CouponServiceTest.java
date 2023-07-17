@@ -196,13 +196,13 @@ class CouponServiceTest {
 
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
         assertThat(result).isEmpty();
     }
 
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), registerCustomer1.getId());
+        List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
         CustomerUsingCouponResultDto customerUsingCoupon = new CustomerUsingCouponResultDto(
                 coupon2.getId(),
                 registerCustomer1.getId(),

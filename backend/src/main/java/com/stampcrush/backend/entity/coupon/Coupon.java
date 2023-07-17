@@ -83,7 +83,7 @@ public class Coupon extends BaseDate {
                 .size();
     }
 
-    public LocalDateTime compareVisitTime(LocalDateTime visitTime) {
+    public LocalDateTime compareCreatedAtReturnFaster(LocalDateTime visitTime) {
         if (this.getCreatedAt().isBefore(visitTime)) {
             return this.getCreatedAt();
         }

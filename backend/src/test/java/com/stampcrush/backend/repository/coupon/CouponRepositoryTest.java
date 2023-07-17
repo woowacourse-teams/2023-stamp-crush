@@ -189,7 +189,7 @@ class CouponRepositoryTest {
     // 첫 방문일자 구하기 위한 기능
     @Test
     void 쿠폰들의_createdAt을_비교한다() {
-        LocalDateTime visitTime = coupon1.compareVisitTime(coupon5.getCreatedAt());
+        LocalDateTime visitTime = coupon1.compareCreatedAtReturnFaster(coupon5.getCreatedAt());
         assertThat(visitTime).isEqualTo(coupon1.getCreatedAt());
     }
 }

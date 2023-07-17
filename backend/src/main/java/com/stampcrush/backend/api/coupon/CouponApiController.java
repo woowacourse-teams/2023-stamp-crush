@@ -25,6 +25,6 @@ public class CouponApiController {
 
     @GetMapping("/customers/{customerId}/coupons")
     public ResponseEntity<List<CustomerUsingCouponResultDto>> findCustomerUsingCouponByCafe(@PathVariable Long customerId, @RequestParam Long cafeId, @RequestParam boolean active) {
-        return ResponseEntity.ok(couponService.findUsingCoupon(cafeId, customerId));
+        return ResponseEntity.ok(couponService.findAccumulatingCoupon(cafeId, customerId));
     }
 }
