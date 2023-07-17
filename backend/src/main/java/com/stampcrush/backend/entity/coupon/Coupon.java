@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -47,7 +46,7 @@ public class Coupon extends BaseDate {
     @JoinColumn(name = "coupon_policy_id")
     private CouponPolicy couponPolicy;
 
-    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, fetch = EAGER)
+    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, fetch = LAZY)
     private List<Stamp> stamps = new ArrayList<>();
 
     public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
