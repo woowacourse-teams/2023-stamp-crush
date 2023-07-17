@@ -35,28 +35,28 @@ public class CouponSettingService {
 
         Cafe cafe = findCafe.get();
 
-        softDeletePreviousSettings(cafe);
+        deletePreviousSettings(cafe);
         insertNewSettings(cafe, couponSettingDto);
     }
 
-    private void softDeletePreviousSettings(Cafe cafe) {
-        softDeleteCafePolicy(cafe);
-        softDeleteCafeCouponDesign(cafe);
+    private void deletePreviousSettings(Cafe cafe) {
+        deleteCafePolicy(cafe);
+        deleteCafeCouponDesign(cafe);
     }
 
-    private void softDeleteCafePolicy(Cafe cafe) {
+    private void deleteCafePolicy(Cafe cafe) {
         Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
-            currentCafePolicy.softDelete();
+            currentCafePolicy.delete();
         }
     }
 
-    private void softDeleteCafeCouponDesign(Cafe cafe) {
+    private void deleteCafeCouponDesign(Cafe cafe) {
         Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
-            currentCafeCouponDesign.softDelete();
+            currentCafeCouponDesign.delete();
         }
     }
 
