@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 class CafePolicyRepositoryTest {
@@ -65,8 +66,10 @@ class CafePolicyRepositoryTest {
         Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(savedCafe);
 
         // then
-        assertThat(filteredCafePolicy).isNotEmpty();
-        assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy);
-        assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy);
+        assertAll(
+                () -> assertThat(filteredCafePolicy).isNotEmpty(),
+                () -> assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy),
+                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy)
+        );
     }
 }
