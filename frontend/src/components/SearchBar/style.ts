@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 
 export const Container = styled.form`
   position: relative;
+  width: 250px;
 `;
 
 export const BaseInput = styled.input`
