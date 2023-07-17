@@ -12,6 +12,14 @@ import static lombok.AccessLevel.PROTECTED;
 public class TemporaryCustomer extends Customer {
 
     public TemporaryCustomer(String nickname, String phoneNumber) {
-        super(null, nickname, phoneNumber);
+        super(nickname, phoneNumber);
+    }
+
+    protected TemporaryCustomer() {
+    }
+
+    @Override
+    public boolean isRegistered() {
+        return false;
     }
 }

@@ -17,4 +17,11 @@ public class SampleFrontImage extends BaseDate {
     private Long id;
 
     private String imageUrl;
+
+    public SampleFrontImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    protected SampleFrontImage() {
+    }
 }
