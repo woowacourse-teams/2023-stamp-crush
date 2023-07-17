@@ -12,7 +12,7 @@ const SIDE_BAR_OPTIONS: SideBarOptions[] = [
 const PageSideBar = () => {
   return (
     <PageSideBarWrapper>
-      <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200}></SideBar>
+      <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200} />
     </PageSideBarWrapper>
   );
 };
