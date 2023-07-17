@@ -1,9 +1,8 @@
 spring:
-  config:
-    activate:
-      on-profile: test
+  profiles:
+    active: test
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
       ddl-auto: create
     properties:
