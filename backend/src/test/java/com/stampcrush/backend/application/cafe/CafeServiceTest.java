@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.cafe;
 
-import com.stampcrush.backend.application.cafe.dto.CafeCreate;
+import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -93,10 +93,10 @@ public class CafeServiceTest {
     @Test
     void 카페를_등록한다() {
         // given
-        CafeCreate cafeCreate = getCafeCreateDto();
+        CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = cafeService.createCafe(cafeCreate);
+        Long cafeId = cafeService.createCafe(cafeCreateDto);
 
         // then
         assertThat(cafeId).isNotNull();
@@ -105,10 +105,10 @@ public class CafeServiceTest {
     @Test
     void 카페를_등록할_때_쿠폰이미지는_기본이미지로_저장된다() {
         // given
-        CafeCreate cafeCreate = getCafeCreateDto();
+        CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = cafeService.createCafe(cafeCreate);
+        Long cafeId = cafeService.createCafe(cafeCreateDto);
         Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findAll()
                 .stream()
                 .filter(design -> design.getCafe().getId().equals(cafeId))
@@ -127,10 +127,10 @@ public class CafeServiceTest {
     void 카페를_등록할_때_스탬프_좌표는_10개가_저장된다() {
         // given
         Integer expectedStampCoordinatesCount = 10;
-        CafeCreate cafeCreate = getCafeCreateDto();
+        CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = cafeService.createCafe(cafeCreate);
+        Long cafeId = cafeService.createCafe(cafeCreateDto);
         CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findAll()
                 .stream()
                 .filter(design -> design.getCafe().getId().equals(cafeId))
@@ -155,10 +155,10 @@ public class CafeServiceTest {
         // given
         Integer expectedMaxStampCount = 10;
         Integer expectedExpirePeriod = 6;
-        CafeCreate cafeCreate = getCafeCreateDto();
+        CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = cafeService.createCafe(cafeCreate);
+        Long cafeId = cafeService.createCafe(cafeCreateDto);
         Optional<CafePolicy> cafePolicy = cafePolicyRepository.findAll()
                 .stream()
                 .filter(policy -> policy.getCafe().getId().equals(cafeId))
@@ -173,8 +173,8 @@ public class CafeServiceTest {
         softAssertions.assertAll();
     }
 
-    private CafeCreate getCafeCreateDto() {
-        return new CafeCreate(
+    private CafeCreateDto getCafeCreateDto() {
+        return new CafeCreateDto(
                 owner_1.getId(),
                 "윤생까페",
                 LocalTime.of(12, 30),

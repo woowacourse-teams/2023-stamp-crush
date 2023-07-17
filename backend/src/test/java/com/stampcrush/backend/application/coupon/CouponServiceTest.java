@@ -1,21 +1,23 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResponseDto;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersResponseDto;
-import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResponseDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomersResultDto;
+import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.Stamp;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
 import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomersRepository;
+import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,7 +44,7 @@ class CouponServiceTest {
     private CouponRepository couponRepository;
 
     @Autowired
-    private TemporaryCustomersRepository temporaryCustomersRepository;
+    private TemporaryCustomerRepository temporaryCustomerRepository;
 
     @Autowired
     private RegisterCustomerRepository registerCustomerRepository;
@@ -54,6 +57,9 @@ class CouponServiceTest {
 
     @Autowired
     private CouponPolicyRepository couponPolicyRepository;
+
+    @Autowired
+    private OwnerRepository ownerRepository;
 
     private TemporaryCustomer tmpCustomer1;
     private TemporaryCustomer tmpCustomer2;
@@ -90,15 +96,33 @@ class CouponServiceTest {
 
     @BeforeEach
     void setUp() {
-        tmpCustomer1 = temporaryCustomersRepository.save(new TemporaryCustomer());
-        tmpCustomer2 = temporaryCustomersRepository.save(new TemporaryCustomer());
-        tmpCustomer3 = temporaryCustomersRepository.save(new TemporaryCustomer());
+        tmpCustomer1 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
+        tmpCustomer2 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
+        tmpCustomer3 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
 
-        registerCustomer1 = registerCustomerRepository.save(new RegisterCustomer("id1", "pw1"));
-        registerCustomer2 = registerCustomerRepository.save(new RegisterCustomer("id2", "pw2"));
+        registerCustomer1 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
+        registerCustomer2 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
 
-        cafe1 = cafeRepository.save(new Cafe());
-        cafe2 = cafeRepository.save(new Cafe());
+        cafe1 = cafeRepository.save(new Cafe(
+                "하디까페",
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "0211111111",
+                "http://www.cafeImage.com",
+                "잠실동12길",
+                "14층",
+                "11111111",
+                ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"))));
+        cafe2 = cafeRepository.save(new Cafe(
+                "하디까페",
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "0211111111",
+                "http://www.cafeImage.com",
+                "잠실동12길",
+                "14층",
+                "11111111",
+                ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"))));
 
         couponDesign1 = couponDesignRepository.save(new CouponDesign());
         couponDesign2 = couponDesignRepository.save(new CouponDesign());
@@ -146,9 +170,9 @@ class CouponServiceTest {
     @Test
     void 카페_별_고객들의_정보를_조회한다() {
         // when
-        CafeCustomersResponseDto customers = couponService.findCouponsByCafe(cafe1.getId());
+        CafeCustomersResultDto customers = couponService.findCouponsByCafe(cafe1.getId());
 
-        CafeCustomerInfoResponseDto customer1Info = new CafeCustomerInfoResponseDto(
+        CafeCustomerInfoResultDto customer1Info = new CafeCustomerInfoResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 0,
@@ -158,7 +182,7 @@ class CouponServiceTest {
                 false
         );
 
-        CafeCustomerInfoResponseDto customer2Info = new CafeCustomerInfoResponseDto(
+        CafeCustomerInfoResultDto customer2Info = new CafeCustomerInfoResultDto(
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
                 1,
@@ -172,14 +196,14 @@ class CouponServiceTest {
 
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResponseDto> result = couponService.findUsingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), tmpCustomer1.getId());
         assertThat(result).isEmpty();
     }
 
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResponseDto> result = couponService.findUsingCoupon(cafe1.getId(), registerCustomer1.getId());
-        CustomerUsingCouponResponseDto customerUsingCoupon = new CustomerUsingCouponResponseDto(
+        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), registerCustomer1.getId());
+        CustomerUsingCouponResultDto customerUsingCoupon = new CustomerUsingCouponResultDto(
                 coupon2.getId(),
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
@@ -200,9 +224,9 @@ class CouponServiceTest {
         stamp6.registerCoupon(coupon6);
         couponRepository.save(coupon6);
 
-        CafeCustomersResponseDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
+        CafeCustomersResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
         // 첫 방문일자는 먼저 저장된 coupon1의 createdAt이어야 한다.
-        CafeCustomerInfoResponseDto expected = new CafeCustomerInfoResponseDto(
+        CafeCustomerInfoResultDto expected = new CafeCustomerInfoResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 coupon6.getStampCount(),

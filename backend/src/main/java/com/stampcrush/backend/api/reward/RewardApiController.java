@@ -1,13 +1,13 @@
 package com.stampcrush.backend.api.reward;
 
-import com.stampcrush.backend.api.reward.dto.request.RewardFindRequest;
-import com.stampcrush.backend.api.reward.dto.request.RewardUsedUpdateRequest;
-import com.stampcrush.backend.api.reward.dto.response.RewardFindResponse;
-import com.stampcrush.backend.api.reward.dto.response.RewardsFindResponse;
+import com.stampcrush.backend.api.reward.request.RewardFindRequest;
+import com.stampcrush.backend.api.reward.request.RewardUsedUpdateRequest;
+import com.stampcrush.backend.api.reward.response.RewardFindResponse;
+import com.stampcrush.backend.api.reward.response.RewardsFindResponse;
 import com.stampcrush.backend.application.reward.RewardService;
-import com.stampcrush.backend.application.reward.dto.RewardFind;
-import com.stampcrush.backend.application.reward.dto.RewardFindResult;
-import com.stampcrush.backend.application.reward.dto.RewardUsedUpdate;
+import com.stampcrush.backend.application.reward.dto.RewardFindDto;
+import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.application.reward.dto.RewardUsedUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,9 @@ public class RewardApiController {
     @GetMapping("/customers/{customerId}/rewards")
     public ResponseEntity<RewardsFindResponse> findRewards(@PathVariable("customerId") Long customerId,
                                                            @ModelAttribute RewardFindRequest rewardFindRequest) {
-        RewardFind rewardFind = new RewardFind(customerId, rewardFindRequest.getCafeId(), rewardFindRequest.isUsed());
-        List<RewardFindResult> rewardFindResults = rewardService.findRewards(rewardFind);
-        List<RewardFindResponse> rewardFindResponses = rewardFindResults.stream()
+        RewardFindDto rewardFindDto = new RewardFindDto(customerId, rewardFindRequest.getCafeId(), rewardFindRequest.isUsed());
+        List<RewardFindResultDto> rewardFindResultDtos = rewardService.findRewards(rewardFindDto);
+        List<RewardFindResponse> rewardFindResponses = rewardFindResultDtos.stream()
                 .map(RewardFindResponse::new)
                 .toList();
         RewardsFindResponse response = new RewardsFindResponse(rewardFindResponses);
@@ -34,11 +34,11 @@ public class RewardApiController {
     }
 
     @PatchMapping("/customers/{customerId}/rewards/{rewardId}")
-    public ResponseEntity<Void> updateRewardUsed(@PathVariable("customerId") Long customerId,
-                                                 @PathVariable("rewardId") Long rewardId,
-                                                 @RequestBody @Valid RewardUsedUpdateRequest rewardUsedUpdateRequest) {
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(rewardId, customerId, rewardUsedUpdateRequest.getCafeId(), rewardUsedUpdateRequest.isUsed());
-        rewardService.useReward(rewardUsedUpdate);
+    public ResponseEntity<Void> updateRewardToUsed(@PathVariable("customerId") Long customerId,
+                                                   @PathVariable("rewardId") Long rewardId,
+                                                   @RequestBody @Valid RewardUsedUpdateRequest request) {
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.isUsed());
+        rewardService.useReward(rewardUsedUpdateDto);
         return ResponseEntity.ok().build();
     }
 }

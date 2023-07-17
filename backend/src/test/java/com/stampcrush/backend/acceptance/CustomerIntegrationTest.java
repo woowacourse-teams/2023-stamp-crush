@@ -1,12 +1,12 @@
 package com.stampcrush.backend.acceptance;
 
+import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
+import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.service.CustomerResponse;
-import com.stampcrush.backend.service.CustomersResponse;
-import com.stampcrush.backend.service.TemporaryCustomerRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -29,12 +29,12 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        CustomersResponse customers = response.body().as(CustomersResponse.class);
+        CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(customer));
         });
 
         customerRepository.deleteAll();
@@ -48,12 +48,12 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        CustomersResponse customers = response.body().as(CustomersResponse.class);
+        CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(customer));
         });
 
         customerRepository.deleteAll();
@@ -63,7 +63,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
-        CustomersResponse customers = response.body().as(CustomersResponse.class);
+        CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
         assertSoftly(softAssertions -> {
@@ -77,10 +77,10 @@ public class CustomerIntegrationTest extends IntegrationTest {
     @Test
     void 임시_고객을_생성한다() {
         // given
-        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("01012345678");
+        TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest("01012345678");
 
         // when
-        Long temporaryCustomerId = createTemporaryCustomer(temporaryCustomerRequest);
+        Long temporaryCustomerId = createTemporaryCustomer(temporaryCustomerCreateRequest);
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
         // then
@@ -95,12 +95,12 @@ public class CustomerIntegrationTest extends IntegrationTest {
         // given
         Customer customer = new TemporaryCustomer("제나임시", "01012345678");
         customerRepository.save(customer);
-        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest(customer.getPhoneNumber());
+        TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(customer.getPhoneNumber());
 
         // when, then
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(temporaryCustomerRequest)
+                .body(temporaryCustomerCreateRequest)
                 .when()
                 .post("/temporary-customers")
                 .then()
@@ -121,7 +121,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .extract();
     }
 
-    private Long createTemporaryCustomer(TemporaryCustomerRequest request) {
+    private Long createTemporaryCustomer(TemporaryCustomerCreateRequest request) {
         ExtractableResponse<Response> response = given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
