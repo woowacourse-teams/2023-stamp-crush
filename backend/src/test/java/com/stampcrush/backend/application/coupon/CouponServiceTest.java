@@ -191,17 +191,23 @@ class CouponServiceTest {
                 coupon2.getCreatedAt(),
                 true
         );
+
+        // then
         assertThat(customers.getCustomers()).containsExactlyInAnyOrder(customer1Info, customer2Info);
     }
 
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
+        // when
         List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
+
+        // then
         assertThat(result).isEmpty();
     }
 
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
+        // when
         List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
         CustomerUsingCouponResultDto customerUsingCoupon = new CustomerUsingCouponResultDto(
                 coupon2.getId(),
@@ -210,11 +216,14 @@ class CouponServiceTest {
                 coupon2.getStampCount(),
                 coupon2.calculateExpireDate(),
                 false);
+
+        //then
         assertThat(result).containsExactly(customerUsingCoupon);
     }
 
     @Test
     void 첫_방문일자를_계산한다() {
+        // given
         CouponDesign couponDesign6 = couponDesignRepository.save(new CouponDesign());
         CouponPolicy couponPolicy6 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 10));
 
@@ -224,6 +233,7 @@ class CouponServiceTest {
         stamp6.registerCoupon(coupon6);
         couponRepository.save(coupon6);
 
+        // when
         CafeCustomersResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
         // 첫 방문일자는 먼저 저장된 coupon1의 createdAt이어야 한다.
         CafeCustomerInfoResultDto expected = new CafeCustomerInfoResultDto(
@@ -236,6 +246,7 @@ class CouponServiceTest {
                 false
         );
 
+        //then
         assertThat(customersResponseDto.getCustomers()).containsAnyOf(expected);
     }
 }
