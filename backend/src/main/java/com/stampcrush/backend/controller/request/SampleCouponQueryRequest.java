@@ -1,13 +1,11 @@
 package com.stampcrush.backend.controller.request;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class SampleCouponQueryRequest {
 
-    private Integer maxStampCount;
-
-    public SampleCouponQueryRequest(Integer maxStampCount) {
-        this.maxStampCount = maxStampCount;
-    }
+    private final Integer maxStampCount;
 }
