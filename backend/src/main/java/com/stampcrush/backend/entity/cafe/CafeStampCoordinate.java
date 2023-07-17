@@ -24,4 +24,14 @@ public class CafeStampCoordinate extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_coupon_design_id")
     private CafeCouponDesign cafeCouponDesign;
+
+    public CafeStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate, CafeCouponDesign cafeCouponDesign) {
+        this.stampOrder = stampOrder;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.cafeCouponDesign = cafeCouponDesign;
+    }
+
+    protected CafeStampCoordinate() {
+    }
 }

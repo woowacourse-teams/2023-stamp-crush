@@ -26,4 +26,19 @@ public class CafeCouponDesign extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
+
+    public CafeCouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl, Boolean deleted, Cafe cafe) {
+        this.frontImageUrl = frontImageUrl;
+        this.backImageUrl = backImageUrl;
+        this.stampImageUrl = stampImageUrl;
+        this.deleted = deleted;
+        this.cafe = cafe;
+    }
+
+    protected CafeCouponDesign() {
+    }
+
+    public void delete() {
+        this.deleted = true;
+    }
 }
