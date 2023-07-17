@@ -45,6 +45,6 @@ public class CafeApiController {
                 cafeCreateRequest.getDetailAddress(),
                 cafeCreateRequest.getBusinessRegistrationNumber());
         Long cafeId = cafeService.createCafe(cafeCreate);
-        return ResponseEntity.created(URI.create("/cafes" + cafeId)).build();
+        return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }
 }
