@@ -18,7 +18,18 @@ export const CustomerBox = styled.ul`
   box-shadow: 0 10px 10px -3px ${({ theme }) => theme.colors.gray300};
 `;
 
-export const RightInfo = styled.div``;
+export const RightInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  & > span {
+    font-size: 14px;
+    color: #888888;
+    line-height: 16px;
+  }
+`;
 
 export const LeftInfo = styled.div`
   display: flex;
@@ -28,19 +39,20 @@ export const LeftInfo = styled.div`
   & > span {
     font-size: 14px;
     color: #888888;
+    line-height: 16px;
   }
 `;
 
-export const Badge = styled.div`
+export const Badge = styled.div<{ $isRegistered: boolean }>`
   width: 40px;
   height: 18px;
   border-radius: 4px;
   line-height: 18px;
   text-align: center;
   font-size: 12px;
-  color: #888888;
+  color: black;
 
-  background: pink;
+  background: ${({ $isRegistered, theme }) => ($isRegistered ? 'pink' : theme.colors.gray300)};
 `;
 
 export const Name = styled.div`
