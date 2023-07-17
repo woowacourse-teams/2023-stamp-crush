@@ -37,10 +37,6 @@ public class CafeApiController {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 1L,
                 cafeCreateRequest.getName(),
-                cafeCreateRequest.getOpenTime(),
-                cafeCreateRequest.getCloseTime(),
-                cafeCreateRequest.getTelephoneNumber(),
-                cafeCreateRequest.getCafeImageUrl(),
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
                 cafeCreateRequest.getBusinessRegistrationNumber());
