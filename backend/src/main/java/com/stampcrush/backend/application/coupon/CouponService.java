@@ -7,6 +7,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -31,6 +32,7 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
+    private final CafePolicyRepository cafePolicyRepository;
 
     public CafeCustomersFindResultDto findCouponsByCafe(Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
@@ -101,8 +103,18 @@ public class CouponService {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 고객 입니다."));
 
         List<Coupon> coupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.USING);
+
         return coupons.stream()
-                .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(coupon, customer, false))
+                .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(
+                        coupon,
+                        customer,
+                        isPrevious(coupon)))
                 .collect(toList());
+    }
+
+    private boolean isPrevious(Coupon coupon) {
+        return !cafePolicyRepository
+                .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
+                .isEmpty();
     }
 }
