@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResultDto;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersResultDto;
-import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
@@ -32,19 +32,19 @@ public class CouponService {
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
 
-    public CafeCustomersResultDto findCouponsByCafe(Long cafeId) {
+    public CafeCustomersFindResultDto findCouponsByCafe(Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 카페 입니다."));
 
         Map<Customer, List<Coupon>> couponsByCustomer = mapCouponsByCustomer(cafe);
-        List<CafeCustomerInfoResultDto> customers = new ArrayList<>();
+        List<CafeCustomerFindResultDto> customers = new ArrayList<>();
         for (Customer customer : couponsByCustomer.keySet()) {
             List<Coupon> coupons = couponsByCustomer.get(customer);
 
             CustomerInfo customerInfo = statisticsCustomerByCoupons(coupons);
             addCustomerInfo(customers, customer, customerInfo.stampCount(), customerInfo.rewardCount(), customerInfo.visitCount(), customerInfo.firstVisitDate());
         }
-        return new CafeCustomersResultDto(customers);
+        return new CafeCustomersFindResultDto(customers);
     }
 
     private CustomerInfo statisticsCustomerByCoupons(List<Coupon> coupons) {
@@ -84,8 +84,8 @@ public class CouponService {
         return 0;
     }
 
-    private void addCustomerInfo(List<CafeCustomerInfoResultDto> customers, Customer customer, int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
-        customers.add(new CafeCustomerInfoResultDto(
+    private void addCustomerInfo(List<CafeCustomerFindResultDto> customers, Customer customer, int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
+        customers.add(new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),
                 stampCount,
@@ -96,13 +96,13 @@ public class CouponService {
         ));
     }
 
-    public List<CustomerUsingCouponResultDto> findAccumulatingCoupon(Long cafeId, Long customerId) {
+    public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long cafeId, Long customerId) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 카페 입니다."));
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 고객 입니다."));
 
         List<Coupon> coupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.USING);
         return coupons.stream()
-                .map(coupon -> CustomerUsingCouponResultDto.of(coupon, customer, false))
+                .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(coupon, customer, false))
                 .collect(toList());
     }
 }

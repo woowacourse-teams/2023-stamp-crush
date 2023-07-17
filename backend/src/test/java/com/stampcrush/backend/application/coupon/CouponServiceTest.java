@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResultDto;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersResultDto;
-import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
@@ -170,9 +170,9 @@ class CouponServiceTest {
     @Test
     void 카페_별_고객들의_정보를_조회한다() {
         // when
-        CafeCustomersResultDto customers = couponService.findCouponsByCafe(cafe1.getId());
+        CafeCustomersFindResultDto customers = couponService.findCouponsByCafe(cafe1.getId());
 
-        CafeCustomerInfoResultDto customer1Info = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto customer1Info = new CafeCustomerFindResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 0,
@@ -182,7 +182,7 @@ class CouponServiceTest {
                 false
         );
 
-        CafeCustomerInfoResultDto customer2Info = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto customer2Info = new CafeCustomerFindResultDto(
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
                 1,
@@ -199,7 +199,7 @@ class CouponServiceTest {
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
 
         // then
         assertThat(result).isEmpty();
@@ -208,8 +208,8 @@ class CouponServiceTest {
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        List<CustomerUsingCouponResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
-        CustomerUsingCouponResultDto customerUsingCoupon = new CustomerUsingCouponResultDto(
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
+        CustomerAccumulatingCouponFindResultDto customerUsingCoupon = new CustomerAccumulatingCouponFindResultDto(
                 coupon2.getId(),
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
@@ -234,9 +234,9 @@ class CouponServiceTest {
         couponRepository.save(coupon6);
 
         // when
-        CafeCustomersResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
+        CafeCustomersFindResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
         // 첫 방문일자는 먼저 저장된 coupon1의 createdAt이어야 한다.
-        CafeCustomerInfoResultDto expected = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto expected = new CafeCustomerFindResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 coupon6.getStampCount(),
