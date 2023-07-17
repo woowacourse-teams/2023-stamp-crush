@@ -20,7 +20,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         <Label htmlFor={props.id}>{props.label}</Label>
         {props.required && <Required>{REQUIRED}</Required>}
       </LabelWrapper>
-      <BaseInput ref={ref} $width={props.width} />
+      <BaseInput ref={ref} $width={props.width} {...props} />
     </InputContainer>
   );
 });

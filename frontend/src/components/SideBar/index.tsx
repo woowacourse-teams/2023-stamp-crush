@@ -7,7 +7,7 @@ import {
   SideBarLink,
 } from './SideBar.style';
 
-interface SideBarOptions {
+export interface SideBarOptions {
   key: string;
   value: string;
 }
