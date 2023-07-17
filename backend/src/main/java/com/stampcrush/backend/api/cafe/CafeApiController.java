@@ -1,8 +1,8 @@
 package com.stampcrush.backend.api.cafe;
 
-import com.stampcrush.backend.api.dto.request.CafeCreateRequest;
-import com.stampcrush.backend.api.dto.response.CafeFindResponse;
-import com.stampcrush.backend.api.dto.response.CafesFindResponse;
+import com.stampcrush.backend.api.cafe.request.CafeCreateRequest;
+import com.stampcrush.backend.api.cafe.response.CafeFindResponse;
+import com.stampcrush.backend.api.cafe.response.CafesFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
 import com.stampcrush.backend.application.cafe.dto.CafeCreate;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResult;

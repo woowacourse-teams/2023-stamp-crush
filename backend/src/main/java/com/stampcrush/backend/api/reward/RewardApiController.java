@@ -1,9 +1,9 @@
 package com.stampcrush.backend.api.reward;
 
-import com.stampcrush.backend.api.reward.dto.request.RewardFindRequest;
-import com.stampcrush.backend.api.reward.dto.request.RewardUsedUpdateRequest;
-import com.stampcrush.backend.api.reward.dto.response.RewardFindResponse;
-import com.stampcrush.backend.api.reward.dto.response.RewardsFindResponse;
+import com.stampcrush.backend.api.reward.request.RewardFindRequest;
+import com.stampcrush.backend.api.reward.request.RewardUsedUpdateRequest;
+import com.stampcrush.backend.api.reward.response.RewardFindResponse;
+import com.stampcrush.backend.api.reward.response.RewardsFindResponse;
 import com.stampcrush.backend.application.reward.RewardService;
 import com.stampcrush.backend.application.reward.dto.RewardFind;
 import com.stampcrush.backend.application.reward.dto.RewardFindResult;
