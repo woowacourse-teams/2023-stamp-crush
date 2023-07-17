@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.reward;
 
-import com.stampcrush.backend.application.reward.dto.RewardFind;
-import com.stampcrush.backend.application.reward.dto.RewardFindResult;
-import com.stampcrush.backend.application.reward.dto.RewardUsedUpdate;
+import com.stampcrush.backend.application.reward.dto.RewardFindDto;
+import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.application.reward.dto.RewardUsedUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
@@ -25,19 +25,19 @@ public class RewardService {
     private final CafeRepository cafeRepository;
 
     @Transactional(readOnly = true)
-    public List<RewardFindResult> findRewards(RewardFind rewardFind) {
-        List<Reward> rewards = rewardRepository.findAllByCustomerIdAndCafeIdAndUsed(rewardFind.getCustomerId(), rewardFind.getCafeId(), rewardFind.isUsed());
+    public List<RewardFindResultDto> findRewards(RewardFindDto rewardFindDto) {
+        List<Reward> rewards = rewardRepository.findAllByCustomerIdAndCafeIdAndUsed(rewardFindDto.getCustomerId(), rewardFindDto.getCafeId(), rewardFindDto.isUsed());
         return rewards.stream()
-                .map(reward -> new RewardFindResult(reward.getId(), reward.getName()))
+                .map(reward -> new RewardFindResultDto(reward.getId(), reward.getName()))
                 .toList();
     }
 
-    public void useReward(RewardUsedUpdate rewardUsedUpdate) {
-        Reward reward = rewardRepository.findById(rewardUsedUpdate.getRewardId())
+    public void useReward(RewardUsedUpdateDto rewardUsedUpdateDto) {
+        Reward reward = rewardRepository.findById(rewardUsedUpdateDto.getRewardId())
                 .orElseThrow(IllegalArgumentException::new);
-        Customer customer = customerRepository.findById(rewardUsedUpdate.getCustomerId())
+        Customer customer = customerRepository.findById(rewardUsedUpdateDto.getCustomerId())
                 .orElseThrow(IllegalArgumentException::new);
-        Cafe cafe = cafeRepository.findById(rewardUsedUpdate.getCafeId())
+        Cafe cafe = cafeRepository.findById(rewardUsedUpdateDto.getCafeId())
                 .orElseThrow(IllegalArgumentException::new);
         reward.useReward(customer, cafe);
     }

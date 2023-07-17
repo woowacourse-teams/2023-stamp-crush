@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class RewardFind {
+public class RewardFindResultDto {
 
-    private final Long customerId;
-    private final Long cafeId;
-    private final boolean used;
+    private final Long id;
+    private final String name;
 }

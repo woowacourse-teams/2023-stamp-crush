@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @Getter
-public class CafeCustomerInfoResponseDto {
+public class CafeCustomerInfoResultDto {
 
     private final Long id;
     private final String nickname;
@@ -20,13 +20,13 @@ public class CafeCustomerInfoResponseDto {
 
     private final boolean isRegistered;
 
-    public CafeCustomerInfoResponseDto(Long id,
-                                       String nickname,
-                                       int stampCount,
-                                       int rewardCount,
-                                       int visitCount,
-                                       LocalDateTime firstVisitDate,
-                                       boolean isRegistered) {
+    public CafeCustomerInfoResultDto(Long id,
+                                     String nickname,
+                                     int stampCount,
+                                     int rewardCount,
+                                     int visitCount,
+                                     LocalDateTime firstVisitDate,
+                                     boolean isRegistered) {
         this.id = id;
         this.nickname = nickname;
         this.stampCount = stampCount;

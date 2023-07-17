@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class SampleCouponsDto {
+public class SampleCouponsFindResultDto {
 
     private final List<SampleFrontImage> sampleFrontImages;
     private final List<SampleBackImage> sampleBackImages;

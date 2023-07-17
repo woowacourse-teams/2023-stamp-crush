@@ -1,7 +1,7 @@
 package com.stampcrush.backend.application.cafe;
 
-import com.stampcrush.backend.application.cafe.dto.CafeCreate;
-import com.stampcrush.backend.application.cafe.dto.CafeFindResult;
+import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
+import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -17,7 +17,6 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
-import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,18 +39,18 @@ public class CafeService {
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
-    public Long createCafe(CafeCreate cafeCreate) {
-        Owner owner = ownerRepository.findById(cafeCreate.getOwnerId())
+    public Long createCafe(CafeCreateDto cafeCreateDto) {
+        Owner owner = ownerRepository.findById(cafeCreateDto.getOwnerId())
                 .orElseThrow(() -> new IllegalArgumentException("회원가입을 먼저 진행해주세요."));
         Cafe cafe = new Cafe(
-                cafeCreate.getName(),
-                cafeCreate.getOpenTime(),
-                cafeCreate.getCloseTime(),
-                cafeCreate.getTelephoneNumber(),
-                cafeCreate.getCafeImageUrl(),
-                cafeCreate.getRoadAddress(),
-                cafeCreate.getDetailAddress(),
-                cafeCreate.getBusinessRegistrationNumber(),
+                cafeCreateDto.getName(),
+                cafeCreateDto.getOpenTime(),
+                cafeCreateDto.getCloseTime(),
+                cafeCreateDto.getTelephoneNumber(),
+                cafeCreateDto.getCafeImageUrl(),
+                cafeCreateDto.getRoadAddress(),
+                cafeCreateDto.getDetailAddress(),
+                cafeCreateDto.getBusinessRegistrationNumber(),
                 owner);
         cafeRepository.save(cafe);
         cafePolicyRepository.save(CafePolicy.createDefaultCafePolicy(cafe));
@@ -104,10 +103,10 @@ public class CafeService {
     }
 
     @Transactional(readOnly = true)
-    public List<CafeFindResult> findAllCafes(Long ownerId) {
+    public List<CafeFindResultDto> findAllCafes(Long ownerId) {
         List<Cafe> cafes = cafeRepository.findAllByOwnerId(ownerId);
         return cafes.stream()
-                .map(CafeFindResult::from)
+                .map(CafeFindResultDto::from)
                 .toList();
     }
 }

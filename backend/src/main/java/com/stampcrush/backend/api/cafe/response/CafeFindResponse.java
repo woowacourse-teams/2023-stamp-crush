@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.cafe.response;
 
-import com.stampcrush.backend.application.cafe.dto.CafeFindResult;
+import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,17 +26,17 @@ public class CafeFindResponse {
     private final String detailAddress;
     private final String businessRegistrationNumber;
 
-    public static CafeFindResponse from(CafeFindResult cafeFindResult) {
+    public static CafeFindResponse from(CafeFindResultDto cafeFindResultDto) {
         return new CafeFindResponse(
-                cafeFindResult.getId(),
-                cafeFindResult.getName(),
-                cafeFindResult.getOpenTime(),
-                cafeFindResult.getCloseTime(),
-                cafeFindResult.getTelephoneNumber(),
-                cafeFindResult.getCafeImageUrl(),
-                cafeFindResult.getRoadAddress(),
-                cafeFindResult.getDetailAddress(),
-                cafeFindResult.getBusinessRegistrationNumber()
+                cafeFindResultDto.getId(),
+                cafeFindResultDto.getName(),
+                cafeFindResultDto.getOpenTime(),
+                cafeFindResultDto.getCloseTime(),
+                cafeFindResultDto.getTelephoneNumber(),
+                cafeFindResultDto.getCafeImageUrl(),
+                cafeFindResultDto.getRoadAddress(),
+                cafeFindResultDto.getDetailAddress(),
+                cafeFindResultDto.getBusinessRegistrationNumber()
         );
     }
 }

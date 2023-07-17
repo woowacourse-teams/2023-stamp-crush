@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.sample.response;
 
-import com.stampcrush.backend.application.sample.dto.SampleCouponsDto;
+import com.stampcrush.backend.application.sample.dto.SampleCouponsFindResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ public class SampleCouponFindResponse {
     private final List<SampleBackImageFindResponse> sampleBackImages;
     private final List<SampleStampImageFindResponse> sampleStampImages;
 
-    public static SampleCouponFindResponse from(SampleCouponsDto sampleCoupons) {
+    public static SampleCouponFindResponse from(SampleCouponsFindResultDto sampleCoupons) {
         List<SampleFrontImageFindResponse> sampleFrontImages = sampleCoupons.getSampleFrontImages()
                 .stream()
                 .map(sampleFrontImage -> new SampleFrontImageFindResponse(

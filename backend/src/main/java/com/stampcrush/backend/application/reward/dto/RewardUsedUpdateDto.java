@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class RewardUsedUpdate {
+public class RewardUsedUpdateDto {
 
     private final Long rewardId;
     private final Long customerId;

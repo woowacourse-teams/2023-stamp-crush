@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @Getter
-public class CustomerUsingCouponResponseDto {
+public class CustomerUsingCouponResultDto {
 
     private final Long id;
     private final Long customerId;
@@ -21,7 +21,7 @@ public class CustomerUsingCouponResponseDto {
     private final LocalDateTime expireDate;
     private final boolean isPrevious;
 
-    public CustomerUsingCouponResponseDto(
+    public CustomerUsingCouponResultDto(
             Long id,
             Long customerId,
             String nickname,
@@ -37,8 +37,8 @@ public class CustomerUsingCouponResponseDto {
         this.isPrevious = isPrevious;
     }
 
-    public static CustomerUsingCouponResponseDto of(Coupon coupon, Customer customer, boolean isPrevious) {
-        return new CustomerUsingCouponResponseDto(
+    public static CustomerUsingCouponResultDto of(Coupon coupon, Customer customer, boolean isPrevious) {
+        return new CustomerUsingCouponResultDto(
                 coupon.getId(),
                 customer.getId(),
                 customer.getNickname(),

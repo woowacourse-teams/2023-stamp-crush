@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.reward;
 
-import com.stampcrush.backend.application.reward.dto.RewardFind;
-import com.stampcrush.backend.application.reward.dto.RewardFindResult;
-import com.stampcrush.backend.application.reward.dto.RewardUsedUpdate;
+import com.stampcrush.backend.application.reward.dto.RewardFindDto;
+import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.application.reward.dto.RewardUsedUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
@@ -75,10 +75,10 @@ class RewardServiceTest {
     @Test
     void 리워드를_사용한다() {
         // given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        rewardService.useReward(rewardUsedUpdate);
+        rewardService.useReward(rewardUsedUpdateDto);
 
         // then
         assertThat(unusedReward.getUsed()).isTrue();
@@ -87,81 +87,81 @@ class RewardServiceTest {
     @Test
     void 존재하지_않는_리워드를_사용하려하면_예외를_던진다() {
         // given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), Long.MAX_VALUE, cafe_1.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), Long.MAX_VALUE, cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 존재하지_않는_고객에_대한_리워드를_사용하려하면_예외를_던진다() {
         // given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(Long.MAX_VALUE, registerCustomer_1.getId(), cafe_1.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(Long.MAX_VALUE, registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 존재하지_않는_카페에서_리워드를_사용하려하면_예외를_던진다() {
         // given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), Long.MAX_VALUE, true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), Long.MAX_VALUE, true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 임시회원이_리워드를_사용하려하면_예외를_던진다() {
         //given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), temporaryCustomer.getId(), cafe_1.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), temporaryCustomer.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 이미_사용된_리워드를_사용하려하면_예외를_던진다() {
         //given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
-        rewardService.useReward(rewardUsedUpdate);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
+        rewardService.useReward(rewardUsedUpdateDto);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 다른_카페에의해_생성된_리워드를_사용하려하면_예외를_던진다() {
         //given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_2.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_2.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 소유자가_아닌_고객이_리워드를_사용하려하면_예외를_던진다() {
         //given
-        RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_2.getId(), cafe_1.getId(), true);
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_2.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdate))
+        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 사용된_리워드_목록을_조회한다() {
         // given
-        RewardFind rewardFind = new RewardFind(registerCustomer_1.getId(), cafe_1.getId(), true);
+        RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        List<RewardFindResult> rewards = rewardService.findRewards(rewardFind);
+        List<RewardFindResultDto> rewards = rewardService.findRewards(rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(0);
@@ -170,10 +170,10 @@ class RewardServiceTest {
     @Test
     void 미사용_리워드_목록을_조회한다() {
         // given
-        RewardFind rewardFind = new RewardFind(registerCustomer_1.getId(), cafe_1.getId(), false);
+        RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), false);
 
         // when
-        List<RewardFindResult> rewards = rewardService.findRewards(rewardFind);
+        List<RewardFindResultDto> rewards = rewardService.findRewards(rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(1);

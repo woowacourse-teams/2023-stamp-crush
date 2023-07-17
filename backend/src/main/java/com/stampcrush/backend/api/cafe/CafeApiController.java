@@ -4,8 +4,8 @@ import com.stampcrush.backend.api.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.cafe.response.CafeFindResponse;
 import com.stampcrush.backend.api.cafe.response.CafesFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
-import com.stampcrush.backend.application.cafe.dto.CafeCreate;
-import com.stampcrush.backend.application.cafe.dto.CafeFindResult;
+import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
+import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +24,8 @@ public class CafeApiController {
 
     @GetMapping("/cafes")
     ResponseEntity<CafesFindResponse> findAllCafes() {
-        List<CafeFindResult> cafeFindResults = cafeService.findAllCafes(1L);
-        List<CafeFindResponse> cafeFindResponses = cafeFindResults.stream()
+        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findAllCafes(1L);
+        List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();
         CafesFindResponse response = new CafesFindResponse(cafeFindResponses);
@@ -34,7 +34,7 @@ public class CafeApiController {
 
     @PostMapping("/cafes")
     ResponseEntity<Void> createCafe(@RequestBody CafeCreateRequest cafeCreateRequest) {
-        CafeCreate cafeCreate = new CafeCreate(
+        CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 1L,
                 cafeCreateRequest.getName(),
                 cafeCreateRequest.getOpenTime(),
@@ -44,7 +44,7 @@ public class CafeApiController {
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
                 cafeCreateRequest.getBusinessRegistrationNumber());
-        Long cafeId = cafeService.createCafe(cafeCreate);
+        Long cafeId = cafeService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }
 }

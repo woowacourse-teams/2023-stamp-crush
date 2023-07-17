@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.sample;
 
-import com.stampcrush.backend.application.sample.dto.SampleCouponsDto;
+import com.stampcrush.backend.application.sample.dto.SampleCouponsFindResultDto;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
@@ -27,14 +27,14 @@ public class SampleCouponService {
     private final SampleStampImageRepository sampleStampImageRepository;
 
     @Transactional(readOnly = true)
-    public SampleCouponsDto findSampleCouponsBy(Integer maxStampCount) {
+    public SampleCouponsFindResultDto findSampleCouponsBy(Integer maxStampCount) {
         List<SampleFrontImage> sampleFrontImages = sampleFrontImageRepository.findAll();
         List<SampleStampImage> sampleStampImages = sampleStampImageRepository.findAll();
 
         if (maxStampCount == null) {
             List<SampleStampCoordinate> sampleStampCoordinates = sampleStampCoordinateRepository.findAll();
             List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll();
-            return new SampleCouponsDto(sampleFrontImages, sampleBackImages, sampleStampCoordinates, sampleStampImages);
+            return new SampleCouponsFindResultDto(sampleFrontImages, sampleBackImages, sampleStampCoordinates, sampleStampImages);
         }
 
         List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll()
@@ -47,7 +47,7 @@ public class SampleCouponService {
             coordinates.addAll(sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(sampleBackImage));
         }
 
-        return new SampleCouponsDto(sampleFrontImages, sampleBackImages, coordinates, sampleStampImages);
+        return new SampleCouponsFindResultDto(sampleFrontImages, sampleBackImages, coordinates, sampleStampImages);
     }
 
     private Predicate<SampleBackImage> isSameMaxStampCount(int maxStampCount) {
