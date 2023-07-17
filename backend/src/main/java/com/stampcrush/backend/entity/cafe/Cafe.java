@@ -60,11 +60,4 @@ public class Cafe extends BaseDate {
 
     protected Cafe() {
     }
-
-    @Override
-    public String toString() {
-        return "Cafe{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }
