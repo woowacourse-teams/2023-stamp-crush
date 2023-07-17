@@ -4,19 +4,17 @@ import com.stampcrush.backend.service.CustomerService;
 import com.stampcrush.backend.service.CustomersResponse;
 import com.stampcrush.backend.service.TemporaryCustomerRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@RequiredArgsConstructor
 @RestController
 public class CustomerController {
 
     private final CustomerService customerService;
-
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping("/customers")
     public ResponseEntity<CustomersResponse> findCustomer(@RequestParam("phone-number") String phoneNumber) {

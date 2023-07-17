@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class CustomerIntegrationTest extends IntegrationTest {
 
@@ -26,16 +26,16 @@ public class CustomerIntegrationTest extends IntegrationTest {
         // given
         Customer customer = new RegisterCustomer("제나", "01012345678", "jena", "1234");
         customerRepository.save(customer);
-//        Customer customer2 = new RegisterCustomer("제나2", "01012345678", "jena2", "12234");
-//        customerRepository.save(customer2);
 
         // when
         ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
         CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+        });
 
         customerRepository.deleteAll();
     }
@@ -51,8 +51,10 @@ public class CustomerIntegrationTest extends IntegrationTest {
         CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerResponse.from(customer));
+        });
 
         customerRepository.deleteAll();
     }
@@ -64,8 +66,10 @@ public class CustomerIntegrationTest extends IntegrationTest {
         CustomersResponse customers = response.body().as(CustomersResponse.class);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(customers.getCustomer().size()).isEqualTo(0);
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(customers.getCustomer().size()).isEqualTo(0);
+        });
 
         customerRepository.deleteAll();
     }
@@ -80,8 +84,30 @@ public class CustomerIntegrationTest extends IntegrationTest {
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
         // then
-        assertThat(temporaryCustomer.getNickname()).isEqualTo("5678");
-        assertThat(temporaryCustomer.getPhoneNumber()).isEqualTo("01012345678");
+        assertSoftly(softly -> {
+            softly.assertThat(temporaryCustomer.getNickname()).isEqualTo("5678");
+            softly.assertThat(temporaryCustomer.getPhoneNumber()).isEqualTo("01012345678");
+        });
+    }
+
+    @Test
+    void 존재하는_회원의_번호로_고객을_생성하려면_에러를_발생한다() {
+        // given
+        Customer customer = new TemporaryCustomer("제나임시", "01012345678");
+        customerRepository.save(customer);
+        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest(customer.getPhoneNumber());
+
+        // when, then
+        given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(temporaryCustomerRequest)
+                .when()
+                .post("/temporary-customers")
+                .then()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .extract();
+
+        customerRepository.deleteAll();
     }
 
     private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(String phoneNumber) {
