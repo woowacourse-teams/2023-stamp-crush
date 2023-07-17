@@ -74,7 +74,6 @@ public class CafeService {
                     defaultCafeCouponDesign);
             cafeStampCoordinateRepository.save(cafeStampCoordinate);
         }
-        sampleStampCoordinateRepository.findById(defaultSampleBackImage.getId());
         return cafe.getId();
     }
 
