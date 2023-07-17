@@ -1,0 +1,17 @@
+### 임시 가입 고객 생성 (같은 번호로 가입하면 에러 발생)
+
+POST  localhost:8080/temporary-customers
+Content-Type: application/json
+
+{
+  "phoneNumber" : "01011112222"
+}
+
+### 전화번호로 고객 조회
+
+GET localhost:8080/customers?phone-number=01011112222
+
+
+### 전화번호로 고객 조회 시 조회되는 값이 없으면 빈 배열 응답
+
+GET localhost:8080/customers?phone-number=0109876

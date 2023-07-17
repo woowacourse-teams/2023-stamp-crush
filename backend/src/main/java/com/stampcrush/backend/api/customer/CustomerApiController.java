@@ -3,6 +3,7 @@ package com.stampcrush.backend.api.customer;
 import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.customer.CustomerService;
+import com.stampcrush.backend.application.customer.dto.CustomersFindResultDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class CustomerApiController {
 
     @GetMapping("/customers")
     public ResponseEntity<CustomersFindResponse> findCustomer(@RequestParam("phone-number") String phoneNumber) {
-        CustomersFindResponse customers = customerService.findCustomer(phoneNumber);
+        CustomersFindResultDto customers = customerService.findCustomer(phoneNumber);
 
-        return ResponseEntity.ok().body(customers);
+        return ResponseEntity.ok().body(CustomersFindResponse.from(customers));
     }
 
     @PostMapping("/temporary-customers")

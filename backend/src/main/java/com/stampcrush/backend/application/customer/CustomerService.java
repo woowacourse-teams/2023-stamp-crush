@@ -1,9 +1,10 @@
 package com.stampcrush.backend.application.customer;
 
-import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
-import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
+import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
+import com.stampcrush.backend.application.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,28 +18,34 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class CustomerService {
 
+    private static final int NICKNAME_LENGTH = 4;
+
     private final CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
-    public CustomersFindResponse findCustomer(String phoneNumber) {
+    public CustomersFindResultDto findCustomer(String phoneNumber) {
         List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
 
-        return new CustomersFindResponse(customers.stream()
-                .map(CustomerFindResponse::from)
+        return new CustomersFindResultDto(customers.stream()
+                .map(CustomerFindDto::from)
                 .collect(toList()));
     }
 
     @Transactional
     public Long createTemporaryCustomer(String phoneNumber) {
-        if (!customerRepository.findByphoneNumber(phoneNumber).isEmpty()) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다");
-        }
+        checkExistCustomer(phoneNumber);
 
-        String nickname = phoneNumber.substring(phoneNumber.length() - 4);
+        String nickname = phoneNumber.substring(phoneNumber.length() - NICKNAME_LENGTH);
+
         TemporaryCustomer temporaryCustomer = new TemporaryCustomer(nickname, phoneNumber);
-
         TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
 
         return savedTemporaryCustomer.getId();
+    }
+
+    private void checkExistCustomer(String phoneNumber) {
+        if (!customerRepository.findByphoneNumber(phoneNumber).isEmpty()) {
+            throw new CustomerBadRequestException("Bad request.", new IllegalArgumentException("이미 존재하는 회원입니다"));
+        }
     }
 }

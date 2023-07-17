@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.customer.response;
+package com.stampcrush.backend.application.customer.dto;
 
 import com.stampcrush.backend.entity.user.Customer;
 import lombok.AllArgsConstructor;
@@ -12,13 +12,13 @@ import static lombok.AccessLevel.PUBLIC;
 @NoArgsConstructor(access = PUBLIC)
 @AllArgsConstructor
 @Getter
-public class CustomerFindResponse {
+public class CustomerFindDto {
 
     private Long id;
     private String nickname;
     private String phoneNumber;
 
-    public static CustomerFindResponse from(Customer customer) {
-        return new CustomerFindResponse(customer.getId(), customer.getNickname(), customer.getPhoneNumber());
+    public static CustomerFindDto from(Customer customer) {
+        return new CustomerFindDto(customer.getId(), customer.getNickname(), customer.getPhoneNumber());
     }
 }

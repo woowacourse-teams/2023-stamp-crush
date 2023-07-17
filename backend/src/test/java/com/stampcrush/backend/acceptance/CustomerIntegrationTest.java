@@ -1,7 +1,7 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
-import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
+import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -34,7 +34,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
         // then
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(customer));
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindDto.from(customer));
         });
 
         customerRepository.deleteAll();
@@ -53,7 +53,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
         // then
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(customer));
+            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindDto.from(customer));
         });
 
         customerRepository.deleteAll();
