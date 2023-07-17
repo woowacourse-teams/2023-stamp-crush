@@ -20,4 +20,14 @@ public abstract class Customer {
     private String nickname;
 
     private String phoneNumber;
+
+    public Customer(String nickname, String phoneNumber) {
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+    }
+
+    protected Customer() {
+    }
+
+    public abstract boolean isRegistered();
 }
