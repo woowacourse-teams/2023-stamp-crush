@@ -1,14 +1,3 @@
 spring:
   profiles:
     active: test
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
-        jdbc:
-          batch_size: 10

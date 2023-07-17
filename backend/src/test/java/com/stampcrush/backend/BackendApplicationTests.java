@@ -10,7 +10,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @ActiveProfiles("test")
 @SpringBootTest
-@ContextConfiguration(classes = TestConfiguration.class)
 class BackendApplicationTests {
 
     @Test

@@ -9,13 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@ContextConfiguration(classes = TestConfiguration.class)
 // @ExtendWith(DataClearExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class AcceptanceTest {
@@ -34,6 +32,5 @@ public class AcceptanceTest {
 
     @Test
     void 안냥_나는_깃짱() {
-
     }
 }
