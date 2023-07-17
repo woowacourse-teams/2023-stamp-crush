@@ -1,0 +1,11 @@
+### 전체 쿠폰 샘플 조회
+
+GET http://localhost:8080/coupon-samples
+
+### 쿠폰 샘플 중 뒷면의 경우 스탬프 8개용만 조회
+
+GET http://localhost:8080/coupon-samples?maxStampCount=8
+
+### 쿠폰 샘플 중 뒷면의 경우 스탬프 10개용만 조회
+
+GET http://localhost:8080/coupon-samples?maxStampCount=10
