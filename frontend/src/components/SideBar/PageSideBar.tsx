@@ -1,4 +1,5 @@
 import SideBar, { SideBarOptions } from '.';
+import { PageSideBarWrapper } from './SideBar.style';
 
 const SIDE_BAR_OPTIONS: SideBarOptions[] = [
   { key: '내 카페 관리', value: '/admin/manage-cafe' },
@@ -9,7 +10,11 @@ const SIDE_BAR_OPTIONS: SideBarOptions[] = [
 ];
 
 const PageSideBar = () => {
-  return <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200}></SideBar>;
+  return (
+    <PageSideBarWrapper>
+      <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200}></SideBar>
+    </PageSideBarWrapper>
+  );
 };
 
 export default PageSideBar;
