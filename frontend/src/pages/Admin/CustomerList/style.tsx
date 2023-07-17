@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 export const CustomerContainer = styled.li`
   display: flex;
   flex-direction: column;
+  margin-top: 40px;
 `;
 
 export const CustomerBox = styled.ul`
@@ -16,6 +17,10 @@ export const CustomerBox = styled.ul`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.gray100};
   box-shadow: 0 10px 10px -3px ${({ theme }) => theme.colors.gray300};
+
+  &:first-of-type {
+    margin-top: 40px;
+  }
 `;
 
 export const RightInfo = styled.div`

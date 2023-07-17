@@ -8,3 +8,9 @@ export const BaseTemplate = styled.main`
   height: 100vh;
   background: white;
 `;
+
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
