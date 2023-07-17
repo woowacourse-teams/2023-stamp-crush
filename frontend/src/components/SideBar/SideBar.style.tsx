@@ -12,6 +12,10 @@ interface SideBarSize {
 
 type SideBarStyleProps = SideBarSelect & SideBarSize;
 
+export const PageSideBarWrapper = styled.div`
+  padding: 48px 58px;
+`;
+
 export const SideBarContainer = styled.div<SideBarSize>`
   display: flex;
   flex-direction: column;
