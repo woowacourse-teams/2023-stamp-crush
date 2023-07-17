@@ -13,6 +13,7 @@ public class CustomerUsingCouponResponseDto {
     private final Long customerId;
     private final String nickname;
     private final int stampCount;
+    
     @JsonFormat(pattern = "yyyy:MM:dd")
     private final LocalDateTime expireDate;
     private final boolean isPrevious;

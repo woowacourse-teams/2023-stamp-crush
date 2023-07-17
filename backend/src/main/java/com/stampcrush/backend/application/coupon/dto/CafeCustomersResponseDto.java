@@ -6,6 +6,7 @@ import java.util.List;
 
 @Getter
 public class CafeCustomersResponseDto {
+
     private final List<CafeCustomerInfoResponseDto> customers;
 
     public CafeCustomersResponseDto(List<CafeCustomerInfoResponseDto> customers) {
