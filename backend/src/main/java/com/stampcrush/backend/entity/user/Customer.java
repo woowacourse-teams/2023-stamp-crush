@@ -31,8 +31,5 @@ public abstract class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    protected Customer() {
-    }
-
     public abstract boolean isRegistered();
 }

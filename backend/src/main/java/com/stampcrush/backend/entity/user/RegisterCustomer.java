@@ -22,9 +22,6 @@ public class RegisterCustomer extends Customer {
         this.encryptedPassword = encryptedPassword;
     }
 
-    protected RegisterCustomer() {
-    }
-
     @Override
     public boolean isRegistered() {
         return true;

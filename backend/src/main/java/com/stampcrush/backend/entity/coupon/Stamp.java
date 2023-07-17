@@ -18,4 +18,9 @@ public class Stamp extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
+
+    public void registerCoupon(Coupon coupon) {
+        this.coupon = coupon;
+        coupon.getStamps().add(this);
+    }
 }

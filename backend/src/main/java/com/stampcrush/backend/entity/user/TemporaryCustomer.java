@@ -15,9 +15,6 @@ public class TemporaryCustomer extends Customer {
         super(nickname, phoneNumber);
     }
 
-    protected TemporaryCustomer() {
-    }
-
     @Override
     public boolean isRegistered() {
         return false;
