@@ -69,7 +69,7 @@ class RewardServiceTest {
         registerCustomer_2 = registerCustomerRepository.save(new RegisterCustomer("registered2", "01044444444", "dsadsa@naver.com", "2345"));
         temporaryCustomer = temporaryCustomerRepository.save(new TemporaryCustomer("temporary", "01033333333"));
 
-        unusedReward = rewardRepository.save(new Reward("Americano", false, registerCustomer_1, cafe_1));
+        unusedReward = rewardRepository.save(new Reward("Americano", registerCustomer_1, cafe_1));
     }
 
     @Test
@@ -125,7 +125,7 @@ class RewardServiceTest {
     }
 
     @Test
-    void 이미_사용된_리워드를_사용려하면_예외를_던진다() {
+    void 이미_사용된_리워드를_사용하려하면_예외를_던진다() {
         //given
         RewardUsedUpdate rewardUsedUpdate = new RewardUsedUpdate(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
         rewardService.useReward(rewardUsedUpdate);

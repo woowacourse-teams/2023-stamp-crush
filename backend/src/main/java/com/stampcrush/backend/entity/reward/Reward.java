@@ -19,7 +19,7 @@ public class Reward extends BaseDate {
 
     private String name;
 
-    private Boolean used;
+    private Boolean used = false;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
@@ -29,9 +29,8 @@ public class Reward extends BaseDate {
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-    public Reward(String name, Boolean used, Customer customer, Cafe cafe) {
+    public Reward(String name, Customer customer, Cafe cafe) {
         this.name = name;
-        this.used = used;
         this.customer = customer;
         this.cafe = cafe;
     }

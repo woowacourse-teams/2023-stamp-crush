@@ -37,7 +37,7 @@ public class RewardTest {
     @Test
     void 가입회원이_리워드를_사용한다() {
         // given
-        Reward reward = new Reward("Americano", false, registerCustomer_1, cafe_1);
+        Reward reward = new Reward("Americano", registerCustomer_1, cafe_1);
 
         // when
         reward.useReward(registerCustomer_1, cafe_1);
@@ -49,7 +49,7 @@ public class RewardTest {
     @Test
     void 임시회원이_리워드를_사용하려하면_예외를_던진다() {
         //given
-        Reward reward = new Reward("Americano", false, temporaryCustomer, cafe_1);
+        Reward reward = new Reward("Americano", temporaryCustomer, cafe_1);
 
         // when, then
         assertThatThrownBy(() -> reward.useReward(temporaryCustomer, cafe_1))
@@ -59,17 +59,18 @@ public class RewardTest {
     @Test
     void 이미_사용된_리워드를_사용려하면_예외를_던진다() {
         // given
-        Reward reward = new Reward("Americano", true, registerCustomer_1, cafe_1);
+        Reward reward = new Reward("Americano", registerCustomer_1, cafe_1);
+        reward.useReward(registerCustomer_1, cafe_1);
 
         // when, then
-        assertThatThrownBy(() -> reward.useReward(temporaryCustomer, cafe_1))
+        assertThatThrownBy(() -> reward.useReward(registerCustomer_1, cafe_1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 다른_카페에의해_생성된_리워드를_사용하려하면_예외를_던진다() {
         // given
-        Reward reward = new Reward("Americano", true, registerCustomer_1, cafe_1);
+        Reward reward = new Reward("Americano", registerCustomer_1, cafe_1);
 
         // when, then
         assertThatThrownBy(() -> reward.useReward(registerCustomer_1, cafe_2))
@@ -79,7 +80,7 @@ public class RewardTest {
     @Test
     void 소유자가_아닌_고객이_리워드를_사용하려하면_예외를_던진다() {
         // given
-        Reward reward = new Reward("Americano", true, registerCustomer_1, cafe_1);
+        Reward reward = new Reward("Americano", registerCustomer_1, cafe_1);
 
         // when, then
         assertThatThrownBy(() -> reward.useReward(registerCustomer_2, cafe_1))
