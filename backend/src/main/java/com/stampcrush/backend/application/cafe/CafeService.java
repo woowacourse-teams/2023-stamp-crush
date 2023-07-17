@@ -36,7 +36,6 @@ public class CafeService {
     private final SampleFrontImageRepository sampleFrontImageRepository;
     private final SampleBackImageRepository sampleBackImageRepository;
     private final SampleStampImageRepository sampleStampImageRepository;
-    private final SampleStampCoordinateRepository sampleStampCoordinateRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
