@@ -63,7 +63,7 @@ const RegisterCafe = () => {
             placeholder={'사업자등록번호를 입력해주세요.'}
             required={true}
           />
-          <Button type="button" variant={'primary'} size={'medium'} onClick={certifyUser}>
+          <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
             인증하기
           </Button>
         </InputWithButtonWrapper>
@@ -85,7 +85,7 @@ const RegisterCafe = () => {
             placeholder={'카페 주소를 입력해주세요.'}
             required={true}
           />
-          <Button type="button" variant={'primary'} size={'medium'} onClick={handleClick}>
+          <Button type="button" variant={'secondary'} size={'medium'} onClick={handleClick}>
             주소 찾기
           </Button>
         </InputWithButtonWrapper>
