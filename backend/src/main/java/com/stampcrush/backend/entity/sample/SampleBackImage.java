@@ -5,10 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 public class SampleBackImage extends BaseDate {
 
@@ -17,4 +20,8 @@ public class SampleBackImage extends BaseDate {
     private Long id;
 
     private String imageUrl;
+
+    public SampleBackImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
