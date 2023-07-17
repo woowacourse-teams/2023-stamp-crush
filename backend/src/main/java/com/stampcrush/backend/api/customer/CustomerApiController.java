@@ -24,8 +24,8 @@ public class CustomerApiController {
     }
 
     @PostMapping("/temporary-customers")
-    public ResponseEntity<Void> createTemporaryCustomer(@RequestBody @Valid TemporaryCustomerCreateRequest temporaryCustomerCreateRequest) {
-        Long customerId = customerService.createTemporaryCustomer(temporaryCustomerCreateRequest.getPhoneNumber());
+    public ResponseEntity<Void> createTemporaryCustomer(@RequestBody @Valid TemporaryCustomerCreateRequest request) {
+        Long customerId = customerService.createTemporaryCustomer(request.getPhoneNumber());
 
         return ResponseEntity.created(URI.create("/customers/" + customerId)).build();
     }

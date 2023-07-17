@@ -19,12 +19,12 @@ public class CouponApiController {
     private final CouponService couponService;
 
     @GetMapping("/cafes/{cafeId}/customers")
-    public ResponseEntity<CafeCustomersResultDto> readCustomersByCafe(@PathVariable Long cafeId) {
+    public ResponseEntity<CafeCustomersResultDto> findCustomersByCafe(@PathVariable Long cafeId) {
         return ResponseEntity.ok(couponService.findCouponsByCafe(cafeId));
     }
 
     @GetMapping("/customers/{customerId}/coupons")
-    public ResponseEntity<List<CustomerUsingCouponResultDto>> readCustomerUsingCouponByCafe(@PathVariable Long customerId, @RequestParam Long cafeId, @RequestParam boolean active) {
+    public ResponseEntity<List<CustomerUsingCouponResultDto>> findCustomerUsingCouponByCafe(@PathVariable Long customerId, @RequestParam Long cafeId, @RequestParam boolean active) {
         return ResponseEntity.ok(couponService.findUsingCoupon(cafeId, customerId));
     }
 }

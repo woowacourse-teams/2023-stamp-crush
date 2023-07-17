@@ -34,10 +34,10 @@ public class RewardApiController {
     }
 
     @PatchMapping("/customers/{customerId}/rewards/{rewardId}")
-    public ResponseEntity<Void> updateRewardUsed(@PathVariable("customerId") Long customerId,
-                                                 @PathVariable("rewardId") Long rewardId,
-                                                 @RequestBody @Valid RewardUsedUpdateRequest rewardUsedUpdateRequest) {
-        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, rewardUsedUpdateRequest.getCafeId(), rewardUsedUpdateRequest.isUsed());
+    public ResponseEntity<Void> updateRewardToUsed(@PathVariable("customerId") Long customerId,
+                                                   @PathVariable("rewardId") Long rewardId,
+                                                   @RequestBody @Valid RewardUsedUpdateRequest request) {
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.isUsed());
         rewardService.useReward(rewardUsedUpdateDto);
         return ResponseEntity.ok().build();
     }

@@ -21,7 +21,7 @@ public class SampleCouponApiController {
     public SampleCouponFindResponse findSampleCoupons(
             @ModelAttribute SampleCouponFindRequest request
     ) {
-        SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsBy(request.getMaxStampCount());
+        SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsByMaxStampCount(request.getMaxStampCount());
         return SampleCouponFindResponse.from(sampleCoupons);
     }
 }

@@ -24,7 +24,7 @@ public class CafeApiController {
 
     @GetMapping("/cafes")
     ResponseEntity<CafesFindResponse> findAllCafes() {
-        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findAllCafes(1L);
+        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(1L);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();

@@ -15,12 +15,12 @@ public class CafeCouponSettingApiController {
     private final CafeCouponSettingService cafeCouponSettingService;
 
     @PostMapping
-    public ResponseEntity<Void> modifyCouponSettings(
+    public ResponseEntity<Void> updateCafeCouponSetting(
             @RequestParam("cafe-id") Long cafeId,
             @RequestBody CafeCouponSettingUpdateRequest request
     ) {
         CafeCouponSettingDto cafeCouponSettingDto = request.toCouponSettingDto();
-        cafeCouponSettingService.modifyCouponSettings(cafeId, cafeCouponSettingDto);
+        cafeCouponSettingService.updateCafeCouponSetting(cafeId, cafeCouponSettingDto);
         return ResponseEntity.noContent().build();
     }
 }

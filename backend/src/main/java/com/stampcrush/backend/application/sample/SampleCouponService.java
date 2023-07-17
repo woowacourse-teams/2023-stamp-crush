@@ -27,7 +27,7 @@ public class SampleCouponService {
     private final SampleStampImageRepository sampleStampImageRepository;
 
     @Transactional(readOnly = true)
-    public SampleCouponsFindResultDto findSampleCouponsBy(Integer maxStampCount) {
+    public SampleCouponsFindResultDto findSampleCouponsByMaxStampCount(Integer maxStampCount) {
         List<SampleFrontImage> sampleFrontImages = sampleFrontImageRepository.findAll();
         List<SampleStampImage> sampleStampImages = sampleStampImageRepository.findAll();
 

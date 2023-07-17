@@ -5,19 +5,21 @@ import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    @Transactional(readOnly = true)
     public CustomersFindResponse findCustomer(String phoneNumber) {
         List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
 
@@ -26,6 +28,7 @@ public class CustomerService {
                 .collect(toList()));
     }
 
+    @Transactional
     public Long createTemporaryCustomer(String phoneNumber) {
         if (!customerRepository.findByphoneNumber(phoneNumber).isEmpty()) {
             throw new IllegalArgumentException("이미 존재하는 회원입니다");

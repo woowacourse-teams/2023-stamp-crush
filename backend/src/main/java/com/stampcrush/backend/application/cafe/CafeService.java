@@ -103,7 +103,7 @@ public class CafeService {
     }
 
     @Transactional(readOnly = true)
-    public List<CafeFindResultDto> findAllCafes(Long ownerId) {
+    public List<CafeFindResultDto> findCafesByOwner(Long ownerId) {
         List<Cafe> cafes = cafeRepository.findAllByOwnerId(ownerId);
         return cafes.stream()
                 .map(CafeFindResultDto::from)

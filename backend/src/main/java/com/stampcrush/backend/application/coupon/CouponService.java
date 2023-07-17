@@ -33,7 +33,7 @@ public class CouponService {
     public CafeCustomersResultDto findCouponsByCafe(Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 카페 입니다."));
 
-        Map<Customer, List<Coupon>> couponsByCustomer = getCouponsByCustomer(cafe);
+        Map<Customer, List<Coupon>> couponsByCustomer = mapCouponsByCustomer(cafe);
         List<CafeCustomerInfoResultDto> customers = new ArrayList<>();
         for (Customer customer : couponsByCustomer.keySet()) {
             List<Coupon> coupons = couponsByCustomer.get(customer);
@@ -60,13 +60,13 @@ public class CouponService {
         return new CafeCustomersResultDto(customers);
     }
 
-    private Map<Customer, List<Coupon>> getCouponsByCustomer(Cafe cafe) {
+    private Map<Customer, List<Coupon>> mapCouponsByCustomer(Cafe cafe) {
         List<Coupon> coupons = couponRepository.findByCafe(cafe);
         return coupons.stream()
                 .collect(Collectors.groupingBy(Coupon::getCustomer));
     }
 
-    private static void addCustomerInfo(List<CafeCustomerInfoResultDto> customers, Customer customer, int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
+    private void addCustomerInfo(List<CafeCustomerInfoResultDto> customers, Customer customer, int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
         customers.add(new CafeCustomerInfoResultDto(
                 customer.getId(),
                 customer.getNickname(),

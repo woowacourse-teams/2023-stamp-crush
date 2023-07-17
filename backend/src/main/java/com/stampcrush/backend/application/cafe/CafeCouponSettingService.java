@@ -26,7 +26,7 @@ public class CafeCouponSettingService {
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     @Transactional
-    public void modifyCouponSettings(Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
+    public void updateCafeCouponSetting(Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
         Optional<Cafe> findCafe = cafeRepository.findById(cafeId);
 
         if (findCafe.isEmpty()) {
@@ -35,11 +35,11 @@ public class CafeCouponSettingService {
 
         Cafe cafe = findCafe.get();
 
-        deletePreviousSettings(cafe);
-        insertNewSettings(cafe, cafeCouponSettingDto);
+        deletePreviousSetting(cafe);
+        createNewSetting(cafe, cafeCouponSettingDto);
     }
 
-    private void deletePreviousSettings(Cafe cafe) {
+    private void deletePreviousSetting(Cafe cafe) {
         deleteCafePolicy(cafe);
         deleteCafeCouponDesign(cafe);
     }
@@ -60,12 +60,12 @@ public class CafeCouponSettingService {
         }
     }
 
-    private void insertNewSettings(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
-        insertNewCafePolicy(cafe, cafeCouponSettingDto);
-        insertNewCafeCouponDesign(cafe, cafeCouponSettingDto);
+    private void createNewSetting(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
+        createNewCafePolicy(cafe, cafeCouponSettingDto);
+        createNewCafeCouponDesign(cafe, cafeCouponSettingDto);
     }
 
-    private void insertNewCafePolicy(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
+    private void createNewCafePolicy(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
         CafeCouponSettingDto.CafePolicyDto cafePolicyDto = cafeCouponSettingDto.getCafePolicyDto();
         CafePolicy newCafePolicy = new CafePolicy(
                 cafePolicyDto.getMaxStampCount(),
@@ -77,7 +77,7 @@ public class CafeCouponSettingService {
         CafePolicy savedCafePolicy = cafePolicyRepository.save(newCafePolicy);
     }
 
-    private void insertNewCafeCouponDesign(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
+    private void createNewCafeCouponDesign(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
         CafeCouponSettingDto.CafeCouponDesignDto cafeCouponDesignDto = cafeCouponSettingDto.getCafeCouponDesignDto();
         CafeCouponDesign newCafeCouponDesign = new CafeCouponDesign(
                 cafeCouponDesignDto.getFrontImageUrl(),
@@ -87,10 +87,10 @@ public class CafeCouponSettingService {
                 cafe
         );
         CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(newCafeCouponDesign);
-        insertNewCafeStampCoordinates(savedCafeCouponDesign, cafeCouponDesignDto.getCoordinates());
+        createNewCafeStampCoordinates(savedCafeCouponDesign, cafeCouponDesignDto.getCoordinates());
     }
 
-    private void insertNewCafeStampCoordinates(
+    private void createNewCafeStampCoordinates(
             CafeCouponDesign savedCafeCouponDesign,
             List<CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto> coordinates
     ) {
