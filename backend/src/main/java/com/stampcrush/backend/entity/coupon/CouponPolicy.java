@@ -21,4 +21,13 @@ public class CouponPolicy extends BaseDate {
     private String rewardName;
 
     private Integer expiredPeriod;
+
+    public CouponPolicy(Integer maxStampCount, String rewardName, Integer expiredPeriod) {
+        this.maxStampCount = maxStampCount;
+        this.rewardName = rewardName;
+        this.expiredPeriod = expiredPeriod;
+    }
+
+    protected CouponPolicy() {
+    }
 }
