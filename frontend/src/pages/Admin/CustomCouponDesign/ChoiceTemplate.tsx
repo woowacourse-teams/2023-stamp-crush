@@ -2,30 +2,31 @@ import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { ChoiceTemplateContainer, SampleImage, SampleImageContainer } from './ChoiceTemplate.style';
 import TabBar from '../../../components/TabBar';
 import DUMMY from './dummy';
+import { TEMPLATE_MENU } from '../../../constants';
 
 const TEMPLATE_OPTIONS = [
   {
     key: 'coupon-front',
-    value: '쿠폰(앞)',
+    value: TEMPLATE_MENU.FRONT_IMAGE,
   },
   {
     key: 'coupon-back',
-    value: '쿠폰(뒤)',
+    value: TEMPLATE_MENU.BACK_IMAGE,
   },
   {
     key: 'stamp',
-    value: '스탬프',
+    value: TEMPLATE_MENU.STAMP,
   },
 ];
 
 // TODO: 네이밍 변경
 const getImageFromData = (templateSelected: string) => {
   switch (templateSelected) {
-    case '쿠폰(앞)':
+    case TEMPLATE_MENU.FRONT_IMAGE:
       return DUMMY.sampleFrontImages;
-    case '쿠폰(뒤)':
+    case TEMPLATE_MENU.BACK_IMAGE:
       return DUMMY.sampleBackImages;
-    case '스탬프':
+    case TEMPLATE_MENU.STAMP:
       return DUMMY.sampleStampImages;
     default:
       break;
@@ -49,20 +50,20 @@ const ChoiceTemplate = ({
   setBackImage,
   setStampImage,
 }: ChoiceTemplateProps) => {
-  const [templateSelect, setTemplateSelect] = useState('쿠폰(앞)');
+  const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
   const [selectedImage, setSelectedImage] = useState(frontImage);
   const imageRef = useRef<HTMLImageElement>(null);
 
   const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTemplateSelect(e.target.value);
     switch (e.target.value) {
-      case '쿠폰(앞)':
+      case TEMPLATE_MENU.FRONT_IMAGE:
         setSelectedImage(frontImage);
         break;
-      case '쿠폰(뒤)':
+      case TEMPLATE_MENU.BACK_IMAGE:
         setSelectedImage(backImage);
         break;
-      case '스탬프':
+      case TEMPLATE_MENU.STAMP:
         setSelectedImage(stampImage);
         break;
       default:
@@ -74,13 +75,13 @@ const ChoiceTemplate = ({
     if (!imageRef.current) return;
     console.log(imageRef.current.src);
     switch (templateSelect) {
-      case '쿠폰(앞)':
+      case TEMPLATE_MENU.FRONT_IMAGE:
         setFrontImage(imageRef.current.src);
         break;
-      case '쿠폰(뒤)':
+      case TEMPLATE_MENU.BACK_IMAGE:
         setBackImage(imageRef.current.src);
         break;
-      case '스탬프':
+      case TEMPLATE_MENU.STAMP:
         setStampImage(imageRef.current.src);
         break;
       default:
