@@ -4,15 +4,17 @@ import com.stampcrush.backend.entity.user.Customer;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PUBLIC;
 
 @EqualsAndHashCode
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PUBLIC)
+@AllArgsConstructor
 @Getter
 public class CustomerResponse {
 
-    private final Long id;
+    private Long id;
     private String nickname;
     private String phoneNumber;
 

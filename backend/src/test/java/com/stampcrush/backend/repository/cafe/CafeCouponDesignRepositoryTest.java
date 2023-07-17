@@ -39,7 +39,7 @@ class CafeCouponDesignRepositoryTest {
                         "서울시 올림픽로 어쩌고",
                         "루터회관",
                         "10-222-333",
-                        ownerRepository.save(new Owner())
+                        ownerRepository.save(new Owner("이름", "아이디", "pw", "phone"))
                 )
         );
 

@@ -13,12 +13,14 @@ import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
 @Component
 @RequiredArgsConstructor
+@Profile("prod")
 public class CouponSettingDataInitializer implements ApplicationRunner {
 
     private final CafeRepository cafeRepository;
@@ -39,7 +41,7 @@ public class CouponSettingDataInitializer implements ApplicationRunner {
                         "서울시 올림픽로 어쩌고",
                         "루터회관",
                         "10-222-333",
-                        ownerRepository.save(new Owner())
+                        ownerRepository.save(new Owner("깃짱", "깃짱아이디", "깃짱비밀번호", "깃짱핸드폰번호"))
                 )
         );
 
