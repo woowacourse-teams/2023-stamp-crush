@@ -24,6 +24,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class CafeCouponSettingIntegrationTest extends IntegrationTest {
 
@@ -45,6 +46,7 @@ public class CafeCouponSettingIntegrationTest extends IntegrationTest {
     @Override
     @BeforeEach
     void setUp() {
+        super.setUp();
         cafePolicyRepository.deleteAll();
         cafeStampCoordinateRepository.deleteAll();
         cafeCouponDesignRepository.deleteAll();
@@ -126,11 +128,13 @@ public class CafeCouponSettingIntegrationTest extends IntegrationTest {
                 .log().all()
                 .extract();
 
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findById(savedCafeCouponDesign.getId()).get();
-        System.out.println("cafeCouponDesign = " + cafeCouponDesign);
-
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
-        assertThat(cafeCouponDesignRepository.findById(savedCafeCouponDesign.getId()).get().getDeleted()).isTrue();
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
+                () -> assertThat(cafeCouponDesignRepository.findById(savedCafeCouponDesign.getId())).isEmpty(),
+                () -> assertThat(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(savedCafe)).isNotEmpty(),
+                () -> assertThat(cafePolicyRepository.findById(savedCafePolicy.getId())).isEmpty(),
+                () -> assertThat(cafePolicyRepository.findByCafeAndDeletedIsFalse(savedCafe)).isNotEmpty()
+        );
     }
 }
