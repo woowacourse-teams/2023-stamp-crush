@@ -12,6 +12,8 @@ import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import History from './pages/History';
 import Template from './components/Template';
+import CreateCoupon from './pages/Admin/CreateCoupon';
+import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 
 const AdminRoot = () => {
   return (
@@ -46,6 +48,19 @@ const Router = () => {
         { index: true, element: <CustomerList /> },
 
         { path: 'register-cafe', element: <RegisterCafe /> },
+        {
+          path: 'create-coupon',
+          children: [
+            {
+              path: '1',
+              element: <CreateCoupon />,
+            },
+            {
+              path: '2',
+              element: <CustomCouponDesign />,
+            },
+          ],
+        },
         { path: 'make-coupon-policy', element: <MakeCouponPolicy /> },
         { path: 'manage-cafe', element: <ManageCafe /> },
       ],
