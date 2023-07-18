@@ -170,7 +170,7 @@ export const handlers = [
   }),
 
   // 카페 사장이 고객 목록 조회 가능
-  rest.get('cafes/:cafeId/customers', (req, res, ctx) => {
+  rest.get('/cafes/:cafeId/customers', (req, res, ctx) => {
     const { cafeId } = req.params;
 
     if (!cafeId) {

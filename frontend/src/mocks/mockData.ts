@@ -267,6 +267,7 @@ export const rewards = [
   },
 ];
 
+// TODO: 리워드를 만들기 위한 스탬프 갯수가 없음
 export const cafeCustomer = [
   {
     id: 1,
