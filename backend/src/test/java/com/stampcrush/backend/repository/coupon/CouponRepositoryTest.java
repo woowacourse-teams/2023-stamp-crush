@@ -110,11 +110,11 @@ class CouponRepositoryTest {
                 "11111111",
                 ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"))));
 
-        couponDesign1 = couponDesignRepository.save(new CouponDesign());
-        couponDesign2 = couponDesignRepository.save(new CouponDesign());
-        couponDesign3 = couponDesignRepository.save(new CouponDesign());
-        couponDesign4 = couponDesignRepository.save(new CouponDesign());
-        couponDesign5 = couponDesignRepository.save(new CouponDesign());
+        couponDesign1 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign2 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign3 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign4 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign5 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
 
         couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
         couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
