@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useState, Dispatch, SetStateAction } from 'react';
 import { BaseSelectBox, LabelContent, SelectContent } from './SelectBox.style';
 
 export type SelectBoxOption = {
@@ -8,10 +8,11 @@ export type SelectBoxOption = {
 
 interface SelectBoxProps {
   options: SelectBoxOption[];
+  checkedOption: string;
+  setCheckedOption: Dispatch<SetStateAction<string>>;
 }
 
-const SelectBox = ({ options }: SelectBoxProps) => {
-  const [checkedOption, setCheckedOption] = useState(options[0].value);
+const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
