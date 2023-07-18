@@ -64,6 +64,7 @@ export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
       padding: 0;
       box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
       max-height: 400px;
+      z-index: 1;
 
       label {
         border-top: 1px solid ${({ theme }) => theme.colors.gray};
@@ -106,4 +107,9 @@ export const LabelContent = styled.label`
 
     border-top: 1px solid ${({ theme }) => theme.colors.gray};
   }
+`;
+
+export const SelectBoxWrapper = styled.div`
+  display: block;
+  height: 33px;
 `;

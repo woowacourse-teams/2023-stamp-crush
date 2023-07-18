@@ -9,18 +9,18 @@ type StyledInputProps = {
 
 export const BaseInput = styled.input<StyledInputProps>`
   width: ${(props) => (props.$width ? `${props.$width}px` : '100%')};
-  padding: 12px;
+  padding: 12px 0px;
 
   border: none;
   text-align: ${(props) => (props.$center ? 'center' : 'initial')};
   font-size: 18px;
 
   background: transparent;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   transition: 0.4s ease-in-out;
 
   &:focus {
-    border-bottom: 2px solid #3399ff;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.main600};
     outline: none;
     transition: 0.4s ease-in-out;
   }

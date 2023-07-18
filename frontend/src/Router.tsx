@@ -46,8 +46,7 @@ const Router = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <CustomerList /> },
-        { path: 'login', element: <Login /> },
-        { path: 'sign-up', element: <SignUp /> },
+
         { path: 'register-cafe', element: <RegisterCafe /> },
         {
           path: 'create-coupon',
@@ -64,9 +63,11 @@ const Router = () => {
         },
         { path: 'make-coupon-policy', element: <MakeCouponPolicy /> },
         { path: 'manage-cafe', element: <ManageCafe /> },
-        { path: 'enter', element: <EnterPhoneNumber /> },
       ],
     },
+    { path: '/admin/login', element: <Login /> },
+    { path: '/admin/sign-up', element: <SignUp /> },
+    { path: '/admin/enter', element: <EnterPhoneNumber /> },
     // 고객
     {
       path: '/',

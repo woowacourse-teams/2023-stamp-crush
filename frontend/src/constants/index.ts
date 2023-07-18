@@ -8,3 +8,5 @@ export const TEMPLATE_MENU = {
   BACK_IMAGE: '쿠폰(뒤)',
   STAMP: '스탬프',
 };
+
+export const PHONE_NUMBER_LENGTH = 13;

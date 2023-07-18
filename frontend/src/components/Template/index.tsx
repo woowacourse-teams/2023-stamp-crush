@@ -1,8 +1,14 @@
 import { PropsWithChildren } from 'react';
-import { BaseTemplate } from './Template.style';
+import { BaseTemplate, PageContainer } from './Template.style';
+import PageSideBar from '../SideBar/PageSideBar';
 
 const Template = ({ children }: PropsWithChildren) => {
-  return <BaseTemplate>{children}</BaseTemplate>;
+  return (
+    <BaseTemplate>
+      <PageSideBar />
+      <PageContainer>{children}</PageContainer>
+    </BaseTemplate>
+  );
 };
 
 export default Template;
