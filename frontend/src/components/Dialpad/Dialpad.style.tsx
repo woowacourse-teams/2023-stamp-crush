@@ -2,16 +2,19 @@ import { styled } from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
-  width: 540px;
   flex-direction: column;
-  border: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-collapse: separate;
+  min-width: 580px;
 `;
 
 export const KeyContainer = styled.div`
   display: grid;
+  height: 100%;
 
-  grid-template-columns: repeat(3, 180px);
-  grid-template-rows: repeat(4, 120px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
 `;
 
 export const Pad = styled.button`
@@ -35,8 +38,10 @@ export const Pad = styled.button`
 
 export const BaseInput = styled.input`
   outline: none;
-  height: 150px;
   padding: 20px 0px;
+  height: 210px;
+  border: 1px solid black;
+  border-top: none;
 
   font-size: 50px;
   text-align: center;
