@@ -18,7 +18,7 @@ export const SaveButtonWrapper = styled.div`
   width: 100%;
 `;
 
-export const C예상쿠폰이미지컨테이너 = styled.div``;
+export const PreviewCouponContainer = styled.div``;
 
 interface StyledImageSizeProps {
   $width: number;

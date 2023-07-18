@@ -1,7 +1,7 @@
 import {
   CouponContainer,
   CustomCouponDesignContainer,
-  C예상쿠폰이미지컨테이너,
+  PreviewCouponContainer,
   ImageUploadContainer,
   SaveButtonWrapper,
 } from './style';
@@ -24,7 +24,7 @@ const CustomCouponDesign = () => {
 
   return (
     <CustomCouponDesignContainer>
-      <C예상쿠폰이미지컨테이너>
+      <PreviewCouponContainer>
         <Title>쿠폰 제작 및 변경</Title>
         <SectionSpacing />
         <SubTitle>예상 쿠폰 이미지</SubTitle>
@@ -59,7 +59,7 @@ const CustomCouponDesign = () => {
             저장하기
           </Button>
         </SaveButtonWrapper>
-      </C예상쿠폰이미지컨테이너>
+      </PreviewCouponContainer>
       <RowSpacing $size={100} />
       <ChoiceTemplate
         frontImage={frontImage}

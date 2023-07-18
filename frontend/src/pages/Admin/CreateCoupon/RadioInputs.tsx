@@ -10,6 +10,7 @@ const RadioInputs = ({ setValue }: RadioInputsProps) => {
   const changeSelectValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+
   return (
     <RadioInputsContainer>
       <Label>

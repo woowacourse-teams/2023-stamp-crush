@@ -47,6 +47,7 @@ const CreateCoupon = () => {
   const [expireSelect, setExpireSelect] = useState(EXPIRE_DATE_OPTIONS[0].value);
   const [stampCount, setStampCount] = useState(STAMP_COUNT_OPTIONS[0].value);
   const navigate = useNavigate();
+
   const navigateNextPage = () => {
     navigate('/admin/create-coupon/2', {
       state: {

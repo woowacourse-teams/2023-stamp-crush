@@ -73,7 +73,6 @@ const ChoiceTemplate = ({
 
   const selectSampleImage = () => {
     if (!imageRef.current) return;
-    console.log(imageRef.current.src);
     switch (templateSelect) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         setFrontImage(imageRef.current.src);
