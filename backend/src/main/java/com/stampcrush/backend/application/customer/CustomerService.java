@@ -21,7 +21,7 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public CustomersFindResponse findCustomer(String phoneNumber) {
-        List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
+        List<Customer> customers = customerRepository.findByPhoneNumber(phoneNumber);
 
         return new CustomersFindResponse(customers.stream()
                 .map(CustomerFindResponse::from)
@@ -30,7 +30,7 @@ public class CustomerService {
 
     @Transactional
     public Long createTemporaryCustomer(String phoneNumber) {
-        if (!customerRepository.findByphoneNumber(phoneNumber).isEmpty()) {
+        if (!customerRepository.findByPhoneNumber(phoneNumber).isEmpty()) {
             throw new IllegalArgumentException("이미 존재하는 회원입니다");
         }
 
