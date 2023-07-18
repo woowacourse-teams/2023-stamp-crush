@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import { CreateCouponContainer, NextButtonWrapper, SelectBoxWrapper } from './CreateCoupon.style';
+import { ModifyCouponPolicyContainer, NextButtonWrapper, SelectBoxWrapper } from './style';
 import RadioInputs from './RadioInputs';
 import { useNavigate } from 'react-router-dom';
 import { Spacing, Title, SectionTitle, Text } from '../../../style/layout/common';
@@ -41,7 +41,7 @@ const EXPIRE_DATE_OPTIONS = [
   },
 ];
 
-const CreateCoupon = () => {
+const ModifyCouponPolicy = () => {
   const [createdType, setCreatedType] = useState('');
   const rewardInputRef = useRef<HTMLInputElement>(null);
   const [expireSelect, setExpireSelect] = useState(EXPIRE_DATE_OPTIONS[0].value);
@@ -49,7 +49,7 @@ const CreateCoupon = () => {
   const navigate = useNavigate();
 
   const navigateNextPage = () => {
-    navigate('/admin/create-coupon/2', {
+    navigate('/admin/modify-coupon-policy/2', {
       state: {
         createdType,
         rewardInputRef: rewardInputRef.current?.value,
@@ -60,7 +60,7 @@ const CreateCoupon = () => {
   };
 
   return (
-    <CreateCouponContainer>
+    <ModifyCouponPolicyContainer>
       <Title>쿠폰 제작 및 변경</Title>
       <SectionSpacing />
       <SectionTitle>어떻게 제작하시겠어요?</SectionTitle>
@@ -107,8 +107,8 @@ const CreateCoupon = () => {
           다음으로
         </Button>
       </NextButtonWrapper>
-    </CreateCouponContainer>
+    </ModifyCouponPolicyContainer>
   );
 };
 
-export default CreateCoupon;
+export default ModifyCouponPolicy;
