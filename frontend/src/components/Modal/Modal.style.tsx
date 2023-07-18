@@ -21,6 +21,7 @@ export const BaseModal = styled.div`
   width: 60vw;
   height: 60vh;
 
+
   padding: 35px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;

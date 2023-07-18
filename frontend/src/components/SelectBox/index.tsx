@@ -1,5 +1,7 @@
-import { MouseEventHandler, useState } from 'react';
-import { BaseSelectBox, LabelContent, SelectContent } from './SelectBox.style';
+import { MouseEventHandler, useState, Dispatch, SetStateAction } from 'react';
+
+import { BaseSelectBox, LabelContent, SelectBoxWrapper, SelectContent } from './SelectBox.style';
+
 
 export type SelectBoxOption = {
   key: string;
@@ -8,10 +10,11 @@ export type SelectBoxOption = {
 
 interface SelectBoxProps {
   options: SelectBoxOption[];
+  checkedOption: string;
+  setCheckedOption: Dispatch<SetStateAction<string>>;
 }
 
-const SelectBox = ({ options }: SelectBoxProps) => {
-  const [checkedOption, setCheckedOption] = useState(options[0].value);
+const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
@@ -29,26 +32,27 @@ const SelectBox = ({ options }: SelectBoxProps) => {
   };
 
   return (
-    <BaseSelectBox
-      $expanded={isExpanded}
-      $minWidth={120}
-      $minHeight={32}
-      onClick={toggleExpandSelectBox}
-    >
-      {options.map(({ key, value }) => (
-        <>
-          <SelectContent
-            key={key}
-            type="radio"
-            name="sortType"
-            value={value}
-            checked={checkedOption === value}
-            id={key}
-          />
-          <LabelContent htmlFor={key}>{value}</LabelContent>
-        </>
-      ))}
-    </BaseSelectBox>
+    <SelectBoxWrapper>
+      <BaseSelectBox
+        $expanded={isExpanded}
+        $minWidth={120}
+        $minHeight={32}
+        onClick={toggleExpandSelectBox}
+      >
+        {options.map(({ key, value }) => (
+          <>
+            <SelectContent
+              key={key}
+              type="radio"
+              value={checkedOption}
+              checked={checkedOption === value}
+              id={key}
+            />
+            <LabelContent htmlFor={key}>{value}</LabelContent>
+          </>
+        ))}
+      </BaseSelectBox>
+    </SelectBoxWrapper>
   );
 };
 
