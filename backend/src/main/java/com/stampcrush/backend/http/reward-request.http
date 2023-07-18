@@ -1,0 +1,5 @@
+### 고객의 리워드 조회 요청
+
+GET localhost:8080/customers/1/rewards?cafeId=1&used=false
+Content-Type: application/json
+

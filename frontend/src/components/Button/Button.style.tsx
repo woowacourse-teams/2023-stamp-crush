@@ -9,11 +9,12 @@ const TYPE: Record<string, Record<string, string>> = {
   primary: {
     color: 'point',
     background: 'main',
+    border: '0 solid transparent',
   },
   secondary: {
-    border: '1px solid #000000',
     color: 'black',
-    backgroundColor: 'white',
+    background: 'white',
+    border: '1px solid #000000',
   },
 };
 
@@ -30,7 +31,6 @@ const SIZE: Record<string, Record<string, string>> = {
 
 export const BaseButton = styled.button<StyledButtonProps>`
   outline: none;
-  border: 0 solid transparent;
   border-radius: 7px;
 
   transition: background-color 0.2s ease color 0.1s ease;
@@ -40,6 +40,7 @@ export const BaseButton = styled.button<StyledButtonProps>`
 
   width: ${({ $size }) => SIZE[$size].width};
   padding: ${({ $size }) => SIZE[$size].padding};
+  border: ${({ $variant }) => TYPE[$variant].border};
   color: ${({ theme, $variant }) => theme.colors[TYPE[$variant].color]};
   background-color: ${({ theme, $variant }) => theme.colors[TYPE[$variant].background]};
 

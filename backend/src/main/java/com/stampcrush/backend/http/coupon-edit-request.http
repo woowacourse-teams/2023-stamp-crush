@@ -1,0 +1,22 @@
+POST localhost:8080/coupon-setting?cafe-id=1
+Content-Type: application/json
+
+{
+  "frontImageUrl": "http://localhost:3000",
+  "backImageUrl": "http://localhost:3000",
+  "stampImageUrl": "http://localhost:3000",
+  "coordinates": [
+    {
+      "order": 1,
+      "xCoordinate": 2,
+      "yCoordinate": 5
+    },
+    {
+      "order": 2,
+      "xCoordinate": 5,
+      "yCoordinate": 5
+    }
+  ],
+  "reward": "아메리카노",
+  "expirePeriod": 6
+}
