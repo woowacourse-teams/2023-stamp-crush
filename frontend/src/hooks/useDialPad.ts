@@ -1,6 +1,7 @@
-import { REGEX } from '../constants';
+import { PHONE_NUMBER_LENGTH, REGEX } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../components/Dialpad';
+import useModal from './useModal';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -11,6 +12,8 @@ const addHypen = (phoneNumber: string) => {
 const useDialPad = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('010-');
   const phoneNumberRef = useRef<HTMLInputElement>(null);
+
+  const { openModal, closeModal, isOpen } = useModal();
 
   const removeNumber = () => {
     if (phoneNumber.length < 5) {
@@ -24,7 +27,11 @@ const useDialPad = () => {
   };
 
   const enter = () => {
-    // TODO: 추후에 모달이 열리게 구현 예정
+    if (phoneNumber.length !== PHONE_NUMBER_LENGTH) {
+      alert('올바른 전화번호를 입력해주세요.');
+      return;
+    }
+    openModal();
   };
 
   const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +74,15 @@ const useDialPad = () => {
     setPhoneNumber((prev) => addHypen(prev + dialKey));
   };
 
-  return { phoneNumber, phoneNumberRef, handlePhoneNumber, handleBackspace, pressPad };
+  return {
+    phoneNumber,
+    phoneNumberRef,
+    handlePhoneNumber,
+    handleBackspace,
+    pressPad,
+    isOpen,
+    closeModal,
+  };
 };
 
 export default useDialPad;

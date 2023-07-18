@@ -5,10 +5,12 @@ const useModal = () => {
 
   const openModal = useCallback(() => {
     setOpen(true);
+    document.body.style.overflow = 'hidden';
   }, []);
 
   const closeModal = useCallback(() => {
     setOpen(false);
+    document.body.style.overflow = 'unset';
   }, []);
 
   return {
