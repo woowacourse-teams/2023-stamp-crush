@@ -1,10 +1,9 @@
-import Template from '../../components/Template';
 import Dialpad from '../../components/Dialpad';
-import { Container, PrivacyBox, Title } from './style';
+import { Container, PageContainer, PrivacyBox, Title } from './style';
 
 const EnterPhoneNumber = () => {
   return (
-    <Template>
+    <PageContainer>
       <Title>전화번호 입력</Title>
       <Container>
         <PrivacyBox>
@@ -13,7 +12,7 @@ const EnterPhoneNumber = () => {
         </PrivacyBox>
         <Dialpad />
       </Container>
-    </Template>
+    </PageContainer>
   );
 };
 
