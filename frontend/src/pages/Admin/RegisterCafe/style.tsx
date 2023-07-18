@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ContentContainer = styled.main`
   display: flex;
   justify-content: center;
+  padding-top: 48px;
 `;
 
 export const RegisterCafeInputForm = styled.form`
@@ -13,10 +14,7 @@ export const RegisterCafeInputForm = styled.form`
   position: relative;
 
   & > button {
-    position: absolute;
-    right: 0;
-    bottom: -100px;
-
+    margin-left: auto;
     width: 160px;
     height: 56px;
 
