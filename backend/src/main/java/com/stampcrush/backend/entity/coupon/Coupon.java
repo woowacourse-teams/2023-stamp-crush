@@ -64,6 +64,10 @@ public class Coupon extends BaseDate {
         this.status = CouponStatus.REWARDED;
     }
 
+    public void expire() {
+        this.status = CouponStatus.EXPIRED;
+    }
+
     public boolean isUsing() {
         return this.status == CouponStatus.USING;
     }
@@ -92,5 +96,21 @@ public class Coupon extends BaseDate {
 
     public LocalDateTime calculateExpireDate() {
         return this.getCreatedAt().plusMonths(this.couponPolicy.getExpiredPeriod());
+    }
+
+    public boolean isNotAccessible(Customer customer, Cafe cafe) {
+        return !this.customer.equals(customer) || !this.cafe.equals(cafe);
+    }
+
+    public void accumulate() {
+        Stamp stamp = new Stamp();
+        stamp.registerCoupon(this);
+        if (couponPolicy.isSameMaxStampCount(stamps.size())) {
+            status = CouponStatus.REWARDED;
+        }
+    }
+
+    public String getRewardName() {
+        return couponPolicy.getRewardName();
     }
 }

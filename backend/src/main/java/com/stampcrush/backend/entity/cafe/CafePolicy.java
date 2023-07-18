@@ -1,6 +1,7 @@
 package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -44,5 +45,9 @@ public class CafePolicy extends BaseDate {
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public CouponPolicy copy() {
+        return new CouponPolicy(maxStampCount, reward, expirePeriod);
     }
 }
