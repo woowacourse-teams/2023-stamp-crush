@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { PageContainer } from '../../../style/layout/common';
 
-export const CreateCouponContainer = styled(PageContainer)``;
+export const ModifyCouponPolicyContainer = styled(PageContainer)``;
 
 export const NextButtonWrapper = styled.div`
   display: flex;

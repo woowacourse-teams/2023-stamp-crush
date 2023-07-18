@@ -32,3 +32,8 @@ export const PrivacyBox = styled.section`
     margin-bottom: 15px;
   }
 `;
+
+export const PageContainer = styled.div`
+  width: 100vw;
+  height: 87vh;
+`;

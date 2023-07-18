@@ -1,5 +1,4 @@
 import CustomerList from './pages/Admin/CustomerList';
-import MakeCouponPolicy from './pages/Admin/MakeCouponPolicy';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/CouponList';
 import EnterPhoneNumber from './pages/EnterPhoneNumber';
@@ -12,8 +11,8 @@ import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import History from './pages/History';
 import Template from './components/Template';
-import CreateCoupon from './pages/Admin/CreateCoupon';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
+import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 
 const AdminRoot = () => {
   return (
@@ -46,14 +45,12 @@ const Router = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <CustomerList /> },
-
-        { path: 'register-cafe', element: <RegisterCafe /> },
         {
-          path: 'create-coupon',
+          path: 'modify-coupon-policy',
           children: [
             {
               path: '1',
-              element: <CreateCoupon />,
+              element: <ModifyCouponPolicy />,
             },
             {
               path: '2',
@@ -61,13 +58,14 @@ const Router = () => {
             },
           ],
         },
-        { path: 'make-coupon-policy', element: <MakeCouponPolicy /> },
         { path: 'manage-cafe', element: <ManageCafe /> },
       ],
     },
     { path: '/admin/login', element: <Login /> },
     { path: '/admin/sign-up', element: <SignUp /> },
-    { path: '/admin/enter', element: <EnterPhoneNumber /> },
+    { path: '/admin/earn-stamp', element: <EnterPhoneNumber /> },
+    { path: '/admin/use-reward', element: <EnterPhoneNumber /> },
+    { path: '/admin/register-cafe', element: <RegisterCafe /> },
     // 고객
     {
       path: '/',

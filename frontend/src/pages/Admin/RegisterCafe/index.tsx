@@ -3,6 +3,7 @@ import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import Header from '../../../components/Header';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -51,58 +52,61 @@ const RegisterCafe = () => {
   };
 
   return (
-    <ContentContainer>
-      <RegisterCafeInputForm onSubmit={submitCafeInfo}>
-        <Title>내 카페 등록</Title>
-        <InputWithButtonWrapper>
+    <>
+      <Header />
+      <ContentContainer>
+        <RegisterCafeInputForm onSubmit={submitCafeInfo}>
+          <Title>내 카페 등록</Title>
+          <InputWithButtonWrapper>
+            <Input
+              id={'business-registration-number-input'}
+              ref={businessRegistrationNumberInputRef}
+              label={'사업자등록번호'}
+              width={410}
+              placeholder={'사업자등록번호를 입력해주세요.'}
+              required={true}
+            />
+            <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
+              인증하기
+            </Button>
+          </InputWithButtonWrapper>
           <Input
-            id={'business-registration-number-input'}
-            ref={businessRegistrationNumberInputRef}
-            label={'사업자등록번호'}
-            width={410}
-            placeholder={'사업자등록번호를 입력해주세요.'}
+            id={'cafe-name-input'}
+            ref={cafeNameInputRef}
+            label={'카페명'}
+            width={550}
+            placeholder={'카페명을 입력해주세요.'}
             required={true}
           />
-          <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
-            인증하기
-          </Button>
-        </InputWithButtonWrapper>
-        <Input
-          id={'cafe-name-input'}
-          ref={cafeNameInputRef}
-          label={'카페명'}
-          width={550}
-          placeholder={'카페명을 입력해주세요.'}
-          required={true}
-        />
-        <InputWithButtonWrapper>
+          <InputWithButtonWrapper>
+            <Input
+              id={'cafe-address-input'}
+              ref={roadAddressInputRef}
+              label={'카페 주소'}
+              value={roadAddress}
+              width={410}
+              placeholder={'카페 주소를 입력해주세요.'}
+              required={true}
+            />
+            <Button type="button" variant={'secondary'} size={'medium'} onClick={handleClick}>
+              주소 찾기
+            </Button>
+          </InputWithButtonWrapper>
           <Input
-            id={'cafe-address-input'}
-            ref={roadAddressInputRef}
-            label={'카페 주소'}
-            value={roadAddress}
-            width={410}
-            placeholder={'카페 주소를 입력해주세요.'}
+            id={'detailed-address-input'}
+            ref={detailAddressInputRef}
+            label={'상세 주소'}
+            width={550}
+            placeholder={'상세 주소를 입력해주세요.'}
             required={true}
           />
-          <Button type="button" variant={'secondary'} size={'medium'} onClick={handleClick}>
-            주소 찾기
-          </Button>
-        </InputWithButtonWrapper>
-        <Input
-          id={'detailed-address-input'}
-          ref={detailAddressInputRef}
-          label={'상세 주소'}
-          width={550}
-          placeholder={'상세 주소를 입력해주세요.'}
-          required={true}
-        />
 
-        <Button type="submit" id="register-cafe-submit-btn" variant={'primary'} size={'medium'}>
-          등록하기
-        </Button>
-      </RegisterCafeInputForm>
-    </ContentContainer>
+          <Button type="submit" id="register-cafe-submit-btn" variant={'primary'} size={'medium'}>
+            등록하기
+          </Button>
+        </RegisterCafeInputForm>
+      </ContentContainer>
+    </>
   );
 };
 
