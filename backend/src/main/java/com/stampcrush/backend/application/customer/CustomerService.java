@@ -26,9 +26,11 @@ public class CustomerService {
     public CustomersFindResultDto findCustomer(String phoneNumber) {
         List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
 
-        return new CustomersFindResultDto(customers.stream()
+        List<CustomerFindDto> customerFindDtos = customers.stream()
                 .map(CustomerFindDto::from)
-                .collect(toList()));
+                .collect(toList());
+
+        return new CustomersFindResultDto(customerFindDtos);
     }
 
     @Transactional

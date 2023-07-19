@@ -1,6 +1,7 @@
 package com.stampcrush.backend.api.customer;
 
 import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.customer.CustomerService;
 import com.stampcrush.backend.application.customer.dto.CustomersFindResultDto;
@@ -10,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +25,10 @@ public class CustomerApiController {
     public ResponseEntity<CustomersFindResponse> findCustomer(@RequestParam("phone-number") String phoneNumber) {
         CustomersFindResultDto customers = customerService.findCustomer(phoneNumber);
 
-        return ResponseEntity.ok().body(CustomersFindResponse.from(customers));
+        List<CustomerFindResponse> customerFindResponses = customers.getCustomer().stream()
+                .map(CustomerFindResponse::from).collect(toList());
+
+        return ResponseEntity.ok().body(new CustomersFindResponse(customerFindResponses));
     }
 
     @PostMapping("/temporary-customers")
