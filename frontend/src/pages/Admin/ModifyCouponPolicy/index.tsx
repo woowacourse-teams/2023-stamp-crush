@@ -57,7 +57,7 @@ const ModifyCouponPolicy = () => {
     navigate('/admin/modify-coupon-policy/2', {
       state: {
         createdType,
-        rewardInputRef: rewardInputRef.current?.value,
+        reward: rewardInputRef.current?.value,
         expireSelect,
         stampCount,
       },
