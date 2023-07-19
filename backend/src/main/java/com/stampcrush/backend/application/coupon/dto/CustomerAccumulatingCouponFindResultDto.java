@@ -1,6 +1,5 @@
 package com.stampcrush.backend.application.coupon.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Customer;
 import lombok.AllArgsConstructor;
@@ -22,8 +21,6 @@ public class CustomerAccumulatingCouponFindResultDto {
     private Long customerId;
     private String nickname;
     private int stampCount;
-
-    @JsonFormat(pattern = "yyyy:MM:dd")
     private LocalDateTime expireDate;
     private boolean isPrevious;
 

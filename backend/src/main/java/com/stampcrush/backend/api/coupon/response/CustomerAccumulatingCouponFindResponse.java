@@ -1,6 +1,5 @@
 package com.stampcrush.backend.api.coupon.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -21,8 +20,6 @@ public class CustomerAccumulatingCouponFindResponse {
     private Long customerId;
     private String nickname;
     private int stampCount;
-
-    @JsonFormat(pattern = "yyyy:MM:dd")
     private LocalDateTime expireDate;
     private boolean isPrevious;
 
