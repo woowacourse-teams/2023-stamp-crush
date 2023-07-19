@@ -44,8 +44,14 @@ const EXPIRE_DATE_OPTIONS = [
 const ModifyCouponPolicy = () => {
   const [createdType, setCreatedType] = useState('');
   const rewardInputRef = useRef<HTMLInputElement>(null);
-  const [expireSelect, setExpireSelect] = useState(EXPIRE_DATE_OPTIONS[0].value);
-  const [stampCount, setStampCount] = useState(STAMP_COUNT_OPTIONS[0].value);
+  const [expireSelect, setExpireSelect] = useState({
+    key: EXPIRE_DATE_OPTIONS[0].key,
+    value: EXPIRE_DATE_OPTIONS[0].value,
+  });
+  const [stampCount, setStampCount] = useState({
+    key: STAMP_COUNT_OPTIONS[0].key,
+    value: STAMP_COUNT_OPTIONS[0].value,
+  });
   const navigate = useNavigate();
 
   const navigateNextPage = () => {
@@ -53,8 +59,8 @@ const ModifyCouponPolicy = () => {
       state: {
         createdType,
         rewardInputRef: rewardInputRef.current?.value,
-        expireSelect,
-        stampCount,
+        expireSelect: expireSelect.value,
+        stampCount: stampCount.value,
       },
     });
   };
