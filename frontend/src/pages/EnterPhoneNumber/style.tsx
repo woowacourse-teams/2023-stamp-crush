@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 export const Title = styled.header`
+  position: relative;
   width: 100vw;
   height: 110px;
   border-bottom: 3px solid ${({ theme }) => theme.colors.gray400};
@@ -10,6 +11,15 @@ export const Title = styled.header`
   text-align: center;
   font-size: 30px;
   font-weight: 600;
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
 `;
 
 export const Container = styled.div`
