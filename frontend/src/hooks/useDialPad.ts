@@ -32,12 +32,12 @@ const useDialPad = () => {
       return;
     }
     if (location.pathname === '/admin/stamp') {
-      navigate('/admin/stamp/1', { state: phoneNumber });
+      navigate('/admin/stamp/1', { state: { phoneNumber } });
       return;
     }
 
     if (location.pathname === '/admin/enter-reward') {
-      navigate('/admin/reward/input-reward', { state: phoneNumber });
+      navigate('/admin/reward/input-reward', { state: { phoneNumber } });
       return;
     }
   };
