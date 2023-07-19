@@ -168,13 +168,13 @@ class CouponRepositoryTest {
 
     @Test
     void 쿠폰X_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
-        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe1, tmpCustomer1, CouponStatus.USING);
+        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe1, tmpCustomer1, CouponStatus.ACCUMULATING);
         assertThat(customerCoupon).isEmpty();
     }
 
     @Test
     void 쿠폰O_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
-        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.USING);
+        List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.ACCUMULATING);
         assertThat(customerCoupon).containsExactly(coupon4);
     }
 
