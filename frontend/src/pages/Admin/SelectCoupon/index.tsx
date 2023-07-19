@@ -2,14 +2,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Template from '../../../components/Template';
-import { Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
+import { RowSpacing, Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
 import { ChangeEvent, useState } from 'react';
 import {
   CouponSelectContainer,
   CouponSelector,
+  CouponSelectorContainer,
   CouponSelectorLabel,
   CouponSelectorWrapper,
   ExpirationDate,
+  SelectorItemWrapper,
   TitleWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -149,43 +151,53 @@ const SelectCoupon = () => {
             <Title>스탬프 적립</Title>
             <SubTitle>1/2</SubTitle>
           </TitleWrapper>
+          <Spacing $size={90} />
           <SubTitle>{foundCustomer.nickname} 고객님의 현재 쿠폰</SubTitle>
-          {coupon.coupons.length > 0 && (
-            <>
-              <Text>
-                현재 스탬프 개수: {foundCoupon.stampCount}/{8}
-              </Text>
-              <ExpirationDate>쿠폰 유효기간: {foundCoupon.expireDate}까지</ExpirationDate>
-            </>
-          )}
-
-          <CouponSelectorWrapper>
-            <CouponSelector
-              type="radio"
-              value="new"
-              size={20}
-              onChange={selectCoupon}
-              checked={selectedCoupon === 'new'}
-            />
-            <CouponSelectorLabel $isChecked={!isPrevious}>
-              새로운 쿠폰을 만들게요
-            </CouponSelectorLabel>
-          </CouponSelectorWrapper>
-          <Spacing $size={40} />
-          {coupon.coupons.length > 0 && (
+          <Spacing $size={80} />
+          <CouponSelectorContainer>
+            {coupon.coupons.length > 0 && (
+              <CouponSelectorWrapper>
+                <Text>
+                  현재 스탬프 개수: {foundCoupon.stampCount}/{8}
+                </Text>
+                <Spacing $size={8} />
+                <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+                <Spacing $size={45} />
+                <ExpirationDate>쿠폰 유효기간: {foundCoupon.expireDate}까지</ExpirationDate>
+              </CouponSelectorWrapper>
+            )}
+            <RowSpacing $size={146} />
             <CouponSelectorWrapper>
-              <CouponSelector
-                type="radio"
-                value="current"
-                size={20}
-                onChange={selectCoupon}
-                checked={selectedCoupon === 'current'}
-              />
-              <CouponSelectorLabel $isChecked={isPrevious}>
-                현재 쿠폰에 적립할게요
-              </CouponSelectorLabel>
+              <SelectorItemWrapper>
+                <CouponSelector
+                  type="checkbox"
+                  value="new"
+                  size={20}
+                  onChange={selectCoupon}
+                  checked={selectedCoupon === 'new'}
+                />
+                <CouponSelectorLabel $isChecked={!isPrevious}>
+                  새로운 쿠폰을 만들게요
+                </CouponSelectorLabel>
+              </SelectorItemWrapper>
+              <Spacing $size={40} />
+              {coupon.coupons.length > 0 && (
+                <SelectorItemWrapper>
+                  <CouponSelector
+                    type="checkbox"
+                    value="current"
+                    size={20}
+                    onChange={selectCoupon}
+                    checked={selectedCoupon === 'current'}
+                  />
+                  <CouponSelectorLabel $isChecked={isPrevious}>
+                    현재 쿠폰에 적립할게요
+                  </CouponSelectorLabel>
+                </SelectorItemWrapper>
+              )}
             </CouponSelectorWrapper>
-          )}
+          </CouponSelectorContainer>
+          <Spacing $size={70} />
           <Button
             onClick={() =>
               selectedCoupon === 'current'

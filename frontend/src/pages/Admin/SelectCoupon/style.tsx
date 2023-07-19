@@ -12,6 +12,9 @@ export const CouponSelectContainer = styled.main`
   display: flex;
   flex-direction: column;
 
+  width: fit-content;
+  margin-top: 48px;
+
   & > button {
     margin-left: auto;
   }
@@ -37,9 +40,20 @@ export const CouponSelectorLabel = styled.label<CouponSelectorLabelProps>`
   color: ${(props) => (props.$isChecked ? 'black' : '#888')};
 `;
 
-export const CouponSelectorWrapper = styled.div`
+export const SelectorItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 20px;
+`;
+
+export const CouponSelectorContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const CouponSelectorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
