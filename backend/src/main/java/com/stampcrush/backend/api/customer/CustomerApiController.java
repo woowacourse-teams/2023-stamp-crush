@@ -12,6 +12,7 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class CustomerApiController {
 
     private final CustomerService customerService;

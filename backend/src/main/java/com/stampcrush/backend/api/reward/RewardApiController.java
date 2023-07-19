@@ -17,6 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class RewardApiController {
 
     private final RewardService rewardService;
