@@ -48,7 +48,7 @@ public class CafeCouponSettingService {
         Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
-            currentCafePolicy.delete();
+            cafePolicyRepository.delete(currentCafePolicy);
         }
     }
 
@@ -56,7 +56,7 @@ public class CafeCouponSettingService {
         Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
-            currentCafeCouponDesign.delete();
+            cafeCouponDesignRepository.delete(currentCafeCouponDesign);
         }
     }
 
