@@ -2,12 +2,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Template from '../../../components/Template';
-import { SubTitle, Text, Title } from '../../../style/layout/common';
-import { ExpirationDate, TitleWrapper } from '../SelectCoupon/style';
+import { RowSpacing, Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
+import {
+  CouponSelectorContainer,
+  CouponSelectorWrapper,
+  ExpirationDate,
+  TitleWrapper,
+} from '../SelectCoupon/style';
 import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { EarnStampContainer } from './style';
+import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
 import { getCoupon } from '../SelectCoupon';
 
 const postEarnStamp = async (earningStampCount: number, customerId: string, couponId: string) => {
@@ -66,18 +71,32 @@ const EarnStamp = () => {
             <Title>스탬프 적립</Title>
             <SubTitle>2/2</SubTitle>
           </TitleWrapper>
+          <Spacing $size={90} />
           <SubTitle>{state.customer.nickname} 고객님의 현재 쿠폰</SubTitle>
-
-          <>
-            <Text>
-              현재 스탬프 개수: {couponResponse.coupons[0].stampCount}/{8}
-            </Text>
-            <ExpirationDate>
-              쿠폰 유효기간: {couponResponse.coupons[0].expireDate}까지
-            </ExpirationDate>
-          </>
-          <SubTitle>현재 쿠폰에 적립할 스탬프 개수를 설정해주세요.</SubTitle>
-          <Stepper value={stamp} setValue={setStamp} />
+          <Spacing $size={80} />
+          <CouponSelectorContainer>
+            <CouponSelectorWrapper>
+              <Text>
+                현재 스탬프 개수: {couponResponse.coupons[0].stampCount}/{8}
+              </Text>
+              <Spacing $size={8} />
+              <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+              <Spacing $size={45} />
+              <ExpirationDate>
+                쿠폰 유효기간: {couponResponse.coupons[0].expireDate}까지
+              </ExpirationDate>
+            </CouponSelectorWrapper>
+            <RowSpacing $size={110} />
+            <CouponStepperWrapper>
+              <StepperGuide>
+                현재 쿠폰에 적립할
+                <br /> 스탬프 개수를 설정해주세요.
+              </StepperGuide>
+              <Spacing $size={30} />
+              <Stepper value={stamp} setValue={setStamp} />
+            </CouponStepperWrapper>
+          </CouponSelectorContainer>
+          <Spacing $size={70} />
           <Button onClick={earnStamp}>적립하기</Button>
         </EarnStampContainer>
       </Template>
