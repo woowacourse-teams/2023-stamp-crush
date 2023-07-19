@@ -197,7 +197,7 @@ class CouponRepositoryTest {
     @Test
     void 쿠폰들의_createdAt을_비교한다() {
         // given, when
-        LocalDateTime visitTime = coupon1.compareCreatedAtReturnFaster(coupon5.getCreatedAt());
+        LocalDateTime visitTime = coupon1.compareCreatedAtAndReturnEarlier(coupon5.getCreatedAt());
 
         // then
         assertThat(visitTime).isEqualTo(coupon1.getCreatedAt());

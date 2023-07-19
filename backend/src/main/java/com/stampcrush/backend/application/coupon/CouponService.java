@@ -58,7 +58,7 @@ public class CouponService {
             stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
             rewardCount += addRewardCouponCount(coupon);
             visitCount += coupon.calculateVisitCount();
-            firstVisitDate = coupon.compareCreatedAtReturnFaster(firstVisitDate);
+            firstVisitDate = coupon.compareCreatedAtAndReturnEarlier(firstVisitDate);
         }
         return new CustomerInfo(stampCount, rewardCount, visitCount, firstVisitDate);
     }
