@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Profile("dev")
 public class SampleDataInitializer implements ApplicationRunner {
-    private static final String SAMPLE_FRONT_IMAGE_URL = "https://sonoad.com/wp-content/uploads/2021/02/%EC%BB%A4%ED%94%BC-%EC%BF%A0%ED%8F%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%B9%B4%ED%8E%98%EC%BF%A0%ED%8F%B0-%EC%84%A4%EB%AA%85-1.jpg";
-    private static final String SAMPLE_BACK_IMAGE_URL = "https://sonoad.com/wp-content/uploads/2021/02/%EC%BB%A4%ED%94%BC-%EC%BF%A0%ED%8F%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%B9%B4%ED%8E%98%EC%BF%A0%ED%8F%B0-%EC%84%A4%EB%AA%85-2.jpg";
-    private static final String SAMPLE_STAMP_IMAGE_URL = "https://files.slack.com/files-pri/T05FM0W106M-F05FY6Y4YV6/image.png";
+    private static final String SAMPLE_FRONT_IMAGE_URL = "frontImageUrl";
+    private static final String SAMPLE_BACK_IMAGE_URL = "backImageUrl";
+    private static final String SAMPLE_STAMP_IMAGE_URL = "sampleImageUrl";
 
     private final SampleFrontImageRepository sampleFrontImageRepository;
     private final SampleBackImageRepository sampleBackImageRepository;
