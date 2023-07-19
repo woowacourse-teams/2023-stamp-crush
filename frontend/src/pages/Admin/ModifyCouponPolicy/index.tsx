@@ -49,6 +49,11 @@ const ModifyCouponPolicy = () => {
   const navigate = useNavigate();
 
   const navigateNextPage = () => {
+    if (!createdType || !rewardInputRef.current?.value || !expireSelect || !stampCount) {
+      alert('모두 작성해주세요.');
+      return;
+    }
+
     navigate('/admin/modify-coupon-policy/2', {
       state: {
         createdType,
@@ -61,6 +66,7 @@ const ModifyCouponPolicy = () => {
 
   return (
     <ModifyCouponPolicyContainer>
+      <SectionSpacing />
       <Title>쿠폰 제작 및 변경</Title>
       <SectionSpacing />
       <SectionTitle>어떻게 제작하시겠어요?</SectionTitle>
@@ -70,6 +76,7 @@ const ModifyCouponPolicy = () => {
       <SectionTitle>목표 스탬프 갯수</SectionTitle>
       <ParagraphSpacing />
       <Text>리워드를 지급할 스탬프 갯수를 작성해주세요.</Text>
+      <ParagraphSpacing />
       <SelectBoxWrapper>
         <SelectBox
           options={STAMP_COUNT_OPTIONS}
@@ -77,7 +84,7 @@ const ModifyCouponPolicy = () => {
           setCheckedOption={setStampCount}
         />
       </SelectBoxWrapper>
-      {/* TODO: placeholder가 적용되지 않는 오류가 있음. */}
+      <SectionSpacing />
       <Input
         id="create-coupon-reward-input"
         label="리워드 명"
@@ -94,6 +101,7 @@ const ModifyCouponPolicy = () => {
         고객이 가지게 될 쿠폰의 유효기간입니다. 유효기간이 지나면 해당 쿠폰의 스탬프가 모두
         소멸됩니다.
       </Text>
+      <ParagraphSpacing />
       <SelectBoxWrapper>
         <SelectBox
           options={EXPIRE_DATE_OPTIONS}
