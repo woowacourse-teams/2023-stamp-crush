@@ -86,7 +86,7 @@ const ChoiceTemplate = ({
   if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
 
   // TODO: 네이밍 변경
-  const getImageFromData = (templateSelected: string) => {
+  const getImageFromData = (templateSelected: string): CouponImage[] | BackCouponImage[] => {
     switch (templateSelected) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         return sampleImages.sampleFrontImages;
@@ -155,7 +155,11 @@ const ChoiceTemplate = ({
             ref={imageRef}
             onClick={() => {
               // TODO: 타입에러 수정하기
-              selectSampleImage(element.stampCoordinates);
+              if ('stampCoordinates' in element) {
+                selectSampleImage(element.stampCoordinates);
+              } else {
+                selectSampleImage();
+              }
             }}
           />
         ))}
