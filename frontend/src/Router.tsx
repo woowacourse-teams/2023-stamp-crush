@@ -13,6 +13,8 @@ import History from './pages/History';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
+import EarnStamp from './pages/Admin/EarnStamp';
+import SelectCoupon from './pages/Admin/SelectCoupon';
 
 const AdminRoot = () => {
   return (
@@ -63,7 +65,14 @@ const Router = () => {
     },
     { path: '/admin/login', element: <Login /> },
     { path: '/admin/sign-up', element: <SignUp /> },
-    { path: '/admin/earn-stamp', element: <EnterPhoneNumber /> },
+    {
+      path: 'admin/stamp',
+      children: [
+        { index: true, element: <EnterPhoneNumber /> },
+        { path: '1', element: <SelectCoupon /> },
+        { path: '2', element: <EarnStamp /> },
+      ],
+    },
     { path: '/admin/use-reward', element: <EnterPhoneNumber /> },
     { path: '/admin/register-cafe', element: <RegisterCafe /> },
     // 고객
