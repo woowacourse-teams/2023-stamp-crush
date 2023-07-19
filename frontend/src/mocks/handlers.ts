@@ -26,7 +26,7 @@ export const handlers = [
     if (!businessRegistrationNumber || !name || !roadAddress || !detailAddress) {
       return res(ctx.status(400));
     }
-    return res(ctx.status(201), ctx.set('Location', `/cafes/1`));
+    return res(ctx.status(201), ctx.set('Location', '/cafes/1'));
   }),
 
   // 스탬프 개수별로 기본 샘플 조회
@@ -90,8 +90,8 @@ export const handlers = [
   rest.post('/temporary-customers', async (req, res, ctx) => {
     const body = await req.json();
     const createdCustomer = {
-      id: Math.floor(Math.random()),
-      nickname: '레고(임시회원임)',
+      id: Math.floor(Math.random() * 1000 + 29),
+      nickname: '레고(임시회원, 신규)',
       phoneNumber: body.phoneNumber,
     };
 
@@ -105,7 +105,7 @@ export const handlers = [
     const activeQueryParam = req.url.searchParams.get('active');
     const { customerId } = req.params;
 
-    if (activeQueryParam === 'true' || !cafeIdQueryParam || !activeQueryParam || !customerId) {
+    if (!cafeIdQueryParam || !activeQueryParam || !customerId) {
       return res(ctx.status(400));
     }
     const findCouponsResult = coupons.find(
@@ -120,7 +120,7 @@ export const handlers = [
       return res(ctx.status(200), ctx.json({ coupons: [] }));
     }
 
-    return res(ctx.status(200), ctx.json(findCouponsResult));
+    return res(ctx.status(200), ctx.json({ coupons: [findCouponsResult] }));
   }),
 
   //고객의 리워드 조회
@@ -140,14 +140,18 @@ export const handlers = [
   //쿠폰 신규 발급
   rest.post('/customers/:customerId/coupons', async (req, res, ctx) => {
     const { customerId } = req.params;
+
+    const customerIdNum = +customerId;
     const coupon = {
-      id: Math.floor(Math.random()),
-      customerId: customerId,
+      id: Math.floor(Math.random() * 1000 + 23),
+      customerId: customerIdNum,
       nickname: '윤생',
       stampCount: 1,
       expireDate: '2023:08:11',
       isPrevious: 'false',
     };
+
+    coupons.push(coupon);
 
     return res(ctx.status(201), ctx.json({ couponId: coupon.id }));
   }),

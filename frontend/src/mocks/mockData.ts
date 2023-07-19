@@ -248,7 +248,7 @@ export const customers: MockCustomer[] = [
 export const mockCoupons = [
   {
     id: 1,
-    customerId: 4,
+    customerId: 1,
     nickname: '윤생',
     stampCount: 3,
     expireDate: '2023:08:11',
