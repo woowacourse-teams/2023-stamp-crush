@@ -117,7 +117,7 @@ const CustomerList = () => {
           <CustomerBox key={id}>
             <LeftInfo>
               <Name>
-                <h1>{nickname}</h1>{' '}
+                <h1>{nickname}</h1>
                 <Badge $isRegistered={isRegistered}>{isRegistered ? '회원' : '임시'}</Badge>
               </Name>
               <span>
