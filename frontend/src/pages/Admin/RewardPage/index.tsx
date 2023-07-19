@@ -74,7 +74,7 @@ const RewardPage = () => {
       enabled: !!customer,
     },
   );
-  const mutateReward = useMutation({
+  const { mutate: mutateReward } = useMutation({
     mutationFn: (rewardId: number) => patchReward(customer[0].id, rewardId),
     onSuccess() {
       navigate('/admin');
@@ -85,7 +85,7 @@ const RewardPage = () => {
   });
 
   const activateRewardButton = (name: string, rewardId: number) => {
-    mutateReward.mutate(rewardId);
+    mutateReward(rewardId);
   };
 
   if (status === 'error') {
