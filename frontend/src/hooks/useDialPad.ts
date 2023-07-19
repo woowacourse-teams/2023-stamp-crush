@@ -1,7 +1,7 @@
 import { PHONE_NUMBER_LENGTH, REGEX } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../components/Dialpad';
-import useModal from './useModal';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -12,8 +12,8 @@ const addHypen = (phoneNumber: string) => {
 const useDialPad = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('010-');
   const phoneNumberRef = useRef<HTMLInputElement>(null);
-
-  const { openModal, closeModal, isOpen } = useModal();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const removeNumber = () => {
     if (phoneNumber.length < 5) {
@@ -31,7 +31,15 @@ const useDialPad = () => {
       alert('올바른 전화번호를 입력해주세요.');
       return;
     }
-    openModal();
+    if (location.pathname === '/admin/stamp') {
+      navigate('/admin/stamp/1', { state: { phoneNumber } });
+      return;
+    }
+
+    if (location.pathname === '/admin/enter-reward') {
+      navigate('/admin/reward/input-reward', { state: { phoneNumber } });
+      return;
+    }
   };
 
   const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +72,7 @@ const useDialPad = () => {
       removeNumber();
       return;
     }
-    if (dialKey === '적립') {
+    if (dialKey === '입력') {
       enter();
       return;
     }
@@ -80,8 +88,6 @@ const useDialPad = () => {
     handlePhoneNumber,
     handleBackspace,
     pressPad,
-    isOpen,
-    closeModal,
   };
 };
 

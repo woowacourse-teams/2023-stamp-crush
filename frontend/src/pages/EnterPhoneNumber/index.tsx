@@ -1,10 +1,23 @@
 import Dialpad from '../../components/Dialpad';
-import { Container, PageContainer, PrivacyBox, Title } from './style';
+import { Container, IconWrapper, PageContainer, PrivacyBox, Title } from './style';
+import { IoIosArrowBack } from 'react-icons/Io';
+import { useNavigate } from 'react-router-dom';
 
 const EnterPhoneNumber = () => {
+  const navigate = useNavigate();
+
+  const navigateBack = () => {
+    navigate('/admin');
+  };
+
   return (
     <PageContainer>
-      <Title>전화번호 입력</Title>
+      <Title>
+        <IconWrapper onClick={navigateBack}>
+          <IoIosArrowBack size="40" />
+        </IconWrapper>
+        전화번호 입력
+      </Title>
       <Container>
         <PrivacyBox>
           <h1>개인정보 제공동의</h1>
