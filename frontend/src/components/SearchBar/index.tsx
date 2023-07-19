@@ -1,6 +1,6 @@
 import { BaseInput, Container, SearchButton } from './style';
 import { BsSearch } from 'react-icons/bs';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 
 export interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
   searchWord: string;
@@ -13,8 +13,12 @@ const SearchBar = ({ searchWord, setSearchWord, onClick, ...props }: SearchBarPr
     setSearchWord(e.target.value);
   };
 
+  const handleForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
-    <Container>
+    <Container onSubmit={handleForm}>
       <BaseInput value={searchWord} onChange={search} {...props} />
       <SearchButton type="submit" onClick={onClick}>
         <BsSearch color="white" />
