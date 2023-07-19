@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
-@Component
+//@Component
+//@Profile("dev")
 @RequiredArgsConstructor
-@Profile("dev")
 public class CouponSettingDataInitializer implements ApplicationRunner {
 
     private final CafeRepository cafeRepository;

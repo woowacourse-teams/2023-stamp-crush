@@ -8,10 +8,7 @@ import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
@@ -22,9 +19,9 @@ public class CafeApiController {
 
     private final CafeService cafeService;
 
-    @GetMapping("/cafes")
-    ResponseEntity<CafesFindResponse> findAllCafes() {
-        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(1L);
+    @GetMapping("/cafes/{ownerId}")
+    ResponseEntity<CafesFindResponse> findAllCafes(@PathVariable Long ownerId) {
+        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(ownerId);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();
@@ -32,10 +29,10 @@ public class CafeApiController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cafes")
-    ResponseEntity<Void> createCafe(@RequestBody CafeCreateRequest cafeCreateRequest) {
+    @PostMapping("/cafes/{ownerId}")
+    ResponseEntity<Void> createCafe(@PathVariable Long ownerId, @RequestBody CafeCreateRequest cafeCreateRequest) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
-                1L,
+                ownerId,
                 cafeCreateRequest.getName(),
                 cafeCreateRequest.getOpenTime(),
                 cafeCreateRequest.getCloseTime(),
