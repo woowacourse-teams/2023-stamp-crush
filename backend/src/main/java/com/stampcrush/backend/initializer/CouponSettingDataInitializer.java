@@ -20,7 +20,7 @@ import java.time.LocalTime;
 
 @Component
 @RequiredArgsConstructor
-@Profile("prod")
+@Profile("dev")
 public class CouponSettingDataInitializer implements ApplicationRunner {
 
     private final CafeRepository cafeRepository;
