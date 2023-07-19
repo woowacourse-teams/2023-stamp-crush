@@ -3,7 +3,7 @@ import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Template from '../../../components/Template';
 import { Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   CouponSelectContainer,
   CouponSelector,
@@ -76,9 +76,14 @@ const SelectCoupon = () => {
   const {
     data: customer,
     status: customerStatus,
-    isSuccess,
     refetch: refetchCustomer,
-  } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber));
+  } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber), {
+    onSuccess: (data) => {
+      if (data.customer?.[0] === null) {
+        mutateTempCustomer(phoneNumber);
+      }
+    },
+  });
 
   // 임시 가입 고객 생성
   const { mutate: mutateTempCustomer, status: tempCustomerStatus } = useMutation(
@@ -93,12 +98,6 @@ const SelectCoupon = () => {
       },
     },
   );
-
-  useEffect(() => {
-    if (isSuccess && customer?.customer?.[0] === null) {
-      mutateTempCustomer(phoneNumber);
-    }
-  }, [isSuccess, customer, mutateTempCustomer, phoneNumber]);
 
   // 쿠폰 조회
   const { data: coupon, status: couponStatus } = useQuery(
