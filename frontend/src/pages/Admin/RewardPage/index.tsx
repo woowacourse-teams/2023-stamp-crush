@@ -108,14 +108,12 @@ const RewardPage = () => {
         <Spacing $size={42} />
         <RewardItemContainer>
           {rewards.length ? (
-            rewards.map(({ id, name }) => {
-              return (
-                <RewardItemWrapper key={id}>
-                  <RewardContent>{name}</RewardContent>
-                  <Button onClick={() => activateRewardButton(name, id)}>사용</Button>
-                </RewardItemWrapper>
-              );
-            })
+            rewards.map(({ id, name }) => (
+              <RewardItemWrapper key={id}>
+                <RewardContent>{name}</RewardContent>
+                <Button onClick={() => activateRewardButton(name, id)}>사용</Button>
+              </RewardItemWrapper>
+            ))
           ) : (
             <p>보유한 리워드가 없습니다.</p>
           )}
