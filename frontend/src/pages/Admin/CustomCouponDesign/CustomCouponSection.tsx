@@ -13,12 +13,14 @@ interface CustomCouponSectionProps {
   uploadImageInputId: string;
   imgFileUrl: string;
   uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isCustom: boolean;
 }
 const CustomCouponSection = ({
   label,
   uploadImageInputId,
   imgFileUrl,
   uploadImageFile,
+  isCustom,
 }: CustomCouponSectionProps) => {
   return (
     <CustomCouponSectionContainer>
@@ -30,7 +32,11 @@ const CustomCouponSection = ({
           accept="image/jpg,image/png,image/jpeg,image/gif"
           onChange={uploadImageFile}
         />
-        <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>이미지 업로드 +</ImageUpLoadInputLabel>
+        {isCustom && (
+          <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>
+            이미지 업로드 +
+          </ImageUpLoadInputLabel>
+        )}
       </CouponPreviewHeader>
       <Spacing $size={12} />
       <PreviewImageWrapper $height={150} $width={270}>

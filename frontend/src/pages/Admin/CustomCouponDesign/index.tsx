@@ -36,6 +36,7 @@ const CustomCouponDesign = () => {
               uploadImageInputId="coupon-front-image-input"
               imgFileUrl={frontImage}
               uploadImageFile={uploadFrontImage}
+              isCustom={false}
             />
             <Spacing $size={32} />
             <CustomCouponSection
@@ -43,6 +44,7 @@ const CustomCouponDesign = () => {
               uploadImageInputId="coupon-back-image-input"
               imgFileUrl={backImage}
               uploadImageFile={uploadBackImage}
+              isCustom={false}
             />
           </CouponContainer>
           <RowSpacing $size={72} />
@@ -51,6 +53,7 @@ const CustomCouponDesign = () => {
             uploadImageInputId="stamp-image-input"
             imgFileUrl={stampImage}
             uploadImageFile={uploadStampImage}
+            isCustom={false}
           />
         </ImageUploadContainer>
         <Spacing $size={40} />
