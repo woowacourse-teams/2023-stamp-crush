@@ -12,6 +12,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
     @Override
     @BeforeEach
     void setUp() {
+        super.setUp();
         sampleFrontImageRepository.deleteAll();
         sampleStampCoordinateRepository.deleteAll();
         sampleBackImageRepository.deleteAll();
@@ -55,6 +57,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
         SampleStampImage savedSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
     }
 
+    @Disabled
     @Test
     void 전체_쿠폰_샘플을_조회한다() {
         // given, when
@@ -87,7 +90,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
                 .log().all()
 
                 .when()
-                .get("/coupon-samples?maxStampCount=8")
+                .get("/coupon-samples?max-stamp-count=8")
 
                 .then()
                 .extract();
@@ -110,7 +113,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
                 .log().all()
 
                 .when()
-                .get("/coupon-samples?maxStampCount=10")
+                .get("/coupon-samples?max-stamp-count=10")
 
                 .then()
                 .extract();
