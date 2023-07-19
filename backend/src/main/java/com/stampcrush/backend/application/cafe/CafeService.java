@@ -44,10 +44,6 @@ public class CafeService {
                 .orElseThrow(() -> new IllegalArgumentException("회원가입을 먼저 진행해주세요."));
         Cafe cafe = new Cafe(
                 cafeCreateDto.getName(),
-                cafeCreateDto.getOpenTime(),
-                cafeCreateDto.getCloseTime(),
-                cafeCreateDto.getTelephoneNumber(),
-                cafeCreateDto.getCafeImageUrl(),
                 cafeCreateDto.getRoadAddress(),
                 cafeCreateDto.getDetailAddress(),
                 cafeCreateDto.getBusinessRegistrationNumber(),
