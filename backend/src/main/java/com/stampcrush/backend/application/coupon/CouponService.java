@@ -13,9 +13,9 @@ import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
 import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
@@ -113,7 +113,8 @@ public class CouponService {
                 rewardCount,
                 visitCount,
                 firstVisitDate,
-                customer.isRegistered()
+                customer.isRegistered(),
+                10
         ));
     }
 

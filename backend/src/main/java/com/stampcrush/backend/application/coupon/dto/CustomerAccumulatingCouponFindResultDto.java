@@ -23,6 +23,7 @@ public class CustomerAccumulatingCouponFindResultDto {
     private int stampCount;
     private LocalDateTime expireDate;
     private boolean isPrevious;
+    private int maxStampCount;
 
     public static CustomerAccumulatingCouponFindResultDto of(Coupon coupon, Customer customer, boolean isPrevious) {
         return new CustomerAccumulatingCouponFindResultDto(
@@ -31,6 +32,8 @@ public class CustomerAccumulatingCouponFindResultDto {
                 customer.getNickname(),
                 coupon.getStampCount(),
                 coupon.calculateExpireDate(),
-                isPrevious);
+                isPrevious,
+                10
+        );
     }
 }

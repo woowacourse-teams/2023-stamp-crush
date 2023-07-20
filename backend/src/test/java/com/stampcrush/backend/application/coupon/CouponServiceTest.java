@@ -296,7 +296,8 @@ class CouponServiceTest {
                 registerCustomer1.getNickname(),
                 coupon2.getStampCount(),
                 coupon2.calculateExpireDate(),
-                false);
+                false,
+                10);
 
         //then
         assertThat(result).containsExactly(customerUsingCoupon);

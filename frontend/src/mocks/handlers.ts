@@ -157,7 +157,7 @@ export const handlers = [
   }),
 
   // 스탬프 적립
-  rest.post('/customers/:customerId/coupons/:couponId/stamps', async (req, res, ctx) => {
+  rest.post('/customers/:customerId/coupons/:couponId/stamps/:ownerId', async (req, res, ctx) => {
     const { customerId, couponId } = req.params;
     const { earningStampCount } = await req.json();
     const findCustomer = coupons.find(
