@@ -53,11 +53,12 @@ const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const [customers, setCustomers] = useState<CustomerType[]>([]);
-  const { isLoading, isError, data, isSuccess } = useQuery(['customers'], getList, {
+  const { isLoading, isError, data, isSuccess, refetch:foo } = useQuery(['customers'], getList, {
     onSuccess: (data) => {
       setCustomers(data.customers);
       orderCustomer();
-    }
+    },
+    refetchOnMount: 'always'
   });
 
   const orderCustomer = () => {
@@ -90,6 +91,8 @@ const CustomerList = () => {
     }
   }, [orderOption]);
 
+
+
   if (isLoading) return <CustomerContainer>Loading</CustomerContainer>;
   if (isError) return <CustomerContainer>Error</CustomerContainer>;
 
@@ -104,7 +107,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      {customers.map(
+      {data.customers.map(
         ({
           id,
           nickname,
