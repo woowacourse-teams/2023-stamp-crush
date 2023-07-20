@@ -21,10 +21,10 @@ import org.springframework.stereotype.Component;
 @Order(1)
 public class SampleDataInitializer implements ApplicationRunner {
 
-    private static final String SAMPLE_FRONT_IMAGE_URL = "frontImageUrl";
-    private static final String SAMPLE_BACK_IMAGE_URL = "backImageUrl";
-    private static final String SAMPLE_BACK_IMAGE_URL_2 = "backImageUrl_stamp10";
-    private static final String SAMPLE_STAMP_IMAGE_URL = "sampleImageUrl";
+    private static final String SAMPLE_FRONT_IMAGE_URL = "https://picsum.photos/270/150";
+    private static final String SAMPLE_BACK_IMAGE_URL = "https://picsum.photos/270/150";
+    private static final String SAMPLE_BACK_IMAGE_URL_2 = "https://picsum.photos/270/150";
+    private static final String SAMPLE_STAMP_IMAGE_URL = "https://picsum.photos/50";
 
     private final SampleFrontImageRepository sampleFrontImageRepository;
     private final SampleBackImageRepository sampleBackImageRepository;
