@@ -34,10 +34,10 @@ public class CafeApiController {
     ResponseEntity<Void> createCafe(@PathVariable Long ownerId, @RequestBody CafeCreateRequest cafeCreateRequest) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,
-                cafeCreateRequest.getName(),
-                cafeCreateRequest.getRoadAddress(),
-                cafeCreateRequest.getDetailAddress(),
-                cafeCreateRequest.getBusinessRegistrationNumber());
+                cafeCreateRequest.name(),
+                cafeCreateRequest.roadAddress(),
+                cafeCreateRequest.detailAddress(),
+                cafeCreateRequest.businessRegistrationNumber());
         Long cafeId = cafeService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }
