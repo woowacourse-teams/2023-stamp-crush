@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 @Order(1)
 public class SampleDataInitializer implements ApplicationRunner {
+
     private static final String SAMPLE_FRONT_IMAGE_URL = "frontImageUrl";
     private static final String SAMPLE_BACK_IMAGE_URL = "backImageUrl";
     private static final String SAMPLE_BACK_IMAGE_URL_2 = "backImageUrl_stamp10";

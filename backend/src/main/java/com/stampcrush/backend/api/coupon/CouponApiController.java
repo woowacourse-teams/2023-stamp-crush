@@ -39,7 +39,6 @@ public class CouponApiController {
                 .map(CustomerAccumulatingCouponFindResponse::from)
                 .toList();
 
-
         return ResponseEntity.ok(new CustomerAccumulatingCouponsFindResponse(accumulatingResponses));
     }
 
@@ -49,9 +48,9 @@ public class CouponApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
     }
 
-    @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps")
-    public ResponseEntity<Void> createStamp(@PathVariable Long customerId, @PathVariable Long couponId, @RequestBody StampCreateRequest stampCreateRequest) {
-        StampCreateDto stampCreateDto = new StampCreateDto(1L, customerId, couponId, stampCreateRequest.getEarningStampCount());
+    @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
+    public ResponseEntity<Void> createStamp(@PathVariable Long customerId, @PathVariable Long couponId, @PathVariable Long ownerId, @RequestBody StampCreateRequest stampCreateRequest) {
+        StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, stampCreateRequest.getEarningStampCount());
         couponService.createStamp(stampCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

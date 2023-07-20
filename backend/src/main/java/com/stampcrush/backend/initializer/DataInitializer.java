@@ -56,7 +56,7 @@ public class DataInitializer implements ApplicationRunner {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                owner_2));
+                owner_1));
 
         RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("레오", "01038626099", "leo", "1234"));
         RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("하디", "01064394814", "hardy", "5678"));
