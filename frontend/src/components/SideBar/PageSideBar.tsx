@@ -6,7 +6,7 @@ const SIDE_BAR_OPTIONS: SideBarOptions[] = [
   { key: '내 고객 목록', value: '/admin' },
   { key: '쿠폰 정책 변경', value: '/admin/modify-coupon-policy/1' },
   { key: '스탬프 적립', value: '/admin/stamp' },
-  { key: '리워드 사용', value: '/admin/use-reward' },
+  { key: '리워드 사용', value: '/admin/enter-reward' },
 ];
 
 const PageSideBar = () => {
