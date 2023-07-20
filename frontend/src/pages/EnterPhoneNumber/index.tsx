@@ -1,6 +1,6 @@
 import Dialpad from '../../components/Dialpad';
 import { Container, IconWrapper, PageContainer, PrivacyBox, Title } from './style';
-import { IoIosArrowBack } from 'react-icons/Io';
+import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 const EnterPhoneNumber = () => {
