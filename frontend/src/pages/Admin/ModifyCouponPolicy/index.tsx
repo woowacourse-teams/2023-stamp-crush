@@ -65,7 +65,7 @@ const ModifyCouponPolicy = () => {
         createdType,
         reward: rewardInputRef.current?.value,
         expireSelect,
-        stampCount,
+        stampCount:stampCount.value,
       },
     });
   };

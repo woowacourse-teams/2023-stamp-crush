@@ -34,7 +34,7 @@ const postCouponSetting = async (couponConfig: CouponSettingDto) => {
 
 // TODO: 외부로 분리
 export const parseStampCount = (value: string) => {
-  return +value.replace('개', '');
+  return +(value.replace('개', ''));
 };
 
 const SectionSpacing = () => <Spacing $size={40} />;
@@ -66,7 +66,8 @@ const CustomCouponDesign = () => {
     console.log(payload);
 
     mutateCouponPolicy.mutate(payload);
-  };
+  };  
+
   return (
     <>
       <Spacing $size={40} />
