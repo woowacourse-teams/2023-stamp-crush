@@ -17,7 +17,7 @@ import { getCoupon } from '../SelectCoupon';
 import { BASE_URL } from '../../..';
 
 const postEarnStamp = async (earningStampCount: number, customerId: string, couponId: string) => {
-  const response = await fetch(`${BASE_URL}/customers/${customerId}/coupons/${couponId}/stamps`, {
+  const response = await fetch(`${BASE_URL}/customers/${customerId}/coupons/${couponId}/stamps/1`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
