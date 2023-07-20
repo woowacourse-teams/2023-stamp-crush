@@ -17,12 +17,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/customers/{customerId}/rewards")
 public class RewardApiController {
 
     private final RewardService rewardService;
 
-    @GetMapping("/customers/{customerId}/rewards")
+    @GetMapping
     public ResponseEntity<RewardsFindResponse> findRewards(@PathVariable("customerId") Long customerId,
                                                            @ModelAttribute RewardFindRequest rewardFindRequest) {
         RewardFindDto rewardFindDto = new RewardFindDto(customerId, rewardFindRequest.getCafeId(), rewardFindRequest.isUsed());
@@ -34,7 +34,7 @@ public class RewardApiController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/customers/{customerId}/rewards/{rewardId}")
+    @PatchMapping("/{rewardId}")
     public ResponseEntity<Void> updateRewardToUsed(@PathVariable("customerId") Long customerId,
                                                    @PathVariable("rewardId") Long rewardId,
                                                    @RequestBody @Valid RewardUsedUpdateRequest request) {

@@ -15,12 +15,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/cafes")
 public class CafeApiController {
 
     private final CafeService cafeService;
 
-    @GetMapping("/cafes/{ownerId}")
+    @GetMapping("/{ownerId}")
     ResponseEntity<CafesFindResponse> findAllCafes(@PathVariable Long ownerId) {
         List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(ownerId);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
@@ -30,7 +30,7 @@ public class CafeApiController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cafes/{ownerId}")
+    @PostMapping("/{ownerId}")
     ResponseEntity<Void> createCafe(@PathVariable Long ownerId, @RequestBody CafeCreateRequest cafeCreateRequest) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,
