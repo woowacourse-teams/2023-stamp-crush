@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
 
-export const BASE_URL = process.env.NODE_ENV === 'development' ? '' : 'http://3.36.13.60:8080/api';
+export const BASE_URL = 'http://3.36.13.60/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
