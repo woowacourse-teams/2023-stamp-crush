@@ -1,13 +1,14 @@
 package com.stampcrush.backend.api.coupon;
 
-import com.stampcrush.backend.api.coupon.response.CafeCustomerFindResponse;
-import com.stampcrush.backend.api.coupon.response.CafeCustomersFindResponse;
-import com.stampcrush.backend.api.coupon.response.CustomerAccumulatingCouponFindResponse;
-import com.stampcrush.backend.api.coupon.response.CustomerAccumulatingCouponsFindResponse;
+import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
+import com.stampcrush.backend.api.coupon.request.StampCreateRequest;
+import com.stampcrush.backend.api.coupon.response.*;
 import com.stampcrush.backend.application.coupon.CouponService;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,18 @@ public class CouponApiController {
 
 
         return ResponseEntity.ok(new CustomerAccumulatingCouponsFindResponse(accumulatingResponses));
+    }
+
+    @PostMapping("/customers/{customerId}/coupons")
+    public ResponseEntity<CouponCreateResponse> createCoupon(@RequestBody CouponCreateRequest request, @PathVariable("customerId") Long customerId) {
+        Long couponId = couponService.createCoupon(request.getCafeId(), customerId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
+    }
+
+    @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps")
+    public ResponseEntity<Void> createStamp(@PathVariable Long customerId, @PathVariable Long couponId, @RequestBody StampCreateRequest stampCreateRequest) {
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, customerId, couponId, stampCreateRequest.getEarningStampCount());
+        couponService.createStamp(stampCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

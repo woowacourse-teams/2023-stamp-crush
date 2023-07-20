@@ -24,7 +24,7 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public CustomersFindResultDto findCustomer(String phoneNumber) {
-        List<Customer> customers = customerRepository.findByphoneNumber(phoneNumber);
+        List<Customer> customers = customerRepository.findByPhoneNumber(phoneNumber);
 
         List<CustomerFindDto> customerFindDtos = customers.stream()
                 .map(CustomerFindDto::from)
@@ -46,7 +46,7 @@ public class CustomerService {
     }
 
     private void checkExistCustomer(String phoneNumber) {
-        if (!customerRepository.findByphoneNumber(phoneNumber).isEmpty()) {
+        if (!customerRepository.findByPhoneNumber(phoneNumber).isEmpty()) {
             throw new CustomerBadRequestException("Bad request.", new IllegalArgumentException("이미 존재하는 회원입니다"));
         }
     }
