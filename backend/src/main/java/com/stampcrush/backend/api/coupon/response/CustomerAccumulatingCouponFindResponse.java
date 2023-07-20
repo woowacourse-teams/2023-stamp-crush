@@ -19,7 +19,7 @@ public class CustomerAccumulatingCouponFindResponse {
     private String nickname;
     private int stampCount;
     private LocalDateTime expireDate;
-    private boolean isPrevious;
+    private Boolean isPrevious;
     private int maxStampCount;
 
     public static CustomerAccumulatingCouponFindResponse from(CustomerAccumulatingCouponFindResultDto serviceDto) {

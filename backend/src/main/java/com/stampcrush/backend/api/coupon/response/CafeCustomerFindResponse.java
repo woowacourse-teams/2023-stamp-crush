@@ -19,7 +19,7 @@ public class CafeCustomerFindResponse {
     private int visitCount;
     private int maxStampCount;
     private LocalDateTime firstVisitDate;
-    private boolean isRegistered;
+    private Boolean isRegistered;
 
     public static CafeCustomerFindResponse from(CafeCustomerFindResultDto serviceDto) {
         return new CafeCustomerFindResponse(
