@@ -12,7 +12,7 @@ import static lombok.AccessLevel.PUBLIC;
 
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor(access = PUBLIC)
+@NoArgsConstructor
 @Getter
 public class CustomerAccumulatingCouponFindResponse {
 

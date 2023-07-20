@@ -25,7 +25,7 @@ public class RewardApiController {
     @GetMapping
     public ResponseEntity<RewardsFindResponse> findRewards(@PathVariable("customerId") Long customerId,
                                                            @ModelAttribute RewardFindRequest rewardFindRequest) {
-        RewardFindDto rewardFindDto = new RewardFindDto(customerId, rewardFindRequest.getCafeId(), rewardFindRequest.isUsed());
+        RewardFindDto rewardFindDto = new RewardFindDto(customerId, rewardFindRequest.cafeId(), rewardFindRequest.used());
         List<RewardFindResultDto> rewardFindResultDtos = rewardService.findRewards(rewardFindDto);
         List<RewardFindResponse> rewardFindResponses = rewardFindResultDtos.stream()
                 .map(RewardFindResponse::new)
