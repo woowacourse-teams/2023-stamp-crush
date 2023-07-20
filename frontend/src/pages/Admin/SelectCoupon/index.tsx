@@ -135,6 +135,20 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
+  const formatDate = (dateString: string) => {
+    const dateArray = dateString.split(':');
+
+    const year = parseInt(dateArray[0]);
+    const month = parseInt(dateArray[1]);
+    const day = parseInt(dateArray[2]);
+
+    const date = new Date(year, month, day);
+
+    const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+
+    return formattedDate;
+  };
+
   if (couponStatus === 'loading' || tempCustomerStatus === 'loading') return <p>Loading</p>;
 
   if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
@@ -163,7 +177,9 @@ const SelectCoupon = () => {
                 <Spacing $size={8} />
                 <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
                 <Spacing $size={45} />
-                <ExpirationDate>쿠폰 유효기간: {foundCoupon.expireDate}까지</ExpirationDate>
+                <ExpirationDate>
+                  쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지
+                </ExpirationDate>
               </CouponSelectorWrapper>
             )}
             <RowSpacing $size={146} />
