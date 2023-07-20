@@ -15,8 +15,20 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
 import { getCoupon } from '../SelectCoupon';
 
-const postEarnStamp = async (earningStampCount: number, customerId: string, couponId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons/${couponId}/stamps`, {
+interface StampFormData {
+  earningStampCount: number;
+  customerId: string;
+  couponId: string;
+  ownerId: string;
+}
+
+const postEarnStamp = async ({
+  earningStampCount,
+  customerId,
+  couponId,
+  ownerId,
+}: StampFormData) => {
+  const response = await fetch(`/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +48,7 @@ const EarnStamp = () => {
   const navigate = useNavigate();
 
   const { mutate, isLoading, isError } = useMutation(
-    (earningStampCount: number) => postEarnStamp(earningStampCount, '1', '1'),
+    (formData: StampFormData) => postEarnStamp(formData),
     {
       onSuccess: () => {
         navigate('/admin');
@@ -54,7 +66,13 @@ const EarnStamp = () => {
   } = useQuery(['earn-stamp-coupons', state.customer], () => getCoupon(state.customer.id, '1'));
 
   const earnStamp = () => {
-    mutate(stamp);
+    const stampData = {
+      earningStampCount: stamp,
+      customerId: state.customer.id,
+      couponId: couponResponse.coupons[0].id,
+      ownerId: '1',
+    };
+    mutate(stampData);
   };
 
   if (isLoading || isCouponLoading) return <p>Loading</p>;
