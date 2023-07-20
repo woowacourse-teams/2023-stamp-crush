@@ -143,9 +143,9 @@ public class CouponService {
                 .orElseThrow(IllegalArgumentException::new);
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(IllegalArgumentException::new);
-        CafePolicy cafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe)
+        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
+        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
         if (!existCoupons.isEmpty()) {
@@ -183,9 +183,9 @@ public class CouponService {
                 .findAny()
                 .get();
 
-        CafePolicy cafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe)
+        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
+        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
 
         Coupon coupon = couponRepository.findById(stampCreateDto.getCouponId())

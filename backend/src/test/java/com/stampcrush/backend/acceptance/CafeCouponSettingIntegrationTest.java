@@ -132,9 +132,9 @@ public class CafeCouponSettingIntegrationTest extends IntegrationTest {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
                 () -> assertThat(cafeCouponDesignRepository.findById(savedCafeCouponDesign.getId())).isEmpty(),
-                () -> assertThat(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(savedCafe)).isNotEmpty(),
+                () -> assertThat(cafeCouponDesignRepository.findByCafe(savedCafe)).isNotEmpty(),
                 () -> assertThat(cafePolicyRepository.findById(savedCafePolicy.getId())).isEmpty(),
-                () -> assertThat(cafePolicyRepository.findByCafeAndDeletedIsFalse(savedCafe)).isNotEmpty()
+                () -> assertThat(cafePolicyRepository.findByCafe(savedCafe)).isNotEmpty()
         );
     }
 }
