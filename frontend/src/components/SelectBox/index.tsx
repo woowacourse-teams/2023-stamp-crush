@@ -2,7 +2,6 @@ import { MouseEventHandler, useState, Dispatch, SetStateAction } from 'react';
 
 import { BaseSelectBox, LabelContent, SelectBoxWrapper, SelectContent } from './SelectBox.style';
 
-
 export type SelectBoxOption = {
   key: string;
   value: string;
@@ -10,12 +9,16 @@ export type SelectBoxOption = {
 
 interface SelectBoxProps {
   options: SelectBoxOption[];
-  checkedOption: string;
-  setCheckedOption: Dispatch<SetStateAction<string>>;
+  checkedOption: SelectBoxOption;
+  setCheckedOption: Dispatch<SetStateAction<SelectBoxOption>>;
 }
 
 const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const getOption = (value: string) => {
+    return [...options.filter((option: SelectBoxOption) => option.value === value && option)][0];
+  };
 
   const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
@@ -23,11 +26,11 @@ const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps)
     setIsExpanded(!isExpanded);
 
     if (event.target instanceof HTMLLabelElement) {
-      event.target.textContent && setCheckedOption(event.target.textContent);
+      event.target.textContent && setCheckedOption(getOption(event.target.textContent));
     }
 
     if (event.target instanceof HTMLInputElement) {
-      setCheckedOption(event.target.value);
+      setCheckedOption(getOption(event.target.value));
     }
   };
 
@@ -35,20 +38,20 @@ const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps)
     <SelectBoxWrapper>
       <BaseSelectBox
         $expanded={isExpanded}
-        $minWidth={120}
+        $minWidth={130}
         $minHeight={32}
         onClick={toggleExpandSelectBox}
       >
-        {options.map(({ key, value }) => (
+        {options.map((option) => (
           <>
             <SelectContent
-              key={key}
+              id={option.key}
+              key={option.key}
               type="radio"
-              value={checkedOption}
-              checked={checkedOption === value}
-              id={key}
+              value={option.value}
+              checked={checkedOption.value === option.value}
             />
-            <LabelContent htmlFor={key}>{value}</LabelContent>
+            <LabelContent htmlFor={option.key}>{option.value}</LabelContent>
           </>
         ))}
       </BaseSelectBox>

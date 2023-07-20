@@ -149,7 +149,6 @@ class CouponRepositoryTest {
 
     @Test
     void 카페에_맞는_쿠폰_정보를_조회한다() {
-
         // when
         List<Coupon> couponsCafe1 = couponRepository.findByCafe(cafe1);
         List<Coupon> couponsCafe2 = couponRepository.findByCafe(cafe2);
@@ -168,28 +167,37 @@ class CouponRepositoryTest {
 
     @Test
     void 쿠폰X_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
+        // then
         List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe1, tmpCustomer1, CouponStatus.ACCUMULATING);
+
         assertThat(customerCoupon).isEmpty();
     }
 
     @Test
     void 쿠폰O_카페에_스탬프를_적립하고_있는_고객의_쿠폰을_조회한다() {
+        // when
         List<Coupon> customerCoupon = couponRepository.findByCafeAndCustomerAndStatus(cafe2, tmpCustomer3, CouponStatus.ACCUMULATING);
+        // then
         assertThat(customerCoupon).containsExactly(coupon4);
     }
 
     @Test
     void 쿠폰의_유효기간_만료일을_계산한다() {
+        // given, when
         LocalDateTime expiredDate = coupon1.calculateExpireDate();
         LocalDateTime expected = coupon1.getCreatedAt().plusMonths(couponPolicy1.getExpiredPeriod());
 
+        // then
         assertThat(expiredDate).isEqualTo(expected);
     }
 
     // 첫 방문일자 구하기 위한 기능
     @Test
     void 쿠폰들의_createdAt을_비교한다() {
-        LocalDateTime visitTime = coupon1.compareVisitTime(coupon5.getCreatedAt());
+        // given, when
+        LocalDateTime visitTime = coupon1.compareCreatedAtAndReturnEarlier(coupon5.getCreatedAt());
+
+        // then
         assertThat(visitTime).isEqualTo(coupon1.getCreatedAt());
     }
 }
