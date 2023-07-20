@@ -3,6 +3,7 @@ package com.stampcrush.backend.application.coupon;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;

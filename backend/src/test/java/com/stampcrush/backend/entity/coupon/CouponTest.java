@@ -79,7 +79,7 @@ class CouponTest {
         coupon.accumulate();
 
         // then
-        assertThat(coupon.getStatus()).isSameAs(CouponStatus.USING);
+        assertThat(coupon.getStatus()).isSameAs(CouponStatus.ACCUMULATING);
         assertThat(coupon.getStampCount()).isEqualTo(1);
     }
 

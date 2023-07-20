@@ -2,10 +2,7 @@ package com.stampcrush.backend.api.coupon;
 
 import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.coupon.request.StampCreateRequest;
-import com.stampcrush.backend.api.coupon.response.CafeCustomerFindResponse;
-import com.stampcrush.backend.api.coupon.response.CafeCustomersFindResponse;
-import com.stampcrush.backend.api.coupon.response.CustomerAccumulatingCouponFindResponse;
-import com.stampcrush.backend.api.coupon.response.CustomerAccumulatingCouponsFindResponse;
+import com.stampcrush.backend.api.coupon.response.*;
 import com.stampcrush.backend.application.coupon.CouponService;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;

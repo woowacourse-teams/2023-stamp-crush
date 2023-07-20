@@ -6,6 +6,8 @@ import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE CAFE_COUPON_DESIGN SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class CafeCouponDesign extends BaseDate {
 

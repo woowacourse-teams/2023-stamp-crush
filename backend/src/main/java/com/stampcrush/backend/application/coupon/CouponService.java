@@ -147,7 +147,7 @@ public class CouponService {
                 .orElseThrow(IllegalArgumentException::new);
         CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
                 .orElseThrow(IllegalArgumentException::new);
-        List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.USING);
+        List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
         if (!existCoupons.isEmpty()) {
             for (Coupon coupon : existCoupons) {
                 coupon.expire();
