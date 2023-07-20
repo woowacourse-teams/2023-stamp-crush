@@ -4,12 +4,12 @@ export const CustomerContainer = styled.li`
   display: flex;
   flex-direction: column;
   margin-top: 40px;
+  width: 70%;
 `;
 
 export const CustomerBox = styled.ul`
   display: flex;
   justify-content: space-between;
-  width: 70%;
   height: 90px;
   padding: 15px;
 
@@ -19,7 +19,7 @@ export const CustomerBox = styled.ul`
   box-shadow: 0 10px 10px -3px ${({ theme }) => theme.colors.gray300};
 
   &:first-of-type {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 `;
 
@@ -69,4 +69,12 @@ export const Name = styled.div`
     font-size: 20px;
     font-weight: 500;
   }
+`;
+
+export const Container = styled.div`
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
 `;
