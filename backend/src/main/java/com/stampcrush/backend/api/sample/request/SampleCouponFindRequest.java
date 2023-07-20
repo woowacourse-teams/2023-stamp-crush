@@ -1,11 +1,18 @@
 package com.stampcrush.backend.api.sample.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class SampleCouponFindRequest {
 
-    private final Integer maxStampCount;
+    @JsonProperty("max-stamp-count")
+    private Integer maxStampCount;
+
+    public SampleCouponFindRequest() {
+    }
+
+    public SampleCouponFindRequest(Integer maxStampCount) {
+        this.maxStampCount = maxStampCount;
+    }
 }

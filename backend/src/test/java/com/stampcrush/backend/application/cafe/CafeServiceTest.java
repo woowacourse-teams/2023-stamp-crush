@@ -177,10 +177,6 @@ public class CafeServiceTest {
         return new CafeCreateDto(
                 owner_1.getId(),
                 "윤생까페",
-                LocalTime.of(12, 30),
-                LocalTime.of(18, 30),
-                "0211111111",
-                "http://www.cafeImage.com",
                 "잠실동12길",
                 "14층",
                 "11111111");

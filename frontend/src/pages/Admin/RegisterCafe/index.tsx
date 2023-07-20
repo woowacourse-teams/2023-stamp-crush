@@ -1,8 +1,9 @@
-import { FormEventHandler, MouseEventHandler, useRef } from 'react';
+import { FormEventHandler, MouseEventHandler, useRef, useState } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import Template from '../../../components/Template';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
+import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import Header from '../../../components/Header';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -10,27 +11,49 @@ const RegisterCafe = () => {
   const roadAddressInputRef = useRef<HTMLInputElement>(null);
   const detailAddressInputRef = useRef<HTMLInputElement>(null);
 
+  const [roadAddress, setRoadAddress] = useState('');
+
+  const openPostcodePopup = useDaumPostcodePopup();
+
+  const handleComplete = (data: Address) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setRoadAddress(fullAddress);
+  };
+
+  const handleClick = () => {
+    openPostcodePopup({ onComplete: handleComplete });
+  };
+
   const certifyUser: MouseEventHandler<HTMLButtonElement> = () => {
     alert(businessRegistrationNumberInputRef.current?.value);
   };
 
-  const findRoadAddress: MouseEventHandler<HTMLButtonElement> = () => {
-    alert(roadAddressInputRef.current?.value);
-  };
-
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    alert(
-      `사업자등록번호 ${businessRegistrationNumberInputRef.current?.value}
+    if (roadAddressInputRef.current && detailAddressInputRef.current)
+      alert(
+        `사업자등록번호 ${businessRegistrationNumberInputRef.current?.value}
       카페명 ${cafeNameInputRef.current?.value}
-      카페 주소 ${roadAddressInputRef.current?.value}
-      상세 주소 ${detailAddressInputRef.current?.value}
+      카페 주소 ${roadAddressInputRef.current.value + detailAddressInputRef.current.value}
       `,
-    );
+      );
   };
 
   return (
-    <Template>
+    <>
+      <Header />
       <ContentContainer>
         <RegisterCafeInputForm onSubmit={submitCafeInfo}>
           <Title>내 카페 등록</Title>
@@ -43,7 +66,7 @@ const RegisterCafe = () => {
               placeholder={'사업자등록번호를 입력해주세요.'}
               required={true}
             />
-            <Button type="button" variant={'primary'} size={'medium'} onClick={certifyUser}>
+            <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
               인증하기
             </Button>
           </InputWithButtonWrapper>
@@ -60,11 +83,12 @@ const RegisterCafe = () => {
               id={'cafe-address-input'}
               ref={roadAddressInputRef}
               label={'카페 주소'}
+              value={roadAddress}
               width={410}
               placeholder={'카페 주소를 입력해주세요.'}
               required={true}
             />
-            <Button type="button" variant={'primary'} size={'medium'} onClick={findRoadAddress}>
+            <Button type="button" variant={'secondary'} size={'medium'} onClick={handleClick}>
               주소 찾기
             </Button>
           </InputWithButtonWrapper>
@@ -76,12 +100,13 @@ const RegisterCafe = () => {
             placeholder={'상세 주소를 입력해주세요.'}
             required={true}
           />
+
           <Button type="submit" id="register-cafe-submit-btn" variant={'primary'} size={'medium'}>
             등록하기
           </Button>
         </RegisterCafeInputForm>
       </ContentContainer>
-    </Template>
+    </>
   );
 };
 
