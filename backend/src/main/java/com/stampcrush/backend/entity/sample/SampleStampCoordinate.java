@@ -25,17 +25,15 @@ public class SampleStampCoordinate extends BaseDate {
     @JoinColumn(name = "sample_back_image_id")
     private SampleBackImage sampleBackImage;
 
-    public SampleStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate) {
-        this.stampOrder = stampOrder;
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
-    }
-
     public SampleStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate, SampleBackImage sampleBackImage) {
         this.stampOrder = stampOrder;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.sampleBackImage = sampleBackImage;
+    }
+
+    public SampleStampCoordinate(Integer stampOrder, Integer xCoordinate, Integer yCoordinate) {
+        this(stampOrder, xCoordinate, yCoordinate, null);
     }
 
     public void setSampleBackImage(SampleBackImage sampleBackImage) {

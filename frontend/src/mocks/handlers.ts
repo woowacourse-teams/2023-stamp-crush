@@ -134,7 +134,7 @@ export const handlers = [
     }
 
     if (+customerId !== 1) return res(ctx.status(200), ctx.json({ rewards: [] }));
-    return res(ctx.status(200), ctx.json(rewards));
+    return res(ctx.status(200), ctx.json({ rewards }));
   }),
 
   //쿠폰 신규 발급

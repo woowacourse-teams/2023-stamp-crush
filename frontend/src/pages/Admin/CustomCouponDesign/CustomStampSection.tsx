@@ -13,12 +13,14 @@ interface CustomStampSectionProps {
   uploadImageInputId: string;
   imgFileUrl: string;
   uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isCustom: boolean;
 }
 const CustomStampSection = ({
   label,
   uploadImageInputId,
   imgFileUrl,
   uploadImageFile,
+  isCustom,
 }: CustomStampSectionProps) => {
   return (
     <CustomStampSectionContainer>
@@ -30,7 +32,9 @@ const CustomStampSection = ({
         accept="image/jpg,image/png,image/jpeg,image/gif"
         onChange={uploadImageFile}
       />
-      <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>이미지 업로드 +</ImageUpLoadInputLabel>
+      {isCustom && (
+        <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>이미지 업로드 +</ImageUpLoadInputLabel>
+      )}
       <Spacing $size={8} />
       <PreviewImageWrapper $height={50} $width={50}>
         <PreviewImage src={imgFileUrl} $height={50} $width={50} />

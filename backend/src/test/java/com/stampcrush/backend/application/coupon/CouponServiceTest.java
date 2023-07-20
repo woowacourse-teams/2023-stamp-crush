@@ -1,9 +1,10 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.coupon.dto.CafeCustomerInfoResultDto;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersResultDto;
-import com.stampcrush.backend.application.coupon.dto.CustomerUsingCouponResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
@@ -11,6 +12,7 @@ import com.stampcrush.backend.entity.coupon.Stamp;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
 import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
@@ -60,6 +62,9 @@ class CouponServiceTest {
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private CafePolicyRepository cafePolicyRepository;
 
     private TemporaryCustomer tmpCustomer1;
     private TemporaryCustomer tmpCustomer2;
@@ -170,9 +175,9 @@ class CouponServiceTest {
     @Test
     void 카페_별_고객들의_정보를_조회한다() {
         // when
-        CafeCustomersResultDto customers = couponService.findCouponsByCafe(cafe1.getId());
+        CafeCustomersFindResultDto customers = couponService.findCouponsByCafe(cafe1.getId());
 
-        CafeCustomerInfoResultDto customer1Info = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto customer1Info = new CafeCustomerFindResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 0,
@@ -182,7 +187,7 @@ class CouponServiceTest {
                 false
         );
 
-        CafeCustomerInfoResultDto customer2Info = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto customer2Info = new CafeCustomerFindResultDto(
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
                 1,
@@ -191,30 +196,39 @@ class CouponServiceTest {
                 coupon2.getCreatedAt(),
                 true
         );
+
+        // then
         assertThat(customers.getCustomers()).containsExactlyInAnyOrder(customer1Info, customer2Info);
     }
 
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        // when
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
+
+        // then
         assertThat(result).isEmpty();
     }
 
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
-        List<CustomerUsingCouponResultDto> result = couponService.findUsingCoupon(cafe1.getId(), registerCustomer1.getId());
-        CustomerUsingCouponResultDto customerUsingCoupon = new CustomerUsingCouponResultDto(
+        // when
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
+        CustomerAccumulatingCouponFindResultDto customerUsingCoupon = new CustomerAccumulatingCouponFindResultDto(
                 coupon2.getId(),
                 registerCustomer1.getId(),
                 registerCustomer1.getNickname(),
                 coupon2.getStampCount(),
                 coupon2.calculateExpireDate(),
                 false);
+
+        //then
         assertThat(result).containsExactly(customerUsingCoupon);
     }
 
     @Test
     void 첫_방문일자를_계산한다() {
+        // given
         CouponDesign couponDesign6 = couponDesignRepository.save(new CouponDesign());
         CouponPolicy couponPolicy6 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 10));
 
@@ -224,9 +238,10 @@ class CouponServiceTest {
         stamp6.registerCoupon(coupon6);
         couponRepository.save(coupon6);
 
-        CafeCustomersResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
+        // when
+        CafeCustomersFindResultDto customersResponseDto = couponService.findCouponsByCafe(cafe1.getId());
         // 첫 방문일자는 먼저 저장된 coupon1의 createdAt이어야 한다.
-        CafeCustomerInfoResultDto expected = new CafeCustomerInfoResultDto(
+        CafeCustomerFindResultDto expected = new CafeCustomerFindResultDto(
                 tmpCustomer1.getId(),
                 tmpCustomer1.getNickname(),
                 coupon6.getStampCount(),
@@ -236,6 +251,65 @@ class CouponServiceTest {
                 false
         );
 
+        //then
         assertThat(customersResponseDto.getCustomers()).containsAnyOf(expected);
+    }
+
+    @Test
+    void 쿠폰_정책_변경_이전에_발급받은_쿠폰인지_확인한다() {
+        // given
+        Cafe cafe3 = cafeRepository.save(new Cafe(
+                "하디까페",
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "0211111111",
+                "http://www.cafeImage.com",
+                "잠실동12길",
+                "14층",
+                "11111111",
+                ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"))));
+
+        CafePolicy oldCafePolicy = cafePolicyRepository.save(
+                new CafePolicy(
+                        2,
+                        "마카롱",
+                        12,
+                        true,
+                        cafe3
+                )
+        );
+
+        // when (예전 정책일 때 쿠폰을 발급받는다)
+        CouponDesign couponDesign7 = couponDesignRepository.save(new CouponDesign());
+        CouponPolicy couponPolicy7 = couponPolicyRepository.save(new CouponPolicy(oldCafePolicy.getMaxStampCount(), oldCafePolicy.getReward(), oldCafePolicy.getExpirePeriod()));
+
+        couponRepository.save(new Coupon(LocalDate.now(), tmpCustomer1, cafe3, couponDesign7, couponPolicy7));
+
+        // when 새로운 정책으로 변경하고 쿠폰을 저장한다
+        cafePolicyRepository.save(
+                new CafePolicy(
+                        2,
+                        "마카롱",
+                        12,
+                        false,
+                        cafe3
+                )
+        );
+
+        CouponDesign couponDesign8 = couponDesignRepository.save(new CouponDesign());
+        CouponPolicy couponPolicy8 = couponPolicyRepository.save(new CouponPolicy(oldCafePolicy.getMaxStampCount(), oldCafePolicy.getReward(), oldCafePolicy.getExpirePeriod()));
+
+        couponRepository.save(new Coupon(LocalDate.now(), tmpCustomer2, cafe3, couponDesign8, couponPolicy8));
+
+        // when 이전 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
+        List<CustomerAccumulatingCouponFindResultDto> oldCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), tmpCustomer1.getId());
+        CustomerAccumulatingCouponFindResultDto oldCustomerCoupon = oldCouponResult.get(0);
+
+        // when 새로운 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
+        List<CustomerAccumulatingCouponFindResultDto> newCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), tmpCustomer2.getId());
+        CustomerAccumulatingCouponFindResultDto newCustomerCoupon = newCouponResult.get(0);
+
+        assertThat(oldCustomerCoupon.isPrevious()).isTrue();
+        assertThat(newCustomerCoupon.isPrevious()).isFalse();
     }
 }

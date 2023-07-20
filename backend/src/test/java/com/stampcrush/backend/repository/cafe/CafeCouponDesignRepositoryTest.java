@@ -4,6 +4,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import org.hibernate.sql.ast.tree.cte.CteStatement;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -39,7 +40,14 @@ class CafeCouponDesignRepositoryTest {
                         "서울시 올림픽로 어쩌고",
                         "루터회관",
                         "10-222-333",
-                        ownerRepository.save(new Owner("이름", "아이디", "pw", "phone"))
+                        ownerRepository.save(
+                                new Owner(
+                                        "이름",
+                                        "아이디",
+                                        "pw",
+                                        "phone"
+                                )
+                        )
                 )
         );
 

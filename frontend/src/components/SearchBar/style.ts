@@ -8,7 +8,7 @@ export const Container = styled.form`
 export const BaseInput = styled.input`
   display: flex;
   width: 250px;
-  height: 45px;
+  height: 40px;
 
   background: white;
   box-shadow: 0px 0px 15px #888;
@@ -30,4 +30,6 @@ export const SearchButton = styled.button`
   top: 0;
   box-shadow: 0px 0px 15px #888;
   background: black;
+
+  cursor: pointer;
 `;

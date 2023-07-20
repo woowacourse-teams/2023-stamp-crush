@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
-@Component
+//@Component
+//@Profile("dev")
 @RequiredArgsConstructor
-@Profile("prod")
 public class CouponSettingDataInitializer implements ApplicationRunner {
 
     private final CafeRepository cafeRepository;
@@ -71,7 +71,7 @@ public class CouponSettingDataInitializer implements ApplicationRunner {
                 )
         );
 
-        CafeStampCoordinate savedCafeStampCoordinate22 = cafeStampCoordinateRepository.save(
+        CafeStampCoordinate savedCafeStampCoordinate2 = cafeStampCoordinateRepository.save(
                 new CafeStampCoordinate(
                         1, 2, 1, savedCafeCouponDesign
                 )

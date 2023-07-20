@@ -42,23 +42,18 @@ export const RewardContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-
+  justify-content: center;
   gap: 10px;
-  width: 50%;
-  height: 90%;
-  padding: 30px 0;
-
-  overflow: scroll;
+  width: 70%;
 `;
 
 export const RewardItemContainer = styled.ul`
-  width: 100%;
+  width: 40%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 `;
 
 export const RewardItemWrapper = styled.li`

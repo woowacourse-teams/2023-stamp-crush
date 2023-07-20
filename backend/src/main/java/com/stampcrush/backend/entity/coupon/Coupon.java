@@ -26,7 +26,7 @@ public class Coupon extends BaseDate {
     private LocalDate expiredDate;
 
     @Enumerated(EnumType.STRING)
-    private CouponStatus status = CouponStatus.USING;
+    private CouponStatus status = CouponStatus.ACCUMULATING;
 
     private Boolean deleted = Boolean.TRUE;
 
@@ -65,7 +65,7 @@ public class Coupon extends BaseDate {
     }
 
     public boolean isUsing() {
-        return this.status == CouponStatus.USING;
+        return this.status == CouponStatus.ACCUMULATING;
     }
 
     public boolean isRewarded() {
@@ -83,7 +83,7 @@ public class Coupon extends BaseDate {
                 .size();
     }
 
-    public LocalDateTime compareVisitTime(LocalDateTime visitTime) {
+    public LocalDateTime compareCreatedAtAndReturnEarlier(LocalDateTime visitTime) {
         if (this.getCreatedAt().isBefore(visitTime)) {
             return this.getCreatedAt();
         }

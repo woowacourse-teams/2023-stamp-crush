@@ -12,9 +12,8 @@ const addHypen = (phoneNumber: string) => {
 const useDialPad = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('010-');
   const phoneNumberRef = useRef<HTMLInputElement>(null);
-
-  const current = useLocation().pathname;
   const navigate = useNavigate();
+  const location = useLocation();
 
   const removeNumber = () => {
     if (phoneNumber.length < 5) {
@@ -33,8 +32,14 @@ const useDialPad = () => {
       return;
     }
 
-    if (current === '/admin/stamp') {
+    if (location.pathname === '/admin/stamp') {
       navigate('/admin/stamp/1', { state: { phoneNumber } });
+      return;
+    }
+
+    if (location.pathname === '/admin/enter-reward') {
+      navigate('/admin/use-reward', { state: { phoneNumber } });
+      return;
     }
   };
 
@@ -68,7 +73,7 @@ const useDialPad = () => {
       removeNumber();
       return;
     }
-    if (dialKey === '적립') {
+    if (dialKey === '입력') {
       enter();
       return;
     }

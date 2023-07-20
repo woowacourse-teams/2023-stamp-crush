@@ -46,6 +46,10 @@ public class Cafe extends BaseDate {
     @OneToMany(mappedBy = "cafe")
     private List<CafePolicy> policies = new ArrayList<>();
 
+    public Cafe(String name, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
+        this(name, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
+    }
+
     public Cafe(String name, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
         this.name = name;
         this.openTime = openTime;

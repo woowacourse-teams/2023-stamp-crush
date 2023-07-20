@@ -15,6 +15,7 @@ import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 import EarnStamp from './pages/Admin/EarnStamp';
 import SelectCoupon from './pages/Admin/SelectCoupon';
+import RewardPage from './pages/Admin/RewardPage';
 
 const AdminRoot = () => {
   return (
@@ -61,8 +62,10 @@ const Router = () => {
           ],
         },
         { path: 'manage-cafe', element: <ManageCafe /> },
+        { path: 'use-reward', element: <RewardPage /> },
       ],
     },
+    { path: '/admin/enter-reward', element: <EnterPhoneNumber /> },
     { path: '/admin/login', element: <Login /> },
     { path: '/admin/sign-up', element: <SignUp /> },
     {

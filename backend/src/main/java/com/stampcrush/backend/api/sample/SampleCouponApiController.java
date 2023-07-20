@@ -1,13 +1,12 @@
 package com.stampcrush.backend.api.sample;
 
-import com.stampcrush.backend.api.sample.request.SampleCouponFindRequest;
 import com.stampcrush.backend.api.sample.response.SampleCouponFindResponse;
 import com.stampcrush.backend.application.sample.SampleCouponService;
 import com.stampcrush.backend.application.sample.dto.SampleCouponsFindResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -19,9 +18,9 @@ public class SampleCouponApiController {
 
     @GetMapping
     public SampleCouponFindResponse findSampleCoupons(
-            @ModelAttribute SampleCouponFindRequest request
+            @RequestParam("max-stamp-count") Integer maxStampCount
     ) {
-        SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsByMaxStampCount(request.getMaxStampCount());
+        SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsByMaxStampCount(maxStampCount);
         return SampleCouponFindResponse.from(sampleCoupons);
     }
 }
