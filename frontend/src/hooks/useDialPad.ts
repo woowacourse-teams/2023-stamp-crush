@@ -31,13 +31,14 @@ const useDialPad = () => {
       alert('올바른 전화번호를 입력해주세요.');
       return;
     }
+
     if (location.pathname === '/admin/stamp') {
       navigate('/admin/stamp/1', { state: { phoneNumber } });
       return;
     }
 
     if (location.pathname === '/admin/enter-reward') {
-      navigate('/admin/reward/input-reward', { state: { phoneNumber } });
+      navigate('/admin/use-reward', { state: { phoneNumber } });
       return;
     }
   };
