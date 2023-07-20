@@ -4,6 +4,36 @@ import { Input } from '../../../components/Input';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import Header from '../../../components/Header';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
+interface CafeFormData {
+  ownerId: number;
+  businessRegistrationNumber: string;
+  name: string;
+  roadAddress: string;
+  detailAddress: string;
+}
+
+const postRegisterCafe = async ({
+  ownerId,
+  businessRegistrationNumber,
+  name,
+  roadAddress,
+  detailAddress,
+}: CafeFormData) => {
+  const response = await fetch(`/cafes/${ownerId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ businessRegistrationNumber, name, roadAddress, detailAddress }),
+  });
+
+  if (!response.ok) {
+    throw new Error('카페 등록에 실패했습니다.');
+  }
+};
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -11,10 +41,25 @@ const RegisterCafe = () => {
   const roadAddressInputRef = useRef<HTMLInputElement>(null);
   const detailAddressInputRef = useRef<HTMLInputElement>(null);
 
+  const navigate = useNavigate();
+
   const [roadAddress, setRoadAddress] = useState('');
 
   const openPostcodePopup = useDaumPostcodePopup();
 
+  const { mutate, isLoading, isError } = useMutation(
+    (formData: CafeFormData) => postRegisterCafe(formData),
+    {
+      onSuccess: () => {
+        navigate('/admin');
+      },
+      onError: () => {
+        throw new Error('카페 등록에 실패했습니다.');
+      },
+    },
+  );
+
+  // 도로명 주소 메서드
   const handleComplete = (data: Address) => {
     let fullAddress = data.address;
     let extraAddress = '';
@@ -42,13 +87,22 @@ const RegisterCafe = () => {
 
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    if (roadAddressInputRef.current && detailAddressInputRef.current)
-      alert(
-        `사업자등록번호 ${businessRegistrationNumberInputRef.current?.value}
-      카페명 ${cafeNameInputRef.current?.value}
-      카페 주소 ${roadAddressInputRef.current.value + detailAddressInputRef.current.value}
-      `,
-      );
+
+    if (
+      businessRegistrationNumberInputRef.current &&
+      cafeNameInputRef.current &&
+      roadAddressInputRef.current &&
+      detailAddressInputRef.current
+    ) {
+      const formData: CafeFormData = {
+        ownerId: 1,
+        businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
+        name: cafeNameInputRef.current?.value,
+        roadAddress: roadAddressInputRef.current?.value,
+        detailAddress: detailAddressInputRef.current?.value,
+      };
+      mutate(formData);
+    }
   };
 
   return (

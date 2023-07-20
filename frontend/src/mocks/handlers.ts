@@ -20,7 +20,7 @@ export const handlers = [
   }),
 
   // 카페 등록
-  rest.post('/cafes', async (req, res, ctx) => {
+  rest.post('/cafes/:ownerId', async (req, res, ctx) => {
     const { businessRegistrationNumber, name, roadAddress, detailAddress } = await req.json();
 
     if (!businessRegistrationNumber || !name || !roadAddress || !detailAddress) {
