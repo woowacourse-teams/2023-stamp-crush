@@ -14,9 +14,10 @@ import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
 import { getCoupon } from '../SelectCoupon';
+import { BASE_URL } from '../../..';
 
 const postEarnStamp = async (earningStampCount: number, customerId: string, couponId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons/${couponId}/stamps`, {
+  const response = await fetch(`${BASE_URL}/customers/${customerId}/coupons/${couponId}/stamps`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

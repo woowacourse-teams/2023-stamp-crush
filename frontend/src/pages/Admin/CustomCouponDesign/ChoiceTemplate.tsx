@@ -5,6 +5,7 @@ import { TEMPLATE_MENU } from '../../../constants';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { parseStampCount } from '.';
+import { BASE_URL } from '../../..';
 
 const TEMPLATE_OPTIONS = [
   {
@@ -22,7 +23,7 @@ const TEMPLATE_OPTIONS = [
 ];
 
 const getCouponSamples = async (maxStampCount: number) => {
-  const response = await fetch(`/coupon-samples?max-stamp-count=${maxStampCount}`);
+  const response = await fetch(`${BASE_URL}/coupon-samples?max-stamp-count=${maxStampCount}`);
 
   if (!response.ok) {
     throw new Error('잘못된 요청입니다.');

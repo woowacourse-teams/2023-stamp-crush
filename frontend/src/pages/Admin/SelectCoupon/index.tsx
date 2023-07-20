@@ -15,9 +15,10 @@ import {
   TitleWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { BASE_URL } from '../../..';
 
 const getCustomer = async (phoneNumber: string) => {
-  const response = await fetch(`/customers?phone-number=${phoneNumber}`);
+  const response = await fetch(`${BASE_URL}/customers?phone-number=${phoneNumber}`);
 
   if (!response.ok) {
     throw new Error('고객 조회 실패');
@@ -27,7 +28,9 @@ const getCustomer = async (phoneNumber: string) => {
 };
 
 export const getCoupon = async (customerId: string, cafeId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`);
+  const response = await fetch(
+    `${BASE_URL}/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`,
+  );
 
   if (!response.ok) {
     throw new Error('쿠폰 조회 실패');
@@ -38,7 +41,7 @@ export const getCoupon = async (customerId: string, cafeId: string) => {
 
 // 신규 가입
 const registerUser = async (phoneNumber: string) => {
-  const response = await fetch('/temporary-customers', {
+  const response = await fetch(`${BASE_URL}/temporary-customers`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -53,7 +56,7 @@ const registerUser = async (phoneNumber: string) => {
 
 // 신규 쿠폰 발급
 const issueCoupon = async (customerId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons`, {
+  const response = await fetch(`${BASE_URL}/customers/${customerId}/coupons`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

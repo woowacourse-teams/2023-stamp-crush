@@ -9,9 +9,10 @@ import {
 import Text from '../../../components/Text';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
+import { BASE_URL } from '../../..';
 
 const getCustomer = async (phoneNumber: string) => {
-  const response = await fetch(`/customers?phone-number=${phoneNumber}`);
+  const response = await fetch(`${BASE_URL}/customers?phone-number=${phoneNumber}`);
   if (!response.ok) {
     throw new Error();
   }
@@ -24,7 +25,9 @@ const getReward = async (customerId: number | undefined, cafeId: number) => {
   if (!customerId) {
     throw new Error('잘못된 요청입니다.');
   }
-  const response = await fetch(`/customers/${customerId}/rewards?cafeId=${cafeId}&used=${false}`);
+  const response = await fetch(
+    `${BASE_URL}/customers/${customerId}/rewards?cafeId=${cafeId}&used=${false}`,
+  );
 
   if (!response.ok) {
     throw new Error();
@@ -35,7 +38,7 @@ const getReward = async (customerId: number | undefined, cafeId: number) => {
 };
 
 const patchReward = async (customerId: number, rewardId: number) => {
-  const response = await fetch(`/customers/${customerId}/rewards/${rewardId}`, {
+  const response = await fetch(`${BASE_URL}/customers/${customerId}/rewards/${rewardId}`, {
     method: 'PATCH',
     body: JSON.stringify({
       cafeId: 1,

@@ -14,6 +14,7 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { BASE_URL } from '../../..';
 
 interface CouponSettingDto {
   frontImageUrl: string;
@@ -24,7 +25,7 @@ interface CouponSettingDto {
   expirePeriod: number;
 }
 const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  const response = await fetch('/coupon-setting', {
+  const response = await fetch(`${BASE_URL}/coupon-setting`, {
     method: 'POST',
     body: JSON.stringify(couponConfig),
   });
