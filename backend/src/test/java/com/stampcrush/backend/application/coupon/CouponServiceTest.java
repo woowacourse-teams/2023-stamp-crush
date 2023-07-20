@@ -254,7 +254,8 @@ class CouponServiceTest {
                 1,
                 2,
                 coupon1.getCreatedAt(),
-                false
+                false,
+                10
         );
 
         CafeCustomerFindResultDto customer2Info = new CafeCustomerFindResultDto(
@@ -264,7 +265,8 @@ class CouponServiceTest {
                 0,
                 1,
                 coupon2.getCreatedAt(),
-                true
+                true,
+                10
         );
 
         CafeCustomerFindResultDto customer3Info = new CafeCustomerFindResultDto(
@@ -274,7 +276,8 @@ class CouponServiceTest {
                 0,
                 0,
                 coupon6.getCreatedAt(),
-                true
+                true,
+                10
         );
         assertThat(customers.getCustomers()).containsExactlyInAnyOrder(customer1Info, customer2Info, customer3Info);
     }
@@ -298,7 +301,8 @@ class CouponServiceTest {
                 registerCustomer1.getNickname(),
                 coupon2.getStampCount(),
                 coupon2.calculateExpireDate(),
-                false);
+                false,
+                10);
 
         //then
         assertThat(result).containsExactly(customerUsingCoupon);
@@ -326,7 +330,8 @@ class CouponServiceTest {
                 1,
                 3,
                 coupon1.getCreatedAt(),
-                false
+                false,
+                10
         );
 
         //then
@@ -461,7 +466,7 @@ class CouponServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"11, 1, 1","15, 1, 5", "49, 4, 9", "123, 12, 3"}, delimiter = ',')
+    @CsvSource(value = {"11, 1, 1", "15, 1, 5", "49, 4, 9", "123, 12, 3"}, delimiter = ',')
     void 스탬프_적립_후_쿠폰의_스탬프_개수가_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰을_발급하고_기존_쿠폰의_상태가_REWARDED가_된다(
             int earningStampCount, int expectedRewardCount, int expectRestStampCount) {
         // given, when
