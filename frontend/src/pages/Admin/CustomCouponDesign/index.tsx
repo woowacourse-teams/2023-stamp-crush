@@ -9,7 +9,7 @@ import { RowSpacing, Spacing, SubTitle, Title } from '../../../style/layout/comm
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
@@ -25,7 +25,11 @@ interface CouponSettingDto {
   expirePeriod: number;
 }
 const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  const response = await fetch(`${BASE_URL}/coupon-setting`, {
+  // TODO: 카페 아이디는 상수!!
+  const response = await fetch(`${BASE_URL}/coupon-setting?cafe-id=1`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
     method: 'POST',
     body: JSON.stringify(couponConfig),
   });
@@ -39,14 +43,30 @@ export const parseStampCount = (value: string) => {
 
 const SectionSpacing = () => <Spacing $size={40} />;
 
+const changeExpireDateFormat = (val:string) => {
+  // TODO: 매핑 객체로 변경
+  switch(val) {
+    case '6개월':
+      return 6;
+    case '12개월':
+      return 12;    
+    default:
+      return 1200;
+  }
+}
+
 const CustomCouponDesign = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
   const [backImage, uploadBackImage, setBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
   const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
   const mutateCouponPolicy = useMutation({
     mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(couponConfig),
+    onSuccess: () => {
+      navigate('/admin')
+    }
   });
 
   const changeCouponDesignAndPolicy = () => {
@@ -60,7 +80,7 @@ const CustomCouponDesign = () => {
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: location.state.reward,
-      expirePeriod: parseStampCount(location.state.stampCount),
+      expirePeriod: changeExpireDateFormat(location.state.expirePeriod),
     };
 
     console.log(payload);
