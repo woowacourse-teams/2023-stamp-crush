@@ -84,7 +84,7 @@ const SelectCoupon = () => {
     refetch: refetchCustomer,
   } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber), {
     onSuccess: (data) => {
-      if (data.customer?.[0] === null) {
+      if (data.customer.length === 0) {
         mutateTempCustomer(phoneNumber);
       }
     },
