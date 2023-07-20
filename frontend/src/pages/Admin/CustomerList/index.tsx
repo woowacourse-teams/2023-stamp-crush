@@ -57,7 +57,7 @@ const CustomerList = () => {
     onSuccess: (data) => {
       setCustomers(data.customers);
       orderCustomer();
-    },
+    }
   });
 
   const orderCustomer = () => {

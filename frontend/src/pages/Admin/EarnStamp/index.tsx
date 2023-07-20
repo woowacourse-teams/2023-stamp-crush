@@ -29,7 +29,7 @@ const postEarnStamp = async ({
   couponId,
   ownerId,
 }: StampFormData) => {
-  const response = await fetch(`/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
+  const response = await fetch(`${BASE_URL}/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

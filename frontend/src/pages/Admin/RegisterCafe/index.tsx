@@ -6,6 +6,7 @@ import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import Header from '../../../components/Header';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../..';
 
 interface CafeFormData {
   ownerId: number;
@@ -22,7 +23,7 @@ const postRegisterCafe = async ({
   roadAddress,
   detailAddress,
 }: CafeFormData) => {
-  const response = await fetch(`/cafes/${ownerId}`, {
+  const response = await fetch(`${BASE_URL}/cafes/${ownerId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ const RegisterCafe = () => {
       detailAddressInputRef.current
     ) {
       const formData: CafeFormData = {
-        ownerId: 1,
+        ownerId: 2,
         businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
         name: cafeNameInputRef.current?.value,
         roadAddress: roadAddressInputRef.current?.value,
