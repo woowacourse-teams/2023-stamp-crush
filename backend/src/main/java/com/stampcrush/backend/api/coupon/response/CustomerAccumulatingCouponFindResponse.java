@@ -8,11 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static lombok.AccessLevel.PUBLIC;
-
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor(access = PUBLIC)
+@NoArgsConstructor
 @Getter
 public class CustomerAccumulatingCouponFindResponse {
 
@@ -22,6 +20,7 @@ public class CustomerAccumulatingCouponFindResponse {
     private int stampCount;
     private LocalDateTime expireDate;
     private boolean isPrevious;
+    private int maxStampCount;
 
     public static CustomerAccumulatingCouponFindResponse from(CustomerAccumulatingCouponFindResultDto serviceDto) {
         return new CustomerAccumulatingCouponFindResponse(
@@ -30,7 +29,8 @@ public class CustomerAccumulatingCouponFindResponse {
                 serviceDto.getNickname(),
                 serviceDto.getStampCount(),
                 serviceDto.getExpireDate(),
-                serviceDto.isPrevious()
+                serviceDto.isPrevious(),
+                10
         );
     }
 }

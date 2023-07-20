@@ -45,7 +45,7 @@ public class CafeCouponSettingService {
     }
 
     private void deleteCafePolicy(Cafe cafe) {
-        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe);
+        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafe(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
             cafePolicyRepository.delete(currentCafePolicy);
@@ -53,7 +53,7 @@ public class CafeCouponSettingService {
     }
 
     private void deleteCafeCouponDesign(Cafe cafe) {
-        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe);
+        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
             cafeCouponDesignRepository.delete(currentCafeCouponDesign);

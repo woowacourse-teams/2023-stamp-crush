@@ -63,7 +63,7 @@ class CafePolicyRepositoryTest {
                 )
         );
 
-        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(savedCafe);
+        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafe(savedCafe);
 
         // then
         assertAll(

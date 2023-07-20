@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/coupon-samples")
+@RequestMapping("/api/coupon-samples")
 public class SampleCouponApiController {
 
     private final SampleCouponService sampleCouponService;
 
     @GetMapping
-    public SampleCouponFindResponse findSampleCoupons(
-            @RequestParam("max-stamp-count") Integer maxStampCount
-    ) {
+    public SampleCouponFindResponse findSampleCoupons(@RequestParam("max-stamp-count") Integer maxStampCount) {
         SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsByMaxStampCount(maxStampCount);
         return SampleCouponFindResponse.from(sampleCoupons);
     }

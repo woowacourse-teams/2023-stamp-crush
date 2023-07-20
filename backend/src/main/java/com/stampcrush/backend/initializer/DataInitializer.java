@@ -56,7 +56,7 @@ public class DataInitializer implements ApplicationRunner {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                owner_2));
+                owner_1));
 
         RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("레오", "01038626099", "leo", "1234"));
         RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("하디", "01064394814", "hardy", "5678"));
@@ -64,7 +64,7 @@ public class DataInitializer implements ApplicationRunner {
 
         CafePolicy savedCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
-                        2,
+                        10,
                         "아메리카노",
                         12,
                         false,
@@ -91,6 +91,54 @@ public class DataInitializer implements ApplicationRunner {
         CafeStampCoordinate savedCafeStampCoordinate2 = cafeStampCoordinateRepository.save(
                 new CafeStampCoordinate(
                         2, 2, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate3 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        3, 3, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate4 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        4, 4, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate5 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        5, 5, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate6 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        6, 6, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate7 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        7, 7, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate8 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        8, 8, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate9 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        9, 9, 1, savedCafeCouponDesign
+                )
+        );
+
+        CafeStampCoordinate savedCafeStampCoordinate10 = cafeStampCoordinateRepository.save(
+                new CafeStampCoordinate(
+                        10, 10, 1, savedCafeCouponDesign
                 )
         );
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/coupon-setting")
+@RequestMapping("/api/coupon-setting")
 public class CafeCouponSettingApiController {
 
     private final CafeCouponSettingService cafeCouponSettingService;

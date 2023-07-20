@@ -17,6 +17,7 @@ public class CafeCustomerFindResponse {
     private int stampCount;
     private int rewardCount;
     private int visitCount;
+    private int maxStampCount;
     private LocalDateTime firstVisitDate;
     private boolean isRegistered;
 
@@ -27,6 +28,7 @@ public class CafeCustomerFindResponse {
                 serviceDto.getStampCount(),
                 serviceDto.getRewardCount(),
                 serviceDto.getVisitCount(),
+                10,
                 serviceDto.getFirstVisitDate(),
                 serviceDto.isRegistered()
         );

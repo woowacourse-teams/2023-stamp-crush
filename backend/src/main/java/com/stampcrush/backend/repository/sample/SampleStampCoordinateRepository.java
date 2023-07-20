@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface SampleStampCoordinateRepository extends JpaRepository<SampleStampCoordinate, Long> {
 
-    List<SampleStampCoordinate> findSampleStampCoordinateBySampleBackImageId(Long sampleBackImageId);
-
     List<SampleStampCoordinate> findSampleStampCoordinateBySampleBackImage(SampleBackImage sampleBackImage);
 }

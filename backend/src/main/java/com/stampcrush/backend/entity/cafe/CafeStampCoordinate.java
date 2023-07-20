@@ -1,13 +1,18 @@
 package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 public class CafeStampCoordinate extends BaseDate {
 
@@ -32,6 +37,7 @@ public class CafeStampCoordinate extends BaseDate {
         this.cafeCouponDesign = cafeCouponDesign;
     }
 
-    protected CafeStampCoordinate() {
+    public CouponStampCoordinate copy(CouponDesign couponDesign) {
+        return new CouponStampCoordinate(stampOrder, xCoordinate, yCoordinate, couponDesign);
     }
 }

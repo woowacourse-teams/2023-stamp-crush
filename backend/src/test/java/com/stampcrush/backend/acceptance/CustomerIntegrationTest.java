@@ -103,7 +103,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
                 .when()
-                .post("/temporary-customers")
+                .post("/api/temporary-customers")
                 .then()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .extract();
@@ -116,7 +116,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
                 .when()
-                .get("/customers")
+                .get("/api/customers")
                 .then()
                 .log().all()
                 .extract();
@@ -127,7 +127,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when()
-                .post("/temporary-customers")
+                .post("/api/temporary-customers")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();

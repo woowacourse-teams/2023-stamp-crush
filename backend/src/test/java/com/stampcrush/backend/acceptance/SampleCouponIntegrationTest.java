@@ -90,7 +90,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
                 .log().all()
 
                 .when()
-                .get("/coupon-samples?max-stamp-count=8")
+                .get("/api/coupon-samples?max-stamp-count=8")
 
                 .then()
                 .extract();
@@ -113,7 +113,7 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
                 .log().all()
 
                 .when()
-                .get("/coupon-samples?max-stamp-count=10")
+                .get("/api/coupon-samples?max-stamp-count=10")
 
                 .then()
                 .extract();
