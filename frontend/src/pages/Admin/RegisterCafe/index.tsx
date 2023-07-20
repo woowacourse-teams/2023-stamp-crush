@@ -60,7 +60,7 @@ const RegisterCafe = () => {
   );
 
   // 도로명 주소 메서드
-  const handleComplete = (data: Address) => {
+  const findAddress = (data: Address) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -77,8 +77,8 @@ const RegisterCafe = () => {
     setRoadAddress(fullAddress);
   };
 
-  const handleClick = () => {
-    openPostcodePopup({ onComplete: handleComplete });
+  const openAddressPopup = () => {
+    openPostcodePopup({ onComplete: findAddress });
   };
 
   const certifyUser: MouseEventHandler<HTMLButtonElement> = () => {
@@ -104,6 +104,20 @@ const RegisterCafe = () => {
       mutate(formData);
     }
   };
+
+  if (isLoading)
+    return (
+      <>
+        <Header /> <ContentContainer>Loading...</ContentContainer>
+      </>
+    );
+
+  if (isError)
+    return (
+      <>
+        <Header /> <ContentContainer>Error</ContentContainer>
+      </>
+    );
 
   return (
     <>
@@ -142,7 +156,7 @@ const RegisterCafe = () => {
               placeholder={'카페 주소를 입력해주세요.'}
               required={true}
             />
-            <Button type="button" variant={'secondary'} size={'medium'} onClick={handleClick}>
+            <Button type="button" variant={'secondary'} size={'medium'} onClick={openAddressPopup}>
               주소 찾기
             </Button>
           </InputWithButtonWrapper>
