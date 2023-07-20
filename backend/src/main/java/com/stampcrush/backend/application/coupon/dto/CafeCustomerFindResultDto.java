@@ -18,4 +18,5 @@ public class CafeCustomerFindResultDto {
     private int visitCount;
     private LocalDateTime firstVisitDate;
     private boolean isRegistered;
+    private int maxStampCount = 10;
 }
