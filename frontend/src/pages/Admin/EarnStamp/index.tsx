@@ -35,7 +35,6 @@ const EarnStamp = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  console.log('state', state);
   const { mutate, isLoading, isError } = useMutation(
     (earningStampCount: number) => postEarnStamp(earningStampCount, '1', '1'),
     {
