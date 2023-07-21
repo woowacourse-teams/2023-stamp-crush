@@ -5,6 +5,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -27,16 +28,19 @@ public class CafeCouponSettingService {
 
     @Transactional
     public void updateCafeCouponSetting(Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
+        Cafe cafe = findExistingCafe(cafeId);
+        deletePreviousSetting(cafe);
+        createNewSetting(cafe, cafeCouponSettingDto);
+    }
+
+    private Cafe findExistingCafe(Long cafeId) {
         Optional<Cafe> findCafe = cafeRepository.findById(cafeId);
 
         if (findCafe.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 카페입니다.");
+            throw new CafeNotFoundException("존재하지 않는 카페입니다.");
         }
 
-        Cafe cafe = findCafe.get();
-
-        deletePreviousSetting(cafe);
-        createNewSetting(cafe, cafeCouponSettingDto);
+        return findCafe.get();
     }
 
     private void deletePreviousSetting(Cafe cafe) {

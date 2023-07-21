@@ -9,6 +9,7 @@ import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -31,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -237,7 +237,7 @@ class CouponServiceTest {
     @Test
     void 조회하려는_카페가_존재하지_않으면_예외발생() {
         assertThatThrownBy(() -> couponService.findCouponsByCafe(100L))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(CafeNotFoundException.class);
     }
 
 //    @Test

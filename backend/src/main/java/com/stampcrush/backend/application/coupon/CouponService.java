@@ -14,6 +14,7 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -33,8 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
@@ -54,9 +55,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public CafeCustomersFindResultDto findCouponsByCafe(Long cafeId) {
-        Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 카페 입니다."));
-
+        Cafe cafe = findExistingCafe(cafeId);
         Map<Customer, List<Coupon>> couponsByCustomer = mapCouponsByCustomer(cafe);
         List<CafeCustomerFindResultDto> customers = new ArrayList<>();
         for (Customer customer : couponsByCustomer.keySet()) {
@@ -66,6 +65,11 @@ public class CouponService {
             addCustomerInfo(customers, customer, customerInfo.stampCount(), customerInfo.rewardCount(), customerInfo.visitCount(), customerInfo.firstVisitDate());
         }
         return new CafeCustomersFindResultDto(customers);
+    }
+
+    private Cafe findExistingCafe(Long cafeId) {
+        return cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
     }
 
     private CustomerInfo statisticsCustomerByCoupons(List<Coupon> coupons) {
@@ -88,7 +92,7 @@ public class CouponService {
     private Map<Customer, List<Coupon>> mapCouponsByCustomer(Cafe cafe) {
         List<Coupon> coupons = couponRepository.findByCafe(cafe);
         return coupons.stream()
-                .collect(Collectors.groupingBy(Coupon::getCustomer));
+                .collect(groupingBy(Coupon::getCustomer));
     }
 
     private int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
