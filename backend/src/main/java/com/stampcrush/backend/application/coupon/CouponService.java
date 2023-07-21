@@ -1,7 +1,6 @@
 package com.stampcrush.backend.application.coupon;
 
 import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
@@ -43,6 +42,8 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class CouponService {
 
+    private static final int DEFAULT_MAX_COUNT = 10;
+
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
@@ -53,18 +54,26 @@ public class CouponService {
     private final OwnerRepository ownerRepository;
     private final RewardRepository rewardRepository;
 
-    @Transactional(readOnly = true)
-    public CafeCustomersFindResultDto findCouponsByCafe(Long cafeId) {
-        Cafe cafe = findExistingCafe(cafeId);
-        Map<Customer, List<Coupon>> couponsByCustomer = mapCouponsByCustomer(cafe);
-        List<CafeCustomerFindResultDto> customers = new ArrayList<>();
-        for (Customer customer : couponsByCustomer.keySet()) {
-            List<Coupon> coupons = couponsByCustomer.get(customer);
+    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
+    }
 
+    public record CustomerInfo(int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
+    }
+
+    @Transactional(readOnly = true)
+    public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
+        Cafe cafe = findExistingCafe(cafeId);
+
+        List<CustomerCoupons> customerCoupons = findCouponsGroupedByCustomers(cafe);
+
+        List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
+        for (CustomerCoupons customerCoupon : customerCoupons) {
+            List<Coupon> coupons = customerCoupon.coupons;
             CustomerInfo customerInfo = statisticsCustomerByCoupons(coupons);
-            addCustomerInfo(customers, customer, customerInfo.stampCount(), customerInfo.rewardCount(), customerInfo.visitCount(), customerInfo.firstVisitDate());
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerInfo, DEFAULT_MAX_COUNT));
         }
-        return new CafeCustomersFindResultDto(customers);
+
+        return cafeCustomerFindResultDtos;
     }
 
     private Cafe findExistingCafe(Long cafeId) {
@@ -86,13 +95,13 @@ public class CouponService {
         return new CustomerInfo(stampCount, rewardCount, visitCount, firstVisitDate);
     }
 
-    private record CustomerInfo(int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
-    }
-
-    private Map<Customer, List<Coupon>> mapCouponsByCustomer(Cafe cafe) {
+    private List<CustomerCoupons> findCouponsGroupedByCustomers(Cafe cafe) {
         List<Coupon> coupons = couponRepository.findByCafe(cafe);
-        return coupons.stream()
+        Map<Customer, List<Coupon>> customerCouponMap = coupons.stream()
                 .collect(groupingBy(Coupon::getCustomer));
+        return customerCouponMap.keySet().stream()
+                .map(iter -> new CustomerCoupons(iter, customerCouponMap.get(iter)))
+                .toList();
     }
 
     private int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
@@ -107,19 +116,6 @@ public class CouponService {
             return 1;
         }
         return 0;
-    }
-
-    private void addCustomerInfo(List<CafeCustomerFindResultDto> customers, Customer customer, int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
-        customers.add(new CafeCustomerFindResultDto(
-                customer.getId(),
-                customer.getNickname(),
-                stampCount,
-                rewardCount,
-                visitCount,
-                firstVisitDate,
-                customer.isRegistered(),
-                10
-        ));
     }
 
     @Transactional(readOnly = true)
@@ -169,9 +165,10 @@ public class CouponService {
         CouponPolicy couponPolicy = cafePolicy.copy();
         couponPolicyRepository.save(couponPolicy);
 
-        Coupon coupon = new Coupon(LocalDate.now().plusMonths(couponPolicy.getExpiredPeriod()), customer, cafe, couponDesign, couponPolicy);
-        couponRepository.save(coupon);
-        return coupon;
+        LocalDate expiredDate = LocalDate.now().plusMonths(couponPolicy.getExpiredPeriod());
+
+        Coupon coupon = new Coupon(expiredDate, customer, cafe, couponDesign, couponPolicy);
+        return couponRepository.save(coupon);
     }
 
     public void createStamp(StampCreateDto stampCreateDto) {

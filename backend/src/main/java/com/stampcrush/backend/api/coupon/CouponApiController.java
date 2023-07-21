@@ -4,7 +4,7 @@ import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.coupon.response.*;
 import com.stampcrush.backend.application.coupon.CouponService;
-import com.stampcrush.backend.application.coupon.dto.CafeCustomersFindResultDto;
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class CouponApiController {
 
     @GetMapping("/cafes/{cafeId}/customers")
     public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(@PathVariable Long cafeId) {
-        CafeCustomersFindResultDto coupons = couponService.findCouponsByCafe(cafeId);
-        List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.getCustomers().stream()
+        List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafeId);
+        List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
                 .toList();
 
