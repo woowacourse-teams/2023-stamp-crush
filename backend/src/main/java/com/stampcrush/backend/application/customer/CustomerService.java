@@ -37,7 +37,7 @@ public class CustomerService {
     public Long createTemporaryCustomer(String phoneNumber) {
         checkExistCustomer(phoneNumber);
 
-        String nickname = phoneNumber.substring(phoneNumber.length() - NICKNAME_LENGTH);
+        String nickname = formatNicknameFromPhoneNumber(phoneNumber);
 
         TemporaryCustomer temporaryCustomer = new TemporaryCustomer(nickname, phoneNumber);
         TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
@@ -45,9 +45,13 @@ public class CustomerService {
         return savedTemporaryCustomer.getId();
     }
 
+    private static String formatNicknameFromPhoneNumber(String phoneNumber) {
+        return phoneNumber.substring(phoneNumber.length() - NICKNAME_LENGTH);
+    }
+
     private void checkExistCustomer(String phoneNumber) {
         if (!customerRepository.findByPhoneNumber(phoneNumber).isEmpty()) {
-            throw new CustomerBadRequestException("Bad request.", new IllegalArgumentException("이미 존재하는 회원입니다"));
+            throw new CustomerBadRequestException("이미 존재하는 회원입니다");
         }
     }
 }
