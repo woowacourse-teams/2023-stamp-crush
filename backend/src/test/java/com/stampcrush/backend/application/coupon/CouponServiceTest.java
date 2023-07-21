@@ -10,6 +10,7 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.exception.CafeNotFoundException;
+import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -33,6 +34,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.stampcrush.backend.fixture.CouponDesignFixture.*;
 import static com.stampcrush.backend.fixture.CustomerFixture.*;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER1;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER2;
@@ -200,24 +202,25 @@ class CouponServiceTest {
                 )
         );
 
-        couponDesign1 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign2 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign3 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign4 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign5 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign6 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign1 = couponDesignRepository.save(COUPON_DESIGN_1);
+        couponDesign2 = couponDesignRepository.save(COUPON_DESIGN_2);
+        couponDesign3 = couponDesignRepository.save(COUPON_DESIGN_3);
+        couponDesign4 = couponDesignRepository.save(COUPON_DESIGN_4);
+        couponDesign5 = couponDesignRepository.save(COUPON_DESIGN_5);
+        couponDesign6 = couponDesignRepository.save(COUPON_DESIGN_6);
 
-        couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy3 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy6 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy1 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1);
+        couponPolicy2 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2);
+        couponPolicy3 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3);
+        couponPolicy4 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_4);
+        couponPolicy5 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_5);
+        couponPolicy6 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_6);
 
         coupon1 = new Coupon(LocalDate.EPOCH, temporaryCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
-        Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
+
+        Stamp stamp2 = new Stamp();
         stamp2.registerCoupon(coupon1);
         Coupon save = couponRepository.save(coupon1);
         save.reward();
