@@ -28,14 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Transactional
@@ -57,9 +55,6 @@ public class CouponService {
     private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 
-    public record CustomerInfo(int stampCount, int rewardCount, int visitCount, LocalDateTime firstVisitDate) {
-    }
-
     @Transactional(readOnly = true)
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
@@ -69,8 +64,8 @@ public class CouponService {
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
         for (CustomerCoupons customerCoupon : customerCoupons) {
             List<Coupon> coupons = customerCoupon.coupons;
-            CustomerInfo customerInfo = statisticsCustomerByCoupons(coupons);
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerInfo, DEFAULT_MAX_COUNT));
+            CustomerCouponStatistics customerCouponStatistics = CustomerCouponStatistics.produceFrom(coupons);
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics, DEFAULT_MAX_COUNT));
         }
 
         return cafeCustomerFindResultDtos;
@@ -79,20 +74,6 @@ public class CouponService {
     private Cafe findExistingCafe(Long cafeId) {
         return cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
-    }
-
-    private CustomerInfo statisticsCustomerByCoupons(List<Coupon> coupons) {
-        int stampCount = 0;
-        int rewardCount = 0;
-        int visitCount = 0;
-        LocalDateTime firstVisitDate = LocalDateTime.MAX;
-        for (Coupon coupon : coupons) {
-            stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
-            rewardCount += addRewardCouponCount(coupon);
-            visitCount += coupon.calculateVisitCount();
-            firstVisitDate = coupon.compareCreatedAtAndReturnEarlier(firstVisitDate);
-        }
-        return new CustomerInfo(stampCount, rewardCount, visitCount, firstVisitDate);
     }
 
     private List<CustomerCoupons> findCouponsGroupedByCustomers(Cafe cafe) {
@@ -104,20 +85,6 @@ public class CouponService {
                 .toList();
     }
 
-    private int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
-        if (coupon.isUsing()) {
-            stampCount = coupon.getStampCount();
-        }
-        return stampCount;
-    }
-
-    private int addRewardCouponCount(Coupon coupon) {
-        if (coupon.isRewarded()) {
-            return 1;
-        }
-        return 0;
-    }
-
     @Transactional(readOnly = true)
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long cafeId, Long customerId) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 카페 입니다."));
@@ -126,11 +93,11 @@ public class CouponService {
         List<Coupon> coupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
 
         return coupons.stream()
-                .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(
+                .map(coupon -> CustomerAccumulatingCouponFindResultDto.from(
                         coupon,
                         customer,
                         isPrevious(coupon)))
-                .collect(toList());
+                .toList();
     }
 
     private boolean isPrevious(Coupon coupon) {
