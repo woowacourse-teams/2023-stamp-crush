@@ -10,7 +10,6 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.exception.CafeNotFoundException;
-import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -35,6 +34,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.stampcrush.backend.fixture.CouponDesignFixture.*;
+import static com.stampcrush.backend.fixture.CouponPolicyFixture.*;
 import static com.stampcrush.backend.fixture.CustomerFixture.*;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER1;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER2;
@@ -209,12 +209,12 @@ class CouponServiceTest {
         couponDesign5 = couponDesignRepository.save(COUPON_DESIGN_5);
         couponDesign6 = couponDesignRepository.save(COUPON_DESIGN_6);
 
-        couponPolicy1 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1);
-        couponPolicy2 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2);
-        couponPolicy3 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3);
-        couponPolicy4 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_4);
-        couponPolicy5 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_5);
-        couponPolicy6 = couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_6);
+        couponPolicy1 = couponPolicyRepository.save(COUPON_POLICY_1);
+        couponPolicy2 = couponPolicyRepository.save(COUPON_POLICY_2);
+        couponPolicy3 = couponPolicyRepository.save(COUPON_POLICY_3);
+        couponPolicy4 = couponPolicyRepository.save(COUPON_POLICY_4);
+        couponPolicy5 = couponPolicyRepository.save(COUPON_POLICY_5);
+        couponPolicy6 = couponPolicyRepository.save(COUPON_POLICY_6);
 
         coupon1 = new Coupon(LocalDate.EPOCH, temporaryCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
