@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.coupon;
 
+import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
@@ -488,5 +489,31 @@ class CouponServiceTest {
         softAssertions.assertThat(usingCoupons.size()).isEqualTo(1);
         softAssertions.assertThat(usingCoupon.getStampCount()).isEqualTo(expectRestStampCount);
         softAssertions.assertAll();
+    }
+
+    @Test
+    void 카페의_고객_중_적립중인_쿠폰이_없으면_maxStampCount는_0이다() {
+        // given, when
+        List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe1.getId());
+
+        CustomerCouponStatistics coupon1Statics = CustomerCouponStatistics.produceFrom(List.of(coupon1));
+        CafeCustomerFindResultDto coupon1Result = CafeCustomerFindResultDto.from(temporaryCustomer1, coupon1Statics);
+
+        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(0, 1, 1, 0, LocalDate.EPOCH.atStartOfDay()));
+        // then
+        assertThat(coupons).containsAnyOf(coupon1Result);
+    }
+
+    @Test
+    void 카페의_고객_중_적립중인_쿠폰이_있으면_maxStampCount는_해당_쿠폰에_맞는_maxStampCount다() {
+        // given, when
+        List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe1.getId());
+
+        CustomerCouponStatistics coupon2Statics = CustomerCouponStatistics.produceFrom(List.of(coupon2));
+        CafeCustomerFindResultDto coupon2Result = CafeCustomerFindResultDto.from(registerCustomer1, coupon2Statics);
+
+        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 10, LocalDate.EPOCH.atStartOfDay()));
+        // then
+        assertThat(coupons).containsAnyOf(coupon2Result);
     }
 }

@@ -40,8 +40,6 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 public class CouponService {
 
-    private static final int DEFAULT_MAX_COUNT = 10;
-
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
@@ -65,7 +63,7 @@ public class CouponService {
         for (CustomerCoupons customerCoupon : customerCoupons) {
             List<Coupon> coupons = customerCoupon.coupons;
             CustomerCouponStatistics customerCouponStatistics = CustomerCouponStatistics.produceFrom(coupons);
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics, DEFAULT_MAX_COUNT));
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics));
         }
 
         return cafeCustomerFindResultDtos;
