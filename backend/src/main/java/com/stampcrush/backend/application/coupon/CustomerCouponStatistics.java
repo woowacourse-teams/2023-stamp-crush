@@ -31,7 +31,7 @@ public class CustomerCouponStatistics {
     }
 
     private static int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
-        if (coupon.isUsing()) {
+        if (coupon.isAccumulating()) {
             stampCount = coupon.getStampCount();
         }
         return stampCount;

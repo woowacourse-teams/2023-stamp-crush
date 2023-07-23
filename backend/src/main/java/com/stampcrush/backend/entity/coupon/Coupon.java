@@ -68,7 +68,7 @@ public class Coupon extends BaseDate {
         this.status = CouponStatus.EXPIRED;
     }
 
-    public boolean isUsing() {
+    public boolean isAccumulating() {
         return this.status == CouponStatus.ACCUMULATING;
     }
 
