@@ -2,15 +2,13 @@ package com.stampcrush.backend.application.coupon.dto;
 
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Customer;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PUBLIC;
 
+@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor(access = PUBLIC)
@@ -33,7 +31,7 @@ public class CustomerAccumulatingCouponFindResultDto {
                 coupon.getStampCount(),
                 coupon.calculateExpireDate(),
                 isPrevious,
-                10
+                coupon.getCouponMaxStampCount()
         );
     }
 }
