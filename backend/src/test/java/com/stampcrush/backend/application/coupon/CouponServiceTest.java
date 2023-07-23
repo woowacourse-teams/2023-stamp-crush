@@ -506,14 +506,22 @@ class CouponServiceTest {
 
     @Test
     void 카페의_고객_중_적립중인_쿠폰이_있으면_maxStampCount는_해당_쿠폰에_맞는_maxStampCount다() {
-        // given, when
-        List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe1.getId());
+        // given
+        CouponDesign couponDesign = couponDesignRepository.save(COUPON_DESIGN_7);
+        CouponPolicy couponPolicy = couponPolicyRepository.save(COUPON_POLICY_7); // max20
+        TemporaryCustomer customer = temporaryCustomerRepository.save(new TemporaryCustomer("new tmp customer", "new tmp customer phone"));
+        Coupon coupon = new Coupon(LocalDate.EPOCH, customer, cafe2, couponDesign, couponPolicy);
+        Stamp stamp = new Stamp();
+        stamp.registerCoupon(coupon);
+        couponRepository.save(coupon);
+        // when
+        List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe2.getId());
 
-        CustomerCouponStatistics coupon2Statics = CustomerCouponStatistics.produceFrom(List.of(coupon2));
-        CafeCustomerFindResultDto coupon2Result = CafeCustomerFindResultDto.from(registerCustomer1, coupon2Statics);
+        CustomerCouponStatistics couponStatics = CustomerCouponStatistics.produceFrom(List.of(coupon));
+        CafeCustomerFindResultDto couponResult = CafeCustomerFindResultDto.from(customer, couponStatics);
 
-        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 10, LocalDate.EPOCH.atStartOfDay()));
+        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 20, LocalDate.EPOCH.atStartOfDay()));
         // then
-        assertThat(coupons).containsAnyOf(coupon2Result);
+        assertThat(coupons).containsAnyOf(couponResult);
     }
 }

@@ -10,5 +10,6 @@ public class CouponDesignFixture {
     public static final CouponDesign COUPON_DESIGN_4 = new CouponDesign("front", "back", "stamp");
     public static final CouponDesign COUPON_DESIGN_5 = new CouponDesign("front", "back", "stamp");
     public static final CouponDesign COUPON_DESIGN_6 = new CouponDesign("front", "back", "stamp");
+    public static final CouponDesign COUPON_DESIGN_7 = new CouponDesign("front", "back", "stamp");
 
 }
