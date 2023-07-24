@@ -17,7 +17,7 @@ class CouponTest {
     @Test
     void 쿠폰이_현재_USING_상태인지_확인한다() {
         // given, when
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer( "01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from( "01012345678"), new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -38,7 +38,7 @@ class CouponTest {
     @Test
     void 쿠폰이_현재_REWARD_상태인지_확인한다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -62,7 +62,7 @@ class CouponTest {
     @Test
     void 스탬프를_적립한다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -85,7 +85,7 @@ class CouponTest {
     @Test
     void 스탬프를_적립하고_최대_스탬프_개수와_같아지면_쿠폰_상태가_REWARDED가_된다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, new TemporaryCustomer( "01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from( "01012345678"), new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),

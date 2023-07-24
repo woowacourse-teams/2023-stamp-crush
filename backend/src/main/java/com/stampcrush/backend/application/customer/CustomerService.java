@@ -37,7 +37,7 @@ public class CustomerService {
     public Long createTemporaryCustomer(String phoneNumber) {
         checkExistCustomer(phoneNumber);
 
-        TemporaryCustomer temporaryCustomer = new TemporaryCustomer(phoneNumber);
+        TemporaryCustomer temporaryCustomer = TemporaryCustomer.from(phoneNumber);
         TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
 
         return savedTemporaryCustomer.getId();

@@ -82,9 +82,9 @@ class CouponRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        tmpCustomer1 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 번호"));
-        tmpCustomer2 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 번호"));
-        tmpCustomer3 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 번호"));
+        tmpCustomer1 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호"));
+        tmpCustomer2 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호"));
+        tmpCustomer3 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호"));
 
         registerCustomer1 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
         registerCustomer2 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
