@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class CafeCouponSettingDto {
+public class CafeCouponSettingDtodd {
 
     private final CafeCouponDesignDto cafeCouponDesignDto;
     private final CafePolicyDto cafePolicyDto;
