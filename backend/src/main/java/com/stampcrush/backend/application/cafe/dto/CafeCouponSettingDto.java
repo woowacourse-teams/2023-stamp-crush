@@ -23,6 +23,7 @@ public class CafeCouponSettingDto {
         private final String backImageUrl;
         private final String stampImageUrl;
         private final List<CafeStampCoordinateDto> coordinates;
+        private final List<Integer> tests;
 
         @Getter
         @ToString
