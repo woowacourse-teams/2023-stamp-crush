@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
-import { api } from '../../../api';
+import { getList } from '../../../api/get';
 
 const CUSTOMERS_ORDER_OPTIONS = [
   {
@@ -43,10 +43,6 @@ interface CustomerType {
   firstVisitDate: string;
   isRegistered: boolean;
 }
-
-const getList = async () => {
-  return await api.get('/cafes/1/customers');
-};
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');

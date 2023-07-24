@@ -4,6 +4,10 @@ export const getCustomer = async (phoneNumber: string) => {
   return await api.get(`/customers?phone-number=${phoneNumber}`);
 };
 
+export const getList = async () => {
+  return await api.get('/cafes/1/customers');
+};
+
 export const getCoupon = async (customerId: string, cafeId: string) => {
   return await api.get(`/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`);
 };
