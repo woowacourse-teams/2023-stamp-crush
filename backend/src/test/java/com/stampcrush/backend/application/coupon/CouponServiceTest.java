@@ -9,6 +9,7 @@ import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -31,8 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+import static com.stampcrush.backend.fixture.CouponDesignFixture.*;
+import static com.stampcrush.backend.fixture.CouponPolicyFixture.*;
+import static com.stampcrush.backend.fixture.CustomerFixture.*;
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER1;
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -74,9 +79,9 @@ class CouponServiceTest {
     @Autowired
     private RewardRepository rewardRepository;
 
-    private TemporaryCustomer tmpCustomer1;
-    private TemporaryCustomer tmpCustomer2;
-    private TemporaryCustomer tmpCustomer3;
+    private TemporaryCustomer temporaryCustomer1;
+    private TemporaryCustomer temporaryCustomer2;
+    private TemporaryCustomer temporaryCustomer3;
 
     private RegisterCustomer registerCustomer1;
     private RegisterCustomer registerCustomer2;
@@ -121,36 +126,41 @@ class CouponServiceTest {
 
     @BeforeEach
     void setUp() {
-        tmpCustomer1 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
-        tmpCustomer2 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
-        tmpCustomer3 = temporaryCustomerRepository.save(new TemporaryCustomer("깃짱 닉네임", "깃짱 번호"));
+        temporaryCustomer1 = temporaryCustomerRepository.save(TEMPORARY_CUSTOMER_1);
+        temporaryCustomer2 = temporaryCustomerRepository.save(TEMPORARY_CUSTOMER_2);
+        temporaryCustomer3 = temporaryCustomerRepository.save(TEMPORARY_CUSTOMER_3);
+        registerCustomer1 = registerCustomerRepository.save(REGISTER_CUSTOMER_1);
+        registerCustomer2 = registerCustomerRepository.save(REGISTER_CUSTOMER_2);
 
-        registerCustomer1 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
-        registerCustomer2 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번"));
+        owner1 = ownerRepository.save(OWNER1);
+        owner2 = ownerRepository.save(OWNER2);
 
-        owner1 = ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"));
-        owner2 = ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"));
-
-        cafe1 = cafeRepository.save(new Cafe(
-                "하디까페",
-                LocalTime.of(12, 30),
-                LocalTime.of(18, 30),
-                "0211111111",
-                "http://www.cafeImage.com",
-                "잠실동12길",
-                "14층",
-                "11111111",
-                owner1));
-        cafe2 = cafeRepository.save(new Cafe(
-                "하디까페",
-                LocalTime.of(12, 30),
-                LocalTime.of(18, 30),
-                "0211111111",
-                "http://www.cafeImage.com",
-                "잠실동12길",
-                "14층",
-                "11111111",
-                owner2));
+        cafe1 = cafeRepository.save(
+                new Cafe(
+                        "하디까페",
+                        LocalTime.of(12, 30),
+                        LocalTime.of(18, 30),
+                        "0211111111",
+                        "http://www.cafeImage.com",
+                        "잠실동12길",
+                        "14층",
+                        "11111111",
+                        owner1
+                )
+        );
+        cafe2 = cafeRepository.save(
+                new Cafe(
+                        "하디까페",
+                        LocalTime.of(12, 30),
+                        LocalTime.of(18, 30),
+                        "0211111111",
+                        "http://www.cafeImage.com",
+                        "잠실동12길",
+                        "14층",
+                        "11111111",
+                        owner2
+                )
+        );
 
         cafeCouponDesign1 = cafeCouponDesignRepository.save(
                 new CafeCouponDesign(
@@ -192,24 +202,25 @@ class CouponServiceTest {
                 )
         );
 
-        couponDesign1 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign2 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign3 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign4 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign5 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign6 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        couponDesign1 = couponDesignRepository.save(COUPON_DESIGN_1);
+        couponDesign2 = couponDesignRepository.save(COUPON_DESIGN_2);
+        couponDesign3 = couponDesignRepository.save(COUPON_DESIGN_3);
+        couponDesign4 = couponDesignRepository.save(COUPON_DESIGN_4);
+        couponDesign5 = couponDesignRepository.save(COUPON_DESIGN_5);
+        couponDesign6 = couponDesignRepository.save(COUPON_DESIGN_6);
 
-        couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy3 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy6 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        couponPolicy1 = couponPolicyRepository.save(COUPON_POLICY_1);
+        couponPolicy2 = couponPolicyRepository.save(COUPON_POLICY_2);
+        couponPolicy3 = couponPolicyRepository.save(COUPON_POLICY_3);
+        couponPolicy4 = couponPolicyRepository.save(COUPON_POLICY_4);
+        couponPolicy5 = couponPolicyRepository.save(COUPON_POLICY_5);
+        couponPolicy6 = couponPolicyRepository.save(COUPON_POLICY_6);
 
-        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
+        coupon1 = new Coupon(LocalDate.EPOCH, temporaryCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
-        Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
+
+        Stamp stamp2 = new Stamp();
         stamp2.registerCoupon(coupon1);
         Coupon save = couponRepository.save(coupon1);
         save.reward();
@@ -219,12 +230,12 @@ class CouponServiceTest {
         stamp3.registerCoupon(coupon2);
         couponRepository.save(coupon2);
 
-        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3, couponPolicy3);
+        coupon3 = new Coupon(LocalDate.EPOCH, temporaryCustomer2, cafe2, couponDesign3, couponPolicy3);
         Stamp stamp4 = new Stamp();
         stamp4.registerCoupon(coupon3);
         couponRepository.save(coupon3);
 
-        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4, couponPolicy4);
+        coupon4 = new Coupon(LocalDate.EPOCH, temporaryCustomer3, cafe2, couponDesign4, couponPolicy4);
         couponRepository.save(coupon4);
 
         coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
@@ -237,7 +248,7 @@ class CouponServiceTest {
     @Test
     void 조회하려는_카페가_존재하지_않으면_예외발생() {
         assertThatThrownBy(() -> couponService.findCouponsByCafe(100L))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(CafeNotFoundException.class);
     }
 
 //    @Test
@@ -280,7 +291,7 @@ class CouponServiceTest {
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), tmpCustomer1.getId());
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(result).isEmpty();
@@ -360,7 +371,7 @@ class CouponServiceTest {
         CouponDesign couponDesign7 = couponDesignRepository.save(new CouponDesign("front", "Back", "Stamp"));
         CouponPolicy couponPolicy7 = couponPolicyRepository.save(new CouponPolicy(oldCafePolicy.getMaxStampCount(), oldCafePolicy.getReward(), oldCafePolicy.getExpirePeriod()));
 
-        couponRepository.save(new Coupon(LocalDate.now(), tmpCustomer1, cafe3, couponDesign7, couponPolicy7));
+        couponRepository.save(new Coupon(LocalDate.now(), temporaryCustomer1, cafe3, couponDesign7, couponPolicy7));
 
         // when 새로운 정책으로 변경하고 쿠폰을 저장한다
         cafePolicyRepository.save(
@@ -376,14 +387,14 @@ class CouponServiceTest {
         CouponDesign couponDesign8 = couponDesignRepository.save(new CouponDesign("front", "Back", "Stamp"));
         CouponPolicy couponPolicy8 = couponPolicyRepository.save(new CouponPolicy(oldCafePolicy.getMaxStampCount(), oldCafePolicy.getReward(), oldCafePolicy.getExpirePeriod()));
 
-        couponRepository.save(new Coupon(LocalDate.now(), tmpCustomer2, cafe3, couponDesign8, couponPolicy8));
+        couponRepository.save(new Coupon(LocalDate.now(), temporaryCustomer2, cafe3, couponDesign8, couponPolicy8));
 
         // when 이전 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
-        List<CustomerAccumulatingCouponFindResultDto> oldCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), tmpCustomer1.getId());
+        List<CustomerAccumulatingCouponFindResultDto> oldCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer1.getId());
         CustomerAccumulatingCouponFindResultDto oldCustomerCoupon = oldCouponResult.get(0);
 
         // when 새로운 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
-        List<CustomerAccumulatingCouponFindResultDto> newCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), tmpCustomer2.getId());
+        List<CustomerAccumulatingCouponFindResultDto> newCouponResult = couponService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer2.getId());
         CustomerAccumulatingCouponFindResultDto newCustomerCoupon = newCouponResult.get(0);
 
         assertThat(oldCustomerCoupon.isPrevious()).isTrue();
@@ -393,7 +404,7 @@ class CouponServiceTest {
     @Test
     void 새로운_쿠폰을_발급한다() {
         // given, when
-        Long savedCouponId = couponService.createCoupon(cafe1.getId(), tmpCustomer1.getId());
+        Long savedCouponId = couponService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(savedCouponId).isNotNull();
@@ -404,10 +415,10 @@ class CouponServiceTest {
         // given
         CouponDesign existCouponDesign = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
         CouponPolicy existCouponPolicy = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        Coupon existCoupon = couponRepository.save(new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, existCouponDesign, existCouponPolicy));
+        Coupon existCoupon = couponRepository.save(new Coupon(LocalDate.EPOCH, temporaryCustomer1, cafe1, existCouponDesign, existCouponPolicy));
 
         // when
-        couponService.createCoupon(cafe1.getId(), tmpCustomer1.getId());
+        couponService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(existCoupon.getStatus()).isEqualTo(CouponStatus.EXPIRED);

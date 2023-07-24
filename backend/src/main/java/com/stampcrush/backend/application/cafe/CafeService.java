@@ -11,6 +11,7 @@ import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
 import com.stampcrush.backend.entity.sample.SampleStampImage;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -40,17 +41,37 @@ public class CafeService {
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     public Long createCafe(CafeCreateDto cafeCreateDto) {
-        Owner owner = ownerRepository.findById(cafeCreateDto.getOwnerId())
-                .orElseThrow(() -> new IllegalArgumentException("회원가입을 먼저 진행해주세요."));
-        Cafe cafe = new Cafe(
-                cafeCreateDto.getName(),
-                cafeCreateDto.getRoadAddress(),
-                cafeCreateDto.getDetailAddress(),
-                cafeCreateDto.getBusinessRegistrationNumber(),
-                owner);
-        cafeRepository.save(cafe);
-        cafePolicyRepository.save(CafePolicy.createDefaultCafePolicy(cafe));
+        Owner owner = findExistingOwnerById(cafeCreateDto.getOwnerId());
+        Cafe savedCafe = saveCafe(cafeCreateDto, owner);
+        assignDefaultCafePolicyToCafe(savedCafe);
+        assignDefaultSampleCafeCouponToCafe(savedCafe);
 
+        return savedCafe.getId();
+    }
+
+    private Owner findExistingOwnerById(Long ownerId) {
+        return ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException("회원가입을 먼저 진행해주세요."));
+    }
+
+    private Cafe saveCafe(CafeCreateDto cafeCreateDto, Owner owner) {
+        return cafeRepository.save(
+                new Cafe(
+                        cafeCreateDto.getName(),
+                        cafeCreateDto.getRoadAddress(),
+                        cafeCreateDto.getDetailAddress(),
+                        cafeCreateDto.getBusinessRegistrationNumber(),
+                        owner
+                )
+        );
+    }
+
+    private void assignDefaultCafePolicyToCafe(Cafe savedCafe) {
+        CafePolicy defaultCafePolicy = CafePolicy.createDefaultCafePolicy(savedCafe);
+        cafePolicyRepository.save(defaultCafePolicy);
+    }
+
+    private void assignDefaultSampleCafeCouponToCafe(Cafe savedCafe) {
         SampleFrontImage defaultSampleFrontImage = findDefaultSampleFrontImage();
         SampleBackImage defaultSampleBackImage = findDefaultSampleBackImage();
         SampleStampImage defaultSampleStampImage = findDefaultSampleStampImage();
@@ -59,7 +80,8 @@ public class CafeService {
                 defaultSampleBackImage.getImageUrl(),
                 defaultSampleStampImage.getImageUrl(),
                 false,
-                cafe);
+                savedCafe
+        );
         cafeCouponDesignRepository.save(defaultCafeCouponDesign);
         for (SampleStampCoordinate sampleStampCoordinate : defaultSampleBackImage.getSampleStampCoordinates()) {
             CafeStampCoordinate cafeStampCoordinate = new CafeStampCoordinate(sampleStampCoordinate.getStampOrder(),
@@ -68,7 +90,6 @@ public class CafeService {
                     defaultCafeCouponDesign);
             cafeStampCoordinateRepository.save(cafeStampCoordinate);
         }
-        return cafe.getId();
     }
 
     private SampleFrontImage findDefaultSampleFrontImage() {
