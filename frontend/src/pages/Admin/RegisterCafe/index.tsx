@@ -2,11 +2,11 @@ import { FormEventHandler, MouseEventHandler, useRef, useState } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
-import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import Header from '../../../components/Header';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../../api';
+import useFindAddress from '../../../hooks/useFindAddress';
 
 interface CafeFormData {
   ownerId: number;
@@ -37,11 +37,10 @@ const RegisterCafe = () => {
   const roadAddressInputRef = useRef<HTMLInputElement>(null);
   const detailAddressInputRef = useRef<HTMLInputElement>(null);
 
-  const navigate = useNavigate();
-
   const [roadAddress, setRoadAddress] = useState('');
+  const { openAddressPopup } = useFindAddress(setRoadAddress);
 
-  const openPostcodePopup = useDaumPostcodePopup();
+  const navigate = useNavigate();
 
   const { mutate, isLoading, isError } = useMutation(
     (formData: CafeFormData) => postRegisterCafe(formData),
@@ -54,28 +53,6 @@ const RegisterCafe = () => {
       },
     },
   );
-
-  // 도로명 주소 메서드
-  const findAddress = (data: Address) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
-
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
-
-    setRoadAddress(fullAddress);
-  };
-
-  const openAddressPopup = () => {
-    openPostcodePopup({ onComplete: findAddress });
-  };
 
   const certifyUser: MouseEventHandler<HTMLButtonElement> = () => {
     alert(businessRegistrationNumberInputRef.current?.value);
