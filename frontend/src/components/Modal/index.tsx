@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { BaseModal, CloseButton, ModalBackdrop } from './Modal.style';
+import { BaseModal, CloseButton, ModalBackdrop } from './style';
 import { PropsWithChildren } from 'react';
 
 interface ModalProps {

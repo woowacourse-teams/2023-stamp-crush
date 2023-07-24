@@ -1,4 +1,4 @@
-import { HeaderContainer, LogoImg, LogoutButton } from './Header.style';
+import { HeaderContainer, LogoImg, LogoutButton } from './style';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../constants';
