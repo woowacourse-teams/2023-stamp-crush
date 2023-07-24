@@ -40,6 +40,8 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 public class CouponService {
 
+    private static final int DEFAULT_MAX_COUNT = 10;
+
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;

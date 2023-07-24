@@ -23,6 +23,7 @@ public class CustomerCouponStatistics {
         int visitCount = 0;
         int maxStampCount = 0;
         LocalDateTime firstVisitDate = LocalDateTime.MAX;
+      
         for (Coupon coupon : coupons) {
             stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
             rewardCount += addRewardCouponCount(coupon);
