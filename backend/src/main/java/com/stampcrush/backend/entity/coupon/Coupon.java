@@ -5,6 +5,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,8 +15,10 @@ import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 public class Coupon extends BaseDate {
 
@@ -57,9 +60,6 @@ public class Coupon extends BaseDate {
         this.couponPolicy = couponPolicy;
     }
 
-    protected Coupon() {
-    }
-
     public void reward() {
         this.status = CouponStatus.REWARDED;
     }
@@ -68,7 +68,7 @@ public class Coupon extends BaseDate {
         this.status = CouponStatus.EXPIRED;
     }
 
-    public boolean isUsing() {
+    public boolean isAccumulating() {
         return this.status == CouponStatus.ACCUMULATING;
     }
 

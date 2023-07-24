@@ -1,8 +1,10 @@
-package com.stampcrush.backend.application.cafe;
-
-import com.stampcrush.backend.exception.NotFoundException;
+package com.stampcrush.backend.exception;
 
 public class CafeNotFoundException extends NotFoundException {
+
+    public CafeNotFoundException(String message) {
+        super(message);
+    }
 
     public CafeNotFoundException(Throwable cause) {
         super(cause);
