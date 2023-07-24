@@ -13,33 +13,15 @@ import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
-import { getCoupon } from '../SelectCoupon';
+import { getCoupon } from '../../../api/get';
+import { postEarnStamp } from '../../../api/post';
 
-interface StampFormData {
+export interface StampFormData {
   earningStampCount: number;
   customerId: string;
   couponId: string;
   ownerId: string;
 }
-
-const postEarnStamp = async ({
-  earningStampCount,
-  customerId,
-  couponId,
-  ownerId,
-}: StampFormData) => {
-  const response = await fetch(`/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ earningStampCount }),
-  });
-
-  if (!response.ok) {
-    throw new Error('스탬프 적립에 실패했습니다.');
-  }
-};
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);

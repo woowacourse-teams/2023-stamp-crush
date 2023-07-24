@@ -6,6 +6,7 @@ import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import Header from '../../../components/Header';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../api';
 
 interface CafeFormData {
   ownerId: number;
@@ -22,17 +23,12 @@ const postRegisterCafe = async ({
   roadAddress,
   detailAddress,
 }: CafeFormData) => {
-  const response = await fetch(`/cafes/${ownerId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ businessRegistrationNumber, name, roadAddress, detailAddress }),
+  await api.post(`/cafes/${ownerId}`, {
+    businessRegistrationNumber,
+    name,
+    roadAddress,
+    detailAddress,
   });
-
-  if (!response.ok) {
-    throw new Error('카페 등록에 실패했습니다.');
-  }
 };
 
 const RegisterCafe = () => {

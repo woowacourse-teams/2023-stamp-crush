@@ -15,58 +15,8 @@ import {
   TitleWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
-const getCustomer = async (phoneNumber: string) => {
-  const response = await fetch(`/customers?phone-number=${phoneNumber}`);
-
-  if (!response.ok) {
-    throw new Error('고객 조회 실패');
-  }
-
-  return await response.json();
-};
-
-export const getCoupon = async (customerId: string, cafeId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`);
-
-  if (!response.ok) {
-    throw new Error('쿠폰 조회 실패');
-  }
-
-  return await response.json();
-};
-
-// 신규 가입
-const registerUser = async (phoneNumber: string) => {
-  const response = await fetch('/temporary-customers', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ phoneNumber }),
-  });
-
-  if (!response.ok) {
-    throw new Error('회원 등록에 실패했습니다.');
-  }
-};
-
-// 신규 쿠폰 발급
-const issueCoupon = async (customerId: string) => {
-  const response = await fetch(`/customers/${customerId}/coupons`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ cafeId: '1' }),
-  });
-
-  if (!response.ok) {
-    throw new Error('쿠폰 발급에 실패했습니다.');
-  }
-
-  return await response.json();
-};
+import { getCoupon, getCustomer } from '../../../api/get';
+import { postIssueCoupon, postRegisterUser } from '../../../api/post';
 
 const SelectCoupon = () => {
   const phoneNumber = useLocation().state.phoneNumber.replaceAll('-', '');
@@ -89,7 +39,7 @@ const SelectCoupon = () => {
 
   // 임시 가입 고객 생성
   const { mutate: mutateTempCustomer, status: tempCustomerStatus } = useMutation(
-    (phoneNumber: string) => registerUser(phoneNumber),
+    (phoneNumber: string) => postRegisterUser(phoneNumber),
     {
       onSuccess: () => {
         setSelectedCoupon('new');
@@ -113,21 +63,24 @@ const SelectCoupon = () => {
   const navigate = useNavigate();
 
   // 신규 쿠폰 발급
-  const { mutate: mutateIssueCoupon } = useMutation(() => issueCoupon(customer.customer[0].id), {
-    onSuccess: (data) => {
-      const newCouponId = +data.couponId;
-      navigate('/admin/stamp/2', {
-        state: {
-          isPrevious,
-          customer: foundCustomer,
-          couponId: newCouponId,
-        },
-      });
+  const { mutate: mutateIssueCoupon } = useMutation(
+    () => postIssueCoupon(customer.customer[0].id),
+    {
+      onSuccess: (data) => {
+        const newCouponId = +data.couponId;
+        navigate('/admin/stamp/2', {
+          state: {
+            isPrevious,
+            customer: foundCustomer,
+            couponId: newCouponId,
+          },
+        });
+      },
+      onError: () => {
+        throw new Error('스탬프 적립에 실패했습니다.');
+      },
     },
-    onError: () => {
-      throw new Error('스탬프 적립에 실패했습니다.');
-    },
-  });
+  );
 
   const selectCoupon = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

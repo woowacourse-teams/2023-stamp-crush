@@ -14,6 +14,7 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { api } from '../../../api';
 
 interface CouponSettingDto {
   frontImageUrl: string;
@@ -24,11 +25,7 @@ interface CouponSettingDto {
   expirePeriod: number;
 }
 const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  const response = await fetch('/coupon-setting', {
-    method: 'POST',
-    body: JSON.stringify(couponConfig),
-  });
-  return await response.json();
+  return await api.post('/coupon-setting', couponConfig);
 };
 
 // TODO: 외부로 분리
