@@ -1,4 +1,3 @@
-import { CustomStampSectionContainer } from './style';
 import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
@@ -24,7 +23,7 @@ const CustomStampSection = ({
   isCustom,
 }: CustomStampSectionProps) => {
   return (
-    <CustomStampSectionContainer>
+    <>
       <PreviewLabel>{label}</PreviewLabel>
       <Spacing $size={4} />
       <ImageUpLoadInput
@@ -40,7 +39,7 @@ const CustomStampSection = ({
       <PreviewImageWrapper $height={50} $width={50}>
         <PreviewImage src={imgFileUrl} $height={50} $width={50} />
       </PreviewImageWrapper>
-    </CustomStampSectionContainer>
+    </>
   );
 };
 

@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
-import Header from '../../../components/Header';
-import Template from '../../../components/Template';
 import { RowSpacing, Spacing } from '../../../style/layout/common';
 import { ChangeEvent, useState } from 'react';
 import {
@@ -22,8 +20,7 @@ import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 
 const SelectCoupon = () => {
-  const phoneNumber = useLocation().state.phoneNumber.replaceAll('-', '');
-
+  const phoneNumber = useLocation().state.phoneNumber;
   const [isPrevious, setIsPrevious] = useState(true);
   const [selectedCoupon, setSelectedCoupon] = useState('current');
 
@@ -153,6 +150,7 @@ const SelectCoupon = () => {
       <Spacing $size={70} />
       <Button
         onClick={() =>
+          // TODO: 함수로 분리
           selectedCoupon === 'current'
             ? navigate(ROUTER_PATH.earnStamp, {
                 state: {

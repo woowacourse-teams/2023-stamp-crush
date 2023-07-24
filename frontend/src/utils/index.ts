@@ -13,5 +13,5 @@ export const formatDate = (dateString: string) => {
 };
 
 export const parseStampCount = (value: string) => {
-  return +value.replace('개', '');
+  return +value.replaceAll('개', '');
 };

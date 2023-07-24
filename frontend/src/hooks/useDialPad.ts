@@ -32,13 +32,15 @@ const useDialPad = () => {
       return;
     }
 
+    const replacedPhoneNumber = phoneNumber.replaceAll('-', '');
+
     if (location.pathname === ROUTER_PATH.enterStamp) {
-      navigate(ROUTER_PATH.selectCoupon, { state: { phoneNumber } });
+      navigate(ROUTER_PATH.selectCoupon, { state: { phoneNumber: replacedPhoneNumber } });
       return;
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {
-      navigate(ROUTER_PATH.useReward, { state: { phoneNumber } });
+      navigate(ROUTER_PATH.useReward, { state: { phoneNumber: replacedPhoneNumber } });
       return;
     }
   };

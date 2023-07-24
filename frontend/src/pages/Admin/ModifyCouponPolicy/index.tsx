@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import { ModifyCouponPolicyContainer, NextButtonWrapper, SelectBoxWrapper } from './style';
+import { NextButtonWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
 import SelectBox from '../../../components/SelectBox';
 import Text from '../../../components/Text';
@@ -33,13 +33,13 @@ const ModifyCouponPolicy = () => {
         createdType,
         reward: rewardInputRef.current?.value,
         expireSelect,
-        stampCount,
+        stampCount: stampCount.value,
       },
     });
   };
 
   return (
-    <ModifyCouponPolicyContainer>
+    <>
       <Spacing $size={40} />
       <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
       <Spacing $size={40} />
@@ -50,14 +50,12 @@ const ModifyCouponPolicy = () => {
       <Text variant="subTitle">목표 스탬프 갯수</Text>
       <Spacing $size={8} />
       <Text>리워드를 지급할 스탬프 갯수를 작성해주세요.</Text>
-      <Spacing $size={8} />
-      <SelectBoxWrapper>
-        <SelectBox
-          options={STAMP_COUNT_OPTIONS}
-          checkedOption={stampCount}
-          setCheckedOption={setStampCount}
-        />
-      </SelectBoxWrapper>
+      <Spacing $size={16} />
+      <SelectBox
+        options={STAMP_COUNT_OPTIONS}
+        checkedOption={stampCount}
+        setCheckedOption={setStampCount}
+      />
       <Spacing $size={40} />
       <Input
         id="create-coupon-reward-input"
@@ -76,20 +74,18 @@ const ModifyCouponPolicy = () => {
         소멸됩니다.
       </Text>
       <Spacing $size={8} />
-      <SelectBoxWrapper>
-        <SelectBox
-          options={EXPIRE_DATE_OPTIONS}
-          checkedOption={expireSelect}
-          setCheckedOption={setExpireSelect}
-        />
-      </SelectBoxWrapper>
+      <SelectBox
+        options={EXPIRE_DATE_OPTIONS}
+        checkedOption={expireSelect}
+        setCheckedOption={setExpireSelect}
+      />
       <Spacing $size={40} />
       <NextButtonWrapper>
         <Button variant="secondary" size="medium" onClick={navigateNextPage}>
           다음으로
         </Button>
       </NextButtonWrapper>
-    </ModifyCouponPolicyContainer>
+    </>
   );
 };
 

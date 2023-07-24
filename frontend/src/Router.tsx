@@ -16,6 +16,7 @@ import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 import SelectCoupon from './pages/Admin/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import { ROUTER_PATH } from './constants';
+import EarnStamp from './pages/Admin/EarnStamp';
 
 const AdminRoot = () => {
   return (
@@ -63,7 +64,7 @@ const Router = () => {
         { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },
         { path: ROUTER_PATH.registerCafe, element: <RegisterCafe /> },
         { path: ROUTER_PATH.selectCoupon, element: <SelectCoupon /> },
-        { path: ROUTER_PATH.earnStamp, element: <SelectCoupon /> },
+        { path: ROUTER_PATH.earnStamp, element: <EarnStamp /> },
         { path: ROUTER_PATH.useReward, element: <RewardPage /> },
       ],
     },
