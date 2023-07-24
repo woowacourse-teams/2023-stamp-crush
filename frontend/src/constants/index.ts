@@ -10,3 +10,67 @@ export const TEMPLATE_MENU = {
 };
 
 export const PHONE_NUMBER_LENGTH = 13;
+
+export const TEMPLATE_OPTIONS = [
+  {
+    key: 'coupon-front',
+    value: TEMPLATE_MENU.FRONT_IMAGE,
+  },
+  {
+    key: 'coupon-back',
+    value: TEMPLATE_MENU.BACK_IMAGE,
+  },
+  {
+    key: 'stamp',
+    value: TEMPLATE_MENU.STAMP,
+  },
+];
+
+export const CUSTOMERS_ORDER_OPTIONS = [
+  {
+    key: 'stampCount',
+    value: '스탬프순',
+  },
+  {
+    key: 'rewardCount',
+    value: '리워드순',
+  },
+  {
+    key: 'firstVisitDate',
+    value: '방문일순',
+  },
+  {
+    key: 'visitCount',
+    value: '방문횟수순',
+  },
+];
+
+export const STAMP_COUNT_OPTIONS = [
+  {
+    key: 'eight',
+    value: '8개',
+  },
+  {
+    key: 'nine',
+    value: '9개',
+  },
+  {
+    key: 'ten',
+    value: '10개',
+  },
+];
+
+export const EXPIRE_DATE_OPTIONS = [
+  {
+    key: 'six-month',
+    value: '6개월',
+  },
+  {
+    key: 'twelve-month',
+    value: '12개월',
+  },
+  {
+    key: 'infinity',
+    value: '없음',
+  },
+];

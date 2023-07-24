@@ -28,24 +28,18 @@ export const RightInfo = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+`;
 
-  & > span {
-    font-size: 14px;
-    color: #888888;
-    line-height: 16px;
-  }
+export const InfoContainer = styled.span`
+  font-size: 14px;
+  color: #888888;
+  line-height: 16px;
 `;
 
 export const LeftInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  & > span {
-    font-size: 14px;
-    color: #888888;
-    line-height: 16px;
-  }
 `;
 
 export const Badge = styled.div<{ $isRegistered: boolean }>`
@@ -60,15 +54,15 @@ export const Badge = styled.div<{ $isRegistered: boolean }>`
   background: ${({ $isRegistered, theme }) => ($isRegistered ? 'pink' : theme.colors.gray300)};
 `;
 
-export const Name = styled.div`
+export const NameContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
 
-  & > h1 {
-    font-size: 20px;
-    font-weight: 500;
-  }
+export const Name = styled.h1`
+  font-size: 20px;
+  font-weight: 500;
 `;
 
 export const Container = styled.div`

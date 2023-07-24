@@ -5,10 +5,10 @@ import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title 
 import Header from '../../../components/Header';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../../../api';
 import useFindAddress from '../../../hooks/useFindAddress';
+import { postRegisterCafe } from '../../../api/post';
 
-interface CafeFormData {
+export interface CafeFormData {
   ownerId: number;
   businessRegistrationNumber: string;
   name: string;
@@ -16,30 +16,13 @@ interface CafeFormData {
   detailAddress: string;
 }
 
-const postRegisterCafe = async ({
-  ownerId,
-  businessRegistrationNumber,
-  name,
-  roadAddress,
-  detailAddress,
-}: CafeFormData) => {
-  await api.post(`/cafes/${ownerId}`, {
-    businessRegistrationNumber,
-    name,
-    roadAddress,
-    detailAddress,
-  });
-};
-
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
   const cafeNameInputRef = useRef<HTMLInputElement>(null);
   const roadAddressInputRef = useRef<HTMLInputElement>(null);
   const detailAddressInputRef = useRef<HTMLInputElement>(null);
-
   const [roadAddress, setRoadAddress] = useState('');
   const { openAddressPopup } = useFindAddress(setRoadAddress);
-
   const navigate = useNavigate();
 
   const { mutate, isLoading, isError } = useMutation(

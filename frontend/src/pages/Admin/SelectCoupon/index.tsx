@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Template from '../../../components/Template';
-import { RowSpacing, Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
+import { RowSpacing, Spacing } from '../../../style/layout/common';
 import { ChangeEvent, useState } from 'react';
 import {
   CouponSelectContainer,
@@ -17,6 +17,8 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCoupon, getCustomer } from '../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../api/post';
+import { formatDate } from '../../../utils';
+import Text from '../../../components/Text';
 
 const SelectCoupon = () => {
   const phoneNumber = useLocation().state.phoneNumber.replaceAll('-', '');
@@ -88,20 +90,6 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
-  const formatDate = (dateString: string) => {
-    const dateArray = dateString.split(':');
-
-    const year = parseInt(dateArray[0]);
-    const month = parseInt(dateArray[1]);
-    const day = parseInt(dateArray[2]);
-
-    const date = new Date(year, month, day);
-
-    const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
-
-    return formattedDate;
-  };
-
   if (couponStatus === 'loading' || tempCustomerStatus === 'loading') return <p>Loading</p>;
 
   if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
@@ -115,11 +103,11 @@ const SelectCoupon = () => {
       <Template>
         <CouponSelectContainer>
           <TitleWrapper>
-            <Title>스탬프 적립</Title>
-            <SubTitle>1/2</SubTitle>
+            <Text variant="pageTitle">스탬프 적립</Text>
+            <Text variant="subTitle">1/2</Text>
           </TitleWrapper>
           <Spacing $size={90} />
-          <SubTitle>{foundCustomer.nickname} 고객님의 현재 쿠폰</SubTitle>
+          <Text variant="subTitle">{foundCustomer.nickname} 고객님의 현재 쿠폰</Text>
           <Spacing $size={80} />
           <CouponSelectorContainer>
             {coupon.coupons.length > 0 && (

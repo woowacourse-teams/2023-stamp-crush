@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Template from '../../../components/Template';
-import { RowSpacing, Spacing, SubTitle, Text, Title } from '../../../style/layout/common';
+import { RowSpacing, Spacing } from '../../../style/layout/common';
 import {
   CouponSelectorContainer,
   CouponSelectorWrapper,
@@ -15,6 +15,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
 import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
+import Text from '../../../components/Text';
 
 export interface StampFormData {
   earningStampCount: number;
@@ -61,17 +62,18 @@ const EarnStamp = () => {
 
   if (isError || isCouponError) return <p>Error</p>;
 
+  // TODO: 라우팅 다시
   return (
     <>
       <Header />
       <Template>
         <EarnStampContainer>
           <TitleWrapper>
-            <Title>스탬프 적립</Title>
-            <SubTitle>2/2</SubTitle>
+            <Text variant="pageTitle">스탬프 적립</Text>
+            <Text variant="subTitle">2/2</Text>
           </TitleWrapper>
           <Spacing $size={90} />
-          <SubTitle>{state.customer.nickname} 고객님의 현재 쿠폰</SubTitle>
+          <Text variant="subTitle">{state.customer.nickname} 고객님의 현재 쿠폰</Text>
           <Spacing $size={80} />
           <CouponSelectorContainer>
             <CouponSelectorWrapper>

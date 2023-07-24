@@ -1,27 +1,13 @@
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { ChoiceTemplateContainer, SampleImage, SampleImageContainer } from './ChoiceTemplate.style';
-import TabBar from '../../../components/TabBar';
-import { TEMPLATE_MENU } from '../../../constants';
+import { ChoiceTemplateContainer, SampleImage, SampleImageContainer } from './style';
+import TabBar from '../../../../components/TabBar';
+import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { parseStampCount } from '.';
-import { getCouponSamples } from '../../../api/get';
+import { getCouponSamples } from '../../../../api/get';
+import { parseStampCount } from '../../../../utils';
 
-const TEMPLATE_OPTIONS = [
-  {
-    key: 'coupon-front',
-    value: TEMPLATE_MENU.FRONT_IMAGE,
-  },
-  {
-    key: 'coupon-back',
-    value: TEMPLATE_MENU.BACK_IMAGE,
-  },
-  {
-    key: 'stamp',
-    value: TEMPLATE_MENU.STAMP,
-  },
-];
-
+// TODO: interface 외부 선언하면 어떨까요?
 interface CouponImage {
   id: number;
   imageUrl: string;

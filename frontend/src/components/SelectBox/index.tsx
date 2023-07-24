@@ -1,5 +1,4 @@
 import { MouseEventHandler, useState, Dispatch, SetStateAction } from 'react';
-
 import { BaseSelectBox, LabelContent, SelectBoxWrapper, SelectContent } from './SelectBox.style';
 
 export type SelectBoxOption = {

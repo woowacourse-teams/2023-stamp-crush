@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { BaseText } from './style';
 
 interface TextProps {
-  variant: 'default' | 'pageTitle' | 'subTitle';
+  variant?: 'default' | 'pageTitle' | 'subTitle';
 }
 
 const Text = ({ variant = 'default', children }: TextProps & PropsWithChildren) => {

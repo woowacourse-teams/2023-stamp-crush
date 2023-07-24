@@ -1,12 +1,13 @@
-import { CustomCouponSectionContainer, CouponPreviewHeader } from './CustomCouponSection.style';
-import { Spacing, Text } from '../../../style/layout/common';
+import { CustomCouponSectionContainer, CouponPreviewHeader } from './style';
+import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
   PreviewLabel,
-} from './style';
+} from '../style';
+import Text from '../../../../components/Text';
 
 interface CustomCouponSectionProps {
   label: string;
@@ -15,6 +16,7 @@ interface CustomCouponSectionProps {
   uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isCustom: boolean;
 }
+
 const CustomCouponSection = ({
   label,
   uploadImageInputId,
