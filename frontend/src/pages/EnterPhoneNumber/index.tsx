@@ -1,4 +1,4 @@
-import Dialpad from '../../components/Dialpad';
+import Dialpad from './Dialpad';
 import { Container, IconWrapper, PageContainer, PrivacyBox, Title } from './style';
 import { IoIosArrowBack } from 'react-icons/Io';
 import { useNavigate } from 'react-router-dom';

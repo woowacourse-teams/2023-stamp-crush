@@ -1,11 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Button from '../../../components/Button';
-import {
-  RewardContainer,
-  RewardContent,
-  RewardItemContainer,
-  RewardItemWrapper,
-} from '../../../components/ModalContents/StampAndReward.style';
+import { RewardContainer, RewardContent, RewardItemContainer, RewardItemWrapper } from './style';
 import Text from '../../../components/Text';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
