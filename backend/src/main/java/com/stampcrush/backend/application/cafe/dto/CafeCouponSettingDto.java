@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.cafe.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -17,13 +18,13 @@ public class CafeCouponSettingDto {
     @Getter
     @ToString
     @RequiredArgsConstructor
+    @EqualsAndHashCode
     public static class CafeCouponDesignDto {
 
         private final String frontImageUrl;
         private final String backImageUrl;
         private final String stampImageUrl;
         private final List<CafeStampCoordinateDto> coordinates;
-        private final List<Integer> tests;
 
         @Getter
         @ToString
