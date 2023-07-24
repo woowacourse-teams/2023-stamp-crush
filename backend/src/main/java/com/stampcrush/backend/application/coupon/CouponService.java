@@ -93,7 +93,7 @@ public class CouponService {
         List<Coupon> coupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
 
         return coupons.stream()
-                .map(coupon -> CustomerAccumulatingCouponFindResultDto.from(
+                .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(
                         coupon,
                         customer,
                         isPrevious(coupon)))

@@ -23,7 +23,7 @@ public class CustomerAccumulatingCouponFindResultDto {
     private boolean isPrevious;
     private int maxStampCount;
 
-    public static CustomerAccumulatingCouponFindResultDto from(Coupon coupon, Customer customer, boolean isPrevious) {
+    public static CustomerAccumulatingCouponFindResultDto of(Coupon coupon, Customer customer, boolean isPrevious) {
         return new CustomerAccumulatingCouponFindResultDto(
                 coupon.getId(),
                 customer.getId(),
