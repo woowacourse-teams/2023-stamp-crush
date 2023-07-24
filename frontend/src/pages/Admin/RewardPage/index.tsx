@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
 import { getCustomer, getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
+import { ROUTER_PATH } from '../../../constants';
 
 // TODO: 추후 완전한 타입이 만들어지면 유틸리티 타입으로 변경해야함.
 interface CustomerDto {
@@ -45,7 +46,7 @@ const RewardPage = () => {
   const { mutate: mutateReward } = useMutation({
     mutationFn: (rewardId: number) => patchReward(customerData.customer[0].id, rewardId),
     onSuccess() {
-      navigate('/admin');
+      navigate(ROUTER_PATH.admin);
     },
     onError() {
       alert('에러가 발생했습니다. 네트워크 상태를 확인해주세요.');

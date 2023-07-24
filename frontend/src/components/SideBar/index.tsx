@@ -1,11 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import {
-  Arrow,
-  LabelContent,
-  SideBarContainer,
-  SideBarContent,
-  SideBarLink,
-} from './SideBar.style';
+import { Arrow, LabelContent, SideBarContainer, SideBarContent, SideBarLink } from './style';
 
 export interface SideBarOptions {
   key: string;

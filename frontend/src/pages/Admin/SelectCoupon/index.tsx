@@ -19,6 +19,7 @@ import { getCoupon, getCustomer } from '../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../api/post';
 import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
+import { ROUTER_PATH } from '../../../constants';
 
 const SelectCoupon = () => {
   const phoneNumber = useLocation().state.phoneNumber.replaceAll('-', '');
@@ -70,7 +71,7 @@ const SelectCoupon = () => {
     {
       onSuccess: (data) => {
         const newCouponId = +data.couponId;
-        navigate('/admin/stamp/2', {
+        navigate(ROUTER_PATH.earnStamp, {
           state: {
             isPrevious,
             customer: foundCustomer,
@@ -98,81 +99,74 @@ const SelectCoupon = () => {
   const foundCoupon = coupon.coupons[0];
 
   return (
-    <>
-      <Header />
-      <Template>
-        <CouponSelectContainer>
-          <TitleWrapper>
-            <Text variant="pageTitle">스탬프 적립</Text>
-            <Text variant="subTitle">1/2</Text>
-          </TitleWrapper>
-          <Spacing $size={90} />
-          <Text variant="subTitle">{foundCustomer.nickname} 고객님의 현재 쿠폰</Text>
-          <Spacing $size={80} />
-          <CouponSelectorContainer>
-            {coupon.coupons.length > 0 && (
-              <CouponSelectorWrapper>
-                <Text>
-                  현재 스탬프 개수: {foundCoupon.stampCount}/{8}
-                </Text>
-                <Spacing $size={8} />
-                <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
-                <Spacing $size={45} />
-                <ExpirationDate>
-                  쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지
-                </ExpirationDate>
-              </CouponSelectorWrapper>
-            )}
-            <RowSpacing $size={146} />
-            <CouponSelectorWrapper>
-              <SelectorItemWrapper>
-                <CouponSelector
-                  type="checkbox"
-                  value="new"
-                  size={20}
-                  onChange={selectCoupon}
-                  checked={selectedCoupon === 'new'}
-                />
-                <CouponSelectorLabel $isChecked={!isPrevious}>
-                  새로운 쿠폰을 만들게요
-                </CouponSelectorLabel>
-              </SelectorItemWrapper>
-              <Spacing $size={40} />
-              {coupon.coupons.length > 0 && (
-                <SelectorItemWrapper>
-                  <CouponSelector
-                    type="checkbox"
-                    value="current"
-                    size={20}
-                    onChange={selectCoupon}
-                    checked={selectedCoupon === 'current'}
-                  />
-                  <CouponSelectorLabel $isChecked={isPrevious}>
-                    현재 쿠폰에 적립할게요
-                  </CouponSelectorLabel>
-                </SelectorItemWrapper>
-              )}
-            </CouponSelectorWrapper>
-          </CouponSelectorContainer>
-          <Spacing $size={70} />
-          <Button
-            onClick={() =>
-              selectedCoupon === 'current'
-                ? navigate('/admin/stamp/2', {
-                    state: {
-                      isPrevious,
-                      customer: foundCustomer,
-                      couponId: foundCoupon.id,
-                    },
-                  })
-                : mutateIssueCoupon()
-            }
-          >
-            다음
-          </Button>
-        </CouponSelectContainer>
-      </Template>
-    </>
+    <CouponSelectContainer>
+      <TitleWrapper>
+        <Text variant="pageTitle">스탬프 적립</Text>
+        <Text variant="subTitle">1/2</Text>
+      </TitleWrapper>
+      <Spacing $size={90} />
+      <Text variant="subTitle">{foundCustomer.nickname} 고객님의 현재 쿠폰</Text>
+      <Spacing $size={80} />
+      <CouponSelectorContainer>
+        {coupon.coupons.length > 0 && (
+          <CouponSelectorWrapper>
+            <Text>
+              현재 스탬프 개수: {foundCoupon.stampCount}/{8}
+            </Text>
+            <Spacing $size={8} />
+            <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+            <Spacing $size={45} />
+            <ExpirationDate>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</ExpirationDate>
+          </CouponSelectorWrapper>
+        )}
+        <RowSpacing $size={146} />
+        <CouponSelectorWrapper>
+          <SelectorItemWrapper>
+            <CouponSelector
+              type="checkbox"
+              value="new"
+              size={20}
+              onChange={selectCoupon}
+              checked={selectedCoupon === 'new'}
+            />
+            <CouponSelectorLabel $isChecked={!isPrevious}>
+              새로운 쿠폰을 만들게요
+            </CouponSelectorLabel>
+          </SelectorItemWrapper>
+          <Spacing $size={40} />
+          {coupon.coupons.length > 0 && (
+            <SelectorItemWrapper>
+              <CouponSelector
+                type="checkbox"
+                value="current"
+                size={20}
+                onChange={selectCoupon}
+                checked={selectedCoupon === 'current'}
+              />
+              <CouponSelectorLabel $isChecked={isPrevious}>
+                현재 쿠폰에 적립할게요
+              </CouponSelectorLabel>
+            </SelectorItemWrapper>
+          )}
+        </CouponSelectorWrapper>
+      </CouponSelectorContainer>
+      <Spacing $size={70} />
+      <Button
+        onClick={() =>
+          selectedCoupon === 'current'
+            ? navigate(ROUTER_PATH.earnStamp, {
+                state: {
+                  isPrevious,
+                  customer: foundCustomer,
+                  couponId: foundCoupon.id,
+                },
+              })
+            : mutateIssueCoupon()
+        }
+      >
+        다음
+      </Button>
+    </CouponSelectContainer>
   );
 };
 

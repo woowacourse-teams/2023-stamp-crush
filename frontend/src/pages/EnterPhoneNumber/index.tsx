@@ -2,12 +2,13 @@ import Dialpad from '../../components/Dialpad';
 import { Container, IconWrapper, PageContainer, PrivacyBox, Title } from './style';
 import { IoIosArrowBack } from 'react-icons/Io';
 import { useNavigate } from 'react-router-dom';
+import { ROUTER_PATH } from '../../constants';
 
 const EnterPhoneNumber = () => {
   const navigate = useNavigate();
 
   const navigateBack = () => {
-    navigate('/admin');
+    navigate(ROUTER_PATH.admin);
   };
 
   return (

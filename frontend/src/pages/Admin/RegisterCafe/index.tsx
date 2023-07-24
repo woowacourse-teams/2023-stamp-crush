@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
+import { ROUTER_PATH } from '../../../constants';
 
 export interface CafeFormData {
   ownerId: number;
@@ -29,7 +30,7 @@ const RegisterCafe = () => {
     (formData: CafeFormData) => postRegisterCafe(formData),
     {
       onSuccess: () => {
-        navigate('/admin');
+        navigate(ROUTER_PATH.admin);
       },
       onError: () => {
         throw new Error('카페 등록에 실패했습니다.');
@@ -76,61 +77,58 @@ const RegisterCafe = () => {
     );
 
   return (
-    <>
-      <Header />
-      <ContentContainer>
-        <RegisterCafeInputForm onSubmit={submitCafeInfo}>
-          <Title>내 카페 등록</Title>
-          <InputWithButtonWrapper>
-            <Input
-              id={'business-registration-number-input'}
-              ref={businessRegistrationNumberInputRef}
-              label={'사업자등록번호'}
-              width={410}
-              placeholder={'사업자등록번호를 입력해주세요.'}
-              required={true}
-            />
-            <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
-              인증하기
-            </Button>
-          </InputWithButtonWrapper>
+    <ContentContainer>
+      <RegisterCafeInputForm onSubmit={submitCafeInfo}>
+        <Title>내 카페 등록</Title>
+        <InputWithButtonWrapper>
           <Input
-            id={'cafe-name-input'}
-            ref={cafeNameInputRef}
-            label={'카페명'}
-            width={550}
-            placeholder={'카페명을 입력해주세요.'}
+            id={'business-registration-number-input'}
+            ref={businessRegistrationNumberInputRef}
+            label={'사업자등록번호'}
+            width={410}
+            placeholder={'사업자등록번호를 입력해주세요.'}
             required={true}
           />
-          <InputWithButtonWrapper>
-            <Input
-              id={'cafe-address-input'}
-              ref={roadAddressInputRef}
-              label={'카페 주소'}
-              value={roadAddress}
-              width={410}
-              placeholder={'카페 주소를 입력해주세요.'}
-              required={true}
-            />
-            <Button type="button" variant={'secondary'} size={'medium'} onClick={openAddressPopup}>
-              주소 찾기
-            </Button>
-          </InputWithButtonWrapper>
-          <Input
-            id={'detailed-address-input'}
-            ref={detailAddressInputRef}
-            label={'상세 주소'}
-            width={550}
-            placeholder={'상세 주소를 입력해주세요.'}
-            required={true}
-          />
-
-          <Button type="submit" id="register-cafe-submit-btn" variant={'primary'} size={'medium'}>
-            등록하기
+          <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
+            인증하기
           </Button>
-        </RegisterCafeInputForm>
-      </ContentContainer>
-    </>
+        </InputWithButtonWrapper>
+        <Input
+          id={'cafe-name-input'}
+          ref={cafeNameInputRef}
+          label={'카페명'}
+          width={550}
+          placeholder={'카페명을 입력해주세요.'}
+          required={true}
+        />
+        <InputWithButtonWrapper>
+          <Input
+            id={'cafe-address-input'}
+            ref={roadAddressInputRef}
+            label={'카페 주소'}
+            value={roadAddress}
+            width={410}
+            placeholder={'카페 주소를 입력해주세요.'}
+            required={true}
+          />
+          <Button type="button" variant={'secondary'} size={'medium'} onClick={openAddressPopup}>
+            주소 찾기
+          </Button>
+        </InputWithButtonWrapper>
+        <Input
+          id={'detailed-address-input'}
+          ref={detailAddressInputRef}
+          label={'상세 주소'}
+          width={550}
+          placeholder={'상세 주소를 입력해주세요.'}
+          required={true}
+        />
+
+        <Button type="submit" id="register-cafe-submit-btn" variant={'primary'} size={'medium'}>
+          등록하기
+        </Button>
+      </RegisterCafeInputForm>
+    </ContentContainer>
   );
 };
 

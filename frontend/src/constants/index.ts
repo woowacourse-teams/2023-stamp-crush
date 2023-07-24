@@ -74,3 +74,18 @@ export const EXPIRE_DATE_OPTIONS = [
     value: '없음',
   },
 ];
+
+export const ROUTER_PATH = {
+  admin: '/admin',
+  adminLogin: '/admin/login',
+  adminSignup: '/admin/sign-up',
+  enterReward: '/admin/enter-reward',
+  enterStamp: '/admin/enter-stamp',
+  manageCafe: '/admin/manage-cafe',
+  modifyCouponPolicy: '/admin/modify-coupon-policy',
+  registerCafe: '/admin/register-cafe',
+  earnStamp: '/admin/earn-stamp',
+  selectCoupon: '/admin/select-coupon',
+  customCouponDesign: '/admin/custom-coupon-design',
+  useReward: '/admin/useReward',
+};

@@ -1,12 +1,13 @@
 import SideBar, { SideBarOptions } from '.';
-import { PageSideBarWrapper } from './SideBar.style';
+import { ROUTER_PATH } from '../../constants';
+import { PageSideBarWrapper } from './style';
 
 const SIDE_BAR_OPTIONS: SideBarOptions[] = [
-  { key: '내 카페 관리', value: '/admin/manage-cafe' },
-  { key: '내 고객 목록', value: '/admin' },
-  { key: '쿠폰 정책 변경', value: '/admin/modify-coupon-policy/1' },
-  { key: '스탬프 적립', value: '/admin/stamp' },
-  { key: '리워드 사용', value: '/admin/use-reward' },
+  { key: '내 카페 관리', value: ROUTER_PATH.manageCafe },
+  { key: '내 고객 목록', value: ROUTER_PATH.admin },
+  { key: '쿠폰 정책 변경', value: ROUTER_PATH.modifyCouponPolicy },
+  { key: '스탬프 적립', value: ROUTER_PATH.enterStamp },
+  { key: '리워드 사용', value: ROUTER_PATH.enterReward },
 ];
 
 const PageSideBar = () => {

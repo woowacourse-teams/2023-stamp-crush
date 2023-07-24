@@ -1,4 +1,4 @@
-import { PHONE_NUMBER_LENGTH, REGEX } from '../constants';
+import { PHONE_NUMBER_LENGTH, REGEX, ROUTER_PATH } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../components/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -32,13 +32,13 @@ const useDialPad = () => {
       return;
     }
 
-    if (location.pathname === '/admin/stamp') {
-      navigate('/admin/stamp/1', { state: { phoneNumber } });
+    if (location.pathname === ROUTER_PATH.enterStamp) {
+      navigate(ROUTER_PATH.selectCoupon, { state: { phoneNumber } });
       return;
     }
 
-    if (location.pathname === '/admin/enter-reward') {
-      navigate('/admin/use-reward', { state: { phoneNumber } });
+    if (location.pathname === ROUTER_PATH.enterReward) {
+      navigate(ROUTER_PATH.useReward, { state: { phoneNumber } });
       return;
     }
   };

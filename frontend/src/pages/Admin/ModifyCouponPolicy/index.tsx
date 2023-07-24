@@ -6,7 +6,7 @@ import { ModifyCouponPolicyContainer, NextButtonWrapper, SelectBoxWrapper } from
 import { Spacing } from '../../../style/layout/common';
 import SelectBox from '../../../components/SelectBox';
 import Text from '../../../components/Text';
-import { EXPIRE_DATE_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../constants';
+import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../constants';
 import RadioInputs from './RadioInput';
 
 const ModifyCouponPolicy = () => {
@@ -28,7 +28,7 @@ const ModifyCouponPolicy = () => {
       return;
     }
 
-    navigate('/admin/modify-coupon-policy/2', {
+    navigate(ROUTER_PATH.customCouponDesign, {
       state: {
         createdType,
         reward: rewardInputRef.current?.value,
