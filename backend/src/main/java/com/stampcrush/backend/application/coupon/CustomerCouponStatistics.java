@@ -14,25 +14,29 @@ public class CustomerCouponStatistics {
     private final int stampCount;
     private final int rewardCount;
     private final int visitCount;
+    private final int maxStampCount;
     private final LocalDateTime firstVisitDate;
 
     public static CustomerCouponStatistics produceFrom(List<Coupon> coupons) {
         int stampCount = 0;
         int rewardCount = 0;
         int visitCount = 0;
+        int maxStampCount = 0;
         LocalDateTime firstVisitDate = LocalDateTime.MAX;
+      
         for (Coupon coupon : coupons) {
             stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
             rewardCount += addRewardCouponCount(coupon);
             visitCount += coupon.calculateVisitCount();
             firstVisitDate = coupon.compareCreatedAtAndReturnEarlier(firstVisitDate);
+            maxStampCount = coupon.calculateMaxStampCountWhenAccumulating();
         }
-        return new CustomerCouponStatistics(stampCount, rewardCount, visitCount, firstVisitDate);
+        return new CustomerCouponStatistics(stampCount, rewardCount, visitCount, maxStampCount, firstVisitDate);
     }
 
     private static int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
-        if (coupon.isUsing()) {
-            stampCount = coupon.getStampCount();
+        if (coupon.isAccumulating()) {
+            return coupon.getStampCount();
         }
         return stampCount;
     }

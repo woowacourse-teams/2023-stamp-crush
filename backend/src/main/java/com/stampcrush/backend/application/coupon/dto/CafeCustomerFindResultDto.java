@@ -22,7 +22,7 @@ public class CafeCustomerFindResultDto {
     private boolean isRegistered;
     private int maxStampCount;
 
-    public static CafeCustomerFindResultDto from(Customer customer, CustomerCouponStatistics customerCouponStatistics, int maxStampCount) {
+    public static CafeCustomerFindResultDto from(Customer customer, CustomerCouponStatistics customerCouponStatistics) {
         return new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),
@@ -31,7 +31,7 @@ public class CafeCustomerFindResultDto {
                 customerCouponStatistics.getVisitCount(),
                 customerCouponStatistics.getFirstVisitDate(),
                 customer.isRegistered(),
-                maxStampCount
+                customerCouponStatistics.getMaxStampCount()
         );
     }
 }

@@ -31,7 +31,7 @@ public class CafeCustomerFindResponse {
                 serviceDto.getStampCount(),
                 serviceDto.getRewardCount(),
                 serviceDto.getVisitCount(),
-                10,
+                serviceDto.getMaxStampCount(),
                 serviceDto.getFirstVisitDate(),
                 serviceDto.isRegistered()
         );

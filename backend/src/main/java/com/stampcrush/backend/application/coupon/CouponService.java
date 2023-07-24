@@ -65,7 +65,7 @@ public class CouponService {
         for (CustomerCoupons customerCoupon : customerCoupons) {
             List<Coupon> coupons = customerCoupon.coupons;
             CustomerCouponStatistics customerCouponStatistics = CustomerCouponStatistics.produceFrom(coupons);
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics, DEFAULT_MAX_COUNT));
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics));
         }
 
         return cafeCustomerFindResultDtos;

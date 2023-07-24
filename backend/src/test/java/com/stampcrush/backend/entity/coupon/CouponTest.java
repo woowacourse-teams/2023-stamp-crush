@@ -3,7 +3,6 @@ package com.stampcrush.backend.entity.coupon;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -31,7 +30,7 @@ class CouponTest {
 
         // then
         assertAll(
-                () -> assertThat(coupon.isUsing()).isTrue(),
+                () -> assertThat(coupon.isAccumulating()).isTrue(),
                 () -> assertThat(coupon.isRewarded()).isFalse()
         );
     }
@@ -55,7 +54,7 @@ class CouponTest {
 
         // then
         assertAll(
-                () -> assertThat(coupon.isUsing()).isFalse(),
+                () -> assertThat(coupon.isAccumulating()).isFalse(),
                 () -> assertThat(coupon.isRewarded()).isTrue()
         );
     }
