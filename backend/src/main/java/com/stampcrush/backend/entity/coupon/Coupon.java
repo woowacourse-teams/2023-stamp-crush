@@ -111,11 +111,8 @@ public class Coupon extends BaseDate {
         }
     }
 
-    public int calculateMaxStampCountWhenAccumulating() {
-        if (status == CouponStatus.ACCUMULATING) {
-            return couponPolicy.getMaxStampCount();
-        }
-        return 0;
+    public int getCouponMaxStampCount() {
+        return couponPolicy.getMaxStampCount();
     }
 
     public String getRewardName() {
