@@ -301,26 +301,15 @@ class CouponServiceTest {
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        TemporaryCustomer leo = temporaryCustomerRepository.save(new TemporaryCustomer("leo", "1234"));
-        CouponDesign couponDesign = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        CouponPolicy couponPolicy = couponPolicyRepository.save(new CouponPolicy(20, "아메리카노", 8));
-
-        Coupon coupon = new Coupon(LocalDate.EPOCH, leo, cafe1, couponDesign, couponPolicy);
-        Stamp stamp1 = new Stamp();
-        Stamp stamp2 = new Stamp();
-        stamp1.registerCoupon(coupon);
-        stamp2.registerCoupon(coupon);
-        couponRepository.save(coupon);
-
-        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), leo.getId());
+        List<CustomerAccumulatingCouponFindResultDto> result = couponService.findAccumulatingCoupon(cafe1.getId(), registerCustomer1.getId());
         CustomerAccumulatingCouponFindResultDto customerUsingCoupon = new CustomerAccumulatingCouponFindResultDto(
-                coupon.getId(),
-                leo.getId(),
-                leo.getNickname(),
-                coupon.getStampCount(),
-                coupon.calculateExpireDate(),
+                coupon2.getId(),
+                registerCustomer1.getId(),
+                registerCustomer1.getNickname(),
+                coupon2.getStampCount(),
+                coupon2.calculateExpireDate(),
                 false,
-                20);
+                10);
 
         //then
         assertThat(result).containsExactly(customerUsingCoupon);

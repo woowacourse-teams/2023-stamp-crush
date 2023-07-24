@@ -33,7 +33,7 @@ public class CustomerAccumulatingCouponFindResponse {
                 serviceDto.getStampCount(),
                 serviceDto.getExpireDate(),
                 serviceDto.isPrevious(),
-                serviceDto.getMaxStampCount()
+                10
         );
     }
 }
