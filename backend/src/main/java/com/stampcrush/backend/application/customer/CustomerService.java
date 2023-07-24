@@ -37,16 +37,10 @@ public class CustomerService {
     public Long createTemporaryCustomer(String phoneNumber) {
         checkExistCustomer(phoneNumber);
 
-        String nickname = formatNicknameFromPhoneNumber(phoneNumber);
-
-        TemporaryCustomer temporaryCustomer = new TemporaryCustomer(nickname, phoneNumber);
+        TemporaryCustomer temporaryCustomer = new TemporaryCustomer(phoneNumber);
         TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
 
         return savedTemporaryCustomer.getId();
-    }
-
-    private static String formatNicknameFromPhoneNumber(String phoneNumber) {
-        return phoneNumber.substring(phoneNumber.length() - NICKNAME_LENGTH);
     }
 
     private void checkExistCustomer(String phoneNumber) {

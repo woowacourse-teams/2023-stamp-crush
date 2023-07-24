@@ -301,7 +301,7 @@ class CouponServiceTest {
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        TemporaryCustomer leo = temporaryCustomerRepository.save(new TemporaryCustomer("leo", "1234"));
+        TemporaryCustomer leo = temporaryCustomerRepository.save(new TemporaryCustomer( "1234"));
         CouponDesign couponDesign = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
         CouponPolicy couponPolicy = couponPolicyRepository.save(new CouponPolicy(20, "아메리카노", 8));
 
@@ -520,7 +520,7 @@ class CouponServiceTest {
         // given
         CouponDesign couponDesign = couponDesignRepository.save(COUPON_DESIGN_7);
         CouponPolicy couponPolicy = couponPolicyRepository.save(COUPON_POLICY_7); // max20
-        TemporaryCustomer customer = temporaryCustomerRepository.save(new TemporaryCustomer("new tmp customer", "new tmp customer phone"));
+        TemporaryCustomer customer = temporaryCustomerRepository.save(new TemporaryCustomer( "new tmp customer phone"));
         Coupon coupon = new Coupon(LocalDate.EPOCH, customer, cafe2, couponDesign, couponPolicy);
         Stamp stamp = new Stamp();
         stamp.registerCoupon(coupon);

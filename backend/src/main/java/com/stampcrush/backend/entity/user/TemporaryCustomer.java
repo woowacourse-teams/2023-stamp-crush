@@ -11,8 +11,10 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 public class TemporaryCustomer extends Customer {
 
-    public TemporaryCustomer(String nickname, String phoneNumber) {
-        super(nickname, phoneNumber);
+    private static final int NICKNAME_LENGTH = 4;
+
+    public TemporaryCustomer(String phoneNumber) {
+        super(phoneNumber.substring(phoneNumber.length() - NICKNAME_LENGTH), phoneNumber);
     }
 
     @Override

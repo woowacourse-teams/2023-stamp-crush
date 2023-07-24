@@ -31,7 +31,7 @@ public class RewardTest {
         cafe_2 = new Cafe("wrongCafe", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "잠실도로", "1층", "11-11111", owner_2);
         registerCustomer_1 = new RegisterCustomer("registered", "01022222222", "ehdgur@naver.com", "1111");
         registerCustomer_2 = new RegisterCustomer("registered2", "01044444444", "dsadsa@naver.com", "2345");
-        temporaryCustomer = new TemporaryCustomer("temporary", "01033333333");
+        temporaryCustomer = new TemporaryCustomer("01033333333");
     }
 
     @Test
