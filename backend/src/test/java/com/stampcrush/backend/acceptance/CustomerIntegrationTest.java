@@ -2,8 +2,8 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
-import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
+import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
@@ -44,7 +44,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
     @Test
     void 전화번호로_임시_고객을_조회한다() {
         // given
-        Customer customer = new TemporaryCustomer("제나임시", "01012345678");
+        Customer customer = TemporaryCustomer.from("01012345678");
         customerRepository.save(customer);
 
         // when
@@ -94,7 +94,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
     @Test
     void 존재하는_회원의_번호로_고객을_생성하려면_에러를_발생한다() {
         // given
-        Customer customer = new TemporaryCustomer("제나임시", "01012345678");
+        Customer customer = TemporaryCustomer.from("01012345678");
         customerRepository.save(customer);
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(customer.getPhoneNumber());
 

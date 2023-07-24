@@ -67,7 +67,7 @@ class RewardServiceTest {
 
         registerCustomer_1 = registerCustomerRepository.save(new RegisterCustomer("registered", "01022222222", "ehdgur@naver.com", "1111"));
         registerCustomer_2 = registerCustomerRepository.save(new RegisterCustomer("registered2", "01044444444", "dsadsa@naver.com", "2345"));
-        temporaryCustomer = temporaryCustomerRepository.save(new TemporaryCustomer("temporary", "01033333333"));
+        temporaryCustomer = temporaryCustomerRepository.save(TemporaryCustomer.from("01033333333"));
 
         unusedReward = rewardRepository.save(new Reward("Americano", registerCustomer_1, cafe_1));
     }

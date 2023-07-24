@@ -60,7 +60,7 @@ public class DataInitializer implements ApplicationRunner {
 
         RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("레오", "01038626099", "leo", "1234"));
         RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("하디", "01064394814", "hardy", "5678"));
-        TemporaryCustomer temporaryCustomer = temporaryCustomerRepository.save(new TemporaryCustomer("yunsaeng", "01012345678"));
+        TemporaryCustomer temporaryCustomer = temporaryCustomerRepository.save(TemporaryCustomer.from("01012345678"));
 
         CafePolicy savedCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
