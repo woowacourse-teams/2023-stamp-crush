@@ -507,7 +507,7 @@ class CouponServiceTest {
         // given, when
         List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe1.getId());
 
-        CustomerCouponStatistics coupon1Statics = CustomerCouponStatistics.produceFrom(List.of(coupon1));
+        CustomerCouponStatistics coupon1Statics = new Coupons(List.of(coupon1)).calculateStatistics();
         CafeCustomerFindResultDto coupon1Result = CafeCustomerFindResultDto.from(temporaryCustomer1, coupon1Statics);
 
         CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(0, 1, 1, 0, LocalDate.EPOCH.atStartOfDay()));
@@ -528,7 +528,7 @@ class CouponServiceTest {
         // when
         List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe2.getId());
 
-        CustomerCouponStatistics couponStatics = CustomerCouponStatistics.produceFrom(List.of(coupon));
+        CustomerCouponStatistics couponStatics = new Coupons(List.of(coupon)).calculateStatistics();
         CafeCustomerFindResultDto couponResult = CafeCustomerFindResultDto.from(customer, couponStatics);
 
         CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 20, LocalDate.EPOCH.atStartOfDay()));

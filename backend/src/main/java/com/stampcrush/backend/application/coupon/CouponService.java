@@ -6,10 +6,7 @@ import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
-import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
-import com.stampcrush.backend.entity.coupon.CouponStatus;
+import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -63,8 +60,8 @@ public class CouponService {
 
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
         for (CustomerCoupons customerCoupon : customerCoupons) {
-            List<Coupon> coupons = customerCoupon.coupons;
-            CustomerCouponStatistics customerCouponStatistics = CustomerCouponStatistics.produceFrom(coupons);
+            Coupons coupons = new Coupons(customerCoupon.coupons);
+            CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
             cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics));
         }
 
