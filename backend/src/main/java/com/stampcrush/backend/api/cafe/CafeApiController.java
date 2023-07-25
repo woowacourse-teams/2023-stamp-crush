@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.cafe.response.CafesFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,10 @@ public class CafeApiController {
     }
 
     @PostMapping("/{ownerId}")
-    ResponseEntity<Void> createCafe(@PathVariable Long ownerId, @RequestBody CafeCreateRequest cafeCreateRequest) {
+    ResponseEntity<Void> createCafe(
+            @PathVariable Long ownerId,
+            @RequestBody @Valid CafeCreateRequest cafeCreateRequest
+    ) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,
                 cafeCreateRequest.getName(),
