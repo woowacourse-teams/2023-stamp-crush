@@ -6,11 +6,13 @@ type StampProps = {
 };
 
 export const BackCouponWrapper = styled.div`
-  width: 540px;
-  height: 300px;
-  border: 1px solid black;
+  display: flex;
+  width: 100%;
+  height: 350px;
+
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  background-color: transparent;
 `;
 
 export const Stamp = styled.span<StampProps>`
@@ -42,7 +44,6 @@ export const StampBadge = styled.span`
 export const BackImage = styled.img`
   width: 540px;
   height: 300px;
-  z-index: -1;
 `;
 
 export const ButtonContainer = styled.div`
