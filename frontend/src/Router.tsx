@@ -13,9 +13,10 @@ import History from './pages/History';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
-import EarnStamp from './pages/Admin/EarnStamp';
 import SelectCoupon from './pages/Admin/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
+import { ROUTER_PATH } from './constants';
+import EarnStamp from './pages/Admin/EarnStamp';
 
 const AdminRoot = () => {
   return (
@@ -42,42 +43,31 @@ const CustomerRoot = () => {
 const Router = () => {
   const router = createBrowserRouter([
     // 사장
+    { path: ROUTER_PATH.adminLogin, element: <Login /> },
+    { path: ROUTER_PATH.adminSignup, element: <SignUp /> },
+    { path: ROUTER_PATH.enterReward, element: <EnterPhoneNumber /> },
+    { path: ROUTER_PATH.enterStamp, element: <EnterPhoneNumber /> },
     {
-      path: '/admin',
+      path: '/',
       element: <AdminRoot />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <CustomerList /> },
+        { path: ROUTER_PATH.admin, element: <CustomerList /> },
         {
-          path: 'modify-coupon-policy',
-          children: [
-            {
-              path: '1',
-              element: <ModifyCouponPolicy />,
-            },
-            {
-              path: '2',
-              element: <CustomCouponDesign />,
-            },
-          ],
+          path: ROUTER_PATH.modifyCouponPolicy,
+          element: <ModifyCouponPolicy />,
         },
-        { path: 'manage-cafe', element: <ManageCafe /> },
-        { path: 'use-reward', element: <RewardPage /> },
+        {
+          path: ROUTER_PATH.customCouponDesign,
+          element: <CustomCouponDesign />,
+        },
+        { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },
+        { path: ROUTER_PATH.registerCafe, element: <RegisterCafe /> },
+        { path: ROUTER_PATH.selectCoupon, element: <SelectCoupon /> },
+        { path: ROUTER_PATH.earnStamp, element: <EarnStamp /> },
+        { path: ROUTER_PATH.useReward, element: <RewardPage /> },
       ],
     },
-    { path: '/admin/enter-reward', element: <EnterPhoneNumber /> },
-    { path: '/admin/login', element: <Login /> },
-    { path: '/admin/sign-up', element: <SignUp /> },
-    {
-      path: 'admin/stamp',
-      children: [
-        { index: true, element: <EnterPhoneNumber /> },
-        { path: '1', element: <SelectCoupon /> },
-        { path: '2', element: <EarnStamp /> },
-      ],
-    },
-    { path: '/admin/use-reward', element: <EnterPhoneNumber /> },
-    { path: '/admin/register-cafe', element: <RegisterCafe /> },
     // 고객
     {
       path: '/',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseStepperButton, BaseStepperInput, StepperWrapper } from './Stepper.style';
+import { BaseStepperButton, BaseStepperInput, StepperWrapper } from './style';
 
 interface StepperProps {
   minValue?: number;

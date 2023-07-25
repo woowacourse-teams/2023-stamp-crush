@@ -5,7 +5,7 @@ import {
   ImageUploadContainer,
   SaveButtonWrapper,
 } from './style';
-import { RowSpacing, Spacing, SubTitle, Title } from '../../../style/layout/common';
+import { RowSpacing, Spacing } from '../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
@@ -14,8 +14,11 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { parseStampCount } from '../../../utils';
+import Text from '../../../components/Text';
+import { postCouponSetting } from '../../../api/post';
 
-interface CouponSettingDto {
+export interface CouponSettingDto {
   frontImageUrl: string;
   backImageUrl: string;
   stampImageUrl: string;
@@ -23,20 +26,6 @@ interface CouponSettingDto {
   reward: string;
   expirePeriod: number;
 }
-const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  const response = await fetch('/coupon-setting', {
-    method: 'POST',
-    body: JSON.stringify(couponConfig),
-  });
-  return await response.json();
-};
-
-// TODO: 외부로 분리
-export const parseStampCount = (value: string) => {
-  return +value.replace('개', '');
-};
-
-const SectionSpacing = () => <Spacing $size={40} />;
 
 const CustomCouponDesign = () => {
   const location = useLocation();
@@ -62,8 +51,6 @@ const CustomCouponDesign = () => {
       expirePeriod: parseStampCount(location.state.stampCount),
     };
 
-    console.log(payload);
-
     mutateCouponPolicy.mutate(payload);
   };
   return (
@@ -71,9 +58,9 @@ const CustomCouponDesign = () => {
       <Spacing $size={40} />
       <CustomCouponDesignContainer>
         <PreviewCouponContainer>
-          <Title>쿠폰 제작 및 변경</Title>
-          <SectionSpacing />
-          <SubTitle>예상 쿠폰 이미지</SubTitle>
+          <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
+          <Spacing $size={40} />
+          <Text variant="subTitle">예상 쿠폰 이미지</Text>
           <Spacing $size={20} />
           <ImageUploadContainer>
             <CouponContainer>

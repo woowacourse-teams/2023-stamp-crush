@@ -1,47 +1,16 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
-import { ModifyCouponPolicyContainer, NextButtonWrapper, SelectBoxWrapper } from './style';
-import RadioInputs from './RadioInputs';
-import { useNavigate } from 'react-router-dom';
-import { Spacing, Title, SectionTitle, Text } from '../../../style/layout/common';
+import { NextButtonWrapper } from './style';
+import { Spacing } from '../../../style/layout/common';
 import SelectBox from '../../../components/SelectBox';
-
-const ParagraphSpacing = () => <Spacing $size={8} />;
-
-const SectionSpacing = () => <Spacing $size={40} />;
-
-const STAMP_COUNT_OPTIONS = [
-  {
-    key: 'eight',
-    value: '8개',
-  },
-  {
-    key: 'nine',
-    value: '9개',
-  },
-  {
-    key: 'ten',
-    value: '10개',
-  },
-];
-
-const EXPIRE_DATE_OPTIONS = [
-  {
-    key: 'six-month',
-    value: '6개월',
-  },
-  {
-    key: 'twelve-month',
-    value: '12개월',
-  },
-  {
-    key: 'infinity',
-    value: '없음',
-  },
-];
+import Text from '../../../components/Text';
+import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../constants';
+import RadioInputs from './RadioInput';
 
 const ModifyCouponPolicy = () => {
+  const navigate = useNavigate();
   const [createdType, setCreatedType] = useState('');
   const rewardInputRef = useRef<HTMLInputElement>(null);
   const [expireSelect, setExpireSelect] = useState({
@@ -52,7 +21,6 @@ const ModifyCouponPolicy = () => {
     key: STAMP_COUNT_OPTIONS[0].key,
     value: STAMP_COUNT_OPTIONS[0].value,
   });
-  const navigate = useNavigate();
 
   const navigateNextPage = () => {
     if (!createdType || !rewardInputRef.current?.value || !expireSelect || !stampCount) {
@@ -60,37 +28,35 @@ const ModifyCouponPolicy = () => {
       return;
     }
 
-    navigate('/admin/modify-coupon-policy/2', {
+    navigate(ROUTER_PATH.customCouponDesign, {
       state: {
         createdType,
         reward: rewardInputRef.current?.value,
         expireSelect,
-        stampCount,
+        stampCount: stampCount.value,
       },
     });
   };
 
   return (
-    <ModifyCouponPolicyContainer>
-      <SectionSpacing />
-      <Title>쿠폰 제작 및 변경</Title>
-      <SectionSpacing />
-      <SectionTitle>어떻게 제작하시겠어요?</SectionTitle>
-      <ParagraphSpacing />
+    <>
+      <Spacing $size={40} />
+      <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
+      <Spacing $size={40} />
+      <Text variant="subTitle">어떻게 제작하시겠어요?</Text>
+      <Spacing $size={8} />
       <RadioInputs setValue={setCreatedType} />
-      <SectionSpacing />
-      <SectionTitle>목표 스탬프 갯수</SectionTitle>
-      <ParagraphSpacing />
+      <Spacing $size={40} />
+      <Text variant="subTitle">목표 스탬프 갯수</Text>
+      <Spacing $size={8} />
       <Text>리워드를 지급할 스탬프 갯수를 작성해주세요.</Text>
-      <ParagraphSpacing />
-      <SelectBoxWrapper>
-        <SelectBox
-          options={STAMP_COUNT_OPTIONS}
-          checkedOption={stampCount}
-          setCheckedOption={setStampCount}
-        />
-      </SelectBoxWrapper>
-      <SectionSpacing />
+      <Spacing $size={16} />
+      <SelectBox
+        options={STAMP_COUNT_OPTIONS}
+        checkedOption={stampCount}
+        setCheckedOption={setStampCount}
+      />
+      <Spacing $size={40} />
       <Input
         id="create-coupon-reward-input"
         label="리워드 명"
@@ -100,28 +66,26 @@ const ModifyCouponPolicy = () => {
         width={400}
         ref={rewardInputRef}
       />
-      <SectionSpacing />
-      <SectionTitle>쿠폰 유효기간</SectionTitle>
-      <ParagraphSpacing />
+      <Spacing $size={40} />
+      <Text variant="subTitle">쿠폰 유효기간</Text>
+      <Spacing $size={8} />
       <Text>
         고객이 가지게 될 쿠폰의 유효기간입니다. 유효기간이 지나면 해당 쿠폰의 스탬프가 모두
         소멸됩니다.
       </Text>
-      <ParagraphSpacing />
-      <SelectBoxWrapper>
-        <SelectBox
-          options={EXPIRE_DATE_OPTIONS}
-          checkedOption={expireSelect}
-          setCheckedOption={setExpireSelect}
-        />
-      </SelectBoxWrapper>
-      <SectionSpacing />
+      <Spacing $size={8} />
+      <SelectBox
+        options={EXPIRE_DATE_OPTIONS}
+        checkedOption={expireSelect}
+        setCheckedOption={setExpireSelect}
+      />
+      <Spacing $size={40} />
       <NextButtonWrapper>
         <Button variant="secondary" size="medium" onClick={navigateNextPage}>
           다음으로
         </Button>
       </NextButtonWrapper>
-    </ModifyCouponPolicyContainer>
+    </>
   );
 };
 

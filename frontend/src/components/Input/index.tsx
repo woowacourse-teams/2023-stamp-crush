@@ -1,5 +1,5 @@
 import { HTMLInputTypeAttribute, forwardRef } from 'react';
-import { BaseInput, InputContainer, Label, LabelWrapper, Required } from './Input.style';
+import { BaseInput, InputContainer, Label, LabelWrapper, Required } from './style';
 
 const REQUIRED = '*' as const;
 

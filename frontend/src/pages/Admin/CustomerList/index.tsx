@@ -6,31 +6,16 @@ import {
   Name,
   RightInfo,
   Container,
+  NameContainer,
+  InfoContainer,
 } from './style';
 import Text from '../../../components/Text';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
-
-const CUSTOMERS_ORDER_OPTIONS = [
-  {
-    key: 'stampCount',
-    value: '스탬프순',
-  },
-  {
-    key: 'rewardCount',
-    value: '리워드순',
-  },
-  {
-    key: 'firstVisitDate',
-    value: '방문일순',
-  },
-  {
-    key: 'visitCount',
-    value: '방문횟수순',
-  },
-];
+import { getList } from '../../../api/get';
+import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 
 interface CustomerType {
   id: number;
@@ -42,11 +27,6 @@ interface CustomerType {
   firstVisitDate: string;
   isRegistered: boolean;
 }
-
-const getList = async () => {
-  const data = await fetch('/cafes/1/customers');
-  return await data.json();
-};
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -116,18 +96,20 @@ const CustomerList = () => {
         }: CustomerType) => (
           <CustomerBox key={id}>
             <LeftInfo>
-              <Name>
-                <h1>{nickname}</h1>
+              <NameContainer>
+                <Name>{nickname}</Name>
                 <Badge $isRegistered={isRegistered}>{isRegistered ? '회원' : '임시'}</Badge>
-              </Name>
-              <span>
+              </NameContainer>
+              <InfoContainer>
                 스탬프: {stampCount}/{maxStampCount} <br />
                 리워드: {rewardCount}개
-              </span>
+              </InfoContainer>
             </LeftInfo>
             <RightInfo>
-              <span>첫 방문일: {firstVisitDate}</span>
-              <span>방문 횟수: {visitCount}번</span>
+              <InfoContainer>
+                첫 방문일: {firstVisitDate}
+                <br /> 방문 횟수: {visitCount}번
+              </InfoContainer>
             </RightInfo>
           </CustomerBox>
         ),
