@@ -32,7 +32,7 @@ const ModifyCouponPolicy = () => {
       state: {
         createdType,
         reward: rewardInputRef.current?.value,
-        expireSelect,
+        expirePeriod: expireSelect.value,
         stampCount: stampCount.value,
       },
     });

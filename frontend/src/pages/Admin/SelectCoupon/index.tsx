@@ -31,7 +31,7 @@ const SelectCoupon = () => {
     refetch: refetchCustomer,
   } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber), {
     onSuccess: (data) => {
-      if (data.customer?.[0] === null) {
+      if (data.customer.length === null) {
         mutateTempCustomer(phoneNumber);
       }
     },
@@ -108,7 +108,7 @@ const SelectCoupon = () => {
         {coupon.coupons.length > 0 && (
           <CouponSelectorWrapper>
             <Text>
-              현재 스탬프 개수: {foundCoupon.stampCount}/{8}
+              현재 스탬프 개수: {foundCoupon.stampCount}/{10}
             </Text>
             <Spacing $size={8} />
             <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
