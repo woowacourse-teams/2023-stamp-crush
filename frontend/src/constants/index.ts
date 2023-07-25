@@ -51,12 +51,12 @@ export const STAMP_COUNT_OPTIONS = [
     value: '8개',
   },
   {
-    key: 'nine',
-    value: '9개',
-  },
-  {
     key: 'ten',
     value: '10개',
+  },
+  {
+    key: 'twelve',
+    value: '12개',
   },
 ];
 
