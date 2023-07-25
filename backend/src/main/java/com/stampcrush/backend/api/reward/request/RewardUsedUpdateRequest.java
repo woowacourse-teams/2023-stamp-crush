@@ -1,15 +1,21 @@
 package com.stampcrush.backend.api.reward.request;
 
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class RewardUsedUpdateRequest {
 
-    private final Long cafeId;
+    @NotNull
+    @Positive
+    private Long cafeId;
 
     @AssertTrue
-    private final boolean used;
+    private Boolean used;
 }
