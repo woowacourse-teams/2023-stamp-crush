@@ -4,6 +4,7 @@ import com.stampcrush.backend.common.DataCleaner;
 import com.stampcrush.backend.common.DataClearExtension;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -33,6 +34,10 @@ public class AcceptanceTest {
     @BeforeEach
     void setup() {
         RestAssured.port = port;
+    }
+
+    @AfterEach
+    void tearDown() {
         cleaner.clear();
     }
 }
