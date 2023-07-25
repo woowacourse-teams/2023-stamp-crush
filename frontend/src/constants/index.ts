@@ -86,6 +86,7 @@ export const ROUTER_PATH = {
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
   selectCoupon: '/admin/select-coupon',
+  templateCouponDesign: '/admin/template-coupon-design',
   customCouponDesign: '/admin/custom-coupon-design',
   useReward: '/admin/useReward',
 };

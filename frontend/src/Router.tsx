@@ -58,6 +58,10 @@ const Router = () => {
           element: <ModifyCouponPolicy />,
         },
         {
+          path: ROUTER_PATH.templateCouponDesign,
+          element: <CustomCouponDesign />,
+        },
+        {
           path: ROUTER_PATH.customCouponDesign,
           element: <CustomCouponDesign />,
         },
