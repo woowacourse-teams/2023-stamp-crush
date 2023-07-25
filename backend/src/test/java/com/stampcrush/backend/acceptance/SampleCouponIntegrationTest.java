@@ -11,7 +11,6 @@ import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class SampleCouponIntegrationTest extends IntegrationTest {
+public class SampleCouponIntegrationTest extends AcceptanceTest {
 
     @Autowired
     private SampleFrontImageRepository sampleFrontImageRepository;
@@ -36,16 +35,6 @@ public class SampleCouponIntegrationTest extends IntegrationTest {
 
     @Autowired
     private SampleStampImageRepository sampleStampImageRepository;
-
-    @Override
-    @BeforeEach
-    void setUp() {
-        super.setUp();
-        sampleFrontImageRepository.deleteAll();
-        sampleStampCoordinateRepository.deleteAll();
-        sampleBackImageRepository.deleteAll();
-        sampleStampImageRepository.deleteAll();
-    }
 
     private void saveSampleCoupon() {
         SampleFrontImage savedSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);

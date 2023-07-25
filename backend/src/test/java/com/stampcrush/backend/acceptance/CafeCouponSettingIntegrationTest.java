@@ -15,7 +15,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class CafeCouponSettingIntegrationTest extends IntegrationTest {
+public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
 
     @Autowired
     private CafeRepository cafeRepository;
@@ -42,15 +41,6 @@ public class CafeCouponSettingIntegrationTest extends IntegrationTest {
 
     @Autowired
     private OwnerRepository ownerRepository;
-
-    @Override
-    @BeforeEach
-    void setUp() {
-        super.setUp();
-        cafePolicyRepository.deleteAll();
-        cafeStampCoordinateRepository.deleteAll();
-        cafeCouponDesignRepository.deleteAll();
-    }
 
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {

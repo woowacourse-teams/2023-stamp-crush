@@ -19,7 +19,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
-public class CustomerIntegrationTest extends IntegrationTest {
+public class CustomerIntegrationTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -39,8 +39,6 @@ public class CustomerIntegrationTest extends IntegrationTest {
             softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer()).containsExactlyInAnyOrder(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -58,8 +56,6 @@ public class CustomerIntegrationTest extends IntegrationTest {
             softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -73,8 +69,6 @@ public class CustomerIntegrationTest extends IntegrationTest {
             softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer().size()).isEqualTo(0);
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -109,8 +103,6 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .then()
                 .statusCode(BAD_REQUEST.value())
                 .extract();
-
-        customerRepository.deleteAll();
     }
 
     private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(String phoneNumber) {
