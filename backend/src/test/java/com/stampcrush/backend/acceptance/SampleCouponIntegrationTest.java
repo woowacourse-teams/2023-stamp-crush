@@ -38,8 +38,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
         SampleBackImage savedSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
         SAMPLE_COORDINATES_SIZE_EIGHT.stream()
                 .peek(e -> e.setSampleBackImage(savedSampleBackImage))
-                .map(e -> sampleStampCoordinateRepository.save(e))
-                .toList();
+                .forEach(e -> sampleStampCoordinateRepository.save(e));
         sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
     }
 
