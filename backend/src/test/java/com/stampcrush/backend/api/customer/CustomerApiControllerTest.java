@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(CustomerApiController.class)
 @AutoConfigureMockMvc
+@MockBean(JpaMetamodelMappingContext.class)
 class CustomerApiControllerTest {
 
     @Autowired
@@ -38,7 +40,7 @@ class CustomerApiControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/api/temporary-customers")
-                                .content(MediaType.APPLICATION_JSON_VALUE)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
                                 .content(objectMapper.writeValueAsString(request))
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
