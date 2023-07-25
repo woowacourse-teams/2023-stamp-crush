@@ -1,40 +1,47 @@
 package com.stampcrush.backend.api.customer;
 
-import com.stampcrush.backend.api.BaseControllerTest;
-import io.restassured.RestAssured;
-import net.minidev.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stampcrush.backend.api.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.application.customer.CustomerService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.payload.RequestFieldsSnippet;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
+import static org.mockito.Mockito.when;
 
-class CustomerApiControllerTest extends BaseControllerTest {
+@WebMvcTest(CustomerApiController.class)
+@AutoConfigureMockMvc
+class CustomerApiControllerTest {
 
-    private static final RequestFieldsSnippet REQUEST_FIELDS = requestFields(
-            fieldWithPath("phoneNumber").type(JsonFieldType.STRING).description("전화번호")
-    );
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private CustomerService customerService;
 
     @Test
-    void 임시_가입_고객을_생성한다() {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("phoneNumber", "01012345678");
+    void 임시_가입_고객을_생성한다() throws Exception {
+        TemporaryCustomerCreateRequest request = new TemporaryCustomerCreateRequest("01012345678");
+        Long customerId = 1L;
 
-        RestAssured.given(this.spec)
-                .filter(document(DEFAULT_RESTDOC_PATH, REQUEST_FIELDS))
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .header("Content-type", "application/json")
-                .body(requestBody)
-                .log().all()
+        when(customerService.createTemporaryCustomer(request.getPhoneNumber()))
+                .thenReturn(customerId);
 
-                .when()
-                .post("/api/temporary-customers")
-
-                .then()
-                .statusCode(CREATED.value());
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/temporary-customers")
+                                .content(MediaType.APPLICATION_JSON_VALUE)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.header().string("Location", "/customers/" + customerId));
     }
 }
