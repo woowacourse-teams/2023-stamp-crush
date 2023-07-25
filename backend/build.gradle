@@ -8,7 +8,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.1'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
 }
 
 group = 'com.stampcrush'
@@ -28,19 +27,11 @@ repositories {
     mavenCentral()
 }
 
-openapi3 {
-    setServer("http://localhost:8080")
-    title = "restdocs-swagger API Documentation"
-    description = "Spring REST Docs with SwaggerUI."
-    version = "0.0.1"
-    format = "yaml"
-}
-
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
@@ -51,8 +42,3 @@ dependencies {
     testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
     testImplementation 'io.rest-assured:rest-assured'
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
