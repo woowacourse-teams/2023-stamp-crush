@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
 
 public class CustomerIntegrationTest extends IntegrationTest {
 
@@ -34,8 +36,8 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(CustomerFindDto.from(customer)));
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
+            softAssertions.assertThat(customers.getCustomer()).containsExactlyInAnyOrder(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
 
         customerRepository.deleteAll();
@@ -53,7 +55,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
 
@@ -68,7 +70,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer().size()).isEqualTo(0);
         });
 
@@ -105,7 +107,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .when()
                 .post("/api/temporary-customers")
                 .then()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .statusCode(BAD_REQUEST.value())
                 .extract();
 
         customerRepository.deleteAll();
