@@ -8,6 +8,7 @@ import {
   samples8,
   mockCoupons,
   cafeCustomer,
+  customerCoupons,
 } from './mockData';
 
 const customerList = [...customers];
@@ -187,7 +188,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ customers: cafeCustomer }));
   }),
 
-  // 리워드 사용 기능
+  // 고객 쿠폰 목록 조회
   rest.patch('/customers/:customerId/rewards/:rewardId', async (req, res, ctx) => {
     const { customerId, rewardId } = req.params;
     const { cafeId, used } = await req.json();
@@ -197,5 +198,9 @@ export const handlers = [
     }
 
     return res(ctx.status(200));
+  }),
+
+  rest.get('/coupons', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(customerCoupons));
   }),
 ];

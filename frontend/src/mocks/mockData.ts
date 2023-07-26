@@ -239,6 +239,7 @@ interface MockCustomer {
   nickname: string;
   phoneNumber: string;
 }
+
 export const customers: MockCustomer[] = [
   { id: 1, nickname: '윤생', phoneNumber: '01011112222' },
   { id: 2, nickname: '라잇', phoneNumber: '01033334444' },
@@ -300,3 +301,163 @@ export const cafeCustomer = [
     maxStampCount: 8,
   },
 ];
+
+export const customerCoupons = {
+  coupons: [
+    {
+      cafeInfo: {
+        id: 1,
+        name: '우아한카페',
+      },
+      couponInfos: [
+        {
+          id: 1,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 2,
+        name: '윤생카페',
+      },
+      couponInfos: [
+        {
+          id: 2,
+          isFavorites: false,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 3,
+        name: '카페, 빛',
+      },
+      couponInfos: [
+        {
+          id: 3,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 4,
+        name: '블럭레고카페',
+      },
+      couponInfos: [
+        {
+          id: 4,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 5,
+        name: '크러쉬카페',
+      },
+      couponInfos: [
+        {
+          id: 5,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
