@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.coupon.customer.response;
+package com.stampcrush.backend.api.coupon.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +7,9 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class CouponResponse {
+public class CustomerCouponResponse {
 
     private final Long id;
     private final String name;
-    private final List<CouponInfoResponse> couponInfos;
+    private final List<CustomerCouponInfoResponse> couponInfos;
 }
