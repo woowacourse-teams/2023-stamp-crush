@@ -1,21 +1,12 @@
-import { BackImage, CouponContainer, CouponWrapper, FrontImage, StampImage } from './style';
-import { ImgHTMLAttributes } from 'react';
+import { CouponWrapper } from './style';
 
-interface CouponProps extends ImgHTMLAttributes<HTMLImageElement> {
-  frontImageUrl?: string;
-  backImageUrl?: string;
+interface CouponProps {
+  frontImageUrl: string;
+  onClick: () => void;
 }
 
-const Coupon = ({ frontImageUrl, backImageUrl, ...props }: CouponProps) => {
-  return (
-    <CouponContainer>
-      <CouponWrapper>
-        <FrontImage src={frontImageUrl} {...props} />
-        <BackImage src={backImageUrl} {...props} />
-      </CouponWrapper>
-      <StampImage />
-    </CouponContainer>
-  );
+const Coupon = ({ frontImageUrl, onClick }: CouponProps) => {
+  return <CouponWrapper src={frontImageUrl} onClick={onClick}></CouponWrapper>;
 };
 
 export default Coupon;

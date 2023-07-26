@@ -5,10 +5,16 @@ interface StyledListProps {
   $isLast: boolean;
 }
 
+export const CafeName = styled.span`
+  font-size: 36px;
+  font-weight: 700;
+`;
+
 export const CouponListContainer = styled.div<StyledListProps>`
-  width: 500px;
-  height: 500px;
+  display: flex;
+  justify-content: center;
   position: relative;
+  height: 100vh;
 
   :nth-last-child(1) {
     transform: translateY(15px) scale(1.05);
@@ -32,14 +38,4 @@ export const CouponListContainer = styled.div<StyledListProps>`
   :nth-last-child(n + 4) {
     transform: translateY(-30px) scale(0.9);
   }
-`;
-
-export const Test = styled.div`
-  width: 270px;
-  height: 150px;
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
-  transform: translate(50%, -50%);
-  transition: transform 0.1s;
 `;
