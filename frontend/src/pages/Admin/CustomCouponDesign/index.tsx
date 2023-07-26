@@ -14,7 +14,7 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { parseExpireDate, parseStampCount } from '../../../utils';
+import { parseExpireDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 
