@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.coupon.customer.response;
+package com.stampcrush.backend.api.coupon.response;
 
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class CouponInfoResponse {
+public class CustomerCouponInfoResponse {
 
     private final Long id;
     private final Boolean isFavorites;
