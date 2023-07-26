@@ -1,9 +1,6 @@
-import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 buildscript {
     ext {
-        restdocsApiSpecVersion = '0.16.2'
+        restdocsApiSpecVersion = '0.17.1'
     }
 }
 
@@ -33,11 +30,16 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    sample
+}
+
 swaggerSources {
     sample {
-        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+        setInputFile(file("${project.projectDir}/src/sample/resources/openapi3.yaml"))
     }
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -52,41 +54,40 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:' + restdocsApiSpecVersion
 
-    swaggerUI 'org.webjars:swagger-ui:4.11.1'
-}
-
-openapi3 {
-    setServer("http://localhost:8080")
-    title = "restdocs-swagger API Documentation"
-    description = "Spring REST Docs with SwaggerUI."
-    version = "0.0.1"
-    format = "yaml"
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-// GenerateSwaggerUI 태스크가, openapi3 task 를 의존하도록 설정
 tasks.withType(GenerateSwaggerUI) {
     dependsOn 'openapi3'
+
+    //기존 파일 삭제했다가, build 에 출력한 json 정적파일 복사 (안해도 됨 → local 확인용)
+    delete file('src/main/resources/static/docs/')
+    copy {
+        from "build/resources/main/static/docs"
+        into "src/main/resources/static/docs/"
+    }
 }
 
-// 생성된 SwaggerUI 를 jar 에 포함시키기 위해 build/resources 경로로 로 복사
-tasks.register('copySwaggerUI', Copy) {
-    dependsOn 'generateSwaggerUISample'
-    def generateSwaggerUISampleTask = tasks.named('generateSwaggerUISample', GenerateSwaggerUI).get()
-
-    from("${generateSwaggerUISampleTask.outputDir}")
-    into("${project.buildDir}/resources/main/static/docs")
-
-    outputs.dir "${project.buildDir}/resources/main/static/docs"
+//openAPI 작성 자동화를 위해 패키징 전에 openapi3 테스크 선실행을 유발
+bootJar{
+    dependsOn(':openapi3')
 }
 
-// bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
-tasks.withType(BootJar) {
-    mustRunAfter 'copySwaggerUI'
+openapi3 {
+    server = "http://localhost:8080"
+    title = "StampCrush API 문서"
+    description = "Spring REST Docs with SwaggerUI."
+    version = "0.0.1"
+    outputFileNamePrefix = 'open-api-3.0.1'
+    format = 'json'
+
+    // /static/docs/open-api-3.0.1.json 생성 → jar 파일만 배포할 예정이기에 build 에 출력
+    outputDirectory = file('build/resources/main/static/docs')
 }
