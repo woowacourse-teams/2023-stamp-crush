@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/coupon-setting")
+@RequestMapping("/api/admin/coupon-setting")
 public class CafeCouponSettingApiController {
 
     private final CafeCouponSettingService cafeCouponSettingService;
