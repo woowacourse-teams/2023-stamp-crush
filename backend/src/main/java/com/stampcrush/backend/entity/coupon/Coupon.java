@@ -6,6 +6,8 @@ import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +21,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE COUPON SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Coupon extends BaseDate {
 
