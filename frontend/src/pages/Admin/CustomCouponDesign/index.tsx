@@ -14,7 +14,7 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { parseStampCount } from '../../../utils';
+import { parseExpireDate, parseStampCount } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 
@@ -52,7 +52,7 @@ const CustomCouponDesign = () => {
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: location.state.reward,
-      expirePeriod: parseStampCount(location.state.expirePeriod),
+      expirePeriod: parseExpireDate(location.state.expirePeriod),
     };
 
     mutateCouponPolicy.mutate(payload);
