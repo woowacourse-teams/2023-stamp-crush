@@ -109,7 +109,8 @@ public class CafeServiceTest {
 
         // when
         Long cafeId = cafeService.createCafe(cafeCreateDto);
-        Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findAll()
+        Cafe cafe = cafeRepository.findById(cafeId).get();
+        Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
                 .stream()
                 .filter(design -> design.getCafe().getId().equals(cafeId))
                 .findAny();
