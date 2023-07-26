@@ -32,10 +32,7 @@ const AdminRoot = () => {
 const CustomerRoot = () => {
   return (
     <>
-      <Header />
-      <Template>
-        <Outlet />
-      </Template>
+      <Outlet />
     </>
   );
 };
