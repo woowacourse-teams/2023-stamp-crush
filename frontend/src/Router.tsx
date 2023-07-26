@@ -71,10 +71,9 @@ const Router = () => {
       element: <CustomerRoot />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <CustomerList /> },
+        { index: true, element: <CouponList /> },
         { path: 'login', element: <Login /> },
         { path: 'sign-up', element: <SignUp /> },
-        { path: 'coupon-list', element: <CouponList /> },
         { path: '/my-page', element: <MyPage /> },
         { path: '/history', element: <History /> },
       ],
