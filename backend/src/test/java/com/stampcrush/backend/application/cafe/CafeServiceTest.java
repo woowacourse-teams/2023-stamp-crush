@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
+import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -211,8 +212,31 @@ public class CafeServiceTest {
         assertThat(cafes.size()).isEqualTo(expectedSize);
     }
 
-    private void createCafe() {
-        cafeRepository.save(
+    @Test
+    void 카페정보를_수정한다() {
+        // given
+        Cafe hadiCafe = createCafe();
+
+        // when
+        CafeUpdateDto cafeUpdateDto = new CafeUpdateDto(
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "99999",
+                "image"
+        );
+        hadiCafe.update(
+                cafeUpdateDto.getOpenTime(),
+                cafeUpdateDto.getCloseTime(),
+                cafeUpdateDto.getTelephoneNumber(),
+                cafeUpdateDto.getCafeImageUrl()
+        );
+
+        // then
+        assertThat(hadiCafe.getCafeImageUrl()).isEqualTo(cafeUpdateDto.getCafeImageUrl());
+    }
+
+    private Cafe createCafe() {
+        return cafeRepository.save(
                 new Cafe(
                         "하디까페",
                         LocalTime.of(12, 30),
