@@ -31,7 +31,7 @@ public class Coupon extends BaseDate {
     @Enumerated(EnumType.STRING)
     private CouponStatus status = CouponStatus.ACCUMULATING;
 
-    private Boolean deleted = Boolean.TRUE;
+    private Boolean deleted;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
