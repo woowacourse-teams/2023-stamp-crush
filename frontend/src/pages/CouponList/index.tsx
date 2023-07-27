@@ -1,8 +1,24 @@
 import Coupon from './Coupon';
-import { CafeName, CouponListContainer } from './style';
+import {
+  CafeName,
+  CouponListContainer,
+  HeaderContainer,
+  InfoContainer,
+  LogoImg,
+  MaxStampCount,
+  NameContainer,
+  ProgressBarContainer,
+  StampCount,
+} from './style';
 import { useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
+import AdminHeaderLogo from '../../assets/admin_header_logo.png';
+import SelectBox from '../../components/SelectBox';
+import { CUSTOMERS_ORDER_OPTIONS } from '../../constants';
+import { GoPerson } from 'react-icons/go';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import ProgressBar from '../../components/ProgressBar';
 
 interface CouponType {
   cafeInfo: {
@@ -25,10 +41,11 @@ interface CouponType {
 }
 
 const CouponList = () => {
-  const [currentCafeIndex, setCurrentCafeIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
+  const [option, setOption] = useState({ key: 'stampCount', value: '스탬프순' });
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
@@ -46,20 +63,51 @@ const CouponList = () => {
     }, 700);
   };
 
-  const changeCurrentCafeIndex = (index: number) => () => {
-    setCurrentCafeIndex(index);
+  const changeCurrentIndex = (index: number) => () => {
+    setCurrentIndex(index);
   };
+
+  const getCurrentCoupon = () => data.coupons[currentIndex];
 
   return (
     <>
-      <CafeName>{data.coupons[currentCafeIndex].cafeInfo.name}</CafeName>
+      <HeaderContainer>
+        <LogoImg src={AdminHeaderLogo} />
+        <div>
+          <SelectBox
+            options={CUSTOMERS_ORDER_OPTIONS}
+            checkedOption={option}
+            setCheckedOption={setOption}
+            width={110}
+          />
+          <GoPerson size={24} />
+        </div>
+      </HeaderContainer>
+      <InfoContainer>
+        <NameContainer>
+          <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
+          {getCurrentCoupon().couponInfos[0].isFavorites ? (
+            <AiFillStar size={36} />
+          ) : (
+            <AiOutlineStar size={36} />
+          )}
+        </NameContainer>
+        <ProgressBarContainer>
+          <ProgressBar
+            stampCount={getCurrentCoupon().couponInfos[0].stampCount}
+            maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
+          />
+          <StampCount>{getCurrentCoupon().couponInfos[0].stampCount}</StampCount>/
+          <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
+        </ProgressBarContainer>
+      </InfoContainer>
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
         {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
             frontImageUrl={couponInfos[0].frontImageUrl}
             data-index={index}
-            onClick={changeCurrentCafeIndex(index)}
+            onClick={changeCurrentIndex(index)}
           />
         ))}
       </CouponListContainer>
