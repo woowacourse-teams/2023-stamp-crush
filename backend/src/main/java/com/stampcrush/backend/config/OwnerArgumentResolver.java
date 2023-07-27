@@ -38,9 +38,6 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         // 비밀번호 암호화는 어디서 해야하는지 ..
         String encryptedPassword = credentials[1];
 
-        System.out.println("111111");
-        System.out.println(loginId + " " + encryptedPassword);
-
         Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerAuthenticationException("카페 사장님 계정으로 로그인이 필요합니다"));
         owner.checkPassword(encryptedPassword);
 
