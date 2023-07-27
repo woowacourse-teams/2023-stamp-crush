@@ -1,5 +1,9 @@
 import { api } from '.';
 
+export const getCafe = async () => {
+  return await api.get('/cafes');
+};
+
 export const getCustomer = async (phoneNumber: string) => {
   return await api.get(`/customers?phone-number=${phoneNumber}`);
 };
