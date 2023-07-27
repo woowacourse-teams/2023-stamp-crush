@@ -49,7 +49,7 @@ const Router = () => {
       element: <AdminRoot />,
       errorElement: <NotFound />,
       children: [
-        { path: ROUTER_PATH.admin, element: <CustomerList /> },
+        { path: ROUTER_PATH.customerList, element: <CustomerList /> },
         {
           path: ROUTER_PATH.modifyCouponPolicy,
           element: <ModifyCouponPolicy />,
@@ -75,7 +75,6 @@ const Router = () => {
         { path: 'login', element: <Login /> },
         { path: 'sign-up', element: <SignUp /> },
         { path: '/my-page', element: <MyPage /> },
-        { path: '/history', element: <History /> },
       ],
     },
   ]);

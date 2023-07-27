@@ -76,7 +76,7 @@ export const EXPIRE_DATE_OPTIONS = [
 ];
 
 export const ROUTER_PATH = {
-  admin: '/admin',
+  customerList: '/admin',
   adminLogin: '/admin/login',
   adminSignup: '/admin/sign-up',
   enterReward: '/admin/enter-reward',
@@ -88,4 +88,8 @@ export const ROUTER_PATH = {
   selectCoupon: '/admin/select-coupon',
   customCouponDesign: '/admin/custom-coupon-design',
   useReward: '/admin/useReward',
+  couponList: '/',
+  login: '/login',
+  signup: '/sign-up',
+  myPage: '/my-page',
 };

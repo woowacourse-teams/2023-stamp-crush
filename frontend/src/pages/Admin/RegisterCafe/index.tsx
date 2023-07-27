@@ -30,7 +30,7 @@ const RegisterCafe = () => {
     (formData: CafeFormData) => postRegisterCafe(formData),
     {
       onSuccess: () => {
-        navigate(ROUTER_PATH.admin);
+        navigate(ROUTER_PATH.customerList);
       },
       onError: () => {
         throw new Error('카페 등록에 실패했습니다.');
