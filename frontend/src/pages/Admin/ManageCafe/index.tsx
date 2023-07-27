@@ -6,6 +6,7 @@ import {
   PageContainer,
   PreviewContainer,
   PreviewContentContainer,
+  PreviewEmptyCouponImage,
   PreviewOverviewContainer,
   TextArea,
   Wrapper,
@@ -22,6 +23,9 @@ import {
 import useUploadImage from '../../../hooks/useUploadImage';
 import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
+import { useQuery } from '@tanstack/react-query';
+import { getCafe } from '../../../api/get';
+import { parsePhoneNumber, parseTime } from '../../../utils';
 
 export interface Time {
   hour: string;
@@ -33,8 +37,10 @@ const ManageCafe = () => {
   const [cafeImage, uploadCafeImage] = useUploadImage();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [introduction, setIntroduction] = useState('내용을 입력해주세요');
-  const [startTime, setStartTime] = useState<Time>({ hour: '10', minute: '00' });
-  const [endTime, setEndTime] = useState<Time>({ hour: '18', minute: '00' });
+  const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
+  const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
+
+  const { data: cafe } = useQuery(['cafe'], () => getCafe());
 
   const inputPhoneNumber: ChangeEventHandler<HTMLInputElement> = (e) => {
     setPhoneNumber(e.target.value);
@@ -47,7 +53,7 @@ const ManageCafe = () => {
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    console.log(cafeImage, startTime, endTime, introduction, phoneNumber);
+    console.log(cafeImage, openTime, closeTime, introduction, phoneNumber);
 
     // navigate('/admin');
   };
@@ -71,16 +77,17 @@ const ManageCafe = () => {
           <Input
             id="phone-number-input"
             placeholder="전화번호를 입력해주세요"
+            maxLength={phoneNumber.startsWith('02') ? 10 : 11}
             onChange={inputPhoneNumber}
           />
         </Wrapper>
         <Wrapper>
           <Text>영업 시간(선택)</Text>
           <TimeRangePicker
-            startTime={startTime}
-            endTime={endTime}
-            setStartTime={setStartTime}
-            setEndTime={setEndTime}
+            startTime={openTime}
+            endTime={closeTime}
+            setStartTime={setOpenTime}
+            setEndTime={setCloseTime}
           />
         </Wrapper>
         <Wrapper>
@@ -94,23 +101,37 @@ const ManageCafe = () => {
       <PreviewContainer>
         <Text variant="subTitle">미리보기</Text>
         <PreviewImageWrapper $width={312} $height={594}>
-          <PreviewImage src={cafeImage} $width={312} $height={594} $opacity={0.25} />
+          <PreviewImage
+            src={
+              cafe?.[0].cafeImageUrl === '' || cafeImage !== '' ? cafeImage : cafe?.[0].cafeImageUrl
+            }
+            $width={312}
+            $height={594}
+            $opacity={0.25}
+          />
+          <PreviewEmptyCouponImage>쿠폰 뒷면 이미지가 들어갈 공간입니다.</PreviewEmptyCouponImage>
           <PreviewOverviewContainer>
-            <Text variant="subTitle">cafeName</Text>
+            <Text variant="subTitle">{cafe?.[0].name}</Text>
             <Text>{introduction}</Text>
           </PreviewOverviewContainer>
           <PreviewContentContainer>
             <Text>
               <FaRegClock size={25} />
-              {`여는 시간 ${startTime.hour}:${startTime.minute}\n닫는 시간 ${endTime.hour}:${endTime.minute}`}
+              {`여는 시간 ${
+                cafe?.[0].openTime === '' ? parseTime(openTime) : cafe?.[0].openTime
+              }\n닫는 시간 ${
+                cafe?.[0].closeTime === '' ? parseTime(closeTime) : cafe?.[0].closeTime
+              }`}
             </Text>
             <Text>
               <FaPhoneAlt size={25} />
-              {phoneNumber}
+              {cafe?.[0].telephoneNumber === '' || phoneNumber !== ''
+                ? parsePhoneNumber(phoneNumber)
+                : parsePhoneNumber(cafe?.[0].telephoneNumber)}
             </Text>
             <Text>
               <FaLocationDot size={25} />
-              주소
+              {cafe?.[0].roadAddress + ' ' + cafe?.[0].detailAddress}
             </Text>
           </PreviewContentContainer>
         </PreviewImageWrapper>
