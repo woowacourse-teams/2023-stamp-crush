@@ -1,7 +1,7 @@
 import { api } from '.';
 
 export const getCafe = async () => {
-  return await api.get('/cafes');
+  return await api.get('admin/cafes');
 };
 
 export const getCustomer = async (phoneNumber: string) => {

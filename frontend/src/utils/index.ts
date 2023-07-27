@@ -14,6 +14,10 @@ export const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
+export const parseExpireDate = (value: string) => {
+  return +value.replaceAll('개월', '');
+};
+
 export const parseStampCount = (value: string) => {
   return +value.replaceAll('개', '');
 };

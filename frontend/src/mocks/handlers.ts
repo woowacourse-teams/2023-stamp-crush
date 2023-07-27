@@ -20,7 +20,7 @@ export const handlers = [
   }),
 
   // 카페 관리
-  rest.patch('/cafes/:cafeId', async (req, res, ctx) => {
+  rest.patch('admin/cafes/:cafeId', async (req, res, ctx) => {
     return res(ctx.status(200));
   }),
 
