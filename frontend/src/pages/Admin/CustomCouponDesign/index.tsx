@@ -69,6 +69,11 @@ const CustomCouponDesign = () => {
   };
 
   const customStampPosition = () => {
+    if (!stampImage || !backImage) {
+      alert('먼저 쿠폰 뒷면, 스탬프 이미지를 업로드해주세요.');
+      return;
+    }
+
     setIsModalOpen(true);
   };
 
