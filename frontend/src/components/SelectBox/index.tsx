@@ -19,17 +19,17 @@ const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps)
     return [...options.filter((option: SelectBoxOption) => option.value === value && option)][0];
   };
 
-  const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (event) => {
-    event.preventDefault();
+  const toggleExpandSelectBox: MouseEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault();
 
     setIsExpanded(!isExpanded);
 
-    if (event.target instanceof HTMLLabelElement) {
-      event.target.textContent && setCheckedOption(getOption(event.target.textContent));
+    if (e.target instanceof HTMLLabelElement) {
+      e.target.textContent && setCheckedOption(getOption(e.target.textContent));
     }
 
-    if (event.target instanceof HTMLInputElement) {
-      setCheckedOption(getOption(event.target.value));
+    if (e.target instanceof HTMLInputElement) {
+      setCheckedOption(getOption(e.target.value));
     }
   };
 
