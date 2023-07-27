@@ -5,11 +5,14 @@ import com.stampcrush.backend.api.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,16 @@ public class CustomerIntegrationTest extends AcceptanceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    private Owner owner;
+
+    @BeforeEach
+    void setUp() {
+        owner = ownerRepository.save(new Owner("jena", "jenaId", "jnpw1234", "01098765432"));
+    }
+
     @Test
     void 전화번호로_가입_고객을_조회한다() {
         // given
@@ -31,7 +44,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
         customerRepository.save(customer);
 
         // when
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
+        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -48,7 +61,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
         customerRepository.save(customer);
 
         // when
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
+        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -61,7 +74,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
     @Test
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber("01012345678");
+        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -77,7 +90,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest("01012345678");
 
         // when
-        Long temporaryCustomerId = createTemporaryCustomer(temporaryCustomerCreateRequest);
+        Long temporaryCustomerId = createTemporaryCustomer(owner, temporaryCustomerCreateRequest);
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
         // then
@@ -98,6 +111,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .post("/api/admin/temporary-customers")
                 .then()
@@ -105,10 +119,11 @@ public class CustomerIntegrationTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(String phoneNumber) {
+    private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(Owner owner, String phoneNumber) {
         return given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .get("/api/admin/customers")
                 .then()
@@ -116,10 +131,11 @@ public class CustomerIntegrationTest extends AcceptanceTest {
                 .extract();
     }
 
-    private Long createTemporaryCustomer(TemporaryCustomerCreateRequest request) {
+    private Long createTemporaryCustomer(Owner owner, TemporaryCustomerCreateRequest request) {
         ExtractableResponse<Response> response = given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .post("/api/admin/temporary-customers")
                 .then()
