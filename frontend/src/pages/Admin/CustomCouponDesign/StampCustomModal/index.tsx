@@ -64,11 +64,8 @@ const StampCustomModal = ({
   };
 
   const removeLastStamp = () => {
-    const updatedDrawStampPos = drawStampPos.slice(0, drawStampPos.length - 1);
-    const updatedStampPos = stampPos.slice(0, stampPos.length - 1);
-
-    setDrawStampPos(updatedDrawStampPos);
-    setStampPos(updatedStampPos);
+    setDrawStampPos(drawStampPos.slice(0, drawStampPos.length - 1));
+    setStampPos(stampPos.slice(0, stampPos.length - 1));
   };
 
   return (
