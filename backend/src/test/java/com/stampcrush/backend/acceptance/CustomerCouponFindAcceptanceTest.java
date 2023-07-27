@@ -7,7 +7,6 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
     private OwnerRepository ownerRepository;
 
     @Test
-    @Disabled
+//    @Disabled
     void 카페당_하나의_쿠폰을_조회할_수_있다() {
         // given
         Long customerId = 전화번호로_임시_고객_등록_요청하고_아이디_반환(new TemporaryCustomerCreateRequest("01012345678"));

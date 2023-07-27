@@ -21,7 +21,7 @@ public class CouponCreateStep {
                 .body(request)
 
                 .when()
-                .post("/api/customers/" + customerId + "/coupons")
+                .post("/api/admin/customers/" + customerId + "/coupons")
 
                 .then()
                 .log().all()
