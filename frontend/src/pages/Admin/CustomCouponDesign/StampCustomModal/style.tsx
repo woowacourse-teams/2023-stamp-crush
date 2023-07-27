@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-type StampProps = {
-  X: number;
-  Y: number;
-};
+interface StyledStampProps {
+  $X: number;
+  $Y: number;
+}
 
 export const BackCouponWrapper = styled.div`
   display: flex;
@@ -15,13 +15,13 @@ export const BackCouponWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const Stamp = styled.span<StampProps>`
+export const Stamp = styled.span<StyledStampProps>`
   display: flex;
   position: absolute;
   justify-content: center;
   align-items: center;
-  left: ${(props) => props.X}px;
-  top: ${(props) => props.Y}px;
+  left: ${(props) => props.$X}px;
+  top: ${(props) => props.$Y}px;
   width: 50px;
   height: 50px;
   transform: translate(-50%, -50%);

@@ -75,7 +75,7 @@ const StampCustomModal = ({
           <Text variant="subTitle">스탬프 위치 설정</Text>
           <BackCouponWrapper onClick={recordStampCoordinates}>
             {drawStampPos.map((pos, idx) => (
-              <Stamp key={idx} X={pos.x} Y={pos.y}>
+              <Stamp key={idx} $X={pos.x} $Y={pos.y}>
                 <StampBadge>{idx + 1}</StampBadge>
                 <img src={stampImgFileUrl} width={50} height={50} />
               </Stamp>
