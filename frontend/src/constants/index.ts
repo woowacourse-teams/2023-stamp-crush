@@ -51,12 +51,12 @@ export const STAMP_COUNT_OPTIONS = [
     value: '8개',
   },
   {
-    key: 'nine',
-    value: '9개',
-  },
-  {
     key: 'ten',
     value: '10개',
+  },
+  {
+    key: 'twelve',
+    value: '12개',
   },
 ];
 
@@ -86,6 +86,7 @@ export const ROUTER_PATH = {
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
   selectCoupon: '/admin/select-coupon',
+  templateCouponDesign: '/admin/template-coupon-design',
   customCouponDesign: '/admin/custom-coupon-design',
   useReward: '/admin/useReward',
   couponList: '/',

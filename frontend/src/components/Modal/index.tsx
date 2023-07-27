@@ -1,22 +1,26 @@
 import ReactDOM from 'react-dom';
 import { BaseModal, CloseButton, ModalBackdrop } from './style';
-import { PropsWithChildren } from 'react';
+import { ForwardedRef, PropsWithChildren, forwardRef } from 'react';
 
 interface ModalProps {
   closeModal: () => void;
 }
 
-const Modal = ({ closeModal, children }: PropsWithChildren<ModalProps>) => {
-  return ReactDOM.createPortal(
-    <>
-      <ModalBackdrop onClick={closeModal} />
-      <BaseModal>
-        {children}
-        <CloseButton onClick={closeModal} />
-      </BaseModal>
-    </>,
-    document.querySelector('body') as HTMLBodyElement,
-  );
-};
+const Modal = forwardRef(
+  ({ closeModal, children }: PropsWithChildren<ModalProps>, ref: ForwardedRef<HTMLDivElement>) => {
+    return ReactDOM.createPortal(
+      <>
+        <ModalBackdrop onClick={closeModal} />
+        <BaseModal ref={ref}>
+          {children}
+          <CloseButton onClick={closeModal} />
+        </BaseModal>
+      </>,
+      document.querySelector('body') as HTMLBodyElement,
+    );
+  },
+);
+
+Modal.displayName = 'Modal';
 
 export default Modal;

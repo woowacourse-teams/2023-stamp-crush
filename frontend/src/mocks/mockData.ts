@@ -24,48 +24,7 @@ export const samples8 = {
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [
-        {
-          order: 1,
-          xCoordinate: 1,
-          yCoordinate: 1,
-        },
-        {
-          order: 2,
-          xCoordinate: 1,
-          yCoordinate: 2,
-        },
-        {
-          order: 3,
-          xCoordinate: 1,
-          yCoordinate: 3,
-        },
-        {
-          order: 4,
-          xCoordinate: 1,
-          yCoordinate: 4,
-        },
-        {
-          order: 5,
-          xCoordinate: 2,
-          yCoordinate: 1,
-        },
-        {
-          order: 6,
-          xCoordinate: 2,
-          yCoordinate: 2,
-        },
-        {
-          order: 7,
-          xCoordinate: 2,
-          yCoordinate: 3,
-        },
-        {
-          order: 8,
-          xCoordinate: 2,
-          yCoordinate: 4,
-        },
-      ],
+      stampCoordinates: [],
     },
   ],
   sampleStampImages: [
@@ -88,58 +47,7 @@ export const samples10 = {
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [
-        {
-          order: 1,
-          xCoordinate: 1,
-          yCoordinate: 1,
-        },
-        {
-          order: 2,
-          xCoordinate: 1,
-          yCoordinate: 2,
-        },
-        {
-          order: 3,
-          xCoordinate: 1,
-          yCoordinate: 3,
-        },
-        {
-          order: 4,
-          xCoordinate: 1,
-          yCoordinate: 4,
-        },
-        {
-          order: 5,
-          xCoordinate: 1,
-          yCoordinate: 5,
-        },
-        {
-          order: 6,
-          xCoordinate: 2,
-          yCoordinate: 1,
-        },
-        {
-          order: 7,
-          xCoordinate: 2,
-          yCoordinate: 2,
-        },
-        {
-          order: 8,
-          xCoordinate: 2,
-          yCoordinate: 3,
-        },
-        {
-          order: 9,
-          xCoordinate: 2,
-          yCoordinate: 4,
-        },
-        {
-          order: 10,
-          xCoordinate: 2,
-          yCoordinate: 5,
-        },
-      ],
+      stampCoordinates: [],
     },
   ],
   sampleStampImages: [
@@ -162,68 +70,7 @@ export const samples12 = {
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [
-        {
-          order: 1,
-          xCoordinate: 1,
-          yCoordinate: 1,
-        },
-        {
-          order: 2,
-          xCoordinate: 1,
-          yCoordinate: 2,
-        },
-        {
-          order: 3,
-          xCoordinate: 1,
-          yCoordinate: 3,
-        },
-        {
-          order: 4,
-          xCoordinate: 1,
-          yCoordinate: 4,
-        },
-        {
-          order: 5,
-          xCoordinate: 1,
-          yCoordinate: 5,
-        },
-        {
-          order: 6,
-          xCoordinate: 2,
-          yCoordinate: 1,
-        },
-        {
-          order: 7,
-          xCoordinate: 2,
-          yCoordinate: 2,
-        },
-        {
-          order: 8,
-          xCoordinate: 2,
-          yCoordinate: 3,
-        },
-        {
-          order: 9,
-          xCoordinate: 2,
-          yCoordinate: 4,
-        },
-        {
-          order: 10,
-          xCoordinate: 2,
-          yCoordinate: 5,
-        },
-        {
-          order: 11,
-          xCoordinate: 3,
-          yCoordinate: 1,
-        },
-        {
-          order: 12,
-          xCoordinate: 3,
-          yCoordinate: 2,
-        },
-      ],
+      stampCoordinates: [],
     },
   ],
   sampleStampImages: [
