@@ -3,6 +3,7 @@ package com.stampcrush.backend.api.cafe;
 import com.stampcrush.backend.api.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.application.cafe.CafeCouponSettingService;
 import com.stampcrush.backend.application.cafe.dto.CafeCouponSettingDto;
+import com.stampcrush.backend.entity.user.Owner;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class CafeCouponSettingApiController {
     private final CafeCouponSettingService cafeCouponSettingService;
 
     @PostMapping
-    public ResponseEntity<Void> updateCafeCouponSetting(
-            @RequestParam("cafe-id") Long cafeId,
-            @RequestBody @Valid CafeCouponSettingUpdateRequest request
+    public ResponseEntity<Void> updateCafeCouponSetting(Owner owner,
+                                                        @RequestParam("cafe-id") Long cafeId,
+                                                        @RequestBody @Valid CafeCouponSettingUpdateRequest request
     ) {
         CafeCouponSettingDto cafeCouponSettingDto = request.toCouponSettingDto();
         cafeCouponSettingService.updateCafeCouponSetting(cafeId, cafeCouponSettingDto);

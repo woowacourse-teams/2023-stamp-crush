@@ -8,6 +8,7 @@ import com.stampcrush.backend.application.reward.RewardService;
 import com.stampcrush.backend.application.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
 import com.stampcrush.backend.application.reward.dto.RewardUsedUpdateDto;
+import com.stampcrush.backend.entity.user.Owner;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class RewardApiController {
 
     @GetMapping
     public ResponseEntity<RewardsFindResponse> findRewards(
+            Owner owner,
             @PathVariable("customerId") Long customerId,
             @ModelAttribute @Valid RewardFindRequest request
     ) {
@@ -38,6 +40,7 @@ public class RewardApiController {
 
     @PatchMapping("/{rewardId}")
     public ResponseEntity<Void> updateRewardToUsed(
+            Owner owner,
             @PathVariable("customerId") Long customerId,
             @PathVariable("rewardId") Long rewardId,
             @RequestBody @Valid RewardUsedUpdateRequest request

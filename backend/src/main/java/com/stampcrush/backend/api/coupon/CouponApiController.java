@@ -7,6 +7,7 @@ import com.stampcrush.backend.application.coupon.CouponService;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
+import com.stampcrush.backend.entity.user.Owner;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class CouponApiController {
     private final CouponService couponService;
 
     @GetMapping("/cafes/{cafeId}/customers")
-    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(@PathVariable Long cafeId) {
+    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(Owner owner, @PathVariable Long cafeId) {
         List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafeId);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
@@ -34,6 +35,7 @@ public class CouponApiController {
 
     @GetMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CustomerAccumulatingCouponsFindResponse> findCustomerUsingCouponByCafe(
+            Owner owner,
             @PathVariable Long customerId,
             @RequestParam Long cafeId,
             @RequestParam boolean active
@@ -49,6 +51,7 @@ public class CouponApiController {
 
     @PostMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CouponCreateResponse> createCoupon(
+            Owner owner,
             @RequestBody @Valid CouponCreateRequest request,
             @PathVariable("customerId") Long customerId
     ) {
@@ -58,6 +61,7 @@ public class CouponApiController {
 
     @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
     public ResponseEntity<Void> createStamp(
+            Owner owner,
             @PathVariable Long customerId,
             @PathVariable Long couponId,
             @PathVariable Long ownerId,
