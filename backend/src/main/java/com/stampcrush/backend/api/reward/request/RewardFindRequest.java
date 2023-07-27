@@ -1,4 +1,14 @@
 package com.stampcrush.backend.api.reward.request;
 
-public record RewardFindRequest(Long cafeId, boolean used) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RewardFindRequest {
+
+    private Long cafeId;
+    private Boolean used;
 }

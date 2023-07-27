@@ -41,7 +41,7 @@ const RewardPage = () => {
   const { mutate: mutateReward } = useMutation({
     mutationFn: (rewardId: number) => patchReward(customerData.customer[0].id, rewardId),
     onSuccess() {
-      navigate(ROUTER_PATH.admin);
+      navigate(ROUTER_PATH.customerList);
     },
     onError() {
       alert('에러가 발생했습니다. 네트워크 상태를 확인해주세요.');

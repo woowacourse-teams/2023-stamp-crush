@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.cafe.response.CafesFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/cafes")
+@RequestMapping("/api/admin/cafes")
 public class CafeApiController {
 
     private final CafeService cafeService;
@@ -31,13 +32,16 @@ public class CafeApiController {
     }
 
     @PostMapping("/{ownerId}")
-    ResponseEntity<Void> createCafe(@PathVariable Long ownerId, @RequestBody CafeCreateRequest cafeCreateRequest) {
+    ResponseEntity<Void> createCafe(
+            @PathVariable Long ownerId,
+            @RequestBody @Valid CafeCreateRequest cafeCreateRequest
+    ) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,
-                cafeCreateRequest.name(),
-                cafeCreateRequest.roadAddress(),
-                cafeCreateRequest.detailAddress(),
-                cafeCreateRequest.businessRegistrationNumber());
+                cafeCreateRequest.getName(),
+                cafeCreateRequest.getRoadAddress(),
+                cafeCreateRequest.getDetailAddress(),
+                cafeCreateRequest.getBusinessRegistrationNumber());
         Long cafeId = cafeService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }

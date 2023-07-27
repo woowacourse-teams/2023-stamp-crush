@@ -1,11 +1,6 @@
 name: 스탬프크러쉬 백엔드 CI 테스트 자동화
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths: 'backend/**'
   pull_request:
     branches:
       - main

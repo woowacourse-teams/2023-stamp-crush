@@ -11,9 +11,6 @@ import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
-import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
@@ -32,18 +29,15 @@ import java.time.LocalTime;
 @Order(2)
 public class DataInitializer implements ApplicationRunner {
 
-    private final CouponRepository couponRepository;
     private final TemporaryCustomerRepository temporaryCustomerRepository;
     private final RegisterCustomerRepository registerCustomerRepository;
     private final CafeRepository cafeRepository;
-    private final CouponDesignRepository couponDesignRepository;
-    private final CouponPolicyRepository couponPolicyRepository;
     private final OwnerRepository ownerRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
 
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
 
         Owner owner_1 = ownerRepository.save(new Owner("stampcrush_1", "id", "1234", "01011111111"));
         Owner owner_2 = ownerRepository.save(new Owner("stampcrush_2", "id", "1234", "01011111111"));

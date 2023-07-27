@@ -7,12 +7,13 @@ export type SelectBoxOption = {
 };
 
 interface SelectBoxProps {
+  width?: number;
   options: SelectBoxOption[];
   checkedOption: SelectBoxOption;
   setCheckedOption: Dispatch<SetStateAction<SelectBoxOption>>;
 }
 
-const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps) => {
+const SelectBox = ({ options, checkedOption, setCheckedOption, width = 110 }: SelectBoxProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const getOption = (value: string) => {
@@ -37,7 +38,7 @@ const SelectBox = ({ options, checkedOption, setCheckedOption }: SelectBoxProps)
     <SelectBoxWrapper>
       <BaseSelectBox
         $expanded={isExpanded}
-        $minWidth={130}
+        $minWidth={width}
         $minHeight={32}
         onClick={toggleExpandSelectBox}
       >

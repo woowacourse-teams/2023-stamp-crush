@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.stampcrush.backend.api.cafe.SampleCouponImage.*;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -72,9 +74,9 @@ public class CafeService {
     }
 
     private void assignDefaultSampleCafeCouponToCafe(Cafe savedCafe) {
-        SampleFrontImage defaultSampleFrontImage = findDefaultSampleFrontImage();
-        SampleBackImage defaultSampleBackImage = findDefaultSampleBackImage();
-        SampleStampImage defaultSampleStampImage = findDefaultSampleStampImage();
+        SampleFrontImage defaultSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
+        SampleBackImage defaultSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
+        SampleStampImage defaultSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
         CafeCouponDesign defaultCafeCouponDesign = new CafeCouponDesign(
                 defaultSampleFrontImage.getImageUrl(),
                 defaultSampleBackImage.getImageUrl(),
@@ -90,33 +92,6 @@ public class CafeService {
                     defaultCafeCouponDesign);
             cafeStampCoordinateRepository.save(cafeStampCoordinate);
         }
-    }
-
-    private SampleFrontImage findDefaultSampleFrontImage() {
-        List<SampleFrontImage> sampleFrontImages = sampleFrontImageRepository.findAll();
-        if (sampleFrontImages.isEmpty()) {
-            throw new IllegalArgumentException("저장된 샘플 앞면 이미지가 없습니다.");
-        }
-        return sampleFrontImages.get(0);
-    }
-
-    private SampleBackImage findDefaultSampleBackImage() {
-        List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll();
-        if (sampleBackImages.isEmpty()) {
-            throw new IllegalArgumentException("저장된 샘플 뒷면 이미지가 없습니다.");
-        }
-        return sampleBackImages.stream()
-                .filter(sampleBackImage -> sampleBackImage.getSampleStampCoordinates().size() == 10)
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("최대 스탬프 개수 10개에 해당하는 샘플 뒷면 이미지가 없습니다."));
-    }
-
-    private SampleStampImage findDefaultSampleStampImage() {
-        List<SampleStampImage> sampleStampImages = sampleStampImageRepository.findAll();
-        if (sampleStampImages.isEmpty()) {
-            throw new IllegalArgumentException("저장된 샘플 스탬프 이미지가 없습니다.");
-        }
-        return sampleStampImages.get(0);
     }
 
     @Transactional(readOnly = true)
