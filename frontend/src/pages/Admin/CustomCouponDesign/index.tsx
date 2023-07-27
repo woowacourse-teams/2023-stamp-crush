@@ -9,12 +9,12 @@ import { RowSpacing, Spacing } from '../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { parseStampCount } from '../../../utils';
+import { parseExpireDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 
@@ -29,12 +29,16 @@ export interface CouponSettingDto {
 
 const CustomCouponDesign = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
   const [backImage, uploadBackImage, setBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
   const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
   const mutateCouponPolicy = useMutation({
     mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(couponConfig),
+    onSuccess: () => {
+      navigate('/admin');
+    },
   });
 
   const changeCouponDesignAndPolicy = () => {
@@ -48,7 +52,7 @@ const CustomCouponDesign = () => {
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: location.state.reward,
-      expirePeriod: parseStampCount(location.state.stampCount),
+      expirePeriod: parseExpireDate(location.state.expirePeriod),
     };
 
     mutateCouponPolicy.mutate(payload);
