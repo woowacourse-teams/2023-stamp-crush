@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.coupon;
 
+import com.stampcrush.backend.api.coupon.response.CustomerCouponsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.coupon;
+package com.stampcrush.backend.api.coupon.response;
 
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import lombok.Getter;
