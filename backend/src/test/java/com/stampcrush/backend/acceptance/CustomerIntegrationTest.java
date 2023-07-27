@@ -99,7 +99,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
                 .when()
-                .post("/api/temporary-customers")
+                .post("/api/admin/temporary-customers")
                 .then()
                 .statusCode(BAD_REQUEST.value())
                 .extract();
@@ -110,7 +110,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
                 .when()
-                .get("/api/customers")
+                .get("/api/admin/customers")
                 .then()
                 .log().all()
                 .extract();
@@ -121,7 +121,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when()
-                .post("/api/temporary-customers")
+                .post("/api/admin/temporary-customers")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();

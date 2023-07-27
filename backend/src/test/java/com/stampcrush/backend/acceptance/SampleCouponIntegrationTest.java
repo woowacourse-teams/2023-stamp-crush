@@ -50,7 +50,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
-                .get("/api/coupon-samples")
+                .get("/api/admin/coupon-samples")
 
                 .then()
                 .extract();
@@ -71,7 +71,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
-                .get("/api/coupon-samples?max-stamp-count=8")
+                .get("/api/admin/coupon-samples?max-stamp-count=8")
 
                 .then()
                 .extract();
@@ -92,7 +92,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
-                .get("/api/coupon-samples?max-stamp-count=10")
+                .get("/api/admin/coupon-samples?max-stamp-count=10")
 
                 .then()
                 .extract();

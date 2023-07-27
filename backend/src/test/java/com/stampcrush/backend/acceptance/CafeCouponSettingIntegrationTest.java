@@ -112,7 +112,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
                 .body(request)
 
                 .when()
-                .post("/api/coupon-setting?cafe-id=" + savedCafe.getId())
+                .post("/api/admin/coupon-setting?cafe-id=" + savedCafe.getId())
 
                 .then()
                 .log().all()

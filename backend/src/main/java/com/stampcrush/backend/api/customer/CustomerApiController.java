@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class CustomerApiController {
 
     private final CustomerService customerService;

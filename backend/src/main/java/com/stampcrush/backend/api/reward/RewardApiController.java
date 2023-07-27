@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/customers/{customerId}/rewards")
+@RequestMapping("/api/admin/customers/{customerId}/rewards")
 public class RewardApiController {
 
     private final RewardService rewardService;
