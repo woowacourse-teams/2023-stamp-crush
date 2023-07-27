@@ -14,6 +14,7 @@ import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 class CouponRepositoryTest2 {
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -53,11 +57,62 @@ class CouponRepositoryTest2 {
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
         Cafe cafe = gitchanCafeCoupon.getCafe();
 
+        // then
         assertAll(
                 () -> assertThat(cafe).isNotNull(),
                 () -> assertThat(cafe.getId()).isEqualTo(gitchanCafe.getId()),
                 () -> assertThat(cafe.getName()).isEqualTo(gitchanCafe.getName())
         );
+    }
+
+    @Test
+    void 쿠폰이_참조하는_카페정책을_찾을_수_있다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        CouponPolicy couponPolicy = gitchanCafeCoupon.getCouponPolicy();
+
+        // then
+        assertAll(
+                () -> assertThat(couponPolicy).isNotNull(),
+                () -> assertThat(couponPolicy).isEqualTo(gitchanCafeCoupon.getCouponPolicy())
+        );
+    }
+
+    @Test
+    void 쿠폰이_참조하는_쿠폰디자인을_찾을_수_있다() {
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        CouponDesign couponDesign = gitchanCafeCoupon.getCouponDesign();
+
+        // then
+        assertAll(
+                () -> assertThat(couponDesign).isNotNull(),
+                () -> assertThat(couponDesign).isEqualTo(gitchanCafeCoupon.getCouponDesign())
+        );
+    }
+
+    @Test
+    void 쿠폰에_적립된_스탬프의_개수를_찾을_수_있다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+
+        int stampCount = 4;
+        for (int i = 0; i < stampCount; i++) {
+            gitchanCafeCoupon.accumulate();
+        }
+
+        em.flush();
+        em.clear();
+
+        Coupon findCoupon = couponRepository.findById(gitchanCafeCoupon.getId()).get();
+
+        // then
+        assertThat(findCoupon.getStampCount()).isEqualTo(stampCount);
     }
 
     @Test
