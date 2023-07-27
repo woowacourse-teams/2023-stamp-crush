@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 class CouponRepositoryTest2 {
@@ -43,6 +44,21 @@ class CouponRepositoryTest2 {
 
     @Autowired
     private CouponPolicyRepository couponPolicyRepository;
+
+    @Test
+    void 쿠폰이_참조하는_카페를_찾을_수_있다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Cafe cafe = gitchanCafeCoupon.getCafe();
+
+        assertAll(
+                () -> assertThat(cafe).isNotNull(),
+                () -> assertThat(cafe.getId()).isEqualTo(gitchanCafe.getId()),
+                () -> assertThat(cafe.getName()).isEqualTo(gitchanCafe.getName())
+        );
+    }
 
     @Test
     void 쿠폰을_고객으로_필터링하고_그중_ACCUMULATING_상태인_쿠폰만_필터링해_조회한다() {
