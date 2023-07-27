@@ -1,10 +1,7 @@
 package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
-import com.stampcrush.backend.entity.coupon.CouponStatus;
+import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CouponDesignFixture;
@@ -15,6 +12,7 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -48,6 +46,41 @@ class CouponRepositoryTest2 {
 
     @Autowired
     private CouponPolicyRepository couponPolicyRepository;
+
+    @Autowired
+    private CouponStampCoordinateRepository couponStampCoordinateRepository;
+
+    @Test
+    @Disabled
+    void 쿠폰_디자인에_읽기_전용인_좌표를_조회한다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+
+        CouponDesign couponDesign = CouponDesignFixture.COUPON_DESIGN_1;
+        CouponStampCoordinate coordinates = new CouponStampCoordinate(1, 1, 1, couponDesign);
+        getAddCouponStampCoordinate(List.of(coordinates), couponDesign);
+
+        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(couponDesign), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+
+        em.flush();
+        em.clear();
+
+        Coupon findCoupon = couponRepository.findById(gitchanCafeCoupon.getId()).get();
+        List<CouponStampCoordinate> couponStampCoordinates = findCoupon.getCouponDesign().getCouponStampCoordinates();
+
+        // then
+        assertAll(
+                () -> assertThat(couponStampCoordinates).isNotEmpty(),
+                () -> assertThat(couponStampCoordinates).containsExactlyInAnyOrder(coordinates)
+        );
+    }
+
+    private void getAddCouponStampCoordinate(List<CouponStampCoordinate> coordinates, CouponDesign couponDesign) {
+        for (CouponStampCoordinate coordinate : coordinates) {
+            couponDesign.addCouponStampCoordinate(couponStampCoordinateRepository.save(coordinate));
+        }
+    }
 
     @Test
     void 쿠폰이_참조하는_카페를_찾을_수_있다() {
@@ -154,12 +187,6 @@ class CouponRepositoryTest2 {
         assertThat(findCoupon).containsOnly(jenaCafeCoupon);
     }
 
-    private void changeCafeCouponStatusToRewarded(Coupon gitchanCafeCoupon, Integer maxStampCount) {
-        for (int i = 0; i < maxStampCount; i++) {
-            gitchanCafeCoupon.accumulate();
-        }
-    }
-
     private Cafe createCafe(Owner owner) {
         Owner savedOwner = ownerRepository.save(owner);
         return cafeRepository.save(
@@ -183,5 +210,11 @@ class CouponRepositoryTest2 {
                         savedCouponPolicy
                 )
         );
+    }
+
+    private void changeCafeCouponStatusToRewarded(Coupon gitchanCafeCoupon, Integer maxStampCount) {
+        for (int i = 0; i < maxStampCount; i++) {
+            gitchanCafeCoupon.accumulate();
+        }
     }
 }
