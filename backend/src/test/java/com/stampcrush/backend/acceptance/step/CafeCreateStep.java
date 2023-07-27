@@ -23,7 +23,7 @@ public class CafeCreateStep {
                 .body(cafeCreateRequest)
 
                 .when()
-                .post("/api/cafes/" + ownerId)
+                .post("/api/admin/cafes/" + ownerId)
 
                 .then()
                 .log().all()

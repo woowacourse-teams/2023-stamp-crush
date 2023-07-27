@@ -21,7 +21,7 @@ public class TemporaryCustomerCreateStep {
                 .body(request)
 
                 .when()
-                .post("/api/temporary-customers")
+                .post("/api/admin/temporary-customers")
 
                 .then()
                 .log().all()
