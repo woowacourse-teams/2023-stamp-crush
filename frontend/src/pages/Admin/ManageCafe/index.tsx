@@ -12,7 +12,7 @@ import {
   Wrapper,
 } from './style';
 import TimeRangePicker from './TimeRangePicker';
-import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ImageUpLoadInput,
@@ -25,7 +25,7 @@ import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCafe } from '../../../api/get';
-import { parsePhoneNumber, parseTime } from '../../../utils';
+import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { CafeInfoBody, patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
 
@@ -43,6 +43,24 @@ const ManageCafe = () => {
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
   const { data: cafe } = useQuery(['cafe'], () => getCafe());
+
+  const cafeInfo = useMemo(() => {
+    return cafe ? cafe?.[0] : {};
+  }, [cafe]);
+
+  const splitTime = (timeString: string) => {
+    const [hour, minute] = timeString.split(':');
+
+    return { hour, minute };
+  };
+
+  useEffect(() => {
+    if (!isEmptyData(cafeInfo.openTime) || !isEmptyData(cafeInfo.closeTime)) {
+      setOpenTime(splitTime(cafeInfo.openTime));
+      setCloseTime(splitTime(cafeInfo.closeTime));
+    }
+    if (!isEmptyData(cafeInfo.telephoneNumber)) setPhoneNumber(cafeInfo.telephoneNumber);
+  }, [cafeInfo]);
 
   const { mutate, isLoading, isError } = useMutation(
     (body: CafeInfoBody) => patchCafeInfo(cafe?.[0].id, body),
@@ -64,8 +82,18 @@ const ManageCafe = () => {
     setIntroduction(e.target.value);
   };
 
+  const validateTimeRange = () => {
+    return parseTime(openTime) < parseTime(closeTime);
+  };
+
+  // TODO: 시간이 빈값인 케이스 대처 x
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
+    if (!validateTimeRange()) {
+      alert('올바른 영업 시간을 입력해주세요');
+      return;
+    }
 
     const cafeInfoBody: CafeInfoBody = {
       openTime: parseTime(openTime),
@@ -123,7 +151,9 @@ const ManageCafe = () => {
         <PreviewImageWrapper $width={312} $height={594}>
           <PreviewImage
             src={
-              cafe?.[0].cafeImageUrl === '' || cafeImage !== '' ? cafeImage : cafe?.[0].cafeImageUrl
+              isEmptyData(cafeInfo.cafeImageUrl) || !isEmptyData(cafeImage)
+                ? cafeImage
+                : cafeInfo.cafeImageUrl
             }
             $width={312}
             $height={594}
@@ -131,27 +161,21 @@ const ManageCafe = () => {
           />
           <PreviewEmptyCouponImage>쿠폰 뒷면 이미지가 들어갈 공간입니다.</PreviewEmptyCouponImage>
           <PreviewOverviewContainer>
-            <Text variant="subTitle">{cafe?.[0].name}</Text>
+            <Text variant="subTitle">{cafeInfo.name}</Text>
             <Text>{introduction}</Text>
           </PreviewOverviewContainer>
           <PreviewContentContainer>
             <Text>
               <FaRegClock size={25} />
-              {`여는 시간 ${
-                cafe?.[0].openTime === '' ? parseTime(openTime) : cafe?.[0].openTime
-              }\n닫는 시간 ${
-                cafe?.[0].closeTime === '' ? parseTime(closeTime) : cafe?.[0].closeTime
-              }`}
+              {`여는 시간 ${parseTime(openTime)}\n닫는 시간 ${parseTime(closeTime)}`}
             </Text>
             <Text>
               <FaPhoneAlt size={25} />
-              {cafe?.[0].telephoneNumber === '' || phoneNumber !== ''
-                ? parsePhoneNumber(phoneNumber)
-                : parsePhoneNumber(cafe?.[0].telephoneNumber)}
+              {parsePhoneNumber(phoneNumber)}
             </Text>
             <Text>
               <FaLocationDot size={25} />
-              {cafe?.[0].roadAddress + ' ' + cafe?.[0].detailAddress}
+              {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
             </Text>
           </PreviewContentContainer>
         </PreviewImageWrapper>
