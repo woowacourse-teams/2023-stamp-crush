@@ -3,6 +3,7 @@ import { swap } from '../../style/keyframes';
 
 interface StyledListProps {
   $isLast: boolean;
+  $couponMainColor: string;
 }
 
 export const HeaderContainer = styled.header`
@@ -27,7 +28,7 @@ export const LogoImg = styled.img`
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 50px 30px;
   gap: 20px;
 `;
 
@@ -62,11 +63,27 @@ export const MaxStampCount = styled.span`
   color: #f3b209;
 `;
 
-export const CouponListContainer = styled.div<StyledListProps>`
+export const BackDrop = styled.div<{ $couponMainColor: string }>`
+  z-index: -10;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: linear-gradient(
+    white,
+    rgba(255, 255, 255, 0.5) 32%,
+    ${(props) => props.$couponMainColor} 80%,
+    white
+  );
+  opacity: 0.7;
+`;
+
+export const CouponListContainer = styled.div<{ $isLast: boolean }>`
   display: flex;
   justify-content: center;
   position: relative;
-  min-height: 600px;
+  min-height: 700px;
 
   :nth-last-child(1) {
     transform: translateY(15px) scale(1.05);

@@ -1,5 +1,6 @@
 import Coupon from './Coupon';
 import {
+  BackDrop,
   CafeName,
   CouponListContainer,
   HeaderContainer,
@@ -19,6 +20,7 @@ import { CUSTOMERS_ORDER_OPTIONS } from '../../constants';
 import { GoPerson } from 'react-icons/go';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import ProgressBar from '../../components/ProgressBar';
+import Color from 'color-thief-react';
 
 interface CouponType {
   cafeInfo: {
@@ -68,6 +70,7 @@ const CouponList = () => {
   };
 
   const getCurrentCoupon = () => data.coupons[currentIndex];
+  const imgUrl = getCurrentCoupon().couponInfos[0].frontImageUrl;
 
   return (
     <>
@@ -93,14 +96,23 @@ const CouponList = () => {
           )}
         </NameContainer>
         <ProgressBarContainer>
-          <ProgressBar
-            stampCount={getCurrentCoupon().couponInfos[0].stampCount}
-            maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
-          />
+          <Color src={imgUrl} format="hex" crossOrigin="anonymous">
+            {({ data: color }) => (
+              <>
+                <BackDrop $couponMainColor={color ? color : 'gray'} />
+                <ProgressBar
+                  stampCount={getCurrentCoupon().couponInfos[0].stampCount}
+                  maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
+                  progressColor={color ? color : 'skyblue'}
+                />
+              </>
+            )}
+          </Color>
           <StampCount>{getCurrentCoupon().couponInfos[0].stampCount}</StampCount>/
           <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
+
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
         {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
