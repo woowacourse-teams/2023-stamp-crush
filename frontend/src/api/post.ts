@@ -42,3 +42,9 @@ export const postRegisterCafe = async ({
     detailAddress,
   });
 };
+
+export const postIsFavorites = async (couponId: number, isFavorites: boolean) => {
+  await api.post(`/coupons/${couponId}/favorites`, {
+    isFavorites,
+  });
+};
