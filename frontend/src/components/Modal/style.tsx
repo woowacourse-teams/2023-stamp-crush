@@ -19,7 +19,7 @@ export const BaseModal = styled.div`
   top: 50%;
   left: 50%;
   width: 60vw;
-  height: 60vh;
+  height: auto;
 
   padding: 35px;
   border-radius: 10px;
