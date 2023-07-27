@@ -42,3 +42,9 @@ export const parsePhoneNumber = (phoneNumber: string | undefined) => {
       : number.substring(0, 3) + '-' + number.substring(3, 7) + '-' + number.substring(7, 11);
   }
 };
+
+export const isEmptyData = (data: string | undefined) => {
+  if (data === undefined) return true;
+
+  return data.length === 0;
+};
