@@ -1,5 +1,6 @@
 package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.exception.CustomerAuthenticationException;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -25,5 +26,11 @@ public class RegisterCustomer extends Customer {
     @Override
     public boolean isRegistered() {
         return true;
+    }
+
+    public void checkPassword(String encryptedPassword) {
+        if (!this.encryptedPassword.equals(encryptedPassword)) {
+            throw new CustomerAuthenticationException("비밀번호가 맞지 않습니다");
+        }
     }
 }

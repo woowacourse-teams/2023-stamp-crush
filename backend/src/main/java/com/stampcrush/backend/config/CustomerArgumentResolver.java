@@ -1,8 +1,9 @@
 package com.stampcrush.backend.config;
 
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.exception.OwnerAuthenticationException;
-import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.exception.CustomerAuthenticationException;
+import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.MethodParameter;
@@ -13,12 +14,12 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @RequiredArgsConstructor
-public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
+public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
 
     private static final String BASIC_TYPE = "basic";
     private static final String DELIMITER = ":";
 
-    private final OwnerRepository ownerRepository;
+    private final RegisterCustomerRepository customerRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -35,13 +36,12 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         String[] credentials = getCredentials(authorization);
 
         String loginId = credentials[0];
-        // 비밀번호 암호화는 어디서 해야하는지 ..
         String encryptedPassword = credentials[1];
 
-        Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerAuthenticationException("카페 사장님 계정으로 로그인이 필요합니다"));
-        owner.checkPassword(encryptedPassword);
+        RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerAuthenticationException("스탬프크러쉬 가입 후 사용가능합니다"));
+        customer.checkPassword(encryptedPassword);
 
-        return owner;
+        return customer;
     }
 
     private String[] getCredentials(String header) {
