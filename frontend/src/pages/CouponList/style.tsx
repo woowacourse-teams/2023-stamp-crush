@@ -17,7 +17,7 @@ export const LogoImg = styled.img`
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px 30px;
+  padding: 60px 30px;
   gap: 20px;
 `;
 
@@ -57,7 +57,8 @@ export const MaxStampCount = styled.span`
 export const BackDrop = styled.div<{ $couponMainColor: string }>`
   z-index: -10;
   width: 100vw;
-  height: 100vh;
+  overflow: hidden;
+  height: 100%;
   position: fixed;
   top: 0;
   right: 0;
@@ -74,7 +75,7 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
   display: flex;
   justify-content: center;
   position: relative;
-  min-height: 700px;
+  height: 270px;
 
   :nth-last-child(1) {
     transform: translateY(15px) scale(1.05);
@@ -101,4 +102,16 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
     transform: translateY(-30px) scale(0.9);
     pointer-events: none;
   }
+`;
+
+export const DetailButton = styled.button`
+  position: absolute;
+  bottom: 50px;
+  right: 40px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  outline: none;
+  background: white;
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
 `;

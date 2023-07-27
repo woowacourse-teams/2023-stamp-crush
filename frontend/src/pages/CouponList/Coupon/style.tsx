@@ -4,8 +4,8 @@ export const CouponWrapper = styled.img`
   width: 315px;
   height: 175px;
   position: absolute;
-  top: 50%;
-  bottom: 50%;
+  top: 80%;
+  bottom: 20%;
   transform: translate(50%, -50%);
   transition: transform 0.1s;
   object-fit: cover;

@@ -3,6 +3,7 @@ import {
   BackDrop,
   CafeName,
   CouponListContainer,
+  DetailButton,
   HeaderContainer,
   InfoContainer,
   LogoImg,
@@ -15,12 +16,13 @@ import { useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
-import SelectBox from '../../components/SelectBox';
-import { CUSTOMERS_ORDER_OPTIONS } from '../../constants';
+import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
+import { useNavigate } from 'react-router-dom';
+import { TbZoomCheck } from 'react-icons/tb';
 
 interface CouponType {
   cafeInfo: {
@@ -43,11 +45,11 @@ interface CouponType {
 }
 
 const CouponList = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
-  const [option, setOption] = useState({ key: 'stampCount', value: '스탬프순' });
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
@@ -70,13 +72,16 @@ const CouponList = () => {
   };
 
   const getCurrentCoupon = () => data.coupons[currentIndex];
-  const imgUrl = getCurrentCoupon().couponInfos[0].frontImageUrl;
+
+  const navigateMyPage = () => {
+    navigate(ROUTER_PATH.myPage);
+  };
 
   return (
     <>
       <HeaderContainer>
         <LogoImg src={AdminHeaderLogo} />
-        <GoPerson size={24} />
+        <GoPerson size={24} onClick={navigateMyPage} />
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
@@ -88,14 +93,18 @@ const CouponList = () => {
           )}
         </NameContainer>
         <ProgressBarContainer>
-          <Color src={imgUrl} format="hex" crossOrigin="anonymous">
+          <Color
+            src={getCurrentCoupon().couponInfos[0].frontImageUrl}
+            format="hex"
+            crossOrigin="anonymous"
+          >
             {({ data: color }) => (
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
                 <ProgressBar
                   stampCount={getCurrentCoupon().couponInfos[0].stampCount}
                   maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
-                  progressColor={color ? color : 'skyblue'}
+                  progressColor={color}
                 />
               </>
             )}
@@ -104,7 +113,6 @@ const CouponList = () => {
           <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
-
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
         {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
@@ -115,6 +123,9 @@ const CouponList = () => {
           />
         ))}
       </CouponListContainer>
+      <DetailButton>
+        <TbZoomCheck size={32} color={'#424242'} />
+      </DetailButton>
     </>
   );
 };
