@@ -76,23 +76,15 @@ const CouponList = () => {
     <>
       <HeaderContainer>
         <LogoImg src={AdminHeaderLogo} />
-        <div>
-          <SelectBox
-            options={CUSTOMERS_ORDER_OPTIONS}
-            checkedOption={option}
-            setCheckedOption={setOption}
-            width={110}
-          />
-          <GoPerson size={24} />
-        </div>
+        <GoPerson size={24} />
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
           <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
           {getCurrentCoupon().couponInfos[0].isFavorites ? (
-            <AiFillStar size={36} />
+            <AiFillStar size={40} color={'#FFD600'} />
           ) : (
-            <AiOutlineStar size={36} />
+            <AiOutlineStar size={40} color={'#FFD600'} />
           )}
         </NameContainer>
         <ProgressBarContainer>

@@ -11,14 +11,8 @@ export const HeaderContainer = styled.header`
   height: 65px;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 25px;
   border-bottom: 2px solid #eeeeee;
-
-  & > div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
 `;
 
 export const LogoImg = styled.img`
@@ -35,12 +29,14 @@ export const InfoContainer = styled.div`
 export const NameContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  height: 36px;
+  gap: 10px;
 `;
 
 export const CafeName = styled.span`
   font-size: 36px;
   font-weight: 700;
+  margin-top: 5px;
 `;
 
 export const ProgressBarContainer = styled.div`
@@ -100,11 +96,14 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
   }
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
+    pointer-events: none;
   }
   :nth-last-child(3) {
     transform: translateY(-15px) scale(0.95);
+    pointer-events: none;
   }
   :nth-last-child(n + 4) {
     transform: translateY(-30px) scale(0.9);
+    pointer-events: none;
   }
 `;
