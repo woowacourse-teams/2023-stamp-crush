@@ -6,7 +6,7 @@ interface CouponProps {
 }
 
 const Coupon = ({ frontImageUrl, onClick }: CouponProps) => {
-  return <CouponWrapper src={frontImageUrl} onClick={onClick}></CouponWrapper>;
+  return <CouponWrapper src={frontImageUrl} onClick={onClick} />;
 };
 
 export default Coupon;
