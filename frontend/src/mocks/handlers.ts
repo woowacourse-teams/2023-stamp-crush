@@ -19,6 +19,11 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(cafes));
   }),
 
+  // 카페 관리
+  rest.patch('/cafes/:cafeId', async (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+
   // 카페 등록
   rest.post('/cafes/:ownerId', async (req, res, ctx) => {
     const { businessRegistrationNumber, name, roadAddress, detailAddress } = await req.json();

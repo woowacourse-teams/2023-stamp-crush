@@ -1,6 +1,6 @@
 import { api } from '.';
 
-interface CafeInfoBody {
+export interface CafeInfoBody {
   openTime: string;
   closeTime: string;
   telephoneNumber: string;

@@ -23,9 +23,11 @@ import {
 import useUploadImage from '../../../hooks/useUploadImage';
 import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCafe } from '../../../api/get';
 import { parsePhoneNumber, parseTime } from '../../../utils';
+import { CafeInfoBody, patchCafeInfo } from '../../../api/patch';
+import { ROUTER_PATH } from '../../../constants';
 
 export interface Time {
   hour: string;
@@ -42,6 +44,18 @@ const ManageCafe = () => {
 
   const { data: cafe } = useQuery(['cafe'], () => getCafe());
 
+  const { mutate, isLoading, isError } = useMutation(
+    (body: CafeInfoBody) => patchCafeInfo(cafe?.[0].id, body),
+    {
+      onSuccess: () => {
+        navigate(ROUTER_PATH.admin);
+      },
+      onError: () => {
+        throw new Error('카페 정보 등록에 실패했습니다.');
+      },
+    },
+  );
+
   const inputPhoneNumber: ChangeEventHandler<HTMLInputElement> = (e) => {
     setPhoneNumber(e.target.value);
   };
@@ -53,9 +67,15 @@ const ManageCafe = () => {
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    console.log(cafeImage, openTime, closeTime, introduction, phoneNumber);
+    const cafeInfoBody: CafeInfoBody = {
+      openTime: parseTime(openTime),
+      closeTime: parseTime(closeTime),
+      telephoneNumber: phoneNumber,
+      cafeImageUrl: cafeImage,
+      introduction: introduction === '내용을 입력해주세요' ? '' : introduction,
+    };
 
-    // navigate('/admin');
+    mutate(cafeInfoBody);
   };
 
   return (
