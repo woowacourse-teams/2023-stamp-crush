@@ -9,6 +9,8 @@ import static io.restassured.http.ContentType.JSON;
 
 public class TemporaryCustomerCreateStep {
 
+    public static final TemporaryCustomerCreateRequest TEMPORARY_CUSTOMER_CREATE_REQUEST = new TemporaryCustomerCreateRequest("01012345678");
+
     public static Long 전화번호로_임시_고객_등록_요청하고_아이디_반환(TemporaryCustomerCreateRequest request) {
         ExtractableResponse<Response> response = 전화번호로_임시_고객_등록_요청(request);
         return Long.valueOf(response.header("Location").split("/")[2]);

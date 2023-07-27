@@ -9,6 +9,8 @@ import static io.restassured.http.ContentType.JSON;
 
 public class CafeCreateStep {
 
+    public static final CafeCreateRequest CAFE_CREATE_REQUEST = new CafeCreateRequest("깃짱카페", "서초구", "우리집", "01010101010");
+
     public static Long 카페_생성_요청하고_아이디_반환(Long ownerId, CafeCreateRequest cafeCreateRequest) {
         ExtractableResponse<Response> response = 카페_생성_요청(ownerId, cafeCreateRequest);
         String location = response.header("Location");
