@@ -1,11 +1,6 @@
 import { css, styled } from 'styled-components';
 import { swap } from '../../style/keyframes';
 
-interface StyledListProps {
-  $isLast: boolean;
-  $couponMainColor: string;
-}
-
 export const HeaderContainer = styled.header`
   display: flex;
   height: 65px;
