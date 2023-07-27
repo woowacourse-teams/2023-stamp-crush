@@ -4,7 +4,7 @@ export const TimeRangePickerContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 30px;
 
   select {
@@ -21,7 +21,7 @@ export const TimeRangePickerContainer = styled.div`
   }
 
   select:hover {
-    color: skyblue;
+    color: tomato;
     font-weight: 500;
   }
 `;
