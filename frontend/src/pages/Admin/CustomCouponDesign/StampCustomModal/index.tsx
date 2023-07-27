@@ -38,18 +38,18 @@ const StampCustomModal = ({
     }
   }, [isOpen]);
 
-  const recordStampCoordinates = (event: MouseEvent<HTMLImageElement>) => {
+  const recordStampCoordinates = (e: MouseEvent<HTMLImageElement>) => {
     if (drawStampPos.length >= parseStampCount(maxStampCount)) return;
 
-    if (modalRect && event.target instanceof HTMLImageElement) {
+    if (modalRect && e.target instanceof HTMLImageElement) {
       const boundX = modalRect.left;
       const boundY = modalRect.top;
 
-      const drawX = event.clientX - boundX;
-      const drawY = event.clientY - boundY;
+      const drawX = e.clientX - boundX;
+      const drawY = e.clientY - boundY;
 
-      const X = (event.clientX - event.target.getBoundingClientRect().left) / 2;
-      const Y = (event.clientY - event.target.getBoundingClientRect().top) / 2;
+      const X = (e.clientX - e.target.getBoundingClientRect().left) / 2;
+      const Y = (e.clientY - e.target.getBoundingClientRect().top) / 2;
 
       setStampPos((prevPos) => [
         ...prevPos,
