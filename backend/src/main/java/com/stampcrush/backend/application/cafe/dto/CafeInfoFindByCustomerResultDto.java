@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Getter
 @RequiredArgsConstructor
-public class CafeFindByCustomerResultDto {
+public class CafeInfoFindByCustomerResultDto {
 
     private final Long id;
     private final String name;
@@ -26,8 +26,8 @@ public class CafeFindByCustomerResultDto {
     private final String roadAddress;
     private final String detailAddress;
 
-    public static CafeFindByCustomerResultDto from(Cafe cafe) {
-        return new CafeFindByCustomerResultDto(
+    public static CafeInfoFindByCustomerResultDto from(Cafe cafe) {
+        return new CafeInfoFindByCustomerResultDto(
                 cafe.getId(),
                 cafe.getName(),
                 cafe.getOpenTime(),
