@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CouponStampCoordinateRepository extends JpaRepository<CouponStampCoordinate, Long> {
 
-    List<CouponStampCoordinate> f회indByCouponDesign(CouponDesign couponDesign);
+    List<CouponStampCoordinate> findByCouponDesign(CouponDesign couponDesign);
 }
