@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header`
 `;
 
 export const LogoImg = styled.img`
-  height: 24px;
+  height: 30px;
 `;
 
 export const InfoContainer = styled.div`

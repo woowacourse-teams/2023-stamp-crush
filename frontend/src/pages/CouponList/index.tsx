@@ -22,9 +22,9 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
-import { TbZoomCheck } from 'react-icons/tb';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
+import { CiCircleMore } from 'react-icons/ci';
 
 interface CouponType {
   cafeInfo: {
@@ -131,7 +131,7 @@ const CouponList = () => {
         ))}
       </CouponListContainer>
       <DetailButton>
-        <TbZoomCheck size={32} color={'#424242'} />
+        <CiCircleMore size={36} color={'#424242'} />
       </DetailButton>
       {isOpen && (
         <Alert
