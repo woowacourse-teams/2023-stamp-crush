@@ -23,3 +23,7 @@ export const getReward = async (customerId: number | undefined, cafeId: number) 
 export const getCouponSamples = async (maxStampCount: number) => {
   return await api.get(`/coupon-samples?max-stamp-count=${maxStampCount}`);
 };
+
+export const getCoupons = async () => {
+  return await api.get('/coupons');
+};
