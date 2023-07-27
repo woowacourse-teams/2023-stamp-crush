@@ -39,7 +39,7 @@ const StampCustomModal = ({
   }, [isOpen]);
 
   const recordStampCoordinates = (event: MouseEvent<HTMLImageElement>) => {
-    if (drawStampPos.length > parseStampCount(maxStampCount)) return;
+    if (drawStampPos.length >= parseStampCount(maxStampCount)) return;
 
     if (modalRect && event.target instanceof HTMLImageElement) {
       const boundX = modalRect.left;
