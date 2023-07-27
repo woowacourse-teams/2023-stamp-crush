@@ -1,7 +1,7 @@
 package com.stampcrush.backend.config;
 
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.exception.OwnerAuthenticationException;
+import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -38,7 +38,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         // 비밀번호 암호화는 어디서 해야하는지 ..
         String encryptedPassword = credentials[1];
 
-        Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerAuthenticationException("카페 사장님 계정으로 로그인이 필요합니다"));
+        Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerUnAuthorizationException("카페 사장님 계정으로 로그인이 필요합니다"));
         owner.checkPassword(encryptedPassword);
 
         return owner;

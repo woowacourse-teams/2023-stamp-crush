@@ -2,7 +2,7 @@ package com.stampcrush.backend.config;
 
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.exception.CustomerAuthenticationException;
+import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -38,7 +38,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
         String loginId = credentials[0];
         String encryptedPassword = credentials[1];
 
-        RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerAuthenticationException("스탬프크러쉬 가입 후 사용가능합니다"));
+        RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("스탬프크러쉬 가입 후 사용가능합니다"));
         customer.checkPassword(encryptedPassword);
 
         return customer;
