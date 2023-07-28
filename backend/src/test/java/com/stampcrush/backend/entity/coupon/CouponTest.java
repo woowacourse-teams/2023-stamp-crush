@@ -122,10 +122,33 @@ class CouponTest {
 
         // when
         coupon.accumulate(2);
-//        coupon.accumulate();
 
         // then
         assertThat(coupon.getStatus()).isSameAs(CouponStatus.REWARDED);
         assertThat(coupon.getStampCount()).isEqualTo(2);
+    }
+
+    @Test
+    void 보상까지_남은_스탬프_개수를_계산한다() {
+        // given
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+                "하디까페",
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "0211111111",
+                "http://www.cafeImage.com",
+                "잠실동12길",
+                "14층",
+                "11111111",
+                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+        );
+
+        // when
+        coupon.accumulate(3);
+        int restStampCount = coupon.calculateRestStampCountForReward();
+
+        // then
+        assertThat(restStampCount).isEqualTo(7);
+
     }
 }

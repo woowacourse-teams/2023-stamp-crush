@@ -159,7 +159,7 @@ public class CouponService {
             throw new IllegalArgumentException();
         }
 
-        Integer earningStampCount = stampCreateDto.getEarningStampCount();
+        int earningStampCount = stampCreateDto.getEarningStampCount();
 
         if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
             coupon.accumulate(earningStampCount);
@@ -171,7 +171,7 @@ public class CouponService {
             return;
         }
 
-        int restStampCount = coupon.getCouponMaxStampCount() - coupon.getStampCount();
+        int restStampCount = coupon.calculateRestStampCountForReward();
         for (int i = 0; i < restStampCount; i++) {
             coupon.accumulateEarningStamp(1);
         }
