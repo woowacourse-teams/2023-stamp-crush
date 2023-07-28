@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 export const AlertContainer = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 400px;
   width: 70%;
   position: absolute;
   top: 50%;
@@ -56,5 +57,6 @@ export const OptionWrapper = styled.button<{ $option: string }>`
   &:active {
     background: #eeeeee;
     opacity: 50%;
+    transform: scale(0.95);
   }
 `;
