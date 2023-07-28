@@ -23,7 +23,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(Owner.class);
+        return parameter.getParameterType().equals(RegisterCustomer.class);
     }
 
     @Override
