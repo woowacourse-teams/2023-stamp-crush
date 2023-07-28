@@ -164,7 +164,7 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl: 'https://picsum.photos/250/250',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -195,7 +195,8 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -226,7 +227,7 @@ export const customerCoupons = {
           stampCount: 7,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl: 'https://picsum.photos/id/237/200/300',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -288,7 +289,7 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl: 'https://picsum.photos/200/300?grayscale',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [

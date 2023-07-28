@@ -23,6 +23,8 @@ import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
+import Alert from '../../components/Alert';
+import useModal from '../../hooks/useModal';
 
 interface CouponType {
   cafeInfo: {
@@ -46,6 +48,7 @@ interface CouponType {
 
 const CouponList = () => {
   const navigate = useNavigate();
+  const { isOpen, openModal, closeModal } = useModal();
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
@@ -77,6 +80,10 @@ const CouponList = () => {
     navigate(ROUTER_PATH.myPage);
   };
 
+  const changeFavorites = (isFavorites: boolean) => () => {
+    openModal();
+  };
+
   return (
     <>
       <HeaderContainer>
@@ -87,9 +94,9 @@ const CouponList = () => {
         <NameContainer>
           <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
           {getCurrentCoupon().couponInfos[0].isFavorites ? (
-            <AiFillStar size={40} color={'#FFD600'} />
+            <AiFillStar size={40} color={'#FFD600'} onClick={changeFavorites(false)} />
           ) : (
-            <AiOutlineStar size={40} color={'#FFD600'} />
+            <AiOutlineStar size={40} color={'#FFD600'} onClick={changeFavorites(true)} />
           )}
         </NameContainer>
         <ProgressBarContainer>
@@ -126,6 +133,15 @@ const CouponList = () => {
       <DetailButton>
         <TbZoomCheck size={32} color={'#424242'} />
       </DetailButton>
+      {isOpen && (
+        <Alert
+          text={`${getCurrentCoupon().cafeInfo.name}를 찜하시겠어요?`}
+          rightOption={'찜하기'}
+          leftOption={'닫기'}
+          onClickRight={closeModal}
+          onClickLeft={closeModal}
+        />
+      )}
     </>
   );
 };
