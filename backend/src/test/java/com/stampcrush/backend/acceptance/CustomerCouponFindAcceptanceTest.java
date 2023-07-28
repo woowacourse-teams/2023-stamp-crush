@@ -1,8 +1,10 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
+import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
@@ -29,6 +31,9 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
     private OwnerRepository ownerRepository;
 
     @Autowired
+    private CafeRepository cafeRepository;
+
+    @Autowired
     private CouponRepository couponRepository;
 
     @Test
@@ -41,10 +46,16 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
         Owner jena = ownerRepository.save(JENA);
 
         Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan.getId(), CAFE_CREATE_REQUEST);
+        Cafe gitchanCafe = cafeRepository.findById(gitchanCafeId).get();
+
         Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena.getId(), CAFE_CREATE_REQUEST);
+        Cafe jenaCafe = cafeRepository.findById(jenaCafeId).get();
 
         Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(gitchanCafeId), customerId);
+        Coupon gitchanCafeCoupon = couponRepository.findById(gitchanCafeCouponId).get();
+
         Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(jenaCafeId), customerId);
+        Coupon jenaCafeCoupon = couponRepository.findById(jenaCafeCouponId).get();
 
         // when
         ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerId);
@@ -55,8 +66,11 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getList("coupons")).isNotEmpty(),
                 () -> assertThat(response.jsonPath().getList("coupons").size()).isEqualTo(2),
                 () -> assertThat(response.jsonPath().getLong("coupons[0].cafeInfo.id")).isEqualTo(gitchanCafeId),
-                () -> assertThat(response.jsonPath().getLong("coupons[1].cafeInfo.id")).isEqualTo(jenaCafeCouponId),
+                () -> assertThat(response.jsonPath().getString("coupons[0].cafeInfo.name")).isEqualTo(gitchanCafe.getName()),
                 () -> assertThat(response.jsonPath().getLong("coupons[0].couponInfos[0].id")).isEqualTo(gitchanCafeCouponId),
+                () -> assertThat(response.jsonPath().getString("coupons[0].couponInfos[0].status")).isEqualTo(gitchanCafeCoupon.getStatus().name()),
+                () -> assertThat(response.jsonPath().getList("coupons[0].couponInfos[0].coordinates")).isNotEmpty(),
+                () -> assertThat(response.jsonPath().getLong("coupons[1].cafeInfo.id")).isEqualTo(jenaCafeCouponId),
                 () -> assertThat(response.jsonPath().getLong("coupons[1].couponInfos[0].id")).isEqualTo(jenaCafeCouponId)
         );
     }
