@@ -55,7 +55,7 @@ const ManageCafe = () => {
   };
 
   useEffect(() => {
-    if (!isEmptyData(cafeInfo.openTime) || !isEmptyData(cafeInfo.closeTime)) {
+    if (!(isEmptyData(cafeInfo.openTime) && isEmptyData(cafeInfo.closeTime))) {
       setOpenTime(splitTime(cafeInfo.openTime));
       setCloseTime(splitTime(cafeInfo.closeTime));
     }
