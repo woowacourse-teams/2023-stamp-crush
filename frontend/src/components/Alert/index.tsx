@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import { AlertContainer, BackDrop, OptionContainer, OptionWrapper, TextContainer } from './style';
 import { CiCircleAlert } from 'react-icons/ci';
 
-interface AlertProps {
+export interface AlertProps {
   text: string;
   rightOption: string;
   leftOption: string;
