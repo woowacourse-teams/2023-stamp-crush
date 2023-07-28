@@ -140,24 +140,14 @@ public class CouponService {
         Customer customer = customerRepository.findById(stampCreateDto.getCustomerId())
                 .orElseThrow(IllegalArgumentException::new);
 
-        List<Cafe> cafes = cafeRepository.findAllByOwner(owner);
-        if (cafes.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        Cafe cafe = cafes.stream()
-                .findAny()
-                .get();
+        Cafe cafe = findCafe(owner);
 
         CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
         CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
 
-        Coupon coupon = couponRepository.findById(stampCreateDto.getCouponId())
-                .orElseThrow(IllegalArgumentException::new);
-        if (coupon.isNotAccessible(customer, cafe)) {
-            throw new IllegalArgumentException();
-        }
+        Coupon coupon = findCoupon(stampCreateDto, customer, cafe);
 
         int earningStampCount = stampCreateDto.getEarningStampCount();
 
@@ -171,15 +161,46 @@ public class CouponService {
             return;
         }
 
-        int restStampCount = coupon.calculateRestStampCountForReward();
-        for (int i = 0; i < restStampCount; i++) {
-            coupon.accumulateEarningStamp(1);
+        int restStamp = accumulateRestStamp(customer, cafe, coupon, earningStampCount);
+        makeRewardCoupons(customer, cafe, cafePolicy, cafeCouponDesign, coupon, restStamp);
+        accumulateRestStamp(customer, cafe, cafePolicy, cafeCouponDesign, restStamp);
+    }
+
+    private Coupon findCoupon(StampCreateDto stampCreateDto, Customer customer, Cafe cafe) {
+        Coupon coupon = couponRepository.findById(stampCreateDto.getCouponId())
+                .orElseThrow(IllegalArgumentException::new);
+        if (coupon.isNotAccessible(customer, cafe)) {
+            throw new IllegalArgumentException();
         }
-        coupon.reward();
+        return coupon;
+    }
+
+    private Cafe findCafe(Owner owner) {
+        List<Cafe> cafes = cafeRepository.findAllByOwner(owner);
+        if (cafes.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        Cafe cafe = cafes.stream()
+                .findAny()
+                .get();
+        return cafe;
+    }
+
+    private int accumulateRestStamp(Customer customer, Cafe cafe, Coupon coupon, int earningStampCount) {
+        int restStampCount = coupon.calculateRestStampCountForReward();
+        coupon.accumulate(restStampCount);
         rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
+        return earningStampCount - restStampCount;
+    }
 
-        earningStampCount -= restStampCount;
+    private void accumulateRestStamp(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, int earningStampCount) {
+        Coupon accumulatingCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
+        couponRepository.save(accumulatingCoupon);
+        int accumulatingStampCount = earningStampCount % cafePolicy.getMaxStampCount();
+        accumulatingCoupon.accumulate(accumulatingStampCount);
+    }
 
+    private void makeRewardCoupons(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, Coupon coupon, int earningStampCount) {
         int rewardCouponCount = cafePolicy.calculateRewardCouponCount(earningStampCount);
         for (int i = 0; i < rewardCouponCount; i++) {
             Coupon rewardCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
@@ -187,10 +208,5 @@ public class CouponService {
             couponRepository.save(rewardCoupon);
             rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
         }
-
-        Coupon accumulatingCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
-        couponRepository.save(accumulatingCoupon);
-        int accumulatingStampCount = earningStampCount % cafePolicy.getMaxStampCount();
-        accumulatingCoupon.accumulate(accumulatingStampCount);
     }
 }

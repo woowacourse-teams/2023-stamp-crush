@@ -136,13 +136,6 @@ public class Coupon extends BaseDate {
         return this.stamps.size() + earningStampCount < couponPolicy.getMaxStampCount();
     }
 
-    public void accumulateEarningStamp(int earningStampCount) {
-        for (int i = 0; i < earningStampCount; i++) {
-            Stamp stamp = new Stamp();
-            stamp.registerCoupon(this);
-        }
-    }
-
     public boolean isSameMaxStampAfterAccumulateStamp(int earningStampCount) {
         return this.stamps.size() + earningStampCount == couponPolicy.getMaxStampCount();
     }
