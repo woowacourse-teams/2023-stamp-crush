@@ -24,6 +24,8 @@ export const InfoContainer = styled.div`
 export const NameContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   height: 36px;
   gap: 10px;
 `;
@@ -85,10 +87,6 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
             ${swap} 0.7s forwards
           `
         : 'none'};
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.1);
-    }
   }
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
@@ -105,9 +103,9 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
 `;
 
 export const DetailButton = styled.button`
-  position: absolute;
-  bottom: 50px;
-  right: 40px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
   border-radius: 50%;
   width: 60px;
   height: 60px;
