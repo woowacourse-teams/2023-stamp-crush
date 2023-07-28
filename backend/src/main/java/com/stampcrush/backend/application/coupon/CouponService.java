@@ -106,10 +106,8 @@ public class CouponService {
                 .orElseThrow(IllegalArgumentException::new);
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(IllegalArgumentException::new);
-        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
-                .orElseThrow(IllegalArgumentException::new);
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
-                .orElseThrow(IllegalArgumentException::new);
+        CafePolicy cafePolicy = findCafePolicy(cafe);
+        CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
         if (!existCoupons.isEmpty()) {
             for (Coupon coupon : existCoupons) {
@@ -134,22 +132,14 @@ public class CouponService {
     }
 
     public void createStamp(StampCreateDto stampCreateDto) {
-        Owner owner = ownerRepository.findById(stampCreateDto.getOwnerId())
-                .orElseThrow(IllegalArgumentException::new);
-        Customer customer = customerRepository.findById(stampCreateDto.getCustomerId())
-                .orElseThrow(IllegalArgumentException::new);
-
+        Owner owner = findOwner(stampCreateDto);
+        Customer customer = findCustomer(stampCreateDto);
         Cafe cafe = findCafe(owner);
-
-        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
-                .orElseThrow(IllegalArgumentException::new);
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
-                .orElseThrow(IllegalArgumentException::new);
-
+        CafePolicy cafePolicy = findCafePolicy(cafe);
+        CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         Coupon coupon = findCoupon(stampCreateDto, customer, cafe);
 
         int earningStampCount = stampCreateDto.getEarningStampCount();
-
         if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
             coupon.accumulate(earningStampCount);
             return;
@@ -165,6 +155,30 @@ public class CouponService {
         int restStamp = earningStampCount - restStampCountForReward;
         makeRewardCoupons(customer, cafe, cafePolicy, cafeCouponDesign, coupon, restStamp);
         issueAccumulatingCoupon(customer, cafe, cafePolicy, cafeCouponDesign, restStamp);
+    }
+
+    private CafeCouponDesign findCafeCouponDesign(Cafe cafe) {
+        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
+                .orElseThrow(IllegalArgumentException::new);
+        return cafeCouponDesign;
+    }
+
+    private CafePolicy findCafePolicy(Cafe cafe) {
+        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
+                .orElseThrow(IllegalArgumentException::new);
+        return cafePolicy;
+    }
+
+    private Customer findCustomer(StampCreateDto stampCreateDto) {
+        Customer customer = customerRepository.findById(stampCreateDto.getCustomerId())
+                .orElseThrow(IllegalArgumentException::new);
+        return customer;
+    }
+
+    private Owner findOwner(StampCreateDto stampCreateDto) {
+        Owner owner = ownerRepository.findById(stampCreateDto.getOwnerId())
+                .orElseThrow(IllegalArgumentException::new);
+        return owner;
     }
 
     private Cafe findCafe(Owner owner) {
