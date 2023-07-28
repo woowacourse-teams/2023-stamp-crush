@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
 
-public class CustomerIntegrationTest extends IntegrationTest {
+public class CustomerIntegrationTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -34,11 +36,9 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(CustomerFindDto.from(customer)));
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
+            softAssertions.assertThat(customers.getCustomer()).containsExactlyInAnyOrder(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -53,11 +53,9 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer()).containsExactly(CustomerFindResponse.from(CustomerFindDto.from(customer)));
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -68,11 +66,9 @@ public class CustomerIntegrationTest extends IntegrationTest {
 
         // then
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softAssertions.assertThat(response.statusCode()).isEqualTo(OK.value());
             softAssertions.assertThat(customers.getCustomer().size()).isEqualTo(0);
         });
-
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -103,12 +99,10 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
                 .when()
-                .post("/api/temporary-customers")
+                .post("/api/admin/temporary-customers")
                 .then()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .statusCode(BAD_REQUEST.value())
                 .extract();
-
-        customerRepository.deleteAll();
     }
 
     private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(String phoneNumber) {
@@ -116,7 +110,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
                 .when()
-                .get("/api/customers")
+                .get("/api/admin/customers")
                 .then()
                 .log().all()
                 .extract();
@@ -127,7 +121,7 @@ public class CustomerIntegrationTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when()
-                .post("/api/temporary-customers")
+                .post("/api/admin/temporary-customers")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();

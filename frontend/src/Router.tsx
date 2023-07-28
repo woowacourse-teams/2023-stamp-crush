@@ -32,10 +32,7 @@ const AdminRoot = () => {
 const CustomerRoot = () => {
   return (
     <>
-      <Header />
-      <Template>
-        <Outlet />
-      </Template>
+      <Outlet />
     </>
   );
 };
@@ -52,10 +49,14 @@ const Router = () => {
       element: <AdminRoot />,
       errorElement: <NotFound />,
       children: [
-        { path: ROUTER_PATH.admin, element: <CustomerList /> },
+        { path: ROUTER_PATH.customerList, element: <CustomerList /> },
         {
           path: ROUTER_PATH.modifyCouponPolicy,
           element: <ModifyCouponPolicy />,
+        },
+        {
+          path: ROUTER_PATH.templateCouponDesign,
+          element: <CustomCouponDesign />,
         },
         {
           path: ROUTER_PATH.customCouponDesign,
@@ -74,12 +75,10 @@ const Router = () => {
       element: <CustomerRoot />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <CustomerList /> },
+        { index: true, element: <CouponList /> },
         { path: 'login', element: <Login /> },
         { path: 'sign-up', element: <SignUp /> },
-        { path: 'coupon-list', element: <CouponList /> },
         { path: '/my-page', element: <MyPage /> },
-        { path: '/history', element: <History /> },
       ],
     },
   ]);

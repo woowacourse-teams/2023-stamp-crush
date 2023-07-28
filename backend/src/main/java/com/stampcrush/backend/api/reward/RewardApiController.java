@@ -17,15 +17,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/customers/{customerId}/rewards")
+@RequestMapping("/api/admin/customers/{customerId}/rewards")
 public class RewardApiController {
 
     private final RewardService rewardService;
 
     @GetMapping
-    public ResponseEntity<RewardsFindResponse> findRewards(@PathVariable("customerId") Long customerId,
-                                                           @ModelAttribute RewardFindRequest rewardFindRequest) {
-        RewardFindDto rewardFindDto = new RewardFindDto(customerId, rewardFindRequest.cafeId(), rewardFindRequest.used());
+    public ResponseEntity<RewardsFindResponse> findRewards(
+            @PathVariable("customerId") Long customerId,
+            @ModelAttribute @Valid RewardFindRequest request
+    ) {
+        RewardFindDto rewardFindDto = new RewardFindDto(customerId, request.getCafeId(), request.getUsed());
         List<RewardFindResultDto> rewardFindResultDtos = rewardService.findRewards(rewardFindDto);
         List<RewardFindResponse> rewardFindResponses = rewardFindResultDtos.stream()
                 .map(RewardFindResponse::new)
@@ -35,10 +37,12 @@ public class RewardApiController {
     }
 
     @PatchMapping("/{rewardId}")
-    public ResponseEntity<Void> updateRewardToUsed(@PathVariable("customerId") Long customerId,
-                                                   @PathVariable("rewardId") Long rewardId,
-                                                   @RequestBody @Valid RewardUsedUpdateRequest request) {
-        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.isUsed());
+    public ResponseEntity<Void> updateRewardToUsed(
+            @PathVariable("customerId") Long customerId,
+            @PathVariable("rewardId") Long rewardId,
+            @RequestBody @Valid RewardUsedUpdateRequest request
+    ) {
+        RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.getUsed());
         rewardService.useReward(rewardUsedUpdateDto);
         return ResponseEntity.ok().build();
     }

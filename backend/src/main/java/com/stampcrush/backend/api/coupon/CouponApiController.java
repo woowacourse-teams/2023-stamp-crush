@@ -7,6 +7,7 @@ import com.stampcrush.backend.application.coupon.CouponService;
 import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class CouponApiController {
 
     private final CouponService couponService;
@@ -32,7 +33,11 @@ public class CouponApiController {
     }
 
     @GetMapping("/customers/{customerId}/coupons")
-    public ResponseEntity<CustomerAccumulatingCouponsFindResponse> findCustomerUsingCouponByCafe(@PathVariable Long customerId, @RequestParam Long cafeId, @RequestParam boolean active) {
+    public ResponseEntity<CustomerAccumulatingCouponsFindResponse> findCustomerUsingCouponByCafe(
+            @PathVariable Long customerId,
+            @RequestParam Long cafeId,
+            @RequestParam boolean active
+    ) {
         List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = couponService.findAccumulatingCoupon(cafeId, customerId);
 
         List<CustomerAccumulatingCouponFindResponse> accumulatingResponses = accumulatingCoupon.stream()
@@ -43,14 +48,22 @@ public class CouponApiController {
     }
 
     @PostMapping("/customers/{customerId}/coupons")
-    public ResponseEntity<CouponCreateResponse> createCoupon(@RequestBody CouponCreateRequest request, @PathVariable("customerId") Long customerId) {
+    public ResponseEntity<CouponCreateResponse> createCoupon(
+            @RequestBody @Valid CouponCreateRequest request,
+            @PathVariable("customerId") Long customerId
+    ) {
         Long couponId = couponService.createCoupon(request.getCafeId(), customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
     }
 
     @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
-    public ResponseEntity<Void> createStamp(@PathVariable Long customerId, @PathVariable Long couponId, @PathVariable Long ownerId, @RequestBody StampCreateRequest stampCreateRequest) {
-        StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, stampCreateRequest.getEarningStampCount());
+    public ResponseEntity<Void> createStamp(
+            @PathVariable Long customerId,
+            @PathVariable Long couponId,
+            @PathVariable Long ownerId,
+            @RequestBody @Valid StampCreateRequest request
+    ) {
+        StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, request.getEarningStampCount());
         couponService.createStamp(stampCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

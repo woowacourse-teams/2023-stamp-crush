@@ -1,7 +1,7 @@
 import { api } from '.';
 
 export const getCafe = async () => {
-  return await api.get('admin/cafes');
+  return await api.get('/admin/cafes');
 };
 
 export const getCustomer = async (phoneNumber: string) => {
@@ -26,4 +26,12 @@ export const getReward = async (customerId: number | undefined, cafeId: number) 
 
 export const getCouponSamples = async (maxStampCount: number) => {
   return await api.get(`/coupon-samples?max-stamp-count=${maxStampCount}`);
+};
+
+export const getCoupons = async () => {
+  return await api.get('/coupons');
+};
+
+export const getCafeInfo = async (cafeId: number) => {
+  return await api.get(`/cafes/${cafeId}`);
 };

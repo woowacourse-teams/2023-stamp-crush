@@ -53,3 +53,14 @@ export const ImageUpLoadInput = styled.input`
 `;
 
 export const PreviewLabel = styled.label``;
+
+export const StampImageSelector = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StampCustomButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+`;
