@@ -37,8 +37,6 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 public class CouponService {
 
-    private static final int DEFAULT_MAX_COUNT = 10;
-
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
@@ -120,6 +118,7 @@ public class CouponService {
         }
 
         Coupon coupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
+        couponRepository.save(coupon);
         return coupon.getId();
     }
 
@@ -131,8 +130,8 @@ public class CouponService {
 
         LocalDate expiredDate = LocalDate.now().plusMonths(couponPolicy.getExpiredPeriod());
 
-        Coupon coupon = new Coupon(expiredDate, customer, cafe, couponDesign, couponPolicy);
-        return couponRepository.save(coupon);
+        return new Coupon(expiredDate, customer, cafe, couponDesign, couponPolicy);
+//        return couponRepository.save(coupon);
     }
 
     public void createStamp(StampCreateDto stampCreateDto) {
@@ -159,15 +158,39 @@ public class CouponService {
         if (coupon.isNotAccessible(customer, cafe)) {
             throw new IllegalArgumentException();
         }
+
         Integer earningStampCount = stampCreateDto.getEarningStampCount();
-        while (earningStampCount-- > 0) {
-            coupon.accumulate();
-            if (coupon.isRewarded()) {
-                rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
-            }
-            if (earningStampCount > 0 && coupon.isRewarded()) {
-                coupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
-            }
+
+        if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
+            coupon.accumulate(earningStampCount);
+            return;
         }
+        if (coupon.isSameMaxStampAfterAccumulateStamp(earningStampCount)) {
+            coupon.accumulate(earningStampCount);
+            rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
+            return;
+        }
+
+        int restStampCount = coupon.getCouponMaxStampCount() - coupon.getStampCount();
+        for (int i = 0; i < restStampCount; i++) {
+            coupon.accumulateEarningStamp(1);
+        }
+        coupon.reward();
+        rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
+
+        earningStampCount -= restStampCount;
+
+        int rewardCouponCount = cafePolicy.calculateRewardCouponCount(earningStampCount);
+        for (int i = 0; i < rewardCouponCount; i++) {
+            Coupon rewardCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
+            rewardCoupon.accumulateMaxStamp();
+            couponRepository.save(rewardCoupon);
+            rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
+        }
+
+        Coupon accumulatingCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
+        couponRepository.save(accumulatingCoupon);
+        int accumulatingStampCount = earningStampCount % cafePolicy.getMaxStampCount();
+        accumulatingCoupon.accumulate(accumulatingStampCount);
     }
 }
