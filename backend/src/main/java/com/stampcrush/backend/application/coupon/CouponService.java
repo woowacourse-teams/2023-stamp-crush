@@ -148,7 +148,6 @@ public class CouponService {
             accumulateMaxStampAndMakeReward(customer, cafe, coupon, earningStampCount);
             return;
         }
-
         int restStampCountForReward = coupon.calculateRestStampCountForReward();
         accumulateMaxStampAndMakeReward(customer, cafe, coupon, restStampCountForReward);
 
@@ -158,27 +157,23 @@ public class CouponService {
     }
 
     private CafeCouponDesign findCafeCouponDesign(Cafe cafe) {
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
+        return cafeCouponDesignRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
-        return cafeCouponDesign;
     }
 
     private CafePolicy findCafePolicy(Cafe cafe) {
-        CafePolicy cafePolicy = cafePolicyRepository.findByCafe(cafe)
+        return cafePolicyRepository.findByCafe(cafe)
                 .orElseThrow(IllegalArgumentException::new);
-        return cafePolicy;
     }
 
     private Customer findCustomer(StampCreateDto stampCreateDto) {
-        Customer customer = customerRepository.findById(stampCreateDto.getCustomerId())
+        return customerRepository.findById(stampCreateDto.getCustomerId())
                 .orElseThrow(IllegalArgumentException::new);
-        return customer;
     }
 
     private Owner findOwner(StampCreateDto stampCreateDto) {
-        Owner owner = ownerRepository.findById(stampCreateDto.getOwnerId())
+        return ownerRepository.findById(stampCreateDto.getOwnerId())
                 .orElseThrow(IllegalArgumentException::new);
-        return owner;
     }
 
     private Cafe findCafe(Owner owner) {
@@ -212,8 +207,8 @@ public class CouponService {
         accumulatingCoupon.accumulate(accumulatingStampCount);
     }
 
-    private void makeRewardCoupons(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, Coupon coupon, int earningStampCount) {
-        int rewardCouponCount = cafePolicy.calculateRewardCouponCount(earningStampCount);
+    private void makeRewardCoupons(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, Coupon coupon, int restStamp) {
+        int rewardCouponCount = cafePolicy.calculateRewardCouponCount(restStamp);
         for (int i = 0; i < rewardCouponCount; i++) {
             Coupon rewardCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
             rewardCoupon.accumulateMaxStamp();
