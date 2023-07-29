@@ -9,9 +9,13 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   width: 100vw;
   height: 100vh;
   transform: translateX(${({ $isDetail }) => ($isDetail ? '0' : '500px')});
-  transition: all 0.4s;
+  transition: all 0.4s ease-in-out;
 
   background: white;
+
+  h1 {
+    white-space: pre-line;
+  }
 `;
 
 // 쿠폰은 올라가면 사라진다. -> 돌아가는 쿠폰으로 대체

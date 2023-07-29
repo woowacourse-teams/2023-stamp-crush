@@ -76,16 +76,17 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
   justify-content: center;
   position: relative;
   height: 270px;
-  transition: all 0.4s;
+  transition: all 0.1s;
 
   :nth-last-child(1) {
     transform: translateY(15px) scale(1.05);
     animation: ${({ $isLast }) =>
       $isLast
         ? css`
-            ${swap} 0.7s forwards
+            ${swap} 0.5s forwards
           `
         : 'none'};
+    transition: transform 0.4s;
     cursor: pointer;
   }
 
@@ -94,7 +95,7 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
     css`
       :nth-last-child(1) {
         transform: translateY(-250%);
-        transition: transform 0.5s;
+        transition: transform 0.6s ease-in-out;
         backface-visibility: hidden;
       }
       :nth-last-child(n + 2) {
