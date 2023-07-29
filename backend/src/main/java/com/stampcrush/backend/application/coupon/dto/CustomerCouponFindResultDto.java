@@ -22,7 +22,7 @@ public class CustomerCouponFindResultDto {
             Boolean isFavorites,
             List<CouponStampCoordinate> coordinates
     ) {
-        CafeInfoDto cafeInfoDto = CafeInfoDto.of(cafe);
+        CafeInfoDto cafeInfoDto = CafeInfoDto.from(cafe);
         CouponInfoDto couponInfoDto = CouponInfoDto.of(coupon, isFavorites, coordinates);
         return new CustomerCouponFindResultDto(cafeInfoDto, couponInfoDto);
     }
@@ -33,7 +33,7 @@ public class CustomerCouponFindResultDto {
         private final Long id;
         private final String name;
 
-        public static CafeInfoDto of(Cafe cafe) {
+        public static CafeInfoDto from(Cafe cafe) {
             return new CafeInfoDto(cafe.getId(), cafe.getName());
         }
     }
