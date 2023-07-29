@@ -164,8 +164,10 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
-          backImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
+          backImageUrl:
+            'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
             {
@@ -195,8 +197,9 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
-          backImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl: 'https://the2.sfo2.cdn.digitaloceanspaces.com/m_photo/268167.webp',
+          backImageUrl:
+            'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC241B.jpg',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
             {
@@ -226,8 +229,10 @@ export const customerCoupons = {
           stampCount: 7,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
-          backImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://img.freepik.com/premium-vector/golden-bright-star-light-effect-bright-star-beautiful-light-to-illustrate-star-white-sparks-sparkle-with-a-special-light-sparkles-on-transparent-background_220217-2514.jpg',
+          backImageUrl:
+            'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC240B.jpg',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
             {
@@ -257,7 +262,8 @@ export const customerCoupons = {
           stampCount: 2,
           maxStampCount: 10,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -288,7 +294,8 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
