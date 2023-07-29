@@ -1,12 +1,13 @@
+import { CouponType } from '..';
 import { CouponWrapper } from './style';
 
 interface CouponProps {
-  frontImageUrl: string;
+  coupon: CouponType;
   onClick: () => void;
 }
 
-const Coupon = ({ frontImageUrl, onClick }: CouponProps) => {
-  return <CouponWrapper src={frontImageUrl} onClick={onClick} />;
+const Coupon = ({ coupon, onClick }: CouponProps) => {
+  return <CouponWrapper src={coupon.couponInfos[0].frontImageUrl} onClick={onClick} />;
 };
 
 export default Coupon;

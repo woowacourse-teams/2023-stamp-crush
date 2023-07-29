@@ -24,7 +24,7 @@ import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
 
-interface CouponType {
+export interface CouponType {
   cafeInfo: {
     id: number;
     name: string;
@@ -79,7 +79,7 @@ const CouponList = () => {
   };
 
   const showCouponDetail = (e: MouseEvent<HTMLButtonElement>) => {
-    setIsDetail(true);
+    setIsDetail(!isDetail);
   };
 
   return (
@@ -127,7 +127,7 @@ const CouponList = () => {
         {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
-            frontImageUrl={couponInfos[0].frontImageUrl}
+            coupon={{ cafeInfo, couponInfos }}
             data-index={index}
             onClick={changeCurrentIndex(index)}
           />

@@ -90,9 +90,14 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
 
   ${({ $isDetail }) =>
     $isDetail
-      ? css`:nth-last-child(1) {
-    transform: translateY(-200%)`
-      : ''};
+      ? css`
+          :nth-last-child(1) {
+            transform: translateY(-200%) rotateY(180deg);
+            transition: transform 0.5s;
+            backface-visibility: hidden;
+          }
+        `
+      : ''}
 
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
@@ -118,4 +123,5 @@ export const DetailButton = styled.button`
   outline: none;
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999;
 `;
