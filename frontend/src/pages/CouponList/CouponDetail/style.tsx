@@ -16,6 +16,14 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   h1 {
     white-space: pre-line;
   }
+
+  > :nth-child(2) {
+    position: absolute;
+    top: 67px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+  }
 `;
 
 // 쿠폰은 올라가면 사라진다. -> 돌아가는 쿠폰으로 대체

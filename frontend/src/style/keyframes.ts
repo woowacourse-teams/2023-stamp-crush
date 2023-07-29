@@ -10,3 +10,15 @@ export const swap = keyframes`
     z-index: -1;
   }
 `;
+
+export const detail = keyframes`
+  0% {
+    transform: translateY(15px) scale(1.05);
+    display: flex;
+  }
+  
+  100%{
+    transform: translateY(-250%) scale(0.86);
+display: none;
+  }
+`;

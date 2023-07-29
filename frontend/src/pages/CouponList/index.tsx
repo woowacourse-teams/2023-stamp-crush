@@ -13,7 +13,7 @@ import {
   StampCount,
 } from './style';
 import { MouseEvent, useRef, useState } from 'react';
-import { getCafeInfo, getCoupon, getCoupons } from '../../api/get';
+import { getCafeInfo, getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
@@ -65,6 +65,7 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
+  const [isDetailShown, setIsDetailShown] = useState(false);
   const [cafeId, setCafeId] = useState(0);
 
   const { data: couponsInfosData, status } = useQuery<{ coupons: CouponType[] }>(
@@ -109,10 +110,14 @@ const CouponList = () => {
     setCafeId(getCurrentCoupon().cafeInfo.id);
 
     setIsDetail(true);
+    setTimeout(() => {
+      setIsDetailShown(true);
+    }, 700);
   };
 
   const closeCouponDetail = () => {
     setIsDetail(false);
+    setIsDetailShown(false);
   };
 
   return (
@@ -156,6 +161,7 @@ const CouponList = () => {
         onClick={swapCoupon}
         $isLast={isLast}
         $isDetail={isDetail}
+        $isShown={isDetailShown}
       >
         {couponsInfosData.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <>
@@ -174,6 +180,7 @@ const CouponList = () => {
           cafe={cafeData}
           closeDetail={closeCouponDetail}
           isDetail={isDetail}
+          isShown={isDetailShown}
         />
       )}
       <DetailButton onClick={openCouponDetail}>

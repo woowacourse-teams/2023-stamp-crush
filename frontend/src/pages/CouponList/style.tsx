@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { swap } from '../../style/keyframes';
+import { detail, swap } from '../../style/keyframes';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -71,7 +71,11 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   opacity: 0.7;
 `;
 
-export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boolean }>`
+export const CouponListContainer = styled.div<{
+  $isLast: boolean;
+  $isDetail: boolean;
+  $isShown: boolean;
+}>`
   display: flex;
   justify-content: center;
   position: relative;
@@ -79,6 +83,7 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
   transition: all 0.1s;
 
   :nth-last-child(1) {
+    z-index: ${({ $isShown }) => ($isShown ? '-1' : '3')};
     transform: translateY(15px) scale(1.05);
     animation: ${({ $isLast }) =>
       $isLast
@@ -94,9 +99,8 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
     $isDetail &&
     css`
       :nth-last-child(1) {
-        transform: translateY(-250%);
-        transition: transform 0.6s ease-in-out;
-        backface-visibility: hidden;
+        transform: translateY(-250%) scale(0.86);
+        animation: ${detail} 0.4s;
       }
       :nth-last-child(n + 2) {
         display: none;
