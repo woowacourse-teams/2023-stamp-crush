@@ -58,7 +58,7 @@ class CouponRepositoryTest2 {
 
         CouponDesign couponDesign = CouponDesignFixture.COUPON_DESIGN_1;
         CouponStampCoordinate coordinates = new CouponStampCoordinate(1, 1, 1, couponDesign);
-        getAddCouponStampCoordinate(List.of(coordinates), couponDesign);
+        addCouponStampCoordinate(List.of(coordinates), couponDesign);
 
         RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(couponDesign), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
@@ -76,7 +76,7 @@ class CouponRepositoryTest2 {
         );
     }
 
-    private void getAddCouponStampCoordinate(List<CouponStampCoordinate> coordinates, CouponDesign couponDesign) {
+    private void addCouponStampCoordinate(List<CouponStampCoordinate> coordinates, CouponDesign couponDesign) {
         for (CouponStampCoordinate coordinate : coordinates) {
             couponDesign.addCouponStampCoordinate(couponStampCoordinateRepository.save(coordinate));
         }
