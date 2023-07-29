@@ -12,7 +12,7 @@ import {
   ProgressBarContainer,
   StampCount,
 } from './style';
-import { useRef, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
@@ -49,12 +49,13 @@ const CouponList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
+  const [isDetail, setIsDetail] = useState(false);
   const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
 
-  const swapCoupon = (e: React.MouseEvent<HTMLDivElement>) => {
+  const swapCoupon = (e: MouseEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
@@ -75,6 +76,10 @@ const CouponList = () => {
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
+  };
+
+  const showCouponDetail = (e: MouseEvent<HTMLButtonElement>) => {
+    setIsDetail(true);
   };
 
   return (
@@ -113,7 +118,12 @@ const CouponList = () => {
           <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
-      <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
+      <CouponListContainer
+        ref={couponListContainerRef}
+        onClick={swapCoupon}
+        $isLast={isLast}
+        $isDetail={isDetail}
+      >
         {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
@@ -123,7 +133,7 @@ const CouponList = () => {
           />
         ))}
       </CouponListContainer>
-      <DetailButton>
+      <DetailButton onClick={showCouponDetail}>
         <TbZoomCheck size={32} color={'#424242'} />
       </DetailButton>
     </>

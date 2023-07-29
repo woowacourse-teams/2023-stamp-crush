@@ -71,7 +71,7 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   opacity: 0.7;
 `;
 
-export const CouponListContainer = styled.div<{ $isLast: boolean }>`
+export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boolean }>`
   display: flex;
   justify-content: center;
   position: relative;
@@ -86,10 +86,14 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
           `
         : 'none'};
     cursor: pointer;
-    &:hover {
-      transform: scale(1.1);
-    }
   }
+
+  ${({ $isDetail }) =>
+    $isDetail
+      ? css`:nth-last-child(1) {
+    transform: translateY(-200%)`
+      : ''};
+
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
     pointer-events: none;
