@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
+  opacity: ${({ $isDetail }) => ($isDetail ? '1' : '0')};
+
   position: absolute;
   top: 0;
   right: 0;
   width: 100vw;
   height: 100vh;
-  transform: translateX(${(props) => (props.$isDetail ? '0' : '500px')});
-  transition: transform 0.4s;
+  transform: translateX(${({ $isDetail }) => ($isDetail ? '0' : '500px')});
+  transition: all 0.4s;
 
   background: white;
 `;
