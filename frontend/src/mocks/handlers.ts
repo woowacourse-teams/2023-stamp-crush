@@ -218,15 +218,18 @@ export const handlers = [
   // 카페 정보 조회
   rest.get('/cafes/:cafeId', (req, res, ctx) => {
     const cafe = {
-      id: 1,
-      name: '우아한 카페',
-      introduction: '안녕하세요 우아한 카페입니다',
-      openTime: '10:00',
-      closeTime: '18:00',
-      telephoneNumber: '01012345678',
-      cafeImageUrl: 'http://sdfjs.sfm/dfjnvd',
-      roadAddress: '서울시 송파구',
-      detailAddress: '루터회관',
+      cafe: {
+        id: 1,
+        name: '우아한 카페',
+        introduction:
+          '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 ...',
+        openTime: '10:00',
+        closeTime: '18:00',
+        telephoneNumber: '01012345678',
+        cafeImageUrl: 'https://picsum.photos/540/900',
+        roadAddress: '서울시 송파구',
+        detailAddress: '루터회관',
+      },
     };
 
     return res(ctx.status(200), ctx.json(cafe));

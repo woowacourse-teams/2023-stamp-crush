@@ -13,7 +13,7 @@ import {
   StampCount,
 } from './style';
 import { MouseEvent, useRef, useState } from 'react';
-import { getCoupons } from '../../api/get';
+import { getCafeInfo, getCoupon, getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
@@ -23,6 +23,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
+import CouponDetail from './CouponDetail';
 
 export interface CouponType {
   cafeInfo: {
@@ -44,19 +45,45 @@ export interface CouponType {
   ];
 }
 
+export interface CafeType {
+  cafe: {
+    id: number;
+    name: string;
+    introduction: string;
+    openTime: string;
+    closeTime: string;
+    telephoneNumber: string;
+    cafeImageUrl: string;
+    roadAddress: string;
+    detailAddress: string;
+  };
+}
+
 const CouponList = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
-  const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
+  const [cafeId, setCafeId] = useState(0);
+
+  const { data: couponsInfosData, status } = useQuery<{ coupons: CouponType[] }>(
+    ['coupons'],
+    getCoupons,
+    {},
+  );
+
+  const { data: cafeData, status: cafeStatus } = useQuery(
+    ['cafeInfos', cafeId],
+    () => getCafeInfo(cafeId),
+    {},
+  );
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
 
   const swapCoupon = (e: MouseEvent<HTMLDivElement>) => {
-    if (!couponListContainerRef.current) return;
+    if (!couponListContainerRef.current || isDetail) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
@@ -72,14 +99,20 @@ const CouponList = () => {
     setCurrentIndex(index);
   };
 
-  const getCurrentCoupon = () => data.coupons[currentIndex];
+  const getCurrentCoupon = () => couponsInfosData.coupons[currentIndex];
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
   };
 
-  const showCouponDetail = (e: MouseEvent<HTMLButtonElement>) => {
-    setIsDetail(!isDetail);
+  const openCouponDetail = () => {
+    setCafeId(getCurrentCoupon().cafeInfo.id);
+
+    setIsDetail(true);
+  };
+
+  const closeCouponDetail = () => {
+    setIsDetail(false);
   };
 
   return (
@@ -124,16 +157,26 @@ const CouponList = () => {
         $isLast={isLast}
         $isDetail={isDetail}
       >
-        {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
-          <Coupon
-            key={cafeInfo.id}
-            coupon={{ cafeInfo, couponInfos }}
-            data-index={index}
-            onClick={changeCurrentIndex(index)}
-          />
+        {couponsInfosData.coupons.map(({ cafeInfo, couponInfos }, index) => (
+          <>
+            <Coupon
+              key={cafeInfo.id}
+              coupon={{ cafeInfo, couponInfos }}
+              data-index={index}
+              onClick={changeCurrentIndex(index)}
+            />
+          </>
         ))}
       </CouponListContainer>
-      <DetailButton onClick={showCouponDetail}>
+      {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
+        <CouponDetail
+          coupon={getCurrentCoupon()}
+          cafe={cafeData}
+          closeDetail={closeCouponDetail}
+          isDetail={isDetail}
+        />
+      )}
+      <DetailButton onClick={openCouponDetail}>
         <TbZoomCheck size={32} color={'#424242'} />
       </DetailButton>
     </>

@@ -59,7 +59,7 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   width: 100vw;
   overflow: hidden;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   background: linear-gradient(
@@ -76,6 +76,7 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
   justify-content: center;
   position: relative;
   height: 270px;
+  transition: all 0.4s;
 
   :nth-last-child(1) {
     transform: translateY(15px) scale(1.05);
@@ -89,15 +90,17 @@ export const CouponListContainer = styled.div<{ $isLast: boolean; $isDetail: boo
   }
 
   ${({ $isDetail }) =>
-    $isDetail
-      ? css`
-          :nth-last-child(1) {
-            transform: translateY(-200%) rotateY(180deg);
-            transition: transform 0.5s;
-            backface-visibility: hidden;
-          }
-        `
-      : ''}
+    $isDetail &&
+    css`
+      :nth-last-child(1) {
+        transform: translateY(-250%);
+        transition: transform 0.5s;
+        backface-visibility: hidden;
+      }
+      :nth-last-child(n + 2) {
+        display: none;
+      }
+    `}
 
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
