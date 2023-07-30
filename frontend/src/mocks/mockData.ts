@@ -200,7 +200,8 @@ export const customerCoupons = {
           frontImageUrl: 'https://the2.sfo2.cdn.digitaloceanspaces.com/m_photo/268167.webp',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC241B.jpg',
-          stampImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl:
+            'https://w7.pngwing.com/pngs/608/604/png-transparent-rubber-stamp-free-miscellaneous-freight-transport-text.png',
           coordinates: [
             {
               order: 1,
@@ -233,7 +234,8 @@ export const customerCoupons = {
             'https://img.freepik.com/premium-vector/golden-bright-star-light-effect-bright-star-beautiful-light-to-illustrate-star-white-sparks-sparkle-with-a-special-light-sparkles-on-transparent-background_220217-2514.jpg',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC240B.jpg',
-          stampImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl:
+            'https://w7.pngwing.com/pngs/608/604/png-transparent-rubber-stamp-free-miscellaneous-freight-transport-text.png',
           coordinates: [
             {
               order: 1,
@@ -261,21 +263,23 @@ export const customerCoupons = {
           status: 'ACCUMULATING',
           stampCount: 2,
           maxStampCount: 10,
-          rewardName: '아메리카노',
+          rewardName: '자바칩 프라푸치노 한 잔',
           frontImageUrl:
             'https://p.turbosquid.com/ts-thumb/0y/GUpc1A/YYRcOWWr/lego_woman_generic_person_thumbnail_0000/jpg/1541672521/600x600/fit_q87/293a4ab10b3b21b10fba9335608cc2eaa0fe4f6c/lego_woman_generic_person_thumbnail_0000.jpg',
-          backImageUrl: 'https://source.unsplash.com/random',
-          stampImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl:
+            'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2023/NC209B.jpg',
+          stampImageUrl:
+            'https://w7.pngwing.com/pngs/608/604/png-transparent-rubber-stamp-free-miscellaneous-freight-transport-text.png',
           coordinates: [
             {
               order: 1,
-              xCoordinate: 2,
-              yCoordinate: 5,
+              xCoordinate: 30,
+              yCoordinate: 48,
             },
             {
               order: 2,
-              xCoordinate: 5,
-              yCoordinate: 5,
+              xCoordinate: 75,
+              yCoordinate: 53,
             },
           ],
         },
@@ -303,13 +307,18 @@ export const customerCoupons = {
           coordinates: [
             {
               order: 1,
-              xCoordinate: 50,
-              yCoordinate: 20,
+              xCoordinate: 35,
+              yCoordinate: 45,
             },
             {
               order: 2,
               xCoordinate: 80,
-              yCoordinate: 20,
+              yCoordinate: 40,
+            },
+            {
+              order: 3,
+              xCoordinate: 130,
+              yCoordinate: 45,
             },
           ],
         },
