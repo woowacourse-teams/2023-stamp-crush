@@ -1,4 +1,4 @@
-import { CouponType } from '..';
+import { CouponType } from '../../../types';
 import { CouponWrapper } from './style';
 
 interface CouponProps {
@@ -7,7 +7,13 @@ interface CouponProps {
 }
 
 const Coupon = ({ coupon, onClick }: CouponProps) => {
-  return <CouponWrapper src={coupon.couponInfos[0].frontImageUrl} onClick={onClick} />;
+  return (
+    <CouponWrapper
+      src={coupon.couponInfos[0].frontImageUrl}
+      onClick={onClick}
+      aria-label={coupon.cafeInfo.name}
+    />
+  );
 };
 
 export default Coupon;
