@@ -1,5 +1,5 @@
-import { MouseEvent, useState } from 'react';
-import { CafeType, CouponType } from '..';
+import { MouseEvent } from 'react';
+import FlippedCoupon from '../FlippedCoupon';
 import Text from '../../../components/Text';
 import {
   CafeImage,
@@ -9,9 +9,9 @@ import {
   OverviewContainer,
 } from './style';
 import { BiArrowBack } from 'react-icons/bi';
-import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
+import { FaRegClock, FaPhoneAlt, FaRegBell } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-import FlippedCoupon from '../FlippedCoupon';
+import { CafeType, CouponType } from '../../../types';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -21,36 +21,46 @@ interface CouponDetailProps {
   closeDetail: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-// TODO:이후 카페 관리 병합 후 parseUtil 사용
 const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDetailProps) => {
+  // FIXME: cafeName 등 넘겨받은 데이터 이후에 알맞게 변경
+  const couponInfos = coupon.couponInfos[0];
+  const cafeInfo = cafe.cafe;
+  const cafeName = coupon.cafeInfo.name;
+
+  // FIXME: 이후 카페 관리 병합 후 parseUtil 사용
   return (
     <CouponDetailContainer $isDetail={isDetail}>
-      <CafeImage src={cafe.cafe.cafeImageUrl} />
+      <CafeImage src={cafeInfo.cafeImageUrl} />
       <FlippedCoupon
-        frontImageUrl={coupon.couponInfos[0].frontImageUrl}
-        backImageUrl={coupon.couponInfos[0].backImageUrl}
+        frontImageUrl={couponInfos.frontImageUrl}
+        backImageUrl={couponInfos.backImageUrl}
+        stampImageUrl={couponInfos.stampImageUrl}
         isShown={isShown}
-        coordinates={coupon.couponInfos[0].coordinates}
+        coordinates={couponInfos.coordinates}
       />
       <CloseButton onClick={closeDetail}>
         <BiArrowBack size={24} />
       </CloseButton>
       <OverviewContainer>
-        <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
+        <Text variant="subTitle">{cafeName}</Text>
         <Text>{cafe.cafe.introduction}</Text>
       </OverviewContainer>
       <ContentContainer>
         <Text>
+          <FaRegBell size={24} />
+          {`스탬프 ${couponInfos.maxStampCount}개를 채우면 ${couponInfos.rewardName} 무료!`}
+        </Text>
+        <Text>
           <FaRegClock size={24} />
-          {`여는 시간 ${cafe.cafe.openTime}\n닫는 시간 ${cafe.cafe.closeTime}`}
+          {`여는 시간 ${cafeInfo.openTime}\n닫는 시간 ${cafeInfo.closeTime}`}
         </Text>
         <Text>
           <FaPhoneAlt size={24} />
-          {cafe.cafe.telephoneNumber}
+          {cafeInfo.telephoneNumber}
         </Text>
         <Text>
           <FaLocationDot size={24} />
-          {cafe.cafe.roadAddress + ' ' + cafe.cafe.detailAddress}
+          {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
         </Text>
       </ContentContainer>
     </CouponDetailContainer>
