@@ -19,14 +19,12 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
 
   > :nth-child(2) {
     position: absolute;
-    top: 67px;
+    top: 68px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
   }
 `;
-
-// 쿠폰은 올라가면 사라진다. -> 돌아가는 쿠폰으로 대체
 // 텍스트 애니메이션 삽입 ㄱ
 
 export const OverviewContainer = styled.div`
@@ -54,9 +52,9 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 300px;
+  bottom: 30%;
   left: 50px;
-  width: 200px;
+  width: 300px;
   height: 100px;
   gap: 20px;
 
@@ -75,5 +73,6 @@ export const CloseButton = styled.button`
   left: 15px;
   width: 24px;
   height: 24px;
+  color: black;
   background: transparent;
 `;

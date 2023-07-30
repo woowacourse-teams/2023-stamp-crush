@@ -46,26 +46,19 @@ export const BackImage = styled(CouponImage)`
 `;
 
 interface StyledStampPosProps {
-  $isFlipped: boolean;
   $xCoordinate: number;
   $yCoordinate: number;
 }
 export const StampImage = styled.img<StyledStampPosProps>`
-  ${({ $isFlipped }) =>
-    $isFlipped &&
-    css`
-      ${CouponWrapper} ~ & {
-        visibility: visible;
-      }
-    `}
-
-  visibility: hidden;
   width: 30px;
   height: 30px;
   position: absolute;
   object-fit: contain;
   top: ${({ $yCoordinate }) => `${$yCoordinate}px`};
-  left: ${({ $xCoordinate }) => `${$xCoordinate}px`};
-  background: yellow;
+  right: ${({ $xCoordinate }) => `${$xCoordinate}px`};
+
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg);
   z-index: 1;
 `;
