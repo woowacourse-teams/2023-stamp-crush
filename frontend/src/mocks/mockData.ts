@@ -164,21 +164,21 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl:
-            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
+          frontImageUrl: 'https://woowahan-cdn.woowahan.com/static/image/share_kor.jpg',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
-          stampImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl:
+            'https://blog.kakaocdn.net/dn/Idhl1/btqDj3EXl1n/Q8AkpYkKmc3wkAyXJZX3g0/img.png',
           coordinates: [
             {
               order: 1,
-              xCoordinate: 2,
-              yCoordinate: 5,
+              xCoordinate: 20,
+              yCoordinate: 35,
             },
             {
               order: 2,
-              xCoordinate: 5,
-              yCoordinate: 5,
+              xCoordinate: 70,
+              yCoordinate: 35,
             },
           ],
         },
@@ -263,7 +263,7 @@ export const customerCoupons = {
           maxStampCount: 10,
           rewardName: '아메리카노',
           frontImageUrl:
-            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
+            'https://p.turbosquid.com/ts-thumb/0y/GUpc1A/YYRcOWWr/lego_woman_generic_person_thumbnail_0000/jpg/1541672521/600x600/fit_q87/293a4ab10b3b21b10fba9335608cc2eaa0fe4f6c/lego_woman_generic_person_thumbnail_0000.jpg',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -296,18 +296,20 @@ export const customerCoupons = {
           rewardName: '아메리카노',
           frontImageUrl:
             'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
-          backImageUrl: 'https://source.unsplash.com/random',
-          stampImageUrl: 'https://source.unsplash.com/random',
+          backImageUrl:
+            'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
+          stampImageUrl:
+            'https://blog.kakaocdn.net/dn/Idhl1/btqDj3EXl1n/Q8AkpYkKmc3wkAyXJZX3g0/img.png',
           coordinates: [
             {
               order: 1,
-              xCoordinate: 2,
-              yCoordinate: 5,
+              xCoordinate: 50,
+              yCoordinate: 20,
             },
             {
               order: 2,
-              xCoordinate: 5,
-              yCoordinate: 5,
+              xCoordinate: 80,
+              yCoordinate: 20,
             },
           ],
         },
