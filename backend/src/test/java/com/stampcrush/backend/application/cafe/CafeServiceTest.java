@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
 @SpringBootTest
@@ -232,7 +233,12 @@ public class CafeServiceTest {
         );
 
         // then
-        assertThat(hadiCafe.getCafeImageUrl()).isEqualTo(cafeUpdateDto.getCafeImageUrl());
+        assertAll(
+                () -> assertThat(hadiCafe.getCafeImageUrl()).isEqualTo(cafeUpdateDto.getCafeImageUrl()),
+                () -> assertThat(hadiCafe.getTelephoneNumber()).isEqualTo(cafeUpdateDto.getTelephoneNumber()),
+                () -> assertThat(hadiCafe.getOpenTime()).isEqualTo(cafeUpdateDto.getOpenTime()),
+                () -> assertThat(hadiCafe.getCloseTime()).isEqualTo(cafeUpdateDto.getCloseTime())
+        );
     }
 
     private Cafe createCafe() {
