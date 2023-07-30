@@ -30,6 +30,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         frontImageUrl={coupon.couponInfos[0].frontImageUrl}
         backImageUrl={coupon.couponInfos[0].backImageUrl}
         isShown={isShown}
+        coordinates={coupon.couponInfos[0].coordinates}
       />
       <CloseButton onClick={closeDetail}>
         <BiArrowBack size={24} />

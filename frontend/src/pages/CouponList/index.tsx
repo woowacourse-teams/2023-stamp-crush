@@ -25,6 +25,12 @@ import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
 import CouponDetail from './CouponDetail';
 
+interface StampCoordinate {
+  order: number;
+  xCoordinate: number;
+  yCoordinate: number;
+}
+
 export interface CouponType {
   cafeInfo: {
     id: number;
@@ -40,7 +46,7 @@ export interface CouponType {
       frontImageUrl: string;
       backImageUrl: string;
       stampImageUrl: string;
-      // TODO: coordinate
+      coordinates: StampCoordinate[];
     },
   ];
 }

@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import { BackImage, CouponContainer, CouponWrapper, FrontImage, StampImage } from './style';
 
+interface StampCoordinate {
+  order: number;
+  xCoordinate: number;
+  yCoordinate: number;
+}
+
 interface FlippedCouponProps {
   frontImageUrl: string;
   backImageUrl: string;
   isShown: boolean;
+  coordinates: StampCoordinate[];
 }
 
-const FlippedCoupon = ({ frontImageUrl, backImageUrl, isShown }: FlippedCouponProps) => {
+const FlippedCoupon = ({
+  frontImageUrl,
+  backImageUrl,
+  isShown,
+  coordinates,
+}: FlippedCouponProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const flipCoupon = () => {
@@ -20,7 +32,15 @@ const FlippedCoupon = ({ frontImageUrl, backImageUrl, isShown }: FlippedCouponPr
         <FrontImage src={frontImageUrl} />
         <BackImage src={backImageUrl} />
       </CouponWrapper>
-      <StampImage $isFlipped={isFlipped} />
+      {coordinates &&
+        coordinates.map(({ order, xCoordinate, yCoordinate }, idx) => (
+          <StampImage
+            key={order + idx}
+            $isFlipped={isFlipped}
+            $xCoordinate={xCoordinate}
+            $yCoordinate={yCoordinate}
+          />
+        ))}
     </CouponContainer>
   );
 };
