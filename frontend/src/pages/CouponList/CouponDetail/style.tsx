@@ -25,7 +25,13 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
     z-index: 999;
   }
 `;
-// 텍스트 애니메이션 삽입 ㄱ
+
+// 텍스트 애니메이션 삽입?
+export const CouponNotification = styled.p`
+  position: absolute;
+  top: 100px;
+  left: 0px;
+`;
 
 export const OverviewContainer = styled.div`
   display: flex;
@@ -34,11 +40,16 @@ export const OverviewContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 130px;
-  top: 250px;
+  top: 260px;
   padding: 0 10px;
   gap: 10px;
   word-break: break-all;
   overflow: hidden;
+
+  :nth-child(1) {
+    padding: 5px 20px;
+    border-bottom: 2px solid black;
+  }
 `;
 
 export const CafeImage = styled.img`
@@ -52,7 +63,7 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 30%;
+  bottom: 25%;
   left: 50px;
   width: 300px;
   height: 100px;

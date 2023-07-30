@@ -1,5 +1,15 @@
 import { css, styled } from 'styled-components';
 
+export const CouponNotification = styled.p`
+  position: absolute;
+  width: 100%;
+  top: 225px;
+  left: 50%;
+  font-size: 12px;
+  text-align: center;
+  transform: translateX(-50%);
+`;
+
 export const CouponContainer = styled.div<{ $isShown: boolean }>`
   display: ${({ $isShown }) => ($isShown ? 'flex' : 'none')};
   position: relative;
