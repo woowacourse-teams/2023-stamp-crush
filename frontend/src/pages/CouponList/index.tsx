@@ -12,7 +12,7 @@ import {
   ProgressBarContainer,
   StampCount,
 } from './style';
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { getCafeInfo, getCoupons } from '../../api/get';
 import { useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
@@ -24,46 +24,7 @@ import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
 import CouponDetail from './CouponDetail';
-
-interface StampCoordinate {
-  order: number;
-  xCoordinate: number;
-  yCoordinate: number;
-}
-
-export interface CouponType {
-  cafeInfo: {
-    id: number;
-    name: string;
-  };
-  couponInfos: [
-    {
-      id: number;
-      isFavorites: boolean;
-      stampCount: number;
-      maxStampCount: number;
-      rewardName: string;
-      frontImageUrl: string;
-      backImageUrl: string;
-      stampImageUrl: string;
-      coordinates: StampCoordinate[];
-    },
-  ];
-}
-
-export interface CafeType {
-  cafe: {
-    id: number;
-    name: string;
-    introduction: string;
-    openTime: string;
-    closeTime: string;
-    telephoneNumber: string;
-    cafeImageUrl: string;
-    roadAddress: string;
-    detailAddress: string;
-  };
-}
+import { CouponType } from '../../types';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -77,14 +38,13 @@ const CouponList = () => {
   const { data: couponsInfosData, status } = useQuery<{ coupons: CouponType[] }>(
     ['coupons'],
     getCoupons,
-    {},
   );
 
-  const { data: cafeData, status: cafeStatus } = useQuery(
-    ['cafeInfos', cafeId],
-    () => getCafeInfo(cafeId),
-    {},
-  );
+  const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos'], () => getCafeInfo(cafeId));
+
+  useEffect(() => {
+    if (couponsInfosData) setCurrentIndex(couponsInfosData?.coupons.length - 1);
+  }, [couponsInfosData]);
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
@@ -103,10 +63,23 @@ const CouponList = () => {
   };
 
   const changeCurrentIndex = (index: number) => () => {
-    setCurrentIndex(index);
+    setCurrentIndex((prevIndex) => {
+      if (couponsInfosData) return index === 0 ? couponsInfosData.coupons.length - 1 : index - 1;
+      return prevIndex;
+    });
   };
 
-  const getCurrentCoupon = () => couponsInfosData.coupons[currentIndex];
+  const getCurrentCoupon = () => {
+    return couponsInfosData.coupons[currentIndex];
+  };
+
+  const getCurrentCafeInfo = () => {
+    return getCurrentCoupon().cafeInfo;
+  };
+
+  const getCurrentCouponInfo = () => {
+    return getCurrentCoupon().couponInfos[0];
+  };
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
@@ -134,32 +107,28 @@ const CouponList = () => {
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
-          <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
-          {getCurrentCoupon().couponInfos[0].isFavorites ? (
+          <CafeName aria-label="카페 이름">{getCurrentCafeInfo().name}</CafeName>
+          {getCurrentCouponInfo().isFavorites ? (
             <AiFillStar size={40} color={'#FFD600'} />
           ) : (
             <AiOutlineStar size={40} color={'#FFD600'} />
           )}
         </NameContainer>
-        <ProgressBarContainer>
-          <Color
-            src={getCurrentCoupon().couponInfos[0].frontImageUrl}
-            format="hex"
-            crossOrigin="anonymous"
-          >
+        <ProgressBarContainer aria-label="스탬프 개수">
+          <Color src={getCurrentCouponInfo().frontImageUrl} format="hex" crossOrigin="anonymous">
             {({ data: color }) => (
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
                 <ProgressBar
-                  stampCount={getCurrentCoupon().couponInfos[0].stampCount}
-                  maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
+                  stampCount={getCurrentCouponInfo().stampCount}
+                  maxCount={getCurrentCouponInfo().maxStampCount}
                   progressColor={color}
                 />
               </>
             )}
           </Color>
-          <StampCount>{getCurrentCoupon().couponInfos[0].stampCount}</StampCount>/
-          <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
+          <StampCount>{getCurrentCouponInfo().stampCount}</StampCount>/
+          <MaxStampCount>{getCurrentCouponInfo().maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
       <CouponListContainer
@@ -189,7 +158,7 @@ const CouponList = () => {
           isShown={isDetailShown}
         />
       )}
-      <DetailButton onClick={openCouponDetail}>
+      <DetailButton onClick={openCouponDetail} aria-label="쿠폰 상세 보기">
         <TbZoomCheck size={32} color={'#424242'} />
       </DetailButton>
     </>
