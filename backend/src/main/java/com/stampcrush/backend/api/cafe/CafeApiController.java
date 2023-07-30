@@ -51,13 +51,13 @@ public class CafeApiController {
     @PatchMapping("/{cafeId}")
     ResponseEntity<Void> updateCafe(
             @PathVariable Long cafeId,
-            @RequestBody @Valid CafeUpdateRequest cafeUpdateRequest
+            @RequestBody @Valid CafeUpdateRequest request
     ) {
         CafeUpdateDto cafeUpdateDto = new CafeUpdateDto(
-                cafeUpdateRequest.getOpenTime(),
-                cafeUpdateRequest.getCloseTime(),
-                cafeUpdateRequest.getTelephoneNumber(),
-                cafeUpdateRequest.getCafeImageUrl()
+                request.getOpenTime(),
+                request.getCloseTime(),
+                request.getTelephoneNumber(),
+                request.getCafeImageUrl()
         );
 
         cafeService.updateCafeInfo(cafeUpdateDto, cafeId);
