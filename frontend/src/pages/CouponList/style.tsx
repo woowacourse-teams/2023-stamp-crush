@@ -131,5 +131,5 @@ export const DetailButton = styled.button`
   outline: none;
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  z-index: -1;
 `;
