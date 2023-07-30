@@ -19,6 +19,5 @@ export const detail = keyframes`
   
   100%{
     transform: translateY(-250%) scale(0.86);
-display: none;
   }
 `;
