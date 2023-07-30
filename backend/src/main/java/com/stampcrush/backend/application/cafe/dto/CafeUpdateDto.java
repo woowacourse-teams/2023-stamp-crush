@@ -10,9 +10,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class CafeUpdateDto {
 
-    private LocalTime openTime;
-    private LocalTime closeTime;
-    private String telephoneNumber;
-    private String cafeImageUrl;
+    private final LocalTime openTime;
+    private final LocalTime closeTime;
+    private final String telephoneNumber;
+    private final String cafeImageUrl;
     // introduction이 현재 Cafe엔티티에 없음
 }
