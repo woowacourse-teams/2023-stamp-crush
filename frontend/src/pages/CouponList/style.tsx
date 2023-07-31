@@ -100,7 +100,7 @@ export const CouponListContainer = styled.div<{
     css`
       :nth-last-child(1) {
         transform: translateY(-250%) scale(0.86);
-        animation: ${detail} 0.4s;
+        animation: ${detail} 0.3s;
       }
       :nth-last-child(n + 2) {
         display: none;

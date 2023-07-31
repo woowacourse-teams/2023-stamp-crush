@@ -71,6 +71,10 @@ const CouponList = () => {
     });
   };
 
+  const currentCoupon = couponsInfosData.coupons[currentIndex];
+  const currentCafeInfo = currentCoupon.cafeInfo;
+  const currentCouponInfo = currentCoupon.couponInfos[0];
+
   const getCurrentCoupon = () => {
     return couponsInfosData.coupons[currentIndex];
   };
@@ -109,7 +113,7 @@ const CouponList = () => {
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
-          <CafeName aria-label="카페 이름">{getCurrentCafeInfo().name}</CafeName>
+          <CafeName aria-label="카페 이름">{currentCafeInfo.name}</CafeName>
           {getCurrentCouponInfo().isFavorites ? (
             <AiFillStar size={40} color={'#FFD600'} />
           ) : (
@@ -117,7 +121,7 @@ const CouponList = () => {
           )}
         </NameContainer>
         <ProgressBarContainer aria-label="스탬프 개수">
-          <Color src={getCurrentCouponInfo().frontImageUrl} format="hex" crossOrigin="anonymous">
+          <Color src={currentCouponInfo.frontImageUrl} format="hex" crossOrigin="anonymous">
             {({ data: color }) => (
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
