@@ -21,7 +21,7 @@ export const getReward = async (customerId: number | undefined, cafeId: number) 
     throw new Error('잘못된 요청입니다.');
   }
 
-  return await api.get(`/customers/${customerId}/rewards?cafeId=${cafeId}&used=${false}`);
+  return await api.get(`/admin/customers/${customerId}/rewards?cafe-id=${cafeId}&used=${false}`);
 };
 
 export const getCouponSamples = async (maxStampCount: number) => {

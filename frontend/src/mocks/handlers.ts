@@ -134,7 +134,7 @@ export const handlers = [
   // 고객의 리워드 조회
   rest.get('/admin/customers/:customerId/rewards', (req, res, ctx) => {
     const usedQueryParam = req.url.searchParams.get('used');
-    const cafeIdQueryParam = req.url.searchParams.get('cafeId');
+    const cafeIdQueryParam = req.url.searchParams.get('cafe-id');
     const { customerId } = req.params;
 
     if (!usedQueryParam || !cafeIdQueryParam || !customerId) {
