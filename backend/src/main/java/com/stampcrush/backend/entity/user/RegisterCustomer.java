@@ -30,7 +30,7 @@ public class RegisterCustomer extends Customer {
 
     public void checkPassword(String encryptedPassword) {
         if (!this.encryptedPassword.equals(encryptedPassword)) {
-            throw new CustomerUnAuthorizationException("비밀번호가 맞지 않습니다");
+            throw new CustomerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
 }

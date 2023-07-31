@@ -38,7 +38,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
         String loginId = credentials[0];
         String encryptedPassword = credentials[1];
 
-        RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("스탬프크러쉬 가입 후 사용가능합니다"));
+        RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
         customer.checkPassword(encryptedPassword);
 
         return customer;

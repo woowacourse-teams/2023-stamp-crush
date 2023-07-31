@@ -33,7 +33,7 @@ public class Owner extends BaseDate {
 
     public void checkPassword(String encryptedPassword) {
         if (!this.encryptedPassword.equals(encryptedPassword)) {
-            throw new OwnerUnAuthorizationException("비밀번호가 맞지 않습니다");
+            throw new OwnerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
 }
