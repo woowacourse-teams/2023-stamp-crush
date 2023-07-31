@@ -33,6 +33,10 @@ export interface PostIsFavoritesReq {
   isFavorites: boolean;
 }
 
+interface CouponRes {
+  coupons: CouponType[];
+}
+
 interface CouponType {
   cafeInfo: {
     id: number;
@@ -61,7 +65,7 @@ const CouponList = () => {
   const [isLast, setIsLast] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const queryClient = useQueryClient();
-  const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {
+  const { data: couponRes, status } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
     },
@@ -74,7 +78,7 @@ const CouponList = () => {
       },
       onMutate: async () => {
         await queryClient.cancelQueries(['coupons']);
-        queryClient.setQueryData<{ coupons: CouponType[] }>(['coupons'], (prev) => {
+        queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
           if (!prev) return;
 
           prev.coupons[currentIndex].couponInfos[0].isFavorites =
@@ -88,7 +92,8 @@ const CouponList = () => {
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
 
-  const currentCoupon = data.coupons[currentIndex];
+  const { coupons } = couponRes;
+  const currentCoupon = coupons[currentIndex];
 
   const swapCoupon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current) return;
@@ -105,7 +110,7 @@ const CouponList = () => {
 
   const changeCurrentIndex = (index: number) => () => {
     setCurrentIndex((prevIndex) => {
-      if (data) return index === 0 ? data.coupons.length - 1 : index - 1;
+      if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
       return prevIndex;
     });
   };
@@ -166,7 +171,7 @@ const CouponList = () => {
         </ProgressBarContainer>
       </InfoContainer>
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
-        {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
+        {coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
             frontImageUrl={couponInfos[0].frontImageUrl}
