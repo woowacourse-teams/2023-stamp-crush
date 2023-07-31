@@ -24,11 +24,11 @@ export const SideBarContainer = styled.div<SideBarSize>`
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
 
-  border-top: 1px solid ${({ theme }) => theme.colors.gray};
+  border-top: 0px solid ${({ theme }) => theme.colors.gray};
 
   & > :nth-child(n) {
-    border: solid ${({ theme }) => theme.colors.gray};
-    border-width: 0 1px 1px 1px;
+    border: none;
+    border-radius: 8px;
   }
 `;
 
@@ -56,6 +56,14 @@ export const SideBarLink = styled(Link)`
 export const SideBarContent = styled.div<SideBarSelect>`
   transition: all 0.4s ease;
   background-color: ${(props) => `${props.$isSelected ? '#eee' : 'transparent'}`};
+
+  :hover {
+    color: black;
+    font-weight: 600;
+    background: ${({ theme }) => theme.colors.main};
+    border-radius: 8px;
+    transform: translate(-5px, -5px);
+  }
 `;
 
 export const Arrow = styled.span`

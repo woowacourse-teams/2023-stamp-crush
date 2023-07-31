@@ -14,7 +14,7 @@ public class TemporaryCustomer extends Customer {
 
     private static final int NICKNAME_LENGTH = 4;
 
-    public TemporaryCustomer(String nickname, String phoneNumber) {
+    private TemporaryCustomer(String nickname, String phoneNumber) {
         super(nickname, phoneNumber);
     }
 

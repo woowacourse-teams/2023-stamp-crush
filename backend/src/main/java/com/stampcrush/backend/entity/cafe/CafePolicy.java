@@ -54,4 +54,8 @@ public class CafePolicy extends BaseDate {
     public CouponPolicy copy() {
         return new CouponPolicy(maxStampCount, reward, expirePeriod);
     }
+
+    public int calculateRewardCouponCount(int earningStampCount) {
+        return earningStampCount / maxStampCount;
+    }
 }

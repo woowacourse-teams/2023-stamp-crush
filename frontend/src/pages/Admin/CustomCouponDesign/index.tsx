@@ -4,6 +4,8 @@ import {
   PreviewCouponContainer,
   ImageUploadContainer,
   SaveButtonWrapper,
+  StampCustomButtonWrapper,
+  StampImageSelector,
 } from './style';
 import { RowSpacing, Spacing } from '../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
@@ -14,9 +16,10 @@ import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { parseExpireDate } from '../../../utils';
+import { parseExpireDate, parseStampCount } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
+import StampCustomModal from './StampCustomModal';
 
 export interface CouponSettingDto {
   frontImageUrl: string;
@@ -34,6 +37,11 @@ const CustomCouponDesign = () => {
   const [backImage, uploadBackImage, setBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
   const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isCustom = location.state.createdType === 'custom';
+  const maxStampCount = location.state.stampCount;
+
   const mutateCouponPolicy = useMutation({
     mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(couponConfig),
     onSuccess: () => {
@@ -46,17 +54,29 @@ const CustomCouponDesign = () => {
       alert('이미지를 모두 선택해주세요.');
       return;
     }
+
     const payload = {
       frontImageUrl: frontImage,
       backImageUrl: backImage,
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: location.state.reward,
-      expirePeriod: parseExpireDate(location.state.expirePeriod),
+      expirePeriod: parseExpireDate(location.state.expireSelect.value),
+      maxStampCount: parseStampCount(location.state.stampCount),
     };
 
     mutateCouponPolicy.mutate(payload);
   };
+
+  const customStampPosition = () => {
+    if (!stampImage || !backImage) {
+      alert('먼저 쿠폰 뒷면, 스탬프 이미지를 업로드해주세요.');
+      return;
+    }
+
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <Spacing $size={40} />
@@ -73,7 +93,7 @@ const CustomCouponDesign = () => {
                 uploadImageInputId="coupon-front-image-input"
                 imgFileUrl={frontImage}
                 uploadImageFile={uploadFrontImage}
-                isCustom={false}
+                isCustom={isCustom}
               />
               <Spacing $size={32} />
               <CustomCouponSection
@@ -81,18 +101,25 @@ const CustomCouponDesign = () => {
                 uploadImageInputId="coupon-back-image-input"
                 imgFileUrl={backImage}
                 uploadImageFile={uploadBackImage}
-                isCustom={false}
+                isCustom={isCustom}
               />
             </CouponContainer>
             <RowSpacing $size={72} />
-            <CustomStampSection
-              label="스탬프"
-              uploadImageInputId="stamp-image-input"
-              imgFileUrl={stampImage}
-              uploadImageFile={uploadStampImage}
-              isCustom={false}
-            />
+            <StampImageSelector>
+              <CustomStampSection
+                label="스탬프"
+                uploadImageInputId="stamp-image-input"
+                imgFileUrl={stampImage}
+                uploadImageFile={uploadStampImage}
+                isCustom={isCustom}
+              />
+            </StampImageSelector>
           </ImageUploadContainer>
+          <StampCustomButtonWrapper>
+            <Button variant="secondary" size="medium" onClick={customStampPosition}>
+              스탬프 위치 커스텀하기
+            </Button>
+          </StampCustomButtonWrapper>
           <Spacing $size={40} />
           <SaveButtonWrapper>
             <Button variant="primary" size="medium" onClick={changeCouponDesignAndPolicy}>
@@ -111,6 +138,15 @@ const CustomCouponDesign = () => {
           setStampImage={setStampImage}
         />
       </CustomCouponDesignContainer>
+      <StampCustomModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        stampPos={stampCoordinates}
+        setStampPos={setStampCoordinates}
+        backImgFileUrl={backImage}
+        stampImgFileUrl={stampImage}
+        maxStampCount={maxStampCount}
+      />
     </>
   );
 };

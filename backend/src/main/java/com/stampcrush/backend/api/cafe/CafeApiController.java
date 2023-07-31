@@ -2,11 +2,13 @@ package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.api.cafe.request.CafeCreateRequest;
+import com.stampcrush.backend.api.cafe.request.CafeUpdateRequest;
 import com.stampcrush.backend.api.cafe.response.CafeFindResponse;
 import com.stampcrush.backend.api.cafe.response.CafesFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +47,16 @@ public class CafeApiController {
                 cafeCreateRequest.getBusinessRegistrationNumber());
         Long cafeId = cafeService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
+    }
+
+    @PatchMapping("/{cafeId}")
+    ResponseEntity<Void> updateCafe(
+            @PathVariable Long cafeId,
+            @RequestBody @Valid CafeUpdateRequest request
+    ) {
+        CafeUpdateDto cafeUpdateDto = request.toServiceDto();
+
+        cafeService.updateCafeInfo(cafeUpdateDto, cafeId);
+        return ResponseEntity.ok().build();
     }
 }
