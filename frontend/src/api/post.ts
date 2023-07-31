@@ -20,7 +20,7 @@ export const postRegisterUser = async (phoneNumber: string) => {
 
 export const postIssueCoupon = async (customerId: string) => {
   return await api
-    .post(`/customers/${customerId}/coupons`, { cafeId: '1' })
+    .post(`/admin/customers/${customerId}/coupons`, { cafeId: '1' })
     .then((response) => response.json());
 };
 

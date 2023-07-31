@@ -146,7 +146,7 @@ export const handlers = [
   }),
 
   // 쿠폰 신규 발급
-  rest.post('/customers/:customerId/coupons', async (req, res, ctx) => {
+  rest.post('/admin/customers/:customerId/coupons', async (req, res, ctx) => {
     const { customerId } = req.params;
 
     const customerIdNum = +customerId;
