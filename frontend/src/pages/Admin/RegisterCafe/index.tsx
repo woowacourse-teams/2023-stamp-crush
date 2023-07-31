@@ -10,7 +10,6 @@ import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
 
 export interface CafeFormData {
-  ownerId: number;
   businessRegistrationNumber: string;
   name: string;
   roadAddress: string;
@@ -52,7 +51,6 @@ const RegisterCafe = () => {
       detailAddressInputRef.current
     ) {
       const formData: CafeFormData = {
-        ownerId: 1,
         businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
         name: cafeNameInputRef.current?.value,
         roadAddress: roadAddressInputRef.current?.value,

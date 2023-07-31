@@ -29,13 +29,12 @@ export const postCouponSetting = async (couponConfig: CouponSettingDto) => {
 };
 
 export const postRegisterCafe = async ({
-  ownerId,
   businessRegistrationNumber,
   name,
   roadAddress,
   detailAddress,
 }: CafeFormData) => {
-  await api.post(`/cafes/${ownerId}`, {
+  await api.post('/admin/cafes', {
     businessRegistrationNumber,
     name,
     roadAddress,
