@@ -74,9 +74,12 @@ const CouponList = () => {
       },
       onMutate: async () => {
         await queryClient.cancelQueries(['coupons']);
-        queryClient.setQueryData(['coupons'], ({ coupons }: any) => {
-          coupons[currentIndex].couponInfos[0].isFavorites =
-            !coupons[currentIndex].couponInfos[0].isFavorites;
+        queryClient.setQueryData<{ coupons: CouponType[] }>(['coupons'], (prev) => {
+          if (!prev) return;
+
+          prev.coupons[currentIndex].couponInfos[0].isFavorites =
+            !prev.coupons[currentIndex].couponInfos[0].isFavorites;
+          return undefined;
         });
       },
     },
