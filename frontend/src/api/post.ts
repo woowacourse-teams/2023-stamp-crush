@@ -15,7 +15,7 @@ export const postEarnStamp = async ({
 };
 
 export const postRegisterUser = async (phoneNumber: string) => {
-  await api.post('/temporary-customers', { phoneNumber });
+  await api.post('/admin/temporary-customers', { phoneNumber });
 };
 
 export const postIssueCoupon = async (customerId: string) => {
