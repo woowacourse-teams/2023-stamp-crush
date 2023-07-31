@@ -41,9 +41,9 @@ const CustomCouponDesign = () => {
 
   const isCustom = location.state.createdType === 'custom';
   const maxStampCount = location.state.stampCount;
-
+  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
-    mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(couponConfig),
+    mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(1, couponConfig),
     onSuccess: () => {
       navigate('/admin');
     },

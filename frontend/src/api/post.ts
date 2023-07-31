@@ -24,8 +24,8 @@ export const postIssueCoupon = async (customerId: string) => {
     .then((response) => response.json());
 };
 
-export const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  return await api.post('/coupon-setting', couponConfig);
+export const postCouponSetting = async (cafeId: number, couponConfig: CouponSettingDto) => {
+  return await api.post(`/admin/coupon-setting?cafe-id=${cafeId}`, couponConfig);
 };
 
 export const postRegisterCafe = async ({

@@ -56,6 +56,8 @@ export const handlers = [
 
   // 쿠폰 디자인 및 정책 수정
   rest.post('/admin/coupon-setting', async (req, res, ctx) => {
+    // TODO: cafe id 핸들링
+    const cafeIdParam = req.url.searchParams.get('cafe-id');
     const { frontImageUrl, backImageUrl, stampImageUrl, coordinates, reward, expirePeriod } =
       await req.json();
 
