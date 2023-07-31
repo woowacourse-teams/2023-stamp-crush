@@ -8,8 +8,10 @@ export const getCustomer = async (phoneNumber: string) => {
   return await api.get(`/admin/customers?phone-number=${phoneNumber}`);
 };
 
+// FIXME: cafeId 매개변수로 받아와서 처리
 export const getList = async () => {
-  return await api.get('/cafes/1/customers');
+  const cafeId = 1;
+  return await api.get(`/admin/cafes/${cafeId}/customers`);
 };
 
 export const getCoupon = async (customerId: string, cafeId: string) => {
