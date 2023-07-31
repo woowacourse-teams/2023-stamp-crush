@@ -27,12 +27,15 @@ export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 20px;
+  padding: 30px;
   gap: 20px;
   background: #e8e8e8;
   width: 100%;
   height: 80%;
   border-radius: 10px 10px 0 0;
+  text-align: center;
+  white-space: pre-line;
+  line-height: 24px;
 
   & > img {
     width: 60px;
