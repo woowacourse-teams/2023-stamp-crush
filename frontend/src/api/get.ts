@@ -13,7 +13,7 @@ export const getList = async () => {
 };
 
 export const getCoupon = async (customerId: string, cafeId: string) => {
-  return await api.get(`/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`);
+  return await api.get(`/admin/customers/${customerId}/coupons?cafe-id=${cafeId}&active=true`);
 };
 
 export const getReward = async (customerId: number | undefined, cafeId: number) => {

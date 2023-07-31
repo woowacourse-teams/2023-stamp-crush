@@ -109,7 +109,7 @@ export const handlers = [
 
   // 고객의 쿠폰 조회
   rest.get('/admin/customers/:customerId/coupons', (req, res, ctx) => {
-    const cafeIdQueryParam = req.url.searchParams.get('cafeId');
+    const cafeIdQueryParam = req.url.searchParams.get('cafe-id');
     const activeQueryParam = req.url.searchParams.get('active');
     const { customerId } = req.params;
 
