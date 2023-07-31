@@ -85,6 +85,8 @@ const CouponList = () => {
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
 
+  const currentCoupon = data.coupons[currentIndex];
+
   const swapCoupon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current) return;
 
@@ -105,8 +107,6 @@ const CouponList = () => {
     });
   };
 
-  const getCurrentCoupon = () => data.coupons[currentIndex];
-
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
   };
@@ -114,15 +114,15 @@ const CouponList = () => {
   const openAlert = () => {
     openModal();
 
-    getCurrentCoupon().couponInfos[0].isFavorites
-      ? setAlertMessage(`${getCurrentCoupon().cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
-      : setAlertMessage(`${getCurrentCoupon().cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
+    currentCoupon.couponInfos[0].isFavorites
+      ? setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
+      : setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
   };
 
   const changeFavorites = () => {
     mutateIsFavorites({
-      cafeId: getCurrentCoupon().cafeInfo.id,
-      isFavorites: getCurrentCoupon().couponInfos[0].isFavorites,
+      cafeId: currentCoupon.cafeInfo.id,
+      isFavorites: currentCoupon.couponInfos[0].isFavorites,
     });
   };
 
@@ -134,8 +134,8 @@ const CouponList = () => {
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
-          <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
-          {getCurrentCoupon().couponInfos[0].isFavorites ? (
+          <CafeName>{currentCoupon.cafeInfo.name}</CafeName>
+          {currentCoupon.couponInfos[0].isFavorites ? (
             <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
           ) : (
             <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
@@ -143,7 +143,7 @@ const CouponList = () => {
         </NameContainer>
         <ProgressBarContainer>
           <Color
-            src={getCurrentCoupon().couponInfos[0].frontImageUrl}
+            src={currentCoupon.couponInfos[0].frontImageUrl}
             format="hex"
             crossOrigin="anonymous"
           >
@@ -151,15 +151,15 @@ const CouponList = () => {
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
                 <ProgressBar
-                  stampCount={getCurrentCoupon().couponInfos[0].stampCount}
-                  maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
+                  stampCount={currentCoupon.couponInfos[0].stampCount}
+                  maxCount={currentCoupon.couponInfos[0].maxStampCount}
                   progressColor={color}
                 />
               </>
             )}
           </Color>
-          <StampCount>{getCurrentCoupon().couponInfos[0].stampCount}</StampCount>/
-          <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
+          <StampCount>{currentCoupon.couponInfos[0].stampCount}</StampCount>/
+          <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
