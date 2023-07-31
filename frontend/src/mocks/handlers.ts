@@ -233,11 +233,7 @@ export const handlers = [
   }),
 
   // 쿠폰 즐겨찾기 등록, 해제
-  rest.post('/coupons/:couponId/favorites', async (req, res, ctx) => {
-    const { isFavorites } = await req.json();
-
-    if (!isFavorites) return res(ctx.status(400));
-
+  rest.post('/cafes/:cafeId/favorites', async (req, res, ctx) => {
     return res(ctx.status(200));
   }),
 ];

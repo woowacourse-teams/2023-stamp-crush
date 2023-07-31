@@ -14,7 +14,7 @@ import {
 } from './style';
 import { useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
@@ -22,9 +22,20 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
-import { TbZoomCheck } from 'react-icons/tb';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
+import { CiCircleMore } from 'react-icons/ci';
+import { postIsFavorites } from '../../api/post';
+
+// TODO: 추후에 types 폴더로 위치 변경
+export interface PostIsFavoritesReq {
+  cafeId: number;
+  isFavorites: boolean;
+}
+
+interface CouponRes {
+  coupons: CouponType[];
+}
 
 interface CouponType {
   cafeInfo: {
@@ -52,10 +63,37 @@ const CouponList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
-  const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
+  const [alertMessage, setAlertMessage] = useState('');
+  const queryClient = useQueryClient();
+  const { data: couponRes, status } = useQuery<CouponRes>(['coupons'], getCoupons, {
+    onSuccess: (data) => {
+      setCurrentIndex(data.coupons.length - 1);
+    },
+  });
+  const { mutate: mutateIsFavorites } = useMutation(
+    ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
+    {
+      onSuccess: () => {
+        closeModal();
+      },
+      onMutate: async () => {
+        await queryClient.cancelQueries(['coupons']);
+        queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
+          if (!prev) return;
+
+          prev.coupons[currentIndex].couponInfos[0].isFavorites =
+            !prev.coupons[currentIndex].couponInfos[0].isFavorites;
+          return undefined;
+        });
+      },
+    },
+  );
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
+
+  const { coupons } = couponRes;
+  const currentCoupon = coupons[currentIndex];
 
   const swapCoupon = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current) return;
@@ -71,17 +109,29 @@ const CouponList = () => {
   };
 
   const changeCurrentIndex = (index: number) => () => {
-    setCurrentIndex(index);
+    setCurrentIndex((prevIndex) => {
+      if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
+      return prevIndex;
+    });
   };
-
-  const getCurrentCoupon = () => data.coupons[currentIndex];
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
   };
 
-  const changeFavorites = (isFavorites: boolean) => () => {
+  const openAlert = () => {
     openModal();
+
+    currentCoupon.couponInfos[0].isFavorites
+      ? setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
+      : setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
+  };
+
+  const changeFavorites = () => {
+    mutateIsFavorites({
+      cafeId: currentCoupon.cafeInfo.id,
+      isFavorites: currentCoupon.couponInfos[0].isFavorites,
+    });
   };
 
   return (
@@ -92,16 +142,16 @@ const CouponList = () => {
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
-          <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
-          {getCurrentCoupon().couponInfos[0].isFavorites ? (
-            <AiFillStar size={40} color={'#FFD600'} onClick={changeFavorites(false)} />
+          <CafeName>{currentCoupon.cafeInfo.name}</CafeName>
+          {currentCoupon.couponInfos[0].isFavorites ? (
+            <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
           ) : (
-            <AiOutlineStar size={40} color={'#FFD600'} onClick={changeFavorites(true)} />
+            <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
           )}
         </NameContainer>
         <ProgressBarContainer>
           <Color
-            src={getCurrentCoupon().couponInfos[0].frontImageUrl}
+            src={currentCoupon.couponInfos[0].frontImageUrl}
             format="hex"
             crossOrigin="anonymous"
           >
@@ -109,19 +159,19 @@ const CouponList = () => {
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
                 <ProgressBar
-                  stampCount={getCurrentCoupon().couponInfos[0].stampCount}
-                  maxCount={getCurrentCoupon().couponInfos[0].maxStampCount}
+                  stampCount={currentCoupon.couponInfos[0].stampCount}
+                  maxCount={currentCoupon.couponInfos[0].maxStampCount}
                   progressColor={color}
                 />
               </>
             )}
           </Color>
-          <StampCount>{getCurrentCoupon().couponInfos[0].stampCount}</StampCount>/
-          <MaxStampCount>{getCurrentCoupon().couponInfos[0].maxStampCount}</MaxStampCount>
+          <StampCount>{currentCoupon.couponInfos[0].stampCount}</StampCount>/
+          <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
       <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
-        {data.coupons.map(({ cafeInfo, couponInfos }, index) => (
+        {coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
             frontImageUrl={couponInfos[0].frontImageUrl}
@@ -131,14 +181,14 @@ const CouponList = () => {
         ))}
       </CouponListContainer>
       <DetailButton>
-        <TbZoomCheck size={32} color={'#424242'} />
+        <CiCircleMore size={36} color={'#424242'} />
       </DetailButton>
       {isOpen && (
         <Alert
-          text={`${getCurrentCoupon().cafeInfo.name}를 찜하시겠어요?`}
-          rightOption={'찜하기'}
-          leftOption={'닫기'}
-          onClickRight={closeModal}
+          text={alertMessage}
+          rightOption={'네'}
+          leftOption={'아니오'}
+          onClickRight={changeFavorites}
           onClickLeft={closeModal}
         />
       )}
