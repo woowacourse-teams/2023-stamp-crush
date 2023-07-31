@@ -154,7 +154,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 1,
-        name: '우아한카페',
+        name: '깃짱카페',
       },
       couponInfos: [
         {
@@ -164,7 +164,8 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://picsum.photos/250/250',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1_3XRlwig5m846bBUzUv-VqcOxN1PTyPY',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -185,7 +186,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 2,
-        name: '윤생카페',
+        name: '하디카페',
       },
       couponInfos: [
         {
@@ -196,7 +197,7 @@ export const customerCoupons = {
           maxStampCount: 8,
           rewardName: '아메리카노',
           frontImageUrl:
-            'https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s',
+            'https://drive.google.com/uc?export=view&id=1hdTvv_yBFdpyDpJWrNMMy9JlBKVNNy7D',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -217,7 +218,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 3,
-        name: '카페, 빛',
+        name: '제나카페',
       },
       couponInfos: [
         {
@@ -227,7 +228,8 @@ export const customerCoupons = {
           stampCount: 7,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://picsum.photos/id/237/200/300',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1Rn4Gb2vE5eKnPL8SrLwlbv1jgGzy6AWE',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -248,7 +250,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 4,
-        name: '블럭레고카페',
+        name: '레고카페',
       },
       couponInfos: [
         {
@@ -258,7 +260,8 @@ export const customerCoupons = {
           stampCount: 2,
           maxStampCount: 10,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://source.unsplash.com/random',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1kklV1yLgmqjdQtBPXt4PLhwfrVAP00S5',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
@@ -279,7 +282,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 5,
-        name: '크러쉬카페',
+        name: '라잇카페',
       },
       couponInfos: [
         {
@@ -289,7 +292,72 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://picsum.photos/200/300?grayscale',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1Jm0UYUrbkXWLhP6GxrXTTWzcI-zREWyF',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 6,
+        name: '윤생카페',
+      },
+      couponInfos: [
+        {
+          id: 6,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1ngMdF1isvQlhsZfBI0VNp5VMsGQZ9cgb',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 7,
+        name: '레오카페',
+      },
+      couponInfos: [
+        {
+          id: 7,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
           backImageUrl: 'https://source.unsplash.com/random',
           stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
