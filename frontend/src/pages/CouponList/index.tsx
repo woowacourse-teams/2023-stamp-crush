@@ -32,7 +32,7 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
-  const [isDetailShown, setIsDetailShown] = useState(false);
+  const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
   const [cafeId, setCafeId] = useState(0);
 
   const { data: couponsInfosData, status } = useQuery<{ coupons: CouponType[] }>(
@@ -92,13 +92,13 @@ const CouponList = () => {
 
     setIsDetail(true);
     setTimeout(() => {
-      setIsDetailShown(true);
+      setIsFlippedCouponShown(true);
     }, 700);
   };
 
   const closeCouponDetail = () => {
     setIsDetail(false);
-    setIsDetailShown(false);
+    setIsFlippedCouponShown(false);
   };
 
   return (
@@ -138,7 +138,7 @@ const CouponList = () => {
         onClick={swapCoupon}
         $isLast={isLast}
         $isDetail={isDetail}
-        $isShown={isDetailShown}
+        $isShown={isFlippedCouponShown}
       >
         {couponsInfosData.coupons.map(({ cafeInfo, couponInfos }, index) => (
           <>
@@ -157,7 +157,7 @@ const CouponList = () => {
           cafe={cafeData.cafe}
           closeDetail={closeCouponDetail}
           isDetail={isDetail}
-          isShown={isDetailShown}
+          isShown={isFlippedCouponShown}
         />
       )}
       <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
