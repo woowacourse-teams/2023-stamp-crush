@@ -121,7 +121,7 @@ export const CouponListContainer = styled.div<{
   }
 `;
 
-export const DetailButton = styled.button`
+export const DetailButton = styled.button<{ $isDetail: boolean }>`
   position: absolute;
   bottom: 50px;
   right: 40px;
@@ -131,5 +131,5 @@ export const DetailButton = styled.button`
   outline: none;
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
-  z-index: -1;
+  z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
 `;

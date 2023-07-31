@@ -158,7 +158,7 @@ const CouponList = () => {
           isShown={isDetailShown}
         />
       )}
-      <DetailButton onClick={openCouponDetail} aria-label="쿠폰 상세 보기">
+      <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
         <TbZoomCheck size={32} color={'#424242'} />
       </DetailButton>
     </>
