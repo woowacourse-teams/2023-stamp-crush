@@ -10,6 +10,7 @@ import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,36 +110,44 @@ public class CustomerIntegrationTest extends AcceptanceTest {
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(customer.getPhoneNumber());
 
         // when, then
-        given()
+        RestAssured.given()
+                .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
                 .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+
                 .when()
                 .post("/api/admin/temporary-customers")
+
                 .then()
                 .statusCode(BAD_REQUEST.value())
                 .extract();
     }
 
     private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(Owner owner, String phoneNumber) {
-        return given().log().all()
+        return RestAssured.given().
+                log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
                 .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+
                 .when()
                 .get("/api/admin/customers")
+
                 .then()
                 .log().all()
                 .extract();
     }
 
     private Long createTemporaryCustomer(Owner owner, TemporaryCustomerCreateRequest request) {
-        ExtractableResponse<Response> response = given()
+        ExtractableResponse<Response> response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+
                 .when()
                 .post("/api/admin/temporary-customers")
+
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract();

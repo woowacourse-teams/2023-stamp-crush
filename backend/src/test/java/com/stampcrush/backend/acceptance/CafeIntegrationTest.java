@@ -10,6 +10,7 @@ import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,22 +75,28 @@ public class CafeIntegrationTest extends AcceptanceTest {
 
     @Test
     void 고객이_존재하지_않는_카페를_조회하면_에러가_발생한다() {
-        given()
+        RestAssured.given()
+                .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().preemptive().basic(((RegisterCustomer)customer).getLoginId(), ((RegisterCustomer)customer).getEncryptedPassword())
+                .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
+
                 .when()
                 .get("/api/cafes/" + NOT_EXIST_CAFE_ID)
+
                 .then()
                 .statusCode(NOT_FOUND.value())
                 .extract();
     }
 
     private ExtractableResponse<Response> requestFindCafeByCustomer(Customer customer, Long cafeId) {
-        return given().log().all()
+        return RestAssured.given()
+                .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().preemptive().basic(((RegisterCustomer)customer).getLoginId(), ((RegisterCustomer)customer).getEncryptedPassword())
+                .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
+
                 .when()
                 .get("/api/cafes/" + cafeId)
+
                 .then()
                 .log().all()
                 .extract();

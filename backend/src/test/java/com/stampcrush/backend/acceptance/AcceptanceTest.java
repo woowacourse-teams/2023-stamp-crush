@@ -3,7 +3,6 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.common.DataCleaner;
 import com.stampcrush.backend.common.DataClearExtension;
 import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -26,11 +25,7 @@ public class AcceptanceTest {
 
     @Autowired
     private DataCleaner cleaner;
-
-    protected static RequestSpecification given() {
-        return RestAssured.given().log().all();
-    }
-
+    
     @BeforeEach
     void setup() {
         RestAssured.port = port;
