@@ -2,6 +2,7 @@ package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
@@ -107,6 +108,12 @@ public class CafeService {
         return cafes.stream()
                 .map(CafeFindResultDto::from)
                 .toList();
+    }
+
+    public CafeInfoFindByCustomerResultDto findCafeById(Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페입니다"));
+        return CafeInfoFindByCustomerResultDto.from(cafe);
     }
 
     public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
