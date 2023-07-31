@@ -5,7 +5,7 @@ export const getCafe = async () => {
 };
 
 export const getCustomer = async (phoneNumber: string) => {
-  return await api.get(`/customers?phone-number=${phoneNumber}`);
+  return await api.get(`/admin/customers?phone-number=${phoneNumber}`);
 };
 
 export const getList = async () => {
