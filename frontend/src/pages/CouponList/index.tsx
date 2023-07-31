@@ -24,7 +24,7 @@ import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import { TbZoomCheck } from 'react-icons/tb';
 import CouponDetail from './CouponDetail';
-import { CouponType } from '../../types';
+import { CafeRes, CouponType } from '../../types';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -40,7 +40,9 @@ const CouponList = () => {
     getCoupons,
   );
 
-  const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos'], () => getCafeInfo(cafeId));
+  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], () =>
+    getCafeInfo(cafeId),
+  );
 
   useEffect(() => {
     if (couponsInfosData) setCurrentIndex(couponsInfosData?.coupons.length - 1);
@@ -152,7 +154,7 @@ const CouponList = () => {
       {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
         <CouponDetail
           coupon={getCurrentCoupon()}
-          cafe={cafeData}
+          cafe={cafeData.cafe}
           closeDetail={closeCouponDetail}
           isDetail={isDetail}
           isShown={isDetailShown}

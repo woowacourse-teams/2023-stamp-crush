@@ -24,13 +24,13 @@ interface CouponDetailProps {
 const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDetailProps) => {
   // FIXME: cafeName 등 넘겨받은 데이터 이후에 알맞게 변경
   const couponInfos = coupon.couponInfos[0];
-  const cafeInfo = cafe.cafe;
+
   const cafeName = coupon.cafeInfo.name;
 
   // FIXME: 이후 카페 관리 병합 후 parseUtil 사용
   return (
     <CouponDetailContainer $isDetail={isDetail}>
-      <CafeImage src={cafeInfo.cafeImageUrl} />
+      <CafeImage src={cafe.cafeImageUrl} />
       <FlippedCoupon
         frontImageUrl={couponInfos.frontImageUrl}
         backImageUrl={couponInfos.backImageUrl}
@@ -43,7 +43,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
       </CloseButton>
       <OverviewContainer>
         <Text variant="subTitle">{cafeName}</Text>
-        <Text>{cafe.cafe.introduction}</Text>
+        <Text>{cafe.introduction}</Text>
       </OverviewContainer>
       <ContentContainer>
         <Text>
@@ -52,15 +52,15 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         </Text>
         <Text>
           <FaRegClock size={24} />
-          {`여는 시간 ${cafeInfo.openTime}\n닫는 시간 ${cafeInfo.closeTime}`}
+          {`여는 시간 ${cafe.openTime}\n닫는 시간 ${cafe.closeTime}`}
         </Text>
         <Text>
           <FaPhoneAlt size={24} />
-          {cafeInfo.telephoneNumber}
+          {cafe.telephoneNumber}
         </Text>
         <Text>
           <FaLocationDot size={24} />
-          {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
+          {cafe.roadAddress + ' ' + cafe.detailAddress}
         </Text>
       </ContentContainer>
     </CouponDetailContainer>

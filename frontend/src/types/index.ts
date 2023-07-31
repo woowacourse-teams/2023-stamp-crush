@@ -4,18 +4,20 @@ export interface StampCoordinate {
   yCoordinate: number;
 }
 
+export interface CafeRes {
+  cafe: CafeType;
+}
+
 export interface CafeType {
-  cafe: {
-    id: number;
-    name: string;
-    introduction: string;
-    openTime: string;
-    closeTime: string;
-    telephoneNumber: string;
-    cafeImageUrl: string;
-    roadAddress: string;
-    detailAddress: string;
-  };
+  id: number;
+  name: string;
+  introduction: string;
+  openTime: string;
+  closeTime: string;
+  telephoneNumber: string;
+  cafeImageUrl: string;
+  roadAddress: string;
+  detailAddress: string;
 }
 
 export interface CouponType {
