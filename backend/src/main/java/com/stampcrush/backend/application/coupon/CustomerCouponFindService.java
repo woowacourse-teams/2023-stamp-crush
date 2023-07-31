@@ -12,6 +12,7 @@ import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class CustomerCouponFindService {
     private final CouponRepository couponRepository;
     private final CouponStampCoordinateRepository couponStampCoordinateRepository;
 
+    @Transactional(readOnly = true)
     public List<CustomerCouponFindResultDto> findOneCouponForOneCafe(Long customerId) {
         Customer customer = findExistingCustomer(customerId);
         List<Coupon> coupons = couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING);
