@@ -301,7 +301,7 @@ class CouponServiceTest {
     @Test
     void 존재O_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        TemporaryCustomer leo = temporaryCustomerRepository.save(TemporaryCustomer.from( "1234"));
+        TemporaryCustomer leo = temporaryCustomerRepository.save(TemporaryCustomer.from("1234"));
         CouponDesign couponDesign = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
         CouponPolicy couponPolicy = couponPolicyRepository.save(new CouponPolicy(20, "아메리카노", 8));
 
@@ -503,6 +503,52 @@ class CouponServiceTest {
     }
 
     @Test
+    void 기존에_적립된_스탬프가_있을_때_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프만_적립한다() {
+        // given, when
+        coupon6.accumulate(2);
+        couponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 5));
+
+        // then
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(coupon6.getStatus()).isEqualTo(CouponStatus.ACCUMULATING);
+        softAssertions.assertThat(coupon6.getStampCount()).isEqualTo(7);
+        softAssertions.assertAll();
+    }
+
+    @Test
+    void 기존에_적립된_스탬프가_있을_때_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수와_같으면_리워드를_생성한다() {
+        // given, when
+        coupon6.accumulate(4);
+        couponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 6));
+
+        // then
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(coupon6.getStatus()).isEqualTo(CouponStatus.REWARDED);
+        softAssertions.assertThat(coupon6.getStampCount()).isEqualTo(10);
+        softAssertions.assertThat(rewardRepository.findAllByCustomerIdAndCafeIdAndUsed(registerCustomer2.getId(), cafe1.getId(), false).size()).isEqualTo(1);
+        softAssertions.assertThat(couponRepository.findByCafeAndCustomerAndStatus(cafe1, registerCustomer2, CouponStatus.ACCUMULATING)).isEmpty();
+        softAssertions.assertAll();
+    }
+
+    @Test
+    void 기존에_적립된_스탬프가_있을_때_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_나머지_스탬프가_찍힌다() {
+        // given, when
+        coupon6.accumulate(4);
+
+        couponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 9));
+        List<Coupon> usingCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe1, registerCustomer2, CouponStatus.ACCUMULATING);
+        Coupon usingCoupon = usingCoupons.stream().findAny().get();
+
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(coupon6.getStatus()).isEqualTo(CouponStatus.REWARDED);
+        softAssertions.assertThat(coupon6.getStampCount()).isEqualTo(10);
+        softAssertions.assertThat(rewardRepository.findAllByCustomerIdAndCafeIdAndUsed(registerCustomer2.getId(), cafe1.getId(), false).size()).isEqualTo(1);
+        softAssertions.assertThat(usingCoupons.size()).isEqualTo(1);
+        softAssertions.assertThat(usingCoupon.getStampCount()).isEqualTo(3);
+        softAssertions.assertAll();
+    }
+
+    @Test
     void 카페의_고객_중_적립중인_쿠폰이_없으면_maxStampCount는_0이다() {
         // given, when
         List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafe1.getId());
@@ -520,7 +566,7 @@ class CouponServiceTest {
         // given
         CouponDesign couponDesign = couponDesignRepository.save(COUPON_DESIGN_7);
         CouponPolicy couponPolicy = couponPolicyRepository.save(COUPON_POLICY_7); // max20
-        TemporaryCustomer customer = temporaryCustomerRepository.save(TemporaryCustomer.from( "new tmp customer phone"));
+        TemporaryCustomer customer = temporaryCustomerRepository.save(TemporaryCustomer.from("new tmp customer phone"));
         Coupon coupon = new Coupon(LocalDate.EPOCH, customer, cafe2, couponDesign, couponPolicy);
         Stamp stamp = new Stamp();
         stamp.registerCoupon(coupon);

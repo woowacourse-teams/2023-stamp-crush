@@ -31,7 +31,7 @@ public class Coupon extends BaseDate {
     @Enumerated(EnumType.STRING)
     private CouponStatus status = CouponStatus.ACCUMULATING;
 
-    private Boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
@@ -103,12 +103,22 @@ public class Coupon extends BaseDate {
         return !this.customer.equals(customer) || !this.cafe.equals(cafe);
     }
 
-    public void accumulate() {
-        Stamp stamp = new Stamp();
-        stamp.registerCoupon(this);
+    public void accumulate(int earningStampCount) {
+        for (int i = 0; i < earningStampCount; i++) {
+            Stamp stamp = new Stamp();
+            stamp.registerCoupon(this);
+        }
         if (couponPolicy.isSameMaxStampCount(stamps.size())) {
             status = CouponStatus.REWARDED;
         }
+    }
+
+    public void accumulateMaxStamp() {
+        for (int i = 0; i < couponPolicy.getMaxStampCount(); i++) {
+            Stamp stamp = new Stamp();
+            stamp.registerCoupon(this);
+        }
+        status = CouponStatus.REWARDED;
     }
 
     public int getCouponMaxStampCount() {
@@ -120,6 +130,18 @@ public class Coupon extends BaseDate {
             return couponPolicy.getMaxStampCount();
         }
         return 0;
+    }
+
+    public boolean isLessThanMaxStampAfterAccumulateStamp(int earningStampCount) {
+        return this.stamps.size() + earningStampCount < couponPolicy.getMaxStampCount();
+    }
+
+    public boolean isSameMaxStampAfterAccumulateStamp(int earningStampCount) {
+        return this.stamps.size() + earningStampCount == couponPolicy.getMaxStampCount();
+    }
+
+    public int calculateRestStampCountForReward() {
+        return couponPolicy.getMaxStampCount() - this.stamps.size();
     }
 
     public String getRewardName() {
