@@ -1,5 +1,6 @@
 package com.stampcrush.backend.config;
 
+import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -22,15 +23,12 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(Owner.class);
+        return parameter.getParameterType().equals(OwnerAuth.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String authorization = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authorization == null || !authorization.toLowerCase().startsWith(BASIC_TYPE)) {
-            return null;
-        }
 
         String[] credentials = getCredentials(authorization);
 
@@ -41,7 +39,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerUnAuthorizationException("회원정보가 잘못되었습니다."));
         owner.checkPassword(encryptedPassword);
 
-        return owner;
+        return new OwnerAuth(owner.getId(), owner.getName(), loginId, encryptedPassword, owner.getPhoneNumber());
     }
 
     private String[] getCredentials(String header) {

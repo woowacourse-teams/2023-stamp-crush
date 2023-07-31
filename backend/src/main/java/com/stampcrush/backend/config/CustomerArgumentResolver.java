@@ -1,6 +1,6 @@
 package com.stampcrush.backend.config;
 
-import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.api.CustomerAuth;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -23,15 +23,12 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(RegisterCustomer.class);
+        return parameter.getParameterType().equals(CustomerAuth.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String authorization = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authorization == null || !authorization.toLowerCase().startsWith(BASIC_TYPE)) {
-            return null;
-        }
 
         String[] credentials = getCredentials(authorization);
 
@@ -41,7 +38,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
         RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
         customer.checkPassword(encryptedPassword);
 
-        return customer;
+        return new CustomerAuth(customer.getId(), customer.getNickname(), customer.getPhoneNumber(), loginId, encryptedPassword);
     }
 
     private String[] getCredentials(String header) {
