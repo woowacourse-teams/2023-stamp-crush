@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -48,7 +49,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .forEach(e -> sampleStampCoordinateRepository.save(e));
         sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
 
-        owner = ownerRepository.save(new Owner("jena", "jenaId", "jnpw1234", "01098765432"));
+        owner = ownerRepository.save(OWNER3);
     }
 
     @Disabled

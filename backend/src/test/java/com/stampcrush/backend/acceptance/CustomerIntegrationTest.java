@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
@@ -34,7 +35,7 @@ public class CustomerIntegrationTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        owner = ownerRepository.save(new Owner("jena", "jenaId", "jnpw1234", "01098765432"));
+        owner = ownerRepository.save(OWNER3);
     }
 
     @Test
