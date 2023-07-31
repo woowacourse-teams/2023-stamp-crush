@@ -6,7 +6,7 @@ export const cafes = [
     closeTime: '18:00',
     telephoneNumber: '0212345678',
     cafeImageUrl: 'https://picsum.photos/200/300',
-    roadAddress: '서울 시 송파구',
+    roadAddress: '서울시 송파구',
     detailAddress: '루터회관',
     businessRegistrationNumber: '00-000-00000',
   },
@@ -154,7 +154,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 1,
-        name: '우아한카페',
+        name: '깃짱카페',
       },
       couponInfos: [
         {
@@ -164,7 +164,7 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://woowahan-cdn.woowahan.com/static/image/share_kor.jpg',
+          frontImageUrl: 'https://drive.google.com/uc?export=view&id=1_3XRlwig5m846bBUzUv-VqcOxN1PTyPY',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
           stampImageUrl:
@@ -187,7 +187,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 2,
-        name: '윤생카페',
+        name: '하디카페',
       },
       couponInfos: [
         {
@@ -197,7 +197,7 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://the2.sfo2.cdn.digitaloceanspaces.com/m_photo/268167.webp',
+          frontImageUrl: 'https://drive.google.com/uc?export=view&id=1hdTvv_yBFdpyDpJWrNMMy9JlBKVNNy7D',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC241B.jpg',
           stampImageUrl:
@@ -220,7 +220,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 3,
-        name: '카페, 빛',
+        name: '제나카페',
       },
       couponInfos: [
         {
@@ -231,7 +231,7 @@ export const customerCoupons = {
           maxStampCount: 8,
           rewardName: '아메리카노',
           frontImageUrl:
-            'https://img.freepik.com/premium-vector/golden-bright-star-light-effect-bright-star-beautiful-light-to-illustrate-star-white-sparks-sparkle-with-a-special-light-sparkles-on-transparent-background_220217-2514.jpg',
+            'https://drive.google.com/uc?export=view&id=1Rn4Gb2vE5eKnPL8SrLwlbv1jgGzy6AWE',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC240B.jpg',
           stampImageUrl:
@@ -254,7 +254,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 4,
-        name: '블럭레고카페',
+        name: '레고카페',
       },
       couponInfos: [
         {
@@ -265,7 +265,7 @@ export const customerCoupons = {
           maxStampCount: 10,
           rewardName: '자바칩 프라푸치노 한 잔',
           frontImageUrl:
-            'https://p.turbosquid.com/ts-thumb/0y/GUpc1A/YYRcOWWr/lego_woman_generic_person_thumbnail_0000/jpg/1541672521/600x600/fit_q87/293a4ab10b3b21b10fba9335608cc2eaa0fe4f6c/lego_woman_generic_person_thumbnail_0000.jpg',
+            'https://drive.google.com/uc?export=view&id=1kklV1yLgmqjdQtBPXt4PLhwfrVAP00S5',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2023/NC209B.jpg',
           stampImageUrl:
@@ -288,7 +288,7 @@ export const customerCoupons = {
     {
       cafeInfo: {
         id: 5,
-        name: '크러쉬카페',
+        name: '라잇카페',
       },
       couponInfos: [
         {
@@ -299,11 +299,75 @@ export const customerCoupons = {
           maxStampCount: 8,
           rewardName: '아메리카노',
           frontImageUrl:
-            'https://www.womansense.co.kr/upload/woman/article/201912/thumb/43651-396205-sampleM.jpg',
+            'https://drive.google.com/uc?export=view&id=1Jm0UYUrbkXWLhP6GxrXTTWzcI-zREWyF',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
           stampImageUrl:
             'https://blog.kakaocdn.net/dn/Idhl1/btqDj3EXl1n/Q8AkpYkKmc3wkAyXJZX3g0/img.png',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 6,
+        name: '윤생카페',
+      },
+      couponInfos: [
+        {
+          id: 6,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1ngMdF1isvQlhsZfBI0VNp5VMsGQZ9cgb',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
+          coordinates: [
+            {
+              order: 1,
+              xCoordinate: 2,
+              yCoordinate: 5,
+            },
+            {
+              order: 2,
+              xCoordinate: 5,
+              yCoordinate: 5,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      cafeInfo: {
+        id: 7,
+        name: '레오카페',
+      },
+      couponInfos: [
+        {
+          id: 7,
+          isFavorites: true,
+          status: 'ACCUMULATING',
+          stampCount: 3,
+          maxStampCount: 8,
+          rewardName: '아메리카노',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+          backImageUrl: 'https://source.unsplash.com/random',
+          stampImageUrl: 'https://source.unsplash.com/random',
           coordinates: [
             {
               order: 1,

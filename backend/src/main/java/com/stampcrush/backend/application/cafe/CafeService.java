@@ -2,6 +2,8 @@ package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -11,6 +13,7 @@ import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
 import com.stampcrush.backend.entity.sample.SampleStampImage;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
@@ -18,6 +21,7 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
+import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +42,7 @@ public class CafeService {
     private final SampleFrontImageRepository sampleFrontImageRepository;
     private final SampleBackImageRepository sampleBackImageRepository;
     private final SampleStampImageRepository sampleStampImageRepository;
+    private final SampleStampCoordinateRepository sampleStampCoordinateRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
@@ -76,6 +81,7 @@ public class CafeService {
     private void assignDefaultSampleCafeCouponToCafe(Cafe savedCafe) {
         SampleFrontImage defaultSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
         SampleBackImage defaultSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
+        sampleStampCoordinateRepository.save(new SampleStampCoordinate(1, 100, 100, defaultSampleBackImage));
         SampleStampImage defaultSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
         CafeCouponDesign defaultCafeCouponDesign = new CafeCouponDesign(
                 defaultSampleFrontImage.getImageUrl(),
@@ -85,11 +91,13 @@ public class CafeService {
                 savedCafe
         );
         cafeCouponDesignRepository.save(defaultCafeCouponDesign);
-        for (SampleStampCoordinate sampleStampCoordinate : defaultSampleBackImage.getSampleStampCoordinates()) {
+        List<SampleStampCoordinate> sampleStampCoordinates = sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(defaultSampleBackImage);
+        for (SampleStampCoordinate sampleStampCoordinate : sampleStampCoordinates) {
             CafeStampCoordinate cafeStampCoordinate = new CafeStampCoordinate(sampleStampCoordinate.getStampOrder(),
                     sampleStampCoordinate.getXCoordinate(),
                     sampleStampCoordinate.getYCoordinate(),
-                    defaultCafeCouponDesign);
+                    defaultCafeCouponDesign
+            );
             cafeStampCoordinateRepository.save(cafeStampCoordinate);
         }
     }
@@ -100,5 +108,22 @@ public class CafeService {
         return cafes.stream()
                 .map(CafeFindResultDto::from)
                 .toList();
+    }
+
+    public CafeInfoFindByCustomerResultDto findCafeById(Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페입니다"));
+        return CafeInfoFindByCustomerResultDto.from(cafe);
+    }
+
+    public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
+        cafe.updateCafeAdditionalInformation(
+                cafeUpdateDto.getOpenTime(),
+                cafeUpdateDto.getCloseTime(),
+                cafeUpdateDto.getTelephoneNumber(),
+                cafeUpdateDto.getCafeImageUrl()
+        );
     }
 }
