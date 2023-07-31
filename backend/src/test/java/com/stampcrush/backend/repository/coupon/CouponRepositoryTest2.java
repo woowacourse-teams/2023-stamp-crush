@@ -136,7 +136,7 @@ class CouponRepositoryTest2 {
 
         int stampCount = 4;
         for (int i = 0; i < stampCount; i++) {
-            gitchanCafeCoupon.accumulate();
+            gitchanCafeCoupon.accumulate(1);
         }
 
         em.flush();
@@ -214,7 +214,7 @@ class CouponRepositoryTest2 {
 
     private void changeCafeCouponStatusToRewarded(Coupon gitchanCafeCoupon, Integer maxStampCount) {
         for (int i = 0; i < maxStampCount; i++) {
-            gitchanCafeCoupon.accumulate();
+            gitchanCafeCoupon.accumulate(1);
         }
     }
 }

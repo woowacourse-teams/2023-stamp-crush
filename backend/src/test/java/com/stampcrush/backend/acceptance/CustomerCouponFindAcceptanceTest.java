@@ -109,7 +109,7 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
         Coupon gitchanCafeCoupon = couponRepository.findById(couponId).get();
         int couponMaxStampCount = gitchanCafeCoupon.getCouponMaxStampCount();
         for (int i = 0; i < couponMaxStampCount; i++) {
-            gitchanCafeCoupon.accumulate();
+            gitchanCafeCoupon.accumulate(1);
         }
     }
 }
