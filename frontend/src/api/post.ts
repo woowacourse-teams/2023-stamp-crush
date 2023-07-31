@@ -2,6 +2,7 @@ import { api } from '.';
 import { CouponSettingDto } from '../pages/Admin/CustomCouponDesign';
 import { StampFormData } from '../pages/Admin/EarnStamp';
 import { CafeFormData } from '../pages/Admin/RegisterCafe';
+import { PostIsFavoritesReq } from '../pages/CouponList';
 
 export const postEarnStamp = async ({
   earningStampCount,
@@ -43,8 +44,8 @@ export const postRegisterCafe = async ({
   });
 };
 
-export const postIsFavorites = async (couponId: number, isFavorites: boolean) => {
-  await api.post(`/coupons/${couponId}/favorites`, {
+export const postIsFavorites = async ({ cafeId, isFavorites }: PostIsFavoritesReq) => {
+  await api.post(`/cafes/${cafeId}/favorites`, {
     isFavorites,
   });
 };
