@@ -225,7 +225,7 @@ public class CafeServiceTest {
                 "99999",
                 "image"
         );
-        hadiCafe.update(
+        hadiCafe.updateCafeAdditionalInformation(
                 cafeUpdateDto.getOpenTime(),
                 cafeUpdateDto.getCloseTime(),
                 cafeUpdateDto.getTelephoneNumber(),

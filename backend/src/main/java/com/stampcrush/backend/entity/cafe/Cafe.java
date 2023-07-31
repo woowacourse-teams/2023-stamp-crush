@@ -65,7 +65,7 @@ public class Cafe extends BaseDate {
     protected Cafe() {
     }
 
-    public void update(LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl) {
+    public void updateCafeAdditionalInformation(LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl) {
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.telephoneNumber = telephoneNumber;

@@ -107,7 +107,7 @@ public class CafeService {
     public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
-        cafe.update(
+        cafe.updateCafeAdditionalInformation(
                 cafeUpdateDto.getOpenTime(),
                 cafeUpdateDto.getCloseTime(),
                 cafeUpdateDto.getTelephoneNumber(),
