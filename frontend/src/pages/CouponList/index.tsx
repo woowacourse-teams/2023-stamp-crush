@@ -14,7 +14,7 @@ import {
 } from './style';
 import { useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
@@ -60,6 +60,7 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const queryClient = useQueryClient();
   const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
@@ -70,6 +71,13 @@ const CouponList = () => {
     {
       onSuccess: () => {
         closeModal();
+      },
+      onMutate: async () => {
+        await queryClient.cancelQueries(['coupons']);
+        queryClient.setQueryData(['coupons'], ({ coupons }: any) => {
+          coupons[currentIndex].couponInfos[0].isFavorites =
+            !coupons[currentIndex].couponInfos[0].isFavorites;
+        });
       },
     },
   );
