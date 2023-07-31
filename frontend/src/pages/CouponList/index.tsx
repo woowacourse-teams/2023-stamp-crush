@@ -12,8 +12,8 @@ import {
   ProgressBarContainer,
   StampCount,
 } from './style';
-import { useRef, useState } from 'react';
-import { getCoupons } from '../../api/get';
+import { MouseEvent, useRef, useState } from 'react';
+import { getCafeInfo, getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
@@ -22,6 +22,8 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
+import CouponDetail from './CouponDetail';
+import { CafeRes, CouponType } from '../../types';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
@@ -37,35 +39,22 @@ interface CouponRes {
   coupons: CouponType[];
 }
 
-interface CouponType {
-  cafeInfo: {
-    id: number;
-    name: string;
-  };
-  couponInfos: [
-    {
-      id: number;
-      isFavorites: boolean;
-      stampCount: number;
-      maxStampCount: number;
-      rewardName: string;
-      frontImageUrl: string;
-      backImageUrl: string;
-      stampImageUrl: string;
-      // TODO: coordinate
-    },
-  ];
-}
-
 const CouponList = () => {
   const navigate = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isDetail, setIsDetail] = useState(false);
+  const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
+  const [cafeId, setCafeId] = useState(0);
+  const couponListContainerRef = useRef<HTMLDivElement>(null);
+
   const queryClient = useQueryClient();
-  const { data: couponRes, status } = useQuery<CouponRes>(['coupons'], getCoupons, {
+  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], () =>
+    getCafeInfo(cafeId),
+  );
+  const { data: couponRes, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
     },
@@ -80,7 +69,6 @@ const CouponList = () => {
         await queryClient.cancelQueries(['coupons']);
         queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
           if (!prev) return;
-
           prev.coupons[currentIndex].couponInfos[0].isFavorites =
             !prev.coupons[currentIndex].couponInfos[0].isFavorites;
           return undefined;
@@ -89,14 +77,14 @@ const CouponList = () => {
     },
   );
 
-  if (status === 'error') return <>에러가 발생했습니다.</>;
-  if (status === 'loading') return <>로딩 중입니다.</>;
+  if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
+  if (couponStatus === 'loading') return <>로딩 중입니다.</>;
 
   const { coupons } = couponRes;
   const currentCoupon = coupons[currentIndex];
 
-  const swapCoupon = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!couponListContainerRef.current) return;
+  const swapCoupon = (e: MouseEvent<HTMLDivElement>) => {
+    if (!couponListContainerRef.current || isDetail) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
@@ -117,6 +105,20 @@ const CouponList = () => {
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
+  };
+
+  const openCouponDetail = () => {
+    setCafeId(currentCoupon.cafeInfo.id);
+
+    setIsDetail(true);
+    setTimeout(() => {
+      setIsFlippedCouponShown(true);
+    }, 700);
+  };
+
+  const closeCouponDetail = () => {
+    setIsDetail(false);
+    setIsFlippedCouponShown(false);
   };
 
   const openAlert = () => {
@@ -142,14 +144,14 @@ const CouponList = () => {
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
-          <CafeName>{currentCoupon.cafeInfo.name}</CafeName>
+          <CafeName aria-label="카페 이름">{currentCoupon.cafeInfo.name}</CafeName>
           {currentCoupon.couponInfos[0].isFavorites ? (
             <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
           ) : (
             <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
           )}
         </NameContainer>
-        <ProgressBarContainer>
+        <ProgressBarContainer aria-label="스탬프 개수">
           <Color
             src={currentCoupon.couponInfos[0].frontImageUrl}
             format="hex"
@@ -170,17 +172,34 @@ const CouponList = () => {
           <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
-      <CouponListContainer ref={couponListContainerRef} onClick={swapCoupon} $isLast={isLast}>
+      <CouponListContainer
+        ref={couponListContainerRef}
+        onClick={swapCoupon}
+        $isLast={isLast}
+        $isDetail={isDetail}
+        $isShown={isFlippedCouponShown}
+      >
         {coupons.map(({ cafeInfo, couponInfos }, index) => (
-          <Coupon
-            key={cafeInfo.id}
-            frontImageUrl={couponInfos[0].frontImageUrl}
-            data-index={index}
-            onClick={changeCurrentIndex(index)}
-          />
+          <>
+            <Coupon
+              key={cafeInfo.id}
+              coupon={{ cafeInfo, couponInfos }}
+              data-index={index}
+              onClick={changeCurrentIndex(index)}
+            />
+          </>
         ))}
       </CouponListContainer>
-      <DetailButton>
+      {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
+        <CouponDetail
+          coupon={currentCoupon}
+          cafe={cafeData.cafe}
+          closeDetail={closeCouponDetail}
+          isDetail={isDetail}
+          isShown={isFlippedCouponShown}
+        />
+      )}
+      <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
         <CiCircleMore size={36} color={'#424242'} />
       </DetailButton>
       {isOpen && (
@@ -197,3 +216,4 @@ const CouponList = () => {
 };
 
 export default CouponList;
+

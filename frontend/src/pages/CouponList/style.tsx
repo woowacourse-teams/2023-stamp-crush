@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { swap } from '../../style/keyframes';
+import { detail, swap } from '../../style/keyframes';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -61,7 +61,7 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   width: 100vw;
   overflow: hidden;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   background: linear-gradient(
@@ -73,21 +73,42 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   opacity: 0.7;
 `;
 
-export const CouponListContainer = styled.div<{ $isLast: boolean }>`
+export const CouponListContainer = styled.div<{
+  $isLast: boolean;
+  $isDetail: boolean;
+  $isShown: boolean;
+}>`
   display: flex;
   justify-content: center;
   position: relative;
   height: 270px;
+  transition: all 0.1s;
 
   :nth-last-child(1) {
+    z-index: ${({ $isShown }) => ($isShown ? '-1' : '3')};
     transform: translateY(15px) scale(1.05);
     animation: ${({ $isLast }) =>
       $isLast
         ? css`
-            ${swap} 0.7s forwards
+            ${swap} 0.5s forwards
           `
         : 'none'};
+    transition: transform 0.4s;
+    cursor: pointer;
   }
+
+  ${({ $isDetail }) =>
+    $isDetail &&
+    css`
+      :nth-last-child(1) {
+        transform: translateY(-250%) scale(0.86);
+        animation: ${detail} 0.3s;
+      }
+      :nth-last-child(n + 2) {
+        display: none;
+      }
+    `}
+
   :nth-last-child(2) {
     transform: translateY(0px) scale(1);
     pointer-events: none;
@@ -102,7 +123,7 @@ export const CouponListContainer = styled.div<{ $isLast: boolean }>`
   }
 `;
 
-export const DetailButton = styled.button`
+export const DetailButton = styled.button<{ $isDetail: boolean }>`
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -112,4 +133,5 @@ export const DetailButton = styled.button`
   outline: none;
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
+  z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
 `;
