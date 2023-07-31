@@ -20,6 +20,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class CafeIntegrationTest extends AcceptanceTest {
 
+    private static final int NOT_EXIST_CAFE_ID = 1;
+
     @Autowired
     private CafeRepository cafeRepository;
 
@@ -60,7 +62,7 @@ public class CafeIntegrationTest extends AcceptanceTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get("/api/cafes/" + 1)
+                .get("/api/cafes/" + NOT_EXIST_CAFE_ID)
                 .then()
                 .statusCode(NOT_FOUND.value())
                 .extract();
