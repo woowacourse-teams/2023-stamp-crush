@@ -33,7 +33,7 @@ const EarnStamp = () => {
     (formData: StampFormData) => postEarnStamp(formData),
     {
       onSuccess: () => {
-        navigate(ROUTER_PATH.admin);
+        navigate(ROUTER_PATH.customerList);
       },
       onError: () => {
         throw new Error('스탬프 적립에 실패했습니다.');

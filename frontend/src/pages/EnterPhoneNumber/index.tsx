@@ -8,7 +8,7 @@ const EnterPhoneNumber = () => {
   const navigate = useNavigate();
 
   const navigateBack = () => {
-    navigate(ROUTER_PATH.admin);
+    navigate(ROUTER_PATH.customerList);
   };
 
   return (

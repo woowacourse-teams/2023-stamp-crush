@@ -28,14 +28,27 @@ const ModifyCouponPolicy = () => {
       return;
     }
 
-    navigate(ROUTER_PATH.customCouponDesign, {
-      state: {
-        createdType,
-        reward: rewardInputRef.current?.value,
-        expirePeriod: expireSelect.value,
-        stampCount: stampCount.value,
-      },
-    });
+    if (createdType === 'template') {
+      navigate(ROUTER_PATH.templateCouponDesign, {
+        state: {
+          createdType,
+          reward: rewardInputRef.current?.value,
+          expireSelect,
+          stampCount: stampCount.value,
+        },
+      });
+    }
+
+    if (createdType === 'custom') {
+      navigate(ROUTER_PATH.customCouponDesign, {
+        state: {
+          createdType,
+          reward: rewardInputRef.current?.value,
+          expireSelect,
+          stampCount: stampCount.value,
+        },
+      });
+    }
   };
 
   return (

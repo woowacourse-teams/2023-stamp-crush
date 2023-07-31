@@ -2,7 +2,7 @@ import { keyframes } from 'styled-components';
 
 export const swap = keyframes`
   50% {
-    transform: translateY(-200px) scale(0.55) rotate(-15deg);
+    transform: translateY(-250px) scale(0.55) rotate(-15deg);
     animation-timing-function: ease-in;
   }
   100% {
