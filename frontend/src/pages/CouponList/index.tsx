@@ -14,7 +14,7 @@ import {
 } from './style';
 import { useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
@@ -25,6 +25,13 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
+import { postIsFavorites } from '../../api/post';
+
+// TODO: 추후에 types 폴더로 위치 변경
+export interface PostIsFavoritesReq {
+  cafeId: number;
+  isFavorites: boolean;
+}
 
 interface CouponType {
   cafeInfo: {
@@ -52,7 +59,20 @@ const CouponList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
   const [isLast, setIsLast] = useState(false);
-  const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {});
+  const [alertMessage, setAlertMessage] = useState('');
+  const { data, status } = useQuery<{ coupons: CouponType[] }>(['coupons'], getCoupons, {
+    onSuccess: (data) => {
+      setCurrentIndex(data.coupons.length - 1);
+    },
+  });
+  const { mutate: mutateIsFavorites } = useMutation(
+    ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
+    {
+      onSuccess: () => {
+        closeModal();
+      },
+    },
+  );
 
   if (status === 'error') return <>에러가 발생했습니다.</>;
   if (status === 'loading') return <>로딩 중입니다.</>;
@@ -71,7 +91,10 @@ const CouponList = () => {
   };
 
   const changeCurrentIndex = (index: number) => () => {
-    setCurrentIndex(index);
+    setCurrentIndex((prevIndex) => {
+      if (data) return index === 0 ? data.coupons.length - 1 : index - 1;
+      return prevIndex;
+    });
   };
 
   const getCurrentCoupon = () => data.coupons[currentIndex];
@@ -80,8 +103,19 @@ const CouponList = () => {
     navigate(ROUTER_PATH.myPage);
   };
 
-  const changeFavorites = (isFavorites: boolean) => () => {
+  const openAlert = () => {
     openModal();
+
+    getCurrentCoupon().couponInfos[0].isFavorites
+      ? setAlertMessage(`${getCurrentCoupon().cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
+      : setAlertMessage(`${getCurrentCoupon().cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
+  };
+
+  const changeFavorites = () => {
+    mutateIsFavorites({
+      cafeId: getCurrentCoupon().cafeInfo.id,
+      isFavorites: getCurrentCoupon().couponInfos[0].isFavorites,
+    });
   };
 
   return (
@@ -94,9 +128,9 @@ const CouponList = () => {
         <NameContainer>
           <CafeName>{getCurrentCoupon().cafeInfo.name}</CafeName>
           {getCurrentCoupon().couponInfos[0].isFavorites ? (
-            <AiFillStar size={40} color={'#FFD600'} onClick={changeFavorites(false)} />
+            <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
           ) : (
-            <AiOutlineStar size={40} color={'#FFD600'} onClick={changeFavorites(true)} />
+            <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
           )}
         </NameContainer>
         <ProgressBarContainer>
@@ -135,10 +169,10 @@ const CouponList = () => {
       </DetailButton>
       {isOpen && (
         <Alert
-          text={`${getCurrentCoupon().cafeInfo.name}를 찜하시겠어요?`}
-          rightOption={'찜하기'}
-          leftOption={'닫기'}
-          onClickRight={closeModal}
+          text={alertMessage}
+          rightOption={'네'}
+          leftOption={'아니오'}
+          onClickRight={changeFavorites}
           onClickLeft={closeModal}
         />
       )}
