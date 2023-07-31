@@ -19,7 +19,7 @@ export const patchCafeInfo = async (
   cafeId: number,
   { openTime, closeTime, telephoneNumber, cafeImageUrl, introduction }: CafeInfoBody,
 ) => {
-  await api.patch(`/cafes/${cafeId}`, {
+  await api.patch(`/admin/cafes/${cafeId}`, {
     openTime,
     closeTime,
     telephoneNumber,

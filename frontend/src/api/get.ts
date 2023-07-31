@@ -5,15 +5,17 @@ export const getCafe = async () => {
 };
 
 export const getCustomer = async (phoneNumber: string) => {
-  return await api.get(`/customers?phone-number=${phoneNumber}`);
+  return await api.get(`/admin/customers?phone-number=${phoneNumber}`);
 };
 
+// FIXME: cafeId 매개변수로 받아와서 처리
 export const getList = async () => {
-  return await api.get('/cafes/1/customers');
+  const cafeId = 1;
+  return await api.get(`/admin/cafes/${cafeId}/customers`);
 };
 
 export const getCoupon = async (customerId: string, cafeId: string) => {
-  return await api.get(`/customers/${customerId}/coupons?cafeId=${cafeId}&active=true`);
+  return await api.get(`/admin/customers/${customerId}/coupons?cafe-id=${cafeId}&active=true`);
 };
 
 export const getReward = async (customerId: number | undefined, cafeId: number) => {
@@ -21,11 +23,11 @@ export const getReward = async (customerId: number | undefined, cafeId: number) 
     throw new Error('잘못된 요청입니다.');
   }
 
-  return await api.get(`/customers/${customerId}/rewards?cafeId=${cafeId}&used=${false}`);
+  return await api.get(`/admin/customers/${customerId}/rewards?cafe-id=${cafeId}&used=${false}`);
 };
 
 export const getCouponSamples = async (maxStampCount: number) => {
-  return await api.get(`/coupon-samples?max-stamp-count=${maxStampCount}`);
+  return await api.get(`/admin/coupon-samples?max-stamp-count=${maxStampCount}`);
 };
 
 export const getCoupons = async () => {

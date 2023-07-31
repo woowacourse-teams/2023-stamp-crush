@@ -20,7 +20,6 @@ export interface StampFormData {
   earningStampCount: number;
   customerId: string;
   couponId: string;
-  ownerId: string;
 }
 
 const EarnStamp = () => {
@@ -52,7 +51,6 @@ const EarnStamp = () => {
       earningStampCount: stamp,
       customerId: state.customer.id,
       couponId: couponResponse.coupons[0].id,
-      ownerId: '1',
     };
     mutate(stampData);
   };

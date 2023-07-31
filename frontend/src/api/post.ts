@@ -4,39 +4,33 @@ import { StampFormData } from '../pages/Admin/EarnStamp';
 import { CafeFormData } from '../pages/Admin/RegisterCafe';
 import { PostIsFavoritesReq } from '../pages/CouponList';
 
-export const postEarnStamp = async ({
-  earningStampCount,
-  customerId,
-  couponId,
-  ownerId,
-}: StampFormData) => {
-  await api.post(`/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
+export const postEarnStamp = async ({ earningStampCount, customerId, couponId }: StampFormData) => {
+  await api.post(`/admin/customers/${customerId}/coupons/${couponId}/stamps`, {
     earningStampCount,
   });
 };
 
 export const postRegisterUser = async (phoneNumber: string) => {
-  await api.post('/temporary-customers', { phoneNumber });
+  await api.post('/admin/temporary-customers', { phoneNumber });
 };
 
 export const postIssueCoupon = async (customerId: string) => {
   return await api
-    .post(`/customers/${customerId}/coupons`, { cafeId: '1' })
+    .post(`/admin/customers/${customerId}/coupons`, { cafeId: '1' })
     .then((response) => response.json());
 };
 
-export const postCouponSetting = async (couponConfig: CouponSettingDto) => {
-  return await api.post('/coupon-setting', couponConfig);
+export const postCouponSetting = async (cafeId: number, couponConfig: CouponSettingDto) => {
+  return await api.post(`/admin/coupon-setting?cafe-id=${cafeId}`, couponConfig);
 };
 
 export const postRegisterCafe = async ({
-  ownerId,
   businessRegistrationNumber,
   name,
   roadAddress,
   detailAddress,
 }: CafeFormData) => {
-  await api.post(`/cafes/${ownerId}`, {
+  await api.post('/admin/cafes', {
     businessRegistrationNumber,
     name,
     roadAddress,
