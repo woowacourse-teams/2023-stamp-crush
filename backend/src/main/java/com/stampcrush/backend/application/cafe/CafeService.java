@@ -2,6 +2,7 @@ package com.stampcrush.backend.application.cafe;
 
 import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -11,6 +12,7 @@ import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
 import com.stampcrush.backend.entity.sample.SampleStampImage;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
@@ -100,5 +102,16 @@ public class CafeService {
         return cafes.stream()
                 .map(CafeFindResultDto::from)
                 .toList();
+    }
+
+    public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
+        cafe.updateCafeAdditionalInformation(
+                cafeUpdateDto.getOpenTime(),
+                cafeUpdateDto.getCloseTime(),
+                cafeUpdateDto.getTelephoneNumber(),
+                cafeUpdateDto.getCafeImageUrl()
+        );
     }
 }
