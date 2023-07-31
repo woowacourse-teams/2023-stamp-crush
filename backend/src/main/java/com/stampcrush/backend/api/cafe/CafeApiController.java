@@ -53,12 +53,7 @@ public class CafeApiController {
             @PathVariable Long cafeId,
             @RequestBody @Valid CafeUpdateRequest request
     ) {
-        CafeUpdateDto cafeUpdateDto = new CafeUpdateDto(
-                request.getOpenTime(),
-                request.getCloseTime(),
-                request.getTelephoneNumber(),
-                request.getCafeImageUrl()
-        );
+        CafeUpdateDto cafeUpdateDto = request.toServiceDto();
 
         cafeService.updateCafeInfo(cafeUpdateDto, cafeId);
         return ResponseEntity.ok().build();
