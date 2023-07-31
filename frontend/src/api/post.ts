@@ -3,13 +3,8 @@ import { CouponSettingDto } from '../pages/Admin/CustomCouponDesign';
 import { StampFormData } from '../pages/Admin/EarnStamp';
 import { CafeFormData } from '../pages/Admin/RegisterCafe';
 
-export const postEarnStamp = async ({
-  earningStampCount,
-  customerId,
-  couponId,
-  ownerId,
-}: StampFormData) => {
-  await api.post(`/customers/${customerId}/coupons/${couponId}/stamps/${ownerId}`, {
+export const postEarnStamp = async ({ earningStampCount, customerId, couponId }: StampFormData) => {
+  await api.post(`/admin/customers/${customerId}/coupons/${couponId}/stamps`, {
     earningStampCount,
   });
 };

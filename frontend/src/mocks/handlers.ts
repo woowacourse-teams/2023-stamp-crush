@@ -165,24 +165,21 @@ export const handlers = [
   }),
 
   // 스탬프 적립
-  rest.post(
-    '/admin/customers/:customerId/coupons/:couponId/stamps/:ownerId',
-    async (req, res, ctx) => {
-      const { customerId, couponId } = req.params;
-      const { earningStampCount } = await req.json();
-      const findCustomer = coupons.find(
-        (coupon) => +customerId === coupon.customerId && +couponId === coupon.id,
-      );
+  rest.post('/admin/customers/:customerId/coupons/:couponId/stamps', async (req, res, ctx) => {
+    const { customerId, couponId } = req.params;
+    const { earningStampCount } = await req.json();
+    const findCustomer = coupons.find(
+      (coupon) => +customerId === coupon.customerId && +couponId === coupon.id,
+    );
 
-      if (!findCustomer) {
-        return res(ctx.status(400));
-      }
+    if (!findCustomer) {
+      return res(ctx.status(400));
+    }
 
-      findCustomer.stampCount += +earningStampCount;
+    findCustomer.stampCount += +earningStampCount;
 
-      return res(ctx.status(201));
-    },
-  ),
+    return res(ctx.status(201));
+  }),
 
   // 카페 사장이 고객 목록 조회 가능
   rest.get('/admin/cafes/:cafeId/customers', (req, res, ctx) => {
