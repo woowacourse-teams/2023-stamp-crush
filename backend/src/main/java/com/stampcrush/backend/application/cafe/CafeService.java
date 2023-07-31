@@ -114,6 +114,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페입니다"));
         return CafeInfoFindByCustomerResultDto.from(cafe);
+    }
 
     public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
