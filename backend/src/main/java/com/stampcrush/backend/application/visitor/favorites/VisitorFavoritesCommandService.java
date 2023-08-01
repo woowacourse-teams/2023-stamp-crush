@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class FavoritesService {
+public class VisitorFavoritesCommandService {
 
     private final FavoritesRepository favoritesRepository;
     private final CafeRepository cafeRepository;

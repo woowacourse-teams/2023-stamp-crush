@@ -19,8 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
-public class CustomerCouponFindService {
+public class VisitorCustomerCouponFindService {
 
     private static final Boolean IS_FAVORITES_TEMPORARY_VALUE = Boolean.TRUE;
 
@@ -28,7 +29,6 @@ public class CustomerCouponFindService {
     private final CouponRepository couponRepository;
     private final CouponStampCoordinateRepository couponStampCoordinateRepository;
 
-    @Transactional(readOnly = true)
     public List<CustomerCouponFindResultDto> findOneCouponForOneCafe(Long customerId) {
         Customer customer = findExistingCustomer(customerId);
         List<Coupon> coupons = couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING);

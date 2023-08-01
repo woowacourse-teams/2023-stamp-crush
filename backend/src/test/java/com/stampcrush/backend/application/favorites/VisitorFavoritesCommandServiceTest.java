@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.favorites;
 
-import com.stampcrush.backend.application.visitor.favorites.FavoritesService;
+import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.favorites.Favorites;
 import com.stampcrush.backend.entity.user.Owner;
@@ -22,10 +22,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FavoritesServiceTest {
+public class VisitorFavoritesCommandServiceTest {
 
     @InjectMocks
-    private FavoritesService favoritesService;
+    private VisitorFavoritesCommandService visitorFavoritesCommandService;
 
     @Mock
     private CafeRepository cafeRepository;
@@ -44,7 +44,7 @@ public class FavoritesServiceTest {
                 .thenReturn(Optional.empty());
 
         // when, then
-        assertThatThrownBy(() -> favoritesService.changeFavorites(customer, cafeId, isFavorites))
+        assertThatThrownBy(() -> visitorFavoritesCommandService.changeFavorites(customer, cafeId, isFavorites))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -62,7 +62,7 @@ public class FavoritesServiceTest {
                 .thenReturn(Optional.empty());
 
         // when
-        favoritesService.changeFavorites(customer, cafeId, isFavorites);
+        visitorFavoritesCommandService.changeFavorites(customer, cafeId, isFavorites);
 
         // then
         verify(cafeRepository, times(1)).findById(anyLong());
@@ -85,7 +85,7 @@ public class FavoritesServiceTest {
                 .thenReturn(Optional.of(favorites));
 
         // when
-        favoritesService.changeFavorites(customer, cafeId, isFavorites);
+        visitorFavoritesCommandService.changeFavorites(customer, cafeId, isFavorites);
 
         // then
         verify(cafeRepository, times(1)).findById(anyLong());

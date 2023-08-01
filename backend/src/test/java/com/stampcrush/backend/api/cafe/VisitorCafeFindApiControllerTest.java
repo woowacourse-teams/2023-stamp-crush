@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
-import com.stampcrush.backend.application.visitor.cafe.CafeService;
+import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -32,7 +32,7 @@ class VisitorCafeFindApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private CafeService cafeService;
+    private VisitorCafeFindService visitorCafeFindService;
     @MockBean
     private OwnerRepository ownerRepository;
     @MockBean
@@ -73,7 +73,7 @@ class VisitorCafeFindApiControllerTest {
     void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
         // given
         when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
-        when(cafeService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
+        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + CAFE_ID)
