@@ -1,7 +1,5 @@
 package com.stampcrush.backend.application.manager.reward;
 
-import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
-import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
@@ -13,24 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class RewardService {
+public class ManagerRewardCommandService {
 
     private final RewardRepository rewardRepository;
     private final CustomerRepository customerRepository;
     private final CafeRepository cafeRepository;
-
-    @Transactional(readOnly = true)
-    public List<RewardFindResultDto> findRewards(RewardFindDto rewardFindDto) {
-        List<Reward> rewards = rewardRepository.findAllByCustomerIdAndCafeIdAndUsed(rewardFindDto.getCustomerId(), rewardFindDto.getCafeId(), rewardFindDto.isUsed());
-        return rewards.stream()
-                .map(reward -> new RewardFindResultDto(reward.getId(), reward.getName()))
-                .toList();
-    }
 
     public void useReward(RewardUsedUpdateDto rewardUsedUpdateDto) {
         Reward reward = rewardRepository.findById(rewardUsedUpdateDto.getRewardId())

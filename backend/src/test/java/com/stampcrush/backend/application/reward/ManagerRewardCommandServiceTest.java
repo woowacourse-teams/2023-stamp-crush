@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.reward;
 
-import com.stampcrush.backend.application.manager.reward.RewardService;
+import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
+import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
@@ -29,10 +30,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Transactional
 @SpringBootTest
-class RewardServiceTest {
+class ManagerRewardCommandServiceTest {
 
     @Autowired
-    private RewardService rewardService;
+    private ManagerRewardCommandService managerRewardCommandService;
+
+    @Autowired
+    private ManagerRewardFindService managerRewardFindService;
 
     @Autowired
     private RewardRepository rewardRepository;
@@ -79,7 +83,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        rewardService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(rewardUsedUpdateDto);
 
         // then
         assertThat(unusedReward.getUsed()).isTrue();
@@ -91,7 +95,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), Long.MAX_VALUE, cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -101,7 +105,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(Long.MAX_VALUE, registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -111,7 +115,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), Long.MAX_VALUE, true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -121,7 +125,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), temporaryCustomer.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -129,10 +133,10 @@ class RewardServiceTest {
     void 이미_사용된_리워드를_사용하려하면_예외를_던진다() {
         //given
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
-        rewardService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(rewardUsedUpdateDto);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -142,7 +146,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_2.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -152,7 +156,7 @@ class RewardServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_2.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> rewardService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -162,7 +166,7 @@ class RewardServiceTest {
         RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        List<RewardFindResultDto> rewards = rewardService.findRewards(rewardFindDto);
+        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(0);
@@ -174,7 +178,7 @@ class RewardServiceTest {
         RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), false);
 
         // when
-        List<RewardFindResultDto> rewards = rewardService.findRewards(rewardFindDto);
+        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(1);

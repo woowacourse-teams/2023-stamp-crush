@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.reward;
 
 import com.stampcrush.backend.api.manager.reward.request.RewardUsedUpdateRequest;
-import com.stampcrush.backend.application.manager.reward.RewardService;
+import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin/customers/{customerId}/rewards")
 public class ManagerRewardCommandApiController {
 
-    private final RewardService rewardService;
+    private final ManagerRewardCommandService managerRewardCommandService;
 
     @PatchMapping("/{rewardId}")
     public ResponseEntity<Void> updateRewardToUsed(
@@ -24,7 +24,7 @@ public class ManagerRewardCommandApiController {
             @RequestBody @Valid RewardUsedUpdateRequest request
     ) {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.getUsed());
-        rewardService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(rewardUsedUpdateDto);
         return ResponseEntity.ok().build();
     }
 }
