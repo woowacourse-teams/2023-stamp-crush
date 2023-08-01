@@ -26,7 +26,6 @@ export const NameContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   height: 36px;
   gap: 10px;
 `;
@@ -132,8 +131,8 @@ export const CouponListContainer = styled.div<{
 
 export const DetailButton = styled.button<{ $isDetail: boolean }>`
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 10%;
+  right: calc(50% - 170px);
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -141,4 +140,8 @@ export const DetailButton = styled.button<{ $isDetail: boolean }>`
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
   z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
+
+  @media screen and (max-width: 768px) {
+    bottom: 5%;
+  }
 `;
