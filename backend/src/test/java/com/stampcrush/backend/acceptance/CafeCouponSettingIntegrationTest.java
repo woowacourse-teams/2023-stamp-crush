@@ -45,6 +45,12 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {
         // given, when
+        Owner owner = new Owner(
+                "깃짱",
+                "gitchan",
+                "pw1234",
+                "깃짱핸드폰번호");
+
         Cafe savedCafe = cafeRepository.save(
                 new Cafe(
                         "깃짱카페",
@@ -55,13 +61,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
                         "서울시 올림픽로 어쩌고",
                         "루터회관",
                         "10-222-333",
-                        ownerRepository.save(
-                                new Owner(
-                                        "깃짱",
-                                        "깃짱아이디",
-                                        "깃짱비밀번호",
-                                        "깃짱핸드폰번호")
-                        )
+                        ownerRepository.save(owner)
                 )
         );
 
@@ -109,6 +109,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given()
                 .log().all()
                 .contentType(ContentType.JSON)
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .body(request)
 
                 .when()

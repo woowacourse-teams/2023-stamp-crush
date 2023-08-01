@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.cafe;
 
+import com.stampcrush.backend.api.CustomerAuth;
 import com.stampcrush.backend.api.cafe.response.CafeInfoFindByCustomerResponse;
 import com.stampcrush.backend.api.cafe.response.CafeInfoFindResponse;
 import com.stampcrush.backend.application.cafe.CafeService;
@@ -19,7 +20,7 @@ public class CafeController {
     private final CafeService cafeService;
 
     @GetMapping("/{cafeId}")
-    ResponseEntity<CafeInfoFindByCustomerResponse> findCafe(@PathVariable Long cafeId) {
+    ResponseEntity<CafeInfoFindByCustomerResponse> findCafe(CustomerAuth customer, @PathVariable Long cafeId) {
         CafeInfoFindByCustomerResultDto cafeInfoFindByCustomerResultDto = cafeService.findCafeById(cafeId);
         CafeInfoFindResponse response = CafeInfoFindResponse.from(cafeInfoFindByCustomerResultDto);
         return ResponseEntity.ok().body(new CafeInfoFindByCustomerResponse(response));

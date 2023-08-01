@@ -39,26 +39,27 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페당_하나의_쿠폰을_조회할_수_있다() {
         // given
-        Long customerId = 전화번호로_임시_고객_등록_요청하고_아이디_반환(TEMPORARY_CUSTOMER_CREATE_REQUEST);
 
         // TODO: Owner에 대한 회원가입 로직이 생기면 요청으로 대체한다.
         Owner gitchan = ownerRepository.save(GITCHAN);
         Owner jena = ownerRepository.save(JENA);
 
-        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan.getId(), CAFE_CREATE_REQUEST);
+        Long customerId = 전화번호로_임시_고객_등록_요청하고_아이디_반환(gitchan, TEMPORARY_CUSTOMER_CREATE_REQUEST);
+
+        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan, gitchan.getId(), CAFE_CREATE_REQUEST);
         Cafe gitchanCafe = cafeRepository.findById(gitchanCafeId).get();
 
-        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena.getId(), CAFE_CREATE_REQUEST);
+        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena, jena.getId(), CAFE_CREATE_REQUEST);
         Cafe jenaCafe = cafeRepository.findById(jenaCafeId).get();
 
-        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(gitchanCafeId), customerId);
+        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchan, new CouponCreateRequest(gitchanCafeId), customerId);
         Coupon gitchanCafeCoupon = couponRepository.findById(gitchanCafeCouponId).get();
 
-        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(jenaCafeId), customerId);
+        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(jena, new CouponCreateRequest(jenaCafeId), customerId);
         Coupon jenaCafeCoupon = couponRepository.findById(jenaCafeCouponId).get();
 
         // when
-        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerId);
+        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(gitchan, customerId);
 
         // then
         assertAll(
@@ -79,21 +80,22 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
     @Disabled
     void 여러_개의_쿠폰이_있는_경우_ACCUMULATING인_쿠폰만_조회된다() {
         // given
-        Long customerId = 전화번호로_임시_고객_등록_요청하고_아이디_반환(TEMPORARY_CUSTOMER_CREATE_REQUEST);
 
         // TODO: Owner에 대한 회원가입 로직이 생기면 요청으로 대체한다.
         Owner gitchan = ownerRepository.save(GITCHAN);
         Owner jena = ownerRepository.save(JENA);
 
-        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan.getId(), CAFE_CREATE_REQUEST);
-        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena.getId(), CAFE_CREATE_REQUEST);
+        Long customerId = 전화번호로_임시_고객_등록_요청하고_아이디_반환(gitchan, TEMPORARY_CUSTOMER_CREATE_REQUEST);
 
-        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(gitchanCafeId), customerId);
-        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(new CouponCreateRequest(jenaCafeId), customerId);
+        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan, gitchan.getId(), CAFE_CREATE_REQUEST);
+        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena, jena.getId(), CAFE_CREATE_REQUEST);
+
+        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchan, new CouponCreateRequest(gitchanCafeId), customerId);
+        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(jena, new CouponCreateRequest(jenaCafeId), customerId);
         accumulateCouponUntilRewarded(gitchanCafeCouponId);
 
         // when
-        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerId);
+        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(gitchan, customerId);
 
         // then
         assertAll(
@@ -109,7 +111,7 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
         Coupon gitchanCafeCoupon = couponRepository.findById(couponId).get();
         int couponMaxStampCount = gitchanCafeCoupon.getCouponMaxStampCount();
         for (int i = 0; i < couponMaxStampCount; i++) {
-            gitchanCafeCoupon.accumulate();
+            gitchanCafeCoupon.accumulate(1);
         }
     }
 }

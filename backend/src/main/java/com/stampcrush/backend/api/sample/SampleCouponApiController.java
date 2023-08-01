@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.sample;
 
+import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.api.sample.response.SampleCouponFindResponse;
 import com.stampcrush.backend.application.sample.SampleCouponService;
 import com.stampcrush.backend.application.sample.dto.SampleCouponsFindResultDto;
@@ -17,7 +18,7 @@ public class SampleCouponApiController {
     private final SampleCouponService sampleCouponService;
 
     @GetMapping
-    public SampleCouponFindResponse findSampleCoupons(@RequestParam("max-stamp-count") Integer maxStampCount) {
+    public SampleCouponFindResponse findSampleCoupons(OwnerAuth owner, @RequestParam("max-stamp-count") Integer maxStampCount) {
         SampleCouponsFindResultDto sampleCoupons = sampleCouponService.findSampleCouponsByMaxStampCount(maxStampCount);
         return SampleCouponFindResponse.from(sampleCoupons);
     }

@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.cafe;
 
+import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.api.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.cafe.request.CafeUpdateRequest;
 import com.stampcrush.backend.api.cafe.response.CafeFindResponse;
@@ -24,7 +25,7 @@ public class CafeApiController {
     private final CafeService cafeService;
 
     @GetMapping("/{ownerId}")
-    ResponseEntity<CafesFindResponse> findAllCafes(@PathVariable Long ownerId) {
+    ResponseEntity<CafesFindResponse> findAllCafes(OwnerAuth owner, @PathVariable Long ownerId) {
         List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(ownerId);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
@@ -34,9 +35,9 @@ public class CafeApiController {
     }
 
     @PostMapping("/{ownerId}")
-    ResponseEntity<Void> createCafe(
-            @PathVariable Long ownerId,
-            @RequestBody @Valid CafeCreateRequest cafeCreateRequest
+    ResponseEntity<Void> createCafe(OwnerAuth owner,
+                                    @PathVariable Long ownerId,
+                                    @RequestBody @Valid CafeCreateRequest cafeCreateRequest
     ) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,

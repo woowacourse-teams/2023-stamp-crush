@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.reward;
 
+import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.api.reward.request.RewardFindRequest;
 import com.stampcrush.backend.api.reward.request.RewardUsedUpdateRequest;
 import com.stampcrush.backend.api.reward.response.RewardFindResponse;
@@ -24,6 +25,7 @@ public class RewardApiController {
 
     @GetMapping
     public ResponseEntity<RewardsFindResponse> findRewards(
+            OwnerAuth owner,
             @PathVariable("customerId") Long customerId,
             @ModelAttribute @Valid RewardFindRequest request
     ) {
@@ -38,6 +40,7 @@ public class RewardApiController {
 
     @PatchMapping("/{rewardId}")
     public ResponseEntity<Void> updateRewardToUsed(
+            OwnerAuth owner,
             @PathVariable("customerId") Long customerId,
             @PathVariable("rewardId") Long rewardId,
             @RequestBody @Valid RewardUsedUpdateRequest request

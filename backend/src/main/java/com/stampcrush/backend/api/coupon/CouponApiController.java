@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.coupon;
 
+import com.stampcrush.backend.api.OwnerAuth;
 import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.coupon.response.*;
@@ -23,7 +24,7 @@ public class CouponApiController {
     private final CouponService couponService;
 
     @GetMapping("/cafes/{cafeId}/customers")
-    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(@PathVariable Long cafeId) {
+    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(OwnerAuth owner, @PathVariable Long cafeId) {
         List<CafeCustomerFindResultDto> coupons = couponService.findCouponsByCafe(cafeId);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
@@ -34,6 +35,7 @@ public class CouponApiController {
 
     @GetMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CustomerAccumulatingCouponsFindResponse> findCustomerUsingCouponByCafe(
+            OwnerAuth owner,
             @PathVariable Long customerId,
             @RequestParam Long cafeId,
             @RequestParam boolean active
@@ -49,6 +51,7 @@ public class CouponApiController {
 
     @PostMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CouponCreateResponse> createCoupon(
+            OwnerAuth owner,
             @RequestBody @Valid CouponCreateRequest request,
             @PathVariable("customerId") Long customerId
     ) {
@@ -58,6 +61,7 @@ public class CouponApiController {
 
     @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
     public ResponseEntity<Void> createStamp(
+            OwnerAuth owner,
             @PathVariable Long customerId,
             @PathVariable Long couponId,
             @PathVariable Long ownerId,

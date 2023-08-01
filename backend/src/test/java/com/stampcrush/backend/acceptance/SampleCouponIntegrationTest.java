@@ -1,10 +1,12 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.entity.sample.SampleBackImage;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -32,6 +35,11 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
     @Autowired
     private SampleStampImageRepository sampleStampImageRepository;
 
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    private Owner owner;
+
     @BeforeEach
     void setUp() {
         sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
@@ -40,6 +48,8 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .peek(e -> e.setSampleBackImage(savedSampleBackImage))
                 .forEach(e -> sampleStampCoordinateRepository.save(e));
         sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
+
+        owner = ownerRepository.save(OWNER3);
     }
 
     @Disabled
@@ -50,6 +60,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .get("/api/admin/coupon-samples")
 
                 .then()
@@ -71,6 +82,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .get("/api/admin/coupon-samples?max-stamp-count=8")
 
                 .then()
@@ -92,6 +104,7 @@ public class SampleCouponIntegrationTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
+                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .get("/api/admin/coupon-samples?max-stamp-count=10")
 
                 .then()

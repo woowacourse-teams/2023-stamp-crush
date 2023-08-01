@@ -1,6 +1,7 @@
 package com.stampcrush.backend.entity.user;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -28,5 +29,11 @@ public class Owner extends BaseDate {
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void checkPassword(String encryptedPassword) {
+        if (!this.encryptedPassword.equals(encryptedPassword)) {
+            throw new OwnerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
+        }
     }
 }
