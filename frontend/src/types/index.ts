@@ -20,10 +20,10 @@ export interface StampCoordinate {
 }
 
 export interface CafeRes {
-  cafe: CafeType;
+  cafe: Cafe;
 }
 
-export interface CafeType {
+export interface Cafe {
   id: number;
   name: string;
   introduction: string;
@@ -35,7 +35,7 @@ export interface CafeType {
   detailAddress: string;
 }
 
-export interface CouponType {
+export interface Coupon {
   cafeInfo: {
     id: number;
     name: string;
@@ -103,4 +103,27 @@ export interface CafeInfoReq {
   telephoneNumber: string;
   cafeImageUrl: string;
   introduction: string;
+}
+
+export interface CafeRegisterReq {
+  businessRegistrationNumber: string;
+  name: string;
+  roadAddress: string;
+  detailAddress: string;
+}
+
+export interface RewardRes {
+  id: number;
+  name: string;
+}
+
+export type CouponActivate = 'current' | 'new';
+
+export interface PostIsFavoritesReq {
+  cafeId: number;
+  isFavorites: boolean;
+}
+
+export interface CouponRes {
+  coupons: Coupon[];
 }

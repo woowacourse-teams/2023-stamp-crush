@@ -1,7 +1,5 @@
 import { api } from '.';
-import { CafeFormData } from '../pages/Admin/RegisterCafe';
-import { PostIsFavoritesReq } from '../pages/CouponList';
-import { CouponSettingReq, StampEarningReq } from '../types';
+import { CouponSettingReq, StampEarningReq, CafeRegisterReq, PostIsFavoritesReq } from '../types';
 
 export const postEarnStamp = async ({
   earningStampCount,
@@ -32,7 +30,7 @@ export const postRegisterCafe = async ({
   name,
   roadAddress,
   detailAddress,
-}: CafeFormData) => {
+}: CafeRegisterReq) => {
   await api.post('/admin/cafes', {
     businessRegistrationNumber,
     name,

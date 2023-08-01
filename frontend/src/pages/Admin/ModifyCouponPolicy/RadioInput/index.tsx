@@ -1,13 +1,13 @@
-import React from 'react';
+import { ChangeEvent, Dispatch } from 'react';
 import { RadioInputsContainer, Label, LabelText, RadioInput } from './style';
 import { Spacing } from '../../../../style/layout/common';
 
 interface RadioInputsProps {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: Dispatch<React.SetStateAction<string>>;
 }
 
 const RadioInputs = ({ setValue }: RadioInputsProps) => {
-  const changeSelectValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeSelectValue = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 

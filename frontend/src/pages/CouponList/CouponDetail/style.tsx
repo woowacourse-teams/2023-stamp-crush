@@ -26,7 +26,6 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   }
 `;
 
-// 텍스트 애니메이션 삽입?
 export const CouponNotification = styled.p`
   position: absolute;
   top: 100px;

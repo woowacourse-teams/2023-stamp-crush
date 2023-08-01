@@ -8,16 +8,17 @@ import SelectBox from '../../../components/SelectBox';
 import Text from '../../../components/Text';
 import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../constants';
 import RadioInputs from './RadioInput';
+import { Option } from '../../../types';
 
 const ModifyCouponPolicy = () => {
   const navigate = useNavigate();
   const [createdType, setCreatedType] = useState('');
   const rewardInputRef = useRef<HTMLInputElement>(null);
-  const [expireSelect, setExpireSelect] = useState({
+  const [expireSelect, setExpireSelect] = useState<Option>({
     key: EXPIRE_DATE_OPTIONS[0].key,
     value: EXPIRE_DATE_OPTIONS[0].value,
   });
-  const [stampCount, setStampCount] = useState({
+  const [stampCount, setStampCount] = useState<Option>({
     key: STAMP_COUNT_OPTIONS[0].key,
     value: STAMP_COUNT_OPTIONS[0].value,
   });

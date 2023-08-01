@@ -23,21 +23,11 @@ import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import { CafeRes, CouponType } from '../../types';
+import type { CafeRes, CouponRes, PostIsFavoritesReq } from '../../types';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
-
-// TODO: 추후에 types 폴더로 위치 변경
-export interface PostIsFavoritesReq {
-  cafeId: number;
-  isFavorites: boolean;
-}
-
-interface CouponRes {
-  coupons: CouponType[];
-}
 
 const CouponList = () => {
   const navigate = useNavigate();

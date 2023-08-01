@@ -45,18 +45,14 @@ export const BackImage = styled(CouponImage)`
   z-index: 0;
 `;
 
-interface StyledStampPosProps {
-  $xCoordinate: number;
-  $yCoordinate: number;
-}
-export const StampImage = styled.img<StyledStampPosProps>`
+export const StampImage = styled.img<{ $x: number; $y: number }>`
   width: 30px;
   height: 30px;
   position: absolute;
-  object-fit: contain;
-  top: ${({ $yCoordinate }) => `${$yCoordinate}px`};
-  right: ${({ $xCoordinate }) => `${$xCoordinate}px`};
+  top: ${({ $y }) => `${$y}px`};
+  right: ${({ $x }) => `${$x}px`};
 
+  object-fit: contain;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transform: rotateY(180deg);

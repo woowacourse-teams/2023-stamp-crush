@@ -7,24 +7,12 @@ import { Spacing } from '../../../style/layout/common';
 import { getCustomer, getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-
-// TODO: 추후 완전한 타입이 만들어지면 유틸리티 타입으로 변경해야함.
-interface CustomerDto {
-  id: number;
-  nickname: string;
-  phoneNumber: string;
-}
-
-interface RewardDto {
-  id: number;
-  name: string;
-}
+import { RewardRes } from '../../../types';
 
 const RewardPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // TODO: 로케이션 state 적용
-  const phoneNumber = '01011112222';
+  const phoneNumber = location.state.phoneNumber;
 
   const { data: customerData } = useQuery(['getCustomer', phoneNumber], () =>
     getCustomer(phoneNumber),
@@ -48,7 +36,7 @@ const RewardPage = () => {
     },
   });
 
-  const activateRewardButton = (name: string, rewardId: number) => {
+  const activateRewardButton = (rewardId: number) => {
     mutateReward(rewardId);
   };
 
@@ -72,10 +60,10 @@ const RewardPage = () => {
         <Spacing $size={42} />
         <RewardItemContainer>
           {rewardData.rewards.length ? (
-            rewardData.rewards.map(({ id, name }: RewardDto) => (
+            rewardData.rewards.map(({ id, name }: RewardRes) => (
               <RewardItemWrapper key={id}>
                 <RewardContent>{name}</RewardContent>
-                <Button onClick={() => activateRewardButton(name, id)}>사용</Button>
+                <Button onClick={() => activateRewardButton(id)}>사용</Button>
               </RewardItemWrapper>
             ))
           ) : (

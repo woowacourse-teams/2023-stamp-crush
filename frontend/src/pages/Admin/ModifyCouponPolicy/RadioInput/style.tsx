@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+// FIXME: 빈 스타일드 컴포넌트
 export const RadioInputsContainer = styled.div``;
 
 export const Label = styled.label`
