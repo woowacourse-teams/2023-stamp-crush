@@ -1,8 +1,10 @@
 package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,13 @@ class ManagerCafeFindApiControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private ManagerCafeService managerCafeService;
+
+    @MockBean
     private OwnerRepository ownerRepository;
+
+    @MockBean
+    private RegisterCustomerRepository customerRepository;
 
     private Owner owner;
     private String basicAuthHeader;
