@@ -59,27 +59,13 @@ openapi3 {
     version = "0.0.1"
     format = "json"
 
-    outputDirectory = 'build/resources/main/static/docs'
+    outputDirectory = 'src/main/resources/static/docs/'
 }
 
 tasks.withType(GenerateSwaggerUI) {
     dependsOn 'openapi3'
-
-    delete file('src/main/resources/static/docs/')
-    copy {
-        from "build/resources/main/static/docs"
-        into "src/main/resources/static/docs/"
-    }
 }
 
 bootJar {
     dependsOn tasks.withType(GenerateSwaggerUI)
 }
-
-tasks.register("createOutputDirectory") {
-    doLast {
-        file("build/resources/main/static/docs").mkdirs()
-    }
-}
-
-tasks.build.dependsOn("createOutputDirectory")
