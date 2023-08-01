@@ -35,7 +35,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class CouponService {
+public class ManagerCouponService {
 
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;

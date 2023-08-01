@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.manager.coupon.dto;
+package com.stampcrush.backend.application.visitor.coupon.dto;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;

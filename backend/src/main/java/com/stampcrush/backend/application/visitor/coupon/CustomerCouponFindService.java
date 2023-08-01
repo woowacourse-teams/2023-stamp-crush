@@ -1,6 +1,6 @@
-package com.stampcrush.backend.application.manager.coupon;
+package com.stampcrush.backend.application.visitor.coupon;
 
-import com.stampcrush.backend.application.manager.coupon.dto.CustomerCouponFindResultDto;
+import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
