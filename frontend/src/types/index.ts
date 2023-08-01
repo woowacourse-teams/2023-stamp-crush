@@ -1,3 +1,18 @@
+export interface SampleImage {
+  id: number;
+  imageUrl: string;
+}
+
+export interface SampleBackCouponImage extends SampleImage {
+  stampCoordinates: StampCoordinate[];
+}
+
+export interface SampleCouponRes {
+  sampleFrontImages: SampleImage[];
+  sampleBackImages: SampleBackCouponImage[];
+  sampleStampImages: SampleImage[];
+}
+
 export interface StampCoordinate {
   order: number;
   xCoordinate: number;

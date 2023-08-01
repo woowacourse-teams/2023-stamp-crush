@@ -1,33 +1,17 @@
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { ChoiceTemplateContainer, SampleImage, SampleImageContainer } from './style';
+import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { getCouponSamples } from '../../../../api/get';
 import { parseStampCount } from '../../../../utils';
-
-// TODO: interface 외부 선언하면 어떨까요?
-interface CouponImage {
-  id: number;
-  imageUrl: string;
-}
-
-export interface StampCoordinate {
-  order: number;
-  xCoordinate: number;
-  yCoordinate: number;
-}
-
-interface BackCouponImage extends CouponImage {
-  stampCoordinates: StampCoordinate[];
-}
-
-export interface SampleImages {
-  sampleFrontImages: CouponImage[];
-  sampleBackImages: BackCouponImage[];
-  sampleStampImages: CouponImage[];
-}
+import {
+  SampleBackCouponImage,
+  SampleCouponRes,
+  SampleImage,
+  StampCoordinate,
+} from '../../../../types';
 
 interface ChoiceTemplateProps {
   frontImage: string;
@@ -54,7 +38,7 @@ const ChoiceTemplate = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const stampCount = parseStampCount(location.state.stampCount);
 
-  const { data: sampleImages, status } = useQuery<SampleImages>(
+  const { data: sampleImages, status } = useQuery<SampleCouponRes>(
     ['coupon-samples', stampCount],
     () => getCouponSamples(stampCount),
   );
@@ -63,7 +47,7 @@ const ChoiceTemplate = ({
   if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
 
   // TODO: 네이밍 변경
-  const getImageFromData = (templateSelected: string): CouponImage[] | BackCouponImage[] => {
+  const getImageFromData = (templateSelected: string): SampleImage[] | SampleBackCouponImage[] => {
     switch (templateSelected) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         return sampleImages.sampleFrontImages;
@@ -124,14 +108,13 @@ const ChoiceTemplate = ({
       />
       <SampleImageContainer>
         {getImageFromData(templateSelect).map((element) => (
-          <SampleImage
+          <SampleImg
             key={element.id}
             src={element.imageUrl}
             $templateType={templateSelect}
             $isSelected={selectedImage === element.imageUrl}
             ref={imageRef}
             onClick={() => {
-              // TODO: 타입에러 수정하기
               if ('stampCoordinates' in element) {
                 selectSampleImage(element.stampCoordinates);
               } else {
