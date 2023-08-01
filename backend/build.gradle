@@ -44,11 +44,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     testImplementation 'io.rest-assured:rest-assured'
-//    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-//    testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
     testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
-
 }
 
 tasks.named('test') {
