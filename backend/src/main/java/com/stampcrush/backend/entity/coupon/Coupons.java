@@ -1,6 +1,6 @@
 package com.stampcrush.backend.entity.coupon;
 
-import com.stampcrush.backend.application.coupon.CustomerCouponStatistics;
+import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
