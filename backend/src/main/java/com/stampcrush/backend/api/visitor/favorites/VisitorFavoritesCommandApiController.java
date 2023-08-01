@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class FavoritesController {
+public class VisitorFavoritesCommandApiController {
 
     public final FavoritesService favoritesService;
 
