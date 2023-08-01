@@ -1,12 +1,10 @@
 import styled, { css } from 'styled-components';
 
-interface StyledSelectBoxProps {
+export const BaseSelectBox = styled.span<{
   $minWidth: number;
   $minHeight: number;
   $expanded: boolean;
-}
-
-export const BaseSelectBox = styled.span<StyledSelectBoxProps>`
+}>`
   position: relative;
   display: inline-block;
   margin-right: 1px;

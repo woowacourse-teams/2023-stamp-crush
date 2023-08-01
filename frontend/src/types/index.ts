@@ -39,3 +39,8 @@ export interface CouponType {
     },
   ];
 }
+
+export interface SelectBoxOption {
+  key: string;
+  value: string;
+}
