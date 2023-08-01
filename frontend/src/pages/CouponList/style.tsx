@@ -3,6 +3,7 @@ import { detail, swap } from '../../style/keyframes';
 
 export const HeaderContainer = styled.header`
   display: flex;
+  width: 100%;
   height: 65px;
   justify-content: space-between;
   align-items: center;
@@ -71,6 +72,12 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
     white
   );
   opacity: 0.7;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @media screen and (min-width: 768px) {
+    max-width: 450px;
+  }
 `;
 
 export const CouponListContainer = styled.div<{
@@ -101,7 +108,7 @@ export const CouponListContainer = styled.div<{
     $isDetail &&
     css`
       :nth-last-child(1) {
-        transform: translateY(-250%) scale(0.86);
+        transform: translateY(-219%) scale(0.86);
         animation: ${detail} 0.3s;
       }
       :nth-last-child(n + 2) {

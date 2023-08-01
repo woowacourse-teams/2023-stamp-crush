@@ -17,6 +17,7 @@ import SelectCoupon from './pages/Admin/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
+import CustomerTemplate from './components/Template/CustomerTemplate';
 
 const AdminRoot = () => {
   return (
@@ -31,9 +32,9 @@ const AdminRoot = () => {
 
 const CustomerRoot = () => {
   return (
-    <>
+    <CustomerTemplate>
       <Outlet />
-    </>
+    </CustomerTemplate>
   );
 };
 
