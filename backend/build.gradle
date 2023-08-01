@@ -62,10 +62,16 @@ openapi3 {
     outputDirectory = 'src/main/resources/static/docs/'
 }
 
+task createOutputDirectory {
+    doFirst {
+        file(openapi3.outputDirectory).mkdirs()
+    }
+}
+
 tasks.withType(GenerateSwaggerUI) {
     dependsOn 'openapi3'
 }
 
 bootJar {
-    dependsOn tasks.withType(GenerateSwaggerUI)
+    dependsOn 'createOutputDirectory',':openapi3'
 }
