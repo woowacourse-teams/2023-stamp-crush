@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.coupon.response;
 
-import com.stampcrush.backend.application.coupon.dto.CustomerCouponFindResultDto;
+import com.stampcrush.backend.application.manager.coupon.dto.CustomerCouponFindResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeApiController;
-import com.stampcrush.backend.application.cafe.CafeService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -28,7 +28,7 @@ class ManagerCafeApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private CafeService cafeService;
+    private ManagerCafeService managerCafeService;
     @MockBean
     private OwnerRepository ownerRepository;
     @MockBean

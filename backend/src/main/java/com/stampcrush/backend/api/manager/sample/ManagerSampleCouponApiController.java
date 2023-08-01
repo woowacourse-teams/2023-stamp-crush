@@ -2,8 +2,8 @@ package com.stampcrush.backend.api.manager.sample;
 
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import com.stampcrush.backend.api.manager.sample.response.SampleCouponFindResponse;
-import com.stampcrush.backend.application.sample.SampleCouponService;
-import com.stampcrush.backend.application.sample.dto.SampleCouponsFindResultDto;
+import com.stampcrush.backend.application.manager.sample.SampleCouponService;
+import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

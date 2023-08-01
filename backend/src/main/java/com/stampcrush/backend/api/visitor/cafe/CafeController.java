@@ -1,10 +1,10 @@
 package com.stampcrush.backend.api.visitor.cafe;
 
-import com.stampcrush.backend.config.resolver.CustomerAuth;
-import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindResponse;
 import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindByCustomerResponse;
-import com.stampcrush.backend.application.cafe.CafeService;
-import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindResponse;
+import com.stampcrush.backend.application.visitor.cafe.CafeService;
+import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.config.resolver.CustomerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

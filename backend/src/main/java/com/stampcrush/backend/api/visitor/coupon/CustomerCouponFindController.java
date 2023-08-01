@@ -1,8 +1,8 @@
 package com.stampcrush.backend.api.visitor.coupon;
 
 import com.stampcrush.backend.api.visitor.coupon.response.CustomerCouponsFindResponse;
-import com.stampcrush.backend.application.coupon.CustomerCouponFindService;
-import com.stampcrush.backend.application.coupon.dto.CustomerCouponFindResultDto;
+import com.stampcrush.backend.application.manager.coupon.CustomerCouponFindService;
+import com.stampcrush.backend.application.manager.coupon.dto.CustomerCouponFindResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

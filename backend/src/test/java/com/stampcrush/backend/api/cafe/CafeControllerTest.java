@@ -1,8 +1,8 @@
 package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.visitor.cafe.CafeController;
-import com.stampcrush.backend.application.cafe.CafeService;
-import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.application.visitor.cafe.CafeService;
+import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -48,7 +48,6 @@ class CafeControllerTest {
         String username = customer.getLoginId();
         String password = customer.getEncryptedPassword();
         basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-
     }
 
     @Test

@@ -1,8 +1,10 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.coupon.dto.CafeCustomerFindResultDto;
-import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
-import com.stampcrush.backend.application.coupon.dto.StampCreateDto;
+import com.stampcrush.backend.application.manager.coupon.CouponService;
+import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
+import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
+import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
+import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;

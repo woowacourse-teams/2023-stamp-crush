@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.cafe.request;
 
-import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

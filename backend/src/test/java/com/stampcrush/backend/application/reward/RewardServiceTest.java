@@ -1,8 +1,9 @@
 package com.stampcrush.backend.application.reward;
 
-import com.stampcrush.backend.application.reward.dto.RewardFindDto;
-import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
-import com.stampcrush.backend.application.reward.dto.RewardUsedUpdateDto;
+import com.stampcrush.backend.application.manager.reward.RewardService;
+import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
+import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;

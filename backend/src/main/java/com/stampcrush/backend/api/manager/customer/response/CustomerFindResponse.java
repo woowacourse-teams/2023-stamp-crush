@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.customer.response;
 
-import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
+import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

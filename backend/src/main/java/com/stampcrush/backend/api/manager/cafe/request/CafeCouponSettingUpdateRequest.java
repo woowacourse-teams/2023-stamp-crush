@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.cafe.request;
 
-import com.stampcrush.backend.application.cafe.dto.CafeCouponSettingDto;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeCouponSettingDto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

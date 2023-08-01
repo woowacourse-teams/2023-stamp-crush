@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.reward.response;
 
-import com.stampcrush.backend.application.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

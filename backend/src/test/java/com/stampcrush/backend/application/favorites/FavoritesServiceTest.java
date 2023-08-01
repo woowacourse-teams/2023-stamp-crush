@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.favorites;
 
+import com.stampcrush.backend.application.manager.favorites.FavoritesService;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.favorites.Favorites;
 import com.stampcrush.backend.entity.user.Owner;

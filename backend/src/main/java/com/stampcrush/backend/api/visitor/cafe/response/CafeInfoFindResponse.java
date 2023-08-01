@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.cafe.response;
 
-import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -5,10 +5,10 @@ import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeUpdateRequest;
 import com.stampcrush.backend.api.manager.cafe.response.CafeFindResponse;
 import com.stampcrush.backend.api.manager.cafe.response.CafesFindResponse;
-import com.stampcrush.backend.application.cafe.CafeService;
-import com.stampcrush.backend.application.cafe.dto.CafeCreateDto;
-import com.stampcrush.backend.application.cafe.dto.CafeFindResultDto;
-import com.stampcrush.backend.application.cafe.dto.CafeUpdateDto;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +22,11 @@ import java.util.List;
 @RequestMapping("/api/admin/cafes")
 public class ManagerCafeApiController {
 
-    private final CafeService cafeService;
+    private final ManagerCafeService managerCafeService;
 
     @GetMapping("/{ownerId}")
     ResponseEntity<CafesFindResponse> findAllCafes(OwnerAuth owner, @PathVariable Long ownerId) {
-        List<CafeFindResultDto> cafeFindResultDtos = cafeService.findCafesByOwner(ownerId);
+        List<CafeFindResultDto> cafeFindResultDtos = managerCafeService.findCafesByOwner(ownerId);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();
@@ -45,7 +45,7 @@ public class ManagerCafeApiController {
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
                 cafeCreateRequest.getBusinessRegistrationNumber());
-        Long cafeId = cafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }
 
@@ -56,7 +56,7 @@ public class ManagerCafeApiController {
     ) {
         CafeUpdateDto cafeUpdateDto = request.toServiceDto();
 
-        cafeService.updateCafeInfo(cafeUpdateDto, cafeId);
+        managerCafeService.updateCafeInfo(cafeUpdateDto, cafeId);
         return ResponseEntity.ok().build();
     }
 }

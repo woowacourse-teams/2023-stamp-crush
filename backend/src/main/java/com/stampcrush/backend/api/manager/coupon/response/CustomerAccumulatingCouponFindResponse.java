@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.coupon.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.stampcrush.backend.application.coupon.dto.CustomerAccumulatingCouponFindResultDto;
+import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

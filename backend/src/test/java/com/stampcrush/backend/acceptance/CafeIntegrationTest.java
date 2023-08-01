@@ -2,7 +2,7 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindByCustomerResponse;
 import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindResponse;
-import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
