@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCouponSettingDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin/coupon-setting")
 public class ManagerCafeCouponSettingCommandApiController {
 
-    private final ManagerCafeCouponSettingService managerCafeCouponSettingService;
+    private final ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
 
     @PostMapping
     public ResponseEntity<Void> updateCafeCouponSetting(
@@ -23,7 +23,7 @@ public class ManagerCafeCouponSettingCommandApiController {
             @RequestBody @Valid CafeCouponSettingUpdateRequest request
     ) {
         CafeCouponSettingDto cafeCouponSettingDto = request.toCouponSettingDto();
-        managerCafeCouponSettingService.updateCafeCouponSetting(cafeId, cafeCouponSettingDto);
+        managerCafeCouponSettingCommandService.updateCafeCouponSetting(cafeId, cafeCouponSettingDto);
         return ResponseEntity.noContent().build();
     }
 }

@@ -18,15 +18,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
-public class ManagerCafeCouponSettingService {
+public class ManagerCafeCouponSettingCommandService {
 
     private final CafeRepository cafeRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
-    @Transactional
     public void updateCafeCouponSetting(Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
         Cafe cafe = findExistingCafe(cafeId);
         deletePreviousSetting(cafe);
