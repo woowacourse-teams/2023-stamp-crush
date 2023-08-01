@@ -1,20 +1,13 @@
-import { FormEventHandler, MouseEventHandler, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import Button from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { ContentContainer, InputWithButtonWrapper, RegisterCafeInputForm, Title } from './style';
-import Header from '../../../components/Header';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
-
-export interface CafeFormData {
-  businessRegistrationNumber: string;
-  name: string;
-  roadAddress: string;
-  detailAddress: string;
-}
+import { CafeRegisterReq } from '../../../types/api';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -26,7 +19,7 @@ const RegisterCafe = () => {
   const navigate = useNavigate();
 
   const { mutate, isLoading, isError } = useMutation(
-    (formData: CafeFormData) => postRegisterCafe(formData),
+    (formData: CafeRegisterReq) => postRegisterCafe(formData),
     {
       onSuccess: () => {
         navigate(ROUTER_PATH.customerList);
@@ -37,12 +30,12 @@ const RegisterCafe = () => {
     },
   );
 
-  const certifyUser: MouseEventHandler<HTMLButtonElement> = () => {
+  const certifyUser = () => {
     alert(businessRegistrationNumberInputRef.current?.value);
   };
 
-  const submitCafeInfo: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
+  const submitCafeInfo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (
       businessRegistrationNumberInputRef.current &&
@@ -50,29 +43,19 @@ const RegisterCafe = () => {
       roadAddressInputRef.current &&
       detailAddressInputRef.current
     ) {
-      const formData: CafeFormData = {
+      const cafeRegisterBody: CafeRegisterReq = {
         businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
         name: cafeNameInputRef.current?.value,
         roadAddress: roadAddressInputRef.current?.value,
         detailAddress: detailAddressInputRef.current?.value,
       };
-      mutate(formData);
+      mutate(cafeRegisterBody);
     }
   };
 
-  if (isLoading)
-    return (
-      <>
-        <Header /> <ContentContainer>Loading...</ContentContainer>
-      </>
-    );
+  if (isLoading) return <ContentContainer>Loading...</ContentContainer>;
 
-  if (isError)
-    return (
-      <>
-        <Header /> <ContentContainer>Error</ContentContainer>
-      </>
-    );
+  if (isError) return <ContentContainer>Error</ContentContainer>;
 
   return (
     <ContentContainer>

@@ -15,21 +15,15 @@ import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
-
-export interface StampFormData {
-  earningStampCount: number;
-  customerId: string;
-  couponId: string;
-}
+import { StampEarningReq } from '../../../types/api';
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);
-
   const { state } = useLocation();
   const navigate = useNavigate();
 
   const { mutate, isLoading, isError } = useMutation(
-    (formData: StampFormData) => postEarnStamp(formData),
+    (formData: StampEarningReq) => postEarnStamp(formData),
     {
       onSuccess: () => {
         navigate(ROUTER_PATH.customerList);
@@ -56,10 +50,8 @@ const EarnStamp = () => {
   };
 
   if (isLoading || isCouponLoading) return <p>Loading</p>;
-
   if (isError || isCouponError) return <p>Error</p>;
 
-  // TODO: 라우팅 다시
   return (
     <EarnStampContainer>
       <TitleWrapper>

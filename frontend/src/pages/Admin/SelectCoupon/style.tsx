@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-interface CouponSelectorProps {
-  size: number;
-}
-
-interface CouponSelectorLabelProps {
-  $isChecked: boolean;
-}
-
 export const CouponSelectContainer = styled.main`
   display: flex;
   flex-direction: column;
@@ -31,12 +23,12 @@ export const ExpirationDate = styled.span`
   color: #888;
 `;
 
-export const CouponSelector = styled.input<CouponSelectorProps>`
+export const CouponSelector = styled.input<{ $size: number }>`
   width: ${(props) => props.size}px;
   height: ${(props) => props.size}px;
 `;
 
-export const CouponSelectorLabel = styled.label<CouponSelectorLabelProps>`
+export const CouponSelectorLabel = styled.label<{ $isChecked: boolean }>`
   color: ${(props) => (props.$isChecked ? 'black' : '#888')};
 `;
 

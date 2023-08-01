@@ -1,12 +1,5 @@
 import { api } from '.';
-
-export interface CafeInfoBody {
-  openTime: string;
-  closeTime: string;
-  telephoneNumber: string;
-  cafeImageUrl: string;
-  introduction: string;
-}
+import { CafeInfoReq } from '../types/api';
 
 export const patchReward = async (customerId: number, rewardId: number) => {
   await api.patch(`/customers/${customerId}/rewards/${rewardId}`, {
@@ -17,7 +10,7 @@ export const patchReward = async (customerId: number, rewardId: number) => {
 
 export const patchCafeInfo = async (
   cafeId: number,
-  { openTime, closeTime, telephoneNumber, cafeImageUrl, introduction }: CafeInfoBody,
+  { openTime, closeTime, telephoneNumber, cafeImageUrl, introduction }: CafeInfoReq,
 ) => {
   await api.patch(`/admin/cafes/${cafeId}`, {
     openTime,

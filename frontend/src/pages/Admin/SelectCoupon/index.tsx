@@ -18,11 +18,13 @@ import { postIssueCoupon, postRegisterUser } from '../../../api/post';
 import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
+import { CouponActivate } from '../../../types';
 
 const SelectCoupon = () => {
-  const phoneNumber = useLocation().state.phoneNumber;
+  const location = useLocation();
   const [isPrevious, setIsPrevious] = useState(true);
-  const [selectedCoupon, setSelectedCoupon] = useState('current');
+  const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
+  const phoneNumber = location.state.phoneNumber;
 
   // 전화번호로 조회
   const {
@@ -82,8 +84,10 @@ const SelectCoupon = () => {
     },
   );
 
-  const selectCoupon = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value !== 'current' && value !== 'new') return;
+
     setIsPrevious(value === 'current');
     setSelectedCoupon(value);
   };
@@ -122,7 +126,7 @@ const SelectCoupon = () => {
             <CouponSelector
               type="checkbox"
               value="new"
-              size={20}
+              $size={20}
               onChange={selectCoupon}
               checked={selectedCoupon === 'new'}
             />
@@ -136,7 +140,7 @@ const SelectCoupon = () => {
               <CouponSelector
                 type="checkbox"
                 value="current"
-                size={20}
+                $size={20}
                 onChange={selectCoupon}
                 checked={selectedCoupon === 'current'}
               />

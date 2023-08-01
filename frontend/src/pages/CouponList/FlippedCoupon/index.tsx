@@ -38,12 +38,7 @@ const FlippedCoupon = ({
         <BackImage src={backImageUrl} />
         {coordinates &&
           coordinates.map(({ order, xCoordinate, yCoordinate }, idx) => (
-            <StampImage
-              key={order + idx}
-              src={stampImageUrl}
-              $xCoordinate={xCoordinate}
-              $yCoordinate={yCoordinate}
-            />
+            <StampImage key={order + idx} src={stampImageUrl} $x={xCoordinate} $y={yCoordinate} />
           ))}
       </CouponWrapper>
     </CouponContainer>

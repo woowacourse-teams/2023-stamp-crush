@@ -1,5 +1,4 @@
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
-
 import { Dispatch, SetStateAction } from 'react';
 
 const useFindAddress = (setRoadAddress: Dispatch<SetStateAction<string>>) => {
@@ -19,11 +18,13 @@ const useFindAddress = (setRoadAddress: Dispatch<SetStateAction<string>>) => {
 
     setRoadAddress(fullAddress);
   };
+
   const openPostcodePopup = useDaumPostcodePopup();
 
   const openAddressPopup = () => {
     openPostcodePopup({ onComplete: findAddress });
   };
+
   return {
     openAddressPopup,
   };

@@ -12,7 +12,7 @@ import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../components/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ChoiceTemplate, { StampCoordinate } from './ChoiceTemplate';
+import ChoiceTemplate from './ChoiceTemplate';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
@@ -20,15 +20,8 @@ import { parseExpireDate, parseStampCount } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 import StampCustomModal from './StampCustomModal';
-
-export interface CouponSettingDto {
-  frontImageUrl: string;
-  backImageUrl: string;
-  stampImageUrl: string;
-  coordinates: StampCoordinate[];
-  reward: string;
-  expirePeriod: number;
-}
+import { CouponSettingReq } from '../../../types/api';
+import { StampCoordinate } from '../../../types';
 
 const CustomCouponDesign = () => {
   const location = useLocation();
@@ -43,7 +36,7 @@ const CustomCouponDesign = () => {
   const maxStampCount = location.state.stampCount;
   // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
-    mutationFn: (couponConfig: CouponSettingDto) => postCouponSetting(1, couponConfig),
+    mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
     onSuccess: () => {
       navigate('/admin');
     },
@@ -55,7 +48,7 @@ const CustomCouponDesign = () => {
       return;
     }
 
-    const payload = {
+    const couponSettingBody: CouponSettingReq = {
       frontImageUrl: frontImage,
       backImageUrl: backImage,
       stampImageUrl: stampImage,
@@ -65,7 +58,7 @@ const CustomCouponDesign = () => {
       maxStampCount: parseStampCount(location.state.stampCount),
     };
 
-    mutateCouponPolicy.mutate(payload);
+    mutateCouponPolicy.mutate(couponSettingBody);
   };
 
   const customStampPosition = () => {
@@ -92,16 +85,16 @@ const CustomCouponDesign = () => {
                 label="쿠폰 앞면"
                 uploadImageInputId="coupon-front-image-input"
                 imgFileUrl={frontImage}
-                uploadImageFile={uploadFrontImage}
                 isCustom={isCustom}
+                uploadImageFile={uploadFrontImage}
               />
               <Spacing $size={32} />
               <CustomCouponSection
                 label="쿠폰 뒷면"
                 uploadImageInputId="coupon-back-image-input"
                 imgFileUrl={backImage}
-                uploadImageFile={uploadBackImage}
                 isCustom={isCustom}
+                uploadImageFile={uploadBackImage}
               />
             </CouponContainer>
             <RowSpacing $size={72} />
@@ -110,8 +103,8 @@ const CustomCouponDesign = () => {
                 label="스탬프"
                 uploadImageInputId="stamp-image-input"
                 imgFileUrl={stampImage}
-                uploadImageFile={uploadStampImage}
                 isCustom={isCustom}
+                uploadImageFile={uploadStampImage}
               />
             </StampImageSelector>
           </ImageUploadContainer>
@@ -129,23 +122,23 @@ const CustomCouponDesign = () => {
         </PreviewCouponContainer>
         <RowSpacing $size={100} />
         <ChoiceTemplate
-          setStampCoordinates={setStampCoordinates}
           frontImage={frontImage}
           backImage={backImage}
           stampImage={stampImage}
           setFrontImage={setFrontImage}
           setBackImage={setBackImage}
           setStampImage={setStampImage}
+          setStampCoordinates={setStampCoordinates}
         />
       </CustomCouponDesignContainer>
       <StampCustomModal
         isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        stampPos={stampCoordinates}
-        setStampPos={setStampCoordinates}
+        stampCoordinates={stampCoordinates}
         backImgFileUrl={backImage}
         stampImgFileUrl={stampImage}
         maxStampCount={maxStampCount}
+        setIsOpen={setIsModalOpen}
+        setStampCoordinates={setStampCoordinates}
       />
     </>
   );

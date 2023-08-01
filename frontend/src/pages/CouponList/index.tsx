@@ -23,21 +23,11 @@ import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import { CafeRes, CouponType } from '../../types';
+import type { CafeRes, CouponRes, PostIsFavoritesReq } from '../../types/api';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
-
-// TODO: 추후에 types 폴더로 위치 변경
-export interface PostIsFavoritesReq {
-  cafeId: number;
-  isFavorites: boolean;
-}
-
-interface CouponRes {
-  coupons: CouponType[];
-}
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -54,7 +44,7 @@ const CouponList = () => {
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], () =>
     getCafeInfo(cafeId),
   );
-  const { data: couponRes, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
+  const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
     },
@@ -80,7 +70,7 @@ const CouponList = () => {
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
   if (couponStatus === 'loading') return <>로딩 중입니다.</>;
 
-  const { coupons } = couponRes;
+  const { coupons } = couponData;
   const currentCoupon = coupons[currentIndex];
 
   const swapCoupon = (e: MouseEvent<HTMLDivElement>) => {
@@ -163,7 +153,7 @@ const CouponList = () => {
                 <ProgressBar
                   stampCount={currentCoupon.couponInfos[0].stampCount}
                   maxCount={currentCoupon.couponInfos[0].maxStampCount}
-                  progressColor={color}
+                  color={color}
                 />
               </>
             )}
@@ -216,4 +206,3 @@ const CouponList = () => {
 };
 
 export default CouponList;
-

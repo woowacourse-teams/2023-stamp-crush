@@ -1,8 +1,8 @@
 import { BaseInput, Container, SearchButton } from './style';
 import { BsSearch } from 'react-icons/bs';
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, InputHTMLAttributes } from 'react';
 
-export interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SearchBarProps extends InputHTMLAttributes<HTMLInputElement> {
   searchWord: string;
   setSearchWord: (searchWord: string) => void;
   onClick: () => void;

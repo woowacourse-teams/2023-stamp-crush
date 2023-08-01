@@ -1,25 +1,25 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { Time } from '../../../../types';
 import { TimePickerWrapper, TimeRangePickerContainer } from './style';
-import { Time } from '..';
 
 interface TimePickerProps {
   startTime: Time;
-  setStartTime: Dispatch<SetStateAction<Time>>;
   endTime: Time;
+  setStartTime: Dispatch<SetStateAction<Time>>;
   setEndTime: Dispatch<SetStateAction<Time>>;
 }
 
 const TimePicker = ({ startTime, endTime, setEndTime, setStartTime }: TimePickerProps) => {
-  const handleStartTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
+  const handleStartTimeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setStartTime((prevStartTime) => ({
       ...prevStartTime,
       [name]: value,
     }));
   };
 
-  const handleEndTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
+  const handleEndTimeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setEndTime((prevEndTime) => ({
       ...prevEndTime,
       [name]: value,

@@ -1,16 +1,11 @@
 import { useLocation } from 'react-router-dom';
+import { Option } from '../../types';
 import { Arrow, LabelContent, SideBarContainer, SideBarContent, SideBarLink } from './style';
-
-export interface SideBarOptions {
-  key: string;
-  value: string;
-}
 
 interface SideBarProps {
   width: number;
   height: number;
-
-  options: SideBarOptions[];
+  options: Option[];
 }
 
 const SideBar = ({ width, height, options }: SideBarProps) => {

@@ -1,15 +1,15 @@
 import { Bar, Progress } from './style';
 
-interface Props {
+interface ProgressBarProps {
   stampCount: number;
   maxCount: number;
-  progressColor?: string;
+  color?: string;
 }
 
-const ProgressBar = ({ stampCount, maxCount, progressColor = 'skyblue' }: Props) => {
+const ProgressBar = ({ stampCount, maxCount, color = 'skyblue' }: ProgressBarProps) => {
   return (
     <Bar>
-      <Progress $width={(stampCount / maxCount) * 100} $progressColor={progressColor} />
+      <Progress $width={(stampCount / maxCount) * 100} $color={color} />
     </Bar>
   );
 };

@@ -1,4 +1,4 @@
-import { CouponType } from '../../../types';
+import { Coupon as CouponType } from '../../../types';
 import { CouponWrapper } from './style';
 
 interface CouponProps {

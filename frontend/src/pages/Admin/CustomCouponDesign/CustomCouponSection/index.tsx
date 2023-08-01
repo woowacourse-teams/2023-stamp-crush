@@ -8,13 +8,14 @@ import {
   PreviewLabel,
 } from '../style';
 import Text from '../../../../components/Text';
+import { ChangeEvent } from 'react';
 
 interface CustomCouponSectionProps {
   label: string;
   uploadImageInputId: string;
   imgFileUrl: string;
   isCustom: boolean;
-  uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  uploadImageFile: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CustomCouponSection = ({

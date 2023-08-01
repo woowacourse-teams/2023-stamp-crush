@@ -13,12 +13,10 @@ export const SampleImageContainer = styled.div`
   gap: 42px;
 `;
 
-interface StyledSampleImageProps {
+export const SampleImg = styled.img<{
   $templateType: string;
   $isSelected: boolean;
-}
-
-export const SampleImage = styled.img<StyledSampleImageProps>`
+}>`
   width: ${({ $templateType }) => ($templateType === '스탬프' ? '50px' : '270px')};
   height: ${({ $templateType }) => ($templateType === '스탬프' ? '50px' : '150px')};
   ${({ theme, $isSelected }) => ($isSelected ? `5px solid ${theme.colors.black}` : '')}

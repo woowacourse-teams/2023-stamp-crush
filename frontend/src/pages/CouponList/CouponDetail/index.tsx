@@ -11,13 +11,13 @@ import {
 import { BiArrowBack } from 'react-icons/bi';
 import { FaRegClock, FaPhoneAlt, FaRegBell } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-import { CafeType, CouponType } from '../../../types';
+import { Cafe, Coupon } from '../../../types';
 
 interface CouponDetailProps {
   isDetail: boolean;
   isShown: boolean;
-  coupon: CouponType;
-  cafe: CafeType;
+  coupon: Coupon;
+  cafe: Cafe;
   closeDetail: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
