@@ -1,17 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { popup } from '../../../style/keyframes';
 
 export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
-  opacity: ${({ $isDetail }) => ($isDetail ? '1' : '0')};
-
+  display: none;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  transform: translateX(${({ $isDetail }) => ($isDetail ? '0' : '500px')});
-  transition: all 0.4s ease-in-out;
-
   background: white;
+  transform: translateY(100%);
+
+  ${({ $isDetail }) =>
+    $isDetail &&
+    css`
+      display: flex;
+      animation: ${popup} 0.4s;
+      transform: translateY(0);
+    `}
 
   h1 {
     white-space: pre-line;
