@@ -15,7 +15,7 @@ import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
-import { StampEarningReq } from '../../../types';
+import { StampEarningReq } from '../../../types/api';
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);

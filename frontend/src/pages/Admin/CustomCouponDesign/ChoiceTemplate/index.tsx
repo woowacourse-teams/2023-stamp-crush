@@ -6,12 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { getCouponSamples } from '../../../../api/get';
 import { parseStampCount } from '../../../../utils';
-import {
-  SampleBackCouponImage,
-  SampleCouponRes,
-  SampleImage,
-  StampCoordinate,
-} from '../../../../types';
+import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
+import { SampleCouponRes } from '../../../../types/api';
 
 interface ChoiceTemplateProps {
   frontImage: string;

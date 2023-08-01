@@ -16,7 +16,7 @@ import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getList } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
-import { CustomerRes } from '../../../types';
+import { CustomerRes } from '../../../types/api';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');

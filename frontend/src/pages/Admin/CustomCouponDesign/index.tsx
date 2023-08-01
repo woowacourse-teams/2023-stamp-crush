@@ -20,7 +20,8 @@ import { parseExpireDate, parseStampCount } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 import StampCustomModal from './StampCustomModal';
-import { CouponSettingReq, StampCoordinate } from '../../../types';
+import { CouponSettingReq } from '../../../types/api';
+import { StampCoordinate } from '../../../types';
 
 const CustomCouponDesign = () => {
   const location = useLocation();
@@ -132,12 +133,12 @@ const CustomCouponDesign = () => {
       </CustomCouponDesignContainer>
       <StampCustomModal
         isOpen={isModalOpen}
-        stampPos={stampCoordinates}
+        stampCoordinates={stampCoordinates}
         backImgFileUrl={backImage}
         stampImgFileUrl={stampImage}
         maxStampCount={maxStampCount}
         setIsOpen={setIsModalOpen}
-        setStampPos={setStampCoordinates}
+        setStampCoordinates={setStampCoordinates}
       />
     </>
   );

@@ -1,5 +1,10 @@
 import { api } from '.';
-import { CouponSettingReq, StampEarningReq, CafeRegisterReq, PostIsFavoritesReq } from '../types';
+import {
+  CouponSettingReq,
+  StampEarningReq,
+  CafeRegisterReq,
+  PostIsFavoritesReq,
+} from '../types/api';
 
 export const postEarnStamp = async ({
   earningStampCount,

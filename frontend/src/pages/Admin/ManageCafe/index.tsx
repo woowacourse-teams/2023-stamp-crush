@@ -28,7 +28,8 @@ import { getCafe } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-import { CafeInfoReq, Time } from '../../../types';
+import { Time } from '../../../types';
+import { CafeInfoReq } from '../../../types/api';
 
 const ManageCafe = () => {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { Spacing } from '../../../style/layout/common';
 import { getCustomer, getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-import { RewardRes } from '../../../types';
+import { RewardRes } from '../../../types/api';
 
 const RewardPage = () => {
   const location = useLocation();

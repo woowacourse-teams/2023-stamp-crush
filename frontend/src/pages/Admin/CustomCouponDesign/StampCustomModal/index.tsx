@@ -4,29 +4,29 @@ import { BackCouponWrapper, BackImage, ButtonContainer, Stamp, StampBadge } from
 import Text from '../../../../components/Text';
 import Button from '../../../../components/Button';
 import { parseStampCount } from '../../../../utils';
-import { Pos, StampCoordinate } from '../../../../types';
+import { Coordinate, StampCoordinate } from '../../../../types';
 
 interface Props {
   isOpen: boolean;
-  stampPos: StampCoordinate[];
+  stampCoordinates: StampCoordinate[];
   backImgFileUrl: string;
   stampImgFileUrl: string;
   maxStampCount: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setStampPos: Dispatch<SetStateAction<StampCoordinate[]>>;
+  setStampCoordinates: Dispatch<SetStateAction<StampCoordinate[]>>;
 }
 
 const StampCustomModal = ({
   isOpen,
-  stampPos,
+  stampCoordinates,
   backImgFileUrl,
   stampImgFileUrl,
   maxStampCount,
   setIsOpen,
-  setStampPos,
+  setStampCoordinates,
 }: Props) => {
   const [modalRect, setModalRect] = useState<DOMRect | null>(null);
-  const [drawStampPos, setDrawStampPos] = useState<Pos[]>([]);
+  const [drawStampCoordinates, setDrawStampCoordinates] = useState<Coordinate[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const StampCustomModal = ({
   }, [isOpen]);
 
   const recordStampCoordinates = (e: MouseEvent<HTMLImageElement>) => {
-    if (drawStampPos.length >= parseStampCount(maxStampCount)) return;
+    if (drawStampCoordinates.length >= parseStampCount(maxStampCount)) return;
 
     if (modalRect && e.target instanceof HTMLImageElement) {
       const boundX = modalRect.left;
@@ -48,14 +48,17 @@ const StampCustomModal = ({
       const drawX = e.clientX - boundX;
       const drawY = e.clientY - boundY;
 
-      const X = (e.clientX - e.target.getBoundingClientRect().left) / 2;
-      const Y = (e.clientY - e.target.getBoundingClientRect().top) / 2;
+      const xCoordinate = (e.clientX - e.target.getBoundingClientRect().left) / 2;
+      const yCoordinate = (e.clientY - e.target.getBoundingClientRect().top) / 2;
 
-      setStampPos((prevPos) => [
+      setStampCoordinates((prevPos) => [
         ...prevPos,
-        { order: prevPos.length + 1, xCoordinate: X, yCoordinate: Y },
+        { order: prevPos.length + 1, xCoordinate, yCoordinate },
       ]);
-      setDrawStampPos((prevPos) => [...prevPos, { x: drawX, y: drawY }]);
+      setDrawStampCoordinates((prevPos) => [
+        ...prevPos,
+        { xCoordinate: drawX, yCoordinate: drawY },
+      ]);
     }
   };
 
@@ -64,8 +67,8 @@ const StampCustomModal = ({
   };
 
   const removeLastStamp = () => {
-    setDrawStampPos(drawStampPos.slice(0, drawStampPos.length - 1));
-    setStampPos(stampPos.slice(0, stampPos.length - 1));
+    setDrawStampCoordinates(drawStampCoordinates.slice(0, drawStampCoordinates.length - 1));
+    setStampCoordinates(stampCoordinates.slice(0, stampCoordinates.length - 1));
   };
 
   return (
@@ -74,9 +77,9 @@ const StampCustomModal = ({
         <Modal closeModal={closeModal} ref={modalRef}>
           <Text variant="subTitle">스탬프 위치 설정</Text>
           <BackCouponWrapper onClick={recordStampCoordinates}>
-            {drawStampPos.map((pos, idx) => (
-              <Stamp key={idx} $x={pos.x} $y={pos.y}>
-                <StampBadge>{idx + 1}</StampBadge>
+            {drawStampCoordinates.map((coord, index) => (
+              <Stamp key={index} $x={coord.xCoordinate} $y={coord.yCoordinate}>
+                <StampBadge>{index + 1}</StampBadge>
                 <img src={stampImgFileUrl} width={50} height={50} />
               </Stamp>
             ))}
@@ -86,11 +89,11 @@ const StampCustomModal = ({
             <Button variant="secondary" onClick={removeLastStamp}>
               되돌리기
             </Button>
-            <Text>{`${drawStampPos.length}/${maxStampCount}`}</Text>
+            <Text>{`${drawStampCoordinates.length}/${maxStampCount}`}</Text>
             <Button
               variant="primary"
               onClick={closeModal}
-              disabled={drawStampPos.length !== parseStampCount(maxStampCount)}
+              disabled={drawStampCoordinates.length !== parseStampCount(maxStampCount)}
             >
               저장하기
             </Button>

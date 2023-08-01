@@ -7,20 +7,8 @@ export interface SampleBackCouponImage extends SampleImage {
   stampCoordinates: StampCoordinate[];
 }
 
-export interface SampleCouponRes {
-  sampleFrontImages: SampleImage[];
-  sampleBackImages: SampleBackCouponImage[];
-  sampleStampImages: SampleImage[];
-}
-
-export interface StampCoordinate {
+export interface StampCoordinate extends Coordinate {
   order: number;
-  xCoordinate: number;
-  yCoordinate: number;
-}
-
-export interface CafeRes {
-  cafe: Cafe;
 }
 
 export interface Cafe {
@@ -40,19 +28,22 @@ export interface Coupon {
     id: number;
     name: string;
   };
-  couponInfos: [
-    {
-      id: number;
-      isFavorites: boolean;
-      stampCount: number;
-      maxStampCount: number;
-      rewardName: string;
-      frontImageUrl: string;
-      backImageUrl: string;
-      stampImageUrl: string;
-      coordinates: StampCoordinate[];
-    },
-  ];
+  couponInfos: CouponInfo[];
+}
+
+export interface CouponInfo extends CouponDesign {
+  id: number;
+  isFavorites: boolean;
+  stampCount: number;
+  maxStampCount: number;
+  rewardName: string;
+}
+
+export interface CouponDesign {
+  frontImageUrl: string;
+  backImageUrl: string;
+  stampImageUrl: string;
+  coordinates: StampCoordinate[];
 }
 
 export interface Option {
@@ -60,30 +51,9 @@ export interface Option {
   value: string;
 }
 
-export interface Pos {
-  x: number;
-  y: number;
-}
-
-export interface CouponSettingReq {
-  frontImageUrl: string;
-  backImageUrl: string;
-  stampImageUrl: string;
-  coordinates: StampCoordinate[];
-  reward: string;
-  expirePeriod: number;
-  maxStampCount: number;
-}
-
-export interface CustomerRes {
-  id: number;
-  nickname: string;
-  stampCount: number;
-  maxStampCount: number;
-  rewardCount: number;
-  visitCount: number;
-  firstVisitDate: string;
-  isRegistered: boolean;
+export interface Coordinate {
+  xCoordinate: number;
+  yCoordinate: number;
 }
 
 export interface StampEarningReq {
@@ -97,33 +67,4 @@ export interface Time {
   minute: string;
 }
 
-export interface CafeInfoReq {
-  openTime: string;
-  closeTime: string;
-  telephoneNumber: string;
-  cafeImageUrl: string;
-  introduction: string;
-}
-
-export interface CafeRegisterReq {
-  businessRegistrationNumber: string;
-  name: string;
-  roadAddress: string;
-  detailAddress: string;
-}
-
-export interface RewardRes {
-  id: number;
-  name: string;
-}
-
 export type CouponActivate = 'current' | 'new';
-
-export interface PostIsFavoritesReq {
-  cafeId: number;
-  isFavorites: boolean;
-}
-
-export interface CouponRes {
-  coupons: Coupon[];
-}
