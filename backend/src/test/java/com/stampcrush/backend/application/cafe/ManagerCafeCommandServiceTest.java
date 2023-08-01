@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.cafe;
 
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
@@ -39,13 +39,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
 @SpringBootTest
-public class ManagerCafeServiceTest {
+public class ManagerCafeCommandServiceTest {
 
     @Autowired
     private EntityManager em;
 
     @Autowired
-    private ManagerCafeService managerCafeService;
+    private ManagerCafeCommandService managerCafeCommandService;
 
     @Autowired
     private CafeRepository cafeRepository;
@@ -100,7 +100,7 @@ public class ManagerCafeServiceTest {
         CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
 
         // then
         assertThat(cafeId).isNotNull();
@@ -113,7 +113,7 @@ public class ManagerCafeServiceTest {
         CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
         Cafe cafe = cafeRepository.findById(cafeId).get();
         Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
                 .stream()
@@ -137,7 +137,7 @@ public class ManagerCafeServiceTest {
         CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
         CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findAll()
                 .stream()
                 .filter(design -> design.getCafe().getId().equals(cafeId))
@@ -165,7 +165,7 @@ public class ManagerCafeServiceTest {
         CafeCreateDto cafeCreateDto = getCafeCreateDto();
 
         // when
-        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
         Optional<CafePolicy> cafePolicy = cafePolicyRepository.findAll()
                 .stream()
                 .filter(policy -> policy.getCafe().getId().equals(cafeId))

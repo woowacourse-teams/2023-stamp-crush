@@ -2,7 +2,7 @@ package com.stampcrush.backend.api.manager.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeUpdateRequest;
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
@@ -18,7 +18,7 @@ import java.net.URI;
 @RequestMapping("/api/admin/cafes")
 public class ManagerCafeCommandApiController {
 
-    private final ManagerCafeService managerCafeService;
+    private final ManagerCafeCommandService managerCafeCommandService;
 
     @PostMapping("/{ownerId}")
     ResponseEntity<Void> createCafe(OwnerAuth owner,
@@ -31,7 +31,7 @@ public class ManagerCafeCommandApiController {
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
                 cafeCreateRequest.getBusinessRegistrationNumber());
-        Long cafeId = managerCafeService.createCafe(cafeCreateDto);
+        Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
         return ResponseEntity.created(URI.create("/cafes/" + cafeId)).build();
     }
 
@@ -42,7 +42,7 @@ public class ManagerCafeCommandApiController {
     ) {
         CafeUpdateDto cafeUpdateDto = request.toServiceDto();
 
-        managerCafeService.updateCafeInfo(cafeUpdateDto, cafeId);
+        managerCafeCommandService.updateCafeInfo(cafeUpdateDto, cafeId);
         return ResponseEntity.ok().build();
     }
 }

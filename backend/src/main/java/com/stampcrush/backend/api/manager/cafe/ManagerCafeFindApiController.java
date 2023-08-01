@@ -2,7 +2,7 @@ package com.stampcrush.backend.api.manager.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.response.CafeFindResponse;
 import com.stampcrush.backend.api.manager.cafe.response.CafesFindResponse;
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/api/admin/cafes")
 public class ManagerCafeFindApiController {
 
-    private final ManagerCafeService managerCafeService;
+    private final ManagerCafeFindService managerCafeFindService;
 
     @GetMapping("/{ownerId}")
     ResponseEntity<CafesFindResponse> findAllCafes(OwnerAuth owner, @PathVariable Long ownerId) {
-        List<CafeFindResultDto> cafeFindResultDtos = managerCafeService.findCafesByOwner(ownerId);
+        List<CafeFindResultDto> cafeFindResultDtos = managerCafeFindService.findCafesByOwner(ownerId);
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();

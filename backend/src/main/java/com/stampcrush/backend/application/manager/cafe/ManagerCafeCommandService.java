@@ -1,7 +1,6 @@
 package com.stampcrush.backend.application.manager.cafe;
 
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
-import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
@@ -34,7 +33,7 @@ import static com.stampcrush.backend.api.manager.cafe.SampleCouponImage.*;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class ManagerCafeService {
+public class ManagerCafeCommandService {
 
     private final CafeRepository cafeRepository;
     private final OwnerRepository ownerRepository;
@@ -99,14 +98,6 @@ public class ManagerCafeService {
             );
             cafeStampCoordinateRepository.save(cafeStampCoordinate);
         }
-    }
-
-    @Transactional(readOnly = true)
-    public List<CafeFindResultDto> findCafesByOwner(Long ownerId) {
-        List<Cafe> cafes = cafeRepository.findAllByOwnerId(ownerId);
-        return cafes.stream()
-                .map(CafeFindResultDto::from)
-                .toList();
     }
 
     public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
