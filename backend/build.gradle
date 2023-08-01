@@ -75,3 +75,11 @@ tasks.withType(GenerateSwaggerUI) {
 bootJar {
     dependsOn tasks.withType(GenerateSwaggerUI)
 }
+
+tasks.register("createOutputDirectory") {
+    doLast {
+        file("build/resources/main/static/docs").mkdirs()
+    }
+}
+
+tasks.build.dependsOn("createOutputDirectory")
