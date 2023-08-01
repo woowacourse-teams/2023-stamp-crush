@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
@@ -11,16 +12,16 @@ interface CustomStampSectionProps {
   label: string;
   uploadImageInputId: string;
   imgFileUrl: string;
-  uploadImageFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isCustom: boolean;
+  uploadImageFile: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CustomStampSection = ({
   label,
   uploadImageInputId,
   imgFileUrl,
-  uploadImageFile,
   isCustom,
+  uploadImageFile,
 }: CustomStampSectionProps) => {
   return (
     <>

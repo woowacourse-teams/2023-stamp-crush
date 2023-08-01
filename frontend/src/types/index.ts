@@ -59,3 +59,18 @@ export interface Option {
   key: string;
   value: string;
 }
+
+export interface Pos {
+  x: number;
+  y: number;
+}
+
+export interface CouponSettingReq {
+  frontImageUrl: string;
+  backImageUrl: string;
+  stampImageUrl: string;
+  coordinates: StampCoordinate[];
+  reward: string;
+  expirePeriod: number;
+  maxStampCount: number;
+}

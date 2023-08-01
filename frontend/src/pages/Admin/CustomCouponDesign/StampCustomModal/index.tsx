@@ -3,30 +3,30 @@ import Modal from '../../../../components/Modal';
 import { BackCouponWrapper, BackImage, ButtonContainer, Stamp, StampBadge } from './style';
 import Text from '../../../../components/Text';
 import Button from '../../../../components/Button';
-import { StampCoordinate } from '../ChoiceTemplate';
 import { parseStampCount } from '../../../../utils';
+import { Pos, StampCoordinate } from '../../../../types';
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
   stampPos: StampCoordinate[];
-  setStampPos: Dispatch<SetStateAction<StampCoordinate[]>>;
   backImgFileUrl: string;
   stampImgFileUrl: string;
   maxStampCount: string;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setStampPos: Dispatch<SetStateAction<StampCoordinate[]>>;
 }
 
 const StampCustomModal = ({
   isOpen,
-  setIsOpen,
   stampPos,
-  setStampPos,
   backImgFileUrl,
   stampImgFileUrl,
   maxStampCount,
+  setIsOpen,
+  setStampPos,
 }: Props) => {
   const [modalRect, setModalRect] = useState<DOMRect | null>(null);
-  const [drawStampPos, setDrawStampPos] = useState<{ x: number; y: number }[]>([]);
+  const [drawStampPos, setDrawStampPos] = useState<Pos[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const StampCustomModal = ({
           <Text variant="subTitle">스탬프 위치 설정</Text>
           <BackCouponWrapper onClick={recordStampCoordinates}>
             {drawStampPos.map((pos, idx) => (
-              <Stamp key={idx} $X={pos.x} $Y={pos.y}>
+              <Stamp key={idx} $x={pos.x} $y={pos.y}>
                 <StampBadge>{idx + 1}</StampBadge>
                 <img src={stampImgFileUrl} width={50} height={50} />
               </Stamp>
