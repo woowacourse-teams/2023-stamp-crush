@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.admin.cafe.request.CafeCouponSettingUpdateRequest;
+import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;

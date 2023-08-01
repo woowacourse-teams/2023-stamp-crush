@@ -1,5 +1,8 @@
 package com.stampcrush.backend.config;
 
+import com.stampcrush.backend.config.resolver.CustomerArgumentResolver;
+import com.stampcrush.backend.config.resolver.OwnerArgumentResolver;
+import com.stampcrush.backend.config.interceptor.BasicAuthInterceptor;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import lombok.RequiredArgsConstructor;

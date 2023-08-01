@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.customer;
 
-import com.stampcrush.backend.api.admin.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.application.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;

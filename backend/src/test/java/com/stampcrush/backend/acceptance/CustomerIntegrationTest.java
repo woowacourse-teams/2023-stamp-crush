@@ -1,8 +1,8 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.admin.customer.request.TemporaryCustomerCreateRequest;
-import com.stampcrush.backend.api.admin.customer.response.CustomerFindResponse;
-import com.stampcrush.backend.api.admin.customer.response.CustomersFindResponse;
+import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse;
+import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
