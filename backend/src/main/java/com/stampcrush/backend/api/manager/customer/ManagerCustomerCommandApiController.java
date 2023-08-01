@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.customer;
 
 import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
-import com.stampcrush.backend.application.manager.customer.CustomerService;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ import java.net.URI;
 @RequestMapping("/api/admin")
 public class ManagerCustomerCommandApiController {
 
-    private final CustomerService customerService;
+    private final ManagerCustomerCommandService managerCustomerCommandService;
 
     @PostMapping("/temporary-customers")
     public ResponseEntity<Void> createTemporaryCustomer(OwnerAuth owner, @RequestBody @Valid TemporaryCustomerCreateRequest request) {
-        Long customerId = customerService.createTemporaryCustomer(request.getPhoneNumber());
+        Long customerId = managerCustomerCommandService.createTemporaryCustomer(request.getPhoneNumber());
 
         return ResponseEntity.created(URI.create("/customers/" + customerId)).build();
     }

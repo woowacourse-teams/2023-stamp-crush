@@ -1,7 +1,8 @@
 package com.stampcrush.backend.application.customer;
 
 import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
-import com.stampcrush.backend.application.manager.customer.CustomerService;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;
@@ -19,10 +20,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Transactional
 @SpringBootTest
-class CustomerServiceTest {
+class ManagerCustomerCommandServiceTest {
 
     @Autowired
-    private CustomerService customerService;
+    private ManagerCustomerFindService managerCustomerFindService;
+
+    @Autowired
+    private ManagerCustomerCommandService managerCustomerCommandService;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -34,7 +38,7 @@ class CustomerServiceTest {
         customerRepository.save(customer);
 
         // when
-        CustomersFindResultDto findCustomer = customerService.findCustomer("01012345678");
+        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
         // then
         assertThat(findCustomer.getCustomer()).containsExactly(CustomerFindDto.from(customer));
@@ -47,7 +51,7 @@ class CustomerServiceTest {
         customerRepository.save(customer);
 
         // when
-        CustomersFindResultDto findCustomer = customerService.findCustomer("01012345678");
+        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
         // then
         assertThat(findCustomer.getCustomer()).containsExactly(CustomerFindDto.from(customer));
@@ -56,7 +60,7 @@ class CustomerServiceTest {
     @Test
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
-        CustomersFindResultDto findCustomer = customerService.findCustomer("01012345678");
+        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
         assertThat(findCustomer.getCustomer().size()).isEqualTo(0);
     }
@@ -67,7 +71,7 @@ class CustomerServiceTest {
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest("01012345678");
 
         // when
-        Long customerId = customerService.createTemporaryCustomer(temporaryCustomerCreateRequest.getPhoneNumber());
+        Long customerId = managerCustomerCommandService.createTemporaryCustomer(temporaryCustomerCreateRequest.getPhoneNumber());
 
         // then
         assertThat(customerRepository.findById(customerId).get().getPhoneNumber()).isEqualTo(temporaryCustomerCreateRequest.getPhoneNumber());
@@ -81,7 +85,7 @@ class CustomerServiceTest {
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(customer.getPhoneNumber());
 
         // when, then
-        assertThatThrownBy(() -> customerService.createTemporaryCustomer(temporaryCustomerCreateRequest.getPhoneNumber()))
+        assertThatThrownBy(() -> managerCustomerCommandService.createTemporaryCustomer(temporaryCustomerCreateRequest.getPhoneNumber()))
                 .isInstanceOf(CustomerBadRequestException.class);
     }
 }

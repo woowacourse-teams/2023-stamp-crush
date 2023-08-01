@@ -2,7 +2,7 @@ package com.stampcrush.backend.api.manager.customer;
 
 import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
-import com.stampcrush.backend.application.manager.customer.CustomerService;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,11 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api/admin")
 public class ManagerCustomerFindApiController {
 
-    private final CustomerService customerService;
+    private final ManagerCustomerFindService managerCustomerFindService;
 
     @GetMapping("/customers")
     public ResponseEntity<CustomersFindResponse> findCustomer(OwnerAuth owner, @RequestParam("phone-number") String phoneNumber) {
-        CustomersFindResultDto customers = customerService.findCustomer(phoneNumber);
+        CustomersFindResultDto customers = managerCustomerFindService.findCustomer(phoneNumber);
 
         List<CustomerFindResponse> customerFindResponses = customers.getCustomer().stream()
                 .map(CustomerFindResponse::from).collect(toList());
