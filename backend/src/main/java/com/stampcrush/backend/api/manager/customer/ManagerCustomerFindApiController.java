@@ -24,7 +24,10 @@ public class ManagerCustomerFindApiController {
     private final ManagerCustomerFindService managerCustomerFindService;
 
     @GetMapping("/customers")
-    public ResponseEntity<CustomersFindResponse> findCustomer(OwnerAuth owner, @RequestParam("phone-number") String phoneNumber) {
+    public ResponseEntity<CustomersFindResponse> findCustomer(
+            OwnerAuth owner,
+            @RequestParam("phone-number") String phoneNumber
+    ) {
         CustomersFindResultDto customers = managerCustomerFindService.findCustomer(phoneNumber);
 
         List<CustomerFindResponse> customerFindResponses = customers.getCustomer().stream()

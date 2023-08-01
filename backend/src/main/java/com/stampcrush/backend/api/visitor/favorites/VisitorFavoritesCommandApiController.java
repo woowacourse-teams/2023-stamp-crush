@@ -16,7 +16,11 @@ public class VisitorFavoritesCommandApiController {
     public final VisitorFavoritesCommandService visitorFavoritesCommandService;
 
     @PostMapping("/cafes/{cafeId}/favorites")
-    public ResponseEntity<Void> updateFavorites(Customer customer, @PathVariable Long cafeId, @Valid @RequestBody FavoritesUpdateRequest favoritesUpdateRequest) {
+    public ResponseEntity<Void> updateFavorites(
+            Customer customer,
+            @PathVariable Long cafeId,
+            @Valid @RequestBody FavoritesUpdateRequest favoritesUpdateRequest
+    ) {
         visitorFavoritesCommandService.changeFavorites(customer, cafeId, favoritesUpdateRequest.getIsFavorites());
         return ResponseEntity.ok().build();
     }

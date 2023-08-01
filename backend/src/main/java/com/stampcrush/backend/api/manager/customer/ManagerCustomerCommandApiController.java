@@ -21,7 +21,10 @@ public class ManagerCustomerCommandApiController {
     private final ManagerCustomerCommandService managerCustomerCommandService;
 
     @PostMapping("/temporary-customers")
-    public ResponseEntity<Void> createTemporaryCustomer(OwnerAuth owner, @RequestBody @Valid TemporaryCustomerCreateRequest request) {
+    public ResponseEntity<Void> createTemporaryCustomer(
+            OwnerAuth owner,
+            @RequestBody @Valid TemporaryCustomerCreateRequest request
+    ) {
         Long customerId = managerCustomerCommandService.createTemporaryCustomer(request.getPhoneNumber());
 
         return ResponseEntity.created(URI.create("/customers/" + customerId)).build();

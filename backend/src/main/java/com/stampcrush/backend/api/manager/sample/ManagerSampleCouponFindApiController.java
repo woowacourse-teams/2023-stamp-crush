@@ -18,7 +18,10 @@ public class ManagerSampleCouponFindApiController {
     private final ManagerSampleCouponFindService managerSampleCouponFindService;
 
     @GetMapping
-    public SampleCouponFindResponse findSampleCoupons(OwnerAuth owner, @RequestParam("max-stamp-count") Integer maxStampCount) {
+    public SampleCouponFindResponse findSampleCoupons(
+            OwnerAuth owner,
+            @RequestParam("max-stamp-count") Integer maxStampCount
+    ) {
         SampleCouponsFindResultDto sampleCoupons = managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount);
         return SampleCouponFindResponse.from(sampleCoupons);
     }
