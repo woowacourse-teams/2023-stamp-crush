@@ -21,9 +21,10 @@ public class ManagerCafeCommandApiController {
     private final ManagerCafeCommandService managerCafeCommandService;
 
     @PostMapping("/{ownerId}")
-    ResponseEntity<Void> createCafe(OwnerAuth owner,
-                                    @PathVariable Long ownerId,
-                                    @RequestBody @Valid CafeCreateRequest cafeCreateRequest
+    ResponseEntity<Void> createCafe(
+            OwnerAuth owner,
+            @PathVariable Long ownerId,
+            @RequestBody @Valid CafeCreateRequest cafeCreateRequest
     ) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
                 ownerId,

@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.stampcrush.backend.api.manager.cafe.SampleCouponImage.*;
+import static com.stampcrush.backend.application.manager.cafe.SampleCouponImage.*;
 
 @RequiredArgsConstructor
 @Transactional

@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.manager.cafe;
+package com.stampcrush.backend.application.manager.cafe;
 
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
