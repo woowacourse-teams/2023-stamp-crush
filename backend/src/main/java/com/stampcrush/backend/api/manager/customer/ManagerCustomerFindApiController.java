@@ -1,17 +1,17 @@
 package com.stampcrush.backend.api.manager.customer;
 
-import com.stampcrush.backend.config.resolver.OwnerAuth;
-import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.manager.customer.CustomerService;
 import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
-import jakarta.validation.Valid;
+import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
-public class ManagerCustomerApiController {
+public class ManagerCustomerFindApiController {
 
     private final CustomerService customerService;
 
@@ -31,12 +31,5 @@ public class ManagerCustomerApiController {
                 .map(CustomerFindResponse::from).collect(toList());
 
         return ResponseEntity.ok().body(new CustomersFindResponse(customerFindResponses));
-    }
-
-    @PostMapping("/temporary-customers")
-    public ResponseEntity<Void> createTemporaryCustomer(OwnerAuth owner, @RequestBody @Valid TemporaryCustomerCreateRequest request) {
-        Long customerId = customerService.createTemporaryCustomer(request.getPhoneNumber());
-
-        return ResponseEntity.created(URI.create("/customers/" + customerId)).build();
     }
 }
