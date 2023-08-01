@@ -18,15 +18,15 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
-public class SampleCouponService {
+public class ManagerSampleCouponFindService {
 
     private final SampleFrontImageRepository sampleFrontImageRepository;
     private final SampleBackImageRepository sampleBackImageRepository;
     private final SampleStampCoordinateRepository sampleStampCoordinateRepository;
     private final SampleStampImageRepository sampleStampImageRepository;
 
-    @Transactional(readOnly = true)
     public SampleCouponsFindResultDto findSampleCouponsByMaxStampCount(Integer maxStampCount) {
         List<SampleFrontImage> sampleFrontImages = sampleFrontImageRepository.findAll();
         List<SampleStampImage> sampleStampImages = sampleStampImageRepository.findAll();
