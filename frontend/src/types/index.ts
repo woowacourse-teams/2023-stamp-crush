@@ -74,3 +74,33 @@ export interface CouponSettingReq {
   expirePeriod: number;
   maxStampCount: number;
 }
+
+export interface CustomerRes {
+  id: number;
+  nickname: string;
+  stampCount: number;
+  maxStampCount: number;
+  rewardCount: number;
+  visitCount: number;
+  firstVisitDate: string;
+  isRegistered: boolean;
+}
+
+export interface StampEarningReq {
+  earningStampCount: number;
+  customerId: string;
+  couponId: string;
+}
+
+export interface Time {
+  hour: string;
+  minute: string;
+}
+
+export interface CafeInfoReq {
+  openTime: string;
+  closeTime: string;
+  telephoneNumber: string;
+  cafeImageUrl: string;
+  introduction: string;
+}

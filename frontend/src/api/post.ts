@@ -1,10 +1,13 @@
 import { api } from '.';
-import { StampFormData } from '../pages/Admin/EarnStamp';
 import { CafeFormData } from '../pages/Admin/RegisterCafe';
 import { PostIsFavoritesReq } from '../pages/CouponList';
-import { CouponSettingReq } from '../types';
+import { CouponSettingReq, StampEarningReq } from '../types';
 
-export const postEarnStamp = async ({ earningStampCount, customerId, couponId }: StampFormData) => {
+export const postEarnStamp = async ({
+  earningStampCount,
+  customerId,
+  couponId,
+}: StampEarningReq) => {
   await api.post(`/admin/customers/${customerId}/coupons/${couponId}/stamps`, {
     earningStampCount,
   });

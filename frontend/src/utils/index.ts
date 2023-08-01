@@ -1,4 +1,4 @@
-import { Time } from '../pages/Admin/ManageCafe';
+import { Time } from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');

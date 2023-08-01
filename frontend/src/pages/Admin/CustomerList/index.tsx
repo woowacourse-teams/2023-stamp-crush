@@ -16,22 +16,12 @@ import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getList } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
-
-interface CustomerType {
-  id: number;
-  nickname: string;
-  stampCount: number;
-  maxStampCount: number;
-  rewardCount: number;
-  visitCount: number;
-  firstVisitDate: string;
-  isRegistered: boolean;
-}
+import { CustomerRes } from '../../../types';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
-  const [customers, setCustomers] = useState<CustomerType[]>([]);
+  const [customers, setCustomers] = useState<CustomerRes[]>([]);
   const { isLoading, isError, data, isSuccess } = useQuery(['customers'], getList, {
     onSuccess: (data) => {
       setCustomers(data.customers);
@@ -48,6 +38,7 @@ const CustomerList = () => {
         // TODO: 방문일 순 로직 구현
         break;
       default:
+        // TODO: any 제거
         customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
         setCustomers([...customers]);
         break;
@@ -58,7 +49,7 @@ const CustomerList = () => {
     if (searchWord === '') return;
     setCustomers([
       ...data.customers.filter(
-        (customer: CustomerType) => customer.nickname === searchWord && customer,
+        (customer: CustomerRes) => customer.nickname === searchWord && customer,
       ),
     ]);
   };
@@ -93,7 +84,7 @@ const CustomerList = () => {
           isRegistered,
           firstVisitDate,
           visitCount,
-        }: CustomerType) => (
+        }: CustomerRes) => (
           <CustomerBox key={id}>
             <LeftInfo>
               <NameContainer>

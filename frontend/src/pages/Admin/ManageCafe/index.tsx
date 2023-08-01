@@ -26,13 +26,9 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCafe } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
-import { CafeInfoBody, patchCafeInfo } from '../../../api/patch';
+import { patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-
-export interface Time {
-  hour: string;
-  minute: string;
-}
+import { CafeInfoReq, Time } from '../../../types';
 
 const ManageCafe = () => {
   const navigate = useNavigate();
@@ -63,7 +59,7 @@ const ManageCafe = () => {
   }, [cafeInfo]);
 
   const { mutate, isLoading, isError } = useMutation(
-    (body: CafeInfoBody) => patchCafeInfo(cafe?.[0].id, body),
+    (body: CafeInfoReq) => patchCafeInfo(cafe?.[0].id, body),
     {
       onSuccess: () => {
         navigate(ROUTER_PATH.customerList);
@@ -82,20 +78,11 @@ const ManageCafe = () => {
     setIntroduction(e.target.value);
   };
 
-  const validateTimeRange = () => {
-    return parseTime(openTime) < parseTime(closeTime);
-  };
-
   // TODO: 시간이 빈값인 케이스 대처 x
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (!validateTimeRange()) {
-      alert('올바른 영업 시간을 입력해주세요');
-      return;
-    }
-
-    const cafeInfoBody: CafeInfoBody = {
+    const cafeInfoBody: CafeInfoReq = {
       openTime: parseTime(openTime),
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
