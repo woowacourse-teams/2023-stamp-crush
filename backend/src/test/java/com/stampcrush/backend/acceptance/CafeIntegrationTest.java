@@ -1,7 +1,7 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.cafe.response.CafeInfoFindByCustomerResponse;
-import com.stampcrush.backend.api.cafe.response.CafeInfoFindResponse;
+import com.stampcrush.backend.api.user.CafeInfoFindByCustomerResponse;
+import com.stampcrush.backend.api.admin.cafe.response.CafeInfoFindResponse;
 import com.stampcrush.backend.application.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;

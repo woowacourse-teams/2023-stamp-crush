@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance.step;
 
-import com.stampcrush.backend.api.cafe.request.CafeCreateRequest;
+import com.stampcrush.backend.api.admin.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.entity.user.Owner;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;

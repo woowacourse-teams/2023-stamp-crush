@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.coupon.request.CouponCreateRequest;
+import com.stampcrush.backend.api.admin.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Owner;
