@@ -163,7 +163,7 @@ const CouponList = () => {
                 <ProgressBar
                   stampCount={currentCoupon.couponInfos[0].stampCount}
                   maxCount={currentCoupon.couponInfos[0].maxStampCount}
-                  progressColor={color}
+                  color={color}
                 />
               </>
             )}
@@ -216,4 +216,3 @@ const CouponList = () => {
 };
 
 export default CouponList;
-
