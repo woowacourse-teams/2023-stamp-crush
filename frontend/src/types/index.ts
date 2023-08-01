@@ -40,7 +40,7 @@ export interface CouponType {
   ];
 }
 
-export interface SelectBoxOption {
+export interface Option {
   key: string;
   value: string;
 }

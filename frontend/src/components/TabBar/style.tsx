@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 interface StyledTabBarSelect {
   $isSelect: boolean;
 }

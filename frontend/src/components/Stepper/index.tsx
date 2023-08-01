@@ -1,22 +1,22 @@
-import React from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { BaseStepperButton, BaseStepperInput, StepperWrapper } from './style';
 
 interface StepperProps {
+  value: number;
   minValue?: number;
   maxValue?: number;
   step?: number;
-  value: number;
-  setValue: React.Dispatch<React.SetStateAction<number>>;
   height?: number;
+  setValue: Dispatch<SetStateAction<number>>;
 }
 
 const Stepper = ({
+  value,
   minValue = 0,
   maxValue = 10,
   step = 1,
-  value,
-  setValue,
   height = 42,
+  setValue,
 }: StepperProps) => {
   const increaseNumber = () => {
     if (value + step > maxValue) return;

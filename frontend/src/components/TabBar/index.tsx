@@ -1,23 +1,14 @@
-import {
-  LabelContent,
-  TabBarContainer,
-  TabBarInput,
-  TabBarItem,
-  TabBarLabel,
-} from './TabBar.style';
-
-interface TabBarOption {
-  key: string;
-  value: string;
-}
+import { ChangeEvent } from 'react';
+import { Option } from '../../types';
+import { LabelContent, TabBarContainer, TabBarInput, TabBarItem, TabBarLabel } from './style';
 
 interface TabBarProps {
   name: string;
-  options: TabBarOption[];
-  height: number;
+  options: Option[];
   width: number;
+  height: number;
   selectedValue: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TabBar = ({ name, options, height, width, selectedValue, onChange }: TabBarProps) => {
