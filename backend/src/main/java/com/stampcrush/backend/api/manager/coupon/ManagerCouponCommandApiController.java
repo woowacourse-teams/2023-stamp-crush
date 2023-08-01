@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.manager.coupon;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CouponCreateResponse;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponService;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import jakarta.validation.Valid;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin")
 public class ManagerCouponCommandApiController {
 
-    private final ManagerCouponService managerCouponService;
+    private final ManagerCouponCommandService managerCouponCommandService;
 
     @PostMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CouponCreateResponse> createCoupon(
@@ -25,7 +25,7 @@ public class ManagerCouponCommandApiController {
             @RequestBody @Valid CouponCreateRequest request,
             @PathVariable("customerId") Long customerId
     ) {
-        Long couponId = managerCouponService.createCoupon(request.getCafeId(), customerId);
+        Long couponId = managerCouponCommandService.createCoupon(request.getCafeId(), customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
     }
 
@@ -38,7 +38,7 @@ public class ManagerCouponCommandApiController {
             @RequestBody @Valid StampCreateRequest request
     ) {
         StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, request.getEarningStampCount());
-        managerCouponService.createStamp(stampCreateDto);
+        managerCouponCommandService.createStamp(stampCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

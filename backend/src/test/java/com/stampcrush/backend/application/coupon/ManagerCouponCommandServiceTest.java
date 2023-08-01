@@ -1,7 +1,8 @@
 package com.stampcrush.backend.application.coupon;
 
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponService;
 import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
@@ -47,10 +48,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SuppressWarnings("NonAsciiCharacters")
 @Transactional
 @SpringBootTest
-class ManagerCouponServiceTest {
+class ManagerCouponCommandServiceTest {
 
     @Autowired
-    private ManagerCouponService managerCouponService;
+    private ManagerCouponCommandService managerCouponCommandService;
+
+    @Autowired
+    private ManagerCouponFindService managerCouponFindService;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -250,7 +254,7 @@ class ManagerCouponServiceTest {
 
     @Test
     void 조회하려는_카페가_존재하지_않으면_예외발생() {
-        assertThatThrownBy(() -> managerCouponService.findCouponsByCafe(100L))
+        assertThatThrownBy(() -> managerCouponFindService.findCouponsByCafe(100L))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -294,7 +298,7 @@ class ManagerCouponServiceTest {
     @Test
     void 존재X_현재_스탬프를_모으고_있는_쿠폰_정보를_조회한다() {
         // when
-        List<CustomerAccumulatingCouponFindResultDto> result = managerCouponService.findAccumulatingCoupon(cafe1.getId(), temporaryCustomer1.getId());
+        List<CustomerAccumulatingCouponFindResultDto> result = managerCouponFindService.findAccumulatingCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(result).isEmpty();
@@ -314,7 +318,7 @@ class ManagerCouponServiceTest {
         stamp2.registerCoupon(coupon);
         couponRepository.save(coupon);
 
-        List<CustomerAccumulatingCouponFindResultDto> result = managerCouponService.findAccumulatingCoupon(cafe1.getId(), leo.getId());
+        List<CustomerAccumulatingCouponFindResultDto> result = managerCouponFindService.findAccumulatingCoupon(cafe1.getId(), leo.getId());
         CustomerAccumulatingCouponFindResultDto customerUsingCoupon = new CustomerAccumulatingCouponFindResultDto(
                 coupon.getId(),
                 leo.getId(),
@@ -404,11 +408,11 @@ class ManagerCouponServiceTest {
         couponRepository.save(new Coupon(LocalDate.now(), temporaryCustomer2, cafe3, couponDesign8, couponPolicy8));
 
         // when 이전 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
-        List<CustomerAccumulatingCouponFindResultDto> oldCouponResult = managerCouponService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer1.getId());
+        List<CustomerAccumulatingCouponFindResultDto> oldCouponResult = managerCouponFindService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer1.getId());
         CustomerAccumulatingCouponFindResultDto oldCustomerCoupon = oldCouponResult.get(0);
 
         // when 새로운 정책일 때 발급받은 고객의 스탬프 적립 쿠폰 조회
-        List<CustomerAccumulatingCouponFindResultDto> newCouponResult = managerCouponService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer2.getId());
+        List<CustomerAccumulatingCouponFindResultDto> newCouponResult = managerCouponFindService.findAccumulatingCoupon(cafe3.getId(), temporaryCustomer2.getId());
         CustomerAccumulatingCouponFindResultDto newCustomerCoupon = newCouponResult.get(0);
 
         assertThat(oldCustomerCoupon.isPrevious()).isTrue();
@@ -418,7 +422,7 @@ class ManagerCouponServiceTest {
     @Test
     void 새로운_쿠폰을_발급한다() {
         // given, when
-        Long savedCouponId = managerCouponService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
+        Long savedCouponId = managerCouponCommandService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(savedCouponId).isNotNull();
@@ -432,7 +436,7 @@ class ManagerCouponServiceTest {
         Coupon existCoupon = couponRepository.save(new Coupon(LocalDate.EPOCH, temporaryCustomer1, cafe1, existCouponDesign, existCouponPolicy));
 
         // when
-        managerCouponService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
+        managerCouponCommandService.createCoupon(cafe1.getId(), temporaryCustomer1.getId());
 
         // then
         assertThat(existCoupon.getStatus()).isEqualTo(CouponStatus.EXPIRED);
@@ -444,7 +448,7 @@ class ManagerCouponServiceTest {
         Long notExistCustomerId = Long.MAX_VALUE;
 
         // when, then
-        assertThatThrownBy(() -> managerCouponService.createCoupon(cafe1.getId(), notExistCustomerId))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(cafe1.getId(), notExistCustomerId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -454,14 +458,14 @@ class ManagerCouponServiceTest {
         Long notExistCafeId = Long.MAX_VALUE;
 
         // when, then
-        assertThatThrownBy(() -> managerCouponService.createCoupon(notExistCafeId, registerCustomer1.getId()))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(notExistCafeId, registerCustomer1.getId()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 스탬프_적립_후_쿠폰의_스탬프_개수가_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프_개수만_증가한다() {
         // given, when
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 5));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 5));
 
         // then
         SoftAssertions softAssertions = new SoftAssertions();
@@ -473,7 +477,7 @@ class ManagerCouponServiceTest {
     @Test
     void 스탬프_적립_후_쿠폰의_스탬프_개수가_리워드를_받기_위한_스탬프_개수가_같으면_리워드를_생성하고_쿠폰의_상태가_REWARDED가_된다() {
         // given, when
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 10));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 10));
 
         // then
         SoftAssertions softAssertions = new SoftAssertions();
@@ -489,7 +493,7 @@ class ManagerCouponServiceTest {
     void 스탬프_적립_후_쿠폰의_스탬프_개수가_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰을_발급하고_기존_쿠폰의_상태가_REWARDED가_된다(
             int earningStampCount, int expectedRewardCount, int expectRestStampCount) {
         // given, when
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), earningStampCount));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), earningStampCount));
 
         List<Coupon> usingCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe1, registerCustomer2, CouponStatus.ACCUMULATING);
         Coupon usingCoupon = usingCoupons.stream().findAny().get();
@@ -508,7 +512,7 @@ class ManagerCouponServiceTest {
     void 기존에_적립된_스탬프가_있을_때_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프만_적립한다() {
         // given, when
         coupon6.accumulate(2);
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 5));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 5));
 
         // then
         SoftAssertions softAssertions = new SoftAssertions();
@@ -521,7 +525,7 @@ class ManagerCouponServiceTest {
     void 기존에_적립된_스탬프가_있을_때_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수와_같으면_리워드를_생성한다() {
         // given, when
         coupon6.accumulate(4);
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 6));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 6));
 
         // then
         SoftAssertions softAssertions = new SoftAssertions();
@@ -537,7 +541,7 @@ class ManagerCouponServiceTest {
         // given, when
         coupon6.accumulate(4);
 
-        managerCouponService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 9));
+        managerCouponCommandService.createStamp(new StampCreateDto(owner1.getId(), registerCustomer2.getId(), coupon6.getId(), 9));
         List<Coupon> usingCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe1, registerCustomer2, CouponStatus.ACCUMULATING);
         Coupon usingCoupon = usingCoupons.stream().findAny().get();
 
@@ -553,7 +557,7 @@ class ManagerCouponServiceTest {
     @Test
     void 카페의_고객_중_적립중인_쿠폰이_없으면_maxStampCount는_0이다() {
         // given, when
-        List<CafeCustomerFindResultDto> coupons = managerCouponService.findCouponsByCafe(cafe1.getId());
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafe1.getId());
 
         CustomerCouponStatistics coupon1Statics = new Coupons(List.of(coupon1)).calculateStatistics();
         CafeCustomerFindResultDto coupon1Result = CafeCustomerFindResultDto.from(temporaryCustomer1, coupon1Statics);
@@ -574,7 +578,7 @@ class ManagerCouponServiceTest {
         stamp.registerCoupon(coupon);
         couponRepository.save(coupon);
         // when
-        List<CafeCustomerFindResultDto> coupons = managerCouponService.findCouponsByCafe(cafe2.getId());
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafe2.getId());
 
         CustomerCouponStatistics couponStatics = new Coupons(List.of(coupon)).calculateStatistics();
         CafeCustomerFindResultDto couponResult = CafeCustomerFindResultDto.from(customer, couponStatics);

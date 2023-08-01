@@ -4,7 +4,7 @@ import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindRespon
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomersFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponsFindResponse;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponService;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class ManagerCouponFindApiController {
 
-    private final ManagerCouponService managerCouponService;
+    private final ManagerCouponFindService managerCouponFindService;
 
     @GetMapping("/cafes/{cafeId}/customers")
     public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(OwnerAuth owner, @PathVariable Long cafeId) {
-        List<CafeCustomerFindResultDto> coupons = managerCouponService.findCouponsByCafe(cafeId);
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafeId);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
                 .toList();
@@ -38,7 +38,7 @@ public class ManagerCouponFindApiController {
             @RequestParam Long cafeId,
             @RequestParam boolean active
     ) {
-        List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = managerCouponService.findAccumulatingCoupon(cafeId, customerId);
+        List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = managerCouponFindService.findAccumulatingCoupon(cafeId, customerId);
 
         List<CustomerAccumulatingCouponFindResponse> accumulatingResponses = accumulatingCoupon.stream()
                 .map(CustomerAccumulatingCouponFindResponse::from)
