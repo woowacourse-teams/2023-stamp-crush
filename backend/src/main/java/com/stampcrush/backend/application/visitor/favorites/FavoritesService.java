@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.manager.favorites;
+package com.stampcrush.backend.application.visitor.favorites;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.favorites.Favorites;

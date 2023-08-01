@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.visitor.favorites;
 
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
-import com.stampcrush.backend.application.manager.favorites.FavoritesService;
+import com.stampcrush.backend.application.visitor.favorites.FavoritesService;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
