@@ -1,41 +1,30 @@
 package com.stampcrush.backend.api.cafe;
 
-import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
+import java.time.LocalTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ManagerCafeFindApiController.class)
-class ManagerCafeFindApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private ManagerCafeFindService managerCafeFindService;
-
-    @MockBean
-    private OwnerRepository ownerRepository;
-
-    @MockBean
-    private RegisterCustomerRepository customerRepository;
+class ManagerCafeFindApiControllerTest extends ControllerTest {
 
     private Owner owner;
     private String basicAuthHeader;
@@ -73,11 +62,30 @@ class ManagerCafeFindApiControllerTest {
     void 카페_조회_요청_시_사장_인증_되면_200코드_반환() throws Exception {
         // given
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(managerCafeFindService.findCafesByOwner(1L)).thenReturn(List.of(new CafeFindResultDto(1L, "우아한카페", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관", "032-1234-87")));
 
         // when, then
-        mockMvc.perform(get("/api/admin/cafes/" + 1)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes/{ownerId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                .andDo(document("manager/cafe",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                requestHeaders(
+                                        headerWithName("Authorization").description("임시(Basic)")),
+                                responseFields(
+                                        fieldWithPath("cafes[].id").description("카페 ID"),
+                                        fieldWithPath("cafes[].name").description("카페 이름"),
+                                        fieldWithPath("cafes[].openTime").description("카페 오픈 시간"),
+                                        fieldWithPath("cafes[].closeTime").description("카페 닫는 시간"),
+                                        fieldWithPath("cafes[].telephoneNumber").description("카페 전화번호"),
+                                        fieldWithPath("cafes[].cafeImageUrl").description("카페 이미지 URL"),
+                                        fieldWithPath("cafes[].roadAddress").description("카페 도로명주소"),
+                                        fieldWithPath("cafes[].detailAddress").description("카페 상세 주소"),
+                                        fieldWithPath("cafes[].businessRegistrationNumber").description("카페 도로명주소")
+                                )
+                        )
+                )
                 .andExpect(status().isOk());
     }
 
