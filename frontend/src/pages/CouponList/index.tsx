@@ -28,6 +28,7 @@ import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
+import { addGoogleProxyUrl } from '../../utils';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -143,7 +144,7 @@ const CouponList = () => {
         </NameContainer>
         <ProgressBarContainer aria-label="스탬프 개수">
           <Color
-            src={currentCoupon.couponInfos[0].frontImageUrl}
+            src={addGoogleProxyUrl(currentCoupon.couponInfos[0].frontImageUrl)}
             format="hex"
             crossOrigin="anonymous"
           >

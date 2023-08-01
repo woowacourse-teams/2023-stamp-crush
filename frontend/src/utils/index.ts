@@ -52,3 +52,7 @@ export const isEmptyData = (data: string | undefined) => {
 
   return data.length === 0;
 };
+
+export const addGoogleProxyUrl = (url: string) =>
+  'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=' +
+  encodeURIComponent(url);
