@@ -33,6 +33,7 @@ public class Cafe extends BaseDate {
 
     private String cafeImageUrl;
 
+    @Lob
     private String introduction;
 
     private String roadAddress;
