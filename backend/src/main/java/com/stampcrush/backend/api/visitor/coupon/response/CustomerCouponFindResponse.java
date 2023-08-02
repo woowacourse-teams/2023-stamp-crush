@@ -72,11 +72,8 @@ public class CustomerCouponFindResponse {
 
             private final Integer order;
 
-            @JsonProperty("xCoordinate")
-            private final Integer xCoordinate;
-
-            @JsonProperty("yCoordinate")
-            private final Integer yCoordinate;
+            private final int xCoordinate;
+            private final int yCoordinate;
 
             static CoordinatesResponse from(CustomerCouponFindResultDto.CouponInfoDto.CouponCoordinatesDto couponCoordinatesDto) {
                 return new CoordinatesResponse(
