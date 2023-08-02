@@ -37,9 +37,9 @@ public class ManagerCouponFindApiController {
     @GetMapping("/customers/{customerId}/coupons")
     public ResponseEntity<CustomerAccumulatingCouponsFindResponse> findCustomerUsingCouponByCafe(
             OwnerAuth owner,
-            @PathVariable Long customerId,
-            @RequestParam Long cafeId,
-            @RequestParam boolean active
+            @PathVariable("customerId") Long customerId,
+            @RequestParam("cafe-id") Long cafeId,
+            @RequestParam("active") boolean active
     ) {
         List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = managerCouponFindService.findAccumulatingCoupon(cafeId, customerId);
 
