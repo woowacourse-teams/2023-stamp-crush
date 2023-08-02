@@ -19,9 +19,10 @@ public class VisitorCustomerCouponFindApiController {
 
     private final VisitorCustomerCouponFindService visitorCustomerCouponFindService;
 
-    @GetMapping("/coupons") // customerId는 이후 제거 예정
+    @GetMapping("/coupons")
     public ResponseEntity<CustomerCouponsFindResponse> findOneCouponForOneCafe(CustomerAuth customer) {
         List<CustomerCouponFindResultDto> coupons = visitorCustomerCouponFindService.findOneCouponForOneCafe(customer.getId());
-        return ResponseEntity.ok().body(CustomerCouponsFindResponse.from(coupons));
+        return ResponseEntity.ok()
+                .body(CustomerCouponsFindResponse.from(coupons));
     }
 }
