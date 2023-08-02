@@ -58,7 +58,8 @@ export const MaxStampCount = styled.span`
 
 export const BackDrop = styled.div<{ $couponMainColor: string }>`
   z-index: -10;
-  width: 100vw;
+  width: 100%;
+  max-width: 450px;
   overflow: hidden;
   height: 100%;
   position: absolute;
@@ -73,10 +74,6 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   opacity: 0.7;
   left: 50%;
   transform: translateX(-50%);
-
-  @media screen and (min-width: 768px) {
-    max-width: 450px;
-  }
 `;
 
 export const CouponListContainer = styled.div<{
@@ -131,7 +128,7 @@ export const CouponListContainer = styled.div<{
 
 export const DetailButton = styled.button<{ $isDetail: boolean }>`
   position: fixed;
-  bottom: 10%;
+  bottom: 30px;
   right: calc(50% - 170px);
   border-radius: 50%;
   width: 60px;
@@ -140,8 +137,4 @@ export const DetailButton = styled.button<{ $isDetail: boolean }>`
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
   z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
-
-  @media screen and (max-width: 768px) {
-    bottom: 5%;
-  }
 `;
