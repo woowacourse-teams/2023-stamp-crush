@@ -38,7 +38,7 @@ public class ManagerCafeCommandApiController {
     @PatchMapping("/{cafeId}")
     ResponseEntity<Void> updateCafe(
             OwnerAuth owner,
-            @PathVariable Long cafeId,
+            @PathVariable("cafeId") Long cafeId,
             @RequestBody @Valid CafeUpdateRequest request
     ) {
         CafeUpdateDto cafeUpdateDto = request.toServiceDto();
