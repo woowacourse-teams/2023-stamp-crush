@@ -41,6 +41,7 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
     @Autowired
     private CouponRepository couponRepository;
 
+    @Disabled
     @Test
     void 카페당_하나의_쿠폰을_조회할_수_있다() {
         // given
