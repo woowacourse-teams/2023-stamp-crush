@@ -11,7 +11,7 @@ const request = async (path: string, init?: RequestInit) => {
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {
-      //   Authorization: `Basic ${token}`,
+      // Authorization: `Basic ${token}`,
       'Content-Type': 'application/json',
       ...init?.headers,
     },
@@ -22,16 +22,19 @@ const request = async (path: string, init?: RequestInit) => {
 };
 
 export const api = {
-  get: (path: string) => request(path).then((response) => response.json()),
+  get: (path: string, init?: RequestInit) =>
+    request(path, init).then((response) => response.json()),
 
-  patch: (path: string, payload?: unknown) =>
+  patch: (path: string, init?: RequestInit, payload?: unknown) =>
     request(path, {
+      headers: init?.headers,
       method: 'PATCH',
       body: JSON.stringify(payload),
     }),
 
-  post: (path: string, payload?: unknown) =>
+  post: (path: string, init?: RequestInit, payload?: unknown) =>
     request(path, {
+      headers: init?.headers,
       method: 'POST',
       body: JSON.stringify(payload),
     }),
@@ -40,4 +43,18 @@ export const api = {
     request(path, {
       method: 'DELETE',
     }),
+};
+
+export const customerHeader = {
+  headers: {
+    Authorization: `Basic ${btoa('leo:1234')}`,
+    'Content-Type': 'application/json',
+  },
+};
+
+export const ownerHeader = {
+  headers: {
+    Authorization: `Basic ${btoa('owner1:owner1')}`,
+    'Content-Type': 'application/json',
+  },
 };
