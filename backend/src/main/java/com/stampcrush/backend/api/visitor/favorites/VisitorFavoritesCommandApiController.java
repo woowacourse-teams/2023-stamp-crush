@@ -2,6 +2,7 @@ package com.stampcrush.backend.api.visitor.favorites;
 
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.config.resolver.CustomerAuth;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,11 @@ public class VisitorFavoritesCommandApiController {
 
     @PostMapping("/cafes/{cafeId}/favorites")
     public ResponseEntity<Void> updateFavorites(
-            Customer customer,
+            CustomerAuth customer,
             @PathVariable Long cafeId,
             @Valid @RequestBody FavoritesUpdateRequest favoritesUpdateRequest
     ) {
-        visitorFavoritesCommandService.changeFavorites(customer, cafeId, favoritesUpdateRequest.getIsFavorites());
+        visitorFavoritesCommandService.changeFavorites(customer.getId(), cafeId, favoritesUpdateRequest.getIsFavorites());
         return ResponseEntity.ok().build();
     }
 }
