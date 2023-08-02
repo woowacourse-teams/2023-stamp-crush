@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.visitor.coupon.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import lombok.Getter;
@@ -70,7 +71,11 @@ public class CustomerCouponFindResponse {
         private static class CoordinatesResponse {
 
             private final Integer order;
+
+            @JsonProperty("xCoordinate")
             private final Integer xCoordinate;
+
+            @JsonProperty("yCoordinate")
             private final Integer yCoordinate;
 
             static CoordinatesResponse from(CustomerCouponFindResultDto.CouponInfoDto.CouponCoordinatesDto couponCoordinatesDto) {
