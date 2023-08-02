@@ -3,6 +3,7 @@ import { detail, swap } from '../../style/keyframes';
 
 export const HeaderContainer = styled.header`
   display: flex;
+  width: 100%;
   height: 65px;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +26,6 @@ export const NameContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   height: 36px;
   gap: 10px;
 `;
@@ -58,7 +58,8 @@ export const MaxStampCount = styled.span`
 
 export const BackDrop = styled.div<{ $couponMainColor: string }>`
   z-index: -10;
-  width: 100vw;
+  width: 100%;
+  max-width: 450px;
   overflow: hidden;
   height: 100%;
   position: absolute;
@@ -71,6 +72,8 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
     white
   );
   opacity: 0.7;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export const CouponListContainer = styled.div<{
@@ -101,7 +104,7 @@ export const CouponListContainer = styled.div<{
     $isDetail &&
     css`
       :nth-last-child(1) {
-        transform: translateY(-250%) scale(0.86);
+        transform: translateY(-219%) scale(0.86);
         animation: ${detail} 0.3s;
       }
       :nth-last-child(n + 2) {
@@ -126,7 +129,7 @@ export const CouponListContainer = styled.div<{
 export const DetailButton = styled.button<{ $isDetail: boolean }>`
   position: fixed;
   bottom: 30px;
-  right: 30px;
+  right: calc(50% - 170px);
   border-radius: 50%;
   width: 60px;
   height: 60px;
