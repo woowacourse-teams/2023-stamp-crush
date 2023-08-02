@@ -6,7 +6,6 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalTime;
@@ -37,6 +36,7 @@ class CafePolicyRepositoryTest {
                         LocalTime.MIDNIGHT,
                         "01012345678",
                         "#",
+                        "안녕하세요",
                         "서울시 올림픽로 어쩌고",
                         "루터회관",
                         "10-222-333",

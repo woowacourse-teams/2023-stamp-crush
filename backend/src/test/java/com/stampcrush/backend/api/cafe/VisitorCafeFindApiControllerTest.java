@@ -73,7 +73,7 @@ class VisitorCafeFindApiControllerTest {
     void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
         // given
         when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
-        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
+        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + CAFE_ID)

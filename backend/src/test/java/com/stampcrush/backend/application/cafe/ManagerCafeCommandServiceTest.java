@@ -221,12 +221,14 @@ public class ManagerCafeCommandServiceTest {
 
         // when
         CafeUpdateDto cafeUpdateDto = new CafeUpdateDto(
+                "반갑습니다",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
                 "99999",
                 "image"
         );
         hadiCafe.updateCafeAdditionalInformation(
+                cafeUpdateDto.getIntroduction(),
                 cafeUpdateDto.getOpenTime(),
                 cafeUpdateDto.getCloseTime(),
                 cafeUpdateDto.getTelephoneNumber(),
@@ -238,7 +240,8 @@ public class ManagerCafeCommandServiceTest {
                 () -> assertThat(hadiCafe.getCafeImageUrl()).isEqualTo(cafeUpdateDto.getCafeImageUrl()),
                 () -> assertThat(hadiCafe.getTelephoneNumber()).isEqualTo(cafeUpdateDto.getTelephoneNumber()),
                 () -> assertThat(hadiCafe.getOpenTime()).isEqualTo(cafeUpdateDto.getOpenTime()),
-                () -> assertThat(hadiCafe.getCloseTime()).isEqualTo(cafeUpdateDto.getCloseTime())
+                () -> assertThat(hadiCafe.getCloseTime()).isEqualTo(cafeUpdateDto.getCloseTime()),
+                () -> assertThat(hadiCafe.getIntroduction()).isEqualTo(cafeUpdateDto.getIntroduction())
         );
     }
 
@@ -250,6 +253,7 @@ public class ManagerCafeCommandServiceTest {
                         LocalTime.of(18, 30),
                         "0211111111",
                         "http://www.cafeImage.com",
+                        "안녕하세요",
                         "잠실동12길",
                         "14층",
                         "11111111",

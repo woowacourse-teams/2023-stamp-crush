@@ -14,6 +14,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class CafeUpdateRequest {
 
+    private String introduction;
+
     private LocalTime openTime;
 
     private LocalTime closeTime;
@@ -24,6 +26,7 @@ public class CafeUpdateRequest {
 
     public CafeUpdateDto toServiceDto() {
         return new CafeUpdateDto(
+                this.introduction,
                 this.openTime,
                 this.closeTime,
                 this.telephoneNumber,

@@ -104,6 +104,7 @@ public class ManagerCafeCommandService {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
         cafe.updateCafeAdditionalInformation(
+                cafeUpdateDto.getIntroduction(),
                 cafeUpdateDto.getOpenTime(),
                 cafeUpdateDto.getCloseTime(),
                 cafeUpdateDto.getTelephoneNumber(),

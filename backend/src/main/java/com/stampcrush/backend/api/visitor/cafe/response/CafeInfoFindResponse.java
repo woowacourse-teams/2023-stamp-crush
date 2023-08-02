@@ -13,7 +13,7 @@ public class CafeInfoFindResponse {
 
     private final Long id;
     private final String name;
-    //  private final String introduction;
+    private final String introduction;
 
     @DateTimeFormat(pattern = "HH:mm")
     private final LocalTime openTime;
@@ -30,6 +30,7 @@ public class CafeInfoFindResponse {
         return new CafeInfoFindResponse(
                 cafeInfoFindByCustomerResultDto.getId(),
                 cafeInfoFindByCustomerResultDto.getName(),
+                cafeInfoFindByCustomerResultDto.getIntroduction(),
                 cafeInfoFindByCustomerResultDto.getOpenTime(),
                 cafeInfoFindByCustomerResultDto.getCloseTime(),
                 cafeInfoFindByCustomerResultDto.getTelephoneNumber(),

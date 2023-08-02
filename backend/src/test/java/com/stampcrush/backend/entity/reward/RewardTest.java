@@ -27,8 +27,8 @@ public class RewardTest {
     void setUp() {
         Owner owner_1 = new Owner("lisa", "lisa@naver.com", "1234", "01011111111");
         Owner owner_2 = new Owner("tommy", "tommy@naver.com", "5678", "01099999999");
-        cafe_1 = new Cafe("stamp-crush", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "잠실도로명", "14층", "11-11111", owner_1);
-        cafe_2 = new Cafe("wrongCafe", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "잠실도로", "1층", "11-11111", owner_2);
+        cafe_1 = new Cafe("stamp-crush", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "안녕하세요", "잠실도로명", "14층", "11-11111", owner_1);
+        cafe_2 = new Cafe("wrongCafe", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "안녕하세요", "잠실도로", "1층", "11-11111", owner_2);
         registerCustomer_1 = new RegisterCustomer("registered", "01022222222", "ehdgur@naver.com", "1111");
         registerCustomer_2 = new RegisterCustomer("registered2", "01044444444", "dsadsa@naver.com", "2345");
         temporaryCustomer = TemporaryCustomer.from("01033333333");
