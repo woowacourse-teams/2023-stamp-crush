@@ -6,7 +6,7 @@ interface ProgressBarProps {
   color?: string;
 }
 
-const ProgressBar = ({ stampCount, maxCount, color = 'skyblue' }: ProgressBarProps) => {
+const ProgressBar = ({ stampCount, maxCount, color = 'gray' }: ProgressBarProps) => {
   return (
     <Bar>
       <Progress $width={(stampCount / maxCount) * 100} $color={color} />
