@@ -17,16 +17,13 @@ import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
-@Component
-@Profile("dev")
+//@Component
+//@Profile("dev")
 @RequiredArgsConstructor
-@Order(2)
+//@Order(2)
 public class DataInitializer implements ApplicationRunner {
 
     private final TemporaryCustomerRepository temporaryCustomerRepository;
