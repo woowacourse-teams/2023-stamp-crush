@@ -44,6 +44,7 @@ public class DataInitializer implements ApplicationRunner {
                 LocalTime.of(18, 30),
                 "0211111111",
                 "http://www.cafeImage.com",
+                "안녕하세요",
                 "잠실동12길",
                 "14층",
                 "11111111",

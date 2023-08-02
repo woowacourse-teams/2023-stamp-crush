@@ -53,6 +53,7 @@ public class CafeIntegrationTest extends AcceptanceTest {
                 LocalTime.MIDNIGHT,
                 "01012345678",
                 "#",
+                "안녕하세요",
                 "서울시 올림픽로 어쩌고",
                 "루터회관",
                 "10-222-333",

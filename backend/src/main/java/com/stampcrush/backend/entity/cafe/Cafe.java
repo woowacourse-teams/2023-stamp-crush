@@ -33,6 +33,8 @@ public class Cafe extends BaseDate {
 
     private String cafeImageUrl;
 
+    private String introduction;
+
     private String roadAddress;
 
     private String detailAddress;
@@ -47,15 +49,16 @@ public class Cafe extends BaseDate {
     private List<CafePolicy> policies = new ArrayList<>();
 
     public Cafe(String name, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
-        this(name, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
+        this(name, null, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
     }
 
-    public Cafe(String name, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
+    public Cafe(String name, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl, String introduction, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
         this.name = name;
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.telephoneNumber = telephoneNumber;
         this.cafeImageUrl = cafeImageUrl;
+        this.introduction = introduction;
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
         this.businessRegistrationNumber = businessRegistrationNumber;
@@ -65,7 +68,8 @@ public class Cafe extends BaseDate {
     protected Cafe() {
     }
 
-    public void updateCafeAdditionalInformation(LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl) {
+    public void updateCafeAdditionalInformation(String introduction, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl) {
+        this.introduction = introduction;
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.telephoneNumber = telephoneNumber;
