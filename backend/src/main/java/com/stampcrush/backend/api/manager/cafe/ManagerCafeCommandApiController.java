@@ -38,6 +38,7 @@ public class ManagerCafeCommandApiController {
 
     @PatchMapping("/{cafeId}")
     ResponseEntity<Void> updateCafe(
+            OwnerAuth owner,
             @PathVariable Long cafeId,
             @RequestBody @Valid CafeUpdateRequest request
     ) {
