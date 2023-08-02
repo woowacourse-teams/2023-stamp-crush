@@ -21,3 +21,13 @@ export const detail = keyframes`
     transform: translateY(-250%) scale(0.86);
   }
 `;
+
+export const popup = keyframes`
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+`;
