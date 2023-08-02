@@ -52,7 +52,7 @@ class ManagerCafeFindApiControllerTest {
     @Test
     void 카페_조회_요청_시_인증_헤더_정보가_없으면_401코드_반환() throws Exception {
         // ownerId 로 넣어둔 1은 없어질거라 우선 매직넘버로 넣어둠
-        mockMvc.perform(get("/api/admin/cafes/" + 1)
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
@@ -63,7 +63,7 @@ class ManagerCafeFindApiControllerTest {
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.empty());
 
         // when, then
-        mockMvc.perform(get("/api/admin/cafes/" + 1)
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
                 .andExpect(status().isUnauthorized());
@@ -75,19 +75,22 @@ class ManagerCafeFindApiControllerTest {
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
 
         // when, then
-        mockMvc.perform(get("/api/admin/cafes/" + 1)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+        mockMvc.perform(
+                        get("/api/admin/cafes")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                )
                 .andExpect(status().isOk());
     }
 
     @Test
     void 카페_조회_요청_시_비밀번호가_틀리면_401코드_반환() throws Exception {
         // given
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(new Owner("jena", "jenaId", "jnpw123", "01098765432")));
+        when(ownerRepository.findByLoginId(owner.getLoginId()))
+                .thenReturn(Optional.of(new Owner("jena", "jenaId", "jnpw123", "01098765432")));
 
         // when, then
-        mockMvc.perform(get("/api/admin/cafes/" + 1)
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
                 .andExpect(status().isUnauthorized());

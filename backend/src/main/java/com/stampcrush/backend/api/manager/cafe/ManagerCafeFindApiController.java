@@ -8,7 +8,6 @@ import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,9 +20,9 @@ public class ManagerCafeFindApiController {
 
     private final ManagerCafeFindService managerCafeFindService;
 
-    @GetMapping("/{ownerId}")
-    ResponseEntity<CafesFindResponse> findAllCafes(OwnerAuth owner, @PathVariable Long ownerId) {
-        List<CafeFindResultDto> cafeFindResultDtos = managerCafeFindService.findCafesByOwner(ownerId);
+    @GetMapping
+    ResponseEntity<CafesFindResponse> findAllCafes(OwnerAuth owner) {
+        List<CafeFindResultDto> cafeFindResultDtos = managerCafeFindService.findCafesByOwner(owner.getId());
         List<CafeFindResponse> cafeFindResponses = cafeFindResultDtos.stream()
                 .map(CafeFindResponse::from)
                 .toList();
