@@ -29,15 +29,14 @@ public class ManagerCouponCommandApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
     }
 
-    @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
+    @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps")
     public ResponseEntity<Void> createStamp(
             OwnerAuth owner,
             @PathVariable("customerId") Long customerId,
             @PathVariable("couponId") Long couponId,
-            @PathVariable("ownerId") Long ownerId,
             @RequestBody @Valid StampCreateRequest request
     ) {
-        StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, request.getEarningStampCount());
+        StampCreateDto stampCreateDto = new StampCreateDto(owner.getId(), customerId, couponId, request.getEarningStampCount());
         managerCouponCommandService.createStamp(stampCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
