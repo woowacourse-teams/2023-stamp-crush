@@ -32,9 +32,9 @@ public class ManagerCouponCommandApiController {
     @PostMapping("/customers/{customerId}/coupons/{couponId}/stamps/{ownerId}")
     public ResponseEntity<Void> createStamp(
             OwnerAuth owner,
-            @PathVariable Long customerId,
-            @PathVariable Long couponId,
-            @PathVariable Long ownerId,
+            @PathVariable("customerId") Long customerId,
+            @PathVariable("couponId") Long couponId,
+            @PathVariable("ownerId") Long ownerId,
             @RequestBody @Valid StampCreateRequest request
     ) {
         StampCreateDto stampCreateDto = new StampCreateDto(ownerId, customerId, couponId, request.getEarningStampCount());
