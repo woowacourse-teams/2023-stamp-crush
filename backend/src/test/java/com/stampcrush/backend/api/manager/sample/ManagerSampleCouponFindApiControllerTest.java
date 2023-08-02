@@ -1,6 +1,5 @@
 package com.stampcrush.backend.api.manager.sample;
 
-import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ class ManagerSampleCouponFindApiControllerTest {
 
     @MockBean
     private OwnerRepository ownerRepository;
-
-    @MockBean
-    private ManagerSampleCouponFindService managerSampleCouponFindService;
 
     @Test
     void 샘플_쿠폰_조회_요청_시_인증_헤더_정보가_없으면_401코드를_반환한다() throws Exception {
