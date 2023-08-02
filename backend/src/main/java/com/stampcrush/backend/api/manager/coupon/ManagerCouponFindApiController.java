@@ -22,7 +22,10 @@ public class ManagerCouponFindApiController {
     private final ManagerCouponFindService managerCouponFindService;
 
     @GetMapping("/cafes/{cafeId}/customers")
-    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(OwnerAuth owner, @PathVariable Long cafeId) {
+    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafe(
+            OwnerAuth owner,
+            @PathVariable("cafeId") Long cafeId
+    ) {
         List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafeId);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
