@@ -18,9 +18,7 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
       animation: ${popup} 0.4s;
       transform: translateY(0);
     `}
-
-  background: white;
-
+    
   h1 {
     white-space: pre-line;
   }
