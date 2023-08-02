@@ -66,7 +66,6 @@ public class CustomerCouponFindResponse {
             );
         }
 
-        @Getter
         @RequiredArgsConstructor
         private static class CoordinatesResponse {
 
@@ -81,6 +80,18 @@ public class CustomerCouponFindResponse {
                         couponCoordinatesDto.getXCoordinate(),
                         couponCoordinatesDto.getYCoordinate()
                 );
+            }
+
+            public Integer getOrder() {
+                return order;
+            }
+
+            public Integer getxCoordinate() {
+                return xCoordinate;
+            }
+
+            public Integer getyCoordinate() {
+                return yCoordinate;
             }
         }
     }
