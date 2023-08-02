@@ -20,14 +20,13 @@ public class ManagerCafeCommandApiController {
 
     private final ManagerCafeCommandService managerCafeCommandService;
 
-    @PostMapping("/{ownerId}")
+    @PostMapping
     ResponseEntity<Void> createCafe(
             OwnerAuth owner,
-            @PathVariable Long ownerId,
             @RequestBody @Valid CafeCreateRequest cafeCreateRequest
     ) {
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
-                ownerId,
+                owner.getId(),
                 cafeCreateRequest.getName(),
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
@@ -39,7 +38,7 @@ public class ManagerCafeCommandApiController {
     @PatchMapping("/{cafeId}")
     ResponseEntity<Void> updateCafe(
             OwnerAuth owner,
-            @PathVariable Long cafeId,
+            @PathVariable("cafeId") Long cafeId,
             @RequestBody @Valid CafeUpdateRequest request
     ) {
         CafeUpdateDto cafeUpdateDto = request.toServiceDto();
