@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@SQLDelete(sql = "UPDATE CAFE_COUPON_DESIGN SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE cafe_coupon_design SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 @Entity
 public class CafeCouponDesign extends BaseDate {
@@ -26,6 +26,7 @@ public class CafeCouponDesign extends BaseDate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     private String frontImageUrl;
 
     private String backImageUrl;

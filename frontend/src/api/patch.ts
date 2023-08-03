@@ -2,7 +2,7 @@ import { api, customerHeader, ownerHeader } from '.';
 import { CafeInfoReq } from '../types/api';
 
 export const patchReward = async (customerId: number, rewardId: number) => {
-  await api.patch(`/customers/${customerId}/rewards/${rewardId}`, customerHeader, {
+  await api.patch(`/admin/customers/${customerId}/rewards/${rewardId}`, customerHeader, {
     cafeId: 1,
     used: true,
   });

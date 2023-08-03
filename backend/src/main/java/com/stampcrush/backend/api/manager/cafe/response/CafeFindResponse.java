@@ -25,6 +25,7 @@ public class CafeFindResponse {
     private final String roadAddress;
     private final String detailAddress;
     private final String businessRegistrationNumber;
+    private final String introduction;
 
     public static CafeFindResponse from(CafeFindResultDto cafeFindResultDto) {
         return new CafeFindResponse(
@@ -36,7 +37,8 @@ public class CafeFindResponse {
                 cafeFindResultDto.getCafeImageUrl(),
                 cafeFindResultDto.getRoadAddress(),
                 cafeFindResultDto.getDetailAddress(),
-                cafeFindResultDto.getBusinessRegistrationNumber()
+                cafeFindResultDto.getBusinessRegistrationNumber(),
+                cafeFindResultDto.getIntroduction()
         );
     }
 }

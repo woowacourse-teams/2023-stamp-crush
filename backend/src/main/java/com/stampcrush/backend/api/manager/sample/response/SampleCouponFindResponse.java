@@ -31,7 +31,6 @@ public class SampleCouponFindResponse {
                         sampleCoupons.getSampleStampCoordinates().stream().filter(
                                         sampleStampCoordinate -> sampleStampCoordinate.getSampleBackImage().equals(sampleBackImage))
                                 .map(sampleStampCoordinate -> new SampleBackImageFindResponse.SampleStampCoordinateFindResponse(
-                                        sampleStampCoordinate.getId(),
                                         sampleStampCoordinate.getStampOrder(),
                                         sampleStampCoordinate.getXCoordinate(),
                                         sampleStampCoordinate.getYCoordinate()
@@ -66,14 +65,24 @@ public class SampleCouponFindResponse {
         private final String imageUrl;
         private final List<SampleStampCoordinateFindResponse> stampCoordinates;
 
-        @Getter
         @RequiredArgsConstructor
         public static class SampleStampCoordinateFindResponse {
 
-            private final Long id;
-            private final Integer stampOrder;
+            private final Integer order;
             private final Integer xCoordinate;
             private final Integer yCoordinate;
+
+            public Integer getOrder() {
+                return order;
+            }
+
+            public Integer getxCoordinate() {
+                return xCoordinate;
+            }
+
+            public Integer getyCoordinate() {
+                return yCoordinate;
+            }
         }
     }
 

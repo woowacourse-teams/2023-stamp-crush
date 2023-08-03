@@ -12,6 +12,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import { FaRegClock, FaPhoneAlt, FaRegBell } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { Cafe, Coupon } from '../../../types';
+import { parsePhoneNumber } from '../../../utils';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -37,6 +38,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         stampImageUrl={couponInfos.stampImageUrl}
         isShown={isShown}
         coordinates={couponInfos.coordinates}
+        stampCount={couponInfos.stampCount}
       />
       <CloseButton onClick={closeDetail}>
         <BiArrowBack size={24} />
@@ -56,7 +58,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         </Text>
         <Text>
           <FaPhoneAlt size={24} />
-          {cafe.telephoneNumber}
+          {parsePhoneNumber(cafe.telephoneNumber)}
         </Text>
         <Text>
           <FaLocationDot size={24} />
