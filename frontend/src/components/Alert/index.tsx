@@ -14,7 +14,7 @@ const Alert = ({ text, rightOption, leftOption, onClickLeft, onClickRight }: Ale
   return ReactDOM.createPortal(
     <>
       <BackDrop onClick={onClickLeft} />
-      <AlertContainer>
+      <AlertContainer role="alert">
         <TextContainer>
           <CiCircleAlert size={60} color={'#6e6e6e'} />
           {text}

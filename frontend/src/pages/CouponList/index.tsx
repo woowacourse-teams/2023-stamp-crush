@@ -130,16 +130,26 @@ const CouponList = () => {
   return (
     <>
       <HeaderContainer>
-        <LogoImg src={AdminHeaderLogo} />
-        <GoPerson size={24} onClick={navigateMyPage} />
+        <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" />
+        <GoPerson size={24} onClick={navigateMyPage} aria-label="마이 페이지 버튼" />
       </HeaderContainer>
       <InfoContainer>
         <NameContainer>
           <CafeName aria-label="카페 이름">{currentCoupon.cafeInfo.name}</CafeName>
           {currentCoupon.couponInfos[0].isFavorites ? (
-            <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
+            <AiFillStar
+              size={40}
+              color={'#FFD600'}
+              onClick={openAlert}
+              aria-label="즐겨찾기 해제"
+            />
           ) : (
-            <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
+            <AiOutlineStar
+              size={40}
+              color={'#FFD600'}
+              onClick={openAlert}
+              aria-label="즐겨찾기 등록"
+            />
           )}
         </NameContainer>
         <ProgressBarContainer aria-label="스탬프 개수">
@@ -159,8 +169,13 @@ const CouponList = () => {
               </>
             )}
           </Color>
-          <StampCount>{currentCoupon.couponInfos[0].stampCount}</StampCount>/
-          <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
+          <StampCount aria-label={`현재 스탬프 개수 ${currentCoupon.couponInfos[0].stampCount}개`}>
+            {currentCoupon.couponInfos[0].stampCount}
+          </StampCount>
+          /
+          <MaxStampCount aria-label="필요한 스탬프 개수">
+            {currentCoupon.couponInfos[0].maxStampCount}
+          </MaxStampCount>
         </ProgressBarContainer>
       </InfoContainer>
       <CouponListContainer
@@ -177,6 +192,7 @@ const CouponList = () => {
               coupon={{ cafeInfo, couponInfos }}
               data-index={index}
               onClick={changeCurrentIndex(index)}
+              aria-label={`${cafeInfo.name} 쿠폰`}
             />
           </>
         ))}

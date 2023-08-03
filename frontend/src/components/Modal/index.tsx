@@ -11,7 +11,7 @@ const Modal = forwardRef(
     return ReactDOM.createPortal(
       <>
         <ModalBackdrop onClick={closeModal} />
-        <BaseModal ref={ref}>
+        <BaseModal ref={ref} role="dialog">
           {children}
           <CloseButton onClick={closeModal} />
         </BaseModal>
