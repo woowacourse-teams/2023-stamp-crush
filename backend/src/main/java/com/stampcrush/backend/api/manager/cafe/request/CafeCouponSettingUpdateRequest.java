@@ -34,7 +34,6 @@ public class CafeCouponSettingUpdateRequest {
     @Positive
     private final Integer expirePeriod;
 
-    @Getter
     @RequiredArgsConstructor
     public static class CouponStampCoordinateRequest {
 
@@ -52,6 +51,18 @@ public class CafeCouponSettingUpdateRequest {
 
         public CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto toCafeStampCoordinateDto() {
             return new CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto(order, xCoordinate, yCoordinate);
+        }
+
+        public Integer getOrder() {
+            return order;
+        }
+
+        public Integer getxCoordinate() {
+            return xCoordinate;
+        }
+
+        public Integer getyCoordinate() {
+            return yCoordinate;
         }
     }
 
