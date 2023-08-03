@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.CafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.CafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.CouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
@@ -53,9 +55,11 @@ public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
 
         Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan, CAFE_CREATE_REQUEST);
         Cafe gitchanCafe = cafeRepository.findById(gitchanCafeId).get();
+        카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, gitchan, gitchanCafeId);
 
         Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena, CAFE_CREATE_REQUEST);
         Cafe jenaCafe = cafeRepository.findById(jenaCafeId).get();
+        카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, jena, jenaCafeId);
 
         Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchan, new CouponCreateRequest(gitchanCafeId), customer.getId());
         Coupon gitchanCafeCoupon = couponRepository.findById(gitchanCafeCouponId).get();
