@@ -57,6 +57,7 @@ const ManageCafe = () => {
       setCloseTime(splitTime(cafeInfo.closeTime));
     }
     if (!isEmptyData(cafeInfo.telephoneNumber)) setPhoneNumber(cafeInfo.telephoneNumber);
+    if (!isEmptyData(cafeInfo.introduction)) setIntroduction(cafeInfo.introduction);
   }, [cafeInfo]);
 
   const { mutate, isLoading, isError } = useMutation(
@@ -87,7 +88,7 @@ const ManageCafe = () => {
       openTime: parseTime(openTime),
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
-      cafeImageUrl: cafeImage,
+      cafeImageUrl: cafeImage === '' ? 'https://picsum.photos/200/300' : cafeImage,
       introduction: introduction === '내용을 입력해주세요' ? '' : introduction,
     };
 
