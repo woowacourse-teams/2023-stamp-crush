@@ -9,6 +9,7 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   width: 100vw;
   height: 100vh;
   background: white;
+  max-width: 450px;
   transform: translateY(100%);
 
   ${({ $isDetail }) =>
@@ -18,13 +19,9 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
       animation: ${popup} 0.4s;
       transform: translateY(0);
     `}
-    
+
   h1 {
     white-space: pre-line;
-  }
-
-  @media screen and (min-width: 768px) {
-    max-width: 450px;
   }
 
   > :nth-child(2) {

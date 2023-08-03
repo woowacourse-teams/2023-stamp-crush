@@ -9,6 +9,7 @@ export const cafes = [
     roadAddress: '서울시 송파구',
     detailAddress: '루터회관',
     businessRegistrationNumber: '00-000-00000',
+    introduction: '안녕하세요.',
   },
 ];
 
@@ -164,7 +165,8 @@ export const customerCoupons = {
           stampCount: 1,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://drive.google.com/uc?export=view&id=1_3XRlwig5m846bBUzUv-VqcOxN1PTyPY',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1_3XRlwig5m846bBUzUv-VqcOxN1PTyPY',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
           stampImageUrl:
@@ -197,7 +199,8 @@ export const customerCoupons = {
           stampCount: 3,
           maxStampCount: 8,
           rewardName: '아메리카노',
-          frontImageUrl: 'https://drive.google.com/uc?export=view&id=1hdTvv_yBFdpyDpJWrNMMy9JlBKVNNy7D',
+          frontImageUrl:
+            'https://drive.google.com/uc?export=view&id=1hdTvv_yBFdpyDpJWrNMMy9JlBKVNNy7D',
           backImageUrl:
             'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC241B.jpg',
           stampImageUrl:

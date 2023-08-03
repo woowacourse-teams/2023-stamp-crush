@@ -49,10 +49,10 @@ export const StampImage = styled.img<{ $x: number; $y: number }>`
   width: 30px;
   height: 30px;
   position: absolute;
-  top: ${({ $y }) => `${$y}px`};
-  right: ${({ $x }) => `${$x}px`};
-
-  object-fit: contain;
+  background: pink;
+  top: ${({ $y }) => `${$y - 15}px`};
+  right: ${({ $x }) => `${$x - 15}px`};
+  object-fit: cover;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transform: rotateY(180deg);
