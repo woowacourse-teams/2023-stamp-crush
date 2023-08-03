@@ -55,14 +55,13 @@ export const SideBarLink = styled(Link)`
 
 export const SideBarContent = styled.div<SideBarSelect>`
   transition: all 0.4s ease;
-  background-color: ${(props) => `${props.$isSelected ? '#eee' : 'transparent'}`};
+  background-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.colors.gray200 : 'transparent'};
 
   :hover {
-    color: black;
     font-weight: 600;
-    background: ${({ theme }) => theme.colors.main};
-    border-radius: 8px;
-    transform: translate(-5px, -5px);
+    transform: scale(0.98);
+    opacity: 80%;
   }
 `;
 
@@ -75,8 +74,8 @@ export const Arrow = styled.span`
     left: 0;
     top: -8px;
 
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
 
     border-top: 3px solid ${({ theme }) => theme.colors.gray};
     border-right: 3px solid ${({ theme }) => theme.colors.gray};
