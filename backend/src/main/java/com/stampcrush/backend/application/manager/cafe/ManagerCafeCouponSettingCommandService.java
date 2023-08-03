@@ -91,14 +91,7 @@ public class ManagerCafeCouponSettingCommandService {
                 cafe
         );
         CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(newCafeCouponDesign);
-        createNewCafeStampCoordinates(savedCafeCouponDesign, cafeCouponDesignDto.getCoordinates());
-    }
-
-    private void createNewCafeStampCoordinates(
-            CafeCouponDesign savedCafeCouponDesign,
-            List<CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto> coordinates
-    ) {
-        for (CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto coordinate : coordinates) {
+        for (CafeCouponSettingDto.CafeCouponDesignDto.CafeStampCoordinateDto coordinate : cafeCouponDesignDto.getCoordinates()) {
             CafeStampCoordinate newCafeStampCoordinate = new CafeStampCoordinate(
                     coordinate.getOrder(),
                     coordinate.getXCoordinate(),
