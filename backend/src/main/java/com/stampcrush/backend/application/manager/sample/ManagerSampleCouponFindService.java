@@ -34,7 +34,7 @@ public class ManagerSampleCouponFindService {
         if (maxStampCount == null) {
             List<SampleStampCoordinate> sampleStampCoordinates = sampleStampCoordinateRepository.findAll();
             List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll();
-            return new SampleCouponsFindResultDto(sampleFrontImages, sampleBackImages, sampleStampCoordinates, sampleStampImages);
+            return SampleCouponsFindResultDto.of(sampleFrontImages, sampleBackImages, sampleStampCoordinates, sampleStampImages);
         }
 
         List<SampleBackImage> sampleBackImages = sampleBackImageRepository.findAll()
@@ -47,7 +47,7 @@ public class ManagerSampleCouponFindService {
             coordinates.addAll(sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(sampleBackImage));
         }
 
-        return new SampleCouponsFindResultDto(sampleFrontImages, sampleBackImages, coordinates, sampleStampImages);
+        return SampleCouponsFindResultDto.of(sampleFrontImages, sampleBackImages, coordinates, sampleStampImages);
     }
 
     private Predicate<SampleBackImage> isSameMaxStampCount(int maxStampCount) {
