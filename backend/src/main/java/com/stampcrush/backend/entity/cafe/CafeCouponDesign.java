@@ -26,6 +26,7 @@ public class CafeCouponDesign extends BaseDate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     private String frontImageUrl;
 
     private String backImageUrl;
