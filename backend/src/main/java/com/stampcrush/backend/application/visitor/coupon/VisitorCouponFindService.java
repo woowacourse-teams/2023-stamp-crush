@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class VisitorCustomerCouponFindService {
+public class VisitorCouponFindService {
 
     private static final Boolean IS_FAVORITES_TEMPORARY_VALUE = Boolean.TRUE;
 
@@ -36,6 +36,8 @@ public class VisitorCustomerCouponFindService {
         List<CustomerCouponFindResultDto> response = new ArrayList<>();
         for (Coupon coupon : coupons) {
             Cafe cafe = coupon.getCafe();
+
+
             Boolean isFavorites = IS_FAVORITES_TEMPORARY_VALUE;
             List<CouponStampCoordinate> coordinates = couponStampCoordinateRepository.findByCouponDesign(coupon.getCouponDesign());
             response.add(CustomerCouponFindResultDto.of(cafe, coupon, isFavorites, coordinates));
