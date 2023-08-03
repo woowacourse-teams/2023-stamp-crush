@@ -49,7 +49,6 @@ export const StampImage = styled.img<{ $x: number; $y: number }>`
   width: 30px;
   height: 30px;
   position: absolute;
-  background: pink;
   top: ${({ $y }) => `${$y - 15}px`};
   right: ${({ $x }) => `${$x - 15}px`};
   object-fit: cover;

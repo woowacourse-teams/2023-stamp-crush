@@ -21,47 +21,32 @@ import { CustomerRes } from '../../../types/api';
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
-  const [customers, setCustomers] = useState<CustomerRes[]>([]);
-  const { isLoading, isError, data, isSuccess } = useQuery(['customers'], getList, {
+  const orderCustomer = (customers: CustomerRes[]) => {
+    customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
+  };
+
+  const { data, status } = useQuery(['customers'], getList, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     onSuccess: (data) => {
-      setCustomers(data.customers);
-      orderCustomer();
+      orderCustomer(data.customers);
     },
   });
 
-  const orderCustomer = () => {
-    if (!isSuccess) return;
-    const customers = data.customers;
-
-    switch (orderOption.key) {
-      case 'firstVisitDate':
-        // TODO: 방문일 순 로직 구현
-        break;
-      default:
-        // TODO: any 제거
-        customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
-        setCustomers([...customers]);
-        break;
-    }
-  };
-
-  const searchCustomer = () => {
-    if (searchWord === '') return;
-    setCustomers([
-      ...data.customers.filter(
-        (customer: CustomerRes) => customer.nickname === searchWord && customer,
-      ),
-    ]);
-  };
-
   useEffect(() => {
-    if (isSuccess) {
-      orderCustomer();
+    if (status === 'success') {
+      orderCustomer(data.customers);
     }
   }, [orderOption]);
 
-  if (isLoading) return <CustomerContainer>Loading</CustomerContainer>;
-  if (isError) return <CustomerContainer>Error</CustomerContainer>;
+  if (status === 'loading') return <CustomerContainer>Loading</CustomerContainer>;
+  if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
+
+  const searchCustomer = () => {
+    if (searchWord === '') return;
+
+    // TODO: 추후에 백엔드와 검색 기능 토의 후 수정 예정
+  };
 
   return (
     <CustomerContainer>
@@ -74,7 +59,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      {customers.map(
+      {data.customers.map(
         ({
           id,
           nickname,

@@ -1,17 +1,19 @@
-export const cafes = [
-  {
-    id: 1,
-    name: '윤생까페',
-    openTime: '09:00',
-    closeTime: '18:00',
-    telephoneNumber: '0212345678',
-    cafeImageUrl: 'https://picsum.photos/200/300',
-    roadAddress: '서울시 송파구',
-    detailAddress: '루터회관',
-    businessRegistrationNumber: '00-000-00000',
-    introduction: '안녕하세요.',
-  },
-];
+export const cafes = {
+  cafes: [
+    {
+      id: 1,
+      name: '윤생까페',
+      openTime: '09:00',
+      closeTime: '18:00',
+      telephoneNumber: '0212345678',
+      cafeImageUrl: 'https://picsum.photos/200/300',
+      roadAddress: '서울시 송파구',
+      detailAddress: '루터회관',
+      businessRegistrationNumber: '00-000-00000',
+      introduction: '안녕하세요.',
+    },
+  ],
+};
 
 export const samples8 = {
   sampleFrontImages: [
