@@ -42,14 +42,19 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
-  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], () =>
-    getCafeInfo(cafeId),
-  );
   const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
+
+      data.coupons.length !== 0 && setCafeId(data.coupons[data.coupons.length - 1].cafeInfo.id);
     },
   });
+
+  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
+    queryFn: () => getCafeInfo(cafeId),
+    enabled: !!(cafeId !== 0),
+  });
+
   const { mutate: mutateIsFavorites } = useMutation(
     ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
     {
@@ -133,74 +138,80 @@ const CouponList = () => {
         <LogoImg src={AdminHeaderLogo} />
         <GoPerson size={24} onClick={navigateMyPage} />
       </HeaderContainer>
-      <InfoContainer>
-        <NameContainer>
-          <CafeName aria-label="카페 이름">{currentCoupon.cafeInfo.name}</CafeName>
-          {currentCoupon.couponInfos[0].isFavorites ? (
-            <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
-          ) : (
-            <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
-          )}
-        </NameContainer>
-        <ProgressBarContainer aria-label="스탬프 개수">
-          <Color
-            src={addGoogleProxyUrl(currentCoupon.couponInfos[0].frontImageUrl)}
-            format="hex"
-            crossOrigin="anonymous"
+      {coupons.length === 0 ? (
+        <>쿠폰 없음</>
+      ) : (
+        <>
+          <InfoContainer>
+            <NameContainer>
+              <CafeName aria-label="카페 이름">{currentCoupon.cafeInfo.name}</CafeName>
+              {currentCoupon.couponInfos[0].isFavorites ? (
+                <AiFillStar size={40} color={'#FFD600'} onClick={openAlert} />
+              ) : (
+                <AiOutlineStar size={40} color={'#FFD600'} onClick={openAlert} />
+              )}
+            </NameContainer>
+            <ProgressBarContainer aria-label="스탬프 개수">
+              <Color
+                src={addGoogleProxyUrl(currentCoupon.couponInfos[0].frontImageUrl)}
+                format="hex"
+                crossOrigin="anonymous"
+              >
+                {({ data: color }) => (
+                  <>
+                    <BackDrop $couponMainColor={color ? color : 'gray'} />
+                    <ProgressBar
+                      stampCount={currentCoupon.couponInfos[0].stampCount}
+                      maxCount={currentCoupon.couponInfos[0].maxStampCount}
+                      color={color}
+                    />
+                  </>
+                )}
+              </Color>
+              <StampCount>{currentCoupon.couponInfos[0].stampCount}</StampCount>/
+              <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
+            </ProgressBarContainer>
+          </InfoContainer>
+          <CouponListContainer
+            ref={couponListContainerRef}
+            onClick={swapCoupon}
+            $isLast={isLast}
+            $isDetail={isDetail}
+            $isShown={isFlippedCouponShown}
           >
-            {({ data: color }) => (
+            {coupons.map(({ cafeInfo, couponInfos }, index) => (
               <>
-                <BackDrop $couponMainColor={color ? color : 'gray'} />
-                <ProgressBar
-                  stampCount={currentCoupon.couponInfos[0].stampCount}
-                  maxCount={currentCoupon.couponInfos[0].maxStampCount}
-                  color={color}
+                <Coupon
+                  key={cafeInfo.id}
+                  coupon={{ cafeInfo, couponInfos }}
+                  data-index={index}
+                  onClick={changeCurrentIndex(index)}
                 />
               </>
-            )}
-          </Color>
-          <StampCount>{currentCoupon.couponInfos[0].stampCount}</StampCount>/
-          <MaxStampCount>{currentCoupon.couponInfos[0].maxStampCount}</MaxStampCount>
-        </ProgressBarContainer>
-      </InfoContainer>
-      <CouponListContainer
-        ref={couponListContainerRef}
-        onClick={swapCoupon}
-        $isLast={isLast}
-        $isDetail={isDetail}
-        $isShown={isFlippedCouponShown}
-      >
-        {coupons.map(({ cafeInfo, couponInfos }, index) => (
-          <>
-            <Coupon
-              key={cafeInfo.id}
-              coupon={{ cafeInfo, couponInfos }}
-              data-index={index}
-              onClick={changeCurrentIndex(index)}
+            ))}
+          </CouponListContainer>
+          {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
+            <CouponDetail
+              coupon={currentCoupon}
+              cafe={cafeData.cafe}
+              closeDetail={closeCouponDetail}
+              isDetail={isDetail}
+              isShown={isFlippedCouponShown}
             />
-          </>
-        ))}
-      </CouponListContainer>
-      {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
-        <CouponDetail
-          coupon={currentCoupon}
-          cafe={cafeData.cafe}
-          closeDetail={closeCouponDetail}
-          isDetail={isDetail}
-          isShown={isFlippedCouponShown}
-        />
-      )}
-      <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
-        <CiCircleMore size={36} color={'#424242'} />
-      </DetailButton>
-      {isOpen && (
-        <Alert
-          text={alertMessage}
-          rightOption={'네'}
-          leftOption={'아니오'}
-          onClickRight={changeFavorites}
-          onClickLeft={closeModal}
-        />
+          )}
+          <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
+            <CiCircleMore size={36} color={'#424242'} />
+          </DetailButton>
+          {isOpen && (
+            <Alert
+              text={alertMessage}
+              rightOption={'네'}
+              leftOption={'아니오'}
+              onClickRight={changeFavorites}
+              onClickLeft={closeModal}
+            />
+          )}
+        </>
       )}
     </>
   );

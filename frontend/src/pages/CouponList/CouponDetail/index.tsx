@@ -38,6 +38,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         stampImageUrl={couponInfos.stampImageUrl}
         isShown={isShown}
         coordinates={couponInfos.coordinates}
+        stampCount={couponInfos.stampCount}
       />
       <CloseButton onClick={closeDetail}>
         <BiArrowBack size={24} />

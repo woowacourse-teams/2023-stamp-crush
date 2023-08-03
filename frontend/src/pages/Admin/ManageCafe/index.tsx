@@ -39,7 +39,7 @@ const ManageCafe = () => {
   const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
-  const { data: cafe } = useQuery(['cafe'], () => getCafe());
+  const { data: cafe, status } = useQuery(['cafe'], () => getCafe());
 
   const cafeInfo = useMemo(() => {
     return cafe ? cafe?.cafes[0] : {};
@@ -93,6 +93,9 @@ const ManageCafe = () => {
 
     mutate(cafeInfoBody);
   };
+
+  if (status === 'loading') return <>로딩 중입니다.</>;
+  if (status === 'error') return <>에러가 발생했습니다.</>;
 
   return (
     <PageContainer>
