@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.visitor.coupon;
 
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
+import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
@@ -21,10 +22,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class VisitorCustomerCouponFindService {
+public class VisitorCouponFindService {
 
-    private static final Boolean IS_FAVORITES_TEMPORARY_VALUE = Boolean.TRUE;
-
+    private final VisitorFavoritesFindService visitorFavoritesFindService;
     private final CustomerRepository customerRepository;
     private final CouponRepository couponRepository;
     private final CouponStampCoordinateRepository couponStampCoordinateRepository;
@@ -36,7 +36,7 @@ public class VisitorCustomerCouponFindService {
         List<CustomerCouponFindResultDto> response = new ArrayList<>();
         for (Coupon coupon : coupons) {
             Cafe cafe = coupon.getCafe();
-            Boolean isFavorites = IS_FAVORITES_TEMPORARY_VALUE;
+            Boolean isFavorites = visitorFavoritesFindService.findIsFavorites(cafe, customer);
             List<CouponStampCoordinate> coordinates = couponStampCoordinateRepository.findByCouponDesign(coupon.getCouponDesign());
             response.add(CustomerCouponFindResultDto.of(cafe, coupon, isFavorites, coordinates));
         }
