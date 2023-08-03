@@ -7,6 +7,7 @@ interface FlippedCouponProps {
   backImageUrl: string;
   stampImageUrl: string;
   isShown: boolean;
+  stampCount: number;
   coordinates: StampCoordinate[];
 }
 
@@ -15,6 +16,7 @@ const FlippedCoupon = ({
   backImageUrl,
   stampImageUrl,
   isShown,
+  stampCount,
   coordinates,
 }: FlippedCouponProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -37,9 +39,11 @@ const FlippedCoupon = ({
         <FrontImage src={frontImageUrl} />
         <BackImage src={backImageUrl} />
         {coordinates &&
-          coordinates.map(({ order, xCoordinate, yCoordinate }, idx) => (
-            <StampImage key={order + idx} src={stampImageUrl} $x={xCoordinate} $y={yCoordinate} />
-          ))}
+          coordinates
+            .filter((_, idx) => idx + 1 <= stampCount)
+            .map(({ order, xCoordinate, yCoordinate }, idx) => (
+              <StampImage key={order + idx} src={stampImageUrl} $x={xCoordinate} $y={yCoordinate} />
+            ))}
       </CouponWrapper>
     </CouponContainer>
   );
