@@ -139,7 +139,7 @@ const CouponList = () => {
         <GoPerson size={24} onClick={navigateMyPage} />
       </HeaderContainer>
       {coupons.length === 0 ? (
-        <>쿠폰 없음</>
+        <>보유하고 있는 쿠폰이 없습니다.</>
       ) : (
         <>
           <InfoContainer>
