@@ -47,6 +47,8 @@ const CouponList = () => {
       setCurrentIndex(data.coupons.length - 1);
       data.coupons.length !== 0 && setCafeId(data.coupons[data.coupons.length - 1].cafeInfo.id);
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
@@ -129,7 +131,7 @@ const CouponList = () => {
   const changeFavorites = () => {
     mutateIsFavorites({
       cafeId: currentCoupon.cafeInfo.id,
-      isFavorites: currentCoupon.couponInfos[0].isFavorites,
+      isFavorites: !currentCoupon.couponInfos[0].isFavorites,
     });
   };
 
@@ -200,16 +202,14 @@ const CouponList = () => {
             $isShown={isFlippedCouponShown}
           >
             {coupons.map(({ cafeInfo, couponInfos }, index) => (
-              <>
-                <Coupon
-                  key={cafeInfo.id}
-                  coupon={{ cafeInfo, couponInfos }}
-                  data-index={index}
-                  onClick={changeCurrentIndex(index)}
-                  aria-label={`${cafeInfo.name} 쿠폰`}
-                  isFocused={currentIndex === index}
-                />
-              </>
+              <Coupon
+                key={cafeInfo.id}
+                coupon={{ cafeInfo, couponInfos }}
+                data-index={index}
+                onClick={changeCurrentIndex(index)}
+                aria-label={`${cafeInfo.name} 쿠폰`}
+                isFocused={currentIndex === index}
+              />
             ))}
           </CouponListContainer>
           {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
