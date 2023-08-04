@@ -17,13 +17,13 @@ public class SampleCouponFixture {
     public static final SampleStampImage SAMPLE_STAMP_IMAGE_SAVED = new SampleStampImage(1L, "sampleStampImageUrl");
 
     public static final List<SampleStampCoordinate> SAMPLE_COORDINATES_SIZE_EIGHT = List.of(
-            new SampleStampCoordinate(1, 1, 2),
-            new SampleStampCoordinate(2, 2, 2),
-            new SampleStampCoordinate(3, 3, 2),
-            new SampleStampCoordinate(4, 4, 2),
-            new SampleStampCoordinate(5, 1, 1),
-            new SampleStampCoordinate(6, 2, 1),
-            new SampleStampCoordinate(7, 3, 1),
-            new SampleStampCoordinate(8, 4, 1)
+            new SampleStampCoordinate(1, 1, 2, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(2, 2, 2, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(3, 3, 2, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(4, 4, 2, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(5, 1, 1, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(6, 2, 1, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(7, 3, 1, SAMPLE_BACK_IMAGE_SAVED),
+            new SampleStampCoordinate(8, 4, 1, SAMPLE_BACK_IMAGE_SAVED)
     );
 }
