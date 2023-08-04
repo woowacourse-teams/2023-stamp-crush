@@ -90,7 +90,6 @@ public class SampleCouponsFindResultDto {
     @Getter
     @RequiredArgsConstructor
     public static class SampleStampImageDto {
-
         private final Long id;
         private final String imageUrl;
 
