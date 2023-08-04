@@ -25,9 +25,10 @@ export const detail = keyframes`
 export const popup = keyframes`
   0% {
     transform: translateY(100%);
+    opacity: 10%;
   }
-
   100% {
     transform: translateY(0);
+    opacity: 100%;
   }
 `;

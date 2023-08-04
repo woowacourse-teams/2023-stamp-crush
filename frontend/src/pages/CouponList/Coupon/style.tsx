@@ -1,10 +1,12 @@
 import { styled } from 'styled-components';
 
-export const CouponWrapper = styled.img`
+export const CouponWrapper = styled.button<{ $src: string }>`
   width: 315px;
   height: 175px;
   position: absolute;
   top: 60%;
+  background-image: url(${({ $src }) => $src});
+  background-size: 315px 175px;
   transform: translate(50%, -50%);
   transition: transform 0.1s;
   object-fit: cover;

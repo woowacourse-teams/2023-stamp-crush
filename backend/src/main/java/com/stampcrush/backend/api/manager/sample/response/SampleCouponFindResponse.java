@@ -17,27 +17,27 @@ public class SampleCouponFindResponse {
     public static SampleCouponFindResponse from(SampleCouponsFindResultDto sampleCoupons) {
         List<SampleFrontImageFindResponse> sampleFrontImages = sampleCoupons.getSampleFrontImages()
                 .stream()
-                .map(sampleFrontImage -> new SampleFrontImageFindResponse(
-                        sampleFrontImage.getId(),
-                        sampleFrontImage.getImageUrl()
-                ))
+                .map(SampleFrontImageFindResponse::from)
                 .toList();
 
-        List<SampleBackImageFindResponse> sampleBackImages = sampleCoupons.getSampleBackImages()
+        List<SampleCouponsFindResultDto.SampleBackImageDto> backImages = sampleCoupons.getSampleBackImages();
+        List<SampleCouponsFindResultDto.SampleStampCoordinateDto> coordinates = sampleCoupons.getSampleStampCoordinates();
+
+        List<SampleBackImageFindResponse> sampleBackImages = backImages
                 .stream()
-                .map(sampleBackImage -> new SampleBackImageFindResponse(
-                        sampleBackImage.getId(),
-                        sampleBackImage.getImageUrl(),
-                        sampleCoupons.getSampleStampCoordinates().stream().filter(
-                                        sampleStampCoordinate -> sampleStampCoordinate.getSampleBackImage().equals(sampleBackImage))
-                                .map(sampleStampCoordinate -> new SampleBackImageFindResponse.SampleStampCoordinateFindResponse(
-                                        sampleStampCoordinate.getId(),
-                                        sampleStampCoordinate.getStampOrder(),
-                                        sampleStampCoordinate.getXCoordinate(),
-                                        sampleStampCoordinate.getYCoordinate()
+                .map(it -> new SampleBackImageFindResponse(
+                        it.getId(),
+                        it.getImageUrl(),
+                        coordinates.stream()
+                                .filter(coordinate -> coordinate.isCorrespondingCoordinateSampleBackImage(it.getId()))
+                                .map(coordinate -> new SampleBackImageFindResponse.SampleStampCoordinateFindResponse(
+                                        coordinate.getOrder(),
+                                        coordinate.getXCoordinate(),
+                                        coordinate.getYCoordinate()
                                 ))
                                 .toList()
-                )).toList();
+                ))
+                .toList();
 
         List<SampleStampImageFindResponse> sampleStampImages = sampleCoupons.getSampleStampImages()
                 .stream()
@@ -56,6 +56,10 @@ public class SampleCouponFindResponse {
 
         private final Long id;
         private final String imageUrl;
+
+        public static SampleFrontImageFindResponse from(SampleCouponsFindResultDto.SampleFrontImageDto sampleFrontImage) {
+            return new SampleFrontImageFindResponse(sampleFrontImage.getId(), sampleFrontImage.getImageUrl());
+        }
     }
 
     @Getter
@@ -66,14 +70,24 @@ public class SampleCouponFindResponse {
         private final String imageUrl;
         private final List<SampleStampCoordinateFindResponse> stampCoordinates;
 
-        @Getter
         @RequiredArgsConstructor
         public static class SampleStampCoordinateFindResponse {
 
-            private final Long id;
-            private final Integer stampOrder;
+            private final Integer order;
             private final Integer xCoordinate;
             private final Integer yCoordinate;
+
+            public Integer getOrder() {
+                return order;
+            }
+
+            public Integer getxCoordinate() {
+                return xCoordinate;
+            }
+
+            public Integer getyCoordinate() {
+                return yCoordinate;
+            }
         }
     }
 

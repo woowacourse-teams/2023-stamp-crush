@@ -35,10 +35,6 @@ export const CUSTOMERS_ORDER_OPTIONS = [
     value: '리워드순',
   },
   {
-    key: 'firstVisitDate',
-    value: '방문일순',
-  },
-  {
     key: 'visitCount',
     value: '방문횟수순',
   },

@@ -11,7 +11,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
-@SQLDelete(sql = "UPDATE CAFE_POLICY SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE cafe_policy SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 @Entity
 public class CafePolicy extends BaseDate {
