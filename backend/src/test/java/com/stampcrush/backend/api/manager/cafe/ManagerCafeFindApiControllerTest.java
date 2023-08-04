@@ -1,9 +1,7 @@
-package com.stampcrush.backend.api.cafe;
+package com.stampcrush.backend.api.manager.cafe;
 
-import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
-import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
-import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,80 +13,83 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Optional;
 
-import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(VisitorCafeFindApiController.class)
-class VisitorCafeFindApiControllerTest {
-
-    private static final Long CAFE_ID = 1L;
+@WebMvcTest(ManagerCafeFindApiController.class)
+class ManagerCafeFindApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
-    private VisitorCafeFindService visitorCafeFindService;
+    private ManagerCafeFindService managerCafeFindService;
+
     @MockBean
     private OwnerRepository ownerRepository;
+
     @MockBean
     private RegisterCustomerRepository customerRepository;
 
-    private RegisterCustomer customer;
+    private Owner owner;
     private String basicAuthHeader;
 
     @BeforeEach
     void setUp() {
-        customer = REGISTER_CUSTOMER_GITCHAN;
+        owner = OWNER3;
 
-        String username = customer.getLoginId();
-        String password = customer.getEncryptedPassword();
+        String username = owner.getLoginId();
+        String password = owner.getEncryptedPassword();
         basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
     }
 
     @Test
     void 카페_조회_요청_시_인증_헤더_정보가_없으면_401코드_반환() throws Exception {
-        mockMvc.perform(get("/api/cafes/" + CAFE_ID)
+        // ownerId 로 넣어둔 1은 없어질거라 우선 매직넘버로 넣어둠
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void 카페_조회_요청_시_고객_인증이_안되면_401코드_반환() throws Exception {
+    void 카페_조회_요청_시_사장_인증이_안되면_401코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.empty());
+        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.empty());
 
         // when, then
-        mockMvc.perform(get("/api/cafes/" + CAFE_ID)
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
+    void 카페_조회_요청_시_사장_인증_되면_200코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
-        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
+        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
 
         // when, then
-        mockMvc.perform(get("/api/cafes/" + CAFE_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+        mockMvc.perform(
+                        get("/api/admin/cafes")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                )
                 .andExpect(status().isOk());
     }
 
     @Test
     void 카페_조회_요청_시_비밀번호가_틀리면_401코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(new RegisterCustomer("깃짱", "01012345678", "gitchan", "wrong")));
+        when(ownerRepository.findByLoginId(owner.getLoginId()))
+                .thenReturn(Optional.of(new Owner("jena", "jenaId", "jnpw123", "01098765432")));
 
         // when, then
-        mockMvc.perform(get("/api/cafes/" + 1)
+        mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
                 .andExpect(status().isUnauthorized());
