@@ -1,5 +1,7 @@
 package com.stampcrush.backend.api.visitor.cafe;
 
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -14,13 +16,12 @@ import java.util.Base64;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,18 +73,24 @@ class VisitorCafeFindApiControllerTest extends ControllerTest {
                 .andDo(document("visitor/cafe",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
-                                requestHeaders(
-                                        headerWithName("Authorization").description("임시(Basic)")),
-                                responseFields(
-                                        fieldWithPath("cafe.id").description("카페 ID"),
-                                        fieldWithPath("cafe.name").description("카페 이름"),
-                                        fieldWithPath("cafe.introduction").description("카페 소개글"),
-                                        fieldWithPath("cafe.openTime").description("카페 오픈 시간"),
-                                        fieldWithPath("cafe.closeTime").description("카페 닫는 시간"),
-                                        fieldWithPath("cafe.telephoneNumber").description("카페 전화번호"),
-                                        fieldWithPath("cafe.cafeImageUrl").description("카페 이미지 URL"),
-                                        fieldWithPath("cafe.roadAddress").description("카페 도로명주소"),
-                                        fieldWithPath("cafe.detailAddress").description("카페 상세 주소")
+                                resource(
+                                        ResourceSnippetParameters.builder()
+                                                .tag("고객 모드")
+                                                .description("카페 정보 조회")
+                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .responseFields(
+                                                        fieldWithPath("cafe.id").description("카페 ID"),
+                                                        fieldWithPath("cafe.name").description("카페 이름"),
+                                                        fieldWithPath("cafe.introduction").description("카페 소개글"),
+                                                        fieldWithPath("cafe.openTime").description("카페 오픈 시간"),
+                                                        fieldWithPath("cafe.closeTime").description("카페 닫는 시간"),
+                                                        fieldWithPath("cafe.telephoneNumber").description("카페 전화번호"),
+                                                        fieldWithPath("cafe.cafeImageUrl").description("카페 이미지 URL"),
+                                                        fieldWithPath("cafe.roadAddress").description("카페 도로명주소"),
+                                                        fieldWithPath("cafe.detailAddress").description("카페 상세 주소")
+                                                )
+                                                .responseSchema(Schema.schema("CafeInfoFindByCustomerResponse"))
+                                                .build()
                                 )
                         )
                 )
