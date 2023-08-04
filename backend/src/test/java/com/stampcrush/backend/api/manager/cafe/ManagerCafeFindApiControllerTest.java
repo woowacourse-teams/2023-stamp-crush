@@ -1,6 +1,5 @@
-package com.stampcrush.backend.api.cafe;
+package com.stampcrush.backend.api.manager.cafe;
 
-import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
