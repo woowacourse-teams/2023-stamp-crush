@@ -1,8 +1,8 @@
 package com.stampcrush.backend.config;
 
+import com.stampcrush.backend.config.interceptor.BasicAuthInterceptor;
 import com.stampcrush.backend.config.resolver.CustomerArgumentResolver;
 import com.stampcrush.backend.config.resolver.OwnerArgumentResolver;
-import com.stampcrush.backend.config.interceptor.BasicAuthInterceptor;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(basicAuthInterceptor)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/docs/**", "/v3/api-docs/swagger-config");
     }
 
     @Override
