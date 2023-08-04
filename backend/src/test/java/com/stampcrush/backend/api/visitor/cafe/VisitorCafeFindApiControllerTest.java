@@ -1,6 +1,5 @@
-package com.stampcrush.backend.api.cafe;
+package com.stampcrush.backend.api.visitor.cafe;
 
-import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
