@@ -46,19 +46,42 @@ class ManagerSampleCouponFindApiControllerTest {
 
     @Test
     void 샘플_쿠폰_조회_요청_시_인증이_안되면_401코드를_반환한다() throws Exception {
-        Owner gitchan = OwnerFixture.GITCHAN;
-        String username = gitchan.getLoginId();
-        String password = gitchan.getEncryptedPassword();
-        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(OwnerFixture.GITCHAN);
 
-        when(ownerRepository.findByLoginId(gitchan.getLoginId()))
+        when(ownerRepository.findByLoginId(ownerAuthorization.gitchan().getLoginId()))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(
                         get("/api/admin/coupon-samples")
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, basicAuthHeader)
+                                .header(AUTHORIZATION, ownerAuthorization.basicAuthHeader())
                 )
                 .andExpect(status().isUnauthorized());
+    }
+
+    private static OwnerAuthorization createOwnerAuthorization(Owner owner) {
+        String loginId = owner.getLoginId();
+        String encryptedPassword = owner.getEncryptedPassword();
+        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
+
+        return new OwnerAuthorization(owner, basicAuthHeader);
+    }
+
+    private static final class OwnerAuthorization {
+        private final Owner owner;
+        private final String basicAuthHeader;
+
+        private OwnerAuthorization(Owner owner, String basicAuthHeader) {
+            this.owner = owner;
+            this.basicAuthHeader = basicAuthHeader;
+        }
+
+        public Owner gitchan() {
+            return owner;
+        }
+
+        public String basicAuthHeader() {
+            return basicAuthHeader;
+        }
     }
 }
