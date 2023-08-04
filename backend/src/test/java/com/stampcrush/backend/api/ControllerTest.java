@@ -2,8 +2,10 @@ package com.stampcrush.backend.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
+import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -26,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@WebMvcTest({ManagerCafeFindApiController.class, VisitorCafeFindApiController.class})
+@WebMvcTest({ManagerCafeFindApiController.class, VisitorCafeFindApiController.class, ManagerCustomerFindApiController.class})
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class ControllerTest {
 
@@ -49,6 +51,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected VisitorCafeFindService visitorCafeFindService;
+
+    @MockBean
+    protected ManagerCustomerFindService managerCustomerFindService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
