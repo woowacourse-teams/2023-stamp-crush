@@ -7,7 +7,6 @@ import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,6 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ManagerSampleCouponFindApiController.class)
@@ -87,7 +87,10 @@ class ManagerSampleCouponFindApiControllerTest {
                                 .contentType(APPLICATION_JSON)
                                 .header(AUTHORIZATION, ownerAuthorization.getBasicAuthHeader())
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("sampleFrontImages").isNotEmpty())
+                .andExpect(jsonPath("sampleBackImages").isNotEmpty())
+                .andExpect(jsonPath("sampleStampImages").isNotEmpty());
     }
 
     private OwnerAuthorization createOwnerAuthorization(Owner owner) {
