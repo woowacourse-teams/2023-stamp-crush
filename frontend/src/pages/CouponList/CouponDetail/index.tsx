@@ -40,7 +40,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         coordinates={couponInfos.coordinates}
         stampCount={couponInfos.stampCount}
       />
-      <CloseButton onClick={closeDetail}>
+      <CloseButton onClick={closeDetail} aria-label="홈으로 돌아가기" role="button">
         <BiArrowBack size={24} />
       </CloseButton>
       <OverviewContainer>
@@ -48,19 +48,19 @@ const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDe
         <Text>{cafe.introduction}</Text>
       </OverviewContainer>
       <ContentContainer>
-        <Text>
+        <Text ariaLabel="쿠폰 정책">
           <FaRegBell size={24} />
           {`스탬프 ${couponInfos.maxStampCount}개를 채우면 ${couponInfos.rewardName} 무료!`}
         </Text>
-        <Text>
+        <Text ariaLabel="영업 시간">
           <FaRegClock size={24} />
           {`여는 시간 ${cafe.openTime}\n닫는 시간 ${cafe.closeTime}`}
         </Text>
-        <Text>
+        <Text ariaLabel="전화번호">
           <FaPhoneAlt size={24} />
           {parsePhoneNumber(cafe.telephoneNumber)}
         </Text>
-        <Text>
+        <Text ariaLabel="주소">
           <FaLocationDot size={24} />
           {cafe.roadAddress + ' ' + cafe.detailAddress}
         </Text>

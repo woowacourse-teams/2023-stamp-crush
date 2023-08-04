@@ -138,8 +138,8 @@ const CouponList = () => {
   return (
     <>
       <HeaderContainer>
-        <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" />
-        <GoPerson size={24} onClick={navigateMyPage} aria-label="마이 페이지 버튼" role="button" />
+        <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
+        <GoPerson size={24} onClick={navigateMyPage} aria-label="마이 페이지" role="button" />
       </HeaderContainer>
       {coupons.length === 0 ? (
         <>보유하고 있는 쿠폰이 없습니다.</>

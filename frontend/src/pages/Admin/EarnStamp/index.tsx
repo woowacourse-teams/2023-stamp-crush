@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
-import { getCoupon } from '../../../api/get';
+import { getCoupon, getList } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
@@ -64,7 +64,7 @@ const EarnStamp = () => {
       <CouponSelectorContainer>
         <CouponSelectorWrapper>
           <Text>
-            현재 스탬프 개수: {couponResponse.coupons[0].stampCount}/{8}
+            현재 스탬프 개수: {couponResponse.coupons[0].stampCount}/{10}
           </Text>
           <Spacing $size={8} />
           <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
