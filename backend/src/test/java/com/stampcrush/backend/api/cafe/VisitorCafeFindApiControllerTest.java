@@ -31,10 +31,13 @@ class VisitorCafeFindApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
     private VisitorCafeFindService visitorCafeFindService;
+
     @MockBean
     private OwnerRepository ownerRepository;
+
     @MockBean
     private RegisterCustomerRepository customerRepository;
 
