@@ -66,11 +66,13 @@ class ManagerSampleCouponFindApiControllerTest {
 
     @Test
     void 샘플_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
-        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(OwnerFixture.GITCHAN);
+        Owner owner = OwnerFixture.GITCHAN;
+
+        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(owner);
         int maxStampCount = 8;
 
         when(ownerRepository.findByLoginId(ownerAuthorization.owner.getLoginId()))
-                .thenReturn(Optional.of(OwnerFixture.GITCHAN));
+                .thenReturn(Optional.of(owner));
 
         when(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
                 .thenReturn(
