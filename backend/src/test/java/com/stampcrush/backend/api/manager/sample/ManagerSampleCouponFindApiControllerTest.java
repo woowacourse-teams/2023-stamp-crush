@@ -36,7 +36,7 @@ class ManagerSampleCouponFindApiControllerTest {
     private ManagerSampleCouponFindService managerSampleCouponFindService;
 
     @Test
-    void 샘플_쿠폰_조회_요청_시_인증_헤더_정보가_없으면_401코드를_반환한다() throws Exception {
+    void 샘플_쿠폰_조회_요청_시_인증_헤더_정보가_없으면_401_상태코드를_반환한다() throws Exception {
         mockMvc.perform(
                         get("/api/admin/coupon-samples")
                                 .contentType(APPLICATION_JSON)
@@ -45,21 +45,21 @@ class ManagerSampleCouponFindApiControllerTest {
     }
 
     @Test
-    void 샘플_쿠폰_조회_요청_시_인증이_안되면_401코드를_반환한다() throws Exception {
+    void 샘플_쿠폰_조회_요청_시_인증이_안되면_401_상태코드를_반환한다() throws Exception {
         OwnerAuthorization ownerAuthorization = createOwnerAuthorization(OwnerFixture.GITCHAN);
 
-        when(ownerRepository.findByLoginId(ownerAuthorization.gitchan().getLoginId()))
+        when(ownerRepository.findByLoginId(ownerAuthorization.owner.getLoginId()))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(
                         get("/api/admin/coupon-samples")
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, ownerAuthorization.basicAuthHeader())
+                                .header(AUTHORIZATION, ownerAuthorization.getBasicAuthHeader())
                 )
                 .andExpect(status().isUnauthorized());
     }
 
-    private static OwnerAuthorization createOwnerAuthorization(Owner owner) {
+    private OwnerAuthorization createOwnerAuthorization(Owner owner) {
         String loginId = owner.getLoginId();
         String encryptedPassword = owner.getEncryptedPassword();
         String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
@@ -67,7 +67,7 @@ class ManagerSampleCouponFindApiControllerTest {
         return new OwnerAuthorization(owner, basicAuthHeader);
     }
 
-    private static final class OwnerAuthorization {
+    private final class OwnerAuthorization {
         private final Owner owner;
         private final String basicAuthHeader;
 
@@ -76,11 +76,11 @@ class ManagerSampleCouponFindApiControllerTest {
             this.basicAuthHeader = basicAuthHeader;
         }
 
-        public Owner gitchan() {
+        public Owner getOwner() {
             return owner;
         }
 
-        public String basicAuthHeader() {
+        public String getBasicAuthHeader() {
             return basicAuthHeader;
         }
     }
