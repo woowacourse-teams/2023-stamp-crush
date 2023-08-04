@@ -18,3 +18,10 @@ spring:
         use_sql_comments: true
         jdbc:
           batch_size: 10
+
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    url: /docs/openapi3.json
+    path: /docs/swagger
