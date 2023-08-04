@@ -12,5 +12,8 @@ spring:
           batch_size: 10
 
 springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
   swagger-ui:
-    path: /api/swagger-ui/index.html
+    url: /docs/openapi3.json
+    path: /docs/swagger
