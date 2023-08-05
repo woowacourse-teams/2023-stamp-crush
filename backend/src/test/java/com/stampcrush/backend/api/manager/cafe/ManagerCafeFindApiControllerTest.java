@@ -69,7 +69,7 @@ class ManagerCafeFindApiControllerTest extends ControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
-                .andDo(document("manager/cafe",
+                .andDo(document("manager/cafe/find-cafe",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 resource(
