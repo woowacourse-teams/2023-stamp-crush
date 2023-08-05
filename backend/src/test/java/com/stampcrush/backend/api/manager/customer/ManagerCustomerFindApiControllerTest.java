@@ -48,10 +48,10 @@ class ManagerCustomerFindApiControllerTest extends ControllerTest {
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers")
-                .param("phone-number", "01012345678")
+                        .param("phone-number", "01012345678")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
-                .andDo(document("manager/customer",
+                .andDo(document("manager/customer/find-customer",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 resource(
