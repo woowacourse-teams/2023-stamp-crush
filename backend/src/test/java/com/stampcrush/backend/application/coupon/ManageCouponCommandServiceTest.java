@@ -43,7 +43,7 @@ import static org.mockito.Mockito.times;
 
 @SuppressWarnings("NonAsciiCharacters")
 @ExtendWith(MockitoExtension.class)
-public class ManageCouponCommandServiceTest1 {
+public class ManageCouponCommandServiceTest {
 
     @InjectMocks
     private ManagerCouponCommandService managerCouponCommandService;
