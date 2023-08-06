@@ -29,11 +29,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -84,6 +86,48 @@ public class ManageCouponCommandServiceTest1 {
         cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", null);
         customer = new TemporaryCustomer(1L, "name", "phone");
         couponPolicy = new CouponPolicy(10, "reward", 6);
+    }
+
+    @Test
+    void 적립중인_쿠폰이_있으면_새로운_쿠폰을_발급하고_기존_쿠폰은_만료된다() {
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        given(customerRepository.findById(anyLong()))
+                .willReturn(Optional.of(customer));
+        given(cafeRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe));
+        given(cafePolicyRepository.findByCafe(any()))
+                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, false, cafe)));
+        given(cafeCouponDesignRepository.findByCafe(any()))
+                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", false, null)));
+        given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
+                .willReturn(List.of(currentCoupon));
+
+        managerCouponCommandService.createCoupon(1L, 1L);
+
+        then(couponRepository).should(times(1)).save(any());
+        then(couponDesignRepository).should(times(1)).save(any());
+        then(couponPolicyRepository).should(times(1)).save(any());
+        assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.EXPIRED);
+    }
+
+    @Test
+    void 적립중인_쿠폰이_없으면_새로운_쿠폰만_발급한다() {
+        given(customerRepository.findById(anyLong()))
+                .willReturn(Optional.of(customer));
+        given(cafeRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe));
+        given(cafePolicyRepository.findByCafe(any()))
+                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, false, cafe)));
+        given(cafeCouponDesignRepository.findByCafe(any()))
+                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", false, null)));
+        given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
+                .willReturn(Collections.emptyList());
+
+        managerCouponCommandService.createCoupon(1L, 1L);
+
+        then(couponRepository).should(times(1)).save(any());
+        then(couponDesignRepository).should(times(1)).save(any());
+        then(couponPolicyRepository).should(times(1)).save(any());
     }
 
     @Test
