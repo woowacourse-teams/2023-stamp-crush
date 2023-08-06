@@ -6,10 +6,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 @Getter
 public class CafeCustomerFindResultDto {
 
@@ -22,7 +22,7 @@ public class CafeCustomerFindResultDto {
     private boolean isRegistered;
     private int maxStampCount;
 
-    public static CafeCustomerFindResultDto from(Customer customer, CustomerCouponStatistics customerCouponStatistics) {
+    public static CafeCustomerFindResultDto of(Customer customer, CustomerCouponStatistics customerCouponStatistics) {
         return new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),

@@ -563,9 +563,9 @@ class ManagerCouponCommandServiceTest {
         List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafe1.getId());
 
         CustomerCouponStatistics coupon1Statics = new Coupons(List.of(coupon1)).calculateStatistics();
-        CafeCustomerFindResultDto coupon1Result = CafeCustomerFindResultDto.from(temporaryCustomer1, coupon1Statics);
+        CafeCustomerFindResultDto coupon1Result = CafeCustomerFindResultDto.of(temporaryCustomer1, coupon1Statics);
 
-        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(0, 1, 1, 0, LocalDate.EPOCH.atStartOfDay()));
+        CafeCustomerFindResultDto.of(temporaryCustomer1, new CustomerCouponStatistics(0, 1, 1, 0, LocalDate.EPOCH.atStartOfDay()));
         // then
         assertThat(coupons).containsAnyOf(coupon1Result);
     }
@@ -584,9 +584,9 @@ class ManagerCouponCommandServiceTest {
         List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafe2.getId());
 
         CustomerCouponStatistics couponStatics = new Coupons(List.of(coupon)).calculateStatistics();
-        CafeCustomerFindResultDto couponResult = CafeCustomerFindResultDto.from(customer, couponStatics);
+        CafeCustomerFindResultDto couponResult = CafeCustomerFindResultDto.of(customer, couponStatics);
 
-        CafeCustomerFindResultDto.from(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 20, LocalDate.EPOCH.atStartOfDay()));
+        CafeCustomerFindResultDto.of(temporaryCustomer1, new CustomerCouponStatistics(1, 0, 1, 20, LocalDate.EPOCH.atStartOfDay()));
         // then
         assertThat(coupons).containsAnyOf(couponResult);
     }
