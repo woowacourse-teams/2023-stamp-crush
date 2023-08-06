@@ -47,8 +47,9 @@ export const OverviewContainer = styled.div`
   width: 100%;
   height: 130px;
   top: 260px;
-  padding: 0 10px;
+  padding: 0 30px;
   gap: 10px;
+  line-height: 24px;
   word-break: break-all;
   overflow: hidden;
 
@@ -69,11 +70,10 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 25%;
+  bottom: 15%;
   left: 50px;
   width: 300px;
-  height: 100px;
-  gap: 20px;
+  gap: 10px;
 
   :nth-child(n) {
     display: flex;
