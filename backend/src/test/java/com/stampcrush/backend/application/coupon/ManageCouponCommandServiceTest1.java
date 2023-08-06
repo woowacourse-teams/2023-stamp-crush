@@ -108,7 +108,7 @@ public class ManageCouponCommandServiceTest1 {
         // given, when
         int maxStampCount = 10;
         Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
-        스탬프_적립을_위해_필요한_엔티티를_조회한다(10, currentCoupon);
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount);
         managerCouponCommandService.createStamp(stampCreateDto);
@@ -124,7 +124,7 @@ public class ManageCouponCommandServiceTest1 {
         // given, when
         int maxStampCount = 10;
         Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
-        스탬프_적립을_위해_필요한_엔티티를_조회한다(10, currentCoupon);
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2 + 2);
         managerCouponCommandService.createStamp(stampCreateDto);
@@ -132,6 +132,85 @@ public class ManageCouponCommandServiceTest1 {
         // then
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(2)).save(any());
+    }
+
+    @Test
+    void 추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_찍을_스탬프가_없다면_쿠폰을_발급하지_않는다() {
+        // given, when
+        int maxStampCount = 10;
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        // then
+        then(rewardRepository).should(times(2)).save(any());
+        then(couponRepository).should(times(1)).save(any());
+    }
+
+    @Test
+    void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프만_적립한다() {
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        currentCoupon.accumulate(4);
+        int maxStampCount = 10;
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, 3);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        then(rewardRepository).should(times(0)).save(any());
+        then(couponRepository).should(times(0)).save(any());
+        assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.ACCUMULATING);
+        assertThat(currentCoupon.getStampCount()).isEqualTo(7);
+    }
+
+    @Test
+    void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수와_같으면_리워드를_생성한다() {
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        currentCoupon.accumulate(4);
+        int maxStampCount = 10;
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        int earningStamp = 6;
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, earningStamp);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        then(rewardRepository).should(times(1)).save(any());
+        then(couponRepository).should(times(0)).save(any());
+        assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.REWARDED);
+        assertThat(currentCoupon.getStampCount()).isEqualTo(10);
+    }
+
+    @Test
+    void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_나머지_스탬프가_찍힌다() {
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        currentCoupon.accumulate(4);
+        int maxStampCount = 10;
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        int earningStamp = 17;
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, earningStamp);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        then(rewardRepository).should(times(2)).save(any());
+        then(couponRepository).should(times(2)).save(any());
+    }
+
+    @Test
+    void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_찍을_스탬프가_없다면_쿠폰을_발급하지_않는다() {
+        // given, when
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        currentCoupon.accumulate(4);
+        int maxStampCount = 10;
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2 - 4);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        // then
+        then(rewardRepository).should(times(2)).save(any());
+        then(couponRepository).should(times(1)).save(any());
     }
 
     private void 스탬프_적립을_위해_필요한_엔티티를_조회한다(int maxStampCount, Coupon coupon) {
