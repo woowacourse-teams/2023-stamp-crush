@@ -1,8 +1,8 @@
-package com.stampcrush.backend.api.manager.customer;
+package com.stampcrush.backend.api.docs.manager.customer;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Owner;
@@ -26,7 +26,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ManagerCustomerFindApiControllerTest extends ControllerTest {
+class ManagerCustomerFindApiDocsControllerTest extends DocsControllerTest {
 
     private Owner owner;
     private String basicAuthHeader;
@@ -41,7 +41,7 @@ class ManagerCustomerFindApiControllerTest extends ControllerTest {
     }
 
     @Test
-    void 고객_조회_요청_시_사장_인증_되면_200코드_반환() throws Exception {
+    void 고객_조회_요청_사장_모드() throws Exception {
         // given
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
         when(managerCustomerFindService.findCustomer("01012345678")).thenReturn(new CustomersFindResultDto(List.of(new CustomerFindDto(1L, "윤생1234", "01012345678"))));

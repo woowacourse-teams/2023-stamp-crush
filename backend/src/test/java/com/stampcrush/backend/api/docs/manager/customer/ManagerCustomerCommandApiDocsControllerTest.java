@@ -1,8 +1,8 @@
-package com.stampcrush.backend.api.manager.customer;
+package com.stampcrush.backend.api.docs.manager.customer;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.entity.user.Owner;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ManagerCustomerCommandApiControllerTest extends ControllerTest {
+class ManagerCustomerCommandApiDocsControllerTest extends DocsControllerTest {
 
 
     private Owner owner;
@@ -39,7 +39,7 @@ class ManagerCustomerCommandApiControllerTest extends ControllerTest {
     }
 
     @Test
-    void 임시_고객_생성_요청_201코드_반환() throws Exception {
+    void 임시_고객_생성_요청_사장_모드() throws Exception {
         // given
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
         TemporaryCustomerCreateRequest request = new TemporaryCustomerCreateRequest("01011112222");
