@@ -92,10 +92,11 @@ public class ManagerCouponCommandService {
             accumulateMaxStampAndMakeReward(customer, cafe, coupon, earningStampCount);
             return;
         }
+        int restStamp = earningStampCount;
         int restStampCountForReward = coupon.calculateRestStampCountForReward();
         accumulateMaxStampAndMakeReward(customer, cafe, coupon, restStampCountForReward);
 
-        int restStamp = earningStampCount - restStampCountForReward;
+        restStamp -= restStampCountForReward;
         makeRewardCoupons(customer, cafe, cafePolicy, cafeCouponDesign, coupon, restStamp);
         issueAccumulatingCoupon(customer, cafe, cafePolicy, cafeCouponDesign, restStamp);
     }
@@ -144,13 +145,6 @@ public class ManagerCouponCommandService {
         rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
     }
 
-    private void issueAccumulatingCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, int earningStampCount) {
-        Coupon accumulatingCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
-        couponRepository.save(accumulatingCoupon);
-        int accumulatingStampCount = earningStampCount % cafePolicy.getMaxStampCount();
-        accumulatingCoupon.accumulate(accumulatingStampCount);
-    }
-
     private void makeRewardCoupons(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, Coupon coupon, int restStamp) {
         int rewardCouponCount = cafePolicy.calculateRewardCouponCount(restStamp);
         for (int i = 0; i < rewardCouponCount; i++) {
@@ -159,5 +153,15 @@ public class ManagerCouponCommandService {
             couponRepository.save(rewardCoupon);
             rewardRepository.save(new Reward(coupon.getRewardName(), customer, cafe));
         }
+    }
+
+    private void issueAccumulatingCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign, int earningStampCount) {
+        int accumulatingStampCount = earningStampCount % cafePolicy.getMaxStampCount();
+        if (accumulatingStampCount == 0) {
+            return;
+        }
+        Coupon accumulatingCoupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
+        couponRepository.save(accumulatingCoupon);
+        accumulatingCoupon.accumulate(accumulatingStampCount);
     }
 }
