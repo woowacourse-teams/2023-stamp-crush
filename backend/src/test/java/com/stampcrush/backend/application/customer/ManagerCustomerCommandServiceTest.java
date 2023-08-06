@@ -4,7 +4,6 @@ import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCrea
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
-import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
@@ -14,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -38,10 +39,10 @@ class ManagerCustomerCommandServiceTest {
         customerRepository.save(customer);
 
         // when
-        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
+        List<CustomerFindDto> findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
         // then
-        assertThat(findCustomer.getCustomer()).containsExactly(CustomerFindDto.from(customer));
+        assertThat(findCustomer).containsExactly(CustomerFindDto.from(customer));
     }
 
     @Test
@@ -51,18 +52,18 @@ class ManagerCustomerCommandServiceTest {
         customerRepository.save(customer);
 
         // when
-        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
+        List<CustomerFindDto> findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
         // then
-        assertThat(findCustomer.getCustomer()).containsExactly(CustomerFindDto.from(customer));
+        assertThat(findCustomer).containsExactly(CustomerFindDto.from(customer));
     }
 
     @Test
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
-        CustomersFindResultDto findCustomer = managerCustomerFindService.findCustomer("01012345678");
+        List<CustomerFindDto> findCustomer = managerCustomerFindService.findCustomer("01012345678");
 
-        assertThat(findCustomer.getCustomer().size()).isEqualTo(0);
+        assertThat(findCustomer.size()).isEqualTo(0);
     }
 
     @Test
