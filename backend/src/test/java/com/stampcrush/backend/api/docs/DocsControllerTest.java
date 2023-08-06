@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api;
+package com.stampcrush.backend.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerCustomerCommandApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
-public abstract class ControllerTest {
+public abstract class DocsControllerTest {
 
     protected MockMvc mockMvc;
 

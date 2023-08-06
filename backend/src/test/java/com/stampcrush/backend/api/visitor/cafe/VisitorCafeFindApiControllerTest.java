@@ -1,33 +1,41 @@
 package com.stampcrush.backend.api.visitor.cafe;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Optional;
 
-import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class VisitorCafeFindApiControllerTest extends ControllerTest {
+@WebMvcTest(VisitorCafeFindApiController.class)
+class VisitorCafeFindApiControllerTest {
 
     private static final Long CAFE_ID = 1L;
+
+    @Autowired
+    private MockMvc mockMvc;
+    @MockBean
+    private VisitorCafeFindService visitorCafeFindService;
+    @MockBean
+    private OwnerRepository ownerRepository;
+    @MockBean
+    private RegisterCustomerRepository customerRepository;
 
     private RegisterCustomer customer;
     private String basicAuthHeader;
@@ -64,36 +72,12 @@ class VisitorCafeFindApiControllerTest extends ControllerTest {
     void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
         // given
         when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
-        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "우아한카페", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관"));
+        when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/cafes/{cafeId}", CAFE_ID)
+        mockMvc.perform(get("/api/cafes/" + CAFE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
-                .andDo(document("visitor/cafe/find-cafe-info",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
-                                resource(
-                                        ResourceSnippetParameters.builder()
-                                                .tag("고객 모드")
-                                                .description("카페 정보 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
-                                                .responseFields(
-                                                        fieldWithPath("cafe.id").description("카페 ID"),
-                                                        fieldWithPath("cafe.name").description("카페 이름"),
-                                                        fieldWithPath("cafe.introduction").description("카페 소개글"),
-                                                        fieldWithPath("cafe.openTime").description("카페 오픈 시간"),
-                                                        fieldWithPath("cafe.closeTime").description("카페 닫는 시간"),
-                                                        fieldWithPath("cafe.telephoneNumber").description("카페 전화번호"),
-                                                        fieldWithPath("cafe.cafeImageUrl").description("카페 이미지 URL"),
-                                                        fieldWithPath("cafe.roadAddress").description("카페 도로명주소"),
-                                                        fieldWithPath("cafe.detailAddress").description("카페 상세 주소")
-                                                )
-                                                .responseSchema(Schema.schema("CafeInfoFindByCustomerResponse"))
-                                                .build()
-                                )
-                        )
-                )
                 .andExpect(status().isOk());
     }
 
