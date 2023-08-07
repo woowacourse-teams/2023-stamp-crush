@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Getter
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @RequiredArgsConstructor
 public class SampleCouponsFindResultDto {
 

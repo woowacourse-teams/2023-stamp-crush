@@ -63,7 +63,7 @@ class ManagerSampleCouponFindServiceTest {
         assertAll(
                 () -> assertThat(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount)).isNotNull(),
                 () -> assertThat(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
-                        .isEqualTo(SampleCouponsFindResultDto.of(
+                        .usingRecursiveComparison().isEqualTo(SampleCouponsFindResultDto.of(
                                 sampleFrontImage,
                                 sampleBackImage,
                                 sampleStampCoordinates,
