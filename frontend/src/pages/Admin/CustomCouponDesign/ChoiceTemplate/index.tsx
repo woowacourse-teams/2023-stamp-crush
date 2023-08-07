@@ -30,13 +30,15 @@ const ChoiceTemplate = ({
 }: ChoiceTemplateProps) => {
   const location = useLocation();
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
-  const [selectedImage, setSelectedImage] = useState(frontImage);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const [selectedImage, setSelectedImage] = useState('');
   const stampCount = parseStampCount(location.state.stampCount);
 
   const { data: sampleImages, status } = useQuery<SampleCouponRes>(
     ['coupon-samples', stampCount],
     () => getCouponSamples(stampCount),
+    {
+      staleTime: Infinity,
+    },
   );
 
   if (status === 'loading') return <div>페이지 로딩중..</div>;
@@ -73,19 +75,19 @@ const ChoiceTemplate = ({
     }
   };
 
-  const selectSampleImage = (coordinates?: StampCoordinate[]) => {
-    if (!imageRef.current) return;
+  const selectSampleImage = (imageUrl: string, coordinates?: StampCoordinate[]) => {
+    console.log('imageUrl', imageUrl);
     switch (templateSelect) {
       case TEMPLATE_MENU.FRONT_IMAGE:
-        setFrontImage(imageRef.current.src);
+        setFrontImage(imageUrl);
         break;
       case TEMPLATE_MENU.BACK_IMAGE:
         if (!coordinates) return;
-        setBackImage(imageRef.current.src);
+        setBackImage(imageUrl);
         setStampCoordinates([...coordinates]);
         break;
       case TEMPLATE_MENU.STAMP:
-        setStampImage(imageRef.current.src);
+        setStampImage(imageUrl);
         break;
       default:
         break;
@@ -109,12 +111,11 @@ const ChoiceTemplate = ({
             src={element.imageUrl}
             $templateType={templateSelect}
             $isSelected={selectedImage === element.imageUrl}
-            ref={imageRef}
             onClick={() => {
               if ('stampCoordinates' in element) {
-                selectSampleImage(element.stampCoordinates);
+                selectSampleImage(element.imageUrl, element.stampCoordinates);
               } else {
-                selectSampleImage();
+                selectSampleImage(element.imageUrl);
               }
             }}
           />
