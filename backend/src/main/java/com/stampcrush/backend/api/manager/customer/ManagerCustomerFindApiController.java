@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.manager.customer;
 import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
-import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
+import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +28,9 @@ public class ManagerCustomerFindApiController {
             OwnerAuth owner,
             @RequestParam("phone-number") String phoneNumber
     ) {
-        CustomersFindResultDto customers = managerCustomerFindService.findCustomer(phoneNumber);
+        List<CustomerFindDto> customers = managerCustomerFindService.findCustomer(phoneNumber);
 
-        List<CustomerFindResponse> customerFindResponses = customers.getCustomer().stream()
+        List<CustomerFindResponse> customerFindResponses = customers.stream()
                 .map(CustomerFindResponse::from).collect(toList());
 
         return ResponseEntity.ok().body(new CustomersFindResponse(customerFindResponses));
