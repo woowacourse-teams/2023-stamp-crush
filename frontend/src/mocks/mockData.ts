@@ -21,19 +21,67 @@ export const samples8 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 1,
+          yCoordinate: 2,
+        },
+        {
+          order: 2,
+          xCoordinate: 2,
+          yCoordinate: 2,
+        },
+        {
+          order: 3,
+          xCoordinate: 3,
+          yCoordinate: 2,
+        },
+        {
+          order: 4,
+          xCoordinate: 4,
+          yCoordinate: 2,
+        },
+        {
+          order: 5,
+          xCoordinate: 1,
+          yCoordinate: 1,
+        },
+        {
+          order: 6,
+          xCoordinate: 2,
+          yCoordinate: 1,
+        },
+        {
+          order: 7,
+          xCoordinate: 3,
+          yCoordinate: 1,
+        },
+        {
+          order: 8,
+          xCoordinate: 4,
+          yCoordinate: 1,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
@@ -44,19 +92,77 @@ export const samples10 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
-      id: 1,
+      id: 2,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 1,
+          yCoordinate: 2,
+        },
+        {
+          order: 2,
+          xCoordinate: 2,
+          yCoordinate: 2,
+        },
+        {
+          order: 3,
+          xCoordinate: 3,
+          yCoordinate: 2,
+        },
+        {
+          order: 4,
+          xCoordinate: 4,
+          yCoordinate: 2,
+        },
+        {
+          order: 5,
+          xCoordinate: 1,
+          yCoordinate: 1,
+        },
+        {
+          order: 6,
+          xCoordinate: 2,
+          yCoordinate: 1,
+        },
+        {
+          order: 7,
+          xCoordinate: 3,
+          yCoordinate: 1,
+        },
+        {
+          order: 8,
+          xCoordinate: 4,
+          yCoordinate: 1,
+        },
+        {
+          order: 9,
+          xCoordinate: 4,
+          yCoordinate: 1,
+        },
+        {
+          order: 10,
+          xCoordinate: 4,
+          yCoordinate: 1,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
