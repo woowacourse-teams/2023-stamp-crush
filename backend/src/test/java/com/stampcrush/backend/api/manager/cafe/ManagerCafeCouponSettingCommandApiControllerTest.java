@@ -98,7 +98,7 @@ class ManagerCafeCouponSettingCommandApiControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    private static String formatRequestBody(CafeCouponSettingUpdateRequest request) throws JsonProcessingException {
+    private String formatRequestBody(CafeCouponSettingUpdateRequest request) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(request);
     }
