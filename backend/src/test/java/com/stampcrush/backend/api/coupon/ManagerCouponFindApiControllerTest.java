@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,9 +43,10 @@ public class ManagerCouponFindApiControllerTest {
         given(managerCouponFindService.findCouponsByCafe(anyLong()))
                 .willReturn(List.of(customerInfo1, customerInfo2));
 
-        MvcResult mvcResult = mockMvc.perform(get(API_PREFIX + "/cafes/{cafeId}/customers", 1L))
+        mockMvc.perform(get(API_PREFIX + "/cafes/{cafeId}/customers", 1L))
                 .andExpect(status().isOk())
                 .andReturn();
+
     }
 
     @Test
