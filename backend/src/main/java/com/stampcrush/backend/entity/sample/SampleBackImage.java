@@ -31,4 +31,9 @@ public class SampleBackImage extends BaseDate {
     public SampleBackImage(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public SampleBackImage(Long id, String imageUrl) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+    }
 }
