@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +32,16 @@ public class VisitorCouponFindService {
         Customer customer = findExistingCustomer(customerId);
         List<Coupon> coupons = couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING);
 
-        List<CustomerCouponFindResultDto> response = new ArrayList<>();
-        for (Coupon coupon : coupons) {
-            Cafe cafe = coupon.getCafe();
-            Boolean isFavorites = visitorFavoritesFindService.findIsFavorites(cafe, customer);
-            List<CouponStampCoordinate> coordinates = couponStampCoordinateRepository.findByCouponDesign(coupon.getCouponDesign());
-            response.add(CustomerCouponFindResultDto.of(cafe, coupon, isFavorites, coordinates));
-        }
-        return response;
+        return coupons.stream()
+                .map(coupon -> formatToDto(customer, coupon))
+                .toList();
+    }
+
+    private CustomerCouponFindResultDto formatToDto(Customer customer, Coupon coupon) {
+        Cafe cafe = coupon.getCafe();
+        Boolean isFavorites = visitorFavoritesFindService.findIsFavorites(cafe, customer);
+        List<CouponStampCoordinate> coordinates = couponStampCoordinateRepository.findByCouponDesign(coupon.getCouponDesign());
+        return CustomerCouponFindResultDto.of(cafe, coupon, isFavorites, coordinates);
     }
 
     private Customer findExistingCustomer(Long customerId) {
