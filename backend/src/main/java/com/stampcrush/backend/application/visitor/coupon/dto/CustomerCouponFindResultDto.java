@@ -4,14 +4,12 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@EqualsAndHashCode
 @RequiredArgsConstructor
 public class CustomerCouponFindResultDto {
 
@@ -30,7 +28,6 @@ public class CustomerCouponFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class CafeInfoDto {
         private final Long id;
@@ -42,7 +39,6 @@ public class CustomerCouponFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class CouponInfoDto {
         private final Long id;
@@ -72,7 +68,6 @@ public class CustomerCouponFindResultDto {
         }
 
         @Getter
-        @EqualsAndHashCode
         @RequiredArgsConstructor
         public static class CouponCoordinatesDto {
 
