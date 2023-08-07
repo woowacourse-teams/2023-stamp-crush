@@ -3,11 +3,11 @@ import { CouponWrapper } from './style';
 
 interface CouponProps {
   coupon: CouponType;
-  onClick: () => void;
   isFocused: boolean;
+  onClick: () => void;
 }
 
-const Coupon = ({ coupon, onClick, isFocused }: CouponProps) => {
+const Coupon = ({ coupon, isFocused, onClick }: CouponProps) => {
   return (
     <CouponWrapper
       $src={coupon.couponInfos[0].frontImageUrl}
