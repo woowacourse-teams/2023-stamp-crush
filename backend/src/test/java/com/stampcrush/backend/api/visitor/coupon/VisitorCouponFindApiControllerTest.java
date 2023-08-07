@@ -13,12 +13,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
+import static com.stampcrush.backend.helper.AuthHelper.CustomerAuthorization;
+import static com.stampcrush.backend.helper.AuthHelper.createCustomerAuthorization;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -93,30 +94,5 @@ class VisitorCouponFindApiControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("coupons").isNotEmpty());
-    }
-
-    private CustomerAuthorization createCustomerAuthorization(RegisterCustomer customer) {
-        String loginId = customer.getLoginId();
-        String encryptedPassword = customer.getEncryptedPassword();
-        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
-        return new CustomerAuthorization(loginId, basicAuthHeader);
-    }
-
-    private final class CustomerAuthorization {
-        private final String loginId;
-        private final String basicAuthHeader;
-
-        private CustomerAuthorization(String loginId, String basicAuthHeader) {
-            this.loginId = loginId;
-            this.basicAuthHeader = basicAuthHeader;
-        }
-
-        public String loginId() {
-            return loginId;
-        }
-
-        public String basicAuthHeader() {
-            return basicAuthHeader;
-        }
     }
 }

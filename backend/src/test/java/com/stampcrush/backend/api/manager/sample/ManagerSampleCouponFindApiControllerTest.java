@@ -5,6 +5,8 @@ import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindRe
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
+import com.stampcrush.backend.helper.AuthHelper;
+import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -13,11 +15,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
+import static com.stampcrush.backend.helper.AuthHelper.createOwnerAuthorization;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -51,9 +53,9 @@ class ManagerSampleCouponFindApiControllerTest {
 
     @Test
     void 샘플_쿠폰_조회_요청_시_인증이_안되면_401_상태코드를_반환한다() throws Exception {
-        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(OwnerFixture.GITCHAN);
+        OwnerAuthorization ownerAuthorization = AuthHelper.createOwnerAuthorization(OwnerFixture.GITCHAN);
 
-        when(ownerRepository.findByLoginId(ownerAuthorization.owner.getLoginId()))
+        when(ownerRepository.findByLoginId(ownerAuthorization.getOwner().getLoginId()))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(
@@ -71,7 +73,7 @@ class ManagerSampleCouponFindApiControllerTest {
         OwnerAuthorization ownerAuthorization = createOwnerAuthorization(owner);
         int maxStampCount = 8;
 
-        when(ownerRepository.findByLoginId(ownerAuthorization.owner.getLoginId()))
+        when(ownerRepository.findByLoginId(ownerAuthorization.getOwner().getLoginId()))
                 .thenReturn(Optional.of(owner));
 
         when(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
@@ -93,31 +95,5 @@ class ManagerSampleCouponFindApiControllerTest {
                 .andExpect(jsonPath("sampleFrontImages").isNotEmpty())
                 .andExpect(jsonPath("sampleBackImages").isNotEmpty())
                 .andExpect(jsonPath("sampleStampImages").isNotEmpty());
-    }
-
-    private OwnerAuthorization createOwnerAuthorization(Owner owner) {
-        String loginId = owner.getLoginId();
-        String encryptedPassword = owner.getEncryptedPassword();
-        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
-
-        return new OwnerAuthorization(owner, basicAuthHeader);
-    }
-
-    private final class OwnerAuthorization {
-        private final Owner owner;
-        private final String basicAuthHeader;
-
-        private OwnerAuthorization(Owner owner, String basicAuthHeader) {
-            this.owner = owner;
-            this.basicAuthHeader = basicAuthHeader;
-        }
-
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public String getBasicAuthHeader() {
-            return basicAuthHeader;
-        }
     }
 }
