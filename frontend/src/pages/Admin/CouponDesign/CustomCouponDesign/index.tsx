@@ -4,21 +4,21 @@ import {
   SaveButtonWrapper,
   StampCustomButtonWrapper,
 } from './style';
-import { RowSpacing, Spacing } from '../../../style/layout/common';
+import { RowSpacing, Spacing } from '../../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
-import Button from '../../../components/Button';
+import Button from '../../../../components/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ChoiceTemplate from './ChoiceTemplate';
-import useUploadImage from '../../../hooks/useUploadImage';
+import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { parseExpireDate, parseStampCount } from '../../../utils';
-import Text from '../../../components/Text';
-import { postCouponSetting } from '../../../api/post';
+import { parseExpireDate, parseStampCount } from '../../../../utils';
+import Text from '../../../../components/Text';
+import { postCouponSetting } from '../../../../api/post';
 import StampCustomModal from './StampCustomModal';
-import { CouponSettingReq } from '../../../types/api';
-import { StampCoordinate } from '../../../types';
+import { CouponSettingReq } from '../../../../types/api';
+import { StampCoordinate } from '../../../../types';
 import CouponPreviewSection from './CouponPreviewSection';
 
 const CustomCouponDesign = () => {

@@ -19,7 +19,7 @@ import {
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-} from '../CustomCouponDesign/style';
+} from '../CouponDesign/CustomCouponDesign/style';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';

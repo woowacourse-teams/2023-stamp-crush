@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Spacing } from '../../../../style/layout/common';
+import { Spacing } from '../../../../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,

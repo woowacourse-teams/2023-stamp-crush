@@ -1,10 +1,10 @@
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useRef, useState } from 'react';
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../../components/Modal';
 import { BackCouponWrapper, BackImage, ButtonContainer, Stamp, StampBadge } from './style';
-import Text from '../../../../components/Text';
-import Button from '../../../../components/Button';
-import { parseStampCount } from '../../../../utils';
-import { Coordinate, StampCoordinate } from '../../../../types';
+import Text from '../../../../../components/Text';
+import Button from '../../../../../components/Button';
+import { parseStampCount } from '../../../../../utils';
+import { Coordinate, StampCoordinate } from '../../../../../types';
 
 interface Props {
   isOpen: boolean;
