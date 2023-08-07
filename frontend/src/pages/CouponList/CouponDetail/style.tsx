@@ -84,6 +84,7 @@ export const ContentContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+    overflow: hidden;
   }
 `;
 
