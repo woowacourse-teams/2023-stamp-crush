@@ -53,7 +53,7 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
   background: linear-gradient(
     white,
     rgba(255, 255, 255, 0.5) 32%,
-    ${(props) => props.$couponMainColor} 80%,
+    ${({ $couponMainColor }) => $couponMainColor} 80%,
     white
   );
   opacity: 0.7;

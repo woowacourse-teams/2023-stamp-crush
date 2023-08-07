@@ -19,7 +19,6 @@ import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
-import { addGoogleProxyUrl } from '../../utils';
 import CafeInfo from './CafeInfo';
 
 const CouponList = () => {
@@ -37,7 +36,7 @@ const CouponList = () => {
   const {
     data: couponData,
     status: couponStatus,
-    refetch,
+    refetch: couponsRefetch,
   } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
@@ -71,7 +70,7 @@ const CouponList = () => {
   );
 
   useEffect(() => {
-    refetch();
+    couponsRefetch();
   }, []);
 
   if (couponStatus === 'error' || cafeStatus === 'error') return <>에러가 발생했습니다.</>;
