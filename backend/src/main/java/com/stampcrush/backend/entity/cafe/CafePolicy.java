@@ -44,7 +44,7 @@ public class CafePolicy extends BaseDate {
     }
 
     public static CafePolicy createDefaultCafePolicy(Cafe cafe) {
-        return new CafePolicy(10, "No", 6, false, cafe);
+        return new CafePolicy(10, "아메리카노 1잔", 6, false, cafe);
     }
 
     public void delete() {
