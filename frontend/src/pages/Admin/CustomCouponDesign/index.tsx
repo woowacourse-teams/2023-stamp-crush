@@ -1,11 +1,8 @@
 import {
-  CouponContainer,
   CustomCouponDesignContainer,
-  PreviewCouponContainer,
   ImageUploadContainer,
   SaveButtonWrapper,
   StampCustomButtonWrapper,
-  StampImageSelector,
 } from './style';
 import { RowSpacing, Spacing } from '../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
@@ -76,13 +73,13 @@ const CustomCouponDesign = () => {
     <>
       <Spacing $size={40} />
       <CustomCouponDesignContainer>
-        <PreviewCouponContainer>
+        <div>
           <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
           <Spacing $size={40} />
           <Text variant="subTitle">예상 쿠폰 이미지</Text>
           <Spacing $size={20} />
           <ImageUploadContainer>
-            <CouponContainer>
+            <div>
               <CustomCouponSection
                 label="쿠폰 앞면"
                 uploadImageInputId="coupon-front-image-input"
@@ -98,9 +95,9 @@ const CustomCouponDesign = () => {
                 isCustom={isCustom}
                 uploadImageFile={uploadBackImage}
               />
-            </CouponContainer>
+            </div>
             <RowSpacing $size={72} />
-            <CouponContainer>
+            <div>
               <CouponPreviewSection
                 isShown={true}
                 frontImageUrl={frontImage}
@@ -117,7 +114,7 @@ const CustomCouponDesign = () => {
                 isCustom={isCustom}
                 uploadImageFile={uploadStampImage}
               />
-            </CouponContainer>
+            </div>
           </ImageUploadContainer>
           <StampCustomButtonWrapper>
             <Button variant="secondary" size="medium" onClick={customStampPosition}>
@@ -130,7 +127,7 @@ const CustomCouponDesign = () => {
               저장하기
             </Button>
           </SaveButtonWrapper>
-        </PreviewCouponContainer>
+        </div>
         <RowSpacing $size={100} />
         <ChoiceTemplate
           frontImage={frontImage}

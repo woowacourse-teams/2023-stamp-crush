@@ -5,7 +5,6 @@ import {
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-  PreviewLabel,
 } from '../style';
 
 interface CustomStampSectionProps {
@@ -25,7 +24,7 @@ const CustomStampSection = ({
 }: CustomStampSectionProps) => {
   return (
     <>
-      <PreviewLabel>{label}</PreviewLabel>
+      <label>{label}</label>
       <Spacing $size={4} />
       <ImageUpLoadInput
         id={uploadImageInputId}

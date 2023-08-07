@@ -5,7 +5,6 @@ import {
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-  PreviewLabel,
 } from '../style';
 import Text from '../../../../components/Text';
 import { ChangeEvent } from 'react';
@@ -28,7 +27,7 @@ const CustomCouponSection = ({
   return (
     <>
       <CouponPreviewHeader>
-        <PreviewLabel>{label}</PreviewLabel>
+        <label>{label}</label>
         <ImageUpLoadInput
           id={uploadImageInputId}
           type="file"
