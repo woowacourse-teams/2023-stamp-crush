@@ -38,6 +38,7 @@ public class AuthHelper {
         String loginId = customer.getLoginId();
         String encryptedPassword = customer.getEncryptedPassword();
         String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
+
         return new CustomerAuthorization(loginId, basicAuthHeader);
     }
 
