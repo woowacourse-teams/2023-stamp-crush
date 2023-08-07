@@ -51,11 +51,14 @@ export const OverviewContainer = styled.div`
   gap: 10px;
   line-height: 24px;
   word-break: break-all;
-  overflow: hidden;
 
   :nth-child(1) {
     padding: 5px 20px;
     border-bottom: 2px solid black;
+  }
+
+  :nth-child(2) {
+    overflow: scroll;
   }
 `;
 
