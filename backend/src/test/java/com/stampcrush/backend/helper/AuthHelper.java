@@ -45,6 +45,7 @@ public class AuthHelper {
     public static final class CustomerAuthorization {
 
         private final String loginId;
+
         private final String basicAuthHeader;
 
         private CustomerAuthorization(String loginId, String basicAuthHeader) {
