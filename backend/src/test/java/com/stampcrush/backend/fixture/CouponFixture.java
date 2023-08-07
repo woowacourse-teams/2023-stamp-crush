@@ -19,4 +19,7 @@ public final class CouponFixture {
     public static final List<CouponStampCoordinate> GITCHAN_CAFE_COUPON_STAMP_COORDINATE = List.of(
             new CouponStampCoordinate(1, 1, 1, CouponDesignFixture.COUPON_DESIGN_1)
     );
+
+    private CouponFixture() {
+    }
 }

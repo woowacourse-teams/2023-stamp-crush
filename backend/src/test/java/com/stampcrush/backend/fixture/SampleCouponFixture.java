@@ -26,4 +26,7 @@ public final class SampleCouponFixture {
             new SampleStampCoordinate(7, 3, 1, SAMPLE_BACK_IMAGE_SAVED),
             new SampleStampCoordinate(8, 4, 1, SAMPLE_BACK_IMAGE_SAVED)
     );
+
+    private SampleCouponFixture() {
+    }
 }
