@@ -20,12 +20,11 @@ export const postRegisterUser = async (phoneNumber: string) => {
   await api.post('/admin/temporary-customers', ownerHeader, { phoneNumber });
 };
 
-export const postIssueCoupon = async (customerId: string) => {
+export const postIssueCoupon = async (customerId: number) => {
   return await api
     .post(`/admin/customers/${customerId}/coupons`, ownerHeader, { cafeId: '1' })
     .then((response) => response.json());
 };
-
 export const postCouponSetting = async (cafeId: number, couponConfig: CouponSettingReq) => {
   return await api.post(`/admin/coupon-setting?cafe-id=${cafeId}`, ownerHeader, couponConfig);
 };

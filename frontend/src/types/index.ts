@@ -68,3 +68,19 @@ export interface Time {
 }
 
 export type CouponActivate = 'current' | 'new';
+
+export interface CustomerPhoneNumber {
+  id: number;
+  nickname: string;
+  phoneNumber: string;
+}
+
+export interface IssuedCoupon {
+  id: number;
+  customerId: number;
+  nickname: string;
+  stampCount: number;
+  expireDate: string;
+  isPrevious: boolean;
+  maxStampCount: number;
+}

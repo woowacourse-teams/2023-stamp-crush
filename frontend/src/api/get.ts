@@ -14,7 +14,7 @@ export const getList = async () => {
   return await api.get(`/admin/cafes/${cafeId}/customers`, ownerHeader);
 };
 
-export const getCoupon = async (customerId: string, cafeId: string) => {
+export const getCoupon = async (customerId: number, cafeId: string) => {
   return await api.get(
     `/admin/customers/${customerId}/coupons?cafe-id=${cafeId}&active=true`,
     ownerHeader,

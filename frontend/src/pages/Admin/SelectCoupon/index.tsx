@@ -19,6 +19,7 @@ import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 import { CouponActivate } from '../../../types';
+import { CustomerPhoneNumberRes, IssueCouponRes } from '../../../types/api';
 
 const SelectCoupon = () => {
   const location = useLocation();
@@ -26,12 +27,12 @@ const SelectCoupon = () => {
   const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
   const phoneNumber = location.state.phoneNumber;
 
-  // 전화번호로 조회
   const {
     data: customer,
     status: customerStatus,
     refetch: refetchCustomer,
-  } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber), {
+  } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
+    queryFn: () => getCustomer(phoneNumber),
     onSuccess: (data) => {
       if (data.customer.length === null) {
         mutateTempCustomer(phoneNumber);
@@ -39,24 +40,23 @@ const SelectCoupon = () => {
     },
   });
 
-  // 임시 가입 고객 생성
-  const { mutate: mutateTempCustomer, status: tempCustomerStatus } = useMutation(
-    (phoneNumber: string) => postRegisterUser(phoneNumber),
-    {
-      onSuccess: () => {
-        setSelectedCoupon('new');
-        refetchCustomer();
-      },
-      onError: () => {
-        throw new Error('스탬프 적립에 실패했습니다.');
-      },
+  const { mutate: mutateTempCustomer, status: tempCustomerStatus } = useMutation({
+    mutationFn: async (phoneNumber: string) => await postRegisterUser(phoneNumber),
+    onSuccess: () => {
+      setSelectedCoupon('new');
+      refetchCustomer();
     },
-  );
+    onError: () => {
+      throw new Error('스탬프 적립에 실패했습니다.');
+    },
+  });
 
-  // 쿠폰 조회
-  const { data: coupon, status: couponStatus } = useQuery(
+  const { data: coupon, status: couponStatus } = useQuery<IssueCouponRes>(
     ['coupons', customer],
-    () => getCoupon(customer.customer[0].id, '1'),
+    () => {
+      if (!customer) return null;
+      getCoupon(customer.customer[0].id, '1');
+    },
     {
       enabled: !!customer,
     },
@@ -64,11 +64,13 @@ const SelectCoupon = () => {
 
   const navigate = useNavigate();
 
-  // 신규 쿠폰 발급
   const { mutate: mutateIssueCoupon } = useMutation(
-    () => postIssueCoupon(customer.customer[0].id),
+    async () => {
+      if (!customer) return;
+      await postIssueCoupon(customer.customer[0].id);
+    },
     {
-      onSuccess: (data) => {
+      onSuccess: (data: IssueCouponRes) => {
         const newCouponId = +data.couponId;
         navigate(ROUTER_PATH.earnStamp, {
           state: {

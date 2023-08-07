@@ -1,4 +1,13 @@
-import { SampleImage, SampleBackCouponImage, Cafe, StampCoordinate, Coupon, CouponDesign } from '.';
+import {
+  SampleImage,
+  SampleBackCouponImage,
+  Cafe,
+  StampCoordinate,
+  Coupon,
+  CouponDesign,
+  IssuedCoupon,
+} from '.';
+import { CustomerPhoneNumber } from './index';
 
 export interface SampleCouponRes {
   sampleFrontImages: SampleImage[];
@@ -60,4 +69,16 @@ export interface PostIsFavoritesReq {
 
 export interface CouponRes {
   coupons: Coupon[];
+}
+
+export interface CustomerPhoneNumberRes {
+  customer: CustomerPhoneNumber[];
+}
+
+export interface IssueCouponRes {
+  couponId: number;
+}
+
+export interface IssuedCouponsRes {
+  coupons: IssuedCoupon[];
 }

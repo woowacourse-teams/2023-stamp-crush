@@ -157,6 +157,7 @@ export const handlers = [
       stampCount: 1,
       expireDate: '2023:08:11',
       isPrevious: 'false',
+      maxStampCount: 10,
     };
 
     coupons.push(coupon);
