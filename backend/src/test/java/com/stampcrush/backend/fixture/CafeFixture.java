@@ -18,4 +18,7 @@ public final class CafeFixture {
             "buisnessRegistrationNumber",
             OwnerFixture.GITCHAN
     );
+
+    private CafeFixture() {
+    }
 }
