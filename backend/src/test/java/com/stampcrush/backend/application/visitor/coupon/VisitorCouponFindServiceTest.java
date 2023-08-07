@@ -87,12 +87,15 @@ class VisitorCouponFindServiceTest {
         assertAll(
                 () -> assertThat(visitorCouponFindService.findOneCouponForOneCafe(customerId)).isNotEmpty(),
                 () -> assertThat(visitorCouponFindService.findOneCouponForOneCafe(customerId))
-                        .isEqualTo(List.of(CustomerCouponFindResultDto.of(
-                                gitchanCoupon.getCafe(),
-                                gitchanCoupon,
-                                true,
-                                gitchanCoupon.getCouponDesign().getCouponStampCoordinates()
-                        )))
+                        .usingRecursiveComparison()
+                        .isEqualTo(
+                                List.of(
+                                        CustomerCouponFindResultDto.of(
+                                                gitchanCoupon.getCafe(),
+                                                gitchanCoupon,
+                                                true,
+                                                gitchanCoupon.getCouponDesign().getCouponStampCoordinates()
+                                        )))
         );
     }
 }

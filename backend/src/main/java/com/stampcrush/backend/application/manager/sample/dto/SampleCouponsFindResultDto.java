@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Getter
-//@EqualsAndHashCode
 @RequiredArgsConstructor
 public class SampleCouponsFindResultDto {
 
@@ -37,7 +36,6 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleFrontImageDto {
 
@@ -53,7 +51,6 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleBackImageDto {
 
@@ -69,7 +66,6 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleStampCoordinateDto {
 
@@ -93,7 +89,6 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
-    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleStampImageDto {
 
