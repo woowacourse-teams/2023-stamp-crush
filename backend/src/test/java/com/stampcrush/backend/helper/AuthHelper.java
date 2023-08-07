@@ -16,6 +16,7 @@ public class AuthHelper {
     }
 
     public static final class OwnerAuthorization {
+
         private final Owner owner;
         private final String basicAuthHeader;
 
@@ -41,6 +42,7 @@ public class AuthHelper {
     }
 
     public static final class CustomerAuthorization {
+
         private final String loginId;
         private final String basicAuthHeader;
 
