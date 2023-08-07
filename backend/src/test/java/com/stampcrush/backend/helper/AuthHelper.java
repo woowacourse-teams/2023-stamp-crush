@@ -10,7 +10,7 @@ public class AuthHelper {
     public static OwnerAuthorization createOwnerAuthorization(Owner owner) {
         String loginId = owner.getLoginId();
         String encryptedPassword = owner.getEncryptedPassword();
-        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
+        String basicAuthHeader = generateBasicAuthHeader(loginId, encryptedPassword);
 
         return new OwnerAuthorization(owner, basicAuthHeader);
     }
@@ -37,7 +37,7 @@ public class AuthHelper {
     public static CustomerAuthorization createCustomerAuthorization(RegisterCustomer customer) {
         String loginId = customer.getLoginId();
         String encryptedPassword = customer.getEncryptedPassword();
-        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
+        String basicAuthHeader = generateBasicAuthHeader(loginId, encryptedPassword);
 
         return new CustomerAuthorization(loginId, basicAuthHeader);
     }
@@ -45,6 +45,7 @@ public class AuthHelper {
     public static final class CustomerAuthorization {
 
         private final String loginId;
+
         private final String basicAuthHeader;
 
         private CustomerAuthorization(String loginId, String basicAuthHeader) {
@@ -59,5 +60,9 @@ public class AuthHelper {
         public String basicAuthHeader() {
             return basicAuthHeader;
         }
+    }
+
+    private static String generateBasicAuthHeader(String loginId, String encryptedPassword) {
+        return "Basic " + Base64.getEncoder().encodeToString((loginId + ":" + encryptedPassword).getBytes());
     }
 }
