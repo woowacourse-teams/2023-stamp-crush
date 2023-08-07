@@ -22,6 +22,7 @@ import { postCouponSetting } from '../../../api/post';
 import StampCustomModal from './StampCustomModal';
 import { CouponSettingReq } from '../../../types/api';
 import { StampCoordinate } from '../../../types';
+import CouponPreviewSection from './CouponPreviewSection';
 
 const CustomCouponDesign = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const CustomCouponDesign = () => {
 
   const isCustom = location.state.createdType === 'custom';
   const maxStampCount = location.state.stampCount;
+
   // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
     mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
@@ -98,7 +100,16 @@ const CustomCouponDesign = () => {
               />
             </CouponContainer>
             <RowSpacing $size={72} />
-            <StampImageSelector>
+            <CouponContainer>
+              <CouponPreviewSection
+                isShown={true}
+                frontImageUrl={frontImage}
+                backImageUrl={backImage}
+                stampImageUrl={stampImage}
+                stampCount={stampCoordinates.length}
+                coordinates={stampCoordinates}
+              />
+              <Spacing $size={32} />
               <CustomStampSection
                 label="스탬프"
                 uploadImageInputId="stamp-image-input"
@@ -106,7 +117,7 @@ const CustomCouponDesign = () => {
                 isCustom={isCustom}
                 uploadImageFile={uploadStampImage}
               />
-            </StampImageSelector>
+            </CouponContainer>
           </ImageUploadContainer>
           <StampCustomButtonWrapper>
             <Button variant="secondary" size="medium" onClick={customStampPosition}>
