@@ -10,3 +10,7 @@ spring:
         use_sql_comments: true
         jdbc:
           batch_size: 10
+
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui/index.html
