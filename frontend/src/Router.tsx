@@ -9,15 +9,15 @@ import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
-import History from './pages/History';
 import Template from './components/Template';
-import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
+import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 import SelectCoupon from './pages/Admin/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
+import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 
 const AdminRoot = () => {
   return (
@@ -57,7 +57,7 @@ const Router = () => {
         },
         {
           path: ROUTER_PATH.templateCouponDesign,
-          element: <CustomCouponDesign />,
+          element: <TemplateCouponDesign />,
         },
         {
           path: ROUTER_PATH.customCouponDesign,
