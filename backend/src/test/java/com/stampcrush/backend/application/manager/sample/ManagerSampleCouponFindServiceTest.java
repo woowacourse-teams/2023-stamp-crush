@@ -49,10 +49,8 @@ class ManagerSampleCouponFindServiceTest {
 
         when(sampleFrontImageRepository.findAll())
                 .thenReturn(sampleFrontImage);
-
         when(sampleBackImageRepository.findAll())
                 .thenReturn(sampleBackImage);
-
         when(sampleStampImageRepository.findAll())
                 .thenReturn(sampleStampImage);
         when(sampleStampCoordinateRepository.findSampleStampCoordinateBySampleBackImage(SampleCouponFixture.SAMPLE_BACK_IMAGE))
