@@ -2,7 +2,7 @@ package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 
-public class CouponDesignFixture {
+public final class CouponDesignFixture {
 
     public static final CouponDesign COUPON_DESIGN_1 = new CouponDesign("front", "back", "stamp");
     public static final CouponDesign COUPON_DESIGN_2 = new CouponDesign("front", "back", "stamp");

@@ -5,7 +5,7 @@ import com.stampcrush.backend.entity.user.RegisterCustomer;
 
 import java.util.Base64;
 
-public class AuthHelper {
+public final class AuthHelper {
 
     public static OwnerAuthorization createOwnerAuthorization(Owner owner) {
         String loginId = owner.getLoginId();

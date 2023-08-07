@@ -2,7 +2,7 @@ package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 
-public class CouponPolicyFixture {
+public final class CouponPolicyFixture {
 
     public static final CouponPolicy COUPON_POLICY_1 = new CouponPolicy(10, "아메리카노", 8);
     public static final CouponPolicy COUPON_POLICY_2 = new CouponPolicy(10, "아메리카노", 8);
