@@ -6,15 +6,15 @@ import {
   InfoContainer,
   LogoImg,
 } from './style';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { getCafeInfo, getCoupons } from '../../api/get';
+import { MouseEvent, useRef, useState } from 'react';
+import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CafeRes, CouponRes, PostIsFavoritesReq } from '../../types/api';
+import type { CouponRes, PostIsFavoritesReq } from '../../types/api';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
@@ -29,21 +29,14 @@ const CouponList = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [isDetail, setIsDetail] = useState(false);
   const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
-  const [cafeId, setCafeId] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
   const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
-      data.coupons.length !== 0 && setCafeId(data.coupons[data.coupons.length - 1].cafeInfo.id);
     },
     refetchOnWindowFocus: false,
-  });
-
-  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
-    queryFn: () => getCafeInfo(cafeId),
-    enabled: cafeId !== 0,
   });
 
   const { mutate: mutateIsFavorites } = useMutation(
@@ -64,8 +57,8 @@ const CouponList = () => {
     },
   );
 
-  if (couponStatus === 'error' || cafeStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (couponStatus === 'loading' || cafeStatus === 'loading') return <>로딩 중입니다.</>;
+  if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
+  if (couponStatus === 'loading') return <>로딩 중입니다.</>;
 
   const { coupons } = couponData;
   const currentCoupon = coupons[currentIndex];
@@ -77,7 +70,7 @@ const CouponList = () => {
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
     setIsLast(true);
-
+    console.log(currentCoupon.cafeInfo.id);
     setTimeout(() => {
       setIsLast(false);
       couponListContainerRef.current?.prepend(coupon);
@@ -98,7 +91,6 @@ const CouponList = () => {
   };
 
   const openCouponDetail = () => {
-    setCafeId(currentCoupon.cafeInfo.id);
     setIsDetail(true);
 
     setTimeout(() => {
@@ -164,7 +156,7 @@ const CouponList = () => {
           </CouponListContainer>
           <CouponDetail
             coupon={currentCoupon}
-            cafe={cafeData.cafe}
+            cafeId={currentCoupon.cafeInfo.id}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
             closeDetail={closeCouponDetail}
