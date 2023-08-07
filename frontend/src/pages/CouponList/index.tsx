@@ -43,7 +43,7 @@ const CouponList = () => {
 
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
     queryFn: () => getCafeInfo(cafeId),
-    enabled: !!(cafeId !== 0),
+    enabled: cafeId !== 0,
   });
 
   const { mutate: mutateIsFavorites } = useMutation(
