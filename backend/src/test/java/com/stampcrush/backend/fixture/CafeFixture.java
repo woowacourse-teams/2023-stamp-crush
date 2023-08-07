@@ -1,7 +1,6 @@
 package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.fixture.OwnerFixture;
 
 import java.time.LocalTime;
 
