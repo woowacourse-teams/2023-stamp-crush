@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 public final class CafeFixture {
 
-    public static final Cafe GITCHAN_CAFE_SAVED = new Cafe(
+    public static final Cafe GITCHAN_CAFE = new Cafe(
             "깃짱카페",
             LocalTime.NOON,
             LocalTime.MIDNIGHT,

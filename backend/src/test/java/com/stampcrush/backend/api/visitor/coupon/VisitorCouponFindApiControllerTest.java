@@ -79,7 +79,7 @@ class VisitorCouponFindApiControllerTest {
                 .thenReturn(
                         List.of(
                                 CustomerCouponFindResultDto.of(
-                                        CafeFixture.GITCHAN_CAFE_SAVED,
+                                        CafeFixture.GITCHAN_CAFE,
                                         CouponFixture.GITCHAN_CAFE_COUPON,
                                         true,
                                         CouponFixture.GITCHAN_CAFE_COUPON_STAMP_COORDINATE

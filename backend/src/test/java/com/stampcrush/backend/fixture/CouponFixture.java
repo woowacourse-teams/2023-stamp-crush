@@ -11,7 +11,7 @@ public final class CouponFixture {
     public static final Coupon GITCHAN_CAFE_COUPON = new Coupon(
             LocalDate.EPOCH,
             CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED,
-            CafeFixture.GITCHAN_CAFE_SAVED,
+            CafeFixture.GITCHAN_CAFE,
             CouponDesignFixture.COUPON_DESIGN_1,
             CouponPolicyFixture.COUPON_POLICY_1
     );
