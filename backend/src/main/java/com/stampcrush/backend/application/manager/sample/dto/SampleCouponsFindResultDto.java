@@ -4,12 +4,14 @@ import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
 import com.stampcrush.backend.entity.sample.SampleStampImage;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@EqualsAndHashCode
 @RequiredArgsConstructor
 public class SampleCouponsFindResultDto {
 
@@ -35,6 +37,7 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
+    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleFrontImageDto {
 
@@ -49,8 +52,9 @@ public class SampleCouponsFindResultDto {
         }
     }
 
-    @RequiredArgsConstructor
     @Getter
+    @EqualsAndHashCode
+    @RequiredArgsConstructor
     public static class SampleBackImageDto {
 
         private final Long id;
@@ -65,6 +69,7 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
+    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleStampCoordinateDto {
 
@@ -88,6 +93,7 @@ public class SampleCouponsFindResultDto {
     }
 
     @Getter
+    @EqualsAndHashCode
     @RequiredArgsConstructor
     public static class SampleStampImageDto {
 
