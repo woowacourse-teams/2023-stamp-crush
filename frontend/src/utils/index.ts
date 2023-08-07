@@ -14,6 +14,7 @@ export const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
+// TODO: 유효기간 없음 대응하기
 export const parseExpireDate = (value: string) => {
   return +value.replaceAll('개월', '');
 };

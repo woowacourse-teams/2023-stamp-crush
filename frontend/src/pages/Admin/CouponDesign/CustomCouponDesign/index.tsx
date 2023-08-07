@@ -9,7 +9,6 @@ import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../../components/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ChoiceTemplate from './ChoiceTemplate';
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
@@ -31,7 +30,7 @@ const CustomCouponDesign = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isCustom = location.state.createdType === 'custom';
-  const maxStampCount = location.state.stampCount;
+  const maxStampCount = parseStampCount(location.state.stampCount);
 
   // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
@@ -42,8 +41,8 @@ const CustomCouponDesign = () => {
   });
 
   const changeCouponDesignAndPolicy = () => {
-    if (stampCoordinates.length === 0 || !frontImage || !stampImage || !backImage) {
-      alert('이미지를 모두 선택해주세요.');
+    if (stampCoordinates.length !== maxStampCount || !frontImage || !stampImage || !backImage) {
+      alert('모두 설정해주세요.');
       return;
     }
 
@@ -54,7 +53,7 @@ const CustomCouponDesign = () => {
       coordinates: stampCoordinates,
       reward: location.state.reward,
       expirePeriod: parseExpireDate(location.state.expireSelect.value),
-      maxStampCount: parseStampCount(location.state.stampCount),
+      maxStampCount: maxStampCount,
     };
 
     mutateCouponPolicy.mutate(couponSettingBody);
@@ -103,7 +102,7 @@ const CustomCouponDesign = () => {
                 frontImageUrl={frontImage}
                 backImageUrl={backImage}
                 stampImageUrl={stampImage}
-                stampCount={stampCoordinates.length}
+                stampCount={maxStampCount}
                 coordinates={stampCoordinates}
               />
               <Spacing $size={32} />
@@ -129,15 +128,6 @@ const CustomCouponDesign = () => {
           </SaveButtonWrapper>
         </div>
         <RowSpacing $size={100} />
-        <ChoiceTemplate
-          frontImage={frontImage}
-          backImage={backImage}
-          stampImage={stampImage}
-          setFrontImage={setFrontImage}
-          setBackImage={setBackImage}
-          setStampImage={setStampImage}
-          setStampCoordinates={setStampCoordinates}
-        />
       </CustomCouponDesignContainer>
       <StampCustomModal
         isOpen={isModalOpen}
