@@ -35,6 +35,7 @@ class ManagerCafeCouponSettingCommandApiControllerTest {
             "reward",
             6
     );
+
     @Autowired
     private MockMvc mockMvc;
 
