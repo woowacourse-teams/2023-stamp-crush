@@ -6,9 +6,6 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
-import com.stampcrush.backend.fixture.CafeFixture;
-import com.stampcrush.backend.fixture.CouponDesignFixture;
-import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
@@ -19,11 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.stampcrush.backend.fixture.CouponFixture.GITCHAN_COUPON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -32,13 +29,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class VisitorCouponFindServiceTest {
 
-    private static final Coupon GITCHAN_COUPON = new Coupon(
-            LocalDate.EPOCH,
-            CustomerFixture.REGISTER_CUSTOMER_GITCHAN,
-            CafeFixture.GITCHAN_CAFE,
-            CouponDesignFixture.COUPON_DESIGN_1,
-            CouponPolicyFixture.COUPON_POLICY_1
-    );
     @InjectMocks
     private VisitorCouponFindService visitorCouponFindService;
 
