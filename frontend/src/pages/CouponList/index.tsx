@@ -33,16 +33,11 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
-  const {
-    data: couponData,
-    status: couponStatus,
-    refetch: couponsRefetch,
-  } = useQuery<CouponRes>(['coupons'], getCoupons, {
+  const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
     onSuccess: (data) => {
       setCurrentIndex(data.coupons.length - 1);
       data.coupons.length !== 0 && setCafeId(data.coupons[data.coupons.length - 1].cafeInfo.id);
     },
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
@@ -68,10 +63,6 @@ const CouponList = () => {
       },
     },
   );
-
-  useEffect(() => {
-    couponsRefetch();
-  }, []);
 
   if (couponStatus === 'error' || cafeStatus === 'error') return <>에러가 발생했습니다.</>;
   if (couponStatus === 'loading' || cafeStatus === 'loading') return <>로딩 중입니다.</>;
