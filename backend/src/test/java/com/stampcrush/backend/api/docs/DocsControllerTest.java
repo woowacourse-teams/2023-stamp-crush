@@ -6,11 +6,13 @@ import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiCont
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
+import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
+import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorCafeFindApiController.class,
         ManagerCustomerFindApiController.class,
         ManagerCustomerCommandApiController.class,
-        VisitorCouponFindApiController.class
+        VisitorCouponFindApiController.class,
+        VisitorFavoritesCommandApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -69,6 +72,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorCouponFindService visitorCouponFindService;
+
+    @MockBean
+    protected VisitorFavoritesCommandService visitorFavoritesCommandService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
