@@ -2,6 +2,7 @@ package com.stampcrush.backend.application.visitor.coupon;
 
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -26,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class VisitorCouponFindServiceTest {
 

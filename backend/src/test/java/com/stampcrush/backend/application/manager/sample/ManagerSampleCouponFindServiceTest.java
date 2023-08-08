@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.manager.sample;
 
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class ManagerSampleCouponFindServiceTest {
 

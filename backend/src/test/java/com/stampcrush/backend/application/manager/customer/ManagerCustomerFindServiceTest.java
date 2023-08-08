@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.manager.customer;
 
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
@@ -19,8 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NonAsciiCharacters")
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class ManagerCustomerFindServiceTest {
 
