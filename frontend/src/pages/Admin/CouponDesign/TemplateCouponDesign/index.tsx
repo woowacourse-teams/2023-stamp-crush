@@ -7,7 +7,7 @@ import {
   SaveButtonWrapper,
 } from '../CustomCouponDesign/style';
 import useUploadImage from '../../../../hooks/useUploadImage';
-import { StampCoordinate } from '../../../../types';
+import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CouponSettingReq } from '../../../../types/api';
@@ -20,14 +20,15 @@ import Button from '../../../../components/Button';
 import ChoiceTemplate from '../CustomCouponDesign/ChoiceTemplate';
 
 const TemplateCouponDesign = () => {
-  const location = useLocation();
+  const { state } = useLocation() as unknown as CouponDesignLocation;
   const navigate = useNavigate();
   const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
   const [backImage, uploadBackImage, setBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
   const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
 
-  const isCustom = location.state.createdType === 'custom';
+  const isCustom = state.createdType === 'custom';
+  const maxStampCount = parseStampCount(state.stampCount);
 
   // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
@@ -48,9 +49,9 @@ const TemplateCouponDesign = () => {
       backImageUrl: backImage,
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
-      reward: location.state.reward,
-      expirePeriod: parseExpireDate(location.state.expireSelect.value),
-      maxStampCount: parseStampCount(location.state.stampCount),
+      reward: state.reward,
+      expirePeriod: parseExpireDate(state.expireSelect.value),
+      maxStampCount: maxStampCount,
     };
 
     mutateCouponPolicy.mutate(couponSettingBody);
@@ -91,7 +92,7 @@ const TemplateCouponDesign = () => {
                 frontImageUrl={frontImage}
                 backImageUrl={backImage}
                 stampImageUrl={stampImage}
-                stampCount={stampCoordinates.length}
+                stampCount={maxStampCount}
                 coordinates={stampCoordinates}
               />
               <Spacing $size={32} />

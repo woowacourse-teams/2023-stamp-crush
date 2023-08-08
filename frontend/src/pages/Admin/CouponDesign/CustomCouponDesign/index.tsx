@@ -17,20 +17,20 @@ import Text from '../../../../components/Text';
 import { postCouponSetting } from '../../../../api/post';
 import StampCustomModal from './StampCustomModal';
 import { CouponSettingReq } from '../../../../types/api';
-import { StampCoordinate } from '../../../../types';
+import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from './CouponPreviewSection';
 
 const CustomCouponDesign = () => {
-  const location = useLocation();
+  const { state } = useLocation() as unknown as CouponDesignLocation;
   const navigate = useNavigate();
-  const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
-  const [backImage, uploadBackImage, setBackImage] = useUploadImage();
+  const [frontImage, uploadFrontImage] = useUploadImage();
+  const [backImage, uploadBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
+  const [stampImage, uploadStampImage] = useUploadImage();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isCustom = location.state.createdType === 'custom';
-  const maxStampCount = parseStampCount(location.state.stampCount);
+  const isCustom = state.createdType === 'custom';
+  const maxStampCount = parseStampCount(state.stampCount);
 
   // FIXME: 추후 카페 아이디 하드코딩된 값 제거
   const mutateCouponPolicy = useMutation({
@@ -51,8 +51,8 @@ const CustomCouponDesign = () => {
       backImageUrl: backImage,
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
-      reward: location.state.reward,
-      expirePeriod: parseExpireDate(location.state.expireSelect.value),
+      reward: state.reward,
+      expirePeriod: parseExpireDate(state.expireSelect.value),
       maxStampCount: maxStampCount,
     };
 

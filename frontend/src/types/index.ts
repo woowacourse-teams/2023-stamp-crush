@@ -68,3 +68,12 @@ export interface Time {
 }
 
 export type CouponActivate = 'current' | 'new';
+
+export type CouponDesignLocation = {
+  state: {
+    createdType: 'custom' | 'template';
+    reward: string;
+    expireSelect: Option;
+    stampCount: string;
+  };
+};
