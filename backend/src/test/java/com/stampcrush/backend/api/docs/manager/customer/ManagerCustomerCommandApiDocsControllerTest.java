@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ManagerCustomerCommandApiDocsControllerTest extends DocsControllerTest {
 
-
     private Owner owner;
     private String basicAuthHeader;
 
@@ -67,5 +66,4 @@ class ManagerCustomerCommandApiDocsControllerTest extends DocsControllerTest {
                 )
                 .andExpect(status().isCreated());
     }
-
 }
