@@ -5,8 +5,8 @@ import {
   StampCustomButtonWrapper,
 } from './style';
 import { RowSpacing, Spacing } from '../../../../style/layout/common';
-import CustomCouponSection from './CustomCouponSection';
-import CustomStampSection from './CustomStampSection';
+import CustomCouponSection from '../CustomCouponSection';
+import CustomStampSection from '../CustomStampSection';
 import Button from '../../../../components/Button';
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
@@ -15,7 +15,7 @@ import Text from '../../../../components/Text';
 import StampCustomModal from './StampCustomModal';
 import { CouponSettingReq } from '../../../../types/api';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
-import CouponPreviewSection from './CouponPreviewSection';
+import CouponPreviewSection from '../CouponPreviewSection';
 import { useLocation } from 'react-router-dom';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 

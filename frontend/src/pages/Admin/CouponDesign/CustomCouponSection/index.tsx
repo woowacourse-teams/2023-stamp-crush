@@ -1,12 +1,12 @@
 import { CouponPreviewHeader } from './style';
-import { Spacing } from '../../../../../style/layout/common';
+import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-} from '../style';
-import Text from '../../../../../components/Text';
+} from '../CustomCouponDesign/style';
+import Text from '../../../../components/Text';
 import { ChangeEvent } from 'react';
 
 interface CustomCouponSectionProps {

@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
-import { Spacing } from '../../../../../style/layout/common';
+import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-} from '../style';
+} from '../CustomCouponDesign/style';
 
 interface CustomStampSectionProps {
   label: string;

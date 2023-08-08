@@ -11,11 +11,11 @@ import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import { useState } from 'react';
 import { CouponSettingReq } from '../../../../types/api';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
-import CustomCouponSection from '../CustomCouponDesign/CustomCouponSection';
-import CouponPreviewSection from '../CustomCouponDesign/CouponPreviewSection';
-import CustomStampSection from '../CustomCouponDesign/CustomStampSection';
+import CustomCouponSection from '../CustomCouponSection';
+import CouponPreviewSection from '../CouponPreviewSection';
+import CustomStampSection from '../CustomStampSection';
 import Button from '../../../../components/Button';
-import ChoiceTemplate from '../CustomCouponDesign/ChoiceTemplate';
+import ChoiceTemplate from '../ChoiceTemplate';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 
 const TemplateCouponDesign = () => {

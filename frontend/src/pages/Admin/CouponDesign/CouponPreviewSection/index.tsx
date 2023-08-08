@@ -1,5 +1,5 @@
-import { Spacing } from '../../../../../style/layout/common';
-import FlippedCoupon, { FlippedCouponProps } from '../../../../CouponList/FlippedCoupon';
+import { Spacing } from '../../../../style/layout/common';
+import FlippedCoupon, { FlippedCouponProps } from '../../../CouponList/FlippedCoupon';
 
 type CouponPreviewSectionProps = FlippedCouponProps;
 
