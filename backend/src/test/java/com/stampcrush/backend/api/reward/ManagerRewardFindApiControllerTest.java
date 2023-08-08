@@ -4,6 +4,7 @@ import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@KorNamingConverter
 @WebMvcTest(value = ManagerRewardFindApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))

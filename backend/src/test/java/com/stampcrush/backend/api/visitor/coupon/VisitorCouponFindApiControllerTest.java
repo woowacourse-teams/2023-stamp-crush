@@ -2,6 +2,7 @@ package com.stampcrush.backend.api.visitor.coupon;
 
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CouponFixture;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@KorNamingConverter
 @WebMvcTest(VisitorCouponFindApiController.class)
 class VisitorCouponFindApiControllerTest {
 

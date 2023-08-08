@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@KorNamingConverter
 @WebMvcTest(value = VisitorFavoritesCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))

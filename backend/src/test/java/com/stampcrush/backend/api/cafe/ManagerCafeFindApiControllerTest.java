@@ -2,6 +2,7 @@ package com.stampcrush.backend.api.cafe;
 
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@KorNamingConverter
 @WebMvcTest(ManagerCafeFindApiController.class)
 class ManagerCafeFindApiControllerTest {
 
