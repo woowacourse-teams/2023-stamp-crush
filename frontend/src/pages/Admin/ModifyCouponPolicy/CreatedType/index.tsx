@@ -1,8 +1,17 @@
 import { ChangeEvent, Dispatch } from 'react';
-import { InputContainer, Label, RadioInput, TypeDescription, TypeTitle } from './style';
+import {
+  IconWrapper,
+  InputContainer,
+  Label,
+  RadioInput,
+  TypeDescription,
+  TypeTitle,
+} from './style';
 import { Spacing } from '../../../../style/layout/common';
 import Text from '../../../../components/Text';
 import { CouponCreated } from '../../../../types';
+import { GrSelect } from 'react-icons/gr';
+import { MdOutlinePhotoSizeSelectLarge } from 'react-icons/md';
 
 interface CreatedTypeProps {
   setValue: Dispatch<React.SetStateAction<CouponCreated>>;
@@ -31,6 +40,9 @@ const CreatedType = ({ setValue }: CreatedTypeProps) => {
           <TypeDescription>
             스탬프크러쉬에서 <br /> 제공해주는 템플릿을 <br /> 사용할게요.
           </TypeDescription>
+          <IconWrapper>
+            <GrSelect size={60} />
+          </IconWrapper>
         </Label>
         <RadioInput
           id="custom"
@@ -45,6 +57,9 @@ const CreatedType = ({ setValue }: CreatedTypeProps) => {
             직접 쿠폰 이미지를 <br /> 업로드하여 <br />
             커스텀할게요.
           </TypeDescription>
+          <IconWrapper>
+            <MdOutlinePhotoSizeSelectLarge size={60} />
+          </IconWrapper>
         </Label>
       </InputContainer>
     </>

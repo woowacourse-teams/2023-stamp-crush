@@ -4,6 +4,8 @@ import SelectBox from '../../../../components/SelectBox';
 import { EXPIRE_DATE_OPTIONS } from '../../../../constants';
 import { Dispatch, SetStateAction } from 'react';
 import { Option } from '../../../../types';
+import { WarningText } from './style';
+import { AiFillWarning } from 'react-icons/ai';
 
 interface ExpirePeriodProps {
   expirePeriod: Option;
@@ -15,7 +17,9 @@ const ExpirePeriod = ({ expirePeriod, setExpirePeriod }: ExpirePeriodProps) => {
     <>
       <Text variant="subTitle">step4. 쿠폰의 유효기간을 설정해주세요.</Text>
       <Spacing $size={16} />
-      <Text>* 유효기간이 지나면 해당 쿠폰의 스탬프가 모두 소멸됩니다.</Text>
+      <WarningText>
+        <AiFillWarning /> 유효기간이 지나면 해당 쿠폰의 스탬프가 모두 소멸됩니다.
+      </WarningText>
       <Spacing $size={32} />
       <SelectBox
         options={EXPIRE_DATE_OPTIONS}

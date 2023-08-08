@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 export const Label = styled.label`
-  box-sizing: border-box;
+  position: relative;
   width: 200px;
   height: 250px;
   background: #d3e3fa;
@@ -22,8 +22,7 @@ export const RadioInput = styled.input`
   appearance: none;
 
   &:checked + ${Label} {
-    border: 3px solid #222;
-    box-sizing: border-box;
+    box-shadow: 0 0 0 3px inset;
   }
 `;
 
@@ -43,4 +42,10 @@ export const TypeDescription = styled.p`
   padding: 5px;
   white-space: pre-line;
   line-height: 22px;
+`;
+
+export const IconWrapper = styled.div`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 `;
