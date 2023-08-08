@@ -4,6 +4,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 
 import java.time.LocalTime;
 
+
 public final class CafeFixture {
 
     public static final Cafe GITCHAN_CAFE = new Cafe(

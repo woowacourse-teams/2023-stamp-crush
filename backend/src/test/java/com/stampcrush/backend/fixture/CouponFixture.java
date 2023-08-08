@@ -1,6 +1,7 @@
 package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.coupon.Coupon;
+
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 
 import java.time.LocalDate;
