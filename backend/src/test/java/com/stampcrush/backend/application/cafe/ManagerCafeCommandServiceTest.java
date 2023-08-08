@@ -3,6 +3,7 @@ package com.stampcrush.backend.application.cafe;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -38,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
+@KorNamingConverter
 @SpringBootTest
 public class ManagerCafeCommandServiceTest {
 

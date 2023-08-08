@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.manager.customer;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -18,8 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SuppressWarnings("NonAsciiCharacters")
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class ManagerCustomerCommandServiceTest {
 

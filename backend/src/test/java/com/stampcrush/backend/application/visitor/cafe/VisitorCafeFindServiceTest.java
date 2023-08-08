@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.visitor.cafe;
 
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -21,8 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NonAsciiCharacters")
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class VisitorCafeFindServiceTest {
 
