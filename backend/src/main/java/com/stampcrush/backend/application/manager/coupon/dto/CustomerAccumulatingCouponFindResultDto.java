@@ -3,7 +3,6 @@ package com.stampcrush.backend.application.manager.coupon.dto;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Customer;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
