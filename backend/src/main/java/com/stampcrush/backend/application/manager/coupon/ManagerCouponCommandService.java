@@ -48,15 +48,8 @@ public class ManagerCouponCommandService {
     }
 
     public Long createCoupon(Long cafeId, Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> {
-                    throw new CustomerNotFoundException("존재하지 않는 회원입니다.");
-                });
-
-        Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(() -> {
-                    throw new CafeNotFoundException("존재하지 않는 카페입니다.");
-                });
+        Customer customer = findCustomerById(customerId);
+        Cafe cafe = findCafeById(cafeId);
         CafePolicy cafePolicy = findCafePolicy(cafe);
         CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
@@ -69,6 +62,22 @@ public class ManagerCouponCommandService {
         Coupon coupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
         couponRepository.save(coupon);
         return coupon.getId();
+    }
+
+    private Customer findCustomerById(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> {
+                    throw new CustomerNotFoundException("존재하지 않는 회원입니다.");
+                });
+        return customer;
+    }
+
+    private Cafe findCafeById(Long cafeId) {
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> {
+                    throw new CafeNotFoundException("존재하지 않는 카페입니다.");
+                });
+        return cafe;
     }
 
     private Coupon issueCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign) {
