@@ -18,6 +18,10 @@ public class TemporaryCustomer extends Customer {
         super(nickname, phoneNumber);
     }
 
+    public TemporaryCustomer(Long id, String nickname, String phoneNumber) {
+        super(id, nickname, phoneNumber);
+    }
+
     public static TemporaryCustomer from(String phoneNumber) {
         return new TemporaryCustomer(formatNickname(phoneNumber), phoneNumber);
     }
