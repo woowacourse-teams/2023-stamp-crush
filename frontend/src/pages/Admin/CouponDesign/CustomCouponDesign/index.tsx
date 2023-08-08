@@ -20,25 +20,30 @@ import { CouponSettingReq } from '../../../../types/api';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from './CouponPreviewSection';
 
-const CustomCouponDesign = () => {
-  const { state } = useLocation() as unknown as CouponDesignLocation;
+const useMutateCouponPolicy = () => {
   const navigate = useNavigate();
-  const [frontImage, uploadFrontImage] = useUploadImage();
-  const [backImage, uploadBackImage] = useUploadImage();
-  const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage] = useUploadImage();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isCustom = state.createdType === 'custom';
-  const maxStampCount = parseStampCount(state.stampCount);
-
-  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
-  const mutateCouponPolicy = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
     onSuccess: () => {
       navigate('/admin');
     },
   });
+
+  return { mutate };
+};
+
+const CustomCouponDesign = () => {
+  const { state } = useLocation() as unknown as CouponDesignLocation;
+  const [frontImage, uploadFrontImage] = useUploadImage();
+  const [backImage, uploadBackImage] = useUploadImage();
+  const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
+  const [stampImage, uploadStampImage] = useUploadImage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isCustom = state.createdType === 'custom';
+  const maxStampCount = parseStampCount(state.stampCount);
+  const { mutate } = useMutateCouponPolicy();
+  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
 
   const changeCouponDesignAndPolicy = () => {
     if (stampCoordinates.length !== maxStampCount || !frontImage || !stampImage || !backImage) {
@@ -56,7 +61,7 @@ const CustomCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutateCouponPolicy.mutate(couponSettingBody);
+    mutate(couponSettingBody);
   };
 
   const customStampPosition = () => {
