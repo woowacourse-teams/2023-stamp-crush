@@ -11,9 +11,16 @@ import MaxStampCount from './MaxStampCount';
 import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
 
+const MODIFY_STEP_NUMBER = {
+  createdType: 1,
+  maxStampCount: 2,
+  rewardName: 3,
+  expirePeriod: 4,
+};
+
 const ModifyCouponPolicy = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(MODIFY_STEP_NUMBER.createdType);
   const [createdType, setCreatedType] = useState<CouponCreated>('template');
   const [rewardName, setRewardName] = useState('');
   const [expirePeriod, setExpirePeriod] = useState<Option>({
@@ -50,12 +57,12 @@ const ModifyCouponPolicy = () => {
   };
 
   const moveNextStep = () => {
-    if (step === 3 && !rewardName) {
+    if (step === MODIFY_STEP_NUMBER.rewardName && !rewardName) {
       alert('리워드를 작성해주세요.');
       return;
     }
 
-    if (step === 4) {
+    if (step === MODIFY_STEP_NUMBER.expirePeriod) {
       navigateNextPage();
       return;
     }
@@ -76,9 +83,9 @@ const ModifyCouponPolicy = () => {
         <StepWrapper>
           {(() => {
             switch (step) {
-              case 1:
+              case MODIFY_STEP_NUMBER.createdType:
                 return <CreatedType setValue={setCreatedType} />;
-              case 2:
+              case MODIFY_STEP_NUMBER.maxStampCount:
                 return (
                   <MaxStampCount
                     createdType={createdType}
@@ -86,9 +93,9 @@ const ModifyCouponPolicy = () => {
                     setStampCount={setStampCount}
                   />
                 );
-              case 3:
+              case MODIFY_STEP_NUMBER.rewardName:
                 return <RewardName rewardName={rewardName} setRewardName={setRewardName} />;
-              case 4:
+              case MODIFY_STEP_NUMBER.expirePeriod:
                 return (
                   <ExpiredPeriod expirePeriod={expirePeriod} setExpirePeriod={setExpirePeriod} />
                 );
@@ -98,7 +105,7 @@ const ModifyCouponPolicy = () => {
           })()}
         </StepWrapper>
         <ButtonContainer $step={step}>
-          {step !== 1 && (
+          {step !== MODIFY_STEP_NUMBER.createdType && (
             <Button variant="secondary" size="medium" onClick={movePrevStep}>
               이전으로
             </Button>
