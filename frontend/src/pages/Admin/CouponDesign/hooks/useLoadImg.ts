@@ -17,3 +17,14 @@ export const useLoadImg = (imgFileUrl: string) => {
 
   return { isLoading, handleImageLoad };
 };
+
+export const selectImgUrl = (
+  imgUrl: string,
+  previewImgUrl: string,
+  loadImgUrl: string,
+  isLoading: boolean,
+) => {
+  if (isLoading) return loadImgUrl;
+  if (!imgUrl) return previewImgUrl;
+  return imgUrl;
+};

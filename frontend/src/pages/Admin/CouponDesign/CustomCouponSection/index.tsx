@@ -9,7 +9,8 @@ import {
 import Text from '../../../../components/Text';
 import { ChangeEvent } from 'react';
 import CouponLoadImg from '../../../../assets/coupon_loading_img.png';
-import { useLoadImg } from '../hooks/useLoadImg';
+import CouponPreviewImg from '../../../../assets/coupon_preview.png';
+import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
 
 interface CustomCouponSectionProps {
   label: string;
@@ -47,7 +48,7 @@ const CustomCouponSection = ({
       <Spacing $size={12} />
       <PreviewImageWrapper $height={150} $width={270}>
         <PreviewImage
-          src={isLoading ? CouponLoadImg : imgFileUrl}
+          src={selectImgUrl(imgFileUrl, CouponPreviewImg, CouponLoadImg, isLoading)}
           $height={150}
           $width={270}
           onLoad={handleImageLoad}

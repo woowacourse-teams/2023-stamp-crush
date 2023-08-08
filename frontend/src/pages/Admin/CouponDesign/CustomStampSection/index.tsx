@@ -6,8 +6,9 @@ import {
   PreviewImage,
   PreviewImageWrapper,
 } from '../CustomCouponDesign/style';
-import { useLoadImg } from '../hooks/useLoadImg';
+import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
 import StampLoadImg from '../../../../assets/stamp_load_img.png';
+import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 interface CustomStampSectionProps {
   label: string;
@@ -42,7 +43,7 @@ const CustomStampSection = ({
       <Spacing $size={8} />
       <PreviewImageWrapper $height={50} $width={50}>
         <PreviewImage
-          src={isLoading ? StampLoadImg : imgFileUrl}
+          src={selectImgUrl(imgFileUrl, StampPreviewImg, StampLoadImg, isLoading)}
           $height={50}
           $width={50}
           onLoad={handleImageLoad}
