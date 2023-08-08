@@ -3,7 +3,9 @@ package com.stampcrush.backend.api.docs.manager.cafe;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
+import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeUpdateRequest;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.entity.user.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,5 +74,44 @@ public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest 
                         )
                 )
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void 카페_등록() throws Exception {
+        // given
+        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("우아한카페", "서울시 잠실", "루터회관 13층", "000-111-222");
+        CafeCreateDto cafeCreateDto = new CafeCreateDto(
+                owner.getId(),
+                cafeCreateRequest.getName(),
+                cafeCreateRequest.getRoadAddress(),
+                cafeCreateRequest.getDetailAddress(),
+                cafeCreateRequest.getBusinessRegistrationNumber());
+        when(managerCafeCommandService.createCafe(cafeCreateDto)).thenReturn(1L);
+
+        // when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/cafes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                        .content(objectMapper.writeValueAsString(cafeCreateRequest)))
+                .andDo(document("manager/cafe/register-cafe",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(
+                                        ResourceSnippetParameters.builder()
+                                                .tag("사장 모드")
+                                                .description("카페 등록")
+                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestFields(fieldWithPath("name").description("카페 이름"),
+                                                        fieldWithPath("roadAddress").description("도로명 주소"),
+                                                        fieldWithPath("detailAddress").description("상세 주소"),
+                                                        fieldWithPath("businessRegistrationNumber").description("사업자 등록번호"))
+                                                .requestSchema(Schema.schema("CafeCreateRequest"))
+                                                .responseHeaders(headerWithName("Location").description("/cafes/{cafesId}"))
+                                                .build()
+                                )
+                        )
+                )
+                .andExpect(status().isCreated());
     }
 }
