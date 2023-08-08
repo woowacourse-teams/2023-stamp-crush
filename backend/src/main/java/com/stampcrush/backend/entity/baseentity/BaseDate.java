@@ -19,4 +19,13 @@ public class BaseDate {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public BaseDate(LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public BaseDate() {
+        this(null, null);
+    }
 }
