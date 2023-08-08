@@ -49,24 +49,10 @@
     </appender>
 
     <root level="WARN">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="WARN_LOG"/>
     </root>
 
     <root level="ERROR">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="ERROR_LOG"/>
     </root>
-
-    <logger name="LogController" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="INFO_LOG"/>
-        <appender-ref ref="WARN_LOG"/>
-    </logger>
-
-    <logger name="org.hibernate.SQL" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="INFO_LOG"/>
-    </logger>
-
 </configuration>
