@@ -8,30 +8,16 @@ import { RowSpacing, Spacing } from '../../../../style/layout/common';
 import CustomCouponSection from './CustomCouponSection';
 import CustomStampSection from './CustomStampSection';
 import Button from '../../../../components/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import Text from '../../../../components/Text';
-import { postCouponSetting } from '../../../../api/post';
 import StampCustomModal from './StampCustomModal';
 import { CouponSettingReq } from '../../../../types/api';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from './CouponPreviewSection';
-
-const useMutateCouponPolicy = () => {
-  const navigate = useNavigate();
-
-  const { mutate } = useMutation({
-    mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
-    onSuccess: () => {
-      navigate('/admin');
-    },
-  });
-
-  return { mutate };
-};
+import { useLocation } from 'react-router-dom';
+import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 
 const CustomCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
@@ -43,7 +29,6 @@ const CustomCouponDesign = () => {
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);
   const { mutate } = useMutateCouponPolicy();
-  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
 
   const changeCouponDesignAndPolicy = () => {
     if (stampCoordinates.length !== maxStampCount || !frontImage || !stampImage || !backImage) {

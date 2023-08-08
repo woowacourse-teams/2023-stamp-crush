@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Text from '../../../../components/Text';
 import { RowSpacing, Spacing } from '../../../../style/layout/common';
 import {
@@ -9,34 +9,24 @@ import {
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { CouponSettingReq } from '../../../../types/api';
-import { postCouponSetting } from '../../../../api/post';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import CustomCouponSection from '../CustomCouponDesign/CustomCouponSection';
 import CouponPreviewSection from '../CustomCouponDesign/CouponPreviewSection';
 import CustomStampSection from '../CustomCouponDesign/CustomStampSection';
 import Button from '../../../../components/Button';
 import ChoiceTemplate from '../CustomCouponDesign/ChoiceTemplate';
+import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 
 const TemplateCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
-  const navigate = useNavigate();
   const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
   const [backImage, uploadBackImage, setBackImage] = useUploadImage();
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
   const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
-
+  const { mutate } = useMutateCouponPolicy();
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);
-
-  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
-  const mutateCouponPolicy = useMutation({
-    mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
-    onSuccess: () => {
-      navigate('/admin');
-    },
-  });
 
   const changeCouponDesignAndPolicy = () => {
     if (stampCoordinates.length === 0 || !frontImage || !stampImage || !backImage) {
@@ -54,7 +44,7 @@ const TemplateCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutateCouponPolicy.mutate(couponSettingBody);
+    mutate(couponSettingBody);
   };
 
   return (
