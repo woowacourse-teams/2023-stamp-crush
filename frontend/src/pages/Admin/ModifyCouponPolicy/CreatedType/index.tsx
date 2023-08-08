@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import {
   IconWrapper,
   InputContainer,
@@ -14,7 +14,7 @@ import { GrSelect } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectLarge } from 'react-icons/md';
 
 interface CreatedTypeProps {
-  setValue: Dispatch<React.SetStateAction<CouponCreated>>;
+  setValue: Dispatch<SetStateAction<CouponCreated>>;
 }
 
 const CreatedType = ({ setValue }: CreatedTypeProps) => {
