@@ -9,7 +9,8 @@ export const StepContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 40%;
+  width: 60%;
+  max-width: 450px;
   height: 60%;
 `;
 
