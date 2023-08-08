@@ -11,6 +11,7 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -158,7 +159,7 @@ public class ManageCouponCommandServiceTest {
 
         // then
         assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(CafeNotFoundException.class);
     }
 
     @Test

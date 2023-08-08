@@ -11,6 +11,7 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -49,7 +50,9 @@ public class ManagerCouponCommandService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(IllegalArgumentException::new);
         Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> {
+                    throw new CafeNotFoundException("존재하지 않는 카페입니다.");
+                });
         CafePolicy cafePolicy = findCafePolicy(cafe);
         CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
@@ -124,7 +127,7 @@ public class ManagerCouponCommandService {
     private Cafe findCafe(Owner owner) {
         List<Cafe> cafes = cafeRepository.findAllByOwner(owner);
         if (cafes.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new CafeNotFoundException("존재하지 않는 카페입니다.");
         }
         return cafes.stream()
                 .findAny()
