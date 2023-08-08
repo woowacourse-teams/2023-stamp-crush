@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.stampcrush.backend.fixture.CouponFixture.GITCHAN_COUPON;
+import static com.stampcrush.backend.fixture.CouponFixture.GITCHAN_CAFE_COUPON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -73,7 +73,7 @@ class VisitorCouponFindServiceTest {
     void 하나의_카페당_하나의_쿠폰을_조회할_수_있다() {
         long customerId = 1L;
         RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
-        Coupon gitchanCoupon = GITCHAN_COUPON;
+        Coupon gitchanCoupon = GITCHAN_CAFE_COUPON;
 
         when(customerRepository.findById(customerId))
                 .thenReturn(Optional.of(customer));
