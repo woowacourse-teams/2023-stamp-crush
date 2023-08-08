@@ -18,13 +18,15 @@ import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from '../CouponPreviewSection';
 import { useLocation } from 'react-router-dom';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
+import CouponPreviewImg from '../../../../assets/coupon_preview.png';
+import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 const CustomCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
-  const [frontImage, uploadFrontImage] = useUploadImage();
-  const [backImage, uploadBackImage] = useUploadImage();
+  const [frontImage, uploadFrontImage] = useUploadImage(CouponPreviewImg);
+  const [backImage, uploadBackImage] = useUploadImage(CouponPreviewImg);
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage] = useUploadImage();
+  const [stampImage, uploadStampImage] = useUploadImage(StampPreviewImg);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);

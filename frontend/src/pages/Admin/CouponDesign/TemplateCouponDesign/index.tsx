@@ -17,13 +17,15 @@ import CustomStampSection from '../CustomStampSection';
 import Button from '../../../../components/Button';
 import ChoiceTemplate from '../ChoiceTemplate';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
+import CouponPreviewImg from '../../../../assets/coupon_preview.png';
+import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 const TemplateCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
-  const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage();
-  const [backImage, uploadBackImage, setBackImage] = useUploadImage();
+  const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage(CouponPreviewImg);
+  const [backImage, uploadBackImage, setBackImage] = useUploadImage(CouponPreviewImg);
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage, setStampImage] = useUploadImage();
+  const [stampImage, uploadStampImage, setStampImage] = useUploadImage(StampPreviewImg);
   const { mutate } = useMutateCouponPolicy();
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);
