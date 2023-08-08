@@ -1,8 +1,10 @@
 package com.stampcrush.backend.entity.cafe;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+@KorNamingConverter
 class CafePolicyTest {
 
     @Test

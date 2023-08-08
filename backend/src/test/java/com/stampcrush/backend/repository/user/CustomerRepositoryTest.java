@@ -1,5 +1,6 @@
 package com.stampcrush.backend.repository.user;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@KorNamingConverter
 @DataJpaTest
 class CustomerRepositoryTest {
 

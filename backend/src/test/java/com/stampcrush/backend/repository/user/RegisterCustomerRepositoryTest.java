@@ -1,5 +1,6 @@
 package com.stampcrush.backend.repository.user;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,12 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@KorNamingConverter
 @DataJpaTest
 class RegisterCustomerRepositoryTest {
 
     @Autowired
     private RegisterCustomerRepository registerCustomerRepository;
-
 
     @Test
     void 주어진_LoginId에_해당하는_고객을_조회한다() {

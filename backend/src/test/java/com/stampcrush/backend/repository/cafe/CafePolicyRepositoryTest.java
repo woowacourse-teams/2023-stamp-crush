@@ -1,5 +1,6 @@
 package com.stampcrush.backend.repository.cafe;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Owner;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@KorNamingConverter
 @EnableJpaAuditing
 @DataJpaTest
 class CafePolicyRepositoryTest {
