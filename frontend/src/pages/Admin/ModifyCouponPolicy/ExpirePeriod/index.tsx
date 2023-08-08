@@ -5,12 +5,12 @@ import { EXPIRE_DATE_OPTIONS } from '../../../../constants';
 import { Dispatch, SetStateAction } from 'react';
 import { Option } from '../../../../types';
 
-interface ExpiredPeriodProps {
-  expiredPeriod: Option;
-  setExpiredPeriod: Dispatch<SetStateAction<Option>>;
+interface ExpirePeriodProps {
+  expirePeriod: Option;
+  setExpirePeriod: Dispatch<SetStateAction<Option>>;
 }
 
-const ExpiredPeriod = ({ expiredPeriod, setExpiredPeriod }: ExpiredPeriodProps) => {
+const ExpirePeriod = ({ expirePeriod, setExpirePeriod }: ExpirePeriodProps) => {
   return (
     <>
       <Text variant="subTitle">step4. 쿠폰의 유효기간을 설정해주세요.</Text>
@@ -19,11 +19,11 @@ const ExpiredPeriod = ({ expiredPeriod, setExpiredPeriod }: ExpiredPeriodProps) 
       <Spacing $size={32} />
       <SelectBox
         options={EXPIRE_DATE_OPTIONS}
-        checkedOption={expiredPeriod}
-        setCheckedOption={setExpiredPeriod}
+        checkedOption={expirePeriod}
+        setCheckedOption={setExpirePeriod}
       />
     </>
   );
 };
 
-export default ExpiredPeriod;
+export default ExpirePeriod;

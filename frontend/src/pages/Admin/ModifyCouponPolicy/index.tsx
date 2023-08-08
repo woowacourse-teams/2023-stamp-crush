@@ -8,7 +8,7 @@ import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../
 import { CouponCreated, Option } from '../../../types';
 import CreatedType from './CreatedType';
 import MaxStampCount from './MaxStampCount';
-import ExpiredPeriod from './ExpiredPeriod';
+import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
 
 const ModifyCouponPolicy = () => {
@@ -16,7 +16,7 @@ const ModifyCouponPolicy = () => {
   const [step, setStep] = useState(1);
   const [createdType, setCreatedType] = useState<CouponCreated>('template');
   const [rewardName, setRewardName] = useState('');
-  const [expireSelect, setExpireSelect] = useState<Option>({
+  const [expirePeriod, setExpirePeriod] = useState<Option>({
     key: EXPIRE_DATE_OPTIONS[0].key,
     value: EXPIRE_DATE_OPTIONS[0].value,
   });
@@ -31,7 +31,7 @@ const ModifyCouponPolicy = () => {
         state: {
           createdType,
           reward: rewardName,
-          expireSelect,
+          expirePeriod,
           stampCount: stampCount.value,
         },
       });
@@ -42,7 +42,7 @@ const ModifyCouponPolicy = () => {
         state: {
           createdType,
           reward: rewardName,
-          expireSelect,
+          expirePeriod,
           stampCount: stampCount.value,
         },
       });
@@ -90,7 +90,7 @@ const ModifyCouponPolicy = () => {
                 return <RewardName rewardName={rewardName} setRewardName={setRewardName} />;
               case 4:
                 return (
-                  <ExpiredPeriod expiredPeriod={expireSelect} setExpiredPeriod={setExpireSelect} />
+                  <ExpiredPeriod expirePeriod={expirePeriod} setExpirePeriod={setExpirePeriod} />
                 );
               default:
                 return null;
