@@ -4,7 +4,8 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 
 import java.time.LocalTime;
 
-public class CafeFixture {
+
+public final class CafeFixture {
 
     public static final Cafe GITCHAN_CAFE = new Cafe(
             "깃짱카페",
@@ -15,7 +16,10 @@ public class CafeFixture {
             "introduction",
             "roadAddress",
             "detailAddress",
-            "businessRegistrationNumber",
+            "buisnessRegistrationNumber",
             OwnerFixture.GITCHAN
     );
+
+    private CafeFixture() {
+    }
 }

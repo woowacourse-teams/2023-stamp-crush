@@ -1,7 +1,6 @@
 package com.stampcrush.backend.application.manager.customer;
 
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
-import com.stampcrush.backend.application.manager.customer.dto.CustomersFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +19,13 @@ public class ManagerCustomerFindService {
     private final CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
-    public CustomersFindResultDto findCustomer(String phoneNumber) {
+    public List<CustomerFindDto> findCustomer(String phoneNumber) {
         List<Customer> customers = customerRepository.findByPhoneNumber(phoneNumber);
 
         List<CustomerFindDto> customerFindDtos = customers.stream()
                 .map(CustomerFindDto::from)
                 .collect(toList());
 
-        return new CustomersFindResultDto(customerFindDtos);
+        return customerFindDtos;
     }
 }
