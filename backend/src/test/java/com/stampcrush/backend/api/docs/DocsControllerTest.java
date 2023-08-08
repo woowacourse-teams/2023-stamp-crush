@@ -1,12 +1,14 @@
 package com.stampcrush.backend.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
@@ -39,7 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerCustomerFindApiController.class,
         ManagerCustomerCommandApiController.class,
         VisitorCouponFindApiController.class,
-        VisitorFavoritesCommandApiController.class
+        VisitorFavoritesCommandApiController.class,
+        ManagerCafeCommandApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -75,6 +78,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorFavoritesCommandService visitorFavoritesCommandService;
+
+    @MockBean
+    protected ManagerCafeCommandService managerCafeCommandService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
