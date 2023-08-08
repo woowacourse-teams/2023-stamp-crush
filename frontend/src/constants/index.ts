@@ -70,7 +70,7 @@ export const EXPIRE_DATE_OPTIONS = [
   },
 ];
 
-export const ROUTER_PATH = {
+export const ROUTER_PATH: Record<string, string> = {
   customerList: '/admin',
   adminLogin: '/admin/login',
   adminSignup: '/admin/sign-up',
@@ -88,4 +88,5 @@ export const ROUTER_PATH = {
   login: '/login',
   signup: '/sign-up',
   myPage: '/my-page',
-};
+  rewardList: '/reward-list',
+} as const;
