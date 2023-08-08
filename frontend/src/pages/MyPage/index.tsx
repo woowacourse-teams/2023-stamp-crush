@@ -30,7 +30,7 @@ const MyPage = () => {
   return (
     <>
       <ArrowIconWrapper
-        onClick={navigatePage(ROUTER_PATH.coupon)}
+        onClick={navigatePage(ROUTER_PATH.couponList)}
         aria-label="홈으로 돌아가기"
         role="button"
       >
