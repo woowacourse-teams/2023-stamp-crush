@@ -2,6 +2,7 @@ package com.stampcrush.backend.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
+import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
@@ -9,6 +10,7 @@ import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
@@ -42,7 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerCustomerCommandApiController.class,
         VisitorCouponFindApiController.class,
         VisitorFavoritesCommandApiController.class,
-        ManagerCafeCommandApiController.class
+        ManagerCafeCommandApiController.class,
+        ManagerCafeCouponSettingCommandApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -81,6 +84,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerCafeCommandService managerCafeCommandService;
+
+    @MockBean
+    protected ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
