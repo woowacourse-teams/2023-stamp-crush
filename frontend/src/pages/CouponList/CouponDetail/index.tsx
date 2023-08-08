@@ -21,18 +21,19 @@ interface CouponDetailProps {
   isDetail: boolean;
   isShown: boolean;
   coupon: Coupon;
-  cafeId: number;
   closeDetail: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const CouponDetail = ({ isDetail, isShown, coupon, cafeId, closeDetail }: CouponDetailProps) => {
+const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailProps) => {
   const [couponInfos] = coupon.couponInfos;
+  const cafeId = coupon.cafeInfo.id;
 
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
     queryFn: () => getCafeInfo(cafeId),
     enabled: cafeId !== 0,
   });
 
+  // TODO: 로딩, 에러 컴포넌트 만들기
   if (cafeStatus === 'loading') return null;
   if (cafeStatus === 'error') return null;
 

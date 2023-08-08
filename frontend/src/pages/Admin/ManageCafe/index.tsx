@@ -93,13 +93,15 @@ const ManageCafe = () => {
       openTime: parseTime(openTime),
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
+      // FIXME: 하드코딩 된 값 변경하기
       cafeImageUrl: cafeImage === '' ? 'https://picsum.photos/200/300' : cafeImage,
-      introduction: introduction === '' ? '' : introduction,
+      introduction: introduction,
     };
 
     mutate(cafeInfoBody);
   };
 
+  // TODO: 로딩, 에러 컴포넌트 만들기
   if (status === 'loading') return <>로딩 중입니다.</>;
   if (status === 'error') return <>에러가 발생했습니다.</>;
 

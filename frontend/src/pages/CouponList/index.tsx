@@ -160,7 +160,6 @@ const CouponList = () => {
           </CouponListContainer>
           <CouponDetail
             coupon={currentCoupon}
-            cafeId={currentCoupon.cafeInfo.id}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
             closeDetail={closeCouponDetail}
