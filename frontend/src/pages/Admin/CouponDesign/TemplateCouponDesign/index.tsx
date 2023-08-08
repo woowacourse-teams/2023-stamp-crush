@@ -42,7 +42,7 @@ const TemplateCouponDesign = () => {
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: state.reward,
-      expirePeriod: parseExpireDate(state.expireSelect.value),
+      expirePeriod: parseExpireDate(state.expirePeriod.value),
       maxStampCount: maxStampCount,
     };
 

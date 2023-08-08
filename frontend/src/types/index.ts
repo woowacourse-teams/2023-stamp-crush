@@ -85,7 +85,7 @@ export type CouponDesignLocation = {
   state: {
     createdType: CouponCreated;
     reward: string;
-    expireSelect: ExpireDateOption;
+    expirePeriod: ExpireDateOption;
     stampCount: StampCountOptionValue;
   };
 };
