@@ -25,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(basicAuthInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/swagger-ui/**", "/v3/api-docs/**");
+                .excludePathPatterns("/api/docs/**", "/v3/api-docs/swagger-config", "/docs/openapi3.json");
     }
 
     @Override
