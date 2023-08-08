@@ -107,8 +107,8 @@ public class ManagerCouponFindServiceTest {
         given(couponRepository.findByCafe(any()))
                 .willReturn(List.of(coupon1));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 0, 0, coupon1CreatedAt);
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics);
+        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0, 0, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
 
         // then
