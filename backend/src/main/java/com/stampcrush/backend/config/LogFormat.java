@@ -1,8 +1,5 @@
 package com.stampcrush.backend.config;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public final class LogFormat {
 
     public static final String OWNER_UNAUTHORIZATION_LOG_FORMAT = "사장 아이디: {}, 인증에 실패했습니다.";
