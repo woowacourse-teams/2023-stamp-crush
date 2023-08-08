@@ -33,7 +33,11 @@ const CouponList = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
+  const {
+    data: couponData,
+    status: couponStatus,
+    refetch: refetchCoupons,
+  } = useQuery<CouponRes>(['coupons'], getCoupons, {
     refetchOnWindowFocus: false,
   });
 
@@ -162,6 +166,7 @@ const CouponList = () => {
             coupon={currentCoupon}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
+            refetchCoupons={refetchCoupons}
             closeDetail={closeCouponDetail}
           />
           <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
