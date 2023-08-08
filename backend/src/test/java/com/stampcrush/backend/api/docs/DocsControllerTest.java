@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandAp
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
+import com.stampcrush.backend.api.manager.sample.ManagerSampleCouponFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
@@ -14,6 +15,7 @@ import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingC
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
+import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
@@ -45,7 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorCouponFindApiController.class,
         VisitorFavoritesCommandApiController.class,
         ManagerCafeCommandApiController.class,
-        ManagerCafeCouponSettingCommandApiController.class
+        ManagerCafeCouponSettingCommandApiController.class,
+        ManagerSampleCouponFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -87,6 +90,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
+
+    @MockBean
+    protected ManagerSampleCouponFindService managerSampleCouponFindService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
