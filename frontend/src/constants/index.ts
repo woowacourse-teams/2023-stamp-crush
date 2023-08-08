@@ -1,3 +1,5 @@
+import { StampCountOption } from '../types';
+
 export const REGEX = {
   number: /^[0-9]+$/,
 } as const;
@@ -40,7 +42,7 @@ export const CUSTOMERS_ORDER_OPTIONS = [
   },
 ];
 
-export const STAMP_COUNT_OPTIONS = [
+export const STAMP_COUNT_OPTIONS: StampCountOption[] = [
   {
     key: 'eight',
     value: '8개',
@@ -55,6 +57,9 @@ export const STAMP_COUNT_OPTIONS = [
   },
 ];
 
+export const EXPIRE_DATE_NONE = '없음';
+export const EXPIRE_DATE_MAX = 1200;
+
 export const EXPIRE_DATE_OPTIONS = [
   {
     key: 'six-month',
@@ -66,7 +71,7 @@ export const EXPIRE_DATE_OPTIONS = [
   },
   {
     key: 'infinity',
-    value: '없음',
+    value: EXPIRE_DATE_NONE,
   },
 ];
 

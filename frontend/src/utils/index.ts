@@ -1,4 +1,5 @@
-import { Time } from '../types';
+import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE } from '../constants';
+import { ExpireDateOptionValue, StampCountOptionValue, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
@@ -15,11 +16,11 @@ export const formatDate = (dateString: string) => {
 };
 
 // TODO: 유효기간 없음 대응하기
-export const parseExpireDate = (value: string) => {
-  return +value.replaceAll('개월', '');
+export const parseExpireDate = (value: ExpireDateOptionValue) => {
+  return value === EXPIRE_DATE_NONE ? EXPIRE_DATE_MAX : +value.replaceAll('개월', '');
 };
 
-export const parseStampCount = (value: string) => {
+export const parseStampCount = (value: StampCountOptionValue) => {
   return +value.replaceAll('개', '');
 };
 

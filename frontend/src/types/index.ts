@@ -1,3 +1,5 @@
+import { EXPIRE_DATE_NONE } from '../constants';
+
 export interface SampleImage {
   id: number;
   imageUrl: string;
@@ -51,6 +53,14 @@ export interface Option {
   value: string;
 }
 
+export interface StampCountOption extends Option {
+  value: StampCountOptionValue;
+}
+
+export interface ExpireDateOption extends Option {
+  value: ExpireDateOptionValue;
+}
+
 export interface Coordinate {
   xCoordinate: number;
   yCoordinate: number;
@@ -69,11 +79,17 @@ export interface Time {
 
 export type CouponActivate = 'current' | 'new';
 
+export type CouponCreated = 'custom' | 'template';
+
 export type CouponDesignLocation = {
   state: {
-    createdType: 'custom' | 'template';
+    createdType: CouponCreated;
     reward: string;
-    expireSelect: Option;
-    stampCount: string;
+    expireSelect: ExpireDateOption;
+    stampCount: StampCountOptionValue;
   };
 };
+
+export type StampCountOptionValue = `${number}개`;
+
+export type ExpireDateOptionValue = `${number}개월` | typeof EXPIRE_DATE_NONE;
