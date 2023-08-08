@@ -6,7 +6,7 @@ import {
   InfoContainer,
   LogoImg,
 } from './style';
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
@@ -32,12 +32,16 @@ const CouponList = () => {
   const couponListContainerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
+
   const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
-    onSuccess: (data) => {
-      setCurrentIndex(data.coupons.length - 1);
-    },
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (couponData) {
+      setCurrentIndex(couponData?.coupons.length - 1);
+    }
+  }, [couponData]);
 
   const { mutate: mutateIsFavorites } = useMutation(
     ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
@@ -70,7 +74,7 @@ const CouponList = () => {
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
     setIsLast(true);
-    console.log(currentCoupon.cafeInfo.id);
+
     setTimeout(() => {
       setIsLast(false);
       couponListContainerRef.current?.prepend(coupon);

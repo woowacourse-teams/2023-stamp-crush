@@ -26,26 +26,16 @@ interface CouponDetailProps {
 }
 
 const CouponDetail = ({ isDetail, isShown, coupon, cafeId, closeDetail }: CouponDetailProps) => {
-  // FIXME: cafeName 등 넘겨받은 데이터 이후에 알맞게 변경
   const [couponInfos] = coupon.couponInfos;
 
-  const {
-    data: cafeData,
-    status: cafeStatus,
-    refetch,
-  } = useQuery<CafeRes>(['cafeInfos'], {
+  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
     queryFn: () => getCafeInfo(cafeId),
     enabled: cafeId !== 0,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [cafeId]);
-
   if (cafeStatus === 'loading') return null;
   if (cafeStatus === 'error') return null;
 
-  // FIXME: 이후 카페 관리 병합 후 parseUtil 사용
   return (
     <CouponDetailContainer $isDetail={isDetail}>
       <CafeImage src={cafeData.cafe.cafeImageUrl} />
