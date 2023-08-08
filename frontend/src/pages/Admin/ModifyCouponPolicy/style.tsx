@@ -10,7 +10,7 @@ export const StepContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 60%;
-  max-width: 450px;
+  max-width: 500px;
   height: 60%;
 `;
 
