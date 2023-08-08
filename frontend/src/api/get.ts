@@ -43,3 +43,7 @@ export const getCoupons = async () => {
 export const getCafeInfo = async (cafeId: number) => {
   return await api.get(`/cafes/${cafeId}`, customerHeader);
 };
+
+export const getMyRewards = async (used: boolean) => {
+  return await api.get(`/rewards?used=${used}`, customerHeader);
+};
