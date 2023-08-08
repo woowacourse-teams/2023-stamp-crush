@@ -17,6 +17,7 @@ export const SampleImg = styled.img<{
   $templateType: string;
   $isSelected: boolean;
 }>`
+  cursor: pointer;
   width: ${({ $templateType }) => ($templateType === '스탬프' ? '50px' : '270px')};
   height: ${({ $templateType }) => ($templateType === '스탬프' ? '50px' : '150px')};
   border: ${({ theme, $isSelected }) => ($isSelected ? `5px solid ${theme.colors.black}` : '')};
