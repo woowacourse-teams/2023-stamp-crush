@@ -6,8 +6,8 @@ import {
   InfoContainer,
   LogoImg,
 } from './style';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { getCoupons } from '../../api/get';
+import { MouseEvent, useRef, useState } from 'react';
+import { getCafeInfo, getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
@@ -53,8 +53,8 @@ const CouponList = () => {
         await queryClient.cancelQueries(['coupons']);
         queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
           if (!prev) return;
-          prev.coupons[currentIndex].couponInfos[0].isFavorites =
-            !prev.coupons[currentIndex].couponInfos[0].isFavorites;
+          prev.coupons[currentIndex].cafeInfo.isFavorites =
+            !prev.coupons[currentIndex].cafeInfo.isFavorites;
           return undefined;
         });
       },
@@ -110,7 +110,7 @@ const CouponList = () => {
   const openAlert = () => {
     openModal();
 
-    currentCoupon.couponInfos[0].isFavorites
+    currentCoupon.cafeInfo.isFavorites
       ? setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
       : setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
   };
@@ -118,7 +118,7 @@ const CouponList = () => {
   const changeFavorites = () => {
     mutateIsFavorites({
       cafeId: currentCoupon.cafeInfo.id,
-      isFavorites: !currentCouponInfo.isFavorites,
+      isFavorites: !currentCoupon.cafeInfo.isFavorites,
     });
   };
 
@@ -136,7 +136,7 @@ const CouponList = () => {
             cafeName={currentCoupon.cafeInfo.name}
             stampCount={currentCouponInfo.stampCount}
             maxStampCount={currentCouponInfo.maxStampCount}
-            isFavorites={currentCouponInfo.isFavorites}
+            isFavorites={currentCoupon.cafeInfo.isFavorites}
             frontImageUrl={currentCouponInfo.frontImageUrl}
             onClickStar={openAlert}
           />
