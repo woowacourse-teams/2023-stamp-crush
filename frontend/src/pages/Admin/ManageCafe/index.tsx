@@ -8,11 +8,12 @@ import {
   PreviewContentContainer,
   PreviewEmptyCouponImage,
   PreviewOverviewContainer,
+  RestrictionLabel,
   TextArea,
   Wrapper,
 } from './style';
 import TimeRangePicker from './TimeRangePicker';
-import { ChangeEventHandler, FormEventHandler, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ImageUpLoadInput,
@@ -35,7 +36,7 @@ const ManageCafe = () => {
   const navigate = useNavigate();
   const [cafeImage, uploadCafeImage] = useUploadImage();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [introduction, setIntroduction] = useState('내용을 입력해주세요');
+  const [introduction, setIntroduction] = useState('');
   const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
@@ -72,11 +73,15 @@ const ManageCafe = () => {
     },
   );
 
-  const inputPhoneNumber: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setPhoneNumber(e.target.value);
+  const inputPhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    const removeHyphenPhoneNumber = value.replace(/-/g, '');
+
+    setPhoneNumber(removeHyphenPhoneNumber);
   };
 
-  const inputIntroduction: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+  const inputIntroduction = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setIntroduction(e.target.value);
   };
 
@@ -88,13 +93,15 @@ const ManageCafe = () => {
       openTime: parseTime(openTime),
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
+      // FIXME: 하드코딩 된 값 변경하기
       cafeImageUrl: cafeImage === '' ? 'https://picsum.photos/200/300' : cafeImage,
-      introduction: introduction === '내용을 입력해주세요' ? '' : introduction,
+      introduction: introduction,
     };
 
     mutate(cafeInfoBody);
   };
 
+  // TODO: 로딩, 에러 컴포넌트 만들기
   if (status === 'loading') return <>로딩 중입니다.</>;
   if (status === 'error') return <>에러가 발생했습니다.</>;
 
@@ -117,8 +124,10 @@ const ManageCafe = () => {
           <Input
             id="phone-number-input"
             placeholder="전화번호를 입력해주세요"
-            maxLength={phoneNumber.startsWith('02') ? 10 : 11}
+            maxLength={phoneNumber.startsWith('02') ? 12 : 13}
+            pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
             onChange={inputPhoneNumber}
+            value={parsePhoneNumber(phoneNumber)}
           />
         </Wrapper>
         <Wrapper>
@@ -132,7 +141,16 @@ const ManageCafe = () => {
         </Wrapper>
         <Wrapper>
           <Text>소개글</Text>
-          <TextArea rows={8} cols={50} onChange={inputIntroduction} />
+          <TextArea
+            rows={8}
+            cols={50}
+            onChange={inputIntroduction}
+            maxLength={150}
+            value={introduction}
+          />
+          <RestrictionLabel
+            $isExceed={introduction.length >= 150}
+          >{`${introduction.length}/150`}</RestrictionLabel>
         </Wrapper>
         <Button type="submit" variant="primary" size="medium">
           저장하기
