@@ -55,6 +55,29 @@ export const STAMP_COUNT_OPTIONS = [
   },
 ];
 
+export const STAMP_COUNT_CUSTOM_OPTIONS = [
+  {
+    key: 'eight',
+    value: '8개',
+  },
+  {
+    key: 'nine',
+    value: '9개',
+  },
+  {
+    key: 'ten',
+    value: '10개',
+  },
+  {
+    key: 'eleven',
+    value: '11개',
+  },
+  {
+    key: 'twelve',
+    value: '12개',
+  },
+];
+
 export const EXPIRE_DATE_OPTIONS = [
   {
     key: 'six-month',

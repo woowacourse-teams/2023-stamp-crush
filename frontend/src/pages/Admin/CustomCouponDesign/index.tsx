@@ -54,7 +54,7 @@ const CustomCouponDesign = () => {
       stampImageUrl: stampImage,
       coordinates: stampCoordinates,
       reward: location.state.reward,
-      expirePeriod: parseExpireDate(location.state.expireSelect.value),
+      expirePeriod: parseExpireDate(location.state.expirePeriod.value),
       maxStampCount: parseStampCount(location.state.stampCount),
     };
 

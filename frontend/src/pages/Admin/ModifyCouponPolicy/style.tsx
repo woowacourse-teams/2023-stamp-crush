@@ -1,7 +1,20 @@
 import { styled } from 'styled-components';
 
-export const NextButtonWrapper = styled.div`
+export const ButtonContainer = styled.div<{ $step: number }>`
   display: flex;
-  flex-direction: row-reverse;
-  width: 50%;
+  justify-content: ${({ $step }) => ($step === 1 ? 'flex-end' : 'space-between')};
+`;
+
+export const StepContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  max-width: 500px;
+  height: 60%;
+`;
+
+export const StepWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

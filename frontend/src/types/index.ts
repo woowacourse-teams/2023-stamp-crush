@@ -68,3 +68,5 @@ export interface Time {
 }
 
 export type CouponActivate = 'current' | 'new';
+
+export type CouponCreated = 'template' | 'custom';
