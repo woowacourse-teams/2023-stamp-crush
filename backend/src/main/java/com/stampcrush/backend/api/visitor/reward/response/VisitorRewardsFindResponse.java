@@ -23,7 +23,7 @@ public class VisitorRewardsFindResponse {
 
     @Getter
     @RequiredArgsConstructor
-    private static class VisitorRewardFindResponse {
+    public static class VisitorRewardFindResponse {
 
         private final Long id;
         private final String rewardName;
@@ -32,12 +32,16 @@ public class VisitorRewardsFindResponse {
         private final LocalDate usedAt;
 
         public static VisitorRewardFindResponse from(VisitorRewardsFindResultDto dto) {
+            LocalDate usedAt = null;
+            if (dto.getUpdatedAt() != null) {
+                usedAt = LocalDate.from(dto.getUpdatedAt());
+            }
             return new VisitorRewardFindResponse(
                     dto.getId(),
                     dto.getRewardName(),
                     dto.getCafeName(),
-                    dto.getCreatedAt(),
-                    dto.getUpdatedAt()
+                    LocalDate.from(dto.getCreatedAt()),
+                    usedAt
             );
         }
     }
