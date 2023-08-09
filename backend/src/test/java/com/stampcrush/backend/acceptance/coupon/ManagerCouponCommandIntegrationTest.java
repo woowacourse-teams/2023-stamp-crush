@@ -85,7 +85,7 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
         Long couponId = 쿠폰_생성_후_아이디_반환(owner, savedCustomer, reqeust);
 
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
-        스탬프를_적립한다(owner, savedCustomer, couponId, stampCreateRequest);
+        쿠폰에_스탬프를_적립한다(owner, savedCustomer, couponId, stampCreateRequest);
 
         List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
                 .auth().preemptive()
@@ -166,10 +166,10 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
         Long coupon2Id = 쿠폰_생성_후_아이디_반환(owner, customer2, reqeust2);
 
         StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
-        스탬프를_적립한다(owner, customer1, coupon1Id, coupon1StampCreateRequest);
+        쿠폰에_스탬프를_적립한다(owner, customer1, coupon1Id, coupon1StampCreateRequest);
 
         StampCreateRequest coupon2StampCreateRequest = new StampCreateRequest(21);
-        스탬프를_적립한다(owner, customer2, coupon2Id, coupon2StampCreateRequest);
+        쿠폰에_스탬프를_적립한다(owner, customer2, coupon2Id, coupon2StampCreateRequest);
 
         // when
         List<CafeCustomerFindResponse> customers = RestAssured.given().log().all()
@@ -220,15 +220,84 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
         assertThat(statusCode).isEqualTo(UNAUTHORIZED.value());
     }
 
-    private static void 스탬프를_적립한다(Owner owner, RegisterCustomer customer1, Long coupon1Id, StampCreateRequest coupon1StampCreateRequest) {
+    @Test
+    void 특정_고객의_특정_카페에_적립중인_쿠폰정보를_조회한다() {
+        // given
+        Owner owner = 사장_생성();
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+
+        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
+        Long oldCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        StampCreateRequest oldCouponStampCreate = new StampCreateRequest(3);
+        쿠폰에_스탬프를_적립한다(owner, customer, oldCouponId, oldCouponStampCreate);
+
+        Long newCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        StampCreateRequest newCouponStampCreate = new StampCreateRequest(8);
+        쿠폰에_스탬프를_적립한다(owner, customer, newCouponId, newCouponStampCreate);
+
+        // when
+        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
+                .queryParam("cafe-id", savedCafeId)
+                .queryParam("active", true)
+                .auth().preemptive()
+                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .when()
+                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
+                .thenReturn()
+                .jsonPath()
+                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+
+        // then
+        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(newCouponId,
+                customer.getId(),
+                customer.getNickname(),
+                newCouponStampCreate.getEarningStampCount(),
+                null,
+                false,
+                10);
+
+        assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+                .containsExactlyInAnyOrder(expected);
+    }
+
+    @Test
+    void 특정_카페의_특정_고객의_적립중인_쿠폰_조회_시_적립중인_쿠폰이_없으면_빈_리스트_반환() {
+        // given
+        Owner owner = 사장_생성();
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+
+        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
+        Long oldCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        StampCreateRequest oldCouponStampCreate = new StampCreateRequest(10); // 리워드 받고 쿠폰 만료됨
+        쿠폰에_스탬프를_적립한다(owner, customer, oldCouponId, oldCouponStampCreate);
+
+        // when
+        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
+                .queryParam("cafe-id", savedCafeId)
+                .queryParam("active", true)
+                .auth().preemptive()
+                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .when()
+                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
+                .thenReturn()
+                .jsonPath()
+                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+
+        // then
+        assertThat(coupons).isEmpty();
+    }
+
+    private void 쿠폰에_스탬프를_적립한다(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
         RestAssured.given()
                 .log().all()
-                .body(coupon1StampCreateRequest)
+                .body(stampCreateRequest)
                 .contentType(JSON)
                 .auth().preemptive()
                 .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
-                .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer1.getId(), coupon1Id)
+                .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)
                 .then().log().all();
     }
 
