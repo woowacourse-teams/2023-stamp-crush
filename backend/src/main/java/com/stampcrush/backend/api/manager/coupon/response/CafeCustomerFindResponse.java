@@ -4,13 +4,11 @@ import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindRes
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 public class CafeCustomerFindResponse {
 
