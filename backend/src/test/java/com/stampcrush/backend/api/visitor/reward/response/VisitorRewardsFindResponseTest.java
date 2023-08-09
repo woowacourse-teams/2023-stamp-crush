@@ -1,6 +1,7 @@
 package com.stampcrush.backend.api.visitor.reward.response;
 
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CustomerFixture;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@KorNamingConverter
 class VisitorRewardsFindResponseTest {
 
     @Test
