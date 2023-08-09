@@ -22,24 +22,24 @@ import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 const TemplateCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
-  const [frontImage, uploadFrontImage, setFrontImage] = useUploadImage(CouponPreviewImg);
-  const [backImage, uploadBackImage, setBackImage] = useUploadImage(CouponPreviewImg);
+  const [frontImageUrl, uploadFrontImageUrl, setFrontImageUrl] = useUploadImage(CouponPreviewImg);
+  const [backImageUrl, uploadBackImageUrl, setBackImageUrl] = useUploadImage(CouponPreviewImg);
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage, setStampImage] = useUploadImage(StampPreviewImg);
+  const [stampImageUrl, uploadStampImageUrl, setStampImageUrl] = useUploadImage(StampPreviewImg);
   const { mutate } = useMutateCouponPolicy();
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);
 
   const changeCouponDesignAndPolicy = () => {
-    if (stampCoordinates.length === 0 || !frontImage || !stampImage || !backImage) {
+    if (stampCoordinates.length === 0 || !frontImageUrl || !stampImageUrl || !backImageUrl) {
       alert('이미지를 모두 선택해주세요.');
       return;
     }
 
     const couponSettingBody: CouponSettingReq = {
-      frontImageUrl: frontImage,
-      backImageUrl: backImage,
-      stampImageUrl: stampImage,
+      frontImageUrl,
+      backImageUrl,
+      stampImageUrl,
       coordinates: stampCoordinates,
       reward: state.reward,
       expirePeriod: parseExpireDate(state.expirePeriod.value),
@@ -64,26 +64,26 @@ const TemplateCouponDesign = () => {
               <CustomCouponSection
                 label="쿠폰 앞면"
                 uploadImageInputId="coupon-front-image-input"
-                imgFileUrl={frontImage}
+                imgFileUrl={frontImageUrl}
                 isCustom={isCustom}
-                uploadImageFile={uploadFrontImage}
+                uploadImageFile={uploadFrontImageUrl}
               />
               <Spacing $size={32} />
               <CustomCouponSection
                 label="쿠폰 뒷면"
                 uploadImageInputId="coupon-back-image-input"
-                imgFileUrl={backImage}
+                imgFileUrl={backImageUrl}
                 isCustom={isCustom}
-                uploadImageFile={uploadBackImage}
+                uploadImageFile={uploadBackImageUrl}
               />
             </div>
             <RowSpacing $size={72} />
             <div>
               <CouponPreviewSection
                 isShown={true}
-                frontImageUrl={frontImage}
-                backImageUrl={backImage}
-                stampImageUrl={stampImage}
+                frontImageUrl={frontImageUrl}
+                backImageUrl={backImageUrl}
+                stampImageUrl={stampImageUrl}
                 stampCount={maxStampCount}
                 coordinates={stampCoordinates}
               />
@@ -91,9 +91,9 @@ const TemplateCouponDesign = () => {
               <CustomStampSection
                 label="스탬프"
                 uploadImageInputId="stamp-image-input"
-                imgFileUrl={stampImage}
+                imgFileUrl={stampImageUrl}
                 isCustom={isCustom}
-                uploadImageFile={uploadStampImage}
+                uploadImageFile={uploadStampImageUrl}
               />
             </div>
           </ImageUploadContainer>
@@ -106,12 +106,12 @@ const TemplateCouponDesign = () => {
         </div>
         <RowSpacing $size={100} />
         <ChoiceTemplate
-          frontImage={frontImage}
-          backImage={backImage}
-          stampImage={stampImage}
-          setFrontImage={setFrontImage}
-          setBackImage={setBackImage}
-          setStampImage={setStampImage}
+          frontImageUrl={frontImageUrl}
+          backImageUrl={backImageUrl}
+          stampImageUrl={stampImageUrl}
+          setFrontImageUrl={setFrontImageUrl}
+          setBackImageUrl={setBackImageUrl}
+          setStampImageUrl={setStampImageUrl}
           setStampCoordinates={setStampCoordinates}
         />
       </CustomCouponDesignContainer>

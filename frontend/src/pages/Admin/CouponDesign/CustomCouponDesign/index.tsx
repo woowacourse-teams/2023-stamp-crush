@@ -23,25 +23,30 @@ import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 const CustomCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
-  const [frontImage, uploadFrontImage] = useUploadImage(CouponPreviewImg);
-  const [backImage, uploadBackImage] = useUploadImage(CouponPreviewImg);
+  const [frontImageUrl, uploadFrontImageUrl] = useUploadImage(CouponPreviewImg);
+  const [backImageUrl, uploadBackImageUrl] = useUploadImage(CouponPreviewImg);
   const [stampCoordinates, setStampCoordinates] = useState<StampCoordinate[]>([]);
-  const [stampImage, uploadStampImage] = useUploadImage(StampPreviewImg);
+  const [stampImageUrl, uploadStampImage] = useUploadImage(StampPreviewImg);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isCustom = state.createdType === 'custom';
   const maxStampCount = parseStampCount(state.stampCount);
   const { mutate } = useMutateCouponPolicy();
 
   const changeCouponDesignAndPolicy = () => {
-    if (stampCoordinates.length !== maxStampCount || !frontImage || !stampImage || !backImage) {
+    if (
+      stampCoordinates.length !== maxStampCount ||
+      !frontImageUrl ||
+      !stampImageUrl ||
+      !backImageUrl
+    ) {
       alert('모두 설정해주세요.');
       return;
     }
 
     const couponSettingBody: CouponSettingReq = {
-      frontImageUrl: frontImage,
-      backImageUrl: backImage,
-      stampImageUrl: stampImage,
+      frontImageUrl,
+      backImageUrl,
+      stampImageUrl,
       coordinates: stampCoordinates,
       reward: state.reward,
       expirePeriod: parseExpireDate(state.expirePeriod.value),
@@ -52,7 +57,7 @@ const CustomCouponDesign = () => {
   };
 
   const customStampPosition = () => {
-    if (!stampImage || !backImage) {
+    if (!stampImageUrl || !backImageUrl) {
       alert('먼저 쿠폰 뒷면, 스탬프 이미지를 업로드해주세요.');
       return;
     }
@@ -74,26 +79,26 @@ const CustomCouponDesign = () => {
               <CustomCouponSection
                 label="쿠폰 앞면"
                 uploadImageInputId="coupon-front-image-input"
-                imgFileUrl={frontImage}
+                imgFileUrl={frontImageUrl}
                 isCustom={isCustom}
-                uploadImageFile={uploadFrontImage}
+                uploadImageFile={uploadFrontImageUrl}
               />
               <Spacing $size={32} />
               <CustomCouponSection
                 label="쿠폰 뒷면"
                 uploadImageInputId="coupon-back-image-input"
-                imgFileUrl={backImage}
+                imgFileUrl={backImageUrl}
                 isCustom={isCustom}
-                uploadImageFile={uploadBackImage}
+                uploadImageFile={uploadBackImageUrl}
               />
             </div>
             <RowSpacing $size={72} />
             <div>
               <CouponPreviewSection
                 isShown={true}
-                frontImageUrl={frontImage}
-                backImageUrl={backImage}
-                stampImageUrl={stampImage}
+                frontImageUrl={frontImageUrl}
+                backImageUrl={backImageUrl}
+                stampImageUrl={stampImageUrl}
                 stampCount={maxStampCount}
                 coordinates={stampCoordinates}
               />
@@ -101,7 +106,7 @@ const CustomCouponDesign = () => {
               <CustomStampSection
                 label="스탬프"
                 uploadImageInputId="stamp-image-input"
-                imgFileUrl={stampImage}
+                imgFileUrl={stampImageUrl}
                 isCustom={isCustom}
                 uploadImageFile={uploadStampImage}
               />
@@ -124,8 +129,8 @@ const CustomCouponDesign = () => {
       <StampCustomModal
         isOpen={isModalOpen}
         stampCoordinates={stampCoordinates}
-        backImgFileUrl={backImage}
-        stampImgFileUrl={stampImage}
+        backImgFileUrl={backImageUrl}
+        stampImgFileUrl={stampImageUrl}
         maxStampCount={maxStampCount}
         setIsOpen={setIsModalOpen}
         setStampCoordinates={setStampCoordinates}
