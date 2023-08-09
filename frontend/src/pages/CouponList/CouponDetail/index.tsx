@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import FlippedCoupon from '../FlippedCoupon';
 import Text from '../../../components/Text';
 import {
@@ -6,64 +5,121 @@ import {
   CloseButton,
   ContentContainer,
   CouponDetailContainer,
+  DeleteButton,
   OverviewContainer,
 } from './style';
 import { BiArrowBack } from 'react-icons/bi';
-import { FaRegClock, FaPhoneAlt, FaRegBell } from 'react-icons/fa';
+import { FaRegClock, FaPhoneAlt, FaRegBell, FaRegTrashAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-import { Cafe, Coupon } from '../../../types';
+import { Coupon } from '../../../types';
 import { parsePhoneNumber } from '../../../utils';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
+import { CafeRes, CouponRes } from '../../../types/api';
+import { getCafeInfo } from '../../../api/get';
+import { deleteCoupon } from '../../../api/delete';
+import useModal from '../../../hooks/useModal';
+import Alert from '../../../components/Alert';
 
 interface CouponDetailProps {
   isDetail: boolean;
   isShown: boolean;
   coupon: Coupon;
-  cafe: Cafe;
-  closeDetail: (e: MouseEvent<HTMLButtonElement>) => void;
+  refetchCoupons: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<CouponRes, unknown>>;
+  closeDetail: () => void;
 }
 
-const CouponDetail = ({ isDetail, isShown, coupon, cafe, closeDetail }: CouponDetailProps) => {
-  // FIXME: cafeName 등 넘겨받은 데이터 이후에 알맞게 변경
+const CouponDetail = ({
+  isDetail,
+  isShown,
+  coupon,
+  refetchCoupons,
+  closeDetail,
+}: CouponDetailProps) => {
   const [couponInfos] = coupon.couponInfos;
+  const cafeId = coupon.cafeInfo.id;
+  const { isOpen, openModal, closeModal } = useModal();
 
-  // FIXME: 이후 카페 관리 병합 후 parseUtil 사용
+  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
+    queryFn: () => getCafeInfo(cafeId),
+
+    enabled: cafeId !== 0,
+  });
+
+  const { mutate: mutateDeleteCoupon } = useMutation(() => deleteCoupon(couponInfos.id), {
+    onSuccess: () => {
+      closeDetail();
+      refetchCoupons();
+      closeModal();
+    },
+  });
+
+  const openDeleteAlert = () => {
+    openModal();
+  };
+
+  // TODO: 로딩, 에러 컴포넌트 만들기
+  if (cafeStatus === 'loading') return null;
+  if (cafeStatus === 'error') return null;
+
   return (
-    <CouponDetailContainer $isDetail={isDetail}>
-      <CafeImage src={cafe.cafeImageUrl} />
-      <FlippedCoupon
-        frontImageUrl={couponInfos.frontImageUrl}
-        backImageUrl={couponInfos.backImageUrl}
-        stampImageUrl={couponInfos.stampImageUrl}
-        isShown={isShown}
-        coordinates={couponInfos.coordinates}
-        stampCount={couponInfos.stampCount}
-      />
-      <CloseButton onClick={closeDetail} aria-label="홈으로 돌아가기" role="button">
-        <BiArrowBack size={24} />
-      </CloseButton>
-      <OverviewContainer>
-        <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
-        <Text>{cafe.introduction}</Text>
-      </OverviewContainer>
-      <ContentContainer>
-        <Text ariaLabel="쿠폰 정책">
-          <FaRegBell size={22} />
-          {`스탬프 ${couponInfos.maxStampCount}개를 채우면 ${couponInfos.rewardName} 무료!`}
-        </Text>
-        <Text ariaLabel="영업 시간">
-          <FaRegClock size={22} />
-          {`${cafe.openTime} - ${cafe.closeTime}`}
-        </Text>
-        <Text ariaLabel="전화번호">
-          <FaPhoneAlt size={22} />
-          {parsePhoneNumber(cafe.telephoneNumber)}
-        </Text>
-        <Text ariaLabel="주소">
-          <FaLocationDot size={22} />
-          {cafe.roadAddress + ' ' + cafe.detailAddress}
-        </Text>
-      </ContentContainer>
-    </CouponDetailContainer>
+    <>
+      <CouponDetailContainer $isDetail={isDetail}>
+        <CafeImage src={cafeData.cafe.cafeImageUrl} />
+        <FlippedCoupon
+          frontImageUrl={couponInfos.frontImageUrl}
+          backImageUrl={couponInfos.backImageUrl}
+          stampImageUrl={couponInfos.stampImageUrl}
+          isShown={isShown}
+          coordinates={couponInfos.coordinates}
+          stampCount={couponInfos.stampCount}
+        />
+        <CloseButton onClick={closeDetail} aria-label="홈으로 돌아가기" role="button">
+          <BiArrowBack size={24} />
+        </CloseButton>
+        <DeleteButton onClick={openDeleteAlert}>
+          <FaRegTrashAlt size={24} />
+        </DeleteButton>
+        <OverviewContainer>
+          <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
+          <Text>{cafeData.cafe.introduction}</Text>
+        </OverviewContainer>
+        <ContentContainer>
+          <Text ariaLabel="쿠폰 정책">
+            <FaRegBell size={22} />
+            {`스탬프 ${couponInfos.maxStampCount}개를 채우면 ${couponInfos.rewardName} 무료!`}
+          </Text>
+          <Text ariaLabel="영업 시간">
+            <FaRegClock size={22} />
+            {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+          </Text>
+          <Text ariaLabel="전화번호">
+            <FaPhoneAlt size={22} />
+            {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
+          </Text>
+          <Text ariaLabel="주소">
+            <FaLocationDot size={22} />
+            {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+          </Text>
+        </ContentContainer>
+      </CouponDetailContainer>
+      {isOpen && (
+        <Alert
+          text="쿠폰을 삭제하시겠습니까?"
+          rightOption={'네'}
+          leftOption={'아니오'}
+          onClickRight={mutateDeleteCoupon}
+          onClickLeft={closeModal}
+        />
+      )}
+    </>
   );
 };
 

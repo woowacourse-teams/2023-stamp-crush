@@ -5,6 +5,7 @@ import com.stampcrush.backend.application.manager.reward.ManagerRewardFindServic
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
@@ -28,6 +29,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@KorNamingConverter
 @Transactional
 @SpringBootTest
 class ManagerRewardCommandServiceTest {

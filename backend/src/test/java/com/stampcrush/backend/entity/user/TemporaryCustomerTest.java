@@ -1,10 +1,12 @@
 package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@KorNamingConverter
 class TemporaryCustomerTest {
 
     @Test

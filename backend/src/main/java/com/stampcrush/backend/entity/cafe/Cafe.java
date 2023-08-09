@@ -50,10 +50,21 @@ public class Cafe extends BaseDate {
     private List<CafePolicy> policies = new ArrayList<>();
 
     public Cafe(String name, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
-        this(name, null, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
+        this(null, name, null, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
     }
 
-    public Cafe(String name, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl, String introduction, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
+    public Cafe(String name, LocalTime openTime, LocalTime closeTime,
+                String telephoneNumber, String cafeImageUrl, String introduction,
+                String roadAddress, String detailAddress,
+                String businessRegistrationNumber, Owner owner) {
+        this(null, name, openTime, closeTime, telephoneNumber, cafeImageUrl, introduction, roadAddress, detailAddress, businessRegistrationNumber, owner);
+    }
+
+    public Cafe(Long id, String name, LocalTime openTime,
+                LocalTime closeTime, String telephoneNumber, String cafeImageUrl,
+                String introduction, String roadAddress, String detailAddress,
+                String businessRegistrationNumber, Owner owner) {
+        this.id = id;
         this.name = name;
         this.openTime = openTime;
         this.closeTime = closeTime;
@@ -67,6 +78,10 @@ public class Cafe extends BaseDate {
     }
 
     protected Cafe() {
+    }
+
+    public Cafe(long id, String name, String roadAddress, String detailAddress, String telephoneNumber, Owner owner) {
+        this(id, name, null, null, telephoneNumber, null, null, null, null, null, owner);
     }
 
     public void updateCafeAdditionalInformation(String introduction, LocalTime openTime, LocalTime closeTime, String telephoneNumber, String cafeImageUrl) {

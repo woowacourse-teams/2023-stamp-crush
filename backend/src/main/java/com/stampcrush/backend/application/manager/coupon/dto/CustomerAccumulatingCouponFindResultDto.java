@@ -2,16 +2,18 @@ package com.stampcrush.backend.application.manager.coupon.dto;
 
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Customer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static lombok.AccessLevel.PUBLIC;
+import static lombok.AccessLevel.PROTECTED;
 
-@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor(access = PUBLIC)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class CustomerAccumulatingCouponFindResultDto {
 

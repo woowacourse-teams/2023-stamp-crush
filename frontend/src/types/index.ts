@@ -27,13 +27,13 @@ export interface Coupon {
   cafeInfo: {
     id: number;
     name: string;
+    isFavorites: boolean;
   };
   couponInfos: CouponInfo[];
 }
 
 export interface CouponInfo extends CouponDesign {
   id: number;
-  isFavorites: boolean;
   stampCount: number;
   maxStampCount: number;
   rewardName: string;
@@ -76,5 +76,7 @@ export interface Time {
 }
 
 export type CouponActivate = 'current' | 'new';
+
+export type CouponCreated = 'template' | 'custom';
 
 export type RouterPath = `/${string}`;

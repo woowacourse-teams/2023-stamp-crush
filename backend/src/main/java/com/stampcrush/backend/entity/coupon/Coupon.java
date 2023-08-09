@@ -52,12 +52,19 @@ public class Coupon extends BaseDate {
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, fetch = LAZY)
     private List<Stamp> stamps = new ArrayList<>();
 
-    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
+    public Coupon(LocalDateTime createdAt, LocalDateTime updatedAt,
+                  LocalDate expiredDate, Customer customer,
+                  Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
+        super(createdAt, updatedAt);
         this.expiredDate = expiredDate;
         this.customer = customer;
         this.cafe = cafe;
         this.couponDesign = couponDesign;
         this.couponPolicy = couponPolicy;
+    }
+
+    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
+        this(null, null, expiredDate, customer, cafe, couponDesign, couponPolicy);
     }
 
     public void reward() {
