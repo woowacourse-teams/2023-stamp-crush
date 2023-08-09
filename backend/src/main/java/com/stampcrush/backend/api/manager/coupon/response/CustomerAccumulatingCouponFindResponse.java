@@ -1,13 +1,12 @@
 package com.stampcrush.backend.api.manager.coupon.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @EqualsAndHashCode
 @AllArgsConstructor
@@ -19,9 +18,7 @@ public class CustomerAccumulatingCouponFindResponse {
     private Long customerId;
     private String nickname;
     private int stampCount;
-
-    @JsonFormat(pattern = "yyyy:MM:dd")
-    private LocalDateTime expireDate;
+    private String expireDate;
     private Boolean isPrevious;
     private int maxStampCount;
 
@@ -31,7 +28,7 @@ public class CustomerAccumulatingCouponFindResponse {
                 serviceDto.getCustomerId(),
                 serviceDto.getNickname(),
                 serviceDto.getStampCount(),
-                serviceDto.getExpireDate(),
+                serviceDto.getExpireDate().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")),
                 serviceDto.isPrevious(),
                 serviceDto.getMaxStampCount()
         );
