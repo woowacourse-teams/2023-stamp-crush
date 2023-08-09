@@ -4,19 +4,15 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -29,23 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ManagerSampleCouponFindApiDocsControllerTest extends DocsControllerTest {
 
-    private Owner owner;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
     @Test
     void 스탬프_개수별로_기본_샘플_조회() throws Exception {
         // given
         int maxStampCount = 8;
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
                 .thenReturn(
                         SampleCouponsFindResultDto.of(
@@ -59,7 +43,7 @@ public class ManagerSampleCouponFindApiDocsControllerTest extends DocsController
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/admin/coupon-samples?max-stamp-count=" + maxStampCount)
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, basicAuthHeader)
+                                .header(AUTHORIZATION, OWNER_BASIC_HEADER)
                 )
                 .andDo(document("manager/samples/find-samples",
                                 preprocessRequest(prettyPrint()),

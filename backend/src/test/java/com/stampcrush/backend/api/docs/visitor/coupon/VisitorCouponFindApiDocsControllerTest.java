@@ -4,20 +4,16 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CouponFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -28,24 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
 
-    private RegisterCustomer customer;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        customer = REGISTER_CUSTOMER_GITCHAN;
-
-        String username = customer.getLoginId();
-        String password = customer.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
     @Test
     void 고객의_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
-        when(customerRepository.findByLoginId(customer.getLoginId()))
-                .thenReturn(Optional.of(customer));
+        when(customerRepository.findByLoginId(CUSTOMER.getLoginId()))
+                .thenReturn(Optional.of(CUSTOMER));
 
-        when(visitorCouponFindService.findOneCouponForOneCafe(customer.getId()))
+        when(visitorCouponFindService.findOneCouponForOneCafe(CUSTOMER.getId()))
                 .thenReturn(
                         List.of(
                                 CustomerCouponFindResultDto.of(
@@ -60,7 +44,7 @@ public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/coupons")
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, basicAuthHeader)
+                                .header(AUTHORIZATION, CUSTOMER_BASIC_HEADER)
                 )
                 .andDo(document("visitor/coupon/coupon-list",
                                 preprocessRequest(prettyPrint()),

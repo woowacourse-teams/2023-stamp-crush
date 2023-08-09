@@ -5,21 +5,17 @@ import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
-import com.stampcrush.backend.entity.user.Owner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -29,24 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
 
-    private Owner owner;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
     @Test
     void 고객의_리워드_조회() throws Exception {
         // given
         Long customerId = 1L;
         Long cafeId = 1L;
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(managerRewardFindService.findRewards(any(RewardFindDto.class))).thenReturn(List.of(new RewardFindResultDto(1L, "아메리카노"), new RewardFindResultDto(2L, "조각케익")));
 
         // when, then
@@ -54,7 +38,7 @@ public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
                         .queryParam("cafe-id", String.valueOf(cafeId))
                         .queryParam("used", "false")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/reward/find-reward",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

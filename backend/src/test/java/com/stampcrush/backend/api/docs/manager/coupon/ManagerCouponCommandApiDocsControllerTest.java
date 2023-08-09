@@ -5,19 +5,15 @@ import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
-import com.stampcrush.backend.entity.user.Owner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
-import java.util.Base64;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,31 +22,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTest {
 
-    private Owner owner;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
     @Test
     void 쿠폰_신규_발급() throws Exception {
         // given
         Long cafeId = 1L;
         Long customerId = 1L;
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CouponCreateRequest request = new CouponCreateRequest(cafeId);
         when(managerCouponCommandService.createCoupon(cafeId, customerId)).thenReturn(1L);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons", customerId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-coupon",
                                 preprocessRequest(prettyPrint()),
@@ -76,13 +60,13 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
         // given
         Long couponId = 1L;
         Long customerId = 1L;
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         StampCreateRequest request = new StampCreateRequest(3);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customerId, couponId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-stamp",
                                 preprocessRequest(prettyPrint()),

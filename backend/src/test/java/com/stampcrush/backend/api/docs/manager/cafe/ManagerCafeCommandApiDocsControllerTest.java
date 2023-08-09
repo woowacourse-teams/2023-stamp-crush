@@ -6,20 +6,16 @@ import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeUpdateRequest;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
-import com.stampcrush.backend.entity.user.Owner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalTime;
-import java.util.Base64;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -28,31 +24,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest {
 
-    private static final Long CAFE_ID = 1L;
-
-    private Owner owner;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
 
     @Test
     void 카페_상세_정보_변경() throws Exception {
         // given
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CafeUpdateRequest request = new CafeUpdateRequest("안녕하세요", LocalTime.NOON, LocalTime.MIDNIGHT, "01012345678", "imageUrl");
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/admin/cafes/{cafeId}", CAFE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/cafe/update-cafe",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
@@ -79,10 +62,10 @@ public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest 
     @Test
     void 카페_등록() throws Exception {
         // given
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("우아한카페", "서울시 잠실", "루터회관 13층", "000-111-222");
         CafeCreateDto cafeCreateDto = new CafeCreateDto(
-                owner.getId(),
+                OWNER.getId(),
                 cafeCreateRequest.getName(),
                 cafeCreateRequest.getRoadAddress(),
                 cafeCreateRequest.getDetailAddress(),
@@ -92,7 +75,7 @@ public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
                         .content(objectMapper.writeValueAsString(cafeCreateRequest)))
                 .andDo(document("manager/cafe/register-cafe",
                                 preprocessRequest(prettyPrint()),

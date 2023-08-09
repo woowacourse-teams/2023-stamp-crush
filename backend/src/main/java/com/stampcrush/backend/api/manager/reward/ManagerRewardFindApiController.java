@@ -29,7 +29,6 @@ public class ManagerRewardFindApiController {
         RewardFindDto rewardFindDto = new RewardFindDto(customerId, cafeId, used);
         List<RewardFindResultDto> rewardFindResultDtos = managerRewardFindService.findRewards(rewardFindDto);
 
-        System.out.println("=====" + rewardFindResultDtos.get(0).getName());
         List<RewardFindResponse> rewardFindResponses = rewardFindResultDtos.stream()
                 .map(RewardFindResponse::new)
                 .toList();

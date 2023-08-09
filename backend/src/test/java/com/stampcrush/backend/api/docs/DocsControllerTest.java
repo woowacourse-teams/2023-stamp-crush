@@ -27,8 +27,11 @@ import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFind
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.util.Base64;
+
+import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -64,6 +71,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
+
+    protected static final Long CAFE_ID = 1L;
+    protected static final Owner OWNER = OWNER3;
+    protected static final RegisterCustomer CUSTOMER = REGISTER_CUSTOMER_GITCHAN;
+
+    protected static String OWNER_BASIC_HEADER;
+    protected static String CUSTOMER_BASIC_HEADER;
 
     protected MockMvc mockMvc;
 
@@ -117,6 +131,12 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerRewardFindService managerRewardFindService;
+
+    @BeforeAll
+    static void setUpAuth() {
+        OWNER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((OWNER.getLoginId() + ":" + OWNER.getEncryptedPassword()).getBytes());
+        CUSTOMER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((CUSTOMER.getLoginId() + ":" + CUSTOMER.getEncryptedPassword()).getBytes());
+    }
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
