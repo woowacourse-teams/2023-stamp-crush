@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/rewards")
-public class VisitorRewardFindController {
+public class VisitorRewardsFindController {
 }
