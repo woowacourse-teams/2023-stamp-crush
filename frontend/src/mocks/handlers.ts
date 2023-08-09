@@ -245,9 +245,6 @@ export const handlers = [
   rest.get('/rewards', (req, res, ctx) => {
     const used = req.url.searchParams.get('used');
 
-    console.log(used);
-    console.log('^^^');
-
     if (used) return res(ctx.status(200), ctx.json(usedCustomerRewards));
     return res(ctx.status(200), ctx.json(customerRewards));
   }),
