@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.visitor.reward;
+package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.CafeFixture;
