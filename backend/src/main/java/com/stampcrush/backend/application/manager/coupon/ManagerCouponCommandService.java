@@ -65,19 +65,13 @@ public class ManagerCouponCommandService {
     }
 
     private Customer findCustomerById(Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> {
-                    throw new CustomerNotFoundException("존재하지 않는 회원입니다.");
-                });
-        return customer;
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 회원입니다."));
     }
 
     private Cafe findCafeById(Long cafeId) {
-        Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(() -> {
-                    throw new CafeNotFoundException("존재하지 않는 카페입니다.");
-                });
-        return cafe;
+        return cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페입니다."));
     }
 
     private Coupon issueCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign) {
