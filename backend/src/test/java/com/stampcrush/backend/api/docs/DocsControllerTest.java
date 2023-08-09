@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
+import com.stampcrush.backend.api.manager.coupon.ManagerCouponCommandApiController;
+import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
+import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiController;
+import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
 import com.stampcrush.backend.api.manager.sample.ManagerSampleCouponFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
@@ -13,8 +17,12 @@ import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiCo
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
+import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
+import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
+import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
@@ -48,7 +56,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorFavoritesCommandApiController.class,
         ManagerCafeCommandApiController.class,
         ManagerCafeCouponSettingCommandApiController.class,
-        ManagerSampleCouponFindApiController.class
+        ManagerSampleCouponFindApiController.class,
+        ManagerCouponCommandApiController.class,
+        ManagerCouponFindApiController.class,
+        ManagerRewardCommandApiController.class,
+        ManagerRewardFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -93,6 +105,18 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerSampleCouponFindService managerSampleCouponFindService;
+
+    @MockBean
+    protected ManagerCouponCommandService managerCouponCommandService;
+
+    @MockBean
+    protected ManagerCouponFindService managerCouponFindService;
+
+    @MockBean
+    protected ManagerRewardCommandService managerRewardCommandService;
+
+    @MockBean
+    protected ManagerRewardFindService managerRewardFindService;
 
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
