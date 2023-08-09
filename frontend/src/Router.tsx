@@ -9,7 +9,6 @@ import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
-import History from './pages/History';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
@@ -18,6 +17,7 @@ import RewardPage from './pages/Admin/RewardPage';
 import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
+import RewardList from './pages/RewardList';
 
 const AdminRoot = () => {
   return (
@@ -77,9 +77,10 @@ const Router = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <CouponList /> },
-        { path: 'login', element: <Login /> },
-        { path: 'sign-up', element: <SignUp /> },
-        { path: '/my-page', element: <MyPage /> },
+        { path: ROUTER_PATH.login, element: <Login /> },
+        { path: ROUTER_PATH.signup, element: <SignUp /> },
+        { path: ROUTER_PATH.myPage, element: <MyPage /> },
+        { path: ROUTER_PATH.rewardList, element: <RewardList /> },
       ],
     },
   ]);

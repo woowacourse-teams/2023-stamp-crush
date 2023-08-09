@@ -398,3 +398,41 @@ export const customerCoupons = {
     },
   ],
 };
+
+export const customerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '우아한카페',
+      createdAt: '2023:08:06',
+      usedAt: '2023:08:07',
+    },
+    {
+      id: 2,
+      rewardName: '블록쿠키',
+      cafeName: '레고카페',
+      createdAt: '2023:08:04',
+      usedAt: '2023:08:07',
+    },
+  ],
+};
+
+export const usedCustomerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '라잇카페',
+      createdAt: '2023:08:05',
+      usedAt: null,
+    },
+    {
+      id: 2,
+      rewardName: '마들렌',
+      cafeName: '윤생카페',
+      createdAt: '2023:08:03',
+      usedAt: null,
+    },
+  ],
+};

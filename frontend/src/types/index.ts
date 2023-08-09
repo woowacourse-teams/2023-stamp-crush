@@ -62,6 +62,14 @@ export interface StampEarningReq {
   couponId: string;
 }
 
+export interface Reward {
+  id: number;
+  rewardName: string;
+  cafeName: string;
+  createdAt: string;
+  usedAt: string | null;
+}
+
 export interface Time {
   hour: string;
   minute: string;
@@ -70,3 +78,5 @@ export interface Time {
 export type CouponActivate = 'current' | 'new';
 
 export type CouponCreated = 'template' | 'custom';
+
+export type RouterPath = `/${string}`;
