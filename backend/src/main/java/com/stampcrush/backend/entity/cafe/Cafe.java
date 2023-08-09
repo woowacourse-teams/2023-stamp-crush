@@ -49,17 +49,6 @@ public class Cafe extends BaseDate {
     @OneToMany(mappedBy = "cafe")
     private List<CafePolicy> policies = new ArrayList<>();
 
-    public Cafe(String name, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
-        this(null, name, null, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
-    }
-
-    public Cafe(String name, LocalTime openTime, LocalTime closeTime,
-                String telephoneNumber, String cafeImageUrl, String introduction,
-                String roadAddress, String detailAddress,
-                String businessRegistrationNumber, Owner owner) {
-        this(null, name, openTime, closeTime, telephoneNumber, cafeImageUrl, introduction, roadAddress, detailAddress, businessRegistrationNumber, owner);
-    }
-
     public Cafe(Long id, String name, LocalTime openTime,
                 LocalTime closeTime, String telephoneNumber, String cafeImageUrl,
                 String introduction, String roadAddress, String detailAddress,
@@ -75,6 +64,17 @@ public class Cafe extends BaseDate {
         this.detailAddress = detailAddress;
         this.businessRegistrationNumber = businessRegistrationNumber;
         this.owner = owner;
+    }
+
+    public Cafe(String name, String roadAddress, String detailAddress, String businessRegistrationNumber, Owner owner) {
+        this(null, name, null, null, null, null, null, roadAddress, detailAddress, businessRegistrationNumber, owner);
+    }
+
+    public Cafe(String name, LocalTime openTime, LocalTime closeTime,
+                String telephoneNumber, String cafeImageUrl, String introduction,
+                String roadAddress, String detailAddress,
+                String businessRegistrationNumber, Owner owner) {
+        this(null, name, openTime, closeTime, telephoneNumber, cafeImageUrl, introduction, roadAddress, detailAddress, businessRegistrationNumber, owner);
     }
 
     protected Cafe() {

@@ -5,7 +5,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -74,9 +73,9 @@ class CafePolicyRepositoryTest {
 
         // then
         assertAll(
-                () -> AssertionsForClassTypes.assertThat(filteredCafePolicy).isNotEmpty(),
-                () -> AssertionsForClassTypes.assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy),
-                () -> AssertionsForClassTypes.assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy)
+                () -> assertThat(filteredCafePolicy).isNotEmpty(),
+                () -> assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy),
+                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy)
         );
     }
 

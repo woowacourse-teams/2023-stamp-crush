@@ -11,6 +11,8 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
+import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -46,10 +48,8 @@ public class ManagerCouponCommandService {
     }
 
     public Long createCoupon(Long cafeId, Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(IllegalArgumentException::new);
-        Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(IllegalArgumentException::new);
+        Customer customer = findCustomerById(customerId);
+        Cafe cafe = findCafeById(cafeId);
         CafePolicy cafePolicy = findCafePolicy(cafe);
         CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);
@@ -62,6 +62,16 @@ public class ManagerCouponCommandService {
         Coupon coupon = issueCoupon(customer, cafe, cafePolicy, cafeCouponDesign);
         couponRepository.save(coupon);
         return coupon.getId();
+    }
+
+    private Customer findCustomerById(Long customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 회원입니다."));
+    }
+
+    private Cafe findCafeById(Long cafeId) {
+        return cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페입니다."));
     }
 
     private Coupon issueCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign) {
@@ -124,7 +134,7 @@ public class ManagerCouponCommandService {
     private Cafe findCafe(Owner owner) {
         List<Cafe> cafes = cafeRepository.findAllByOwner(owner);
         if (cafes.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new CafeNotFoundException("존재하지 않는 카페입니다.");
         }
         return cafes.stream()
                 .findAny()

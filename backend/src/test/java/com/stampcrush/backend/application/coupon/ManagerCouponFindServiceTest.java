@@ -108,8 +108,8 @@ public class ManagerCouponFindServiceTest {
         given(couponRepository.findByCafe(any()))
                 .willReturn(List.of(coupon1));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 0, 0, coupon1CreatedAt);
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics);
+        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0, 0, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
 
         // then
@@ -135,7 +135,15 @@ public class ManagerCouponFindServiceTest {
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
 
         // then
-        assertThat(findResult.get(0).isPrevious()).isTrue();
+        CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
+                customer1.getId(),
+                customer1.getNickname(),
+                0,
+                LocalDateTime.now(),
+                true,
+                10);
+        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+                .containsExactlyInAnyOrder(expected);
     }
 
     @Test
@@ -157,6 +165,14 @@ public class ManagerCouponFindServiceTest {
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
 
         // then
-        assertThat(findResult.get(0).isPrevious()).isFalse();
+        CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
+                customer1.getId(),
+                customer1.getNickname(),
+                0,
+                LocalDateTime.now(),
+                false,
+                10);
+        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+                .containsExactlyInAnyOrder(expected);
     }
 }
