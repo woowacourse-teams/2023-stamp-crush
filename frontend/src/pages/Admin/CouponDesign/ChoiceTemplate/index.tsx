@@ -76,7 +76,6 @@ const ChoiceTemplate = ({
   };
 
   const selectSampleImage = (imageUrl: string, coordinates?: StampCoordinate[]) => {
-    console.log('imageUrl', imageUrl);
     switch (templateSelect) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         setFrontImage(imageUrl);
