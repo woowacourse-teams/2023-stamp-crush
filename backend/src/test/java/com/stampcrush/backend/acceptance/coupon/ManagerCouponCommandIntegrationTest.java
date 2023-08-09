@@ -23,6 +23,7 @@ import static com.stampcrush.backend.acceptance.step.CafeCreateStep.카페_생�
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
 
@@ -124,7 +125,29 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
                 () -> assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
                         .containsExactlyInAnyOrder(expected)
         );
+    }
 
+    @Test
+    void 사장님_인증_정보_없이_쿠폰을_생성하려고_하면_예외발생() {
+        // given
+        Owner owner = 사장_생성();
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        RegisterCustomer savedCustomer = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
+        CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
+
+        // when
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+                .contentType(JSON)
+                .body(reqeust)
+                .when()
+                .post("/api/admin/customers/{customerId}/coupons", savedCustomer.getId())
+                .then()
+                .log().all()
+                .extract();
+
+        // then
+        int status = extract.statusCode();
+        assertThat(status).isEqualTo(UNAUTHORIZED.value());
     }
 
     private Long 쿠폰_생성_후_아이디_반환(Owner owner, RegisterCustomer savedCustomer, CouponCreateRequest reqeust) {
