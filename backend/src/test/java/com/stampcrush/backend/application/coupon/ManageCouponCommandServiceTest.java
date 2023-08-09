@@ -2,6 +2,7 @@ package com.stampcrush.backend.application.coupon;
 
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -41,7 +42,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
-@SuppressWarnings("NonAsciiCharacters")
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 public class ManageCouponCommandServiceTest {
 

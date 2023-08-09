@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.favorites;
 
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.favorites.Favorites;
 import com.stampcrush.backend.entity.user.Owner;
@@ -22,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 public class VisitorFavoritesCommandServiceTest {
 

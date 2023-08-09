@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.manager.cafe;
 
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCouponSettingDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.when;
 
+@KorNamingConverter
 @ExtendWith(MockitoExtension.class)
 class ManagerCafeCouponSettingCommandServiceTest {
 

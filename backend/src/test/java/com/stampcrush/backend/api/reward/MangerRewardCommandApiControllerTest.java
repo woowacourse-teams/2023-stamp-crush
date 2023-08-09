@@ -5,6 +5,7 @@ import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiControll
 import com.stampcrush.backend.api.manager.reward.request.RewardUsedUpdateRequest;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@KorNamingConverter
 @WebMvcTest(value = ManagerRewardCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
