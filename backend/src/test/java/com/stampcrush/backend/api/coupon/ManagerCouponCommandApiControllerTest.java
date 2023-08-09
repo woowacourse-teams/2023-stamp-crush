@@ -76,9 +76,11 @@ public class ManagerCouponCommandApiControllerTest {
 
     @Test
     void 스탬프를_적립한다() throws Exception {
+        // given, when
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
         String request = objectMapper.writeValueAsString(stampCreateRequest);
 
+        // then
         mockMvc.perform(post(API_PREFIX + "/customers/{customerId}/coupons/{couponId}/stamps", 1L, 1L)
                         .content(request)
                         .contentType(APPLICATION_JSON)
@@ -88,9 +90,11 @@ public class ManagerCouponCommandApiControllerTest {
 
     @Test
     void 적립하려는_스탬프가_음수면_예외발생() throws Exception {
+        // given, when
         StampCreateRequest stampCreateRequest = new StampCreateRequest(-1);
         String request = objectMapper.writeValueAsString(stampCreateRequest);
 
+        // then
         mockMvc.perform(post(API_PREFIX + "/customers/{customerId}/coupons/{couponId}/stamps", 1L, 1L)
                         .content(request)
                         .contentType(APPLICATION_JSON)
