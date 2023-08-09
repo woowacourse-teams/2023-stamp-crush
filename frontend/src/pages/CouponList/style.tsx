@@ -138,3 +138,8 @@ export const DetailButton = styled.button<{ $isDetail: boolean }>`
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
   z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
 `;
+
+export const MyPageIconWrapper = styled.button`
+  background: transparent;
+  cursor: pointer;
+`;
