@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { BiArrowBack } from 'react-icons/bi';
+import { RouterPath } from '../../types';
 
 // TODO: 추후에 결정된 routerPath로 수정
 const MYPAGE_NAV_OPTIONS = [
@@ -22,7 +23,7 @@ const MYPAGE_NAV_OPTIONS = [
 const MyPage = () => {
   const navigate = useNavigate();
 
-  const navigatePage = (path: string) => () => {
+  const navigatePage = (path: RouterPath) => () => {
     navigate(path);
   };
 

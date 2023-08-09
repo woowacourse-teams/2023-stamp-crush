@@ -1,3 +1,5 @@
+import { RouterPath } from '../types';
+
 export const REGEX = {
   number: /^[0-9]+$/,
 } as const;
@@ -70,7 +72,7 @@ export const EXPIRE_DATE_OPTIONS = [
   },
 ];
 
-export const ROUTER_PATH: Record<string, string> = {
+export const ROUTER_PATH: Record<string, RouterPath> = {
   customerList: '/admin',
   adminLogin: '/admin/login',
   adminSignup: '/admin/sign-up',

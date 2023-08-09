@@ -67,7 +67,7 @@ export interface Reward {
   rewardName: string;
   cafeName: string;
   createdAt: string;
-  usedAt: string;
+  usedAt: string | null;
 }
 
 export interface Time {
@@ -76,3 +76,5 @@ export interface Time {
 }
 
 export type CouponActivate = 'current' | 'new';
+
+export type RouterPath = `/${string}`;
