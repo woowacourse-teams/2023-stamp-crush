@@ -24,6 +24,7 @@ import com.stampcrush.backend.repository.coupon.StampRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,6 +78,9 @@ public class ManageCouponCommandServiceTest {
 
     @Mock
     private RewardRepository rewardRepository;
+
+    @Mock
+    private VisitHistoryRepository visitHistoryRepository;
 
     @Mock
     private StampRepository stampRepository;
@@ -210,6 +214,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(0)).save(any());
         then(couponRepository).should(times(0)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.ACCUMULATING);
     }
 
@@ -226,6 +231,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(1)).save(any());
         then(couponRepository).should(times(0)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.REWARDED);
     }
 
@@ -242,6 +248,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(2)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
     }
 
     @Test
@@ -257,6 +264,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(1)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
     }
 
     @Test
@@ -274,6 +282,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(0)).save(any());
         then(couponRepository).should(times(0)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.ACCUMULATING);
         assertThat(currentCoupon.getStampCount()).isEqualTo(7);
     }
@@ -294,6 +303,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(1)).save(any());
         then(couponRepository).should(times(0)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.REWARDED);
         assertThat(currentCoupon.getStampCount()).isEqualTo(10);
     }
@@ -314,6 +324,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(2)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
     }
 
     @Test
@@ -330,6 +341,7 @@ public class ManageCouponCommandServiceTest {
         // then
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(1)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
     }
 
     private void 스탬프_적립을_위해_필요한_엔티티를_조회한다(int maxStampCount, Coupon coupon) {
