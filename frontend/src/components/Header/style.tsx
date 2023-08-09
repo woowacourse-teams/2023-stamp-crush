@@ -10,7 +10,7 @@ export const HeaderContainer = styled.header`
 `;
 
 export const LogoImg = styled.img`
-  height: 38px;
+  height: 30px;
 `;
 
 export const LogoutButton = styled.button`

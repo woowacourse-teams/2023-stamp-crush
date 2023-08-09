@@ -1,6 +1,15 @@
 import { useLocation } from 'react-router-dom';
+import { Logo } from '../../assets';
 import { Option } from '../../types';
-import { Arrow, LabelContent, SideBarContainer, SideBarContent, SideBarLink } from './style';
+import {
+  LabelContent,
+  LogoHeader,
+  LogoImg,
+  LogoImgWrapper,
+  SideBarContainer,
+  SideBarContent,
+  SideBarLink,
+} from './style';
 
 interface SideBarProps {
   width: number;
@@ -12,9 +21,14 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
   const current = useLocation().pathname;
 
   return (
-    <SideBarContainer $width={width} $height={height}>
-      {options.map(({ key, value }) => {
-        return (
+    <>
+      <LogoHeader>
+        <LogoImgWrapper>
+          <LogoImg src={Logo} alt="스탬프크러쉬 로고" />
+        </LogoImgWrapper>
+      </LogoHeader>
+      <SideBarContainer $width={width} $height={height}>
+        {options.map(({ key, value }) => (
           <SideBarContent key={key} $isSelected={value === current}>
             <SideBarLink to={value}>
               <LabelContent
@@ -23,13 +37,12 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
                 $height={height / options.length}
               >
                 {key}
-                <Arrow />
               </LabelContent>
             </SideBarLink>
           </SideBarContent>
-        );
-      })}
-    </SideBarContainer>
+        ))}
+      </SideBarContainer>
+    </>
   );
 };
 

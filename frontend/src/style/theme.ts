@@ -1,9 +1,9 @@
 import { DefaultTheme } from 'styled-components';
 
 const colors = {
-  main: '#EBE5CE',
-  main600: '#CABE96',
-  point: '#253C76',
+  main: '#446c7d',
+  point: '#eeccba',
+  text: '#121b4f',
   gray: '#888888',
   gray100: '#F9F9F9',
   gray200: '#F3F3F3',

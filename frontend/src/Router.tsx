@@ -22,7 +22,6 @@ import RewardList from './pages/RewardList';
 const AdminRoot = () => {
   return (
     <>
-      <Header />
       <Template>
         <Outlet />
       </Template>

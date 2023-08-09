@@ -19,7 +19,7 @@ export const BaseSelectBox = styled.span<{
   white-space: nowrap;
 
   outline: none;
-  border: 1px solid ${({ theme }) => theme.colors.main600};
+  border: 1px solid ${({ theme }) => theme.colors.main};
   border-radius: 4px;
   background-color: white;
 
@@ -68,11 +68,11 @@ export const BaseSelectBox = styled.span<{
       label {
         border-top: 1px solid ${({ theme }) => theme.colors.gray};
         &:hover {
-          color: ${({ theme }) => theme.colors.main600};
+          color: ${({ theme }) => theme.colors.main};
         }
       }
       input:checked + label {
-        color: ${({ theme }) => theme.colors.main600};
+        color: ${({ theme }) => theme.colors.main};
       }
 
       &::after {

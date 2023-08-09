@@ -1,35 +1,50 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-interface SideBarSelect {
+interface SideBarStyleProps {
+  $width: number;
+  $height: number;
   $isSelected: boolean;
 }
 
-interface SideBarSize {
+interface SideBarContainerStyleProps {
   $width: number;
   $height: number;
 }
 
-type SideBarStyleProps = SideBarSelect & SideBarSize;
-
-export const PageSideBarWrapper = styled.div`
-  padding: 48px 58px;
+export const LogoHeader = styled.header`
+  background: ${({ theme }) => theme.colors.main};
+  padding-top: 40px;
 `;
 
-export const SideBarContainer = styled.div<SideBarSize>`
+export const LogoImgWrapper = styled.button`
+  display: flex;
+  align-self: flex-start;
+  cursor: pointer;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  width: 150px;
+  padding-bottom: 20px;
+`;
+
+export const LogoImg = styled.img`
+  width: 120px;
+`;
+
+export const PageSideBarWrapper = styled.div`
+  padding: 0 0 0 30px;
+`;
+
+export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
 
-  position: relative;
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
 
-  border-top: 0px solid ${({ theme }) => theme.colors.gray};
-
-  & > :nth-child(n) {
-    border: none;
-    border-radius: 8px;
-  }
+  background: transparent;
+  border-radius: 10px;
 `;
 
 export const LabelContent = styled.span<SideBarStyleProps>`
@@ -39,9 +54,10 @@ export const LabelContent = styled.span<SideBarStyleProps>`
 
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
-
   font-weight: ${(props) => (props.$isSelected ? 'bold' : 'normal')};
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme, $isSelected }) => ($isSelected ? `${theme.colors.text}` : 'white')};
+  background-color: ${({ $isSelected, theme }) => ($isSelected ? 'white' : theme.colors.main)};
+  border-radius: ${({ $isSelected }) => ($isSelected ? '40px 0 0 40px' : '')};
 
   padding-left: 20px;
 
@@ -53,34 +69,12 @@ export const SideBarLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const SideBarContent = styled.div<SideBarSelect>`
+export const SideBarContent = styled.div<{ $isSelected: boolean }>`
   transition: all 0.4s ease;
-  background-color: ${({ theme, $isSelected }) =>
-    $isSelected ? theme.colors.gray200 : 'transparent'};
+  border-radius: ${({ $isSelected }) => ($isSelected ? '10px 0 0 10px' : '')};
 
   :hover {
     font-weight: 600;
-    transform: scale(0.98);
     opacity: 80%;
-  }
-`;
-
-export const Arrow = styled.span`
-  position: absolute;
-  right: 35px;
-
-  &::after {
-    position: absolute;
-    left: 0;
-    top: -8px;
-
-    width: 7px;
-    height: 7px;
-
-    border-top: 3px solid ${({ theme }) => theme.colors.gray};
-    border-right: 3px solid ${({ theme }) => theme.colors.gray};
-
-    content: '';
-    transform: rotate(45deg);
   }
 `;

@@ -105,10 +105,13 @@ nav,
 section {
   display: block;
 }
+@font-face {
+    font-family: 'Do_Hyeon_Font';
+    src: url('https://fonts.googleapis.com/css2?&family=Do+Hyeon') format('woff');;
+}
 body {
   line-height: 1;
-  font-family: 'Noto Sans KR';
-  font-style: normal;
+  font-family: 'Do_Hyeon_Font'
 }
 ol,
 ul {
