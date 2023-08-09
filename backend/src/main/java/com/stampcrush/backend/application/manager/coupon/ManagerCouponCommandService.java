@@ -11,6 +11,7 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
@@ -22,6 +23,7 @@ import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,7 @@ public class ManagerCouponCommandService {
     private final CouponPolicyRepository couponPolicyRepository;
     private final OwnerRepository ownerRepository;
     private final RewardRepository rewardRepository;
+    private final VisitHistoryRepository visitHistoryRepository;
 
     private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
@@ -92,8 +95,10 @@ public class ManagerCouponCommandService {
         CafePolicy cafePolicy = findCafePolicy(cafe);
         CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         Coupon coupon = findCoupon(stampCreateDto, customer, cafe);
-
         int earningStampCount = stampCreateDto.getEarningStampCount();
+
+        VisitHistory visitHistory = new VisitHistory(cafe, customer, earningStampCount);
+        visitHistoryRepository.save(visitHistory);
         if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
             coupon.accumulate(earningStampCount);
             return;
