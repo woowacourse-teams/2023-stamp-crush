@@ -238,4 +238,8 @@ export const handlers = [
   rest.post('/cafes/:cafeId/favorites', async (req, res, ctx) => {
     return res(ctx.status(200));
   }),
+
+  rest.delete('/coupons/:couponId', async (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
 ];
