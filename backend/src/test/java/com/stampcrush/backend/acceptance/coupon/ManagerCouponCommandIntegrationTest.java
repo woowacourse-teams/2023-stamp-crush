@@ -1,6 +1,5 @@
 package com.stampcrush.backend.acceptance.coupon;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.acceptance.AcceptanceTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
@@ -33,9 +32,6 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
 
     @Autowired
     private RegisterCustomerRepository registerCustomerRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void 쿠폰을_발급한다() {
@@ -123,21 +119,34 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
     @Test
     void 사장님_인증_정보_없이_쿠폰을_생성하려고_하면_예외발생() {
         // given
-        Owner owner = 사장_생성();
-        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
-        CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
-
+        CouponCreateRequest reqeust = new CouponCreateRequest(1L);
         // when
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
                 .contentType(JSON)
                 .body(reqeust)
                 .when()
-                .post("/api/admin/customers/{customerId}/coupons", savedCustomer.getId())
+                .post("/api/admin/customers/{customerId}/coupons", 1)
                 .then()
                 .log().all()
                 .extract();
+        // then
+        int status = extract.statusCode();
+        assertThat(status).isEqualTo(UNAUTHORIZED.value());
+    }
 
+    @Test
+    void 사장님_인증_정보_없이_스탬프_적립_하려고_하면_예외발생() {
+        // given
+        StampCreateRequest request = new StampCreateRequest(4);
+        // when
+        ExtractableResponse<Response> extract = RestAssured.given()
+                .log().all()
+                .body(request)
+                .contentType(JSON)
+                .when()
+                .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", 1, 1)
+                .then().log().all()
+                .extract();
         // then
         int status = extract.statusCode();
         assertThat(status).isEqualTo(UNAUTHORIZED.value());
@@ -195,6 +204,20 @@ public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
 
         assertThat(customers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("visitCount", "firstVisitDate")
                 .containsExactlyInAnyOrder(customer1Expected, customer2Expected);
+    }
+
+    @Test
+    void 인증정보_없이_특정_카페의_방문한_고객들의_정보를_조회하면_예외발생() {
+        // when
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+                .when()
+                .get("/api/admin/cafes/{cafeId}/customers", 1)
+                .then().log().all()
+                .extract();
+
+        // then
+        int statusCode = extract.statusCode();
+        assertThat(statusCode).isEqualTo(UNAUTHORIZED.value());
     }
 
     private static void 스탬프를_적립한다(Owner owner, RegisterCustomer customer1, Long coupon1Id, StampCreateRequest coupon1StampCreateRequest) {
