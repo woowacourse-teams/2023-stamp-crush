@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.reward;
+package com.stampcrush.backend.api.manager.reward;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiController;
