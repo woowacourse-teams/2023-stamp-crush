@@ -7,8 +7,8 @@ import {
   LogoImg,
   MyPageIconWrapper,
 } from './style';
-import { MouseEvent, useRef, useState } from 'react';
-import { getCafeInfo, getCoupons } from '../../api/get';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
