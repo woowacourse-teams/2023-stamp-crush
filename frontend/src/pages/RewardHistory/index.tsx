@@ -13,7 +13,7 @@ export const useRewardQuery = (used: boolean) => {
   return result;
 };
 
-export const concatUsedAtDate = (rewards: Reward[]) => {
+export const concatUsedAt = (rewards: Reward[]) => {
   return rewards.map((reward) => {
     if (!reward.usedAt) return reward;
     const [year, month, day] = reward.usedAt.split(':');
@@ -22,48 +22,50 @@ export const concatUsedAtDate = (rewards: Reward[]) => {
 };
 
 // TODO: 타입 구체화
+
 export const transformRewardsByUsedAt = (rewards: Reward[]) => {
-  const result: any = [];
+  const result = new Map<string, Reward[]>();
 
-  const copiedRewards = concatUsedAtDate(rewards);
-
-  copiedRewards.sort((a, b) => {
-    if (!a.usedAt || !b.usedAt) return 0;
-    return a.usedAt.localeCompare(b.usedAt);
-  });
+  const copiedRewards = concatUsedAt(rewards);
 
   copiedRewards.forEach((reward) => {
     if (!reward.usedAt) return;
-    const usedDate = reward.usedAt;
-    const existingEntry = result.find((entry) => entry[usedDate]);
 
-    if (existingEntry) {
-      existingEntry[reward.usedAt].push({
-        id: reward.id,
-        cafeName: reward.cafeName,
-        rewardName: reward.rewardName,
-        createdAt: reward.createdAt,
-        usedAt: reward.usedAt,
-      });
+    if (result.has(reward.usedAt)) {
+      const existEntrys = result.get(reward.usedAt) as Reward[];
+      result.set(reward.usedAt, [
+        ...existEntrys,
+        {
+          id: reward.id,
+          cafeName: reward.cafeName,
+          rewardName: reward.rewardName,
+          createdAt: reward.createdAt,
+          usedAt: reward.usedAt,
+        },
+      ]);
     } else {
-      const newEntry = {
-        key: reward.usedAt,
-        [reward.usedAt]: [
-          {
-            id: reward.id,
-            cafeName: reward.cafeName,
-            rewardName: reward.rewardName,
-            createdAt: reward.createdAt,
-            usedAt: reward.usedAt,
-          },
-        ],
-      };
-      result.push(newEntry);
+      result.set(reward.usedAt, [
+        {
+          id: reward.id,
+          cafeName: reward.cafeName,
+          rewardName: reward.rewardName,
+          createdAt: reward.createdAt,
+          usedAt: reward.usedAt,
+        },
+      ]);
     }
   });
-
   return result;
 };
+
+function sortMapByKey(map: Map<string, Reward[]>) {
+  const sortedMap = new Map(
+    [...map.entries()].sort((a, b) => {
+      return a[0].localeCompare(b[0]);
+    }),
+  );
+  return sortedMap;
+}
 
 const RewardHistory = () => {
   const { data: rewardData, status: rewardStatus } = useRewardQuery(true);
@@ -71,16 +73,18 @@ const RewardHistory = () => {
   if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
-  const transformRewards = transformRewardsByUsedAt(rewardData.rewards);
+  const transformRewardMap = Array.from(
+    sortMapByKey(transformRewardsByUsedAt(rewardData.rewards)).entries(),
+  );
 
   return (
     <>
       <SubHeader title="리워드 사용 내역" />
       <div>
-        {transformRewards.map((transfromReward) => (
-          <div key={transfromReward.id}>
-            <RewardDateTitle>{transfromReward.key}</RewardDateTitle>
-            {transfromReward[transfromReward.key].map((reward) => (
+        {transformRewardMap.map(([key, rewards]) => (
+          <div key={key}>
+            <RewardDateTitle>{key}</RewardDateTitle>
+            {rewards.map((reward) => (
               <RewardContainer key={reward.id}>
                 <RewardCafeName>{reward.cafeName}</RewardCafeName>
                 <span>{reward.rewardName}</span>
