@@ -18,6 +18,7 @@ import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import RewardList from './pages/RewardList';
+import RewardHistory from './pages/RewardHistory';
 
 const AdminRoot = () => {
   return (
@@ -81,6 +82,7 @@ const Router = () => {
         { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
+        { path: ROUTER_PATH.rewardHistory, element: <RewardHistory /> },
       ],
     },
   ]);
