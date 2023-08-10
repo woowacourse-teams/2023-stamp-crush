@@ -67,6 +67,6 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         CafeCustomersFindResponse actual = response.body().as(CafeCustomersFindResponse.class);
 
         // then
-        assertThat(actual.getCustomers()).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
+        assertThat(actual.getCustomers()).usingRecursiveFieldByFieldElementComparator().usingRecursiveComparison().isEqualTo(expected);
     }
 }
