@@ -4,7 +4,7 @@ import { MyRewardRes } from '../../types/api';
 import { getMyRewards } from '../../api/get';
 import { Reward } from '../../types';
 import { RewardCafeName, RewardContainer, RewardDateTitle } from './style';
-import { sortMapByKey } from '../../utils';
+import { parseStringDateToKorean, sortMapByKey } from '../../utils';
 
 export const useRewardQuery = (used: boolean) => {
   const result = useQuery<MyRewardRes>(['myRewards', used], {
@@ -46,14 +46,18 @@ const RewardHistory = () => {
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards).entries());
-
+  const titleParseOptions = {
+    year: false,
+    month: true,
+    day: true,
+  };
   return (
     <>
       <SubHeader title="리워드 사용 내역" />
       <div>
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
-            <RewardDateTitle>{key}</RewardDateTitle>
+            <RewardDateTitle>{parseStringDateToKorean(key, titleParseOptions)}</RewardDateTitle>
             {rewards.map((reward) => (
               <RewardContainer key={reward.id}>
                 <RewardCafeName>{reward.cafeName}</RewardCafeName>

@@ -80,3 +80,9 @@ export type CouponActivate = 'current' | 'new';
 export type CouponCreated = 'template' | 'custom';
 
 export type RouterPath = `/${string}`;
+
+export interface ParseDateOption {
+  year: boolean;
+  month: boolean;
+  day: boolean;
+}

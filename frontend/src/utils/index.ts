@@ -1,4 +1,4 @@
-import { Time } from '../types';
+import { ParseDateOption, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
@@ -55,4 +55,12 @@ export const sortMapByKey = <V, T extends Map<string, V>>(map: T): T => {
     }),
   );
   return sortedMap as T;
+};
+
+export const parseStringDateToKorean = (input: string, options: ParseDateOption) => {
+  const year = options.year ? `${input.slice(0, 4)}년` : '';
+  const month = options.month ? `${input.slice(4, 6)}월` : '';
+  const day = options.day ? `${input.slice(6, 8)}일` : '';
+
+  return `${year} ${month} ${day}`.trim();
 };
