@@ -19,6 +19,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_YOUNGHO;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -233,16 +234,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .when()
-                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, customer);
 
         // then
         CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(newCouponId,
@@ -270,32 +262,10 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, oldCouponId, oldCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .when()
-                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, customer);
 
         // then
         assertThat(coupons).isEmpty();
-    }
-
-    public static ExtractableResponse<Response> 쿠폰에_스탬프를_적립_요청(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
-        return given()
-                .log().all()
-                .body(stampCreateRequest)
-                .contentType(JSON)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .when()
-                .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)
-                .then().log().all()
-                .extract();
     }
 
     private Owner 사장_생성() {
