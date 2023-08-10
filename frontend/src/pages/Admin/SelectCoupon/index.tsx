@@ -19,10 +19,11 @@ import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 import { CouponActivate } from '../../../types';
-import { CustomerPhoneNumberRes, IssueCouponRes } from '../../../types/api';
+import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 
 const SelectCoupon = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isPrevious, setIsPrevious] = useState(true);
   const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
   const phoneNumber = location.state.phoneNumber;
@@ -34,7 +35,7 @@ const SelectCoupon = () => {
   } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
     queryFn: () => getCustomer(phoneNumber),
     onSuccess: (data) => {
-      if (data.customer.length === null) {
+      if (data.customer.length === 0) {
         mutateTempCustomer(phoneNumber);
       }
     },
@@ -51,40 +52,33 @@ const SelectCoupon = () => {
     },
   });
 
-  const { data: coupon, status: couponStatus } = useQuery<IssueCouponRes>(
-    ['coupons', customer],
-    () => {
-      if (!customer) return null;
-      getCoupon(customer.customer[0].id, '1');
+  const { data: coupon, status: couponStatus } = useQuery<IssuedCouponsRes>(['coupon', customer], {
+    queryFn: async () => {
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+      return await getCoupon(customer.customer[0].id, '1');
     },
-    {
-      enabled: !!customer,
-    },
-  );
+    enabled: !!customer,
+  });
 
-  const navigate = useNavigate();
-
-  const { mutate: mutateIssueCoupon } = useMutation(
-    async () => {
-      if (!customer) return;
-      await postIssueCoupon(customer.customer[0].id);
+  const { mutate: mutateIssueCoupon } = useMutation({
+    mutationFn: async () => {
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+      return await postIssueCoupon(customer.customer[0].id);
     },
-    {
-      onSuccess: (data: IssueCouponRes) => {
-        const newCouponId = +data.couponId;
-        navigate(ROUTER_PATH.earnStamp, {
-          state: {
-            isPrevious,
-            customer: foundCustomer,
-            couponId: newCouponId,
-          },
-        });
-      },
-      onError: () => {
-        throw new Error('스탬프 적립에 실패했습니다.');
-      },
+    onSuccess: (data: IssueCouponRes) => {
+      const newCouponId = +data.couponId;
+      navigate(ROUTER_PATH.earnStamp, {
+        state: {
+          isPrevious,
+          customer: foundCustomer,
+          couponId: newCouponId,
+        },
+      });
     },
-  );
+    onError: () => {
+      throw new Error('스탬프 적립에 실패했습니다.');
+    },
+  });
 
   const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -94,7 +88,7 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
-  if (couponStatus === 'loading' || tempCustomerStatus === 'loading') return <p>Loading</p>;
+  if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
 
   if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
 

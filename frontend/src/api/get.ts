@@ -1,10 +1,11 @@
 import { api, customerHeader, ownerHeader } from '.';
+import { CustomerPhoneNumberRes, IssuedCouponsRes } from '../types/api';
 
 export const getCafe = async () => {
   return await api.get('/admin/cafes', ownerHeader);
 };
 
-export const getCustomer = async (phoneNumber: string) => {
+export const getCustomer = async (phoneNumber: string): Promise<CustomerPhoneNumberRes> => {
   return await api.get(`/admin/customers?phone-number=${phoneNumber}`, ownerHeader);
 };
 
@@ -14,7 +15,7 @@ export const getList = async () => {
   return await api.get(`/admin/cafes/${cafeId}/customers`, ownerHeader);
 };
 
-export const getCoupon = async (customerId: number, cafeId: string) => {
+export const getCoupon = async (customerId: number, cafeId: string): Promise<IssuedCouponsRes> => {
   return await api.get(
     `/admin/customers/${customerId}/coupons?cafe-id=${cafeId}&active=true`,
     ownerHeader,

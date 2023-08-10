@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
-import { getCoupon, getList } from '../../../api/get';
+import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
@@ -22,35 +22,31 @@ const EarnStamp = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const { mutate, isLoading, isError } = useMutation(
-    (formData: StampEarningReq) => postEarnStamp(formData),
-    {
-      onSuccess: () => {
-        navigate(ROUTER_PATH.customerList);
-      },
-      onError: () => {
-        throw new Error('스탬프 적립에 실패했습니다.');
-      },
+  const { mutate } = useMutation((formData: StampEarningReq) => postEarnStamp(formData), {
+    onSuccess: () => {
+      navigate(ROUTER_PATH.customerList);
     },
+    onError: () => {
+      throw new Error('스탬프 적립에 실패했습니다.');
+    },
+  });
+
+  const { data: couponData, status: couponStatus } = useQuery(
+    ['earn-stamp-coupons', state.customer],
+    () => getCoupon(state.customer.id, '1'),
   );
 
-  const {
-    data: couponResponse,
-    isError: isCouponError,
-    isLoading: isCouponLoading,
-  } = useQuery(['earn-stamp-coupons', state.customer], () => getCoupon(state.customer.id, '1'));
+  if (couponStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'loading') return <p>Loading</p>;
 
   const earnStamp = () => {
     const stampData = {
       earningStampCount: stamp,
-      customerId: state.customer.id,
-      couponId: couponResponse.coupons[0].id,
+      customerId: Number(state.customer.id),
+      couponId: couponData.coupons[0].id,
     };
     mutate(stampData);
   };
-
-  if (isLoading || isCouponLoading) return <p>Loading</p>;
-  if (isError || isCouponError) return <p>Error</p>;
 
   return (
     <EarnStampContainer>
@@ -64,12 +60,12 @@ const EarnStamp = () => {
       <CouponSelectorContainer>
         <CouponSelectorWrapper>
           <Text>
-            현재 스탬프 개수: {couponResponse.coupons[0].stampCount}/{10}
+            현재 스탬프 개수: {couponData.coupons[0].stampCount}/{10}
           </Text>
           <Spacing $size={8} />
           <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
           <Spacing $size={45} />
-          <ExpirationDate>쿠폰 유효기간: {couponResponse.coupons[0].expireDate}까지</ExpirationDate>
+          <ExpirationDate>쿠폰 유효기간: {couponData.coupons[0].expireDate}까지</ExpirationDate>
         </CouponSelectorWrapper>
         <RowSpacing $size={110} />
         <CouponStepperWrapper>

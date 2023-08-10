@@ -38,8 +38,8 @@ export interface CustomerRes {
 
 export interface StampEarningReq {
   earningStampCount: number;
-  customerId: string;
-  couponId: string;
+  customerId: number;
+  couponId: number;
 }
 
 export interface CafeInfoReq {
