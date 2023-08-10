@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
-import static com.stampcrush.backend.acceptance.step.CafeCreateStep.CAFE_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.CafeCreateStep.카페_생성_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.CouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.CouponFindStep.고객의_쿠폰_카페별로_1개씩_조회_요청;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorCouponFindStep.고객의_쿠폰_카페별로_1개씩_조회_요청;
 import static com.stampcrush.backend.fixture.OwnerFixture.GITCHAN;
 import static com.stampcrush.backend.fixture.OwnerFixture.JENA;
 import static org.assertj.core.api.Assertions.assertThat;

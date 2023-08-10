@@ -1,6 +1,5 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.acceptance.AcceptanceTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
@@ -18,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.stampcrush.backend.acceptance.step.CafeCreateStep.CAFE_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.CafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-public class ManagerCouponCommandIntegrationTest extends AcceptanceTest {
+public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private OwnerRepository ownerRepository;

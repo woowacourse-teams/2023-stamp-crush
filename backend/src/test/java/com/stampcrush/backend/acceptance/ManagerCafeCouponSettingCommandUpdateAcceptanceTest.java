@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
 import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
 import static com.stampcrush.backend.fixture.CouponDesignFixture.cafeCouponDesignOfSavedCafe;
 import static com.stampcrush.backend.fixture.CouponPolicyFixture.cafePolicyOfSavedCafe;
@@ -25,7 +25,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
+public class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CafeRepository cafeRepository;

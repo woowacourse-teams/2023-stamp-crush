@@ -24,7 +24,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
-public class CustomerIntegrationTest extends AcceptanceTest {
+public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;

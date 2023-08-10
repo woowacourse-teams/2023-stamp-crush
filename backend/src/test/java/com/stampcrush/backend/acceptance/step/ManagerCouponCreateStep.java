@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.http.ContentType.JSON;
 
-public class CouponCreateStep {
+public class ManagerCouponCreateStep {
 
     public static Long 쿠폰_생성_요청하고_아이디_반환(Owner owner, CouponCreateRequest request, Long customerId) {
         ExtractableResponse<Response> response = 쿠폰_생성_요청(owner, request, customerId);
