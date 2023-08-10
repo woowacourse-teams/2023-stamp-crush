@@ -9,7 +9,6 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -19,6 +18,9 @@ import java.util.List;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
+import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_YOUNGHO;
+import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -37,38 +39,30 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         // given
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
+        RegisterCustomer savedCustomer = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
         CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
 
         // when
         Long couponId = 쿠폰_생성_후_아이디_반환(owner, savedCustomer, reqeust);
 
-        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
-                .auth().preemptive()
-                .basic(savedCustomer.getLoginId(), savedCustomer.getEncryptedPassword())
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .when()
-                .get("api/admin/customers/{customerId}/coupons", savedCustomer.getId())
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
-
-        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(
-                couponId,
-                savedCustomer.getId(),
-                savedCustomer.getNickname(),
-                0,
-                null,
-                false,
-                10
-        );
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
 
         // then
         assertAll(
                 () -> assertThat(coupons.size()).isEqualTo(1),
-                () -> assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
-                        .containsExactlyInAnyOrder(expected)
+                () -> assertThat(coupons)
+                        .usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+                        .containsExactlyInAnyOrder(
+                                new CustomerAccumulatingCouponFindResponse(
+                                        couponId,
+                                        savedCustomer.getId(),
+                                        savedCustomer.getNickname(),
+                                        0,
+                                        null,
+                                        false,
+                                        10
+                                )
+                        )
         );
     }
 
@@ -86,32 +80,24 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
         쿠폰에_스탬프를_적립한다(owner, savedCustomer, couponId, stampCreateRequest);
 
-        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
-                .auth().preemptive()
-                .basic(savedCustomer.getLoginId(), savedCustomer.getEncryptedPassword())
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .when()
-                .get("api/admin/customers/{customerId}/coupons", savedCustomer.getId())
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
-
-        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(
-                couponId,
-                savedCustomer.getId(),
-                savedCustomer.getNickname(),
-                stampCreateRequest.getEarningStampCount(),
-                null,
-                false,
-                10
-        );
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
 
         // then
         assertAll(
                 () -> assertThat(coupons.size()).isEqualTo(1),
-                () -> assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
-                        .containsExactlyInAnyOrder(expected)
+                () -> assertThat(coupons)
+                        .usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+                        .containsExactlyInAnyOrder(
+                                new CustomerAccumulatingCouponFindResponse(
+                                        couponId,
+                                        savedCustomer.getId(),
+                                        savedCustomer.getNickname(),
+                                        stampCreateRequest.getEarningStampCount(),
+                                        null,
+                                        false,
+                                        10
+                                )
+                        )
         );
     }
 
@@ -120,16 +106,20 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         // given
         CouponCreateRequest reqeust = new CouponCreateRequest(1L);
         // when
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+        ExtractableResponse<Response> response = given()
+                .log().all()
                 .contentType(JSON)
                 .body(reqeust)
+
                 .when()
                 .post("/api/admin/customers/{customerId}/coupons", 1)
+
                 .then()
                 .log().all()
                 .extract();
         // then
-        int status = extract.statusCode();
+        int status = response.statusCode();
+
         assertThat(status).isEqualTo(UNAUTHORIZED.value());
     }
 
@@ -137,17 +127,20 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     void 사장님_인증_정보_없이_스탬프_적립_하려고_하면_예외발생() {
         // given
         StampCreateRequest request = new StampCreateRequest(4);
+
         // when
-        ExtractableResponse<Response> extract = RestAssured.given()
+        ExtractableResponse<Response> response = given()
                 .log().all()
                 .body(request)
                 .contentType(JSON)
+
                 .when()
                 .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", 1, 1)
+
                 .then().log().all()
                 .extract();
         // then
-        int status = extract.statusCode();
+        int status = response.statusCode();
         assertThat(status).isEqualTo(UNAUTHORIZED.value());
     }
 
@@ -171,7 +164,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립한다(owner, customer2, coupon2Id, coupon2StampCreateRequest);
 
         // when
-        List<CafeCustomerFindResponse> customers = RestAssured.given().log().all()
+        List<CafeCustomerFindResponse> customers = given().log().all()
                 .auth().preemptive()
                 .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
@@ -208,10 +201,14 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 인증정보_없이_특정_카페의_방문한_고객들의_정보를_조회하면_예외발생() {
         // when
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+        ExtractableResponse<Response> extract = given()
+                .log().all()
+
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", 1)
-                .then().log().all()
+
+                .then()
+                .log().all()
                 .extract();
 
         // then
@@ -236,7 +233,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립한다(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
+        List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
                 .queryParam("cafe-id", savedCafeId)
                 .queryParam("active", true)
                 .auth().preemptive()
@@ -273,7 +270,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립한다(owner, customer, oldCouponId, oldCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = RestAssured.given().log().all()
+        List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
                 .queryParam("cafe-id", savedCafeId)
                 .queryParam("active", true)
                 .auth().preemptive()
@@ -288,8 +285,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         assertThat(coupons).isEmpty();
     }
 
-    private void 쿠폰에_스탬프를_적립한다(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
-        RestAssured.given()
+    public static ExtractableResponse<Response> 쿠폰에_스탬프를_적립한다(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
+        return given()
                 .log().all()
                 .body(stampCreateRequest)
                 .contentType(JSON)
@@ -297,11 +294,12 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)
-                .then().log().all();
+                .then().log().all()
+                .extract();
     }
 
     private Long 쿠폰_생성_후_아이디_반환(Owner owner, RegisterCustomer savedCustomer, CouponCreateRequest reqeust) {
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+        ExtractableResponse<Response> extract = given().log().all()
                 .contentType(JSON)
                 .auth().preemptive()
                 .basic(owner.getLoginId(), owner.getEncryptedPassword())
@@ -319,5 +317,4 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     private Owner 사장_생성() {
         return ownerRepository.save(new Owner("owner", "id", "pw", "phone"));
     }
-
 }
