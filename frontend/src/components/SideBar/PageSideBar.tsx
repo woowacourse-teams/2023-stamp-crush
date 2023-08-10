@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import SideBar from '.';
 import { ROUTER_PATH } from '../../constants';
 import { Option } from '../../types';
@@ -12,10 +13,16 @@ const SIDE_BAR_OPTIONS: Option[] = [
 ];
 
 const PageSideBar = () => {
+  const current = useLocation().pathname;
+
   return (
-    <PageSideBarWrapper>
-      <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200} />
-    </PageSideBarWrapper>
+    <>
+      {current !== ROUTER_PATH.registerCafe && (
+        <PageSideBarWrapper>
+          <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200} />
+        </PageSideBarWrapper>
+      )}
+    </>
   );
 };
 
