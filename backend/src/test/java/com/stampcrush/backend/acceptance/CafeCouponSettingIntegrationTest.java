@@ -6,12 +6,12 @@ import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalTime;
 import java.util.List;
 
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -45,11 +46,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {
         // given, when
-        Owner owner = new Owner(
-                "깃짱",
-                "gitchan",
-                "pw1234",
-                "깃짱핸드폰번호");
+        Owner owner = OwnerFixture.GITCHAN;
 
         Cafe savedCafe = cafeRepository.save(
                 new Cafe(
@@ -107,7 +104,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
                 12
         );
 
-        ExtractableResponse<Response> response = RestAssured.given()
+        ExtractableResponse<Response> response = given()
                 .log().all()
                 .contentType(ContentType.JSON)
                 .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
