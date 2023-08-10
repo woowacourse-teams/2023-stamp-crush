@@ -6,19 +6,19 @@ import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustome
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -35,17 +35,10 @@ public class CafeIntegrationTest extends AcceptanceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private Customer customer;
-
-    @BeforeEach
-    void setUp() {
-        customer = new RegisterCustomer("jena", "01012345678", "jena", "1234");
-        customerRepository.save(customer);
-    }
-
     @Test
     void 고객이_카페정보를_조회한다() {
         // given
+        Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_JENA);
         Cafe savedCafe = cafeRepository.save(cafeOfSavedOwner(ownerRepository.save(OwnerFixture.GITCHAN))
         );
 
@@ -54,13 +47,16 @@ public class CafeIntegrationTest extends AcceptanceTest {
         CafeInfoFindByCustomerResponse cafeInfoFindByCustomerResponse = response.body().as(CafeInfoFindByCustomerResponse.class);
 
         // then
-        assertThat(cafeInfoFindByCustomerResponse.getCafe()).usingRecursiveComparison()
+        assertThat(cafeInfoFindByCustomerResponse.getCafe())
+                .usingRecursiveComparison()
                 .isEqualTo(CafeInfoFindResponse.from(CafeInfoFindByCustomerResultDto.from(savedCafe)));
     }
 
     @Test
     void 고객이_존재하지_않는_카페를_조회하면_에러가_발생한다() {
-        RestAssured.given()
+        Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_JENA);
+
+        given()
                 .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
@@ -74,7 +70,7 @@ public class CafeIntegrationTest extends AcceptanceTest {
     }
 
     private ExtractableResponse<Response> requestFindCafeByCustomer(Customer customer, Long cafeId) {
-        return RestAssured.given()
+        return given()
                 .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
