@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.coupon;
+package com.stampcrush.backend.api.manager.coupon;
 
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;

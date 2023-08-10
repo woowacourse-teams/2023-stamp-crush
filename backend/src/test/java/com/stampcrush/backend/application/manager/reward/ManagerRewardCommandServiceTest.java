@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.reward;
+package com.stampcrush.backend.application.manager.reward;
 
 import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;

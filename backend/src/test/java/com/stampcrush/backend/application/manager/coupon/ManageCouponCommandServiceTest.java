@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.coupon;
+package com.stampcrush.backend.application.manager.coupon;
 
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;

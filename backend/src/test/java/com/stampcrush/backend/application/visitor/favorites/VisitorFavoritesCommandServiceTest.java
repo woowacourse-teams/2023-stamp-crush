@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.favorites;
+package com.stampcrush.backend.application.visitor.favorites;
 
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.common.KorNamingConverter;

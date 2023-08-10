@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.coupon;
+package com.stampcrush.backend.api.manager.coupon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponCommandApiController;

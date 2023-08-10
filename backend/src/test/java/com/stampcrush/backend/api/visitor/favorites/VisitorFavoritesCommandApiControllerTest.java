@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.favorites;
+package com.stampcrush.backend.api.visitor.favorites;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
