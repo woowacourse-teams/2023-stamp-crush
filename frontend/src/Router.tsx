@@ -55,11 +55,11 @@ const Router = () => {
           element: <ModifyCouponPolicy />,
         },
         {
-          path: ROUTER_PATH.templateCouponDesign,
+          path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign,
           element: <CustomCouponDesign />,
         },
         {
-          path: ROUTER_PATH.customCouponDesign,
+          path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign,
           element: <CustomCouponDesign />,
         },
         { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },

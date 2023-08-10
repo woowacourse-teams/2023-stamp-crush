@@ -34,7 +34,7 @@ const ModifyCouponPolicy = () => {
 
   const navigateNextPage = () => {
     if (createdType === 'template') {
-      navigate(ROUTER_PATH.templateCouponDesign, {
+      navigate(ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign, {
         state: {
           createdType,
           reward: rewardName,
@@ -45,7 +45,7 @@ const ModifyCouponPolicy = () => {
     }
 
     if (createdType === 'custom') {
-      navigate(ROUTER_PATH.customCouponDesign, {
+      navigate(ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign, {
         state: {
           createdType,
           reward: rewardName,
