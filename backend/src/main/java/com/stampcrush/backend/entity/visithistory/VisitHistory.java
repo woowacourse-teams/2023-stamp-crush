@@ -5,6 +5,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -13,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@Getter
 @Entity
 public class VisitHistory extends BaseDate {
 
@@ -34,5 +36,9 @@ public class VisitHistory extends BaseDate {
         this.cafe = cafe;
         this.customer = customer;
         this.stampCount = stampCount;
+    }
+
+    public String getCafeName() {
+        return cafe.getName();
     }
 }
