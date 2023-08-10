@@ -5,8 +5,8 @@ import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindResponse;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -18,8 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import java.time.LocalTime;
-
+import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -47,23 +46,8 @@ public class CafeIntegrationTest extends AcceptanceTest {
     @Test
     void 고객이_카페정보를_조회한다() {
         // given
-        Cafe savedCafe = cafeRepository.save(new Cafe(
-                "깃짱카페",
-                LocalTime.NOON,
-                LocalTime.MIDNIGHT,
-                "01012345678",
-                "#",
-                "안녕하세요",
-                "서울시 올림픽로 어쩌고",
-                "루터회관",
-                "10-222-333",
-                ownerRepository.save(
-                        new Owner(
-                                "깃짱",
-                                "깃짱아이디",
-                                "깃짱비밀번호",
-                                "깃짱핸드폰번호")
-                )));
+        Cafe savedCafe = cafeRepository.save(cafeOfSavedOwner(ownerRepository.save(OwnerFixture.GITCHAN))
+        );
 
         // when
         ExtractableResponse<Response> response = requestFindCafeByCustomer(customer, savedCafe.getId());

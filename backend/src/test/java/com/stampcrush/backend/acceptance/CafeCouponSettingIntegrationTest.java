@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalTime;
 import java.util.List;
 
+import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -49,18 +49,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
         Owner owner = OwnerFixture.GITCHAN;
 
         Cafe savedCafe = cafeRepository.save(
-                new Cafe(
-                        "깃짱카페",
-                        LocalTime.NOON,
-                        LocalTime.MIDNIGHT,
-                        "01012345678",
-                        "#",
-                        "안녕하세요",
-                        "서울시 올림픽로 어쩌고",
-                        "루터회관",
-                        "10-222-333",
-                        ownerRepository.save(owner)
-                )
+                cafeOfSavedOwner(ownerRepository.save(owner))
         );
 
         CafePolicy savedCafePolicy = cafePolicyRepository.save(
