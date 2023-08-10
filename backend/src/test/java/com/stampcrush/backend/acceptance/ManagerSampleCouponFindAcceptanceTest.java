@@ -21,7 +21,7 @@ import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class SampleCouponIntegrationTest extends AcceptanceTest {
+public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private SampleFrontImageRepository sampleFrontImageRepository;

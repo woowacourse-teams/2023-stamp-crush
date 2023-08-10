@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.http.ContentType.JSON;
 
-public class TemporaryCustomerCreateStep {
+public class ManagerTemporaryCustomerCreateStep {
 
     public static final TemporaryCustomerCreateRequest TEMPORARY_CUSTOMER_CREATE_REQUEST = new TemporaryCustomerCreateRequest("01012345678");
 

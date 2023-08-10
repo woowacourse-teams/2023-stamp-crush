@@ -10,7 +10,7 @@ import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 
-public class CafeCouponSettingUpdateStep {
+public class ManagerCafeCouponSettingUpdateStep {
 
     public static final CafeCouponSettingUpdateRequest CAFE_COUPON_SETTING_UPDATE_REQUEST = new CafeCouponSettingUpdateRequest(
             "frontImageUrl",

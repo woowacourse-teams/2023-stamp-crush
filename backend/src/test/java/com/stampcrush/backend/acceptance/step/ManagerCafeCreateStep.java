@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.http.ContentType.JSON;
 
-public class CafeCreateStep {
+public class ManagerCafeCreateStep {
 
     public static final CafeCreateRequest CAFE_CREATE_REQUEST = new CafeCreateRequest("깃짱카페", "서초구", "우리집", "01010101010");
 
