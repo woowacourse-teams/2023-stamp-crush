@@ -22,7 +22,7 @@ export const concatUsedAt = (rewards: Reward[]) => {
   });
 };
 
-export const transformRewardsToMap = (rewards: Reward[]) => {
+export const transformRewardsToMap = (rewards: Reward[]): Map<string, Reward[]> => {
   const result = new Map<string, Reward[]>();
 
   concatUsedAt(rewards).forEach((reward) => {
