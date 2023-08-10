@@ -4,6 +4,7 @@ import { MyRewardRes } from '../../types/api';
 import { getMyRewards } from '../../api/get';
 import { Reward } from '../../types';
 import { RewardCafeName, RewardContainer, RewardDateTitle } from './style';
+import { sortMapByKey } from '../../utils';
 
 export const useRewardQuery = (used: boolean) => {
   const result = useQuery<MyRewardRes>(['myRewards', used], {
@@ -38,15 +39,6 @@ export const transformRewardsToMap = (rewards: Reward[]) => {
     ]);
   });
   return sortMapByKey(result);
-};
-
-export const sortMapByKey = <V, T extends Map<string, V>>(map: T): T => {
-  const sortedMap = new Map<string, V>(
-    [...map.entries()].sort((a, b) => {
-      return a[0].localeCompare(b[0]);
-    }),
-  );
-  return sortedMap as T;
 };
 
 const RewardHistory = () => {

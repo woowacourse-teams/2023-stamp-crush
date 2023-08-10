@@ -47,3 +47,12 @@ export const isEmptyData = (data: string | undefined) => {
 export const addGoogleProxyUrl = (url: string) =>
   'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=' +
   encodeURIComponent(url);
+
+export const sortMapByKey = <V, T extends Map<string, V>>(map: T): T => {
+  const sortedMap = new Map<string, V>(
+    [...map.entries()].sort((a, b) => {
+      return a[0].localeCompare(b[0]);
+    }),
+  );
+  return sortedMap as T;
+};
