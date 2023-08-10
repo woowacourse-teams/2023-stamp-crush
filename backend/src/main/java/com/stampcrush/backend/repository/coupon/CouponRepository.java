@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
@@ -18,4 +19,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     List<Coupon> findByCafeAndCustomerAndStatus(@Param("cafe") Cafe cafe, @Param("customer") Customer customer, @Param("status") CouponStatus status);
 
     List<Coupon> findByCustomerAndStatus(@Param("customer") Customer customer, @Param("status") CouponStatus status);
+
+    Optional<Coupon> findByIdAndCustomerId(Long id, Long customerId);
 }
