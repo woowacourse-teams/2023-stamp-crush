@@ -241,8 +241,19 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, customer);
+        List<CustomerAccumulatingCouponFindResponse> coupons = given()
+                .log().all()
+                .queryParam("cafe-id", savedCafeId)
+                .queryParam("active", true)
+                .auth().preemptive()
+                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
+                .when()
+                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
+
+                .thenReturn()
+                .jsonPath()
+                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
         // then
         CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(newCouponId,
                 customer.getId(),
