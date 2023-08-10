@@ -16,6 +16,7 @@ import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -180,5 +181,43 @@ public class ManagerCouponFindServiceTest {
                 10);
         assertThat(findResult).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "expireDate")
                 .containsExactlyInAnyOrder(expected);
+    }
+
+    @Test
+    void 카페의_고객_목록_조회_시_방문횟수와_첫_방문일을_계산한다() {
+        // given
+        LocalDateTime coupon1CreatedAt = LocalDateTime.now();
+        LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
+        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        coupon1.accumulate(3);
+        VisitHistory customer1VisitHistory1 = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
+        coupon1.accumulate(2);
+        VisitHistory customer1VisitHistory2 = new VisitHistory(coupon1UpdatedAt, null, cafe, customer1, 2);
+
+        LocalDateTime coupon2CreatedAt = LocalDateTime.now();
+        LocalDateTime coupon2UpdatedAt = LocalDateTime.now();
+        Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, couponPolicy2);
+        coupon2.accumulate(5);
+        VisitHistory customer2visitHistory1 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, 5);
+
+        given(cafeRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe));
+        given(couponRepository.findByCafe(any()))
+                .willReturn(List.of(coupon1, coupon2));
+        given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer1))
+                .willReturn(List.of(customer1VisitHistory1, customer1VisitHistory2));
+        given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer2))
+                .willReturn(List.of(customer2visitHistory1));
+
+        // when
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(5, 0, 10);
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(5, 0, 15);
+
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 2, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
+
+        // then
+        assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result, customer2Result);
     }
 }
