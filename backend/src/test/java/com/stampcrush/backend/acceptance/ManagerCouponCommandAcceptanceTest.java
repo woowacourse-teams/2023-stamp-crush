@@ -165,11 +165,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer2, coupon2Id, coupon2StampCreateRequest);
 
         // when
-        List<CafeCustomerFindResponse> customers = given().log().all()
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .when()
-                .get("/api/admin/cafes/{cafeId}/customers", savedCafeId)
+        List<CafeCustomerFindResponse> customers = 고객_조회_요청(owner, savedCafeId)
+
                 .thenReturn()
                 .jsonPath()
                 .getList("customers", CafeCustomerFindResponse.class);
@@ -197,6 +194,16 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         assertThat(customers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("visitCount", "firstVisitDate")
                 .containsExactlyInAnyOrder(customer1Expected, customer2Expected);
+    }
+
+    private static Response 고객_조회_요청(Owner owner, Long savedCafeId) {
+        return given()
+                .log().all()
+                .auth().preemptive()
+                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+
+                .when()
+                .get("/api/admin/cafes/{cafeId}/customers", savedCafeId);
     }
 
     @Test

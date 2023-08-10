@@ -27,7 +27,7 @@ import static com.stampcrush.backend.fixture.OwnerFixture.JENA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class CustomerCouponFindAcceptanceTest extends AcceptanceTest {
+public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
 
     private static final RegisterCustomer REGISTER_CUSTOMER = new RegisterCustomer("깃짱", "01012345678", "customer1", "customer1");
 
