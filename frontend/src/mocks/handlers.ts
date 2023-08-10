@@ -83,7 +83,7 @@ export const handlers = [
     );
 
     if (!findUserResult) {
-      res(ctx.status(200), ctx.json({ customer: [] }));
+      return res(ctx.status(200), ctx.json({ customer: [] }));
     }
 
     return res(

@@ -2,7 +2,6 @@ import {
   SampleImage,
   SampleBackCouponImage,
   Cafe,
-  StampCoordinate,
   Coupon,
   CouponDesign,
   IssuedCoupon,
