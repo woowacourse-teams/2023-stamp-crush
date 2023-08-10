@@ -1,11 +1,11 @@
 import { api, customerHeader, ownerHeader } from '.';
-import { CustomerPhoneNumberRes, IssuedCouponsRes, RewardRes } from '../types/api';
+import { RewardRes } from '../types/api';
 
 export const getCafe = async () => {
   return await api.get('/admin/cafes', ownerHeader);
 };
 
-export const getCustomer = async (phoneNumber: string): Promise<CustomerPhoneNumberRes> => {
+export const getCustomer = async (phoneNumber: string) => {
   return await api.get(`/admin/customers?phone-number=${phoneNumber}`, ownerHeader);
 };
 

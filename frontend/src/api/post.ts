@@ -4,7 +4,6 @@ import {
   StampEarningReq,
   CafeRegisterReq,
   PostIsFavoritesReq,
-  IssueCouponRes,
 } from '../types/api';
 
 export const postEarnStamp = async ({
@@ -21,7 +20,7 @@ export const postRegisterUser = async (phoneNumber: string) => {
   await api.post('/admin/temporary-customers', ownerHeader, { phoneNumber });
 };
 
-export const postIssueCoupon = async (customerId: number): Promise<IssueCouponRes> => {
+export const postIssueCoupon = async (customerId: number) => {
   return await api
     .post(`/admin/customers/${customerId}/coupons`, ownerHeader, { cafeId: '1' })
     .then((response) => response.json());
