@@ -9,6 +9,7 @@ import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@KorNamingConverter
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @WebMvcTest({ManagerCafeFindApiController.class,
