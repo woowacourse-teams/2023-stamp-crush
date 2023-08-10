@@ -25,14 +25,12 @@ export const concatUsedAt = (rewards: Reward[]) => {
 export const transformRewardsToMap = (rewards: Reward[]) => {
   const result = new Map<string, Reward[]>();
 
-  const copiedRewards = concatUsedAt(rewards);
-
-  copiedRewards.forEach((reward) => {
+  concatUsedAt(rewards).forEach((reward) => {
     if (!reward.usedAt) return;
-    const exists = result.has(reward.usedAt) ? (result.get(reward.usedAt) as Reward[]) : [];
+    const existRewards = result.has(reward.usedAt) ? (result.get(reward.usedAt) as Reward[]) : [];
 
     result.set(reward.usedAt, [
-      ...exists,
+      ...existRewards,
       {
         ...reward,
       },
@@ -47,13 +45,13 @@ const RewardHistory = () => {
   if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
-  const rewardMap = Array.from(transformRewardsToMap(rewardData.rewards).entries());
+  const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards).entries());
 
   return (
     <>
       <SubHeader title="리워드 사용 내역" />
       <div>
-        {rewardMap.map(([key, rewards]) => (
+        {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
             <RewardDateTitle>{key}</RewardDateTitle>
             {rewards.map((reward) => (
