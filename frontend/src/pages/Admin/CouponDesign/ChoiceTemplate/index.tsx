@@ -91,6 +91,7 @@ const ChoiceTemplate = ({
       default:
         break;
     }
+    setSelectedImageUrl(imageUrl);
   };
 
   return (
