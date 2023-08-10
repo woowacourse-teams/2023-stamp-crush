@@ -2,11 +2,13 @@ package com.stampcrush.backend.api.manager.coupon.response;
 
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
