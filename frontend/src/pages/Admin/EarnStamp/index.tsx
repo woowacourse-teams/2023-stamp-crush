@@ -15,23 +15,26 @@ import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
-import { StampEarningReq } from '../../../types/api';
+import { IssuedCouponsRes, StampEarningReq } from '../../../types/api';
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation((formData: StampEarningReq) => postEarnStamp(formData), {
-    onSuccess: () => {
-      navigate(ROUTER_PATH.customerList);
+  const { mutate } = useMutation<void, Error, StampEarningReq>(
+    (formData: StampEarningReq) => postEarnStamp(formData),
+    {
+      onSuccess: () => {
+        navigate(ROUTER_PATH.customerList);
+      },
+      onError: () => {
+        throw new Error('스탬프 적립에 실패했습니다.');
+      },
     },
-    onError: () => {
-      throw new Error('스탬프 적립에 실패했습니다.');
-    },
-  });
+  );
 
-  const { data: couponData, status: couponStatus } = useQuery(
+  const { data: couponData, status: couponStatus } = useQuery<IssuedCouponsRes, Error>(
     ['earn-stamp-coupons', state.customer],
     () => getCoupon(state.customer.id, '1'),
   );
