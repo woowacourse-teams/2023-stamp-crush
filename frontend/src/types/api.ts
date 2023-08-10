@@ -6,6 +6,7 @@ import {
   Coupon,
   CouponDesign,
   IssuedCoupon,
+  Reward,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -58,8 +59,7 @@ export interface CafeRegisterReq {
 }
 
 export interface RewardRes {
-  id: number;
-  name: string;
+  rewards: Reward[];
 }
 
 export interface PostIsFavoritesReq {

@@ -1,5 +1,5 @@
 import { api, customerHeader, ownerHeader } from '.';
-import { CustomerPhoneNumberRes, IssuedCouponsRes } from '../types/api';
+import { CustomerPhoneNumberRes, IssuedCouponsRes, RewardRes } from '../types/api';
 
 export const getCafe = async () => {
   return await api.get('/admin/cafes', ownerHeader);
@@ -22,7 +22,10 @@ export const getCoupon = async (customerId: number, cafeId: string): Promise<Iss
   );
 };
 
-export const getReward = async (customerId: number | undefined, cafeId: number) => {
+export const getReward = async (
+  customerId: number | undefined,
+  cafeId: number,
+): Promise<RewardRes> => {
   if (!customerId) {
     throw new Error('잘못된 요청입니다.');
   }

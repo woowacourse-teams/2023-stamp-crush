@@ -84,3 +84,8 @@ export interface IssuedCoupon {
   isPrevious: boolean;
   maxStampCount: number;
 }
+
+export interface Reward {
+  id: number;
+  name: string;
+}
