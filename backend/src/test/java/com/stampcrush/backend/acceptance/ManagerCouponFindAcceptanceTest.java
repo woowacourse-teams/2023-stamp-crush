@@ -58,15 +58,14 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
 
 
         // when
-        List<CafeCustomerFindResponse> expected =
-                List.of(new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true),
-                        new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true));
+        CafeCustomerFindResponse response1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true);
+        CafeCustomerFindResponse response2 =  new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true);
 
         ExtractableResponse<Response> response = 고객_목록_조회_요청(owner, savedCafeId);
 
         CafeCustomersFindResponse actual = response.body().as(CafeCustomersFindResponse.class);
 
         // then
-        assertThat(actual.getCustomers()).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
+        assertThat(actual.getCustomers()).containsExactlyInAnyOrder(response1, response2);
     }
 }
