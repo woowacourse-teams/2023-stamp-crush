@@ -82,7 +82,7 @@ export type CouponCreated = 'template' | 'custom';
 export type RouterPath = `/${string}`;
 
 export interface ParseDateOption {
-  year: boolean;
-  month: boolean;
-  day: boolean;
+  hasYear: boolean;
+  hasMonth: boolean;
+  hasDay: boolean;
 }

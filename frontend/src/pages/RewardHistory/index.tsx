@@ -47,9 +47,9 @@ const RewardHistory = () => {
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards).entries());
   const titleParseOptions = {
-    year: false,
-    month: true,
-    day: true,
+    hasYear: false,
+    hasMonth: true,
+    hasDay: true,
   };
   return (
     <>
