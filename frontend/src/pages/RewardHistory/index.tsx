@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import SubHeader from '../../components/Header/SubHeader';
 import { MyRewardRes } from '../../types/api';
 import { getMyRewards } from '../../api/get';
 import { Reward } from '../../types';
+import { RewardCafeName, RewardContainer, RewardDateTitle } from './style';
+
 export const useRewardQuery = (used: boolean) => {
   const result = useQuery<MyRewardRes>(['myRewards', used], {
     queryFn: () => getMyRewards(used),
@@ -62,3 +65,32 @@ export const transformRewardsByUsedAt = (rewards: Reward[]) => {
   return result;
 };
 
+const RewardHistory = () => {
+  const { data: rewardData, status: rewardStatus } = useRewardQuery(true);
+
+  if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
+  if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
+
+  const transformRewards = transformRewardsByUsedAt(rewardData.rewards);
+
+  return (
+    <>
+      <SubHeader title="리워드 사용 내역" />
+      <div>
+        {transformRewards.map((transfromReward) => (
+          <div key={transfromReward.id}>
+            <RewardDateTitle>{transfromReward.key}</RewardDateTitle>
+            {transfromReward[transfromReward.key].map((reward) => (
+              <RewardContainer key={reward.id}>
+                <RewardCafeName>{reward.cafeName}</RewardCafeName>
+                <span>{reward.rewardName}</span>
+              </RewardContainer>
+            ))}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default RewardHistory;
