@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
