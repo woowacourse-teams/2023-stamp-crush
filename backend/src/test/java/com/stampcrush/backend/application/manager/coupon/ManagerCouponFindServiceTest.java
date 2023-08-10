@@ -1,7 +1,5 @@
 package com.stampcrush.backend.application.manager.coupon;
 
-import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
 import com.stampcrush.backend.common.KorNamingConverter;
@@ -11,10 +9,12 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,26 +37,23 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 public class ManagerCouponFindServiceTest {
 
-    @InjectMocks
-    private ManagerCouponFindService managerCouponFindService;
-
-    @Mock
-    private CouponRepository couponRepository;
-
-    @Mock
-    private CafeRepository cafeRepository;
-
-    @Mock
-    private CustomerRepository customerRepository;
-
-    @Mock
-    private CafePolicyRepository cafePolicyRepository;
-
     private static Cafe cafe;
     private static Customer customer1;
     private static Customer customer2;
     private static CouponPolicy couponPolicy1;
     private static CouponPolicy couponPolicy2;
+    @InjectMocks
+    private ManagerCouponFindService managerCouponFindService;
+    @Mock
+    private CouponRepository couponRepository;
+    @Mock
+    private CafeRepository cafeRepository;
+    @Mock
+    private CustomerRepository customerRepository;
+    @Mock
+    private CafePolicyRepository cafePolicyRepository;
+    @Mock
+    private VisitHistoryRepository visitHistoryRepository;
 
     @BeforeAll
     static void setUp() {
@@ -73,22 +70,28 @@ public class ManagerCouponFindServiceTest {
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
         Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        VisitHistory visitHistory1 = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
 
         LocalDateTime coupon2CreatedAt = LocalDateTime.now();
         LocalDateTime coupon2UpdatedAt = LocalDateTime.now();
         Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, couponPolicy2);
+        VisitHistory visitHistory2 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, 5);
 
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(couponRepository.findByCafe(any()))
                 .willReturn(List.of(coupon1, coupon2));
+        given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer1))
+                .willReturn(List.of(visitHistory1));
+        given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer2))
+                .willReturn(List.of(visitHistory2));
 
         // when
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 0, 10, coupon1CreatedAt);
-        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 0, 0, 15, coupon2CreatedAt);
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 10);
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 0, 15);
 
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics);
-        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 1, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
 
         // then
@@ -102,14 +105,17 @@ public class ManagerCouponFindServiceTest {
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
         Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
         coupon1.expire();
+        VisitHistory visitHistory = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
 
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(couponRepository.findByCafe(any()))
                 .willReturn(List.of(coupon1));
+        given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer1))
+                .willReturn(List.of(visitHistory));
 
-        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0, 0, coupon1CreatedAt);
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics);
+        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, 1, coupon1CreatedAt);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
 
         // then
@@ -142,7 +148,7 @@ public class ManagerCouponFindServiceTest {
                 LocalDateTime.now(),
                 true,
                 10);
-        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+        assertThat(findResult).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 
@@ -172,7 +178,7 @@ public class ManagerCouponFindServiceTest {
                 LocalDateTime.now(),
                 false,
                 10);
-        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+        assertThat(findResult).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 }
