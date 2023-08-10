@@ -3,7 +3,6 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
-import com.stampcrush.backend.api.manager.coupon.response.CouponCreateResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_YOUNGHO;
 import static io.restassured.RestAssured.given;
@@ -43,7 +43,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_후_아이디_반환(owner, savedCustomer, reqeust);
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust, savedCustomer.getId());
 
         List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
 
@@ -75,10 +75,10 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_후_아이디_반환(owner, savedCustomer, reqeust);
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust, savedCustomer.getId());
 
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
-        쿠폰에_스탬프를_적립한다(owner, savedCustomer, couponId, stampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(owner, savedCustomer, couponId, stampCreateRequest);
 
         List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
 
@@ -151,17 +151,17 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
         CouponCreateRequest reqeust1 = new CouponCreateRequest(savedCafeId);
-        Long coupon1Id = 쿠폰_생성_후_아이디_반환(owner, customer1, reqeust1);
+        Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust1, customer1.getId());
 
         RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
         CouponCreateRequest reqeust2 = new CouponCreateRequest(savedCafeId);
-        Long coupon2Id = 쿠폰_생성_후_아이디_반환(owner, customer2, reqeust2);
+        Long coupon2Id = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust2, customer2.getId());
 
         StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
-        쿠폰에_스탬프를_적립한다(owner, customer1, coupon1Id, coupon1StampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(owner, customer1, coupon1Id, coupon1StampCreateRequest);
 
         StampCreateRequest coupon2StampCreateRequest = new StampCreateRequest(21);
-        쿠폰에_스탬프를_적립한다(owner, customer2, coupon2Id, coupon2StampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(owner, customer2, coupon2Id, coupon2StampCreateRequest);
 
         // when
         List<CafeCustomerFindResponse> customers = given().log().all()
@@ -224,13 +224,13 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
-        Long oldCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        Long oldCouponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest oldCouponStampCreate = new StampCreateRequest(3);
-        쿠폰에_스탬프를_적립한다(owner, customer, oldCouponId, oldCouponStampCreate);
+        쿠폰에_스탬프를_적립_요청(owner, customer, oldCouponId, oldCouponStampCreate);
 
-        Long newCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        Long newCouponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest newCouponStampCreate = new StampCreateRequest(8);
-        쿠폰에_스탬프를_적립한다(owner, customer, newCouponId, newCouponStampCreate);
+        쿠폰에_스탬프를_적립_요청(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
         List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
@@ -265,9 +265,9 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
-        Long oldCouponId = 쿠폰_생성_후_아이디_반환(owner, customer, couponCreateRequest);
+        Long oldCouponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest oldCouponStampCreate = new StampCreateRequest(10); // 리워드 받고 쿠폰 만료됨
-        쿠폰에_스탬프를_적립한다(owner, customer, oldCouponId, oldCouponStampCreate);
+        쿠폰에_스탬프를_적립_요청(owner, customer, oldCouponId, oldCouponStampCreate);
 
         // when
         List<CustomerAccumulatingCouponFindResponse> coupons = given().log().all()
@@ -285,7 +285,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         assertThat(coupons).isEmpty();
     }
 
-    public static ExtractableResponse<Response> 쿠폰에_스탬프를_적립한다(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
+    public static ExtractableResponse<Response> 쿠폰에_스탬프를_적립_요청(Owner owner, RegisterCustomer customer, Long couponId, StampCreateRequest stampCreateRequest) {
         return given()
                 .log().all()
                 .body(stampCreateRequest)
@@ -296,22 +296,6 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)
                 .then().log().all()
                 .extract();
-    }
-
-    private Long 쿠폰_생성_후_아이디_반환(Owner owner, RegisterCustomer savedCustomer, CouponCreateRequest reqeust) {
-        ExtractableResponse<Response> extract = given().log().all()
-                .contentType(JSON)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .body(reqeust)
-                .when()
-                .post("/api/admin/customers/{customerId}/coupons", savedCustomer.getId())
-                .then()
-                .log().all()
-                .extract();
-
-        CouponCreateResponse couponCreateResponse = extract.body().as(CouponCreateResponse.class);
-        return couponCreateResponse.getCouponId();
     }
 
     private Owner 사장_생성() {
