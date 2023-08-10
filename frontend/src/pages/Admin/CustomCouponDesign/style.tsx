@@ -30,7 +30,6 @@ export const PreviewImageWrapper = styled.div<{
   width: ${({ $width }) => `${$width}px`};
   height: ${({ $height }) => `${$height}px`};
   border: 1px dotted ${({ theme }) => theme.colors.black};
-  border-radius: 20px;
 `;
 
 export const PreviewImage = styled.img<{ $width: number; $height: number; $opacity?: number }>`
@@ -38,7 +37,6 @@ export const PreviewImage = styled.img<{ $width: number; $height: number; $opaci
   height: ${({ $height }) => `${$height}px`};
   opacity: ${({ $opacity }) => ($opacity ? $opacity : '1')};
   object-fit: cover;
-  border-radius: 20px;
 `;
 
 export const ImageUpLoadInputLabel = styled.label`

@@ -10,6 +10,8 @@ interface SideBarStyleProps {
 interface SideBarContainerStyleProps {
   $width: number;
   $height: number;
+  $prevIndex: number;
+  $nextIndex: number;
 }
 
 export const LogoHeader = styled.header`
@@ -20,11 +22,12 @@ export const LogoHeader = styled.header`
 export const LogoImgWrapper = styled.button`
   display: flex;
   align-self: flex-start;
-  cursor: pointer;
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   width: 150px;
+
   padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
 `;
 
 export const LogoImg = styled.img`
@@ -38,30 +41,35 @@ export const PageSideBarWrapper = styled.div`
 export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  margin-top: 20px;
 
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
 
-  background: transparent;
-  border-radius: 10px;
+  background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.main} 20%, white 80%)`};
+
+  div:nth-child(${(props) => props.$prevIndex}) {
+    border-radius: 0 0 40px 0;
+  }
+
+  div:nth-child(${(props) => props.$nextIndex}) {
+    border-radius: 0 40px 0 0;
+  }
 `;
 
 export const LabelContent = styled.span<SideBarStyleProps>`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
+  font-size: 18px;
   font-weight: ${(props) => (props.$isSelected ? 'bold' : 'normal')};
   color: ${({ theme, $isSelected }) => ($isSelected ? `${theme.colors.text}` : 'white')};
-  background-color: ${({ $isSelected, theme }) => ($isSelected ? 'white' : theme.colors.main)};
-  border-radius: ${({ $isSelected }) => ($isSelected ? '40px 0 0 40px' : '')};
 
+  border-radius: 40px 0 0 40px;
   padding-left: 20px;
 
-  transition: all 0.4s ease;
   cursor: pointer;
 `;
 
@@ -69,9 +77,9 @@ export const SideBarLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const SideBarContent = styled.div<{ $isSelected: boolean }>`
-  transition: all 0.4s ease;
-  border-radius: ${({ $isSelected }) => ($isSelected ? '10px 0 0 10px' : '')};
+export const SideBarContent = styled.div<{ $isSelected: boolean; $currentIndex: number }>`
+  background-color: ${({ $isSelected, theme }) => ($isSelected ? 'white' : theme.colors.main)};
+  border-radius: 40px 0 0 40px;
 
   :hover {
     font-weight: 600;
