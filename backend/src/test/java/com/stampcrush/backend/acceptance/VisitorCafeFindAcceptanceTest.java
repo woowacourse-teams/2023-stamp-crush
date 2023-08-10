@@ -15,16 +15,13 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 
+import static com.stampcrush.backend.acceptance.step.VisitorCafeFindStep.고객의_카페_정보_조회_요청;
 import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-public class CafeIntegrationTest extends AcceptanceTest {
-
-    private static final int NOT_EXIST_CAFE_ID = 1;
+public class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CafeRepository cafeRepository;
@@ -43,7 +40,7 @@ public class CafeIntegrationTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = requestFindCafeByCustomer(customer, savedCafe.getId());
+        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청((RegisterCustomer) customer, savedCafe.getId());
         CafeInfoFindByCustomerResponse cafeInfoFindByCustomerResponse = response.body().as(CafeInfoFindByCustomerResponse.class);
 
         // then
@@ -56,30 +53,9 @@ public class CafeIntegrationTest extends AcceptanceTest {
     void 고객이_존재하지_않는_카페를_조회하면_에러가_발생한다() {
         Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_JENA);
 
-        given()
-                .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
+        long NOT_EXIST_CAFE_ID = 1L;
+        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청((RegisterCustomer) customer, NOT_EXIST_CAFE_ID);
 
-                .when()
-                .get("/api/cafes/" + NOT_EXIST_CAFE_ID)
-
-                .then()
-                .statusCode(NOT_FOUND.value())
-                .extract();
-    }
-
-    private ExtractableResponse<Response> requestFindCafeByCustomer(Customer customer, Long cafeId) {
-        return given()
-                .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().preemptive().basic(((RegisterCustomer) customer).getLoginId(), ((RegisterCustomer) customer).getEncryptedPassword())
-
-                .when()
-                .get("/api/cafes/" + cafeId)
-
-                .then()
-                .log().all()
-                .extract();
+        assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value());
     }
 }
