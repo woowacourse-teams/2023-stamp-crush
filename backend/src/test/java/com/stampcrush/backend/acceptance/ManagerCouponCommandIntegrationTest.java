@@ -1,4 +1,4 @@
-package com.stampcrush.backend.acceptance.coupon;
+package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.acceptance.AcceptanceTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;

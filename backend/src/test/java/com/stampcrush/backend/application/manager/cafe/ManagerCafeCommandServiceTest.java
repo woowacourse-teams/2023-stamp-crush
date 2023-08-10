@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.cafe;
+package com.stampcrush.backend.application.manager.cafe;
 
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
