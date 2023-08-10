@@ -7,6 +7,8 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Coupons;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.visithistory.VisitHistories;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
@@ -18,6 +20,7 @@ import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +45,7 @@ public class ManagerCouponFindService {
     private final CouponPolicyRepository couponPolicyRepository;
     private final OwnerRepository ownerRepository;
     private final RewardRepository rewardRepository;
-
-    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
-    }
+    private final VisitHistoryRepository visitHistoryRepository;
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
@@ -54,8 +55,10 @@ public class ManagerCouponFindService {
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
+            VisitHistories visitHistories = getVisitHistories(cafe, customerCoupon);
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics));
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics,
+                    visitHistories.getVisitCount(), visitHistories.getFirstVisitDate()));
         }
 
         return cafeCustomerFindResultDtos;
@@ -73,6 +76,11 @@ public class ManagerCouponFindService {
         return customerCouponMap.keySet().stream()
                 .map(iter -> new CustomerCoupons(iter, customerCouponMap.get(iter)))
                 .toList();
+    }
+
+    private VisitHistories getVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
+        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
+        return new VisitHistories(visitHistories);
     }
 
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long cafeId, Long customerId) {
@@ -93,5 +101,8 @@ public class ManagerCouponFindService {
         return !cafePolicyRepository
                 .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
                 .isEmpty();
+    }
+
+    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 }
