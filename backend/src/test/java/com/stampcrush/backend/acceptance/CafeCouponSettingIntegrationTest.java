@@ -4,7 +4,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
@@ -20,6 +19,8 @@ import org.springframework.http.HttpStatus;
 
 import static com.stampcrush.backend.acceptance.step.CafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
 import static com.stampcrush.backend.fixture.CafeFixture.cafeOfSavedOwner;
+import static com.stampcrush.backend.fixture.CouponDesignFixture.cafeCouponDesignOfSavedCafe;
+import static com.stampcrush.backend.fixture.CouponPolicyFixture.cafePolicyOfSavedCafe;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -44,19 +45,10 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {
         // given, when
-        Owner owner = OwnerFixture.GITCHAN;
+        Cafe savedCafe = cafeRepository.save(cafeOfSavedOwner(ownerRepository.save(OwnerFixture.GITCHAN)));
 
-        Cafe savedCafe = cafeRepository.save(
-                cafeOfSavedOwner(ownerRepository.save(owner))
-        );
-
-        CafePolicy savedCafePolicy = cafePolicyRepository.save(
-                cafePolicyOfSavedCafe(savedCafe)
-        );
-
-        CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(
-                cafeCouponDesignOfSavedCafe(savedCafe)
-        );
+        CafePolicy savedCafePolicy = cafePolicyRepository.save(cafePolicyOfSavedCafe(savedCafe));
+        CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(cafeCouponDesignOfSavedCafe(savedCafe));
 
         CafeStampCoordinate savedCafeStampCoordinate1 = cafeStampCoordinateRepository.save(
                 new CafeStampCoordinate(
@@ -73,7 +65,7 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
         ExtractableResponse<Response> response = given()
                 .log().all()
                 .contentType(ContentType.JSON)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive().basic(OwnerFixture.GITCHAN.getLoginId(), OwnerFixture.GITCHAN.getEncryptedPassword())
                 .body(CAFE_COUPON_SETTING_UPDATE_REQUEST)
 
                 .when()
@@ -90,26 +82,6 @@ public class CafeCouponSettingIntegrationTest extends AcceptanceTest {
                 () -> assertThat(cafeCouponDesignRepository.findByCafe(savedCafe)).isNotEmpty(),
                 () -> assertThat(cafePolicyRepository.findById(savedCafePolicy.getId())).isEmpty(),
                 () -> assertThat(cafePolicyRepository.findByCafe(savedCafe)).isNotEmpty()
-        );
-    }
-
-    private static CafeCouponDesign cafeCouponDesignOfSavedCafe(Cafe savedCafe) {
-        return new CafeCouponDesign(
-                "#",
-                "#",
-                "#",
-                false,
-                savedCafe
-        );
-    }
-
-    private static CafePolicy cafePolicyOfSavedCafe(Cafe savedCafe) {
-        return new CafePolicy(
-                2,
-                "아메리카노",
-                12,
-                false,
-                savedCafe
         );
     }
 }
