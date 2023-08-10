@@ -154,4 +154,8 @@ public class Coupon extends BaseDate {
     public String getRewardName() {
         return couponPolicy.getRewardName();
     }
+
+    public void delete() {
+        this.deleted = Boolean.TRUE;
+    }
 }

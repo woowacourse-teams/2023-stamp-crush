@@ -203,4 +203,27 @@ class CouponTest {
         // then
         assertThat(coupon.isSameMaxStampAfterAccumulateStamp(3)).isTrue();
     }
+
+    @Test
+    void 쿠폰을_삭제한다() {
+        // given
+        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+                "하디까페",
+                LocalTime.of(12, 30),
+                LocalTime.of(18, 30),
+                "0211111111",
+                "http://www.cafeImage.com",
+                "안녕하세요",
+                "잠실동12길",
+                "14층",
+                "11111111",
+                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+        );
+
+        // when
+        coupon.delete();
+
+        // then
+        assertThat(coupon.getDeleted()).isTrue();
+    }
 }
