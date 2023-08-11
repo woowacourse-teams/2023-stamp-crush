@@ -20,7 +20,7 @@ export const BaseInput = styled.input<StyledInputProps>`
   transition: 0.4s ease-in-out;
 
   &:focus {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.main600};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.main};
     outline: none;
     transition: 0.4s ease-in-out;
   }

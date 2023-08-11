@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const PageContainer = styled.main`
   display: flex;
   flex-direction: row;
-  width: 100vw;
+  width: 100%;
   padding-top: 40px;
   gap: 100px;
 `;
@@ -11,7 +11,7 @@ export const PageContainer = styled.main`
 export const ManageCafeForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   gap: 40px;
 
   & > button {
@@ -35,6 +35,8 @@ export const TextArea = styled.textarea`
 export const PreviewContainer = styled.section`
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
+  gap: 10px;
 `;
 
 export const PreviewOverviewContainer = styled.div`
@@ -48,6 +50,7 @@ export const PreviewOverviewContainer = styled.div`
   padding: 0 10px;
   gap: 10px;
   word-break: break-all;
+
   overflow: hidden;
 
   :nth-child(2) {

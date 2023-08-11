@@ -24,7 +24,6 @@ import RewardHistory from './pages/RewardHistory';
 const AdminRoot = () => {
   return (
     <>
-      <Header />
       <Template>
         <Outlet />
       </Template>
@@ -58,11 +57,11 @@ const Router = () => {
           element: <ModifyCouponPolicy />,
         },
         {
-          path: ROUTER_PATH.templateCouponDesign,
-          element: <TemplateCouponDesign />,
+          path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign,
+          element: <CustomCouponDesign />,
         },
         {
-          path: ROUTER_PATH.customCouponDesign,
+          path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign,
           element: <CustomCouponDesign />,
         },
         { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },
