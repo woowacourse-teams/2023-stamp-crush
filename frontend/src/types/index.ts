@@ -141,3 +141,10 @@ export interface DateParseOption {
   hasMonth: boolean;
   hasDay: boolean;
 }
+
+export interface StampHistory {
+  id: number;
+  cafeName: string;
+  stampCount: number;
+  createdAt: string;
+}

@@ -7,6 +7,7 @@ import {
   IssuedCoupon,
   Reward,
   Customer,
+  StampHistory,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -71,6 +72,10 @@ export interface IssueCouponRes {
 
 export interface IssuedCouponsRes {
   coupons: IssuedCoupon[];
+}
+
+export interface StampHistoryRes {
+  stampHistory: StampHistory[];
 }
 
 export interface RewardReqBody {

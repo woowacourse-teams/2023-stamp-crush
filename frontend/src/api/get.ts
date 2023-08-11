@@ -14,6 +14,7 @@ import {
   QueryReq,
   RewardRes,
   SampleCouponRes,
+  StampHistoryRes,
   UsedParams,
 } from '../types/api';
 
@@ -71,4 +72,8 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
+};
+
+export const getStampHistorys = async () => {
+  return await api.get<StampHistoryRes>('/stamp-history');
 };
