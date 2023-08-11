@@ -1,18 +1,17 @@
 package com.stampcrush.backend.api.visitor.reward;
 
+import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.RewardFixture;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,10 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 classes = WebMvcConfig.class
         )
 )
-class VisitorRewardsFindControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+class VisitorRewardsFindControllerTest extends ControllerTest {
 
     @MockBean
     private VisitorRewardsFindService visitorRewardsFindService;

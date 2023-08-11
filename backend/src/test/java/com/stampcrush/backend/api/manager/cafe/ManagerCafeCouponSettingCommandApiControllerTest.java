@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
@@ -23,7 +22,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(ManagerCafeCouponSettingCommandApiController.class)
 class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerTest {
 

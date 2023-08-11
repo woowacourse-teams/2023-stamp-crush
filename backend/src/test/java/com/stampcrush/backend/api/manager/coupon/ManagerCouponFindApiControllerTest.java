@@ -1,16 +1,14 @@
 package com.stampcrush.backend.api.manager.coupon;
 
-import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
+import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,12 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = ManagerCouponFindApiController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCouponFindApiControllerTest {
+public class ManagerCouponFindApiControllerTest extends ControllerTest {
 
     public static String API_PREFIX = "/api/admin";
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private ManagerCouponFindService managerCouponFindService;

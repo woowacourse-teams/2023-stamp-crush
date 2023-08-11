@@ -1,17 +1,14 @@
 package com.stampcrush.backend.api.visitor.coupon;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.exception.CouponNotFoundException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -20,14 +17,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(value = VisitorCouponCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class VisitorCouponCommandApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class VisitorCouponCommandApiControllerTest extends ControllerTest {
 
     @MockBean
     private VisitorCouponCommandService visitorCouponCommandService;

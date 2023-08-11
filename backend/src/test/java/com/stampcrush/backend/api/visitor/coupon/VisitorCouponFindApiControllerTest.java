@@ -1,18 +1,14 @@
 package com.stampcrush.backend.api.visitor.coupon;
 
+import com.stampcrush.backend.api.ControllerTest;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CouponFixture;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,18 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(VisitorCouponFindApiController.class)
-class VisitorCouponFindApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private OwnerRepository ownerRepository;
-
-    @MockBean
-    private RegisterCustomerRepository registerCustomerRepository;
+class VisitorCouponFindApiControllerTest extends ControllerTest {
 
     @MockBean
     private VisitorCouponFindService visitorCouponFindService;
