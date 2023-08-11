@@ -20,7 +20,7 @@ import { parseExpireDate, parseStampCount } from '../../../utils';
 import Text from '../../../components/Text';
 import { postCouponSetting } from '../../../api/post';
 import StampCustomModal from './StampCustomModal';
-import { CouponSettingReq } from '../../../types/api';
+import { MutateReq, CouponSettingReqBody, CafeIdParams } from '../../../types/api';
 import { StampCoordinate } from '../../../types';
 
 const CustomCouponDesign = () => {
@@ -34,9 +34,9 @@ const CustomCouponDesign = () => {
 
   const isCustom = location.state.createdType === 'custom';
   const maxStampCount = location.state.stampCount;
-  // FIXME: 추후 카페 아이디 하드코딩된 값 제거
+
   const mutateCouponPolicy = useMutation({
-    mutationFn: (couponConfig: CouponSettingReq) => postCouponSetting(1, couponConfig),
+    mutationFn: postCouponSetting,
     onSuccess: () => {
       navigate('/admin');
     },
@@ -48,7 +48,7 @@ const CustomCouponDesign = () => {
       return;
     }
 
-    const couponSettingBody: CouponSettingReq = {
+    const couponSettingBody: CouponSettingReqBody = {
       frontImageUrl: frontImage,
       backImageUrl: backImage,
       stampImageUrl: stampImage,
@@ -58,7 +58,14 @@ const CustomCouponDesign = () => {
       maxStampCount: parseStampCount(location.state.stampCount),
     };
 
-    mutateCouponPolicy.mutate(couponSettingBody);
+    // FIXME: 추후 카페 아이디 하드코딩된 값 제거
+    const TEMP_CAFE_ID = 1;
+    mutateCouponPolicy.mutate({
+      params: {
+        cafeId: TEMP_CAFE_ID,
+      },
+      body: couponSettingBody,
+    });
   };
 
   const customStampPosition = () => {

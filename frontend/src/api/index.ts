@@ -22,17 +22,17 @@ const request = async (path: string, init?: RequestInit) => {
 };
 
 export const api = {
-  get: (path: string, init?: RequestInit) =>
-    request(path, init).then((response) => response.json()),
+  get: <T = unknown>(path: string, init?: RequestInit) =>
+    request(path, init).then<T>((response) => response.json()),
 
-  patch: (path: string, init?: RequestInit, payload?: unknown) =>
+  patch: <T = unknown>(path: string, init?: RequestInit, payload?: T) =>
     request(path, {
       headers: init?.headers,
       method: 'PATCH',
       body: JSON.stringify(payload),
     }),
 
-  post: (path: string, init?: RequestInit, payload?: unknown) =>
+  post: <T = unknown>(path: string, init?: RequestInit, payload?: T) =>
     request(path, {
       headers: init?.headers,
       method: 'POST',

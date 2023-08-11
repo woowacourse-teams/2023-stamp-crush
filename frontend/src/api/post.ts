@@ -1,51 +1,67 @@
 import { api, customerHeader, ownerHeader } from '.';
 import {
-  CouponSettingReq,
-  StampEarningReq,
-  CafeRegisterReq,
-  PostIsFavoritesReq,
+  CouponSettingReqBody,
+  StampEarningReqBody,
+  CafeRegisterReqBody,
+  IssueCouponReqBody,
+  RegisterUserReqBody,
+  CafeIdParams,
+  MutateReq,
+  IsFavoritesReqBody,
+  CustomerIdParams,
+  CouponIdParams,
 } from '../types/api';
 
 export const postEarnStamp = async ({
-  earningStampCount,
-  customerId,
-  couponId,
-}: StampEarningReq) => {
-  await api.post(`/admin/customers/${customerId}/coupons/${couponId}/stamps`, ownerHeader, {
-    earningStampCount,
-  });
+  params,
+  body,
+}: MutateReq<StampEarningReqBody, CouponIdParams & CustomerIdParams>) => {
+  if (!params) return;
+  return await api.post<StampEarningReqBody>(
+    `/admin/customers/${params.customerId}/coupons/${params.couponId}/stamps`,
+    ownerHeader,
+    body,
+  );
 };
 
-export const postRegisterUser = async (phoneNumber: string) => {
-  await api.post('/admin/temporary-customers', ownerHeader, { phoneNumber });
+export const postRegisterUser = async ({ body }: MutateReq<RegisterUserReqBody>) => {
+  return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader, body);
 };
 
-export const postIssueCoupon = async (customerId: number) => {
+export const postIssueCoupon = async ({
+  params,
+  body,
+}: MutateReq<IssueCouponReqBody, CustomerIdParams>) => {
+  if (!params) return;
   return await api
-    .post(`/admin/customers/${customerId}/coupons`, ownerHeader, { cafeId: '1' })
+    .post<IssueCouponReqBody>(`/admin/customers/${params.customerId}/coupons`, ownerHeader, body)
     .then((response) => response.json());
 };
 
-export const postCouponSetting = async (cafeId: number, couponConfig: CouponSettingReq) => {
-  return await api.post(`/admin/coupon-setting?cafe-id=${cafeId}`, ownerHeader, couponConfig);
+export const postCouponSetting = async ({
+  params,
+  body,
+}: MutateReq<CouponSettingReqBody, CafeIdParams>) => {
+  if (!params) return;
+  return await api.post<CouponSettingReqBody>(
+    `/admin/coupon-setting?cafe-id=${params.cafeId}`,
+    ownerHeader,
+    body,
+  );
 };
 
-export const postRegisterCafe = async ({
-  businessRegistrationNumber,
-  name,
-  roadAddress,
-  detailAddress,
-}: CafeRegisterReq) => {
-  await api.post('/admin/cafes', ownerHeader, {
-    businessRegistrationNumber,
-    name,
-    roadAddress,
-    detailAddress,
-  });
+export const postRegisterCafe = async ({ body }: MutateReq<CafeRegisterReqBody>) => {
+  return await api.post<CafeRegisterReqBody>('/admin/cafes', ownerHeader, body);
 };
 
-export const postIsFavorites = async ({ cafeId, isFavorites }: PostIsFavoritesReq) => {
-  await api.post(`/cafes/${cafeId}/favorites`, customerHeader, {
-    isFavorites,
-  });
+export const postIsFavorites = async ({
+  params,
+  body,
+}: MutateReq<IsFavoritesReqBody, CafeIdParams>) => {
+  if (!params) return;
+  return await api.post<IsFavoritesReqBody>(
+    `/cafes/${params.cafeId}/favorites`,
+    customerHeader,
+    body,
+  );
 };

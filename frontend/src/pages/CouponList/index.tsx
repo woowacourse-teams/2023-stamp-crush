@@ -23,7 +23,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Color from 'color-thief-react';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CafeRes, CouponRes, PostIsFavoritesReq } from '../../types/api';
+import type { CafeRes, CouponRes } from '../../types/api';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
@@ -52,27 +52,24 @@ const CouponList = () => {
   });
 
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
-    queryFn: () => getCafeInfo(cafeId),
+    queryFn: () => getCafeInfo({ params: { cafeId } }),
     enabled: !!(cafeId !== 0),
   });
 
-  const { mutate: mutateIsFavorites } = useMutation(
-    ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
-    {
-      onSuccess: () => {
-        closeModal();
-      },
-      onMutate: async () => {
-        await queryClient.cancelQueries(['coupons']);
-        queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
-          if (!prev) return;
-          prev.coupons[currentIndex].couponInfos[0].isFavorites =
-            !prev.coupons[currentIndex].couponInfos[0].isFavorites;
-          return undefined;
-        });
-      },
+  const { mutate: mutateIsFavorites } = useMutation(postIsFavorites, {
+    onSuccess: () => {
+      closeModal();
     },
-  );
+    onMutate: async () => {
+      await queryClient.cancelQueries(['coupons']);
+      queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
+        if (!prev) return;
+        prev.coupons[currentIndex].couponInfos[0].isFavorites =
+          !prev.coupons[currentIndex].couponInfos[0].isFavorites;
+        return undefined;
+      });
+    },
+  });
 
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
   if (couponStatus === 'loading') return <>로딩 중입니다.</>;
@@ -130,8 +127,12 @@ const CouponList = () => {
 
   const changeFavorites = () => {
     mutateIsFavorites({
-      cafeId: currentCoupon.cafeInfo.id,
-      isFavorites: !currentCoupon.couponInfos[0].isFavorites,
+      params: {
+        cafeId: currentCoupon.cafeInfo.id,
+      },
+      body: {
+        isFavorites: !currentCoupon.couponInfos[0].isFavorites,
+      },
     });
   };
 
@@ -215,7 +216,7 @@ const CouponList = () => {
           {cafeStatus !== 'loading' && cafeStatus !== 'error' && (
             <CouponDetail
               coupon={currentCoupon}
-              cafe={cafeData.cafe}
+              cafe={cafeData.cafes[0]}
               closeDetail={closeCouponDetail}
               isDetail={isDetail}
               isShown={isFlippedCouponShown}

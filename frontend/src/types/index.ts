@@ -89,3 +89,14 @@ export interface Reward {
   id: number;
   name: string;
 }
+
+export interface Customer {
+  id: number;
+  nickname: string;
+  stampCount: number;
+  maxStampCount: number;
+  rewardCount: number;
+  visitCount: number;
+  firstVisitDate: string;
+  isRegistered: boolean;
+}

@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { getCouponSamples } from '../../../../api/get';
 import { parseStampCount } from '../../../../utils';
 import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
-import { SampleCouponRes } from '../../../../types/api';
+import { MaxStampCountParams, QueryReq, SampleCouponRes } from '../../../../types/api';
 
 interface ChoiceTemplateProps {
   frontImage: string;
@@ -32,11 +32,10 @@ const ChoiceTemplate = ({
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
   const [selectedImage, setSelectedImage] = useState(frontImage);
   const imageRef = useRef<HTMLImageElement>(null);
-  const stampCount = parseStampCount(location.state.stampCount);
+  const maxStampCount = parseStampCount(location.state.stampCount);
 
-  const { data: sampleImages, status } = useQuery<SampleCouponRes>(
-    ['coupon-samples', stampCount],
-    () => getCouponSamples(stampCount),
+  const { data: sampleImages, status } = useQuery<SampleCouponRes>(['coupon-samples'], () =>
+    getCouponSamples({ params: { maxStampCount } }),
   );
 
   if (status === 'loading') return <div>페이지 로딩중..</div>;

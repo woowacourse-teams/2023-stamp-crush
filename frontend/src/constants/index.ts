@@ -89,3 +89,5 @@ export const ROUTER_PATH = {
   signup: '/sign-up',
   myPage: '/my-page',
 };
+
+export const PARAMS_ERROR_MESSAGE = '[ERROR] params를 지정해주세요.';

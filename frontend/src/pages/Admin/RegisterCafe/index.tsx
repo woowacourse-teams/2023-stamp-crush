@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
-import { CafeRegisterReq } from '../../../types/api';
+import { CafeRegisterReqBody, MutateReq } from '../../../types/api';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -18,17 +18,14 @@ const RegisterCafe = () => {
   const { openAddressPopup } = useFindAddress(setRoadAddress);
   const navigate = useNavigate();
 
-  const { mutate, isLoading, isError } = useMutation(
-    (formData: CafeRegisterReq) => postRegisterCafe(formData),
-    {
-      onSuccess: () => {
-        navigate(ROUTER_PATH.customerList);
-      },
-      onError: () => {
-        throw new Error('카페 등록에 실패했습니다.');
-      },
+  const { mutate, isLoading, isError } = useMutation(postRegisterCafe, {
+    onSuccess: () => {
+      navigate(ROUTER_PATH.customerList);
     },
-  );
+    onError: () => {
+      throw new Error('카페 등록에 실패했습니다.');
+    },
+  });
 
   const certifyUser = () => {
     alert(businessRegistrationNumberInputRef.current?.value);
@@ -43,13 +40,13 @@ const RegisterCafe = () => {
       roadAddressInputRef.current &&
       detailAddressInputRef.current
     ) {
-      const cafeRegisterBody: CafeRegisterReq = {
+      const cafeRegisterBody: CafeRegisterReqBody = {
         businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
         name: cafeNameInputRef.current?.value,
         roadAddress: roadAddressInputRef.current?.value,
         detailAddress: detailAddressInputRef.current?.value,
       };
-      mutate(cafeRegisterBody);
+      mutate({ body: cafeRegisterBody });
     }
   };
 

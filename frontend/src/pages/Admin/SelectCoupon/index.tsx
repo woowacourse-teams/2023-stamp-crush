@@ -32,17 +32,17 @@ const SelectCoupon = () => {
     data: customer,
     status: customerStatus,
     refetch: refetchCustomer,
-  } = useQuery<CustomerPhoneNumberRes, Error>(['customer', phoneNumber], {
-    queryFn: () => getCustomer(phoneNumber),
+  } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
+    queryFn: () => getCustomer({ params: { phoneNumber } }),
     onSuccess: (data) => {
       if (data.customer.length === 0) {
-        mutateTempCustomer(phoneNumber);
+        mutateTempCustomer({ body: phoneNumber });
       }
     },
   });
 
   const { mutate: mutateTempCustomer } = useMutation({
-    mutationFn: async (phoneNumber: string) => await postRegisterUser(phoneNumber),
+    mutationFn: postRegisterUser,
     onSuccess: () => {
       setSelectedCoupon('new');
       refetchCustomer();
@@ -57,16 +57,23 @@ const SelectCoupon = () => {
     {
       queryFn: async () => {
         if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-        return await getCoupon(customer.customer[0].id, '1');
+        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
       },
       enabled: !!customer,
     },
   );
 
+  // TODO: cafe id 하드코딩 된 값 제거
+  const TEMP_CAFE_ID = 1;
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
     mutationFn: async () => {
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-      return await postIssueCoupon(customer.customer[0].id);
+      return await postIssueCoupon({
+        params: { customerId: customer.customer[0].id },
+        body: {
+          cafeId: TEMP_CAFE_ID,
+        },
+      });
     },
     onSuccess: (data: IssueCouponRes) => {
       const newCouponId = +data.couponId;
