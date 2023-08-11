@@ -37,7 +37,7 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 고객_목록을_조회한다() {
         // given
-        Owner owner = ownerRepository.save(new Owner("owner", "ownerId", "ownerPw", "01012345678"));
+        Owner owner = ownerRepository.save(JENA);
 
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         RegisterCustomer youngho = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
