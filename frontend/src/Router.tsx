@@ -20,6 +20,7 @@ import CustomerTemplate from './components/Template/CustomerTemplate';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import RewardList from './pages/RewardList';
 import RewardHistory from './pages/RewardHistory';
+import StampHistoryPage from './pages/StampHistory';
 
 const AdminRoot = () => {
   return (
@@ -58,7 +59,7 @@ const Router = () => {
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign,
-          element: <CustomCouponDesign />,
+          element: <TemplateCouponDesign />,
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign,
@@ -83,6 +84,7 @@ const Router = () => {
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistory /> },
+        { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
       ],
     },
   ]);
