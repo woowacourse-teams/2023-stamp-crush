@@ -1,5 +1,5 @@
 import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE } from '../constants';
-import { ExpireDateOptionValue, StampCountOptionValue, Time } from '../types';
+import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
@@ -49,3 +49,20 @@ export const isEmptyData = (data: string | undefined) => {
 export const addGoogleProxyUrl = (url: string) =>
   'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=' +
   encodeURIComponent(url);
+
+export const sortMapByKey = <T>(map: Map<string, T>) => {
+  const sortedMap = new Map(
+    [...map.entries()].sort((a, b) => {
+      return a[0].localeCompare(b[0]);
+    }),
+  );
+  return sortedMap;
+};
+
+export const parseStringDateToKorean = (input: string, options: DateParseOption) => {
+  const year = options.hasYear ? `${input.slice(0, 4)}년` : '';
+  const month = options.hasMonth ? `${input.slice(4, 6)}월` : '';
+  const day = options.hasDay ? `${input.slice(6, 8)}일` : '';
+
+  return `${year} ${month} ${day}`.trim();
+};

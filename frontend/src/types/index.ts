@@ -103,3 +103,9 @@ export type ExpireDateOptionValue = `${number}개월` | typeof EXPIRE_DATE_NONE;
 export type CouponCreated = 'template' | 'custom';
 
 export type RouterPath = `/${string}`;
+
+export interface DateParseOption {
+  hasYear: boolean;
+  hasMonth: boolean;
+  hasDay: boolean;
+}

@@ -118,4 +118,5 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   signup: '/sign-up',
   myPage: '/my-page',
   rewardList: '/reward-list',
+  rewardHistory: '/reward-history',
 } as const;
