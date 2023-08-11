@@ -55,7 +55,7 @@ public class ManagerCouponFindService {
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
-            VisitHistories visitHistories = getVisitHistories(cafe, customerCoupon);
+            VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
             cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics,
                     visitHistories.getVisitCount(), visitHistories.getFirstVisitDate()));
@@ -78,7 +78,7 @@ public class ManagerCouponFindService {
                 .toList();
     }
 
-    private VisitHistories getVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
+    private VisitHistories findVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
         List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
         return new VisitHistories(visitHistories);
     }
