@@ -11,15 +11,10 @@ import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
-import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,12 +34,7 @@ public class ManagerCouponFindService {
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
-    private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafePolicyRepository cafePolicyRepository;
-    private final CouponDesignRepository couponDesignRepository;
-    private final CouponPolicyRepository couponPolicyRepository;
-    private final OwnerRepository ownerRepository;
-    private final RewardRepository rewardRepository;
     private final VisitHistoryRepository visitHistoryRepository;
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
@@ -58,8 +48,15 @@ public class ManagerCouponFindService {
             VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
             // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics,
-                    visitHistories.getVisitCount(), visitHistories.getFirstVisitDate()));
+            cafeCustomerFindResultDtos.add(
+                    CafeCustomerFindResultDto.of(
+                            customerCoupon.customer,
+                            customerCouponStatistics,
+                            // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
+                            visitHistories.getVisitCount(),
+                            visitHistories.getFirstVisitDate()
+                    )
+            );
         }
 
         return cafeCustomerFindResultDtos;
