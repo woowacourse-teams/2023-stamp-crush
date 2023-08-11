@@ -87,6 +87,38 @@ export interface Time {
 
 export type CouponActivate = 'current' | 'new';
 
+export interface CustomerPhoneNumber {
+  id: number;
+  nickname: string;
+  phoneNumber: string;
+}
+
+export interface IssuedCoupon {
+  id: number;
+  customerId: number;
+  nickname: string;
+  stampCount: number;
+  expireDate: string;
+  isPrevious: boolean;
+  maxStampCount: number;
+}
+
+export interface Reward {
+  id: number;
+  name: string;
+}
+
+export interface Customer {
+  id: number;
+  nickname: string;
+  stampCount: number;
+  maxStampCount: number;
+  rewardCount: number;
+  visitCount: number;
+  firstVisitDate: string;
+  isRegistered: boolean;
+}
+
 export type CouponDesignLocation = {
   state: {
     createdType: CouponCreated;

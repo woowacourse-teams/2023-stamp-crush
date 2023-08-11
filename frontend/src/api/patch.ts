@@ -1,22 +1,27 @@
 import { api, ownerHeader } from '.';
-import { CafeInfoReq } from '../types/api';
+import {
+  CafeIdParams,
+  CafeInfoReqBody,
+  CustomerIdParams,
+  MutateReq,
+  RewardIdParams,
+  RewardReqBody,
+} from '../types/api';
+import { PARAMS_ERROR_MESSAGE } from '../constants';
 
-export const patchReward = async (customerId: number, rewardId: number) => {
-  await api.patch(`/admin/customers/${customerId}/rewards/${rewardId}`, ownerHeader, {
-    cafeId: 1,
-    used: true,
-  });
+export const patchReward = async ({
+  params,
+  body,
+}: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.patch<RewardReqBody>(
+    `/admin/customers/${params.customerId}/rewards/${params.rewardId}`,
+    ownerHeader,
+    body,
+  );
 };
 
-export const patchCafeInfo = async (
-  cafeId: number,
-  { openTime, closeTime, telephoneNumber, cafeImageUrl, introduction }: CafeInfoReq,
-) => {
-  await api.patch(`/admin/cafes/${cafeId}`, ownerHeader, {
-    openTime,
-    closeTime,
-    telephoneNumber,
-    cafeImageUrl,
-    introduction,
-  });
+export const patchCafeInfo = async ({ params, body }: MutateReq<CafeInfoReqBody, CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.patch<CafeInfoReqBody>(`/admin/cafes/${params.cafeId}`, ownerHeader, body);
 };

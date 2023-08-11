@@ -29,8 +29,8 @@ import { getCafe } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-import { Time } from '../../../types';
-import { CafeInfoReq } from '../../../types/api';
+import { Cafe, Time } from '../../../types';
+import { CafeInfoReqBody } from '../../../types/api';
 
 const ManageCafe = () => {
   const navigate = useNavigate();
@@ -40,10 +40,23 @@ const ManageCafe = () => {
   const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
-  const { data: cafe, status } = useQuery(['cafe'], () => getCafe());
+  const { data: cafe, status } = useQuery(['cafe'], async () => await getCafe());
 
-  const cafeInfo = useMemo(() => {
-    return cafe ? cafe?.cafes[0] : {};
+  const cafeInfo: Cafe = useMemo(() => {
+    return cafe
+      ? cafe?.cafes[0]
+      : // FIXME: 하드코딩된 빈 카페
+        {
+          id: 0,
+          name: '',
+          introduction: '',
+          openTime: '',
+          closeTime: '',
+          telephoneNumber: '',
+          cafeImageUrl: '',
+          roadAddress: '',
+          detailAddress: '',
+        };
   }, [cafe]);
 
   const splitTime = (timeString: string) => {
@@ -61,17 +74,14 @@ const ManageCafe = () => {
     if (!isEmptyData(cafeInfo.introduction)) setIntroduction(cafeInfo.introduction);
   }, [cafeInfo]);
 
-  const { mutate, isLoading, isError } = useMutation(
-    (body: CafeInfoReq) => patchCafeInfo(cafe?.cafes[0].id, body),
-    {
-      onSuccess: () => {
-        navigate(ROUTER_PATH.customerList);
-      },
-      onError: () => {
-        throw new Error('카페 정보 등록에 실패했습니다.');
-      },
+  const { mutate, isLoading, isError } = useMutation(patchCafeInfo, {
+    onSuccess: () => {
+      navigate(ROUTER_PATH.customerList);
     },
-  );
+    onError: () => {
+      throw new Error('카페 정보 등록에 실패했습니다.');
+    },
+  });
 
   const inputPhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -89,7 +99,7 @@ const ManageCafe = () => {
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    const cafeInfoBody: CafeInfoReq = {
+    const cafeInfoBody: CafeInfoReqBody = {
       openTime: parseTime(openTime),
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
@@ -98,7 +108,12 @@ const ManageCafe = () => {
       introduction: introduction,
     };
 
-    mutate(cafeInfoBody);
+    mutate({
+      params: {
+        cafeId: cafeInfo.id,
+      },
+      body: cafeInfoBody,
+    });
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기

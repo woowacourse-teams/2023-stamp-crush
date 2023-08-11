@@ -85,7 +85,7 @@ export const handlers = [
     );
 
     if (!findUserResult) {
-      res(ctx.status(200), ctx.json({ customer: [] }));
+      return res(ctx.status(200), ctx.json({ customer: [] }));
     }
 
     return res(
@@ -159,6 +159,7 @@ export const handlers = [
       stampCount: 1,
       expireDate: '2023:08:11',
       isPrevious: 'false',
+      maxStampCount: 10,
     };
 
     coupons.push(coupon);

@@ -14,24 +14,34 @@ import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
-import { getList } from '../../../api/get';
+import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
-import { CustomerRes } from '../../../types/api';
+import { Customer } from '../../../types';
+import { CustomersRes } from '../../../types/api';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
-  const orderCustomer = (customers: CustomerRes[]) => {
+  const orderCustomer = (customers: Customer[]) => {
     customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
   };
 
-  const { data, status } = useQuery(['customers'], getList, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      orderCustomer(data.customers);
+  const { data, status } = useQuery<CustomersRes>(
+    ['customers'],
+    () =>
+      getCustomers({
+        params: {
+          cafeId: 1,
+        },
+      }),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        orderCustomer(data.customers);
+      },
     },
-  });
+  );
 
   useEffect(() => {
     if (status === 'success') {
@@ -69,7 +79,7 @@ const CustomerList = () => {
           isRegistered,
           firstVisitDate,
           visitCount,
-        }: CustomerRes) => (
+        }: Customer) => (
           <CustomerBox key={id}>
             <LeftInfo>
               <NameContainer>

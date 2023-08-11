@@ -210,6 +210,7 @@ export const mockCoupons = [
     stampCount: 3,
     expireDate: '2023:08:11',
     isPrevious: 'false',
+    maxStampCount: 10,
   },
 ];
 

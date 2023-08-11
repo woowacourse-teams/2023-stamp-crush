@@ -1,4 +1,14 @@
-import { SampleImage, SampleBackCouponImage, Cafe, Coupon, CouponDesign, Reward } from '.';
+import {
+  SampleImage,
+  SampleBackCouponImage,
+  Cafe,
+  Coupon,
+  CouponDesign,
+  IssuedCoupon,
+  Reward,
+  Customer,
+} from '.';
+import { CustomerPhoneNumber } from './index';
 
 export interface SampleCouponRes {
   sampleFrontImages: SampleImage[];
@@ -7,33 +17,24 @@ export interface SampleCouponRes {
 }
 
 export interface CafeRes {
+  cafes: Cafe[];
+}
+
+export interface CafeInfoRes {
   cafe: Cafe;
 }
 
-export interface CouponSettingReq extends CouponDesign {
+export interface CouponSettingReqBody extends CouponDesign {
   reward: string;
   expirePeriod: number;
   maxStampCount: number;
 }
 
-export interface CustomerRes {
-  id: number;
-  nickname: string;
-  stampCount: number;
-  maxStampCount: number;
-  rewardCount: number;
-  visitCount: number;
-  firstVisitDate: string;
-  isRegistered: boolean;
-}
-
-export interface StampEarningReq {
+export interface StampEarningReqBody {
   earningStampCount: number;
-  customerId: string;
-  couponId: string;
 }
 
-export interface CafeInfoReq {
+export interface CafeInfoReqBody {
   openTime: string;
   closeTime: string;
   telephoneNumber: string;
@@ -41,7 +42,7 @@ export interface CafeInfoReq {
   introduction: string;
 }
 
-export interface CafeRegisterReq {
+export interface CafeRegisterReqBody {
   businessRegistrationNumber: string;
   name: string;
   roadAddress: string;
@@ -49,12 +50,10 @@ export interface CafeRegisterReq {
 }
 
 export interface RewardRes {
-  id: number;
-  name: string;
+  rewards: Reward[];
 }
 
-export interface PostIsFavoritesReq {
-  cafeId: number;
+export interface IsFavoritesReqBody {
   isFavorites: boolean;
 }
 
@@ -62,6 +61,72 @@ export interface CouponRes {
   coupons: Coupon[];
 }
 
+export interface CustomerPhoneNumberRes {
+  customer: CustomerPhoneNumber[];
+}
+
+export interface IssueCouponRes {
+  couponId: number;
+}
+
+export interface IssuedCouponsRes {
+  coupons: IssuedCoupon[];
+}
+
+export interface RewardReqBody {
+  cafeId: number;
+  used: boolean;
+}
+
+export interface CustomersRes {
+  customers: Customer[];
+}
+
+export interface IssueCouponReqBody {
+  cafeId: number;
+}
+
+export interface RegisterUserReqBody {
+  phoneNumber: string;
+}
+
+export interface MutateReq<T = unknown, K = unknown> {
+  body: T;
+  params?: K;
+}
+
+export interface QueryReq<K = unknown> {
+  params?: K;
+}
+
+export interface CustomerIdParams {
+  customerId: number;
+}
+
+export interface CouponIdParams {
+  couponId: number;
+}
+
+export interface CafeIdParams {
+  cafeId: number;
+}
+
+export interface RewardIdParams {
+  rewardId: number;
+}
+
+export interface PhoneNumberParams {
+  phoneNumber: string;
+}
+
+export interface MaxStampCountParams {
+  maxStampCount: number;
+}
+
 export interface MyRewardRes {
   rewards: Reward[];
+}
+
+export interface UsedParams {
+  used: boolean;
 }

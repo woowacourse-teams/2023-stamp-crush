@@ -120,3 +120,5 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   rewardList: '/reward-list',
   rewardHistory: '/reward-history',
 } as const;
+
+export const PARAMS_ERROR_MESSAGE = '[ERROR] params를 지정해주세요.';

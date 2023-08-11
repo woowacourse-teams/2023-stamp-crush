@@ -15,7 +15,7 @@ import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CouponRes, PostIsFavoritesReq } from '../../types/api';
+import type { CouponRes } from '../../types/api';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
@@ -48,23 +48,20 @@ const CouponList = () => {
     }
   }, [couponData]);
 
-  const { mutate: mutateIsFavorites } = useMutation(
-    ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
-    {
-      onSuccess: () => {
-        closeModal();
-      },
-      onMutate: async () => {
-        await queryClient.cancelQueries(['coupons']);
-        queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
-          if (!prev) return;
-          prev.coupons[currentIndex].cafeInfo.isFavorites =
-            !prev.coupons[currentIndex].cafeInfo.isFavorites;
-          return undefined;
-        });
-      },
+  const { mutate: mutateIsFavorites } = useMutation(postIsFavorites, {
+    onSuccess: () => {
+      closeModal();
     },
-  );
+    onMutate: async () => {
+      await queryClient.cancelQueries(['coupons']);
+      queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
+        if (!prev) return;
+        prev.coupons[currentIndex].cafeInfo.isFavorites =
+          !prev.coupons[currentIndex].cafeInfo.isFavorites;
+        return undefined;
+      });
+    },
+  });
 
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
   if (couponStatus === 'loading') return <>로딩 중입니다.</>;
@@ -122,8 +119,12 @@ const CouponList = () => {
 
   const changeFavorites = () => {
     mutateIsFavorites({
-      cafeId: currentCoupon.cafeInfo.id,
-      isFavorites: !currentCoupon.cafeInfo.isFavorites,
+      params: {
+        cafeId: currentCoupon.cafeInfo.id,
+      },
+      body: {
+        isFavorites: !currentCoupon.cafeInfo.isFavorites,
+      },
     });
   };
 

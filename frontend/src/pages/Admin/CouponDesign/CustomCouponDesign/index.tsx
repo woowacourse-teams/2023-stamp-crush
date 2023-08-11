@@ -13,7 +13,6 @@ import { useState } from 'react';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import Text from '../../../../components/Text';
 import StampCustomModal from './StampCustomModal';
-import { CouponSettingReq } from '../../../../types/api';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from '../CouponPreviewSection';
 import { useLocation } from 'react-router-dom';
@@ -43,7 +42,7 @@ const CustomCouponDesign = () => {
       return;
     }
 
-    const couponSettingBody: CouponSettingReq = {
+    const couponSettingBody = {
       frontImageUrl,
       backImageUrl,
       stampImageUrl,
@@ -53,7 +52,7 @@ const CustomCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutate(couponSettingBody);
+    mutate({ body: couponSettingBody });
   };
 
   const customStampPosition = () => {

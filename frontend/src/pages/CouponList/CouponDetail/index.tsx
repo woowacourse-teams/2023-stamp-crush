@@ -20,7 +20,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
-import { CafeRes, CouponRes } from '../../../types/api';
+import { CouponRes } from '../../../types/api';
 import { getCafeInfo } from '../../../api/get';
 import { deleteCoupon } from '../../../api/delete';
 import useModal from '../../../hooks/useModal';
@@ -47,9 +47,10 @@ const CouponDetail = ({
   const cafeId = coupon.cafeInfo.id;
   const { isOpen, openModal, closeModal } = useModal();
 
-  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
-    queryFn: () => getCafeInfo(cafeId),
-
+  const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
+    queryFn: () => {
+      return getCafeInfo({ params: { cafeId } });
+    },
     enabled: cafeId !== 0,
   });
 
@@ -66,8 +67,8 @@ const CouponDetail = ({
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (cafeStatus === 'loading') return null;
-  if (cafeStatus === 'error') return null;
+  if (cafeStatus === 'loading') return <>Loading</>;
+  if (cafeStatus === 'error') return <>error</>;
 
   return (
     <>
