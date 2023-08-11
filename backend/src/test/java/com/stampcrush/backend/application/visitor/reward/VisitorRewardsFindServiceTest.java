@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.reward;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.reward.Reward;
@@ -24,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class VisitorRewardsFindServiceTest {
 
     @InjectMocks

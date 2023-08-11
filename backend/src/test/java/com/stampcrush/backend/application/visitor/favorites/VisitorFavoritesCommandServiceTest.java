@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.favorites;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
@@ -23,8 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 public class VisitorFavoritesCommandServiceTest {
 
     @InjectMocks

@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.manager.customer;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
@@ -19,8 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class ManagerCustomerCommandServiceTest {
 
     @InjectMocks

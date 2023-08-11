@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.manager.sample;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
@@ -23,8 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class ManagerSampleCouponFindServiceTest {
 
     @InjectMocks

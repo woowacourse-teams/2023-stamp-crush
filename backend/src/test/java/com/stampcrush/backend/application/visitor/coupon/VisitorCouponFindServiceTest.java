@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.coupon;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
 import com.stampcrush.backend.common.KorNamingConverter;
@@ -27,8 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class VisitorCouponFindServiceTest {
 
     @InjectMocks

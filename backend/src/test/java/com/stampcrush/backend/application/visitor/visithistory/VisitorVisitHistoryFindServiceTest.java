@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.visithistory;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class VisitorVisitHistoryFindServiceTest {
 
     @InjectMocks

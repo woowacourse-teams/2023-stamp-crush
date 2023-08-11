@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest
-class BackendApplicationTests {
+class BackendServiceSliceTests {
 
     @Test
     void contextLoads() {
