@@ -1,9 +1,7 @@
 package com.stampcrush.backend.application.manager.coupon;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -28,10 +26,8 @@ import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -206,7 +202,6 @@ public class ManageCouponCommandServiceTest {
         int maxStampCount = 10;
         Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
-
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, 1);
         managerCouponCommandService.createStamp(stampCreateDto);

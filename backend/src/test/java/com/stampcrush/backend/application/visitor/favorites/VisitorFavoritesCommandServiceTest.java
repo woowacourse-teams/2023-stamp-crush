@@ -1,8 +1,6 @@
 package com.stampcrush.backend.application.visitor.favorites;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
-import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.favorites.Favorites;
 import com.stampcrush.backend.entity.user.Owner;
@@ -12,10 +10,8 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.favorites.FavoritesRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 

@@ -3,7 +3,6 @@ package com.stampcrush.backend.application.visitor.coupon;
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -13,10 +12,8 @@ import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;

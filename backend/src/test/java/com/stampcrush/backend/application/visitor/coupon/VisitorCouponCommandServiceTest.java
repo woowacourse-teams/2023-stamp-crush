@@ -1,14 +1,11 @@
 package com.stampcrush.backend.application.visitor.coupon;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.exception.CouponNotFoundException;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 

@@ -2,7 +2,6 @@ package com.stampcrush.backend.application.visitor.reward;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
@@ -11,10 +10,8 @@ import com.stampcrush.backend.fixture.RewardFixture;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
