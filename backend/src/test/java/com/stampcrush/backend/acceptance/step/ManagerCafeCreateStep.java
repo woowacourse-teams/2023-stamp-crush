@@ -15,7 +15,6 @@ public class ManagerCafeCreateStep {
     public static Long 카페_생성_요청하고_아이디_반환(Owner owner, CafeCreateRequest cafeCreateRequest) {
         ExtractableResponse<Response> response = 카페_생성_요청(owner, cafeCreateRequest);
         String location = response.header("Location");
-        System.out.println("location = " + location);
         return Long.valueOf(location.split("/")[2]);
     }
 
