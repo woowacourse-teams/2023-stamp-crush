@@ -6,6 +6,7 @@ import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE coupon SET deleted = true WHERE id = ?")
 @Entity
 public class Coupon extends BaseDate {
 
@@ -153,9 +155,5 @@ public class Coupon extends BaseDate {
 
     public String getRewardName() {
         return couponPolicy.getRewardName();
-    }
-
-    public void delete() {
-        this.deleted = Boolean.TRUE;
     }
 }

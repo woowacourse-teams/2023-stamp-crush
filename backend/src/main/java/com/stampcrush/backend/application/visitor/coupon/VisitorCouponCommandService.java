@@ -17,6 +17,6 @@ public class VisitorCouponCommandService {
     public void deleteCoupon(Long customerId, Long couponId) {
         Coupon coupon = couponRepository.findByIdAndCustomerId(couponId, customerId)
                 .orElseThrow(() -> new CouponNotFoundException("쿠폰을 찾을 수 없습니다."));
-        coupon.delete();
+        couponRepository.delete(coupon);
     }
 }
