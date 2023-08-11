@@ -3,7 +3,7 @@ import SubHeader from '../../components/Header/SubHeader';
 import { MyRewardRes } from '../../types/api';
 import { getMyRewards } from '../../api/get';
 import { Reward } from '../../types';
-import { RewardCafeName, RewardContainer, RewardDateTitle } from './style';
+import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
 import { parseStringDateToKorean, sortMapByKey } from '../../utils';
 
 export const useRewardQuery = (used: boolean) => {
@@ -58,12 +58,14 @@ const RewardHistory = () => {
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
             <RewardDateTitle>{parseStringDateToKorean(key, dateParseOption)}</RewardDateTitle>
-            {rewards.map((reward) => (
-              <RewardContainer key={reward.id}>
-                <RewardCafeName>{reward.cafeName}</RewardCafeName>
-                <span>{reward.rewardName}</span>
-              </RewardContainer>
-            ))}
+            <ul key={key}>
+              {rewards.map((reward) => (
+                <RewardHistoryItem key={reward.id}>
+                  <RewardCafeName>{reward.cafeName}</RewardCafeName>
+                  <span>{reward.rewardName}</span>
+                </RewardHistoryItem>
+              ))}
+            </ul>
           </div>
         ))}
       </div>

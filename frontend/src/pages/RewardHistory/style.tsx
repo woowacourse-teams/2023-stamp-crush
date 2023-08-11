@@ -6,7 +6,7 @@ export const RewardDateTitle = styled.div`
   padding: 5px 0px 5px 20px;
 `;
 
-export const RewardContainer = styled.div`
+export const RewardHistoryItem = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 25px 20px;
