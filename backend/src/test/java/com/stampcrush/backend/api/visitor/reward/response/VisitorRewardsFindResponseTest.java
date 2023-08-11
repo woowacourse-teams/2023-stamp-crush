@@ -18,10 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class VisitorRewardsFindResponseTest {
 
     @Test
-    void 사용_가능한_리워드는_usedAt이_null이다() {
+    void 사용_가능한_리워드는_usedAt과_createdAt이_같은_값이다() {
+        LocalDateTime now = LocalDateTime.now();
+
         Reward reward = new Reward(
-                LocalDateTime.now(),
-                null,
+                now,
+                now,
                 1L,
                 "아메리카노",
                 false,
@@ -36,7 +38,7 @@ class VisitorRewardsFindResponseTest {
 
         assertAll(
                 () -> assertDoesNotThrow(() -> VisitorRewardsFindResponse.from(List.of(dto))),
-                () -> assertThat(rewardResponse.getUsedAt()).isNull()
+                () -> assertThat(rewardResponse.getUsedAt()).isEqualTo(rewardResponse.getCreatedAt())
         );
     }
 }

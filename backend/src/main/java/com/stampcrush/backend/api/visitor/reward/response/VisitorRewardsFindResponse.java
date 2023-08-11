@@ -32,16 +32,12 @@ public class VisitorRewardsFindResponse {
         private final LocalDate usedAt;
 
         public static VisitorRewardFindResponse from(VisitorRewardsFindResultDto dto) {
-            LocalDate usedAt = null;
-            if (dto.getUpdatedAt() != null) {
-                usedAt = LocalDate.from(dto.getUpdatedAt());
-            }
             return new VisitorRewardFindResponse(
                     dto.getId(),
                     dto.getRewardName(),
                     dto.getCafeName(),
                     LocalDate.from(dto.getCreatedAt()),
-                    usedAt
+                    LocalDate.from(dto.getUpdatedAt())
             );
         }
     }
