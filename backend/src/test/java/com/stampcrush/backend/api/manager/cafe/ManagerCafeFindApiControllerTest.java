@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.cafe;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.entity.user.Owner;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ManagerCafeFindApiController.class)
-class ManagerCafeFindApiControllerTest extends ControllerTest {
+class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerCafeFindService managerCafeFindService;

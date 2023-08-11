@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.reward;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 classes = WebMvcConfig.class
         )
 )
-class VisitorRewardsFindControllerTest extends ControllerTest {
+class VisitorRewardsFindControllerTest extends ControllerSliceTest {
 
     @MockBean
     private VisitorRewardsFindService visitorRewardsFindService;

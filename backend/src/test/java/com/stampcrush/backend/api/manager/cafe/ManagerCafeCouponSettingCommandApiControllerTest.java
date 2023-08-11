@@ -2,7 +2,7 @@ package com.stampcrush.backend.api.manager.cafe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.entity.user.Owner;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ManagerCafeCouponSettingCommandApiController.class)
-class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerTest {
+class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerSliceTest {
 
     private static final CafeCouponSettingUpdateRequest CAFE_COUPON_SETTING_UPDATE_REQUEST = new CafeCouponSettingUpdateRequest(
             "frontImageUrl",

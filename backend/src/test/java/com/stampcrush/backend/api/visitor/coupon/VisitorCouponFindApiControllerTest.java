@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.coupon;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VisitorCouponFindApiController.class)
-class VisitorCouponFindApiControllerTest extends ControllerTest {
+class VisitorCouponFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private VisitorCouponFindService visitorCouponFindService;

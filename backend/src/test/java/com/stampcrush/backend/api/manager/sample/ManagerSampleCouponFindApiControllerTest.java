@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.sample;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
 import com.stampcrush.backend.entity.user.Owner;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ManagerSampleCouponFindApiController.class)
-class ManagerSampleCouponFindApiControllerTest extends ControllerTest {
+class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerSampleCouponFindService managerSampleCouponFindService;

@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @KorNamingConverter
 @WebMvcTest
-public class ControllerTest {
+public class ControllerSliceTest {
 
     @Autowired
     public MockMvc mockMvc;

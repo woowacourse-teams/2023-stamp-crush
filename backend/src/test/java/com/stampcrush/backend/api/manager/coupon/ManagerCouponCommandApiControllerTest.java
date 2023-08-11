@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.coupon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CouponCreateResponse;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = ManagerCouponCommandApiController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCouponCommandApiControllerTest extends ControllerTest {
+public class ManagerCouponCommandApiControllerTest extends ControllerSliceTest {
 
     @Autowired
     private ObjectMapper objectMapper;

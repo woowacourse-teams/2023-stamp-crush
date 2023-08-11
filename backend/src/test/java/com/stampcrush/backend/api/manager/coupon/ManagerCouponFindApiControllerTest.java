@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.manager.coupon;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = ManagerCouponFindApiController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCouponFindApiControllerTest extends ControllerTest {
+public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
 
     public static String API_PREFIX = "/api/admin";
 

@@ -1,11 +1,10 @@
 package com.stampcrush.backend.api.manager.reward;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.reward.request.RewardUsedUpdateRequest;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardUsedUpdateDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = ManagerRewardCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class MangerRewardCommandApiControllerTest extends ControllerTest {
+public class MangerRewardCommandApiControllerTest extends ControllerSliceTest {
 
     @Autowired
     private ObjectMapper objectMapper;

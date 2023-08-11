@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.visitor.favorites;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = VisitorFavoritesCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class VisitorFavoritesCommandApiControllerTest extends ControllerTest {
+public class VisitorFavoritesCommandApiControllerTest extends ControllerSliceTest {
 
     @Autowired
     private ObjectMapper objectMapper;

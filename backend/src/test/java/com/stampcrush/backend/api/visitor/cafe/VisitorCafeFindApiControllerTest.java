@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.cafe;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VisitorCafeFindApiController.class)
-class VisitorCafeFindApiControllerTest extends ControllerTest {
+class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
 
     private static final Long CAFE_ID = 1L;
 

@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.visithistory;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
 import com.stampcrush.backend.application.visitor.visithistory.dto.CustomerStampHistoryFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(value = VisitorVisitHistoryFindApiController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-class VisitorVisitHistoryFindApiControllerTest extends ControllerTest {
+class VisitorVisitHistoryFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private VisitorVisitHistoryFindService visitorVisitHistoryFindService;

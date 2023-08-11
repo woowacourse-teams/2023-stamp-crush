@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.coupon;
 
-import com.stampcrush.backend.api.ControllerTest;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.exception.CouponNotFoundException;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = VisitorCouponCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class VisitorCouponCommandApiControllerTest extends ControllerTest {
+public class VisitorCouponCommandApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private VisitorCouponCommandService visitorCouponCommandService;
