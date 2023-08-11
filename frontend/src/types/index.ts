@@ -81,7 +81,7 @@ export type CouponCreated = 'template' | 'custom';
 
 export type RouterPath = `/${string}`;
 
-export interface ParseDateOption {
+export interface DateParseOption {
   hasYear: boolean;
   hasMonth: boolean;
   hasDay: boolean;

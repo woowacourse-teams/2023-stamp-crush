@@ -46,7 +46,7 @@ const RewardHistory = () => {
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards).entries());
-  const titleParseOptions = {
+  const dateParseOption = {
     hasYear: false,
     hasMonth: true,
     hasDay: true,
@@ -57,7 +57,7 @@ const RewardHistory = () => {
       <div>
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
-            <RewardDateTitle>{parseStringDateToKorean(key, titleParseOptions)}</RewardDateTitle>
+            <RewardDateTitle>{parseStringDateToKorean(key, dateParseOption)}</RewardDateTitle>
             {rewards.map((reward) => (
               <RewardContainer key={reward.id}>
                 <RewardCafeName>{reward.cafeName}</RewardCafeName>
