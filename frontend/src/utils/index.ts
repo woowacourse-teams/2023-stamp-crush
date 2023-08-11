@@ -1,6 +1,5 @@
-import { DateParseOption, Time } from '../types';
 import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE } from '../constants';
-import { ExpireDateOptionValue, StampCountOptionValue, Time } from '../types';
+import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
