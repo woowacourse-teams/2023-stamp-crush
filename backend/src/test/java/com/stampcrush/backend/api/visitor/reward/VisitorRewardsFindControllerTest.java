@@ -40,6 +40,7 @@ class VisitorRewardsFindControllerTest {
 
     @Test
     void 고객모드에서_사용_가능한_리워드를_조회한다() throws Exception {
+        // given, when
         Reward reward = RewardFixture.REWARD_USED_FALSE;
 
         when(visitorRewardsFindService.findRewards(null, false))
@@ -49,6 +50,7 @@ class VisitorRewardsFindControllerTest {
                         )
                 );
 
+        // then
         mockMvc.perform(
                         get("/api/rewards")
                                 .param("used", "false")
@@ -65,6 +67,7 @@ class VisitorRewardsFindControllerTest {
 
     @Test
     void 고객모드에서_사용_완료한_리워드를_조회한다() throws Exception {
+        // given, when
         Reward reward = RewardFixture.REWARD_USED_TRUE;
 
         when(visitorRewardsFindService.findRewards(null, true))
@@ -74,6 +77,7 @@ class VisitorRewardsFindControllerTest {
                         )
                 );
 
+        // then
         mockMvc.perform(
                         get("/api/rewards")
                                 .param("used", "true")
