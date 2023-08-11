@@ -1,20 +1,29 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
-import { Input } from '../../../components/Input';
-import { NextButtonWrapper } from './style';
+import { ButtonContainer, StepContainer, StepWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
-import SelectBox from '../../../components/SelectBox';
 import Text from '../../../components/Text';
 import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../constants';
-import RadioInputs from './RadioInput';
-import { Option } from '../../../types';
+import { CouponCreated, Option } from '../../../types';
+import CreatedType from './CreatedType';
+import MaxStampCount from './MaxStampCount';
+import ExpiredPeriod from './ExpirePeriod';
+import RewardName from './RewardName';
+
+const MODIFY_STEP_NUMBER = {
+  createdType: 1,
+  maxStampCount: 2,
+  rewardName: 3,
+  expirePeriod: 4,
+};
 
 const ModifyCouponPolicy = () => {
   const navigate = useNavigate();
-  const [createdType, setCreatedType] = useState('');
-  const rewardInputRef = useRef<HTMLInputElement>(null);
-  const [expireSelect, setExpireSelect] = useState<Option>({
+  const [step, setStep] = useState(MODIFY_STEP_NUMBER.createdType);
+  const [createdType, setCreatedType] = useState<CouponCreated>('template');
+  const [rewardName, setRewardName] = useState('');
+  const [expirePeriod, setExpirePeriod] = useState<Option>({
     key: EXPIRE_DATE_OPTIONS[0].key,
     value: EXPIRE_DATE_OPTIONS[0].value,
   });
@@ -24,17 +33,12 @@ const ModifyCouponPolicy = () => {
   });
 
   const navigateNextPage = () => {
-    if (!createdType || !rewardInputRef.current?.value || !expireSelect || !stampCount) {
-      alert('모두 작성해주세요.');
-      return;
-    }
-
     if (createdType === 'template') {
       navigate(ROUTER_PATH.templateCouponDesign, {
         state: {
           createdType,
-          reward: rewardInputRef.current?.value,
-          expireSelect,
+          reward: rewardName,
+          expirePeriod,
           stampCount: stampCount.value,
         },
       });
@@ -44,12 +48,30 @@ const ModifyCouponPolicy = () => {
       navigate(ROUTER_PATH.customCouponDesign, {
         state: {
           createdType,
-          reward: rewardInputRef.current?.value,
-          expireSelect,
+          reward: rewardName,
+          expirePeriod,
           stampCount: stampCount.value,
         },
       });
     }
+  };
+
+  const moveNextStep = () => {
+    if (step === MODIFY_STEP_NUMBER.rewardName && !rewardName) {
+      alert('리워드를 작성해주세요.');
+      return;
+    }
+
+    if (step === MODIFY_STEP_NUMBER.expirePeriod) {
+      navigateNextPage();
+      return;
+    }
+
+    setStep((prev) => (prev += 1));
+  };
+
+  const movePrevStep = () => {
+    setStep((prev) => (prev -= 1));
   };
 
   return (
@@ -57,48 +79,42 @@ const ModifyCouponPolicy = () => {
       <Spacing $size={40} />
       <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
       <Spacing $size={40} />
-      <Text variant="subTitle">어떻게 제작하시겠어요?</Text>
-      <Spacing $size={8} />
-      <RadioInputs setValue={setCreatedType} />
-      <Spacing $size={40} />
-      <Text variant="subTitle">목표 스탬프 갯수</Text>
-      <Spacing $size={8} />
-      <Text>리워드를 지급할 스탬프 갯수를 작성해주세요.</Text>
-      <Spacing $size={16} />
-      <SelectBox
-        options={STAMP_COUNT_OPTIONS}
-        checkedOption={stampCount}
-        setCheckedOption={setStampCount}
-      />
-      <Spacing $size={40} />
-      <Input
-        id="create-coupon-reward-input"
-        label="리워드 명"
-        type="text"
-        placeholder="어떤 상품의 리워드를 전달할지 작성해주세요. ex) 아메리카노"
-        required={true}
-        width={400}
-        ref={rewardInputRef}
-      />
-      <Spacing $size={40} />
-      <Text variant="subTitle">쿠폰 유효기간</Text>
-      <Spacing $size={8} />
-      <Text>
-        고객이 가지게 될 쿠폰의 유효기간입니다. 유효기간이 지나면 해당 쿠폰의 스탬프가 모두
-        소멸됩니다.
-      </Text>
-      <Spacing $size={8} />
-      <SelectBox
-        options={EXPIRE_DATE_OPTIONS}
-        checkedOption={expireSelect}
-        setCheckedOption={setExpireSelect}
-      />
-      <Spacing $size={40} />
-      <NextButtonWrapper>
-        <Button variant="secondary" size="medium" onClick={navigateNextPage}>
-          다음으로
-        </Button>
-      </NextButtonWrapper>
+      <StepContainer>
+        <StepWrapper>
+          {(() => {
+            switch (step) {
+              case MODIFY_STEP_NUMBER.createdType:
+                return <CreatedType setValue={setCreatedType} />;
+              case MODIFY_STEP_NUMBER.maxStampCount:
+                return (
+                  <MaxStampCount
+                    createdType={createdType}
+                    stampCount={stampCount}
+                    setStampCount={setStampCount}
+                  />
+                );
+              case MODIFY_STEP_NUMBER.rewardName:
+                return <RewardName rewardName={rewardName} setRewardName={setRewardName} />;
+              case MODIFY_STEP_NUMBER.expirePeriod:
+                return (
+                  <ExpiredPeriod expirePeriod={expirePeriod} setExpirePeriod={setExpirePeriod} />
+                );
+              default:
+                return null;
+            }
+          })()}
+        </StepWrapper>
+        <ButtonContainer $step={step}>
+          {step !== MODIFY_STEP_NUMBER.createdType && (
+            <Button variant="secondary" size="medium" onClick={movePrevStep}>
+              이전으로
+            </Button>
+          )}
+          <Button variant="secondary" size="medium" onClick={moveNextStep}>
+            다음으로
+          </Button>
+        </ButtonContainer>
+      </StepContainer>
     </>
   );
 };

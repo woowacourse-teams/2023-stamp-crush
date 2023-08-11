@@ -1,4 +1,4 @@
-import { SampleImage, SampleBackCouponImage, Cafe, StampCoordinate, Coupon, CouponDesign } from '.';
+import { SampleImage, SampleBackCouponImage, Cafe, Coupon, CouponDesign, Reward } from '.';
 
 export interface SampleCouponRes {
   sampleFrontImages: SampleImage[];
@@ -60,4 +60,8 @@ export interface PostIsFavoritesReq {
 
 export interface CouponRes {
   coupons: Coupon[];
+}
+
+export interface MyRewardRes {
+  rewards: Reward[];
 }

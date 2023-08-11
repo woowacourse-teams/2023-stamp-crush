@@ -1,5 +1,6 @@
 package com.stampcrush.backend.entity.reward;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@KorNamingConverter
 @DataJpaTest
 public class RewardTest {
 

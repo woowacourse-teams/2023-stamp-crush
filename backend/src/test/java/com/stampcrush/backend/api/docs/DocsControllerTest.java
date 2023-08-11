@@ -29,6 +29,7 @@ import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindServic
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -53,6 +54,7 @@ import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@KorNamingConverter
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @WebMvcTest({ManagerCafeFindApiController.class,

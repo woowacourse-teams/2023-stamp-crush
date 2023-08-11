@@ -97,3 +97,13 @@ export const CloseButton = styled.button`
   color: black;
   background: transparent;
 `;
+
+export const DeleteButton = styled.button`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  color: black;
+  background: transparent;
+`;

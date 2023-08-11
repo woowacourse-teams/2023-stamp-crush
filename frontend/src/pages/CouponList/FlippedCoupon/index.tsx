@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BackImage, CouponContainer, CouponWrapper, FrontImage, StampImage } from './style';
 import { StampCoordinate } from '../../../types';
 
-interface FlippedCouponProps {
+export interface FlippedCouponProps {
   frontImageUrl: string;
   backImageUrl: string;
   stampImageUrl: string;

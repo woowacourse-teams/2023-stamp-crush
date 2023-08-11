@@ -5,14 +5,15 @@ import {
   HeaderContainer,
   InfoContainer,
   LogoImg,
+  MyPageIconWrapper,
 } from './style';
-import { MouseEvent, useRef, useState } from 'react';
-import { getCafeInfo, getCoupons } from '../../api/get';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
 import type { CouponRes, PostIsFavoritesReq } from '../../types/api';
 import Alert from '../../components/Alert';
@@ -33,7 +34,11 @@ const CouponList = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
+  const {
+    data: couponData,
+    status: couponStatus,
+    refetch: refetchCoupons,
+  } = useQuery<CouponRes>(['coupons'], getCoupons, {
     refetchOnWindowFocus: false,
   });
 
@@ -125,8 +130,12 @@ const CouponList = () => {
   return (
     <>
       <HeaderContainer>
-        <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
-        <GoPerson size={24} onClick={navigateMyPage} aria-label="마이 페이지" role="button" />
+        <Link to={ROUTER_PATH.couponList}>
+          <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
+        </Link>
+        <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
+          <GoPerson size={24} />
+        </MyPageIconWrapper>
       </HeaderContainer>
       {coupons.length === 0 ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
@@ -162,6 +171,7 @@ const CouponList = () => {
             coupon={currentCoupon}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
+            refetchCoupons={refetchCoupons}
             closeDetail={closeCouponDetail}
           />
           <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">

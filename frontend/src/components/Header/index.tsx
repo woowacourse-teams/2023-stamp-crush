@@ -12,7 +12,7 @@ const Header = () => {
   };
   return (
     <HeaderContainer>
-      <Link to="/">
+      <Link to={ROUTER_PATH.customerList}>
         <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" />
       </Link>
       <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
