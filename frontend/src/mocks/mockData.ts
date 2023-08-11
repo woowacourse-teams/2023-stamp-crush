@@ -21,19 +21,67 @@ export const samples8 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 37,
+          yCoordinate: 50,
+        },
+        {
+          order: 2,
+          xCoordinate: 86,
+          yCoordinate: 50,
+        },
+        {
+          order: 3,
+          xCoordinate: 134,
+          yCoordinate: 50,
+        },
+        {
+          order: 4,
+          xCoordinate: 182,
+          yCoordinate: 50,
+        },
+        {
+          order: 5,
+          xCoordinate: 233,
+          yCoordinate: 50,
+        },
+        {
+          order: 6,
+          xCoordinate: 37,
+          yCoordinate: 100,
+        },
+        {
+          order: 7,
+          xCoordinate: 86,
+          yCoordinate: 100,
+        },
+        {
+          order: 8,
+          xCoordinate: 134,
+          yCoordinate: 100,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
@@ -44,19 +92,77 @@ export const samples10 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
-      id: 1,
+      id: 2,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 37,
+          yCoordinate: 50,
+        },
+        {
+          order: 2,
+          xCoordinate: 86,
+          yCoordinate: 50,
+        },
+        {
+          order: 3,
+          xCoordinate: 134,
+          yCoordinate: 50,
+        },
+        {
+          order: 4,
+          xCoordinate: 182,
+          yCoordinate: 50,
+        },
+        {
+          order: 5,
+          xCoordinate: 233,
+          yCoordinate: 50,
+        },
+        {
+          order: 6,
+          xCoordinate: 37,
+          yCoordinate: 100,
+        },
+        {
+          order: 7,
+          xCoordinate: 86,
+          yCoordinate: 100,
+        },
+        {
+          order: 8,
+          xCoordinate: 134,
+          yCoordinate: 100,
+        },
+        {
+          order: 9,
+          xCoordinate: 182,
+          yCoordinate: 100,
+        },
+        {
+          order: 10,
+          xCoordinate: 233,
+          yCoordinate: 100,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
@@ -406,14 +512,14 @@ export const customerRewards = {
       rewardName: '아메리카노',
       cafeName: '우아한카페',
       createdAt: '2023:08:06',
-      usedAt: '2023:08:07',
+      usedAt: null,
     },
     {
       id: 2,
       rewardName: '블록쿠키',
       cafeName: '레고카페',
       createdAt: '2023:08:04',
-      usedAt: '2023:08:07',
+      usedAt: null,
     },
   ],
 };
@@ -425,14 +531,28 @@ export const usedCustomerRewards = {
       rewardName: '아메리카노',
       cafeName: '라잇카페',
       createdAt: '2023:08:05',
-      usedAt: null,
+      usedAt: '2023:08:07',
     },
     {
       id: 2,
       rewardName: '마들렌',
       cafeName: '윤생카페',
       createdAt: '2023:08:03',
-      usedAt: null,
+      usedAt: '2023:08:07',
+    },
+    {
+      id: 2,
+      rewardName: '케이크',
+      cafeName: '레고카페',
+      createdAt: '2023:08:01',
+      usedAt: '2023:08:02',
+    },
+    {
+      id: 2,
+      rewardName: '카페라떼',
+      cafeName: '깃짱카페',
+      createdAt: '2023:08:01',
+      usedAt: '2023:08:02',
     },
   ],
 };

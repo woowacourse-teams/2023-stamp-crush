@@ -39,3 +39,6 @@ out/
 http-requests-log.http
 
 /src/main/resources/static/docs
+
+logs/
+was-logs/

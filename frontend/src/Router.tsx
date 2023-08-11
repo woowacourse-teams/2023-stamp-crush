@@ -10,14 +10,16 @@ import Header from './components/Header';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import Template from './components/Template';
-import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
+import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 import SelectCoupon from './pages/Admin/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
+import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import RewardList from './pages/RewardList';
+import RewardHistory from './pages/RewardHistory';
 
 const AdminRoot = () => {
   return (
@@ -57,7 +59,7 @@ const Router = () => {
         },
         {
           path: ROUTER_PATH.templateCouponDesign,
-          element: <CustomCouponDesign />,
+          element: <TemplateCouponDesign />,
         },
         {
           path: ROUTER_PATH.customCouponDesign,
@@ -81,6 +83,7 @@ const Router = () => {
         { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
+        { path: ROUTER_PATH.rewardHistory, element: <RewardHistory /> },
       ],
     },
   ]);

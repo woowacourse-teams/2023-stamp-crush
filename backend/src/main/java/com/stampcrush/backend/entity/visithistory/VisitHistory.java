@@ -33,9 +33,7 @@ public class VisitHistory extends BaseDate {
     private int stampCount;
 
     public VisitHistory(Cafe cafe, Customer customer, int stampCount) {
-        this.cafe = cafe;
-        this.customer = customer;
-        this.stampCount = stampCount;
+        this(null, cafe, customer, stampCount);
     }
 
     public String getCafeName() {

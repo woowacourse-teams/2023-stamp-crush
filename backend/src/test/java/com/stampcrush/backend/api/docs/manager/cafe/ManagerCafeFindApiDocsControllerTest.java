@@ -4,21 +4,17 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
-import com.stampcrush.backend.entity.user.Owner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalTime;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -27,28 +23,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ManagerCafeFindApiDocsControllerTest extends DocsControllerTest {
 
-    private Owner owner;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
     @Test
     void 카페_조회_요청_사장_모드() throws Exception {
         // given
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
-        when(managerCafeFindService.findCafesByOwner(owner.getId())).thenReturn(List.of(new CafeFindResultDto(1L, "우아한카페", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관", "032-1234-87", "안녕하세요")));
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(managerCafeFindService.findCafesByOwner(OWNER.getId())).thenReturn(List.of(new CafeFindResultDto(1L, "우아한카페", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관", "032-1234-87", "안녕하세요")));
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/cafe/find-cafe",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

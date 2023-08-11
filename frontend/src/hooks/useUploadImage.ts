@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
-const useUploadImage = () => {
-  const [imgFileUrl, setImgFileUrl] = useState<string>('');
+const useUploadImage = (initImgUrl = '') => {
+  const [imgFileUrl, setImgFileUrl] = useState<string>(initImgUrl);
 
   const uploadImageFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;

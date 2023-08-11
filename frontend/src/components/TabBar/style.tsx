@@ -23,6 +23,7 @@ export const TabBarLabel = styled.label`
   align-items: center;
   justify-content: center;
   width: 100%;
+  cursor: pointer;
 `;
 
 export const LabelContent = styled.span<StyledTabBarContentProps>`
