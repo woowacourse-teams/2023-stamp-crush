@@ -56,6 +56,7 @@ public class ManagerCouponFindService {
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
             VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
+            // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
             cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics,
                     visitHistories.getVisitCount(), visitHistories.getFirstVisitDate()));
