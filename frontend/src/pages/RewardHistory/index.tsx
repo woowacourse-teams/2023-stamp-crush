@@ -14,6 +14,7 @@ export const useRewardQuery = (used: boolean) => {
   return result;
 };
 
+// TODO: 어떻게 분리할 것인지? 생각해보기
 export const concatUsedAt = (rewards: Reward[]) => {
   return rewards.map((reward) => {
     if (!reward.usedAt) return reward;
