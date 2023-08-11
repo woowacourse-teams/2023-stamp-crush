@@ -7,27 +7,41 @@ import { Spacing } from '../../../style/layout/common';
 import { getCustomer, getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
-import { RewardRes } from '../../../types/api';
+import { Reward } from '../../../types';
+import {
+  MutateReq,
+  RewardReqBody,
+  RewardIdParams,
+  CustomerIdParams,
+  CustomerPhoneNumberRes,
+} from '../../../types/api';
 
 const RewardPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const phoneNumber = location.state.phoneNumber;
 
-  const { data: customerData } = useQuery(['getCustomer', phoneNumber], () =>
-    getCustomer(phoneNumber),
+  const { data: customerData, status: customerStatus } = useQuery<CustomerPhoneNumberRes>(
+    ['getCustomer', phoneNumber],
+    () => getCustomer({ params: { phoneNumber } }),
   );
-  const { data: rewardData, status } = useQuery(
+  const { data: rewardData, status: rewardStatus } = useQuery(
     ['getReward', customerData],
     // TODO: cafeId 전역으로 받아오기
-    () => getReward(customerData.customer[0].id, 1),
+    () => {
+      if (!customerData) throw new Error('고객 데이터 불러오기에 실패했습니다.');
+      return getReward({ params: { customerId: customerData.customer[0].id, cafeId: 1 } });
+    },
     {
       enabled: !!customerData,
     },
   );
 
   const { mutate: mutateReward } = useMutation({
-    mutationFn: (rewardId: number) => patchReward(customerData.customer[0].id, rewardId),
+    mutationFn: (request: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
+      if (!customerData) throw new Error('고객 데이터 불러오기에 실패했습니다.');
+      return patchReward(request);
+    },
     onSuccess() {
       navigate(ROUTER_PATH.customerList);
     },
@@ -36,17 +50,27 @@ const RewardPage = () => {
     },
   });
 
-  const activateRewardButton = (rewardId: number) => {
-    mutateReward(rewardId);
-  };
-
-  if (status === 'error') {
+  if (rewardStatus === 'error' || customerStatus === 'error') {
     return <div>불러오는 중 에러가 발생했습니다. 다시 시도해주세요.</div>;
   }
 
-  if (status === 'loading') {
+  if (rewardStatus === 'loading' || customerStatus === 'loading') {
     return <div>고객 정보 불러오는 중...</div>;
   }
+
+  // FIXME: 명세에 맞게 body 값 전달하기!! used 값과 cafeId 넣기
+  const activateRewardButton = (rewardId: number) => {
+    mutateReward({
+      params: {
+        rewardId,
+        customerId: customerData.customer[0].id,
+      },
+      body: {
+        used: false,
+        cafeId: 1,
+      },
+    });
+  };
 
   return (
     <>
@@ -60,7 +84,7 @@ const RewardPage = () => {
         <Spacing $size={42} />
         <RewardItemContainer>
           {rewardData.rewards.length ? (
-            rewardData.rewards.map(({ id, name }: RewardRes) => (
+            rewardData.rewards.map(({ id, name }: Reward) => (
               <RewardItemWrapper key={id}>
                 <RewardContent>{name}</RewardContent>
                 <Button onClick={() => activateRewardButton(id)}>사용</Button>

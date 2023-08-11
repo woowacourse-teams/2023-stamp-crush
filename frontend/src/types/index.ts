@@ -1,3 +1,5 @@
+import { EXPIRE_DATE_NONE } from '../constants';
+
 export interface SampleImage {
   id: number;
   imageUrl: string;
@@ -51,6 +53,14 @@ export interface Option {
   value: string;
 }
 
+export interface StampCountOption extends Option {
+  value: StampCountOptionValue;
+}
+
+export interface ExpireDateOption extends Option {
+  value: ExpireDateOptionValue;
+}
+
 export interface Coordinate {
   xCoordinate: number;
   yCoordinate: number;
@@ -77,6 +87,57 @@ export interface Time {
 
 export type CouponActivate = 'current' | 'new';
 
+export interface CustomerPhoneNumber {
+  id: number;
+  nickname: string;
+  phoneNumber: string;
+}
+
+export interface IssuedCoupon {
+  id: number;
+  customerId: number;
+  nickname: string;
+  stampCount: number;
+  expireDate: string;
+  isPrevious: boolean;
+  maxStampCount: number;
+}
+
+export interface Reward {
+  id: number;
+  name: string;
+}
+
+export interface Customer {
+  id: number;
+  nickname: string;
+  stampCount: number;
+  maxStampCount: number;
+  rewardCount: number;
+  visitCount: number;
+  firstVisitDate: string;
+  isRegistered: boolean;
+}
+
+export type CouponDesignLocation = {
+  state: {
+    createdType: CouponCreated;
+    reward: string;
+    expirePeriod: ExpireDateOption;
+    stampCount: StampCountOptionValue;
+  };
+};
+
+export type StampCountOptionValue = `${number}개`;
+
+export type ExpireDateOptionValue = `${number}개월` | typeof EXPIRE_DATE_NONE;
+
 export type CouponCreated = 'template' | 'custom';
 
 export type RouterPath = `/${string}`;
+
+export interface DateParseOption {
+  hasYear: boolean;
+  hasMonth: boolean;
+  hasDay: boolean;
+}

@@ -19,70 +19,76 @@ import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 import { CouponActivate } from '../../../types';
+import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 
 const SelectCoupon = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isPrevious, setIsPrevious] = useState(true);
   const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
   const phoneNumber = location.state.phoneNumber;
 
-  // 전화번호로 조회
   const {
     data: customer,
     status: customerStatus,
     refetch: refetchCustomer,
-  } = useQuery(['customer', phoneNumber], () => getCustomer(phoneNumber), {
+  } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
+    queryFn: () => getCustomer({ params: { phoneNumber } }),
     onSuccess: (data) => {
-      if (data.customer.length === null) {
-        mutateTempCustomer(phoneNumber);
+      if (data.customer.length === 0) {
+        mutateTempCustomer({ body: phoneNumber });
       }
     },
   });
 
-  // 임시 가입 고객 생성
-  const { mutate: mutateTempCustomer, status: tempCustomerStatus } = useMutation(
-    (phoneNumber: string) => postRegisterUser(phoneNumber),
-    {
-      onSuccess: () => {
-        setSelectedCoupon('new');
-        refetchCustomer();
-      },
-      onError: () => {
-        throw new Error('스탬프 적립에 실패했습니다.');
-      },
+  const { mutate: mutateTempCustomer } = useMutation({
+    mutationFn: postRegisterUser,
+    onSuccess: () => {
+      setSelectedCoupon('new');
+      refetchCustomer();
     },
-  );
+    onError: () => {
+      throw new Error('스탬프 적립에 실패했습니다.');
+    },
+  });
 
-  // 쿠폰 조회
-  const { data: coupon, status: couponStatus } = useQuery(
-    ['coupons', customer],
-    () => getCoupon(customer.customer[0].id, '1'),
+  const { data: coupon, status: couponStatus } = useQuery<IssuedCouponsRes, Error>(
+    ['coupon', customer],
     {
+      queryFn: async () => {
+        if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
+      },
       enabled: !!customer,
     },
   );
 
-  const navigate = useNavigate();
-
-  // 신규 쿠폰 발급
-  const { mutate: mutateIssueCoupon } = useMutation(
-    () => postIssueCoupon(customer.customer[0].id),
-    {
-      onSuccess: (data) => {
-        const newCouponId = +data.couponId;
-        navigate(ROUTER_PATH.earnStamp, {
-          state: {
-            isPrevious,
-            customer: foundCustomer,
-            couponId: newCouponId,
-          },
-        });
-      },
-      onError: () => {
-        throw new Error('스탬프 적립에 실패했습니다.');
-      },
+  // TODO: cafe id 하드코딩 된 값 제거
+  const TEMP_CAFE_ID = 1;
+  const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
+    mutationFn: async () => {
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+      return await postIssueCoupon({
+        params: { customerId: customer.customer[0].id },
+        body: {
+          cafeId: TEMP_CAFE_ID,
+        },
+      });
     },
-  );
+    onSuccess: (data: IssueCouponRes) => {
+      const newCouponId = +data.couponId;
+      navigate(ROUTER_PATH.earnStamp, {
+        state: {
+          isPrevious,
+          customer: foundCustomer,
+          couponId: newCouponId,
+        },
+      });
+    },
+    onError: () => {
+      throw new Error('스탬프 적립에 실패했습니다.');
+    },
+  });
 
   const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -92,7 +98,7 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
-  if (couponStatus === 'loading' || tempCustomerStatus === 'loading') return <p>Loading</p>;
+  if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
 
   if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
 

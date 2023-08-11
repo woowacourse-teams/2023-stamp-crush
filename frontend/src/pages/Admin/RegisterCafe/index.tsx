@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
-import { CafeRegisterReq } from '../../../types/api';
+import { CafeRegisterReqBody, MutateReq } from '../../../types/api';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -18,17 +18,14 @@ const RegisterCafe = () => {
   const { openAddressPopup } = useFindAddress(setRoadAddress);
   const navigate = useNavigate();
 
-  const { mutate, isLoading, isError } = useMutation(
-    (formData: CafeRegisterReq) => postRegisterCafe(formData),
-    {
-      onSuccess: () => {
-        navigate(ROUTER_PATH.customerList);
-      },
-      onError: () => {
-        throw new Error('카페 등록에 실패했습니다.');
-      },
+  const { mutate, isLoading, isError } = useMutation(postRegisterCafe, {
+    onSuccess: () => {
+      navigate(ROUTER_PATH.customerList);
     },
-  );
+    onError: () => {
+      throw new Error('카페 등록에 실패했습니다.');
+    },
+  });
 
   const certifyUser = () => {
     alert(businessRegistrationNumberInputRef.current?.value);
@@ -43,13 +40,13 @@ const RegisterCafe = () => {
       roadAddressInputRef.current &&
       detailAddressInputRef.current
     ) {
-      const cafeRegisterBody: CafeRegisterReq = {
+      const cafeRegisterBody: CafeRegisterReqBody = {
         businessRegistrationNumber: businessRegistrationNumberInputRef.current?.value,
         name: cafeNameInputRef.current?.value,
         roadAddress: roadAddressInputRef.current?.value,
         detailAddress: detailAddressInputRef.current?.value,
       };
-      mutate(cafeRegisterBody);
+      mutate({ body: cafeRegisterBody });
     }
   };
 
@@ -68,6 +65,7 @@ const RegisterCafe = () => {
             label={'사업자등록번호'}
             width={410}
             placeholder={'사업자등록번호를 입력해주세요.'}
+            autoComplete="off"
             required={true}
           />
           <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
@@ -80,6 +78,7 @@ const RegisterCafe = () => {
           label={'카페명'}
           width={550}
           placeholder={'카페명을 입력해주세요.'}
+          autoComplete="off"
           required={true}
         />
         <InputWithButtonWrapper>
@@ -90,6 +89,7 @@ const RegisterCafe = () => {
             value={roadAddress}
             width={410}
             placeholder={'카페 주소를 입력해주세요.'}
+            autoComplete="off"
             required={true}
           />
           <Button type="button" variant={'secondary'} size={'medium'} onClick={openAddressPopup}>
@@ -102,6 +102,7 @@ const RegisterCafe = () => {
           label={'상세 주소'}
           width={550}
           placeholder={'상세 주소를 입력해주세요.'}
+          autoComplete="off"
           required={true}
         />
 
