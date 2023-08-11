@@ -1,9 +1,8 @@
 package com.stampcrush.backend.application.manager.cafe;
 
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeCreateDto;
 import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -38,9 +37,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+// TODO: Mock 사용한 slice test로 변경해주세요!
 @Transactional
-@KorNamingConverter
 @SpringBootTest
+@ServiceSliceTest
 public class ManagerCafeCommandServiceTest {
 
     @Autowired

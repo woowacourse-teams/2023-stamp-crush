@@ -2,19 +2,15 @@ package com.stampcrush.backend.api.manager.cafe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +22,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(ManagerCafeCouponSettingCommandApiController.class)
-class ManagerCafeCouponSettingCommandApiControllerTest {
+class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerSliceTest {
 
     private static final CafeCouponSettingUpdateRequest CAFE_COUPON_SETTING_UPDATE_REQUEST = new CafeCouponSettingUpdateRequest(
             "frontImageUrl",
@@ -38,15 +33,6 @@ class ManagerCafeCouponSettingCommandApiControllerTest {
             "reward",
             6
     );
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private OwnerRepository ownerRepository;
-
-    @MockBean
-    private RegisterCustomerRepository registerCustomerRepository;
 
     @MockBean
     private ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;

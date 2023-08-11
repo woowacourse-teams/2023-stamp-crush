@@ -1,29 +1,22 @@
 package com.stampcrush.backend.application.visitor.cafe;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalTime;
 import java.util.Optional;
 
 import static com.stampcrush.backend.fixture.CafeFixture.GITCHAN_CAFE;
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class VisitorCafeFindServiceTest {
 
     @InjectMocks

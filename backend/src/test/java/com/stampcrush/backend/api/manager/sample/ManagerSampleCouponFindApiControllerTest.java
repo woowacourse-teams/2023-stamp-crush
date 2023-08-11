@@ -1,20 +1,16 @@
 package com.stampcrush.backend.api.manager.sample;
 
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
 import com.stampcrush.backend.helper.AuthHelper;
 import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,18 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(ManagerSampleCouponFindApiController.class)
-class ManagerSampleCouponFindApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private OwnerRepository ownerRepository;
-
-    @MockBean
-    private RegisterCustomerRepository registerCustomerRepository;
+class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerSampleCouponFindService managerSampleCouponFindService;

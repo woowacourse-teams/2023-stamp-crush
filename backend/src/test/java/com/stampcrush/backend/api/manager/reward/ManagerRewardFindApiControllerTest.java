@@ -1,19 +1,16 @@
 package com.stampcrush.backend.api.manager.reward;
 
-import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
 import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
@@ -23,14 +20,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(value = ManagerRewardFindApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerRewardFindApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class ManagerRewardFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerRewardFindService managerRewardFindService;
