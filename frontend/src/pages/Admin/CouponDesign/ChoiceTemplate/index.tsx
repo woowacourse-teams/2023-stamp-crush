@@ -10,27 +10,27 @@ import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../..
 import { SampleCouponRes } from '../../../../types/api';
 
 interface ChoiceTemplateProps {
-  frontImage: string;
-  backImage: string;
-  stampImage: string;
-  setFrontImage: Dispatch<SetStateAction<string>>;
-  setBackImage: Dispatch<SetStateAction<string>>;
-  setStampImage: Dispatch<SetStateAction<string>>;
+  frontImageUrl: string;
+  backImageUrl: string;
+  stampImageUrl: string;
+  setFrontImageUrl: Dispatch<SetStateAction<string>>;
+  setBackImageUrl: Dispatch<SetStateAction<string>>;
+  setStampImageUrl: Dispatch<SetStateAction<string>>;
   setStampCoordinates: Dispatch<SetStateAction<StampCoordinate[]>>;
 }
 
 const ChoiceTemplate = ({
-  frontImage,
-  backImage,
-  stampImage,
-  setFrontImage,
-  setBackImage,
-  setStampImage,
+  frontImageUrl,
+  backImageUrl,
+  stampImageUrl,
+  setFrontImageUrl,
+  setBackImageUrl,
+  setStampImageUrl,
   setStampCoordinates,
 }: ChoiceTemplateProps) => {
   const location = useLocation();
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
-  const [selectedImage, setSelectedImage] = useState(frontImage);
+  const [selectedImage, setSelectedImage] = useState(frontImageUrl);
   const imageRef = useRef<HTMLImageElement>(null);
   const maxStampCount = parseStampCount(location.state.stampCount);
 
@@ -59,13 +59,13 @@ const ChoiceTemplate = ({
     setTemplateSelect(e.target.value);
     switch (e.target.value) {
       case TEMPLATE_MENU.FRONT_IMAGE:
-        setSelectedImage(frontImage);
+        setSelectedImage(frontImageUrl);
         break;
       case TEMPLATE_MENU.BACK_IMAGE:
-        setSelectedImage(backImage);
+        setSelectedImage(backImageUrl);
         break;
       case TEMPLATE_MENU.STAMP:
-        setSelectedImage(stampImage);
+        setSelectedImage(stampImageUrl);
         break;
       default:
         break;
@@ -76,15 +76,15 @@ const ChoiceTemplate = ({
     if (!imageRef.current) return;
     switch (templateSelect) {
       case TEMPLATE_MENU.FRONT_IMAGE:
-        setFrontImage(imageRef.current.src);
+        setFrontImageUrl(imageRef.current.src);
         break;
       case TEMPLATE_MENU.BACK_IMAGE:
         if (!coordinates) return;
-        setBackImage(imageRef.current.src);
+        setBackImageUrl(imageRef.current.src);
         setStampCoordinates([...coordinates]);
         break;
       case TEMPLATE_MENU.STAMP:
-        setStampImage(imageRef.current.src);
+        setStampImageUrl(imageRef.current.src);
         break;
       default:
         break;

@@ -48,7 +48,7 @@ const CouponDetail = ({
   const { isOpen, openModal, closeModal } = useModal();
 
   const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
-    queryFn: () => getCafeInfo(cafeId),
+    queryFn: () => getCafeInfo({ params: { cafeId } }),
 
     enabled: cafeId !== 0,
   });
@@ -72,7 +72,7 @@ const CouponDetail = ({
   return (
     <>
       <CouponDetailContainer $isDetail={isDetail}>
-        <CafeImage src={cafeData.cafe.cafeImageUrl} />
+        <CafeImage src={cafeData.cafes[0].cafeImageUrl} />
         <FlippedCoupon
           frontImageUrl={couponInfos.frontImageUrl}
           backImageUrl={couponInfos.backImageUrl}
@@ -89,7 +89,7 @@ const CouponDetail = ({
         </DeleteButton>
         <OverviewContainer>
           <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
-          <Text>{cafeData.cafe.introduction}</Text>
+          <Text>{cafeData.cafes[0].introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
           <Text ariaLabel="쿠폰 정책">
@@ -98,15 +98,15 @@ const CouponDetail = ({
           </Text>
           <Text ariaLabel="영업 시간">
             <FaRegClock size={22} />
-            {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+            {`${cafeData.cafes[0].openTime} - ${cafeData.cafes[0].closeTime}`}
           </Text>
           <Text ariaLabel="전화번호">
             <FaPhoneAlt size={22} />
-            {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
+            {parsePhoneNumber(cafeData.cafes[0].telephoneNumber)}
           </Text>
           <Text ariaLabel="주소">
             <FaLocationDot size={22} />
-            {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+            {cafeData.cafes[0].roadAddress + ' ' + cafeData.cafes[0].detailAddress}
           </Text>
         </ContentContainer>
       </CouponDetailContainer>

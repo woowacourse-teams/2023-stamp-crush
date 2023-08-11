@@ -13,6 +13,7 @@ import {
   QueryReq,
   RewardRes,
   SampleCouponRes,
+  UsedParams,
 } from '../types/api';
 
 export const getCafe = async () => {
@@ -66,6 +67,7 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
   return await api.get<CafeRes>(`/cafes/${params.cafeId}`, customerHeader);
 };
 
-export const getMyRewards = async (used: boolean) => {
-  return await api.get(`/rewards?used=${used}`, customerHeader);
+export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
 };

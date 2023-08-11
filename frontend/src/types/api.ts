@@ -122,3 +122,7 @@ export interface MaxStampCountParams {
 export interface MyRewardRes {
   rewards: Reward[];
 }
+
+export interface UsedParams {
+  used: boolean;
+}

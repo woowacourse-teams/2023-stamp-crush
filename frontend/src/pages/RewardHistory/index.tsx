@@ -1,18 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import SubHeader from '../../components/Header/SubHeader';
-import { MyRewardRes } from '../../types/api';
 import { getMyRewards } from '../../api/get';
 import { Reward } from '../../types';
 import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
 import { parseStringDateToKorean, sortMapByKey } from '../../utils';
-
-export const useRewardQuery = (used: boolean) => {
-  const result = useQuery<MyRewardRes>(['myRewards', used], {
-    queryFn: () => getMyRewards(used),
-  });
-
-  return result;
-};
 
 // TODO: 어떻게 분리할 것인지? 생각해보기
 export const concatUsedAt = (rewards: Reward[]) => {
@@ -41,7 +32,9 @@ export const transformRewardsToMap = (rewards: Reward[]): Map<string, Reward[]> 
 };
 
 const RewardHistory = () => {
-  const { data: rewardData, status: rewardStatus } = useRewardQuery(true);
+  const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
+    queryFn: () => getMyRewards({ params: { used: true } }),
+  });
 
   if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;

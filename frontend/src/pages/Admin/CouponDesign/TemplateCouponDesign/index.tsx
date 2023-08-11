@@ -9,7 +9,6 @@ import {
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import { useState } from 'react';
-import { CouponSettingReq } from '../../../../types/api';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import CustomCouponSection from '../CustomCouponSection';
 import CouponPreviewSection from '../CouponPreviewSection';
@@ -19,6 +18,7 @@ import ChoiceTemplate from '../ChoiceTemplate';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
+import { CouponSettingReqBody } from '../../../../types/api';
 
 const TemplateCouponDesign = () => {
   const { state } = useLocation() as unknown as CouponDesignLocation;
@@ -36,7 +36,7 @@ const TemplateCouponDesign = () => {
       return;
     }
 
-    const couponSettingBody: CouponSettingReq = {
+    const couponSettingBody: CouponSettingReqBody = {
       frontImageUrl,
       backImageUrl,
       stampImageUrl,
@@ -46,7 +46,7 @@ const TemplateCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutate(couponSettingBody);
+    mutate({ body: couponSettingBody });
   };
 
   return (
