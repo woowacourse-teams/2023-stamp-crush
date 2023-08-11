@@ -12,6 +12,21 @@ import {
 } from './style';
 import { useEffect, useState } from 'react';
 import { ROUTER_PATH } from '../../constants';
+import {
+  PiUserListLight,
+  PiBuildingsLight,
+  PiStampLight,
+  PiBookOpenTextLight,
+  PiGiftLight,
+} from 'react-icons/pi';
+
+const SIDEBAR_ICONS = [
+  <PiUserListLight size={26} key="customer-list" />,
+  <PiBuildingsLight size={26} key="manage-cafe" />,
+  <PiBookOpenTextLight size={26} key="modify-coupon-policy" />,
+  <PiStampLight size={26} key="earn-stamp" />,
+  <PiGiftLight size={26} key="use-reward" />,
+];
 
 interface SideBarProps {
   width: number;
@@ -76,6 +91,7 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
                 $height={height / options.length}
                 onClick={() => setCurrentIndex(index + 1)}
               >
+                {SIDEBAR_ICONS[index]}
                 {key}
               </LabelContent>
             </SideBarLink>

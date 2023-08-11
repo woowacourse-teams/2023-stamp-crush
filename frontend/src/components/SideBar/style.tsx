@@ -24,9 +24,7 @@ export const LogoImgWrapper = styled.button`
   align-self: flex-start;
   background: transparent;
   width: 150px;
-
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
 `;
 
@@ -60,11 +58,12 @@ export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
 export const LabelContent = styled.span<SideBarStyleProps>`
   display: flex;
   align-items: center;
+  gap: 10px;
   justify-content: flex-start;
   width: ${(props) => `${props.$width}px`};
   height: ${(props) => `${props.$height}px`};
   font-size: 18px;
-  font-weight: ${(props) => (props.$isSelected ? 'bold' : 'normal')};
+  font-weight: ${(props) => (props.$isSelected ? '600' : '400')};
   color: ${({ theme, $isSelected }) => ($isSelected ? `${theme.colors.text}` : 'white')};
 
   border-radius: 40px 0 0 40px;
@@ -82,7 +81,12 @@ export const SideBarContent = styled.div<{ $isSelected: boolean; $currentIndex: 
   border-radius: 40px 0 0 40px;
 
   :hover {
-    font-weight: 600;
     opacity: 80%;
   }
+`;
+
+export const ImageWrapper = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
 `;
