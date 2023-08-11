@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -201,5 +202,14 @@ class CouponRepositoryTest {
 
         // then
         assertThat(visitTime).isEqualTo(coupon1.getCreatedAt());
+    }
+
+    @Test
+    void 쿠폰의_아이디와_고객의_아이디로_쿠폰을_조회한다() {
+        // given, when
+        Optional<Coupon> coupon = couponRepository.findByIdAndCustomerId(coupon1.getId(), tmpCustomer1.getId());
+
+        // then
+        assertThat(coupon).isPresent();
     }
 }
