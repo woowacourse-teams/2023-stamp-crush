@@ -2,11 +2,10 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.common.DataCleaner;
 import com.stampcrush.backend.common.DataClearExtension;
+import com.stampcrush.backend.common.KorNamingConverter;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +13,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SuppressWarnings("NonAsciiCharacters")
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@KorNamingConverter
 @ExtendWith(DataClearExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class AcceptanceTest {
@@ -25,7 +23,7 @@ public class AcceptanceTest {
 
     @Autowired
     private DataCleaner cleaner;
-    
+
     @BeforeEach
     void setup() {
         RestAssured.port = port;

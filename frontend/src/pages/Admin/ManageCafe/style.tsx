@@ -49,6 +49,10 @@ export const PreviewOverviewContainer = styled.div`
   gap: 10px;
   word-break: break-all;
   overflow: hidden;
+
+  :nth-child(2) {
+    overflow: scroll;
+  }
 `;
 
 export const PreviewContentContainer = styled.div`
@@ -83,4 +87,9 @@ export const PreviewEmptyCouponImage = styled.div`
   font-weight: 500;
   background: white;
   border: 3px dotted black;
+`;
+
+export const RestrictionLabel = styled.label<{ $isExceed: boolean }>`
+  color: ${({ $isExceed }) => ($isExceed ? 'tomato' : '#aaa')};
+  margin-left: auto;
 `;

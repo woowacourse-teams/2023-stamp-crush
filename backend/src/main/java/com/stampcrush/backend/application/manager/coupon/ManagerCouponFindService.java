@@ -55,7 +55,7 @@ public class ManagerCouponFindService {
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.from(customerCoupon.customer, customerCouponStatistics));
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics));
         }
 
         return cafeCustomerFindResultDtos;

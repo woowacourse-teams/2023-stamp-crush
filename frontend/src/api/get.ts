@@ -65,3 +65,7 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CafeRes>(`/cafes/${params.cafeId}`, customerHeader);
 };
+
+export const getMyRewards = async (used: boolean) => {
+  return await api.get(`/rewards?used=${used}`, customerHeader);
+};

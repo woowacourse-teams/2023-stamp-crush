@@ -65,6 +65,7 @@ const RegisterCafe = () => {
             label={'사업자등록번호'}
             width={410}
             placeholder={'사업자등록번호를 입력해주세요.'}
+            autoComplete="off"
             required={true}
           />
           <Button type="button" variant={'secondary'} size={'medium'} onClick={certifyUser}>
@@ -77,6 +78,7 @@ const RegisterCafe = () => {
           label={'카페명'}
           width={550}
           placeholder={'카페명을 입력해주세요.'}
+          autoComplete="off"
           required={true}
         />
         <InputWithButtonWrapper>
@@ -87,6 +89,7 @@ const RegisterCafe = () => {
             value={roadAddress}
             width={410}
             placeholder={'카페 주소를 입력해주세요.'}
+            autoComplete="off"
             required={true}
           />
           <Button type="button" variant={'secondary'} size={'medium'} onClick={openAddressPopup}>
@@ -99,6 +102,7 @@ const RegisterCafe = () => {
           label={'상세 주소'}
           width={550}
           placeholder={'상세 주소를 입력해주세요.'}
+          autoComplete="off"
           required={true}
         />
 

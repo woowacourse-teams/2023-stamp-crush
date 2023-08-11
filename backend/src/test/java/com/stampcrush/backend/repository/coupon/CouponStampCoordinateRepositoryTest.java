@@ -1,5 +1,6 @@
 package com.stampcrush.backend.repository.coupon;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import com.stampcrush.backend.fixture.CouponDesignFixture;
@@ -12,6 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@KorNamingConverter
 @DataJpaTest
 class CouponStampCoordinateRepositoryTest {
 

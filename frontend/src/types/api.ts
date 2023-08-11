@@ -118,3 +118,7 @@ export interface PhoneNumberParams {
 export interface MaxStampCountParams {
   maxStampCount: number;
 }
+
+export interface MyRewardRes {
+  rewards: Reward[];
+}

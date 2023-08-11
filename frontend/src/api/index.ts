@@ -39,8 +39,9 @@ export const api = {
       body: JSON.stringify(payload),
     }),
 
-  delete: (path: string) =>
+  delete: (path: string, init?: RequestInit) =>
     request(path, {
+      headers: init?.headers,
       method: 'DELETE',
     }),
 };

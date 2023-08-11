@@ -4,6 +4,7 @@ import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
 import com.stampcrush.backend.entity.sample.SampleStampImage;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -49,8 +50,8 @@ public class SampleCouponsFindResultDto {
         }
     }
 
-    @RequiredArgsConstructor
     @Getter
+    @RequiredArgsConstructor
     public static class SampleBackImageDto {
 
         private final Long id;

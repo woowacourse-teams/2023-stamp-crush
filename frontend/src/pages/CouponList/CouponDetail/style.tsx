@@ -47,14 +47,18 @@ export const OverviewContainer = styled.div`
   width: 100%;
   height: 130px;
   top: 260px;
-  padding: 0 10px;
+  padding: 0 30px;
   gap: 10px;
+  line-height: 24px;
   word-break: break-all;
-  overflow: hidden;
 
   :nth-child(1) {
     padding: 5px 20px;
     border-bottom: 2px solid black;
+  }
+
+  :nth-child(2) {
+    overflow: scroll;
   }
 `;
 
@@ -69,11 +73,10 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 25%;
+  bottom: 15%;
   left: 50px;
   width: 300px;
-  height: 100px;
-  gap: 20px;
+  gap: 10px;
 
   :nth-child(n) {
     display: flex;
@@ -81,6 +84,7 @@ export const ContentContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+    overflow: hidden;
   }
 `;
 
@@ -88,6 +92,16 @@ export const CloseButton = styled.button`
   position: absolute;
   top: 15px;
   left: 15px;
+  width: 24px;
+  height: 24px;
+  color: black;
+  background: transparent;
+`;
+
+export const DeleteButton = styled.button`
+  position: absolute;
+  top: 15px;
+  right: 15px;
   width: 24px;
   height: 24px;
   color: black;

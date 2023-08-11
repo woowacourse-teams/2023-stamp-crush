@@ -9,6 +9,8 @@ import {
   mockCoupons,
   cafeCustomer,
   customerCoupons,
+  usedCustomerRewards,
+  customerRewards,
 } from './mockData';
 
 const customerList = [...customers];
@@ -238,5 +240,18 @@ export const handlers = [
   // 쿠폰 즐겨찾기 등록, 해제
   rest.post('/cafes/:cafeId/favorites', async (req, res, ctx) => {
     return res(ctx.status(200));
+  }),
+
+  // 사용가능한 리워드 조회
+  rest.get('/rewards', (req, res, ctx) => {
+    const used = req.url.searchParams.get('used');
+
+    if (used) return res(ctx.status(200), ctx.json(usedCustomerRewards));
+    return res(ctx.status(200), ctx.json(customerRewards));
+  }),
+           
+  // 쿠폰 삭제
+  rest.delete('/coupons/:couponId', async (req, res, ctx) => {
+    return res(ctx.status(204));
   }),
 ];

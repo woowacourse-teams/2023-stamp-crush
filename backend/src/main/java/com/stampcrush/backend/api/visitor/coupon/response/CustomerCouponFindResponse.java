@@ -29,9 +29,14 @@ public class CustomerCouponFindResponse {
 
         private final Long id;
         private final String name;
+        private final Boolean isFavorites;
 
         static CafeInfoResponse from(CustomerCouponFindResultDto.CafeInfoDto cafeInfoDto) {
-            return new CafeInfoResponse(cafeInfoDto.getId(), cafeInfoDto.getName());
+            return new CafeInfoResponse(
+                    cafeInfoDto.getId(),
+                    cafeInfoDto.getName(),
+                    cafeInfoDto.getIsFavorites()
+            );
         }
     }
 
@@ -40,7 +45,6 @@ public class CustomerCouponFindResponse {
     private static class CustomerCouponInfoResponse {
 
         private final Long id;
-        private final Boolean isFavorites;
         private final CouponStatus status;
         private final Integer stampCount;
         private final Integer maxStampCount;
@@ -53,7 +57,6 @@ public class CustomerCouponFindResponse {
         static CustomerCouponInfoResponse from(CustomerCouponFindResultDto.CouponInfoDto couponInfoDto) {
             return new CustomerCouponInfoResponse(
                     couponInfoDto.getId(),
-                    couponInfoDto.getIsFavorites(),
                     couponInfoDto.getStatus(),
                     couponInfoDto.getStampCount(),
                     couponInfoDto.getMaxStampCount(),

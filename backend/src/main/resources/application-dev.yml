@@ -18,3 +18,8 @@ spring:
         use_sql_comments: true
         jdbc:
           batch_size: 10
+
+springdoc:
+  swagger-ui:
+    url: /docs/openapi3.json
+    path: /api/swagger-ui/index.html

@@ -22,19 +22,21 @@ public class CustomerCouponFindResultDto {
             Boolean isFavorites,
             List<CouponStampCoordinate> coordinates
     ) {
-        CafeInfoDto cafeInfoDto = CafeInfoDto.from(cafe);
-        CouponInfoDto couponInfoDto = CouponInfoDto.of(coupon, isFavorites, coordinates);
+        CafeInfoDto cafeInfoDto = CafeInfoDto.of(cafe, isFavorites);
+        CouponInfoDto couponInfoDto = CouponInfoDto.of(coupon, coordinates);
         return new CustomerCouponFindResultDto(cafeInfoDto, couponInfoDto);
     }
 
     @Getter
     @RequiredArgsConstructor
     public static class CafeInfoDto {
+
         private final Long id;
         private final String name;
+        private final Boolean isFavorites;
 
-        public static CafeInfoDto from(Cafe cafe) {
-            return new CafeInfoDto(cafe.getId(), cafe.getName());
+        public static CafeInfoDto of(Cafe cafe, Boolean isFavorites) {
+            return new CafeInfoDto(cafe.getId(), cafe.getName(), isFavorites);
         }
     }
 
@@ -42,7 +44,6 @@ public class CustomerCouponFindResultDto {
     @RequiredArgsConstructor
     public static class CouponInfoDto {
         private final Long id;
-        private final Boolean isFavorites;
         private final CouponStatus status;
         private final Integer stampCount;
         private final Integer maxStampCount;
@@ -52,10 +53,9 @@ public class CustomerCouponFindResultDto {
         private final String stampImageUrl;
         private final List<CouponCoordinatesDto> coordinates;
 
-        public static CouponInfoDto of(Coupon coupon, Boolean isFavorites, List<CouponStampCoordinate> coordinates) {
+        public static CouponInfoDto of(Coupon coupon, List<CouponStampCoordinate> coordinates) {
             return new CouponInfoDto(
                     coupon.getId(),
-                    isFavorites,
                     coupon.getStatus(),
                     coupon.getStampCount(),
                     coupon.getCouponMaxStampCount(),

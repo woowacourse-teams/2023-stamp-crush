@@ -21,19 +21,67 @@ export const samples8 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 37,
+          yCoordinate: 50,
+        },
+        {
+          order: 2,
+          xCoordinate: 86,
+          yCoordinate: 50,
+        },
+        {
+          order: 3,
+          xCoordinate: 134,
+          yCoordinate: 50,
+        },
+        {
+          order: 4,
+          xCoordinate: 182,
+          yCoordinate: 50,
+        },
+        {
+          order: 5,
+          xCoordinate: 233,
+          yCoordinate: 50,
+        },
+        {
+          order: 6,
+          xCoordinate: 37,
+          yCoordinate: 100,
+        },
+        {
+          order: 7,
+          xCoordinate: 86,
+          yCoordinate: 100,
+        },
+        {
+          order: 8,
+          xCoordinate: 134,
+          yCoordinate: 100,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
@@ -44,19 +92,77 @@ export const samples10 = {
       id: 1,
       imageUrl: 'https://picsum.photos/270/150',
     },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
-
   sampleBackImages: [
     {
-      id: 1,
+      id: 2,
       imageUrl: 'https://picsum.photos/270/150',
-      stampCoordinates: [],
+      stampCoordinates: [
+        {
+          order: 1,
+          xCoordinate: 37,
+          yCoordinate: 50,
+        },
+        {
+          order: 2,
+          xCoordinate: 86,
+          yCoordinate: 50,
+        },
+        {
+          order: 3,
+          xCoordinate: 134,
+          yCoordinate: 50,
+        },
+        {
+          order: 4,
+          xCoordinate: 182,
+          yCoordinate: 50,
+        },
+        {
+          order: 5,
+          xCoordinate: 233,
+          yCoordinate: 50,
+        },
+        {
+          order: 6,
+          xCoordinate: 37,
+          yCoordinate: 100,
+        },
+        {
+          order: 7,
+          xCoordinate: 86,
+          yCoordinate: 100,
+        },
+        {
+          order: 8,
+          xCoordinate: 134,
+          yCoordinate: 100,
+        },
+        {
+          order: 9,
+          xCoordinate: 182,
+          yCoordinate: 100,
+        },
+        {
+          order: 10,
+          xCoordinate: 233,
+          yCoordinate: 100,
+        },
+      ],
     },
   ],
   sampleStampImages: [
     {
       id: 1,
-      imageUrl: 'https://picsum.photos/270/150',
+      imageUrl: 'https://picsum.photos/50',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1KVBztQdUCpvp8usHUbIbSBYvQManm6eN',
     },
   ],
 };
@@ -159,11 +265,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 1,
         name: '깃짱카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 1,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 1,
           maxStampCount: 8,
@@ -193,11 +299,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 2,
         name: '하디카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 2,
-          isFavorites: false,
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -227,11 +333,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 3,
         name: '제나카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 3,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 7,
           maxStampCount: 8,
@@ -261,11 +368,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 4,
         name: '레고카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 4,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 2,
           maxStampCount: 10,
@@ -295,11 +402,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 5,
         name: '라잇카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 5,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -329,11 +437,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 6,
         name: '윤생카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 6,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -361,11 +469,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 7,
         name: '레오카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 7,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -393,6 +502,58 @@ export const customerCoupons = {
           ],
         },
       ],
+    },
+  ],
+};
+
+export const customerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '우아한카페',
+      createdAt: '2023:08:06',
+      usedAt: null,
+    },
+    {
+      id: 2,
+      rewardName: '블록쿠키',
+      cafeName: '레고카페',
+      createdAt: '2023:08:04',
+      usedAt: null,
+    },
+  ],
+};
+
+export const usedCustomerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '라잇카페',
+      createdAt: '2023:08:05',
+      usedAt: '2023:08:07',
+    },
+    {
+      id: 2,
+      rewardName: '마들렌',
+      cafeName: '윤생카페',
+      createdAt: '2023:08:03',
+      usedAt: '2023:08:07',
+    },
+    {
+      id: 2,
+      rewardName: '케이크',
+      cafeName: '레고카페',
+      createdAt: '2023:08:01',
+      usedAt: '2023:08:02',
+    },
+    {
+      id: 2,
+      rewardName: '카페라떼',
+      cafeName: '깃짱카페',
+      createdAt: '2023:08:01',
+      usedAt: '2023:08:02',
     },
   ],
 };
