@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { PageContainer } from '../../../style/layout/common';
+import { PageContainer } from '../../../../style/layout/common';
 
 export const CustomCouponDesignContainer = styled(PageContainer)`
   display: flex;
@@ -15,11 +15,6 @@ export const SaveButtonWrapper = styled.div`
   flex-direction: row-reverse;
   width: 100%;
 `;
-
-// FIXME: 빈 스타일드 컴포넌트 수정 요망
-export const PreviewCouponContainer = styled.div``;
-
-export const CouponContainer = styled.div``;
 
 export const PreviewImageWrapper = styled.div<{
   $width: number;
@@ -49,13 +44,6 @@ export const ImageUpLoadInputLabel = styled.label`
 
 export const ImageUpLoadInput = styled.input`
   display: none;
-`;
-
-export const PreviewLabel = styled.label``;
-
-export const StampImageSelector = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 export const StampCustomButtonWrapper = styled.div`

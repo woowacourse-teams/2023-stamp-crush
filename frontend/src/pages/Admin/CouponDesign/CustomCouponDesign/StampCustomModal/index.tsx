@@ -1,17 +1,16 @@
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useRef, useState } from 'react';
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../../components/Modal';
 import { BackCouponWrapper, BackImage, ButtonContainer, Stamp, StampBadge } from './style';
-import Text from '../../../../components/Text';
-import Button from '../../../../components/Button';
-import { parseStampCount } from '../../../../utils';
-import { Coordinate, StampCoordinate } from '../../../../types';
+import Text from '../../../../../components/Text';
+import Button from '../../../../../components/Button';
+import { Coordinate, StampCoordinate } from '../../../../../types';
 
 interface Props {
   isOpen: boolean;
   stampCoordinates: StampCoordinate[];
   backImgFileUrl: string;
   stampImgFileUrl: string;
-  maxStampCount: string;
+  maxStampCount: number;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setStampCoordinates: Dispatch<SetStateAction<StampCoordinate[]>>;
 }
@@ -39,7 +38,7 @@ const StampCustomModal = ({
   }, [isOpen]);
 
   const recordStampCoordinates = (e: MouseEvent<HTMLImageElement>) => {
-    if (drawStampCoordinates.length >= parseStampCount(maxStampCount)) return;
+    if (drawStampCoordinates.length >= maxStampCount) return;
 
     if (modalRect && e.target instanceof HTMLImageElement) {
       const boundX = modalRect.left;
@@ -93,7 +92,7 @@ const StampCustomModal = ({
             <Button
               variant="primary"
               onClick={closeModal}
-              disabled={drawStampCoordinates.length !== parseStampCount(maxStampCount)}
+              disabled={drawStampCoordinates.length !== maxStampCount}
             >
               저장하기
             </Button>
