@@ -57,14 +57,14 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         String firstVisitDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
 
         // when
-        CafeCustomerFindResponse response1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true);
-        CafeCustomerFindResponse response2 = new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true);
+        CafeCustomerFindResponse expected1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true);
+        CafeCustomerFindResponse expected2 = new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true);
 
         ExtractableResponse<Response> response = 고객_목록_조회_요청(owner, savedCafeId);
 
         CafeCustomersFindResponse actual = response.body().as(CafeCustomersFindResponse.class);
 
         // then
-        assertThat(actual.getCustomers()).containsExactlyInAnyOrder(response1, response2);
+        assertThat(actual.getCustomers()).containsExactlyInAnyOrder(expected1, expected2);
     }
 }
