@@ -37,7 +37,7 @@ class VisitorRewardsFindControllerTest {
     private VisitorRewardsFindService visitorRewardsFindService;
 
     @Test
-    void 고객모드에서_리워드를_조회한다() throws Exception {
+    void 고객모드에서_사용_가능한_리워드를_조회한다() throws Exception {
         when(visitorRewardsFindService.findRewards(null, false))
                 .thenReturn(
                         List.of(
@@ -45,6 +45,17 @@ class VisitorRewardsFindControllerTest {
                         )
                 );
 
+        mockMvc.perform(
+                        get("/api/rewards")
+                                .param("used", "false")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("rewards").isNotEmpty());
+    }
+
+    @Test
+    void 고객모드에서_사용_완료한_리워드를_조회한다() throws Exception {
         when(visitorRewardsFindService.findRewards(null, true))
                 .thenReturn(
                         List.of(
@@ -54,7 +65,7 @@ class VisitorRewardsFindControllerTest {
 
         mockMvc.perform(
                         get("/api/rewards")
-                                .param("used", "false")
+                                .param("used", "true")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
