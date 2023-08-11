@@ -2,6 +2,7 @@ import { api, customerHeader, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
 import {
   CafeIdParams,
+  CafeInfoRes,
   CafeRes,
   CouponRes,
   CustomerIdParams,
@@ -64,7 +65,7 @@ export const getCoupons = async () => {
 
 export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<CafeRes>(`/cafes/${params.cafeId}`, customerHeader);
+  return await api.get<CafeInfoRes>(`/cafes/${params.cafeId}`, customerHeader);
 };
 
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {

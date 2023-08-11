@@ -20,7 +20,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
-import { CafeRes, CouponRes } from '../../../types/api';
+import { CouponRes } from '../../../types/api';
 import { getCafeInfo } from '../../../api/get';
 import { deleteCoupon } from '../../../api/delete';
 import useModal from '../../../hooks/useModal';
@@ -47,9 +47,10 @@ const CouponDetail = ({
   const cafeId = coupon.cafeInfo.id;
   const { isOpen, openModal, closeModal } = useModal();
 
-  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos', cafeId], {
-    queryFn: () => getCafeInfo({ params: { cafeId } }),
-
+  const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
+    queryFn: () => {
+      return getCafeInfo({ params: { cafeId } });
+    },
     enabled: cafeId !== 0,
   });
 
@@ -66,13 +67,13 @@ const CouponDetail = ({
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (cafeStatus === 'loading') return null;
-  if (cafeStatus === 'error') return null;
+  if (cafeStatus === 'loading') return <>Loading</>;
+  if (cafeStatus === 'error') return <>error</>;
 
   return (
     <>
       <CouponDetailContainer $isDetail={isDetail}>
-        <CafeImage src={cafeData.cafes[0].cafeImageUrl} />
+        <CafeImage src={cafeData.cafe.cafeImageUrl} />
         <FlippedCoupon
           frontImageUrl={couponInfos.frontImageUrl}
           backImageUrl={couponInfos.backImageUrl}
@@ -89,7 +90,7 @@ const CouponDetail = ({
         </DeleteButton>
         <OverviewContainer>
           <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
-          <Text>{cafeData.cafes[0].introduction}</Text>
+          <Text>{cafeData.cafe.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
           <Text ariaLabel="쿠폰 정책">
@@ -98,15 +99,15 @@ const CouponDetail = ({
           </Text>
           <Text ariaLabel="영업 시간">
             <FaRegClock size={22} />
-            {`${cafeData.cafes[0].openTime} - ${cafeData.cafes[0].closeTime}`}
+            {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
           </Text>
           <Text ariaLabel="전화번호">
             <FaPhoneAlt size={22} />
-            {parsePhoneNumber(cafeData.cafes[0].telephoneNumber)}
+            {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
           </Text>
           <Text ariaLabel="주소">
             <FaLocationDot size={22} />
-            {cafeData.cafes[0].roadAddress + ' ' + cafeData.cafes[0].detailAddress}
+            {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
           </Text>
         </ContentContainer>
       </CouponDetailContainer>

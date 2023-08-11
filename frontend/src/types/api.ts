@@ -20,6 +20,10 @@ export interface CafeRes {
   cafes: Cafe[];
 }
 
+export interface CafeInfoRes {
+  cafe: Cafe;
+}
+
 export interface CouponSettingReqBody extends CouponDesign {
   reward: string;
   expirePeriod: number;
