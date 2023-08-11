@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
@@ -10,33 +10,35 @@ import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../..
 import { SampleCouponRes } from '../../../../types/api';
 
 interface ChoiceTemplateProps {
-  frontImage: string;
-  backImage: string;
-  stampImage: string;
-  setFrontImage: Dispatch<SetStateAction<string>>;
-  setBackImage: Dispatch<SetStateAction<string>>;
-  setStampImage: Dispatch<SetStateAction<string>>;
+  frontImageUrl: string;
+  backImageUrl: string;
+  stampImageUrl: string;
+  setFrontImageUrl: Dispatch<SetStateAction<string>>;
+  setBackImageUrl: Dispatch<SetStateAction<string>>;
+  setStampImageUrl: Dispatch<SetStateAction<string>>;
   setStampCoordinates: Dispatch<SetStateAction<StampCoordinate[]>>;
 }
 
 const ChoiceTemplate = ({
-  frontImage,
-  backImage,
-  stampImage,
-  setFrontImage,
-  setBackImage,
-  setStampImage,
+  frontImageUrl,
+  backImageUrl,
+  stampImageUrl,
+  setFrontImageUrl,
+  setBackImageUrl,
+  setStampImageUrl,
   setStampCoordinates,
 }: ChoiceTemplateProps) => {
   const location = useLocation();
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
-  const [selectedImage, setSelectedImage] = useState(frontImage);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState('');
   const stampCount = parseStampCount(location.state.stampCount);
 
   const { data: sampleImages, status } = useQuery<SampleCouponRes>(
     ['coupon-samples', stampCount],
     () => getCouponSamples(stampCount),
+    {
+      staleTime: Infinity,
+    },
   );
 
   if (status === 'loading') return <div>페이지 로딩중..</div>;
@@ -60,36 +62,36 @@ const ChoiceTemplate = ({
     setTemplateSelect(e.target.value);
     switch (e.target.value) {
       case TEMPLATE_MENU.FRONT_IMAGE:
-        setSelectedImage(frontImage);
+        setSelectedImageUrl(frontImageUrl);
         break;
       case TEMPLATE_MENU.BACK_IMAGE:
-        setSelectedImage(backImage);
+        setSelectedImageUrl(backImageUrl);
         break;
       case TEMPLATE_MENU.STAMP:
-        setSelectedImage(stampImage);
+        setSelectedImageUrl(stampImageUrl);
         break;
       default:
         break;
     }
   };
 
-  const selectSampleImage = (coordinates?: StampCoordinate[]) => {
-    if (!imageRef.current) return;
+  const selectSampleImageUrl = (imageUrl: string, coordinates?: StampCoordinate[]) => {
     switch (templateSelect) {
       case TEMPLATE_MENU.FRONT_IMAGE:
-        setFrontImage(imageRef.current.src);
+        setFrontImageUrl(imageUrl);
         break;
       case TEMPLATE_MENU.BACK_IMAGE:
         if (!coordinates) return;
-        setBackImage(imageRef.current.src);
+        setBackImageUrl(imageUrl);
         setStampCoordinates([...coordinates]);
         break;
       case TEMPLATE_MENU.STAMP:
-        setStampImage(imageRef.current.src);
+        setStampImageUrl(imageUrl);
         break;
       default:
         break;
     }
+    setSelectedImageUrl(imageUrl);
   };
 
   return (
@@ -108,13 +110,12 @@ const ChoiceTemplate = ({
             key={element.id}
             src={element.imageUrl}
             $templateType={templateSelect}
-            $isSelected={selectedImage === element.imageUrl}
-            ref={imageRef}
+            $isSelected={selectedImageUrl === element.imageUrl}
             onClick={() => {
               if ('stampCoordinates' in element) {
-                selectSampleImage(element.stampCoordinates);
+                selectSampleImageUrl(element.imageUrl, element.stampCoordinates);
               } else {
-                selectSampleImage();
+                selectSampleImageUrl(element.imageUrl);
               }
             }}
           />

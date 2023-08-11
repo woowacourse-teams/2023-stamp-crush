@@ -5,8 +5,10 @@ import {
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-  PreviewLabel,
-} from '../style';
+} from '../CustomCouponDesign/style';
+import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
+import StampLoadImg from '../../../../assets/stamp_load_img.png';
+import StampPreviewImg from '../../../../assets/stamp_preview.png';
 
 interface CustomStampSectionProps {
   label: string;
@@ -23,9 +25,11 @@ const CustomStampSection = ({
   isCustom,
   uploadImageFile,
 }: CustomStampSectionProps) => {
+  const { isLoading, handleImageLoad } = useLoadImg(imgFileUrl);
+
   return (
     <>
-      <PreviewLabel>{label}</PreviewLabel>
+      <label>{label}</label>
       <Spacing $size={4} />
       <ImageUpLoadInput
         id={uploadImageInputId}
@@ -38,7 +42,12 @@ const CustomStampSection = ({
       )}
       <Spacing $size={8} />
       <PreviewImageWrapper $height={50} $width={50}>
-        <PreviewImage src={imgFileUrl} $height={50} $width={50} />
+        <PreviewImage
+          src={selectImgUrl(imgFileUrl, StampPreviewImg, StampLoadImg, isLoading)}
+          $height={50}
+          $width={50}
+          onLoad={handleImageLoad}
+        />
       </PreviewImageWrapper>
     </>
   );

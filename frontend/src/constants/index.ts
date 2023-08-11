@@ -1,4 +1,4 @@
-import { RouterPath } from '../types';
+import { StampCountOption, RouterPath } from '../types';
 
 export const REGEX = {
   number: /^[0-9]+$/,
@@ -42,7 +42,7 @@ export const CUSTOMERS_ORDER_OPTIONS = [
   },
 ];
 
-export const STAMP_COUNT_OPTIONS = [
+export const STAMP_COUNT_OPTIONS: StampCountOption[] = [
   {
     key: 'eight',
     value: '8개',
@@ -56,6 +56,10 @@ export const STAMP_COUNT_OPTIONS = [
     value: '12개',
   },
 ];
+
+export const EXPIRE_DATE_NONE = '없음';
+
+export const EXPIRE_DATE_MAX = 1200;
 
 export const STAMP_COUNT_CUSTOM_OPTIONS = [
   {
@@ -91,7 +95,7 @@ export const EXPIRE_DATE_OPTIONS = [
   },
   {
     key: 'infinity',
-    value: '없음',
+    value: EXPIRE_DATE_NONE,
   },
 ];
 
