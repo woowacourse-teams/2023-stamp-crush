@@ -1,9 +1,10 @@
-package com.stampcrush.backend.api.docs.manager.customer;
+package com.stampcrush.backend.api.docs.manager.reward;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
-import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
+import com.stampcrush.backend.application.manager.reward.dto.RewardFindDto;
+import com.stampcrush.backend.application.manager.reward.dto.RewardFindResultDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,42 +14,46 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ManagerCustomerFindApiDocsControllerTest extends DocsControllerTest {
+public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
-    void 고객_조회_요청_사장_모드() throws Exception {
+    void 고객의_리워드_조회() throws Exception {
         // given
+        Long customerId = 1L;
+        Long cafeId = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
-        when(managerCustomerFindService.findCustomer("01012345678")).thenReturn(List.of(new CustomerFindDto(1L, "윤생1234", "01012345678")));
+        when(managerRewardFindService.findRewards(any(RewardFindDto.class))).thenReturn(List.of(new RewardFindResultDto(1L, "아메리카노"), new RewardFindResultDto(2L, "조각케익")));
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers")
-                        .param("phone-number", "01012345678")
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers/{customerId}/rewards", customerId)
+                        .queryParam("cafe-id", String.valueOf(cafeId))
+                        .queryParam("used", "false")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
-                .andDo(document("manager/customer/find-customer",
+                .andDo(document("manager/reward/find-reward",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 resource(
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
-                                                .description("전화번호로 고객 조회")
+                                                .description("고객의 리워드 조회")
                                                 .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
-                                                .queryParameters(parameterWithName("phone-number").description("입력한 전화번호"))
+                                                .queryParameters(parameterWithName("cafe-id").description("카페 Id"),
+                                                        parameterWithName("used").description("false"))
                                                 .responseFields(
-                                                        fieldWithPath("customer[].id").description("고객 ID"),
-                                                        fieldWithPath("customer[].nickname").description("고객 닉네임"),
-                                                        fieldWithPath("customer[].phoneNumber").description("고객 전화번호")
+                                                        fieldWithPath("rewards[].id").description("리워드 ID"),
+                                                        fieldWithPath("rewards[].name").description("리워드 이름")
                                                 )
-                                                .responseSchema(Schema.schema("CustomersFindResponse"))
+                                                .responseSchema(Schema.schema("RewardsFindResponse"))
                                                 .build()
                                 )
                         )

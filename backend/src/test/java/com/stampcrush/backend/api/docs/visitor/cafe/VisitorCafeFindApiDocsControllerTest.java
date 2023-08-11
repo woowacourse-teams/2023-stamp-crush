@@ -4,20 +4,16 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalTime;
-import java.util.Base64;
 import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,31 +22,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class VisitorCafeFindApiDocsControllerTest extends DocsControllerTest {
 
-    private static final Long CAFE_ID = 1L;
-
-    private RegisterCustomer customer;
-    private String basicAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        customer = REGISTER_CUSTOMER_GITCHAN;
-
-        String username = customer.getLoginId();
-        String password = customer.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-    }
-
-
     @Test
     void 카페_조회_요청_고객_모드() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
+        when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "우아한카페", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관"));
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/cafes/{cafeId}", CAFE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
                 .andDo(document("visitor/cafe/find-cafe-info",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
