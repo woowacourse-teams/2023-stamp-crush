@@ -406,12 +406,14 @@ export const customerRewards = {
       rewardName: '아메리카노',
       cafeName: '우아한카페',
       createdAt: '2023:08:06',
+      usedAt: null,
     },
     {
       id: 2,
       rewardName: '블록쿠키',
       cafeName: '레고카페',
       createdAt: '2023:08:04',
+      usedAt: null,
     },
   ],
 };
