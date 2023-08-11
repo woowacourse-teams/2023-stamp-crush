@@ -5,16 +5,17 @@ import {
   HeaderContainer,
   InfoContainer,
   LogoImg,
+  MyPageIconWrapper,
 } from './style';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { getCafeInfo, getCoupons } from '../../api/get';
+import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
 import { GoPerson } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CafeRes, CouponRes, PostIsFavoritesReq } from '../../types/api';
+import type { CouponRes, PostIsFavoritesReq } from '../../types/api';
 import Alert from '../../components/Alert';
 import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
@@ -29,22 +30,23 @@ const CouponList = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [isDetail, setIsDetail] = useState(false);
   const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
-  const [cafeId, setCafeId] = useState(0);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
-  const { data: couponData, status: couponStatus } = useQuery<CouponRes>(['coupons'], getCoupons, {
-    onSuccess: (data) => {
-      setCurrentIndex(data.coupons.length - 1);
-      data.coupons.length !== 0 && setCafeId(data.coupons[data.coupons.length - 1].cafeInfo.id);
-    },
+
+  const {
+    data: couponData,
+    status: couponStatus,
+    refetch: refetchCoupons,
+  } = useQuery<CouponRes>(['coupons'], getCoupons, {
     refetchOnWindowFocus: false,
   });
 
-  const { data: cafeData, status: cafeStatus } = useQuery<CafeRes>(['cafeInfos'], {
-    queryFn: () => getCafeInfo(cafeId),
-    enabled: cafeId !== 0,
-  });
+  useEffect(() => {
+    if (couponData) {
+      setCurrentIndex(couponData?.coupons.length - 1);
+    }
+  }, [couponData]);
 
   const { mutate: mutateIsFavorites } = useMutation(
     ({ cafeId, isFavorites }: PostIsFavoritesReq) => postIsFavorites({ cafeId, isFavorites }),
@@ -56,16 +58,16 @@ const CouponList = () => {
         await queryClient.cancelQueries(['coupons']);
         queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
           if (!prev) return;
-          prev.coupons[currentIndex].couponInfos[0].isFavorites =
-            !prev.coupons[currentIndex].couponInfos[0].isFavorites;
+          prev.coupons[currentIndex].cafeInfo.isFavorites =
+            !prev.coupons[currentIndex].cafeInfo.isFavorites;
           return undefined;
         });
       },
     },
   );
 
-  if (couponStatus === 'error' || cafeStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (couponStatus === 'loading' || cafeStatus === 'loading') return <>로딩 중입니다.</>;
+  if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
+  if (couponStatus === 'loading') return <>로딩 중입니다.</>;
 
   const { coupons } = couponData;
   const currentCoupon = coupons[currentIndex];
@@ -98,7 +100,6 @@ const CouponList = () => {
   };
 
   const openCouponDetail = () => {
-    setCafeId(currentCoupon.cafeInfo.id);
     setIsDetail(true);
 
     setTimeout(() => {
@@ -114,7 +115,7 @@ const CouponList = () => {
   const openAlert = () => {
     openModal();
 
-    currentCoupon.couponInfos[0].isFavorites
+    currentCoupon.cafeInfo.isFavorites
       ? setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
       : setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
   };
@@ -122,15 +123,19 @@ const CouponList = () => {
   const changeFavorites = () => {
     mutateIsFavorites({
       cafeId: currentCoupon.cafeInfo.id,
-      isFavorites: !currentCouponInfo.isFavorites,
+      isFavorites: !currentCoupon.cafeInfo.isFavorites,
     });
   };
 
   return (
     <>
       <HeaderContainer>
-        <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
-        <GoPerson size={24} onClick={navigateMyPage} aria-label="마이 페이지" role="button" />
+        <Link to={ROUTER_PATH.couponList}>
+          <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
+        </Link>
+        <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
+          <GoPerson size={24} />
+        </MyPageIconWrapper>
       </HeaderContainer>
       {coupons.length === 0 ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
@@ -140,7 +145,7 @@ const CouponList = () => {
             cafeName={currentCoupon.cafeInfo.name}
             stampCount={currentCouponInfo.stampCount}
             maxStampCount={currentCouponInfo.maxStampCount}
-            isFavorites={currentCouponInfo.isFavorites}
+            isFavorites={currentCoupon.cafeInfo.isFavorites}
             frontImageUrl={currentCouponInfo.frontImageUrl}
             onClickStar={openAlert}
           />
@@ -164,9 +169,9 @@ const CouponList = () => {
           </CouponListContainer>
           <CouponDetail
             coupon={currentCoupon}
-            cafe={cafeData.cafe}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
+            refetchCoupons={refetchCoupons}
             closeDetail={closeCouponDetail}
           />
           <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">

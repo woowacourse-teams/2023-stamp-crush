@@ -30,22 +30,13 @@ export const parseTime = (value: Time) => {
 
 export const parsePhoneNumber = (phoneNumber: string | undefined) => {
   if (!phoneNumber) return;
-  const number = phoneNumber.replace(/\D/g, ''); // Remove all non-numeric characters
 
-  if (number.startsWith('02')) {
-    return number.length <= 2
-      ? number
-      : number.length <= 6
-      ? number.substring(0, 2) + '-' + number.substring(2)
-      : number.length <= 9
-      ? number.substring(0, 2) + '-' + number.substring(2, 5) + '-' + number.substring(5)
-      : number.substring(0, 2) + '-' + number.substring(2, 6) + '-' + number.substring(6, 10);
+  const parsedPhoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+  if (parsedPhoneNumber.startsWith('02')) {
+    return parsedPhoneNumber.replace(/^(\d{2})(\d{3,4})(\d{4})$/, '$1-$2-$3');
   } else {
-    return number.length < 4
-      ? number
-      : number.length < 7
-      ? number.substring(0, 3) + '-' + number.substring(3)
-      : number.substring(0, 3) + '-' + number.substring(3, 7) + '-' + number.substring(7, 11);
+    return parsedPhoneNumber.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
   }
 };
 

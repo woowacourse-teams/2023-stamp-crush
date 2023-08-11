@@ -18,6 +18,7 @@ import { ROUTER_PATH } from './constants';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
+import RewardList from './pages/RewardList';
 
 const AdminRoot = () => {
   return (
@@ -77,9 +78,10 @@ const Router = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <CouponList /> },
-        { path: 'login', element: <Login /> },
-        { path: 'sign-up', element: <SignUp /> },
-        { path: '/my-page', element: <MyPage /> },
+        { path: ROUTER_PATH.login, element: <Login /> },
+        { path: ROUTER_PATH.signup, element: <SignUp /> },
+        { path: ROUTER_PATH.myPage, element: <MyPage /> },
+        { path: ROUTER_PATH.rewardList, element: <RewardList /> },
       ],
     },
   ]);

@@ -1,12 +1,11 @@
 package com.stampcrush.backend.api.manager.coupon.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,9 +18,7 @@ public class CafeCustomerFindResponse {
     private int rewardCount;
     private int visitCount;
     private int maxStampCount;
-
-    @JsonFormat(pattern = "yyyy:MM:dd")
-    private LocalDateTime firstVisitDate;
+    private String firstVisitDate;
     private Boolean isRegistered;
 
     public static CafeCustomerFindResponse from(CafeCustomerFindResultDto serviceDto) {
@@ -32,7 +29,7 @@ public class CafeCustomerFindResponse {
                 serviceDto.getRewardCount(),
                 serviceDto.getVisitCount(),
                 serviceDto.getMaxStampCount(),
-                serviceDto.getFirstVisitDate(),
+                serviceDto.getFirstVisitDate().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")),
                 serviceDto.isRegistered()
         );
     }

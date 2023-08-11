@@ -29,13 +29,13 @@ export interface Coupon {
   cafeInfo: {
     id: number;
     name: string;
+    isFavorites: boolean;
   };
   couponInfos: CouponInfo[];
 }
 
 export interface CouponInfo extends CouponDesign {
   id: number;
-  isFavorites: boolean;
   stampCount: number;
   maxStampCount: number;
   rewardName: string;
@@ -72,14 +72,20 @@ export interface StampEarningReq {
   couponId: string;
 }
 
+export interface Reward {
+  id: number;
+  rewardName: string;
+  cafeName: string;
+  createdAt: string;
+  usedAt: string | null;
+}
+
 export interface Time {
   hour: string;
   minute: string;
 }
 
 export type CouponActivate = 'current' | 'new';
-
-export type CouponCreated = 'custom' | 'template';
 
 export type CouponDesignLocation = {
   state: {
@@ -93,3 +99,7 @@ export type CouponDesignLocation = {
 export type StampCountOptionValue = `${number}개`;
 
 export type ExpireDateOptionValue = `${number}개월` | typeof EXPIRE_DATE_NONE;
+
+export type CouponCreated = 'template' | 'custom';
+
+export type RouterPath = `/${string}`;

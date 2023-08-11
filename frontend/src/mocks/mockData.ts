@@ -264,11 +264,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 1,
         name: '깃짱카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 1,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 1,
           maxStampCount: 8,
@@ -298,11 +298,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 2,
         name: '하디카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 2,
-          isFavorites: false,
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -332,11 +332,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 3,
         name: '제나카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 3,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 7,
           maxStampCount: 8,
@@ -366,11 +367,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 4,
         name: '레고카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 4,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 2,
           maxStampCount: 10,
@@ -400,11 +401,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 5,
         name: '라잇카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 5,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -434,11 +436,11 @@ export const customerCoupons = {
       cafeInfo: {
         id: 6,
         name: '윤생카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 6,
-          isFavorites: true,
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -466,11 +468,12 @@ export const customerCoupons = {
       cafeInfo: {
         id: 7,
         name: '레오카페',
+        isFavorites: true,
       },
       couponInfos: [
         {
           id: 7,
-          isFavorites: true,
+
           status: 'ACCUMULATING',
           stampCount: 3,
           maxStampCount: 8,
@@ -498,6 +501,44 @@ export const customerCoupons = {
           ],
         },
       ],
+    },
+  ],
+};
+
+export const customerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '우아한카페',
+      createdAt: '2023:08:06',
+      usedAt: '2023:08:07',
+    },
+    {
+      id: 2,
+      rewardName: '블록쿠키',
+      cafeName: '레고카페',
+      createdAt: '2023:08:04',
+      usedAt: '2023:08:07',
+    },
+  ],
+};
+
+export const usedCustomerRewards = {
+  rewards: [
+    {
+      id: 1,
+      rewardName: '아메리카노',
+      cafeName: '라잇카페',
+      createdAt: '2023:08:05',
+      usedAt: null,
+    },
+    {
+      id: 2,
+      rewardName: '마들렌',
+      cafeName: '윤생카페',
+      createdAt: '2023:08:03',
+      usedAt: null,
     },
   ],
 };

@@ -1,5 +1,6 @@
 package com.stampcrush.backend.repository.coupon;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.*;
 import com.stampcrush.backend.entity.user.Owner;
@@ -23,6 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@KorNamingConverter
 @DataJpaTest
 class CouponRepositoryTest2 {
 

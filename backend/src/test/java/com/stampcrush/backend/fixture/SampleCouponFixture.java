@@ -7,7 +7,7 @@ import com.stampcrush.backend.entity.sample.SampleStampImage;
 
 import java.util.List;
 
-public class SampleCouponFixture {
+public final class SampleCouponFixture {
 
     public static final SampleFrontImage SAMPLE_FRONT_IMAGE = new SampleFrontImage("frontImageUrl");
     public static final SampleFrontImage SAMPLE_FRONT_IMAGE_SAVED = new SampleFrontImage(1L, "frontImageUrl");
@@ -26,4 +26,7 @@ public class SampleCouponFixture {
             new SampleStampCoordinate(7, 3, 1, SAMPLE_BACK_IMAGE_SAVED),
             new SampleStampCoordinate(8, 4, 1, SAMPLE_BACK_IMAGE_SAVED)
     );
+
+    private SampleCouponFixture() {
+    }
 }

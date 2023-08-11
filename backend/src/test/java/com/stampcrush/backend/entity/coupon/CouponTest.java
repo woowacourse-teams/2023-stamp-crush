@@ -1,5 +1,6 @@
 package com.stampcrush.backend.entity.coupon;
 
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SuppressWarnings("NonAsciiCharacters")
+@KorNamingConverter
 class CouponTest {
 
     @Test
