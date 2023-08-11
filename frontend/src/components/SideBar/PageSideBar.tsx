@@ -15,14 +15,12 @@ const SIDE_BAR_OPTIONS: Option[] = [
 const PageSideBar = () => {
   const current = useLocation().pathname;
 
+  if (current === ROUTER_PATH.registerCafe) return <></>;
+
   return (
-    <>
-      {current !== ROUTER_PATH.registerCafe && (
-        <PageSideBarWrapper>
-          <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200} />
-        </PageSideBarWrapper>
-      )}
-    </>
+    <PageSideBarWrapper>
+      <SideBar options={SIDE_BAR_OPTIONS} width={240} height={200} />
+    </PageSideBarWrapper>
   );
 };
 
