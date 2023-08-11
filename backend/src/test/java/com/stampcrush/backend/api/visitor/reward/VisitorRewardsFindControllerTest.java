@@ -3,6 +3,7 @@ package com.stampcrush.backend.api.visitor.reward;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.config.WebMvcConfig;
+import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.RewardFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -38,10 +40,12 @@ class VisitorRewardsFindControllerTest {
 
     @Test
     void 고객모드에서_사용_가능한_리워드를_조회한다() throws Exception {
+        Reward reward = RewardFixture.REWARD_USED_FALSE;
+
         when(visitorRewardsFindService.findRewards(null, false))
                 .thenReturn(
                         List.of(
-                                VisitorRewardsFindResultDto.from(RewardFixture.REWARD_USED_FALSE)
+                                VisitorRewardsFindResultDto.from(reward)
                         )
                 );
 
@@ -51,15 +55,22 @@ class VisitorRewardsFindControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("rewards").isNotEmpty());
+                .andExpect(jsonPath("rewards").isNotEmpty())
+                .andExpect(jsonPath("rewards[0].id").value(reward.getId()))
+                .andExpect(jsonPath("rewards[0].rewardName").value(reward.getName()))
+                .andExpect(jsonPath("rewards[0].cafeName").value(reward.getCafe().getName()))
+                .andExpect(jsonPath("rewards[0].createdAt").value(String.valueOf(LocalDate.from(reward.getCreatedAt()))))
+                .andExpect(jsonPath("rewards[0].usedAt").value(String.valueOf(LocalDate.from(reward.getUpdatedAt()))));
     }
 
     @Test
     void 고객모드에서_사용_완료한_리워드를_조회한다() throws Exception {
+        Reward reward = RewardFixture.REWARD_USED_TRUE;
+
         when(visitorRewardsFindService.findRewards(null, true))
                 .thenReturn(
                         List.of(
-                                VisitorRewardsFindResultDto.from(RewardFixture.REWARD_USED_TRUE)
+                                VisitorRewardsFindResultDto.from(reward)
                         )
                 );
 
@@ -69,6 +80,12 @@ class VisitorRewardsFindControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("rewards").isNotEmpty());
+                .andExpect(jsonPath("rewards").isNotEmpty())
+                .andExpect(jsonPath("rewards[0].id").value(reward.getId()))
+                .andExpect(jsonPath("rewards[0].rewardName").value(reward.getName()))
+                .andExpect(jsonPath("rewards[0].cafeName").value(reward.getCafe().getName()))
+                .andExpect(jsonPath("rewards[0].createdAt").value(String.valueOf(LocalDate.from(reward.getCreatedAt()))))
+                .andExpect(jsonPath("rewards[0].usedAt").value(String.valueOf(LocalDate.from(reward.getUpdatedAt()))));
+        ;
     }
 }
