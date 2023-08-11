@@ -49,12 +49,16 @@ public class ManagerCouponFindService {
             // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
             cafeCustomerFindResultDtos.add(
-                    CafeCustomerFindResultDto.of(
-                            customerCoupon.customer,
-                            customerCouponStatistics,
+                    new CafeCustomerFindResultDto(
+                            customerCoupon.customer.getId(),
+                            customerCoupon.customer.getNickname(),
+                            customerCouponStatistics.getStampCount(),
+                            customerCouponStatistics.getRewardCount(),
                             // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
                             visitHistories.getVisitCount(),
-                            visitHistories.getFirstVisitDate()
+                            visitHistories.getFirstVisitDate(),
+                            customerCoupon.customer.isRegistered(),
+                            customerCouponStatistics.getMaxStampCount()
                     )
             );
         }
