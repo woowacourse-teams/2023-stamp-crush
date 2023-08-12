@@ -99,13 +99,21 @@ export const LogoutContainer = styled.div`
   background: ${({ theme }) => theme.colors.main};
 `;
 
-export const Logout = styled.div`
+export const LogoutButton = styled.button`
+  border-top: 0.5px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   gap: 10px;
   color: white;
-  padding-left: 50px;
-  margin-top: 40px;
+  padding: 20px 0 0 20px;
+  margin: 10px 30px 0 30px;
+  background: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 80%;
+  }
 `;
 
 export const CopyRight = styled.p`

@@ -23,5 +23,5 @@ export const BaseText = styled.h1<StyledTextProps>`
   font-size: ${({ $variant }) => TYPE[$variant].fontSize};
   font-weight: ${({ $variant }) => TYPE[$variant].fontWeight};
   white-space: pre-line;
-  color: ${({ theme }) => theme.colors.text};
+  color: #222;
 `;

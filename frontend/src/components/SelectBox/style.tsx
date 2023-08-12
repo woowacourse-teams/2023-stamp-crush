@@ -47,8 +47,8 @@ export const BaseSelectBox = styled.span<{
     width: 6px;
     height: 6px;
 
-    border-top: 2px solid ${({ theme }) => theme.colors.gray};
-    border-right: 2px solid ${({ theme }) => theme.colors.gray};
+    border-top: 1px solid ${({ theme }) => theme.colors.gray};
+    border-right: 1px solid ${({ theme }) => theme.colors.gray};
     transform: rotate(-225deg);
 
     transition: 0.4s all ease-in-out;
@@ -57,9 +57,9 @@ export const BaseSelectBox = styled.span<{
   ${(props) =>
     props.$expanded &&
     css`
-      border: 1px solid ${({ theme }) => theme.colors.point};
+      /* border: 1px solid ${({ theme }) => theme.colors.main}; */
       background: #fff;
-      border-radius: 12px;
+      border-radius: 4px;
       padding: 0;
       box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
       max-height: 400px;

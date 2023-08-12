@@ -1,10 +1,17 @@
 import { styled } from 'styled-components';
 
-export const CustomerContainer = styled.li`
+export const CustomerContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 40px;
-  width: 70%;
+  width: 100%;
+`;
+
+export const CustomerBoxContainer = styled.li`
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  max-height: 540px;
 `;
 
 export const CustomerBox = styled.ul`
@@ -13,7 +20,7 @@ export const CustomerBox = styled.ul`
   height: 90px;
   padding: 15px;
 
-  margin-bottom: 15px;
+  margin: 0 20px 15px 20px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.gray100};
   box-shadow: 0 10px 10px -3px ${({ theme }) => theme.colors.gray300};
@@ -32,8 +39,13 @@ export const RightInfo = styled.div`
 
 export const InfoContainer = styled.span`
   font-size: 14px;
-  color: #888888;
+  color: ${({ theme }) => theme.colors.text};
   line-height: 16px;
+`;
+
+export const EmptyCustomers = styled.p`
+  display: flex;
+  margin: 80px 10px;
 `;
 
 export const LeftInfo = styled.div`
@@ -51,13 +63,15 @@ export const Badge = styled.div<{ $isRegistered: boolean }>`
   font-size: 12px;
   color: black;
 
-  background: ${({ $isRegistered, theme }) => ($isRegistered ? 'pink' : theme.colors.gray300)};
+  background: ${({ $isRegistered, theme }) =>
+    $isRegistered ? theme.colors.point : theme.colors.gray300};
 `;
 
 export const NameContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #222;
 `;
 
 export const Name = styled.h1`
@@ -71,4 +85,5 @@ export const Container = styled.div`
   align-items: center;
   gap: 20px;
   margin-top: 30px;
+  margin-right: 30px;
 `;

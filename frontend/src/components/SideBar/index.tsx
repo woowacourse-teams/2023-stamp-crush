@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../assets';
 import { Option } from '../../types';
 import {
@@ -7,7 +7,7 @@ import {
   LogoHeader,
   LogoImg,
   LogoImgWrapper,
-  Logout,
+  LogoutButton,
   LogoutContainer,
   SideBarContainer,
   SideBarContent,
@@ -41,6 +41,7 @@ const SIDEBAR_ICONS = [
 ];
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const options = SIDE_BAR_OPTIONS;
   const current = useLocation().pathname;
   const [currentIndex, setCurrentIndex] = useState(
@@ -73,6 +74,10 @@ const SideBar = () => {
       designCouponRoutes.some((route) => current.includes(route))
     );
   };
+  const handleLogout = () => {
+    // TODO: log out 로직
+    navigate(ROUTER_PATH.adminLogin);
+  };
 
   return (
     <Container>
@@ -101,10 +106,10 @@ const SideBar = () => {
         ))}
       </SideBarContainer>
       <LogoutContainer>
-        <Logout>
+        <LogoutButton onClick={handleLogout}>
           <IoIosLogOut size="26px" />
           로그아웃
-        </Logout>
+        </LogoutButton>
       </LogoutContainer>
     </Container>
   );

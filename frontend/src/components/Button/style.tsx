@@ -14,7 +14,7 @@ const TYPE: Record<string, Record<string, string>> = {
   secondary: {
     color: 'black',
     background: 'white',
-    border: '1px solid #000000',
+    border: '2px solid #222',
   },
 };
 
