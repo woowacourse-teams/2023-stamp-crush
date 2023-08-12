@@ -246,19 +246,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = given()
-                .log().all()
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
-                .when()
-                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
-
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, owner, customer);
+        CustomerAccumulatingCouponsFindResponse coupons = response.body().as(CustomerAccumulatingCouponsFindResponse.class);
         // then
         CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(newCouponId,
                 customer.getId(),
@@ -268,7 +257,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 false,
                 10);
 
-        assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+        assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 
@@ -320,7 +309,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 10);
 
         assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
-                .isEqualTo(List.of(expected));
+                .containsExactlyInAnyOrder(expected);
     }
 
     private Owner 사장_생성() {
