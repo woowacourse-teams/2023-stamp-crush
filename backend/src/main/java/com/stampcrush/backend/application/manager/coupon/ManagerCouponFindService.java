@@ -90,8 +90,6 @@ public class ManagerCouponFindService {
     }
 
     private boolean isPrevious(Coupon coupon) {
-        return !cafePolicyRepository
-                .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
-                .isEmpty();
+        return coupon.isPrevious();
     }
 }

@@ -41,10 +41,10 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         RegisterCustomer savedCustomer = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
-        CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust, savedCustomer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, savedCustomer.getId());
 
         List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
 

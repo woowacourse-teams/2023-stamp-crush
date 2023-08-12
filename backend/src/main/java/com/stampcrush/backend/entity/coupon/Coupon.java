@@ -2,6 +2,7 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -157,5 +159,13 @@ public class Coupon extends BaseDate {
 
     public String getRewardName() {
         return couponPolicy.getRewardName();
+    }
+
+    public boolean isPrevious() {
+        CafePolicy currentCafePolicy = cafe.getPolicies().get(0);
+
+        return !Objects.equals(currentCafePolicy.getMaxStampCount(), couponPolicy.getMaxStampCount())
+                || !Objects.equals(currentCafePolicy.getExpirePeriod(), couponPolicy.getExpiredPeriod())
+                || !Objects.equals(currentCafePolicy.getReward(), couponPolicy.getRewardName());
     }
 }
