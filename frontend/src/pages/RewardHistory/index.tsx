@@ -1,46 +1,48 @@
 import { useQuery } from '@tanstack/react-query';
 import SubHeader from '../../components/Header/SubHeader';
 import { getMyRewards } from '../../api/get';
-import { Reward } from '../../types';
 import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
-import { parseStringDateToKorean, sortMapByKey } from '../../utils';
+import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../utils';
+import { RewardHistoryType } from '../../types';
 
-// TODO: 어떻게 분리할 것인지? 생각해보기
+type RewardHistoryDatePropertys = Exclude<
+  keyof RewardHistoryType,
+  'id' | 'rewardName' | 'cafeName'
+>;
 
-export function transfromEntries<T extends NonNullable<unknown>, U extends string>(
-  arr: T[],
-  propertyName: U,
-  transformCallback: (target: T, propertyName: U) => T,
+export function concatHistoryDate(
+  reward: RewardHistoryType,
+  propertyName: RewardHistoryDatePropertys,
 ) {
-  return arr.map((element) => transformCallback(element, propertyName));
+  const target = reward[propertyName];
+  if (!target) return reward;
+  return { ...reward, [propertyName]: target.replaceAll(/[:\s]/g, '') };
 }
 
-export const concatDate = (
-  reward: Reward,
-  propertyName: Exclude<keyof Reward, 'id' | 'rewardName' | 'cafeName'>,
-) => {
-  if (!reward[propertyName]) return reward;
-  return { ...reward, [propertyName]: reward[propertyName]?.replaceAll(':', '') };
-};
+// TODO: 함수명 변경
+export function transformRewardsToMap(
+  rewards: RewardHistoryType[],
+  propertyName: RewardHistoryDatePropertys,
+): Map<string, RewardHistoryType[]> {
+  const result = new Map<string, RewardHistoryType[]>();
 
-export const transformRewardsToMap = (rewards: Reward[]): Map<string, Reward[]> => {
-  const result = new Map<string, Reward[]>();
+  transformEntries(rewards, propertyName, concatHistoryDate).forEach((reward) => {
+    const target = reward[propertyName];
+    if (!target) return;
+    const existRewards = result.has(target) ? (result.get(target) as RewardHistoryType[]) : [];
 
-  transfromEntries(rewards, 'usedAt', concatDate).forEach((reward) => {
-    if (!reward.usedAt) return;
-    const existRewards = result.has(reward.usedAt) ? (result.get(reward.usedAt) as Reward[]) : [];
-
-    result.set(reward.usedAt, [
+    result.set(target, [
       ...existRewards,
       {
         ...reward,
       },
     ]);
   });
-  return sortMapByKey(result);
-};
 
-const RewardHistory = () => {
+  return sortMapByKey(result);
+}
+
+const RewardHistoryPage = () => {
   const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
     queryFn: () => getMyRewards({ params: { used: true } }),
   });
@@ -48,7 +50,7 @@ const RewardHistory = () => {
   if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
-  const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards).entries());
+  const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards, 'usedAt').entries());
   const dateParseOption = {
     hasYear: false,
     hasMonth: true,
@@ -76,4 +78,4 @@ const RewardHistory = () => {
   );
 };
 
-export default RewardHistory;
+export default RewardHistoryPage;
