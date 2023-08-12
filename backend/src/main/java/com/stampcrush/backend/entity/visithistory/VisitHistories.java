@@ -1,7 +1,6 @@
 package com.stampcrush.backend.entity.visithistory;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
-import com.stampcrush.backend.exception.VisitHistoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ public class VisitHistories {
     public LocalDateTime getFirstVisitDate() {
         VisitHistory firstVisit = visitHistories.stream()
                 .min(Comparator.comparing(BaseDate::getCreatedAt))
-                .orElseThrow(() -> new VisitHistoryNotFoundException("첫 방문일을 찾을 수 없습니다"));
+                .get();
 
         return firstVisit.getCreatedAt();
     }
