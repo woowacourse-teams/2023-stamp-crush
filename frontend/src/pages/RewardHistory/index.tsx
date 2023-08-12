@@ -6,18 +6,27 @@ import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
 import { parseStringDateToKorean, sortMapByKey } from '../../utils';
 
 // TODO: 어떻게 분리할 것인지? 생각해보기
-export const concatUsedAt = (rewards: Reward[]) => {
-  return rewards.map((reward) => {
-    if (!reward.usedAt) return reward;
-    const [year, month, day] = reward.usedAt.split(':');
-    return { ...reward, usedAt: `${year}${month}${day}` };
-  });
+
+export function transfromEntries<T extends NonNullable<unknown>, U extends string>(
+  arr: T[],
+  propertyName: U,
+  transformCallback: (target: T, propertyName: U) => T,
+) {
+  return arr.map((element) => transformCallback(element, propertyName));
+}
+
+export const concatDate = (
+  reward: Reward,
+  propertyName: Exclude<keyof Reward, 'id' | 'rewardName' | 'cafeName'>,
+) => {
+  if (!reward[propertyName]) return reward;
+  return { ...reward, [propertyName]: reward[propertyName]?.replaceAll(':', '') };
 };
 
 export const transformRewardsToMap = (rewards: Reward[]): Map<string, Reward[]> => {
   const result = new Map<string, Reward[]>();
 
-  concatUsedAt(rewards).forEach((reward) => {
+  transfromEntries(rewards, 'usedAt', concatDate).forEach((reward) => {
     if (!reward.usedAt) return;
     const existRewards = result.has(reward.usedAt) ? (result.get(reward.usedAt) as Reward[]) : [];
 
