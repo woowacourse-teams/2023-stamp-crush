@@ -6,6 +6,8 @@ export const DateTitle = styled.div`
   padding: 5px 0px 5px 20px;
 `;
 
+export const HistoryList = styled.ul``;
+
 export const HistoryItem = styled.li`
   display: flex;
   justify-content: space-between;

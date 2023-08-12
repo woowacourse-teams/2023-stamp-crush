@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyRewards } from '../../../api/get';
-import { CafeName, HistoryItem, DateTitle } from '../style';
+import { CafeName, HistoryItem, DateTitle, HistoryList } from '../style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../utils';
 import { RewardHistoryType } from '../../../types';
 import { DATE_PARSE_OPTION } from '../../../constants';
@@ -64,14 +64,14 @@ const RewardHistoryPage = () => {
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
             <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
-            <ul key={key}>
+            <HistoryList key={key}>
               {rewards.map((reward) => (
                 <HistoryItem key={reward.id}>
                   <CafeName>{reward.cafeName}</CafeName>
                   <span>{reward.rewardName}</span>
                 </HistoryItem>
               ))}
-            </ul>
+            </HistoryList>
           </div>
         ))}
       </div>
