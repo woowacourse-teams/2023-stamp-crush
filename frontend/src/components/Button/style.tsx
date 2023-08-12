@@ -7,7 +7,7 @@ interface StyledButtonProps {
 
 const TYPE: Record<string, Record<string, string>> = {
   primary: {
-    color: 'point',
+    color: 'white',
     background: 'main',
     border: '0 solid transparent',
   },

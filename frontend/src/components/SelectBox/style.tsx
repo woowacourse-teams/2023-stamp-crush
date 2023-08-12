@@ -57,7 +57,7 @@ export const BaseSelectBox = styled.span<{
   ${(props) =>
     props.$expanded &&
     css`
-      /* border: 1px solid ${({ theme }) => theme.colors.main}; */
+      border: 1px solid ${({ theme }) => theme.colors.main};
       background: #fff;
       border-radius: 4px;
       padding: 0;

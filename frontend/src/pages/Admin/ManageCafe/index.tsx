@@ -9,6 +9,7 @@ import {
   PreviewEmptyCouponImage,
   PreviewOverviewContainer,
   RestrictionLabel,
+  StepTitle,
   TextArea,
   Wrapper,
 } from './style';
@@ -23,6 +24,7 @@ import {
 } from '../CouponDesign/CustomCouponDesign/style';
 import useUploadImage from '../../../hooks/useUploadImage';
 import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
+import { AiOutlineUpload } from 'react-icons/ai';
 import { FaLocationDot } from 'react-icons/fa6';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCafe } from '../../../api/get';
@@ -125,17 +127,20 @@ const ManageCafe = () => {
       <ManageCafeForm onSubmit={submitCafeInfo}>
         <Text variant="pageTitle">내 카페 관리</Text>
         <Wrapper>
-          <Text>카페 대표 사진(선택)</Text>
+          <StepTitle>step1. 내 카페를 대표하는 내부사진을 업로드해주세요.</StepTitle>
           <ImageUpLoadInput
             id="cafe-image"
             type="file"
             accept="image/jpg,image/png,image/jpeg,image/gif"
             onChange={uploadCafeImage}
           />
-          <ImageUpLoadInputLabel htmlFor={'cafe-image'}>이미지 업로드 +</ImageUpLoadInputLabel>
+          <ImageUpLoadInputLabel htmlFor={'cafe-image'}>
+            <AiOutlineUpload />
+            Upload the file
+          </ImageUpLoadInputLabel>
         </Wrapper>
         <Wrapper>
-          <Text>매장 전화번호(선택)</Text>
+          <StepTitle>step2. 내 카페의 매장 전화번호를 알려주세요.</StepTitle>
           <Input
             id="phone-number-input"
             placeholder="전화번호를 입력해주세요"
@@ -146,7 +151,7 @@ const ManageCafe = () => {
           />
         </Wrapper>
         <Wrapper>
-          <Text>영업 시간(선택)</Text>
+          <StepTitle>step3. 내 카페의 영업 시간을 알려주세요.</StepTitle>
           <TimeRangePicker
             startTime={openTime}
             endTime={closeTime}
@@ -155,7 +160,7 @@ const ManageCafe = () => {
           />
         </Wrapper>
         <Wrapper>
-          <Text>소개글</Text>
+          <StepTitle>step4. 내 카페를 소개할 간단한 문장을 작성해주세요.</StepTitle>
           <TextArea
             rows={8}
             cols={50}

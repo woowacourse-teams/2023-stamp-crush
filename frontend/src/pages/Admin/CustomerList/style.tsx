@@ -7,17 +7,17 @@ export const CustomerContainer = styled.div`
   width: 100%;
 `;
 
-export const CustomerBoxContainer = styled.li`
+export const CustomerBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  max-height: 540px;
+  height: 540px;
 `;
 
 export const CustomerBox = styled.ul`
   display: flex;
   justify-content: space-between;
-  height: 90px;
+  min-height: 90px;
   padding: 15px;
 
   margin: 0 20px 15px 20px;
@@ -35,6 +35,7 @@ export const RightInfo = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+  margin-top: 10px;
 `;
 
 export const InfoContainer = styled.span`
