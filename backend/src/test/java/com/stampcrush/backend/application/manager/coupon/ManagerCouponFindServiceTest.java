@@ -142,7 +142,7 @@ public class ManagerCouponFindServiceTest {
     }
 
     @Test
-    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같으면_예전_정책의_쿠폰이다() {
+    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같으면_현재_정책의_쿠폰이다() {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
