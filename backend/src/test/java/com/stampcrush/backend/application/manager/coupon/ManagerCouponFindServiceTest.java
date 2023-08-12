@@ -20,7 +20,6 @@ import org.mockito.Mock;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,7 +111,7 @@ public class ManagerCouponFindServiceTest {
     }
 
     @Test
-    void 쿠폰_생성_시간보다_늦게_생성된_쿠폰_정책이_있으면_예전_정책의_쿠폰이다() {
+    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같지_않으면_예전_정책의_쿠폰이다() {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
@@ -124,9 +123,10 @@ public class ManagerCouponFindServiceTest {
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(coupon));
 
+        cafe.getPolicies().clear();
+        cafe.getPolicies().add(new CafePolicy(10, "americano", 6, false, cafe));
+
         // when
-        given(cafePolicyRepository.findByCafeAndCreatedAtGreaterThan(any(), any()))
-                .willReturn(List.of(new CafePolicy(10, "reward", 10, true, cafe)));
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
 
         // then
@@ -137,16 +137,17 @@ public class ManagerCouponFindServiceTest {
                 LocalDateTime.now(),
                 true,
                 10);
-        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+        assertThat(findResult).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 
     @Test
-    void 쿠폰_생성_시간보다_늦게_생성된_쿠폰_정책이_없으면_최신_정책의_쿠폰이다() {
+    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같으면_예전_정책의_쿠폰이다() {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
         Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(customerRepository.findById(anyLong()))
@@ -154,9 +155,11 @@ public class ManagerCouponFindServiceTest {
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(coupon));
 
+        cafe.getPolicies().clear();
+        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), false, cafe));
+
+
         // when
-        given(cafePolicyRepository.findByCafeAndCreatedAtGreaterThan(any(), any()))
-                .willReturn(Collections.emptyList());
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
 
         // then
@@ -167,7 +170,8 @@ public class ManagerCouponFindServiceTest {
                 LocalDateTime.now(),
                 false,
                 10);
-        assertThat(findResult).usingElementComparatorIgnoringFields("id", "expireDate")
+
+        assertThat(findResult).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 }
