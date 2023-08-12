@@ -49,8 +49,6 @@ const StampHistoryPage = () => {
   if (stampStatus === 'loading') return <>로딩 중입니다.</>;
 
   const stampEntries = Array.from(transformStampsToMap(stampData.stampHistorys).entries());
-  console.log('🚀 ~ file: index.tsx:18 ~ StampHistoryPage ~ stampEntries:', stampEntries);
-
   return (
     <>
       <SubHeader title="스탬프 적립 내역" />
