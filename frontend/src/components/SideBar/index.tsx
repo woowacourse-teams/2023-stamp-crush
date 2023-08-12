@@ -2,16 +2,18 @@ import { useLocation } from 'react-router-dom';
 import { Logo } from '../../assets';
 import { Option } from '../../types';
 import {
+  Container,
   LabelContent,
   LogoHeader,
   LogoImg,
   LogoImgWrapper,
+  Logout,
+  LogoutContainer,
   SideBarContainer,
   SideBarContent,
   SideBarLink,
 } from './style';
 import { useEffect, useState } from 'react';
-import { ROUTER_PATH } from '../../constants';
 import {
   PiUserListLight,
   PiBuildingsLight,
@@ -19,6 +21,16 @@ import {
   PiBookOpenTextLight,
   PiGiftLight,
 } from 'react-icons/pi';
+import { IoIosLogOut } from 'react-icons/io';
+import { ROUTER_PATH } from '../../constants';
+
+const SIDE_BAR_OPTIONS: Option[] = [
+  { key: '내 고객 목록', value: ROUTER_PATH.customerList },
+  { key: '내 카페 관리', value: ROUTER_PATH.manageCafe },
+  { key: '쿠폰 제작 및 변경', value: ROUTER_PATH.modifyCouponPolicy },
+  { key: '스탬프 적립', value: ROUTER_PATH.enterStamp },
+  { key: '리워드 사용', value: ROUTER_PATH.enterReward },
+];
 
 const SIDEBAR_ICONS = [
   <PiUserListLight size={26} key="customer-list" />,
@@ -28,13 +40,8 @@ const SIDEBAR_ICONS = [
   <PiGiftLight size={26} key="use-reward" />,
 ];
 
-interface SideBarProps {
-  width: number;
-  height: number;
-  options: Option[];
-}
-
-const SideBar = ({ width, height, options }: SideBarProps) => {
+const SideBar = () => {
+  const options = SIDE_BAR_OPTIONS;
   const current = useLocation().pathname;
   const [currentIndex, setCurrentIndex] = useState(
     options.findIndex((option) => option.value === current) + 1,
@@ -58,6 +65,8 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
     setCurrentIndex(foundIndex + 1);
   }, [current, options]);
 
+  if (current === ROUTER_PATH.registerCafe) return <></>;
+
   const checkDesignCoupon = (value: string) => {
     return (
       value === modifyPolicyCouponRoute &&
@@ -66,18 +75,13 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
   };
 
   return (
-    <>
-      <LogoHeader>
+    <Container>
+      <LogoHeader $currentIndex={currentIndex}>
         <LogoImgWrapper>
           <LogoImg src={Logo} alt="스탬프크러쉬 로고" />
         </LogoImgWrapper>
       </LogoHeader>
-      <SideBarContainer
-        $width={width}
-        $height={height}
-        $prevIndex={currentIndex - 1}
-        $nextIndex={currentIndex + 1}
-      >
+      <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>
         {options.map(({ key, value }, index) => (
           <SideBarContent
             key={key}
@@ -87,8 +91,6 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
             <SideBarLink to={value}>
               <LabelContent
                 $isSelected={value === current || (checkDesignCoupon(value) && isDesignCoupon)}
-                $width={width}
-                $height={height / options.length}
                 onClick={() => setCurrentIndex(index + 1)}
               >
                 {SIDEBAR_ICONS[index]}
@@ -98,7 +100,13 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
           </SideBarContent>
         ))}
       </SideBarContainer>
-    </>
+      <LogoutContainer>
+        <Logout>
+          <IoIosLogOut size="26px" />
+          로그아웃
+        </Logout>
+      </LogoutContainer>
+    </Container>
   );
 };
 

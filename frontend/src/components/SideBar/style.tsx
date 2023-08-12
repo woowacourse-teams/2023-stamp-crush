@@ -1,22 +1,25 @@
 import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 interface SideBarStyleProps {
-  $width: number;
-  $height: number;
   $isSelected: boolean;
 }
 
 interface SideBarContainerStyleProps {
-  $width: number;
-  $height: number;
   $prevIndex: number;
   $nextIndex: number;
 }
 
-export const LogoHeader = styled.header`
+export const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const LogoHeader = styled.header<{ $currentIndex: number }>`
   background: ${({ theme }) => theme.colors.main};
   padding-top: 40px;
+  border-radius: ${({ $currentIndex }) => ($currentIndex === 1 ? '0 0 40px 0' : '0')};
 `;
 
 export const LogoImgWrapper = styled.button`
@@ -24,25 +27,22 @@ export const LogoImgWrapper = styled.button`
   align-self: flex-start;
   background: transparent;
   width: 150px;
-  padding-bottom: 20px;
+  padding: 0 0 40px 40px;
+
   cursor: pointer;
 `;
 
 export const LogoImg = styled.img`
-  width: 120px;
-`;
-
-export const PageSideBarWrapper = styled.div`
-  padding: 0 0 0 30px;
+  width: 200px;
+  height: 25px;
 `;
 
 export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-
-  width: ${(props) => `${props.$width}px`};
-  height: ${(props) => `${props.$height}px`};
+  padding-left: 30px;
+  width: 240px;
+  height: 250px;
 
   background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.main} 20%, white 80%)`};
 
@@ -60,9 +60,9 @@ export const LabelContent = styled.span<SideBarStyleProps>`
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
-  width: ${(props) => `${props.$width}px`};
-  height: ${(props) => `${props.$height}px`};
-  font-size: 18px;
+  width: 240px;
+  height: 50px;
+  font-size: 16px;
   font-weight: ${(props) => (props.$isSelected ? '600' : '400')};
   color: ${({ theme, $isSelected }) => ($isSelected ? `${theme.colors.text}` : 'white')};
 
@@ -89,4 +89,26 @@ export const ImageWrapper = styled.div`
   position: absolute;
   bottom: 10px;
   left: 20px;
+`;
+
+export const LogoutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background: ${({ theme }) => theme.colors.main};
+`;
+
+export const Logout = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  padding-left: 50px;
+  margin-top: 40px;
+`;
+
+export const CopyRight = styled.p`
+  color: white;
+  padding-left: 50px;
 `;
