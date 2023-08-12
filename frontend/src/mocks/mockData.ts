@@ -564,7 +564,7 @@ export const stampHistorys = {
       id: 1,
       cafeName: '우아한 카페',
       stampCount: 3,
-      createdAt: '2023:08:11 18:00:00',
+      createdAt: '2023:08:12 18:00:00',
     },
     {
       id: 2,
@@ -576,7 +576,7 @@ export const stampHistorys = {
       id: 1,
       cafeName: '하디 카페',
       stampCount: 1,
-      createdAt: '2023:08:11 18:00:00',
+      createdAt: '2023:08:12 18:17:00',
     },
     {
       id: 1,
