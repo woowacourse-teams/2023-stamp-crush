@@ -67,7 +67,7 @@ export const parseStringDateToKorean = (input: string, options: DateParseOption)
   return `${year} ${month} ${day}`.trim();
 };
 
-export function transfromEntries<T extends NonNullable<unknown>, U extends keyof T>(
+export function transformEntries<T extends NonNullable<unknown>, U extends keyof T>(
   arr: T[],
   propertyName: U,
   transformCallback: (target: T, propertyName: U) => T,
