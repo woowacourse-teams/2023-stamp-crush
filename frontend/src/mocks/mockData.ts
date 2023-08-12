@@ -570,7 +570,7 @@ export const stampHistorys = {
       id: 2,
       cafeName: '레오 카페',
       stampCount: 2,
-      createdAt: '2023:08:11 18:00:00',
+      createdAt: '2023:08:11 18:10:00',
     },
     {
       id: 1,
