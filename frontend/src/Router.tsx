@@ -18,8 +18,8 @@ import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import RewardList from './pages/RewardList';
-import RewardHistoryPage from './pages/RewardHistory';
-import StampHistoryPage from './pages/StampHistory';
+import RewardHistoryPage from './pages/HistoryPage/RewardHistory';
+import StampHistoryPage from './pages/HistoryPage/StampHistory';
 
 const AdminRoot = () => {
   return (

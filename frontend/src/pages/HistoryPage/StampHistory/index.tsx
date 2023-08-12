@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import SubHeader from '../../components/Header/SubHeader';
-import { getStampHistorys } from '../../api/get';
-import { RewardCafeName, RewardDateTitle, RewardHistoryItem } from '../RewardHistory/style';
-import { StampHistoryType } from '../../types';
-import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../utils';
-import { DATE_PARSE_OPTION } from '../../constants';
+import { getStampHistorys } from '../../../api/get';
+import { CafeName, DateTitle, HistoryItem } from '../style';
+import { StampHistoryType } from '../../../types';
+import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../utils';
+import { DATE_PARSE_OPTION } from '../../../constants';
+import HistoryPage from '../HistoryPage';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {
@@ -44,30 +44,34 @@ const StampHistoryPage = () => {
   const { data: stampData, status: stampStatus } = useQuery(['stampHistory'], {
     queryFn: () => getStampHistorys(),
   });
+  const title = '스탬프 적립 내역';
 
-  if (stampStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (stampStatus === 'loading') return <>로딩 중입니다.</>;
+  if (stampStatus === 'loading') {
+    return <HistoryPage title={title}>로딩중입니다..</HistoryPage>;
+  }
+  if (stampStatus === 'error') {
+    return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;
+  }
 
   const stampEntries = Array.from(transformStampsToMap(stampData.stampHistorys).entries());
   return (
-    <>
-      <SubHeader title="스탬프 적립 내역" />
+    <HistoryPage title={title}>
       <div>
         {stampEntries.map(([key, stamps]) => (
           <div key={key}>
-            <RewardDateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</RewardDateTitle>
+            <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <ul key={key}>
               {stamps.map((stamp) => (
-                <RewardHistoryItem key={stamp.id}>
-                  <RewardCafeName>{stamp.cafeName}</RewardCafeName>
+                <HistoryItem key={stamp.id}>
+                  <CafeName>{stamp.cafeName}</CafeName>
                   <span>+{stamp.stampCount}개</span>
-                </RewardHistoryItem>
+                </HistoryItem>
               ))}
             </ul>
           </div>
         ))}
       </div>
-    </>
+    </HistoryPage>
   );
 };
 

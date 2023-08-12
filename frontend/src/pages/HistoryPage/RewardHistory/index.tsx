@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import SubHeader from '../../components/Header/SubHeader';
-import { getMyRewards } from '../../api/get';
-import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
-import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../utils';
-import { RewardHistoryType } from '../../types';
-import { DATE_PARSE_OPTION } from '../../constants';
+import { getMyRewards } from '../../../api/get';
+import { CafeName, HistoryItem, DateTitle } from '../style';
+import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../utils';
+import { RewardHistoryType } from '../../../types';
+import { DATE_PARSE_OPTION } from '../../../constants';
+import HistoryPage from '../HistoryPage';
 
 type RewardHistoryDatePropertys = Exclude<
   keyof RewardHistoryType,
@@ -47,31 +47,35 @@ const RewardHistoryPage = () => {
   const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
     queryFn: () => getMyRewards({ params: { used: true } }),
   });
+  const title = '리워드 사용 내역';
 
-  if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
+  if (rewardStatus === 'loading') {
+    return <HistoryPage title={title}>로딩중입니다..</HistoryPage>;
+  }
+  if (rewardStatus === 'error') {
+    return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;
+  }
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards, 'usedAt').entries());
 
   return (
-    <>
-      <SubHeader title="리워드 사용 내역" />
+    <HistoryPage title="리워드 사용 내역">
       <div>
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
-            <RewardDateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</RewardDateTitle>
+            <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <ul key={key}>
               {rewards.map((reward) => (
-                <RewardHistoryItem key={reward.id}>
-                  <RewardCafeName>{reward.cafeName}</RewardCafeName>
+                <HistoryItem key={reward.id}>
+                  <CafeName>{reward.cafeName}</CafeName>
                   <span>{reward.rewardName}</span>
-                </RewardHistoryItem>
+                </HistoryItem>
               ))}
             </ul>
           </div>
         ))}
       </div>
-    </>
+    </HistoryPage>
   );
 };
 
