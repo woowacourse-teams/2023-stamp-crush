@@ -72,7 +72,7 @@ export interface StampEarningReq {
   couponId: string;
 }
 
-export interface Reward {
+export interface RewardHistoryType {
   id: number;
   rewardName: string;
   cafeName: string;
@@ -142,7 +142,7 @@ export interface DateParseOption {
   hasDay: boolean;
 }
 
-export interface StampHistory {
+export interface StampHistoryType {
   id: number;
   cafeName: string;
   stampCount: number;

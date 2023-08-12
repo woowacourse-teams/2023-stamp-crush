@@ -5,9 +5,10 @@ import {
   Coupon,
   CouponDesign,
   IssuedCoupon,
-  Reward,
+  RewardHistoryType,
   Customer,
-  StampHistory,
+  StampHistoryType,
+  Reward,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -75,7 +76,7 @@ export interface IssuedCouponsRes {
 }
 
 export interface StampHistoryRes {
-  stampHistory: StampHistory[];
+  stampHistorys: StampHistoryType[];
 }
 
 export interface RewardReqBody {
@@ -129,7 +130,7 @@ export interface MaxStampCountParams {
 }
 
 export interface MyRewardRes {
-  rewards: Reward[];
+  rewards: RewardHistoryType[];
 }
 
 export interface UsedParams {

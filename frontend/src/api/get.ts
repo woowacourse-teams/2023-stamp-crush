@@ -10,6 +10,7 @@ import {
   CustomersRes,
   IssuedCouponsRes,
   MaxStampCountParams,
+  MyRewardRes,
   PhoneNumberParams,
   QueryReq,
   RewardRes,
@@ -71,7 +72,7 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
 
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
+  return await api.get<MyRewardRes>(`/rewards?used=${params.used}`, customerHeader);
 };
 
 export const getStampHistorys = async () => {
