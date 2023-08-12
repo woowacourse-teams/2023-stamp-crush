@@ -18,19 +18,19 @@ export const sortHandlerByTime = (a: StampHistoryType, b: StampHistoryType) => {
 };
 
 export const transformStampsToMap = (
-  stamps: StampHistoryType[],
+  stampHistories: StampHistoryType[],
 ): Map<string, StampHistoryType[]> => {
   const result = new Map<string, StampHistoryType[]>();
   const propertyName = 'createdAt';
-  transformEntries(stamps, propertyName, concatStampHistoryDate).forEach((reward) => {
-    const [day] = reward[propertyName].split(' ');
+  transformEntries(stampHistories, propertyName, concatStampHistoryDate).forEach((stampHistory) => {
+    const [day] = stampHistory[propertyName].split(' ');
     if (!day) return;
     const existStamps = result.has(day) ? (result.get(day) as StampHistoryType[]) : [];
 
     const newStamps = [
       ...existStamps,
       {
-        ...reward,
+        ...stampHistory,
       },
     ].sort(sortHandlerByTime);
 
