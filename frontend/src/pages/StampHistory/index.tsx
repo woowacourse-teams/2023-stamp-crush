@@ -7,11 +7,19 @@ import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../u
 import { DATE_PARSE_OPTION } from '../../constants';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
-export function concatStampHistoryDate(stamp: StampHistoryType) {
+export const concatStampHistoryDate = (stamp: StampHistoryType) => {
   return { ...stamp, createdAt: stamp.createdAt.replaceAll(':', '') };
-}
+};
 
-export function transformStampsToMap(stamps: StampHistoryType[]): Map<string, StampHistoryType[]> {
+export const sortHandlerByTime = (a: StampHistoryType, b: StampHistoryType) => {
+  const aTime = a.createdAt.split(' ')[1];
+  const bTime = b.createdAt.split(' ')[1];
+  return aTime.localeCompare(bTime);
+};
+
+export const transformStampsToMap = (
+  stamps: StampHistoryType[],
+): Map<string, StampHistoryType[]> => {
   const result = new Map<string, StampHistoryType[]>();
   const propertyName = 'createdAt';
   transformEntries(stamps, propertyName, concatStampHistoryDate).forEach((reward) => {
@@ -24,17 +32,13 @@ export function transformStampsToMap(stamps: StampHistoryType[]): Map<string, St
       {
         ...reward,
       },
-    ].sort((a, b) => {
-      const aTime = a.createdAt.split(' ')[1];
-      const bTime = b.createdAt.split(' ')[1];
-      return aTime.localeCompare(bTime);
-    });
+    ].sort(sortHandlerByTime);
 
     result.set(day, newStamps);
   });
 
   return sortMapByKey(result);
-}
+};
 
 const StampHistoryPage = () => {
   const { data: stampData, status: stampStatus } = useQuery(['stampHistory'], {
