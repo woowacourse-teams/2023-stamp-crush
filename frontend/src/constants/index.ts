@@ -119,7 +119,13 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   myPage: '/my-page',
   rewardList: '/reward-list',
   rewardHistory: '/reward-history',
-  stampHistory: '/stamp-history'
+  stampHistory: '/stamp-history',
 } as const;
 
 export const PARAMS_ERROR_MESSAGE = '[ERROR] params를 지정해주세요.';
+
+export const DATE_PARSE_OPTION = {
+  hasYear: false,
+  hasMonth: true,
+  hasDay: true,
+};

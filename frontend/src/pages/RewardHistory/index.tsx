@@ -4,6 +4,7 @@ import { getMyRewards } from '../../api/get';
 import { RewardCafeName, RewardHistoryItem, RewardDateTitle } from './style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../utils';
 import { RewardHistoryType } from '../../types';
+import { DATE_PARSE_OPTION } from '../../constants';
 
 type RewardHistoryDatePropertys = Exclude<
   keyof RewardHistoryType,
@@ -51,18 +52,14 @@ const RewardHistoryPage = () => {
   if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards, 'usedAt').entries());
-  const dateParseOption = {
-    hasYear: false,
-    hasMonth: true,
-    hasDay: true,
-  };
+
   return (
     <>
       <SubHeader title="리워드 사용 내역" />
       <div>
         {rewardEntries.map(([key, rewards]) => (
           <div key={key}>
-            <RewardDateTitle>{parseStringDateToKorean(key, dateParseOption)}</RewardDateTitle>
+            <RewardDateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</RewardDateTitle>
             <ul key={key}>
               {rewards.map((reward) => (
                 <RewardHistoryItem key={reward.id}>

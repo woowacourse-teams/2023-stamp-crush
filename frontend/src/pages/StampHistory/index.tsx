@@ -3,7 +3,8 @@ import SubHeader from '../../components/Header/SubHeader';
 import { getStampHistorys } from '../../api/get';
 import { RewardCafeName, RewardDateTitle, RewardHistoryItem } from '../RewardHistory/style';
 import { StampHistoryType } from '../../types';
-import { sortMapByKey, transformEntries } from '../../utils';
+import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../utils';
+import { DATE_PARSE_OPTION } from '../../constants';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export function concatStampHistoryDate(stamp: StampHistoryType) {
@@ -52,7 +53,7 @@ const StampHistoryPage = () => {
       <div>
         {stampEntries.map(([key, stamps]) => (
           <div key={key}>
-            <RewardDateTitle>{key}</RewardDateTitle>
+            <RewardDateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</RewardDateTitle>
             <ul key={key}>
               {stamps.map((stamp) => (
                 <RewardHistoryItem key={stamp.id}>
