@@ -11,11 +11,11 @@ const TYPE: Record<string, Record<string, string>> = {
   },
   pageTitle: {
     fontSize: '34px',
-    fontWeight: '800',
+    fontWeight: '1000',
   },
   subTitle: {
     fontSize: '24px',
-    fontWeight: '450',
+    fontWeight: '500',
   },
 };
 
