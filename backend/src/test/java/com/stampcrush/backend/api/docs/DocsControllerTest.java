@@ -16,6 +16,7 @@ import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiControll
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
 import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
+import com.stampcrush.backend.api.visitor.visithistory.VisitorVisitHistoryFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
@@ -31,6 +32,7 @@ import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandSer
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
+import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -75,7 +77,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerRewardCommandApiController.class,
         ManagerRewardFindApiController.class,
         VisitorCouponCommandApiController.class,
-        VisitorRewardsFindController.class
+        VisitorRewardsFindController.class,
+        VisitorVisitHistoryFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -145,6 +148,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorRewardsFindService visitorRewardsFindService;
+
+    @MockBean
+    protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
 
     @BeforeAll
     static void setUpAuth() {
