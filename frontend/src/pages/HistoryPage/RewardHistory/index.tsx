@@ -2,29 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyRewards } from '../../../api/get';
 import { CafeName, HistoryItem, DateTitle, HistoryList } from '../style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../utils';
-import { RewardHistoryType } from '../../../types';
+import { RewardHistoryDateProperties, RewardHistoryType } from '../../../types';
 import { DATE_PARSE_OPTION } from '../../../constants';
 import HistoryPage from '../HistoryPage';
 
-type RewardHistoryDatePropertys = Exclude<
-  keyof RewardHistoryType,
-  'id' | 'rewardName' | 'cafeName'
->;
-
-export function concatHistoryDate(
+export const concatHistoryDate = (
   reward: RewardHistoryType,
-  propertyName: RewardHistoryDatePropertys,
-) {
+  propertyName: RewardHistoryDateProperties,
+) => {
   const target = reward[propertyName];
   if (!target) return reward;
   return { ...reward, [propertyName]: target.replaceAll(/[:\s]/g, '') };
-}
+};
 
 // TODO: 함수명 변경
-export function transformRewardsToMap(
+export const transformRewardsToMap = (
   rewards: RewardHistoryType[],
-  propertyName: RewardHistoryDatePropertys,
-): Map<string, RewardHistoryType[]> {
+  propertyName: RewardHistoryDateProperties,
+): Map<string, RewardHistoryType[]> => {
   const result = new Map<string, RewardHistoryType[]>();
 
   transformEntries(rewards, propertyName, concatHistoryDate).forEach((reward) => {
@@ -41,7 +36,7 @@ export function transformRewardsToMap(
   });
 
   return sortMapByKey(result);
-}
+};
 
 const RewardHistoryPage = () => {
   const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
@@ -59,10 +54,10 @@ const RewardHistoryPage = () => {
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards, 'usedAt').entries());
 
   return (
-    <HistoryPage title="리워드 사용 내역">
-      <div>
+    <HistoryPage title={title}>
+      <ul>
         {rewardEntries.map(([key, rewards]) => (
-          <div key={key}>
+          <li key={key}>
             <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <HistoryList key={key}>
               {rewards.map((reward) => (
@@ -72,9 +67,9 @@ const RewardHistoryPage = () => {
                 </HistoryItem>
               ))}
             </HistoryList>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </HistoryPage>
   );
 };

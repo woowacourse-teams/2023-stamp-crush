@@ -75,6 +75,6 @@ export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   return await api.get<MyRewardRes>(`/rewards?used=${params.used}`, customerHeader);
 };
 
-export const getStampHistorys = async () => {
-  return await api.get<StampHistoryRes>('/stamp-history');
+export const getStampHistories = async () => {
+  return await api.get<StampHistoryRes>('/stamp-history', customerHeader);
 };

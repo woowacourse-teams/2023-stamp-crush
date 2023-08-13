@@ -148,3 +148,8 @@ export interface StampHistoryType {
   stampCount: number;
   createdAt: string;
 }
+
+export type RewardHistoryDateProperties = Exclude<
+  keyof RewardHistoryType,
+  'id' | 'rewardName' | 'cafeName'
+>;
