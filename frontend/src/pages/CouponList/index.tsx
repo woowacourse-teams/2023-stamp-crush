@@ -38,9 +38,7 @@ const CouponList = () => {
     data: couponData,
     status: couponStatus,
     refetch: refetchCoupons,
-  } = useQuery<CouponRes>(['coupons'], getCoupons, {
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery<CouponRes>(['coupons'], getCoupons);
 
   useEffect(() => {
     if (couponData) {

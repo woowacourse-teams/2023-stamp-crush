@@ -23,7 +23,12 @@ const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
-    customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
+    customers.sort((a: any, b: any) => {
+      if (a[orderOption.key] === b[orderOption.key]) {
+        return a['nickname'] > b['nickname'] ? 1 : -1;
+      }
+      return a[orderOption.key] < b[orderOption.key] ? 1 : -1;
+    });
   };
 
   const { data, status } = useQuery<CustomersRes>(
@@ -35,8 +40,6 @@ const CustomerList = () => {
         },
       }),
     {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
       onSuccess: (data) => {
         orderCustomer(data.customers);
       },
