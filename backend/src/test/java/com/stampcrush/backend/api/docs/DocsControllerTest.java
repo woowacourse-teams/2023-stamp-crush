@@ -15,6 +15,7 @@ import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
@@ -29,6 +30,7 @@ import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -72,7 +74,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerCouponFindApiController.class,
         ManagerRewardCommandApiController.class,
         ManagerRewardFindApiController.class,
-        VisitorCouponCommandApiController.class
+        VisitorCouponCommandApiController.class,
+        VisitorRewardsFindController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -139,6 +142,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorCouponCommandService visitorCouponCommandService;
+
+    @MockBean
+    protected VisitorRewardsFindService visitorRewardsFindService;
 
     @BeforeAll
     static void setUpAuth() {
