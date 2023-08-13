@@ -10,7 +10,7 @@ import {
   InfoContainer,
 } from './style';
 import Text from '../../../components/Text';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
@@ -19,6 +19,7 @@ import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import Customers from './Customers';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -27,22 +28,21 @@ const CustomerList = () => {
     customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
   };
 
-  const { data, status } = useQuery<CustomersRes>(
-    ['customers'],
-    () =>
+  const { data, status } = useQuery<CustomersRes>({
+    queryKey: ['customers'],
+    queryFn: () =>
       getCustomers({
         params: {
           cafeId: 1,
         },
       }),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        orderCustomer(data.customers);
-      },
+
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      orderCustomer(data.customers);
     },
-  );
+  });
 
   useEffect(() => {
     if (status === 'success') {
@@ -70,37 +70,9 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      {data.customers.map(
-        ({
-          id,
-          nickname,
-          stampCount,
-          maxStampCount,
-          rewardCount,
-          isRegistered,
-          firstVisitDate,
-          visitCount,
-        }: Customer) => (
-          <CustomerBox key={id}>
-            <LeftInfo>
-              <NameContainer>
-                <Name>{nickname}</Name>
-                <Badge $isRegistered={isRegistered}>{isRegistered ? '회원' : '임시'}</Badge>
-              </NameContainer>
-              <InfoContainer>
-                스탬프: {stampCount}/{maxStampCount} <br />
-                리워드: {rewardCount}개
-              </InfoContainer>
-            </LeftInfo>
-            <RightInfo>
-              <InfoContainer>
-                첫 방문일: {firstVisitDate}
-                <br /> 방문 횟수: {visitCount}번
-              </InfoContainer>
-            </RightInfo>
-          </CustomerBox>
-        ),
-      )}
+      <Suspense fallback={<LoadingSpinner />}>
+        <Customers customersData={data} />
+      </Suspense>
     </CustomerContainer>
   );
 };
