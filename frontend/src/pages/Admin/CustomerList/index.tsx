@@ -18,6 +18,7 @@ import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -49,7 +50,7 @@ const CustomerList = () => {
     }
   }, [orderOption]);
 
-  if (status === 'loading') return <CustomerContainer>Loading</CustomerContainer>;
+  if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
 
   const searchCustomer = () => {
