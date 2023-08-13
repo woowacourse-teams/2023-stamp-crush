@@ -1,16 +1,6 @@
-import {
-  Badge,
-  CustomerBox,
-  CustomerContainer,
-  LeftInfo,
-  Name,
-  RightInfo,
-  Container,
-  NameContainer,
-  InfoContainer,
-} from './style';
+import { CustomerContainer, Container } from './style';
 import Text from '../../../components/Text';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
@@ -70,9 +60,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Customers customersData={data} />
-      </Suspense>
+      <Customers customersData={data} />
     </CustomerContainer>
   );
 };
