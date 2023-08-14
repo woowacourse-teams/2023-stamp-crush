@@ -1,14 +1,4 @@
-import {
-  Badge,
-  CustomerBox,
-  CustomerContainer,
-  LeftInfo,
-  Name,
-  RightInfo,
-  Container,
-  NameContainer,
-  InfoContainer,
-} from './style';
+import { CustomerContainer, Container } from './style';
 import Text from '../../../components/Text';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
@@ -18,6 +8,8 @@ import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import Customers from './Customers';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -31,20 +23,18 @@ const CustomerList = () => {
     });
   };
 
-  const { data, status } = useQuery<CustomersRes>(
-    ['customers'],
-    () =>
+  const { data, status } = useQuery<CustomersRes>({
+    queryKey: ['customers'],
+    queryFn: () =>
       getCustomers({
         params: {
           cafeId: 1,
         },
       }),
-    {
-      onSuccess: (data) => {
-        orderCustomer(data.customers);
-      },
+    onSuccess: (data) => {
+      orderCustomer(data.customers);
     },
-  );
+  });
 
   useEffect(() => {
     if (status === 'success') {
@@ -52,7 +42,7 @@ const CustomerList = () => {
     }
   }, [orderOption]);
 
-  if (status === 'loading') return <CustomerContainer>Loading</CustomerContainer>;
+  if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
 
   const searchCustomer = () => {
@@ -72,37 +62,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      {data.customers.map(
-        ({
-          id,
-          nickname,
-          stampCount,
-          maxStampCount,
-          rewardCount,
-          isRegistered,
-          firstVisitDate,
-          visitCount,
-        }: Customer) => (
-          <CustomerBox key={id}>
-            <LeftInfo>
-              <NameContainer>
-                <Name>{nickname}</Name>
-                <Badge $isRegistered={isRegistered}>{isRegistered ? '회원' : '임시'}</Badge>
-              </NameContainer>
-              <InfoContainer>
-                스탬프: {stampCount}/{maxStampCount} <br />
-                리워드: {rewardCount}개
-              </InfoContainer>
-            </LeftInfo>
-            <RightInfo>
-              <InfoContainer>
-                첫 방문일: {firstVisitDate}
-                <br /> 방문 횟수: {visitCount}번
-              </InfoContainer>
-            </RightInfo>
-          </CustomerBox>
-        ),
-      )}
+      <Customers customersData={data} />
     </CustomerContainer>
   );
 };

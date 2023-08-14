@@ -24,6 +24,14 @@ public class Owner extends BaseDate {
     private String encryptedPassword;
     private String phoneNumber;
 
+    public Owner(Long id, String name, String loginId, String encryptedPassword, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.loginId = loginId;
+        this.encryptedPassword = encryptedPassword;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Owner(String name, String loginId, String encryptedPassword, String phoneNumber) {
         this.name = name;
         this.loginId = loginId;
