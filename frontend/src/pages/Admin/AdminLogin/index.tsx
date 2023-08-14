@@ -6,17 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { ownerHeader } from '../../../api';
 import { MutateReq } from '../../../types/api';
 
-export const postNaverLogin = async () => {
-  return await api.post('/admin/login/naver');
-};
-
 const AdminLogin = () => {
   return (
     <Container>
       <LogoImg src={StampcrushLogo} alt="스탬프크러쉬로고" />
-      <NaverLoginLink href="https://stampcrush.site/api/admin/login/naver">
+      <NaverLoginLink href="https://stampcrush.site/api/admin/login/kakao">
         <img src={NaverLoginButton} alt="네이버로그인" />
       </NaverLoginLink>
+      ㄴ 카카오임
     </Container>
   );
 };
