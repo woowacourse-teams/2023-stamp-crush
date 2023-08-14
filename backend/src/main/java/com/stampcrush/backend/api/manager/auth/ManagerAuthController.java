@@ -12,15 +12,22 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/login")
 public class ManagerAuthController {
 
     private final ManagerAuthService managerAuthService;
 
-    @GetMapping("/login/naver")
+    @GetMapping("/kakao")
+    public ResponseEntity<Void> kakaoLogin() {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(managerAuthService.createKakaoLoginRedirectUri()))
+                .build();
+    }
+
+    @GetMapping("/naver")
     public ResponseEntity<Void> naverLogin() {
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(managerAuthService.createLoginRedirectUri()))
+                .location(URI.create(managerAuthService.createNaverLoginRedirectUri()))
                 .build();
     }
 }
