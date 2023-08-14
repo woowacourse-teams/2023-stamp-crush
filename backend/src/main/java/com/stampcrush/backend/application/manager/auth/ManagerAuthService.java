@@ -1,5 +1,6 @@
-package com.stampcrush.backend.api.manager.auth;
+package com.stampcrush.backend.application.manager.auth;
 
+import com.stampcrush.backend.api.manager.auth.StateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

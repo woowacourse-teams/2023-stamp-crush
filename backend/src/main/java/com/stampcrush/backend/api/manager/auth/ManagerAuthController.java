@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.manager.auth;
 
+import com.stampcrush.backend.application.manager.auth.ManagerAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
