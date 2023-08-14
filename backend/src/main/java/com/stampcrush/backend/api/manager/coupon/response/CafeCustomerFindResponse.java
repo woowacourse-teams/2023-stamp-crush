@@ -1,25 +1,25 @@
 package com.stampcrush.backend.api.manager.coupon.response;
 
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode
+@RequiredArgsConstructor
 @Getter
 public class CafeCustomerFindResponse {
 
-    private Long id;
-    private String nickname;
-    private int stampCount;
-    private int rewardCount;
-    private int visitCount;
-    private int maxStampCount;
-    private String firstVisitDate;
-    private Boolean isRegistered;
+    private final Long id;
+    private final String nickname;
+    private final int stampCount;
+    private final int rewardCount;
+    private final int visitCount;
+    private final int maxStampCount;
+    private final String firstVisitDate;
+    private final Boolean isRegistered;
 
     public static CafeCustomerFindResponse from(CafeCustomerFindResultDto serviceDto) {
         return new CafeCustomerFindResponse(

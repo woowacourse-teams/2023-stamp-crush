@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -31,6 +33,13 @@ public class VisitHistory extends BaseDate {
     private Customer customer;
 
     private int stampCount;
+
+    public VisitHistory(LocalDateTime createdAt, LocalDateTime updatedAt, Cafe cafe, Customer customer, int stampCount) {
+        super(createdAt, updatedAt);
+        this.cafe = cafe;
+        this.customer = customer;
+        this.stampCount = stampCount;
+    }
 
     public VisitHistory(Cafe cafe, Customer customer, int stampCount) {
         this(null, cafe, customer, stampCount);
