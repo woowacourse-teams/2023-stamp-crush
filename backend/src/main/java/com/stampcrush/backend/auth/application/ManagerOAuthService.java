@@ -29,7 +29,8 @@ public class ManagerOAuthService {
     }
 
     public String findLoginRedirectUri() {
-        return baseUri + "?" + "response_type=code"
+        return baseUri + "/oauth/authorize?"
+                + "response_type=code"
                 + "client_id=" + clientId
                 + "redirect_uri" + redirectUri;
     }
