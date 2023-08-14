@@ -1,30 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api, ownerHeader } from '../../../api';
+import { getOAuthToken } from '../../../api/get';
 
 const AdminAuth = () => {
   const [searchParams] = useSearchParams();
-  const code = searchParams.get('code');
-  const [location, setLocation] = useState('');
+  const authorizationCode = searchParams.get('authorization-code');
+
+  if (!authorizationCode) {
+    throw new Error('code가 없습니다.');
+  }
 
   const getToken = async () => {
-    const response: any = await api.get(
-      `/admin/login/kakao/token?authorization-code=${code}`,
-      ownerHeader,
-    );
+    const response = await getOAuthToken({
+      params: { resourceServer: 'kakao', authorizationCode },
+    });
 
-    const location = response.headers.get('Location');
-    if (location === null) {
-      throw new Error('Location이 없습니다.');
-    }
-    setLocation(location);
+    localStorage.setItem('login-token', response.accessToken);
   };
 
   useEffect(() => {
-    if (!code) {
-      throw new Error('code가 없습니다.');
-    }
-
     getToken();
   }, []);
 

@@ -10,6 +10,8 @@ import {
   CustomersRes,
   IssuedCouponsRes,
   MaxStampCountParams,
+  OAuthJWTRes,
+  OAuthTokenParams,
   PhoneNumberParams,
   QueryReq,
   RewardRes,
@@ -71,4 +73,12 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
+};
+
+export const getOAuthToken = async ({ params }: QueryReq<OAuthTokenParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<OAuthJWTRes>(
+    `/admin/login/${params.resourceServer}/token?authorization-code=${params.authorizationCode}`,
+    ownerHeader,
+  );
 };
