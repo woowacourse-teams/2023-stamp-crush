@@ -30,8 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/docs/**",
                         "/v3/api-docs/swagger-config",
                         "/docs/openapi3.json",
-                        "/api/admin/login/**",
-                        "/api/owners/oauth/naver"
+                        "/api/admin/login/**"
                 );
     }
 
