@@ -75,10 +75,17 @@ tasks.withType(GenerateSwaggerUI) {
     copy {
         from "build/resources/main/static/docs"
         into "src/main/resources/static/docs/"
-
     }
 }
 
 bootJar {
     dependsOn 'createOutputDirectory',':openapi3'
+}
+
+task copyPrivate(type: Copy) {
+    copy {
+        from './2023-stamp-crush-submodule'
+        include "*.yml"
+        into 'src/main/resources'
+    }
 }
