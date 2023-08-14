@@ -20,6 +20,7 @@ import CustomerTemplate from './components/Template/CustomerTemplate';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import RewardList from './pages/RewardList';
 import RewardHistory from './pages/RewardHistory';
+import AdminLogin from './pages/Admin/AdminLogin';
 
 const AdminRoot = () => {
   return (
@@ -42,7 +43,7 @@ const CustomerRoot = () => {
 const Router = () => {
   const router = createBrowserRouter([
     // 사장
-    { path: ROUTER_PATH.adminLogin, element: <Login /> },
+    { path: ROUTER_PATH.adminLogin, element: <AdminLogin /> },
     { path: ROUTER_PATH.adminSignup, element: <SignUp /> },
     { path: ROUTER_PATH.enterReward, element: <EnterPhoneNumber /> },
     { path: ROUTER_PATH.enterStamp, element: <EnterPhoneNumber /> },
