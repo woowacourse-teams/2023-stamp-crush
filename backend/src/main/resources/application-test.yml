@@ -2,5 +2,21 @@ spring:
   config:
     activate:
       on-profile: test
-    import:
-      - security/application-test.yml
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 10
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;Mode=MySql
+
+jwt:
+  secret-key: eyJpc3MiOiJ2ZWxvcGVydC5jb20iLCJleHAiOiIxNDg1MjcwMDAwMDAwIiwiaHR0cHM6Ly92ZWxvcGVydC5jb20vand0X2NsYWltcy9pc19hZG1pbiI6dHJ1ZSwidXNlcklkIjoiMTEwMjgzNzM3MjcxMDIiLCJ1c2VybmFtZSI6InZlbG9wZXJ0In0
+
