@@ -1,0 +1,6 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - security/application-dev.yml
