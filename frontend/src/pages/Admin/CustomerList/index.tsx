@@ -23,11 +23,11 @@ const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
-    customers.sort((a: any, b: any) => {
-      if (a[orderOption.key] === b[orderOption.key]) {
+    customers.sort((a: Customer, b: Customer) => {
+      if (a[orderOption.key as keyof Customer] === b[orderOption.key as keyof Customer]) {
         return a['nickname'] > b['nickname'] ? 1 : -1;
       }
-      return a[orderOption.key] < b[orderOption.key] ? 1 : -1;
+      return a[orderOption.key as keyof Customer] < b[orderOption.key as keyof Customer] ? 1 : -1;
     });
   };
 
