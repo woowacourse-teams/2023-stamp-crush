@@ -19,7 +19,7 @@ export const Container = styled.section`
 export const LogoHeader = styled.header<{ $currentIndex: number }>`
   background: ${({ theme }) => theme.colors.main};
   padding-top: 40px;
-  border-radius: ${({ $currentIndex }) => ($currentIndex === 1 ? '0 0 40px 0' : '0')};
+  border-radius: ${({ $currentIndex }) => ($currentIndex === 2 ? '0 0 40px 0' : '0')};
 `;
 
 export const LogoImgWrapper = styled.button`
@@ -43,7 +43,6 @@ export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
   padding-left: 30px;
   width: 240px;
   height: 250px;
-
   background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.main} 20%, white 80%)`};
 
   div:nth-child(${(props) => props.$prevIndex}) {
@@ -91,12 +90,16 @@ export const ImageWrapper = styled.div`
   left: 20px;
 `;
 
-export const LogoutContainer = styled.div`
+export const LogoutContainer = styled.div<{ $currentIndex: number }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  background: ${({ theme }) => theme.colors.main};
+  /* background: ${({ theme }) => theme.colors.main}; */
+  background: ${({ theme }) =>
+    `linear-gradient(to bottom,${theme.colors.main} 10%, ${theme.colors.main} 30%, ${theme.colors.point} 100%)`};
+  border-radius: 40px;
+  border-radius: ${({ $currentIndex }) => ($currentIndex === 6 ? '0 40px 0 0' : '0')};
 `;
 
 export const LogoutButton = styled.button`
@@ -119,4 +122,18 @@ export const LogoutButton = styled.button`
 export const CopyRight = styled.p`
   color: white;
   padding-left: 50px;
+`;
+
+export const EmptyContent = styled.div`
+  width: 240px;
+  height: 50px;
+  background: ${({ theme }) => theme.colors.main};
+`;
+
+export const CharacterImage = styled.img`
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  bottom: 0;
+  left: 0;
 `;

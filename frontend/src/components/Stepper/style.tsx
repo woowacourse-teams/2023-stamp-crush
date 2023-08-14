@@ -10,29 +10,34 @@ interface StepperButtonProps extends StyledStepperProps {
 
 export const StepperWrapper = styled.div<StyledStepperProps>`
   display: flex;
-  height: ${({ $height }) => `${$height}px`};
+  height: 50px;
 `;
 
 export const BaseStepperButton = styled.button<StepperButtonProps>`
   display: block;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.main};
+  border: 3px solid ${({ theme }) => theme.colors.main};
+  font-size: 30px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.point};
   cursor: pointer;
   &:hover {
-    background-color: ${({ theme }) => theme.colors.gray100};
+    opacity: 80%;
   }
-  width: ${({ $height }) => `${$height}px`};
-  border-radius: ${({ $position }) => ($position === 'left' ? '3px 0 0 3px' : '0 3px 3px 0')};
+  width: 45px;
+  border-radius: ${({ $position }) => ($position === 'left' ? '10px 0 0 10px' : '0 10px 10px 0')};
 `;
 
 export const BaseStepperInput = styled.input<StyledStepperProps>`
   box-sizing: border-box;
-  height: ${({ $height }) => `${$height}px`};
-  width: ${({ $height }) => `${$height * 2}px`};
+  height: 50px;
+  width: 50px;
   display: block;
   padding: 0;
   border: none;
-  border-top: 1px solid ${({ theme }) => theme.colors.black};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  border-top: 3px solid ${({ theme }) => theme.colors.main};
+  border-bottom: 3px solid ${({ theme }) => theme.colors.main};
   text-align: center;
+  font-size: 20px;
+  font-weight: 700;
 `;

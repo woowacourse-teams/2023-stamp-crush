@@ -3,12 +3,15 @@ import Button from '../../../components/Button';
 import { RowSpacing, Spacing } from '../../../style/layout/common';
 import { ChangeEvent, useState } from 'react';
 import {
+  CouponLabelContainer,
   CouponSelectContainer,
   CouponSelector,
   CouponSelectorContainer,
   CouponSelectorLabel,
   CouponSelectorWrapper,
   ExpirationDate,
+  SelectDescription,
+  SelectTitle,
   SelectorItemWrapper,
   TitleWrapper,
 } from './style';
@@ -20,6 +23,8 @@ import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 import { CouponActivate } from '../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
+import { LuStamp } from 'react-icons/lu';
+import { MdAddCard } from 'react-icons/md';
 
 const SelectCoupon = () => {
   const location = useLocation();
@@ -126,36 +131,46 @@ const SelectCoupon = () => {
             <ExpirationDate>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</ExpirationDate>
           </CouponSelectorWrapper>
         )}
-        <RowSpacing $size={146} />
-        <CouponSelectorWrapper>
+        <RowSpacing $size={20} />
+        <CouponLabelContainer>
           <SelectorItemWrapper>
             <CouponSelector
-              type="checkbox"
+              id="new"
+              type="radio"
               value="new"
-              $size={20}
               onChange={selectCoupon}
               checked={selectedCoupon === 'new'}
             />
-            <CouponSelectorLabel $isChecked={!isPrevious}>
-              새로운 쿠폰을 만들게요
+            <CouponSelectorLabel htmlFor="new" $isChecked={!isPrevious}>
+              <SelectTitle>새 쿠폰 발급</SelectTitle>
+              <SelectDescription>
+                새 쿠폰을 만들고
+                <br />새 쿠폰에 적립할게요.
+              </SelectDescription>
+              <MdAddCard size={40} />
             </CouponSelectorLabel>
           </SelectorItemWrapper>
           <Spacing $size={40} />
           {coupon.coupons.length > 0 && (
             <SelectorItemWrapper>
               <CouponSelector
-                type="checkbox"
+                id="current"
+                type="radio"
                 value="current"
-                $size={20}
                 onChange={selectCoupon}
                 checked={selectedCoupon === 'current'}
               />
-              <CouponSelectorLabel $isChecked={isPrevious}>
-                현재 쿠폰에 적립할게요
+              <CouponSelectorLabel htmlFor="current" $isChecked={isPrevious}>
+                <SelectTitle>현재 쿠폰 적립</SelectTitle>
+                <SelectDescription>
+                  고객님이 보유하신 <br />
+                  현재 쿠폰에 적립할게요.
+                </SelectDescription>
+                <LuStamp size={40} />
               </CouponSelectorLabel>
             </SelectorItemWrapper>
           )}
-        </CouponSelectorWrapper>
+        </CouponLabelContainer>
       </CouponSelectorContainer>
       <Spacing $size={70} />
       <Button

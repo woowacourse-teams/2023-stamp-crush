@@ -5,7 +5,8 @@ export const BaseTemplate = styled.main`
   margin: 0 auto;
   width: 100vw;
   height: 100vh;
-  background: ${({ theme }) => theme.colors.main};
+  background: ${({ theme }) =>
+    `linear-gradient(to bottom, ${theme.colors.main} 60%, ${theme.colors.point} 100%)`};
 `;
 
 export const SideBarWrapper = styled.section`
@@ -28,10 +29,12 @@ export const Footer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  background: ${({ theme }) => theme.colors.main};
   width: 100vw;
   height: 150px;
   padding-top: 40px;
+  /* background: ${({ theme }) =>
+    `linear-gradient(to , ${theme.colors.main} 60%, ${theme.colors.point} 100%)`}; */
+  background: ${({ theme }) => theme.colors.point};
 
   & > span {
     display: flex;
