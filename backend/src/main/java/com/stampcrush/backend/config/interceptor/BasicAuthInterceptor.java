@@ -14,6 +14,13 @@ public class BasicAuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestPath = request.getRequestURI();
+
+        //TODO: 나중에 삭제해야함.
+        if (requestPath.startsWith("/admin/login/auth/")) {
+            return true;
+        }
+
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorization == null || !authorization.toLowerCase().startsWith(BASIC_TYPE)) {
             throw new UnAuthorizationException("인증을 할 수 없습니다");
