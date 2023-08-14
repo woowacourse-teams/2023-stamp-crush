@@ -61,6 +61,26 @@ class RewardRepositoryTest {
         assertThat(findRewards).isEmpty();
     }
 
+    @Test
+    void 해당_고객의_사용_가능한_리워드의_개수를_조회한다() {
+        // given
+        Cafe cafe = createCafe(OwnerFixture.GITCHAN);
+        Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+
+        Reward reward1 = rewardRepository.save(new Reward("Reward1", customer, cafe));
+        rewardRepository.save(new Reward("Reward2", customer, cafe));
+        rewardRepository.save(new Reward("Reward3", customer, cafe));
+        rewardRepository.save(new Reward("Reward4", customer, cafe));
+        rewardRepository.save(new Reward("Reward5", customer, cafe));
+        reward1.useReward(customer, cafe);
+
+        // when
+        Long countOfUnusedReward = rewardRepository.countByCafeAndCustomerAndUsed(cafe, customer, Boolean.FALSE);
+
+        // then
+        assertThat(countOfUnusedReward).isEqualTo(4);
+    }
+
     private Cafe createCafe(Owner owner) {
         Owner savedOwner = ownerRepository.save(owner);
         return cafeRepository.save(

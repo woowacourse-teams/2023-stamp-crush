@@ -13,6 +13,7 @@ import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,6 +58,9 @@ public class ManagerCouponFindServiceTest {
 
     @Mock
     private VisitHistoryRepository visitHistoryRepository;
+
+    @Mock
+    private RewardRepository rewardRepository;
 
     @BeforeAll
     static void setUp() {
