@@ -8,14 +8,10 @@ const request = async (path: string, init?: RequestInit) => {
   //   BASE_URL = '';
   // }
 
-  const accessToken = localStorage.getItem('login-token');
-
-  if (!accessToken) throw new Error('토큰 없음');
-
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localStorage.getItem('login-token')}`,
       'Content-Type': 'application/json',
       ...init?.headers,
     },

@@ -75,10 +75,13 @@ export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
 };
 
-export const getOAuthToken = async ({ params }: QueryReq<OAuthTokenParams>) => {
+export const getOAuthToken = async (
+  { params }: QueryReq<OAuthTokenParams>,
+  init: RequestInit = {},
+) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<OAuthJWTRes>(
     `/admin/login/${params.resourceServer}/token?authorization-code=${params.authorizationCode}`,
-    ownerHeader,
+    init,
   );
 };
