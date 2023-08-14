@@ -27,6 +27,9 @@ public class KakaoApiClient implements OAuthApiClient {
     @Value("${oauth.kakao.client-id}")
     private String clientId;
 
+    @Value("${oauth.kakao.redirect-uri}")
+    private String redirectUri;
+
     private final RestTemplate restTemplate;
 
     @Override
@@ -36,16 +39,17 @@ public class KakaoApiClient implements OAuthApiClient {
 
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
-        String url = authUrl + "/oauth/token";
+        String url = "https://kauth.kakao.com/oauth/token";
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        MultiValueMap<String, String> body = params.makeBody();
+        final MultiValueMap<String, String> body = params.makeBody();
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", clientId);
+        body.add("redirect_uri", redirectUri);
 
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 
         KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);
 

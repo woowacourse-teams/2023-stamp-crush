@@ -1,16 +1,9 @@
 package com.stampcrush.backend.auth;
 
-import java.time.LocalDate;
-
 public interface OAuthInfoResponse {
 
-    String getProfileNickname();
+    String getNickname();
 
-    String getGender();
-
-    String getAgeRange();
-
-    LocalDate getBirthDay();
-
+    String getEmail();
     OAuthProvider getOAuthProvider();
 }

@@ -11,6 +11,10 @@ public class KakaoLoginParams implements OAuthLoginParams {
 
     private String authorizationCode;
 
+    public KakaoLoginParams(String authorizationCode) {
+        this.authorizationCode = authorizationCode;
+    }
+
     @Override
     public OAuthProvider oAuthProvider() {
         return OAuthProvider.KAKAO;
