@@ -1,0 +1,3 @@
+[submodule "backend/2023-stamp-crush-submodule"]
+	path = backend/2023-stamp-crush-submodule
+	url = https://github.com/woowacourse-teams/2023-stamp-crush-submodule
