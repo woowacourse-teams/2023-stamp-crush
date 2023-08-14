@@ -1,9 +1,11 @@
 package com.stampcrush.backend.auth.application;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("!test")
 public class ManagerOAuthService {
 
     private final String clientId;
