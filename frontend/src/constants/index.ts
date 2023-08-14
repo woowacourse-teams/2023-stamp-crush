@@ -102,6 +102,7 @@ export const EXPIRE_DATE_OPTIONS = [
 export const ROUTER_PATH: Record<string, RouterPath> = {
   customerList: '/admin',
   adminLogin: '/admin/login',
+  adminAuth: '/admin/login/auth/kakao',
   adminSignup: '/admin/sign-up',
   enterReward: '/admin/enter-reward',
   enterStamp: '/admin/enter-stamp',

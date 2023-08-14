@@ -1,10 +1,5 @@
-import { api } from '../../../api';
 import { StampcrushLogo, NaverLoginButton } from '../../../assets';
 import { Container, LogoImg, NaverLoginLink } from './style';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { ownerHeader } from '../../../api';
-import { MutateReq } from '../../../types/api';
 
 const AdminLogin = () => {
   return (
