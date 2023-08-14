@@ -1,6 +1,12 @@
 import { api } from '../../../api';
 import { StampcrushLogo, NaverLoginButton } from '../../../assets';
 import { Container, LogoImg, NaverLoginLink } from './style';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { api, ownerHeader } from '../../../api';
+import { MutateReq } from '../../../types/api';
+import { StampcrushLogo, NaverLoginButton } from '../../../assets';
+import { Container, LoginButton, LogoImg } from './style';
 
 export const postNaverLogin = async () => {
   return await api.post('/admin/login/naver');
@@ -11,9 +17,7 @@ const AdminLogin = () => {
     <Container>
       <LogoImg src={StampcrushLogo} alt="스탬프크러쉬로고" />
       <NaverLoginLink href="https://stampcrush.site/api/admin/login/naver">
-        <a>
-          <img src={NaverLoginButton} alt="네이버로그인" />
-        </a>
+        <img src={NaverLoginButton} alt="네이버로그인" />
       </NaverLoginLink>
     </Container>
   );
