@@ -19,7 +19,6 @@ public class ManagerOAuthController {
 
     @GetMapping("/kakao")
     public ResponseEntity<Void> loginKakao() {
-        System.out.println("여깃찌!");
         String redirectUri = managerOAuthService.findLoginRedirectUri();
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(redirectUri))
