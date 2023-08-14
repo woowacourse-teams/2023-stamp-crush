@@ -15,7 +15,12 @@ const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
-    customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
+    customers.sort((a: Customer, b: Customer) => {
+      if (a[orderOption.key as keyof Customer] === b[orderOption.key as keyof Customer]) {
+        return a['nickname'] > b['nickname'] ? 1 : -1;
+      }
+      return a[orderOption.key as keyof Customer] < b[orderOption.key as keyof Customer] ? 1 : -1;
+    });
   };
 
   const { data, status } = useQuery<CustomersRes>({
@@ -26,9 +31,6 @@ const CustomerList = () => {
           cafeId: 1,
         },
       }),
-
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
     onSuccess: (data) => {
       orderCustomer(data.customers);
     },
