@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { Logo } from '../../assets';
+import { StampcrushLogo } from '../../assets';
 import { Option } from '../../types';
 import {
   LabelContent,
@@ -54,7 +54,7 @@ const SideBar = ({ width, height, options }: SideBarProps) => {
     <>
       <LogoHeader>
         <LogoImgWrapper>
-          <LogoImg src={Logo} alt="스탬프크러쉬 로고" />
+          <LogoImg src={StampcrushLogo} alt="스탬프크러쉬 로고" />
         </LogoImgWrapper>
       </LogoHeader>
       <SideBarContainer
