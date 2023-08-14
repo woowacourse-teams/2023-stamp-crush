@@ -4,13 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDate;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Getter
 @Entity
 public class OAuthOwner {
 
@@ -18,7 +16,9 @@ public class OAuthOwner {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String profileNickname;
-    private String email;
+    private String gender;
+    private String ageRange;
+    private LocalDate birthDay;
     private OAuthProvider oAuthProvider;
 
     public OAuthOwner() {
@@ -27,11 +27,15 @@ public class OAuthOwner {
     @Builder
     public OAuthOwner(
             String profileNickname,
-            String email,
+            String gender,
+            String ageRange,
+            LocalDate birthDay,
             OAuthProvider oAuthProvider
     ) {
         this.profileNickname = profileNickname;
-        this.email = email;
+        this.gender = gender;
+        this.ageRange = ageRange;
+        this.birthDay = birthDay;
         this.oAuthProvider = oAuthProvider;
     }
 }
