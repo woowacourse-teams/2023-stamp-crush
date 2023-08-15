@@ -1,4 +1,4 @@
-package com.stampcrush.backend.auth.application;
+package com.stampcrush.backend.auth.application.manager;
 
 import com.stampcrush.backend.auth.client.OAuthApiClient;
 import com.stampcrush.backend.auth.client.OAuthInfoResponse;
