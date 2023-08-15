@@ -41,11 +41,11 @@ public class ManagerOAuthService {
         this.clients = clients.stream().collect(
                 Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
         );
-
     }
 
     public String findLoginRedirectUri() {
         return baseUri
+                + "/oauth/authorize"
                 + "?response_type=code"
                 + "&client_id=" + clientId
                 + "&redirect_uri=" + redirectUri;
@@ -54,8 +54,6 @@ public class ManagerOAuthService {
     public OAuthInfoResponse request(OAuthLoginParams params) {
         OAuthApiClient client = clients.get(params.oAuthProvider());
         String accessToken = client.requestAccessToken(params);
-
-        System.out.println("accessToken is " + accessToken);
 
         return client.requestOauthInfo(accessToken);
     }
