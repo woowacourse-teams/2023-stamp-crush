@@ -1,8 +1,8 @@
 package com.stampcrush.backend.auth.application;
 
-import com.stampcrush.backend.auth.OAuthApiClient;
-import com.stampcrush.backend.auth.OAuthInfoResponse;
-import com.stampcrush.backend.auth.OAuthLoginParams;
+import com.stampcrush.backend.auth.client.OAuthApiClient;
+import com.stampcrush.backend.auth.client.OAuthInfoResponse;
+import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import com.stampcrush.backend.auth.OAuthProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

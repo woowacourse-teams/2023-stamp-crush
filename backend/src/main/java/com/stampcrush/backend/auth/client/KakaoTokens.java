@@ -1,4 +1,4 @@
-package com.stampcrush.backend.auth;
+package com.stampcrush.backend.auth.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
