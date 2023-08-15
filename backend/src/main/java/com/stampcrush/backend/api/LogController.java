@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogController {
 
-    @GetMapping("/test")
+    @GetMapping("/api/test")
     public ResponseEntity<Void> logTest() {
         log.debug("debug log");
         log.info("info log");
