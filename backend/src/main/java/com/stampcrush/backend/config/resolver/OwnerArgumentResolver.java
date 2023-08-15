@@ -38,7 +38,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerUnAuthorizationException("회원정보가 잘못되었습니다."));
         owner.checkPassword(encryptedPassword);
 
-        return new OwnerAuth(owner.getId(), owner.getName(), loginId, encryptedPassword, owner.getPhoneNumber());
+        return new OwnerAuth(owner.getId(), owner.getNickname(), loginId, encryptedPassword, owner.getPhoneNumber());
     }
 
     private String[] getCredentials(String header) {
