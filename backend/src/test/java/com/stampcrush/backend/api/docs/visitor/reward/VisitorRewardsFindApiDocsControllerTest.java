@@ -29,13 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
-    @Disabled
     void 리워드_조회() throws Exception {
         // given, when
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         Reward reward = RewardFixture.REWARD_USED_FALSE;
 
-        when(visitorRewardsFindService.findRewards(null, false))
+        when(visitorRewardsFindService.findRewards(CUSTOMER.getId(), false))
                 .thenReturn(
                         List.of(
                                 VisitorRewardsFindResultDto.from(reward)
