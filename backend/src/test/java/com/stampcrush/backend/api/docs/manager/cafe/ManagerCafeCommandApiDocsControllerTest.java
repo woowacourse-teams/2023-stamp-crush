@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest {
 
-
     @Test
     void 카페_상세_정보_변경() throws Exception {
         // given

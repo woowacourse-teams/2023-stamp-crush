@@ -1,19 +1,15 @@
 package com.stampcrush.backend.api.visitor.cafe;
 
+import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalTime;
 import java.util.Base64;
@@ -24,23 +20,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@KorNamingConverter
 @WebMvcTest(VisitorCafeFindApiController.class)
-class VisitorCafeFindApiControllerTest {
+class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
 
     private static final Long CAFE_ID = 1L;
 
-    @Autowired
-    private MockMvc mockMvc;
-
     @MockBean
     private VisitorCafeFindService visitorCafeFindService;
-
-    @MockBean
-    private OwnerRepository ownerRepository;
-
-    @MockBean
-    private RegisterCustomerRepository customerRepository;
 
     private RegisterCustomer customer;
     private String basicAuthHeader;
@@ -64,7 +50,7 @@ class VisitorCafeFindApiControllerTest {
     @Test
     void 카페_조회_요청_시_고객_인증이_안되면_401코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.empty());
+        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.empty());
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + CAFE_ID)
@@ -76,7 +62,7 @@ class VisitorCafeFindApiControllerTest {
     @Test
     void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
+        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
         when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
 
         // when, then
@@ -89,7 +75,7 @@ class VisitorCafeFindApiControllerTest {
     @Test
     void 카페_조회_요청_시_비밀번호가_틀리면_401코드_반환() throws Exception {
         // given
-        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(new RegisterCustomer("깃짱", "01012345678", "gitchan", "wrong")));
+        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(new RegisterCustomer("깃짱", "01012345678", "gitchan", "wrong")));
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + 1)

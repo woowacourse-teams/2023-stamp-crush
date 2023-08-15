@@ -1,7 +1,7 @@
 package com.stampcrush.backend.application.manager.sample;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.sample.SampleFrontImage;
 import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
@@ -12,10 +12,8 @@ import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
@@ -23,8 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class ManagerSampleCouponFindServiceTest {
 
     @InjectMocks

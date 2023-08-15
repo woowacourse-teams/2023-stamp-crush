@@ -12,8 +12,11 @@ import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiControll
 import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
 import com.stampcrush.backend.api.manager.sample.ManagerSampleCouponFindApiController;
 import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
+import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
+import com.stampcrush.backend.api.visitor.visithistory.VisitorVisitHistoryFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
@@ -25,11 +28,14 @@ import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandSer
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
+import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
+import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -69,7 +75,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerCouponCommandApiController.class,
         ManagerCouponFindApiController.class,
         ManagerRewardCommandApiController.class,
-        ManagerRewardFindApiController.class
+        ManagerRewardFindApiController.class,
+        VisitorCouponCommandApiController.class,
+        VisitorRewardsFindController.class,
+        VisitorVisitHistoryFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -133,6 +142,15 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerRewardFindService managerRewardFindService;
+
+    @MockBean
+    protected VisitorCouponCommandService visitorCouponCommandService;
+
+    @MockBean
+    protected VisitorRewardsFindService visitorRewardsFindService;
+
+    @MockBean
+    protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
 
     @BeforeAll
     static void setUpAuth() {

@@ -33,6 +33,7 @@ import { patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
 import { Cafe, Time } from '../../../types';
 import { CafeInfoReqBody } from '../../../types/api';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const ManageCafe = () => {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ const ManageCafe = () => {
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (status === 'loading') return <>로딩 중입니다.</>;
+  if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <>에러가 발생했습니다.</>;
 
   return (

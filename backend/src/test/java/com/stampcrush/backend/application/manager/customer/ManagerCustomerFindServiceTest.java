@@ -1,18 +1,14 @@
 package com.stampcrush.backend.application.manager.customer;
 
+import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
-import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@KorNamingConverter
-@ExtendWith(MockitoExtension.class)
+@ServiceSliceTest
 class ManagerCustomerFindServiceTest {
 
     @InjectMocks

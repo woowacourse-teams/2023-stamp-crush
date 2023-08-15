@@ -3,7 +3,6 @@ package com.stampcrush.backend.entity.coupon;
 import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -14,18 +13,14 @@ public class Coupons {
     public CustomerCouponStatistics calculateStatistics() {
         int stampCount = 0;
         int rewardCount = 0;
-        int visitCount = 0;
         int maxStampCount = 0;
-        LocalDateTime firstVisitDate = LocalDateTime.MAX;
 
         for (Coupon coupon : coupons) {
             stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
             rewardCount += addRewardCouponCount(coupon);
-            visitCount += coupon.calculateVisitCount();
-            firstVisitDate = coupon.compareCreatedAtAndReturnEarlier(firstVisitDate);
             maxStampCount = coupon.calculateMaxStampCountWhenAccumulating();
         }
-        return new CustomerCouponStatistics(stampCount, rewardCount, visitCount, maxStampCount, firstVisitDate);
+        return new CustomerCouponStatistics(stampCount, rewardCount, maxStampCount);
     }
 
     private int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {

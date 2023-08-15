@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../assets';
+import { useLocation } from 'react-router-dom';
+import { StampcrushLogo } from '../../assets';
 import { Option } from '../../types';
 import {
   Container,
@@ -98,7 +100,7 @@ const SideBar = () => {
   };
 
   return (
-    <>
+   <>
       <Container>
         <LogoHeader $currentIndex={currentIndex}>
           <LogoImgWrapper>
