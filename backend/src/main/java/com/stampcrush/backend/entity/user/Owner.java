@@ -3,10 +3,7 @@ package com.stampcrush.backend.entity.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,12 @@ public class Owner extends BaseDate {
     private String encryptedPassword;
     private String phoneNumber;
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_provider")
     private OAuthProvider oAuthProvider;
+
+    @Column(name = "oauth_id")
     private Long oAuthId;
 
     public Owner(Long id, String nickname, String loginId, String encryptedPassword, String phoneNumber) {
