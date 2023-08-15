@@ -32,9 +32,7 @@ public class ManagerOAuthController {
 
     @GetMapping("/admin/login/auth/kakao")
     public ResponseEntity<AuthTokens> authorizeUser(@RequestParam("code") String code) {
-
         KakaoLoginParams params = new KakaoLoginParams(code);
         return ResponseEntity.ok(managerOAuthLoginService.login(params));
     }
-
 }
