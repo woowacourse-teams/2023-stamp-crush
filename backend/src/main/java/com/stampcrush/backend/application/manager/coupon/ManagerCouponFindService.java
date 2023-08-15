@@ -83,13 +83,11 @@ public class ManagerCouponFindService {
 
         return coupons.stream()
                 .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(
-                        coupon,
-                        customer,
-                        isPrevious(coupon)))
+                                coupon,
+                                customer,
+                                coupon.isPrevious()
+                        )
+                )
                 .toList();
-    }
-
-    private boolean isPrevious(Coupon coupon) {
-        return coupon.isPrevious();
     }
 }

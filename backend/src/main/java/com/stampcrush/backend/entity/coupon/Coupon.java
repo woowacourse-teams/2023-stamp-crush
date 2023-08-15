@@ -165,9 +165,11 @@ public class Coupon extends BaseDate {
     public boolean isPrevious() {
         CafePolicy currentCafePolicy = findCurrentCafePolicy();
 
-        return !Objects.equals(currentCafePolicy.getMaxStampCount(), couponPolicy.getMaxStampCount())
-                || !Objects.equals(currentCafePolicy.getExpirePeriod(), couponPolicy.getExpiredPeriod())
-                || !Objects.equals(currentCafePolicy.getReward(), couponPolicy.getRewardName());
+        boolean isSameMaxCount = Objects.equals(currentCafePolicy.getMaxStampCount(), couponPolicy.getMaxStampCount());
+        boolean isSameExpirePeriod = Objects.equals(currentCafePolicy.getExpirePeriod(), couponPolicy.getExpiredPeriod());
+        boolean isSameReward = Objects.equals(currentCafePolicy.getReward(), couponPolicy.getRewardName());
+
+        return !(isSameMaxCount && isSameExpirePeriod && isSameReward);
     }
 
     private CafePolicy findCurrentCafePolicy() {
