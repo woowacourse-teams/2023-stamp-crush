@@ -24,14 +24,16 @@ import Auth from './pages/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
+import { Suspense } from 'react';
+import CustomerLoading from './components/LoadingSpinner/CustomerLoading';
 
 const AdminRoot = () => {
   return (
-    <>
+    <Suspense fallback={<CustomerLoading />}>
       <Template>
         <Outlet />
       </Template>
-    </>
+    </Suspense>
   );
 };
 

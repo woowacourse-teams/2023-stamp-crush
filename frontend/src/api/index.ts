@@ -1,10 +1,10 @@
 const request = async (path: string, init?: RequestInit) => {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  let BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   worker.start({ onUnhandledRequest: 'bypass' });
-  //   BASE_URL = '';
-  // }
+  if (process.env.NODE_ENV === 'development') {
+    worker.start({ onUnhandledRequest: 'bypass' });
+    BASE_URL = '';
+  }
 
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,

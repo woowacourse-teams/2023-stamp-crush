@@ -1,6 +1,6 @@
 import { CustomerContainer, Container, EmptyCustomers } from './style';
 import Text from '../../../components/Text';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
@@ -10,6 +10,7 @@ import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
+import CustomerLoading from '../../../components/LoadingSpinner/CustomerLoading';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -73,7 +74,9 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Customers customersData={data} />
+      <Suspense fallback={<CustomerLoading />}>
+        <Customers customersData={data} />
+      </Suspense>
     </CustomerContainer>
   );
 };

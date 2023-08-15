@@ -14,7 +14,7 @@ import {
   Wrapper,
 } from './style';
 import TimeRangePicker from './TimeRangePicker';
-import { ChangeEvent, FormEventHandler, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEventHandler, Suspense, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ImageUpLoadInput,
@@ -124,94 +124,93 @@ const ManageCafe = () => {
   if (status === 'error') return <>에러가 발생했습니다.</>;
 
   return (
-    <PageContainer>
-      <ManageCafeForm onSubmit={submitCafeInfo}>
-        <Text variant="pageTitle">내 카페 관리</Text>
-        <Wrapper>
-          <StepTitle>step1. 내 카페를 대표하는 내부사진을 업로드해주세요.</StepTitle>
-          <ImageUpLoadInput
-            id="cafe-image"
-            type="file"
-            accept="image/jpg,image/png,image/jpeg,image/gif"
-            onChange={uploadCafeImage}
-          />
-          <ImageUpLoadInputLabel htmlFor={'cafe-image'}>
-            <AiOutlineUpload />
-            Upload the file
-          </ImageUpLoadInputLabel>
-        </Wrapper>
-        <Wrapper>
-          <StepTitle>step2. 내 카페의 매장 전화번호를 알려주세요.</StepTitle>
-          <Input
-            id="phone-number-input"
-            placeholder="전화번호를 입력해주세요"
-            maxLength={phoneNumber.startsWith('02') ? 12 : 13}
-            pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
-            onChange={inputPhoneNumber}
-            value={parsePhoneNumber(phoneNumber)}
-          />
-        </Wrapper>
-        <Wrapper>
-          <StepTitle>step3. 내 카페의 영업 시간을 알려주세요.</StepTitle>
-          <TimeRangePicker
-            startTime={openTime}
-            endTime={closeTime}
-            setStartTime={setOpenTime}
-            setEndTime={setCloseTime}
-          />
-        </Wrapper>
-        <Wrapper>
-          <StepTitle>step4. 내 카페를 소개할 간단한 문장을 작성해주세요.</StepTitle>
-          <TextArea
-            rows={8}
-            cols={50}
-            onChange={inputIntroduction}
-            maxLength={150}
-            value={introduction}
-          />
-          <RestrictionLabel
-            $isExceed={introduction.length >= 150}
-          >{`${introduction.length}/150`}</RestrictionLabel>
-        </Wrapper>
-        <Button type="submit" variant="primary" size="medium">
-          저장하기
-        </Button>
-      </ManageCafeForm>
-      <PreviewContainer>
-        <Text variant="subTitle">미리보기</Text>
-        <PreviewImageWrapper $width={312} $height={594}>
-          <PreviewImage
-            src={
-              isEmptyData(cafeInfo.cafeImageUrl) || !isEmptyData(cafeImage)
-                ? cafeImage
-                : cafeInfo.cafeImageUrl
-            }
-            $width={312}
-            $height={594}
-            $opacity={0.25}
-          />
-          <PreviewEmptyCouponImage>쿠폰 뒷면 이미지가 들어갈 공간입니다.</PreviewEmptyCouponImage>
-          <PreviewOverviewContainer>
-            <Text variant="subTitle">{cafeInfo.name}</Text>
-            <Text>{introduction}</Text>
-          </PreviewOverviewContainer>
-          <PreviewContentContainer>
-            <Text>
-              <FaRegClock size={25} />
-              {`여는 시간 ${parseTime(openTime)}\n닫는 시간 ${parseTime(closeTime)}`}
-            </Text>
-            <Text>
-              <FaPhoneAlt size={25} />
-              {parsePhoneNumber(phoneNumber)}
-            </Text>
-            <Text>
-              <FaLocationDot size={25} />
-              {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
-            </Text>
-          </PreviewContentContainer>
-        </PreviewImageWrapper>
-      </PreviewContainer>
-    </PageContainer>
+    <Suspense fallback={<LoadingSpinner />}>
+      <PageContainer>
+        <ManageCafeForm onSubmit={submitCafeInfo}>
+          <Text variant="pageTitle">내 카페 관리</Text>
+          <Wrapper>
+            <Text>카페 대표 사진(선택)</Text>
+            <ImageUpLoadInput
+              id="cafe-image"
+              type="file"
+              accept="image/jpg,image/png,image/jpeg,image/gif"
+              onChange={uploadCafeImage}
+            />
+            <ImageUpLoadInputLabel htmlFor={'cafe-image'}>이미지 업로드 +</ImageUpLoadInputLabel>
+          </Wrapper>
+          <Wrapper>
+            <Text>매장 전화번호(선택)</Text>
+            <Input
+              id="phone-number-input"
+              placeholder="전화번호를 입력해주세요"
+              maxLength={phoneNumber.startsWith('02') ? 12 : 13}
+              pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+              onChange={inputPhoneNumber}
+              value={parsePhoneNumber(phoneNumber)}
+            />
+          </Wrapper>
+          <Wrapper>
+            <Text>영업 시간(선택)</Text>
+            <TimeRangePicker
+              startTime={openTime}
+              endTime={closeTime}
+              setStartTime={setOpenTime}
+              setEndTime={setCloseTime}
+            />
+          </Wrapper>
+          <Wrapper>
+            <Text>소개글</Text>
+            <TextArea
+              rows={8}
+              cols={50}
+              onChange={inputIntroduction}
+              maxLength={150}
+              value={introduction}
+            />
+            <RestrictionLabel
+              $isExceed={introduction.length >= 150}
+            >{`${introduction.length}/150`}</RestrictionLabel>
+          </Wrapper>
+          <Button type="submit" variant="primary" size="medium">
+            저장하기
+          </Button>
+        </ManageCafeForm>
+        <PreviewContainer>
+          <Text variant="subTitle">미리보기</Text>
+          <PreviewImageWrapper $width={312} $height={594}>
+            <PreviewImage
+              src={
+                isEmptyData(cafeInfo.cafeImageUrl) || !isEmptyData(cafeImage)
+                  ? cafeImage
+                  : cafeInfo.cafeImageUrl
+              }
+              $width={312}
+              $height={594}
+              $opacity={0.25}
+            />
+            <PreviewEmptyCouponImage>쿠폰 뒷면 이미지가 들어갈 공간입니다.</PreviewEmptyCouponImage>
+            <PreviewOverviewContainer>
+              <Text variant="subTitle">{cafeInfo.name}</Text>
+              <Text>{introduction}</Text>
+            </PreviewOverviewContainer>
+            <PreviewContentContainer>
+              <Text>
+                <FaRegClock size={25} />
+                {`여는 시간 ${parseTime(openTime)}\n닫는 시간 ${parseTime(closeTime)}`}
+              </Text>
+              <Text>
+                <FaPhoneAlt size={25} />
+                {parsePhoneNumber(phoneNumber)}
+              </Text>
+              <Text>
+                <FaLocationDot size={25} />
+                {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
+              </Text>
+            </PreviewContentContainer>
+          </PreviewImageWrapper>
+        </PreviewContainer>
+      </PageContainer>
+    </Suspense>
   );
 };
 
