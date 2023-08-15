@@ -22,6 +22,7 @@ public abstract class Customer {
     @Column(name = "customer_id")
     private Long id;
 
+    @Column(name = "name")
     private String nickname;
 
     private String phoneNumber;
