@@ -38,6 +38,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new OwnerArgumentResolver(ownerRepository, authTokensGenerator));
-        resolvers.add(new CustomerArgumentResolver(registerCustomerRepository));
+        resolvers.add(new CustomerArgumentResolver(registerCustomerRepository, authTokensGenerator));
     }
 }

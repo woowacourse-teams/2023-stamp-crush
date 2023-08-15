@@ -1,11 +1,11 @@
-package com.stampcrush.backend.auth.application;
+package com.stampcrush.backend.auth.application.visitor;
 
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import com.stampcrush.backend.auth.client.OAuthInfoResponse;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Profile("!test")
-public class ManagerOAuthLoginService {
+public class VisitorOAuthLoginService {
 
-    private final OwnerRepository ownerRepository;
+    private final RegisterCustomerRepository registerCustomerRepository;
     private final AuthTokensGenerator authTokensGenerator;
-    private final ManagerOAuthService requestOAuthInfoService;
+    private final VisitorOAuthService requestOAuthInfoService;
 
     public AuthTokensResponse login(OAuthLoginParams params) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
@@ -25,44 +25,44 @@ public class ManagerOAuthLoginService {
         System.out.println("nickname is " + oAuthInfoResponse.getNickname());
         System.out.println("email is " + oAuthInfoResponse.getEmail());
 
-        Long memberId = findOrCreateOwner_temp(oAuthInfoResponse);
+        Long memberId = findOrCreateCustomer_temp(oAuthInfoResponse);
 
         System.out.println("member id is " + memberId);
 
         return authTokensGenerator.generate(memberId);
     }
 
-    private Long findOrCreateOwner_temp(OAuthInfoResponse oAuthInfo) {
-        return ownerRepository.findByNickname(oAuthInfo.getNickname())
-                .map(Owner::getId)
-                .orElseGet(() -> createOwner_temp(oAuthInfo));
+    private Long findOrCreateCustomer_temp(OAuthInfoResponse oAuthInfo) {
+        return registerCustomerRepository.findByNickname(oAuthInfo.getNickname())
+                .map(RegisterCustomer::getId)
+                .orElseGet(() -> createCustomer_temp(oAuthInfo));
     }
 
-    private Long findOrCreateOwner_real(OAuthInfoResponse oAuthInfo) {
-        return ownerRepository.findByOAuthProviderAndOAuthId(
+    private Long findOrCreateCustomer_real(OAuthInfoResponse oAuthInfo) {
+        return registerCustomerRepository.findByOAuthProviderAndOAuthId(
                         oAuthInfo.getOAuthProvider(),
                         oAuthInfo.getOAuthId()
                 )
-                .map(Owner::getId)
-                .orElseGet(() -> createOwner_real(oAuthInfo));
+                .map(RegisterCustomer::getId)
+                .orElseGet(() -> createCustomer_real(oAuthInfo));
     }
 
-    private Long createOwner_temp(OAuthInfoResponse oAuthInfo) {
-        Owner oAuthOwner = Owner.builder()
+    private Long createCustomer_temp(OAuthInfoResponse oAuthInfo) {
+        RegisterCustomer customer = RegisterCustomer.builder()
                 .nickname(oAuthInfo.getNickname())
                 .build();
 
-        return ownerRepository.save(oAuthOwner).getId();
+        return registerCustomerRepository.save(customer).getId();
     }
 
-    private Long createOwner_real(OAuthInfoResponse oAuthInfo) {
-        Owner oAuthOwner = Owner.builder()
+    private Long createCustomer_real(OAuthInfoResponse oAuthInfo) {
+        RegisterCustomer customer = RegisterCustomer.builder()
                 .nickname(oAuthInfo.getNickname())
                 .email(oAuthInfo.getEmail())
                 .oAuthId(oAuthInfo.getOAuthId())
                 .oAuthProvider(oAuthInfo.getOAuthProvider())
                 .build();
 
-        return ownerRepository.save(oAuthOwner).getId();
+        return registerCustomerRepository.save(customer).getId();
     }
 }

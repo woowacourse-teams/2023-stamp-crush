@@ -1,8 +1,9 @@
 package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,15 @@ public class RegisterCustomer extends Customer {
     private String loginId;
     private String encryptedPassword;
 
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_provider")
+    private OAuthProvider oAuthProvider;
+
+    @Column(name = "oauth_id")
+    private Long oAuthId;
+
     public RegisterCustomer(String nickname, String phoneNumber, String loginId, String encryptedPassword) {
         super(nickname, phoneNumber);
         this.loginId = loginId;
@@ -27,6 +37,19 @@ public class RegisterCustomer extends Customer {
         super(id, nickname, phoneNumber);
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
+    }
+
+    @Builder
+    public RegisterCustomer(
+            String nickname,
+            String email,
+            OAuthProvider oAuthProvider,
+            Long oAuthId
+    ) {
+        super(nickname, null);
+        this.email = email;
+        this.oAuthProvider = oAuthProvider;
+        this.oAuthId = oAuthId;
     }
 
     @Override
