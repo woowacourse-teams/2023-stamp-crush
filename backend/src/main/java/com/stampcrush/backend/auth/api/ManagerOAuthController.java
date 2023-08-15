@@ -1,7 +1,7 @@
 package com.stampcrush.backend.auth.api;
 
-import com.stampcrush.backend.auth.AuthTokens;
-import com.stampcrush.backend.auth.KakaoLoginParams;
+import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
+import com.stampcrush.backend.auth.application.util.KakaoLoginParams;
 import com.stampcrush.backend.auth.application.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.ManagerOAuthService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ManagerOAuthController {
     }
 
     @GetMapping("/admin/login/auth/kakao")
-    public ResponseEntity<AuthTokens> authorizeUser(@RequestParam("code") String code) {
+    public ResponseEntity<AuthTokensResponse> authorizeUser(@RequestParam("code") String code) {
         KakaoLoginParams params = new KakaoLoginParams(code);
         return ResponseEntity.ok(managerOAuthLoginService.login(params));
     }
