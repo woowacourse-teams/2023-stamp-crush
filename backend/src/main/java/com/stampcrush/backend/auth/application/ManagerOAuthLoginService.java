@@ -1,9 +1,9 @@
 package com.stampcrush.backend.auth.application;
 
-import com.stampcrush.backend.auth.AuthTokens;
-import com.stampcrush.backend.auth.AuthTokensGenerator;
-import com.stampcrush.backend.auth.OAuthInfoResponse;
-import com.stampcrush.backend.auth.OAuthLoginParams;
+import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.auth.client.OAuthInfoResponse;
+import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ManagerOAuthLoginService {
     private final AuthTokensGenerator authTokensGenerator;
     private final ManagerOAuthService requestOAuthInfoService;
 
-    public AuthTokens login(OAuthLoginParams params) {
+    public AuthTokensResponse login(OAuthLoginParams params) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
 
         System.out.println("nickname is " + oAuthInfoResponse.getNickname());

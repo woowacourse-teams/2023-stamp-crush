@@ -1,5 +1,6 @@
-package com.stampcrush.backend.auth;
+package com.stampcrush.backend.auth.application.util;
 
+import com.stampcrush.backend.auth.OAuthProvider;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;

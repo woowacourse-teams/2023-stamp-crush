@@ -1,4 +1,4 @@
-package com.stampcrush.backend.auth;
+package com.stampcrush.backend.auth.application.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
