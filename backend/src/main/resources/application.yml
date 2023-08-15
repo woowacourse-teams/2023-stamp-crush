@@ -1,4 +1,4 @@
 spring:
   config:
     import:
-      - profiles/application.yml
+      - security/application.yml
