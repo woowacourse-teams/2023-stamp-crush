@@ -9,12 +9,16 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoInfoResponse implements OAuthInfoResponse {
 
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class KakaoAccount {
+
         private KakaoProfile profile;
         private String email;
     }
@@ -22,7 +26,13 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class KakaoProfile {
+
         private String nickname;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     @Override
