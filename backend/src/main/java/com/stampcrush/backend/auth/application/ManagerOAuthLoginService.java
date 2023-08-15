@@ -1,6 +1,11 @@
 package com.stampcrush.backend.auth.application;
 
-import com.stampcrush.backend.auth.*;
+import com.stampcrush.backend.auth.AuthTokens;
+import com.stampcrush.backend.auth.AuthTokensGenerator;
+import com.stampcrush.backend.auth.OAuthInfoResponse;
+import com.stampcrush.backend.auth.OAuthLoginParams;
+import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -10,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Profile("!test")
 public class ManagerOAuthLoginService {
 
-    private final OAuthOwnerRepository oAuthOwnerRepository;
+    private final OwnerRepository ownerRepository;
     private final AuthTokensGenerator authTokensGenerator;
     private final ManagerOAuthService requestOAuthInfoService;
 
@@ -20,26 +25,24 @@ public class ManagerOAuthLoginService {
         System.out.println("nickname is " + oAuthInfoResponse.getNickname());
         System.out.println("email is " + oAuthInfoResponse.getEmail());
 
-        Long memberId = findOrCreateMember(oAuthInfoResponse);
+        Long memberId = findOrCreateOwner(oAuthInfoResponse);
 
         System.out.println("member id is " + memberId);
 
         return authTokensGenerator.generate(memberId);
     }
 
-    private Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
-        return oAuthOwnerRepository.findByProfileNickname(oAuthInfoResponse.getNickname())
-                .map(OAuthOwner::getId)
-                .orElseGet(() -> OAuthOwner(oAuthInfoResponse));
+    private Long findOrCreateOwner(OAuthInfoResponse oAuthInfoResponse) {
+        return ownerRepository.findByNickname(oAuthInfoResponse.getNickname())
+                .map(Owner::getId)
+                .orElseGet(() -> createOwner(oAuthInfoResponse));
     }
 
-    private Long OAuthOwner(OAuthInfoResponse oAuthInfoResponse) {
-        OAuthOwner oAuthOwner = OAuthOwner.builder()
-                .profileNickname(oAuthInfoResponse.getNickname())
-                .email(oAuthInfoResponse.getEmail())
-                .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
+    private Long createOwner(OAuthInfoResponse oAuthInfoResponse) {
+        Owner oAuthOwner = Owner.builder()
+                .nickname(oAuthInfoResponse.getNickname())
                 .build();
 
-        return oAuthOwnerRepository.save(oAuthOwner).getId();
+        return ownerRepository.save(oAuthOwner).getId();
     }
 }
