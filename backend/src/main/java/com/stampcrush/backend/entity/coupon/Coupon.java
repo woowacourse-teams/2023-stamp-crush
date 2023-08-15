@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -164,12 +163,7 @@ public class Coupon extends BaseDate {
 
     public boolean isPrevious() {
         CafePolicy currentCafePolicy = findCurrentCafePolicy();
-
-        boolean isSameMaxCount = Objects.equals(currentCafePolicy.getMaxStampCount(), couponPolicy.getMaxStampCount());
-        boolean isSameExpirePeriod = Objects.equals(currentCafePolicy.getExpirePeriod(), couponPolicy.getExpiredPeriod());
-        boolean isSameReward = Objects.equals(currentCafePolicy.getReward(), couponPolicy.getRewardName());
-
-        return !(isSameMaxCount && isSameExpirePeriod && isSameReward);
+        return couponPolicy.isPrevious(currentCafePolicy);
     }
 
     private CafePolicy findCurrentCafePolicy() {

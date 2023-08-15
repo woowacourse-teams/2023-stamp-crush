@@ -1,6 +1,7 @@
 package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -33,5 +34,13 @@ public class CouponPolicy extends BaseDate {
 
     public boolean isSameMaxStampCount(int stampCount) {
         return stampCount == maxStampCount;
+    }
+
+    public boolean isPrevious(CafePolicy currentCafePolicy) {
+        boolean isSameMaxStampCount = this.maxStampCount.equals(currentCafePolicy.getMaxStampCount());
+        boolean isSameReward = this.rewardName.equals(currentCafePolicy.getReward());
+        boolean isSameExpirePeriod = this.expiredPeriod.equals(currentCafePolicy.getExpirePeriod());
+
+        return !(isSameMaxStampCount && isSameReward && isSameExpirePeriod);
     }
 }
