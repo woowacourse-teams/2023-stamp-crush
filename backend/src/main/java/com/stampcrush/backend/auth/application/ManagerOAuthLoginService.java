@@ -25,22 +25,42 @@ public class ManagerOAuthLoginService {
         System.out.println("nickname is " + oAuthInfoResponse.getNickname());
         System.out.println("email is " + oAuthInfoResponse.getEmail());
 
-        Long memberId = findOrCreateOwner(oAuthInfoResponse);
+        Long memberId = findOrCreateOwner_temp(oAuthInfoResponse);
 
         System.out.println("member id is " + memberId);
 
         return authTokensGenerator.generate(memberId);
     }
 
-    private Long findOrCreateOwner(OAuthInfoResponse oAuthInfoResponse) {
-        return ownerRepository.findByNickname(oAuthInfoResponse.getNickname())
+    private Long findOrCreateOwner_temp(OAuthInfoResponse oAuthInfo) {
+        return ownerRepository.findByNickname(oAuthInfo.getNickname())
                 .map(Owner::getId)
-                .orElseGet(() -> createOwner(oAuthInfoResponse));
+                .orElseGet(() -> createOwner_temp(oAuthInfo));
     }
 
-    private Long createOwner(OAuthInfoResponse oAuthInfoResponse) {
+    private Long findOrCreateOwner_real(OAuthInfoResponse oAuthInfo) {
+        return ownerRepository.findByOAuthProviderAndOAuthId(
+                        oAuthInfo.getOAuthProvider(),
+                        oAuthInfo.getOAuthId()
+                )
+                .map(Owner::getId)
+                .orElseGet(() -> createOwner_real(oAuthInfo));
+    }
+
+    private Long createOwner_temp(OAuthInfoResponse oAuthInfo) {
         Owner oAuthOwner = Owner.builder()
-                .nickname(oAuthInfoResponse.getNickname())
+                .nickname(oAuthInfo.getNickname())
+                .build();
+
+        return ownerRepository.save(oAuthOwner).getId();
+    }
+
+    private Long createOwner_real(OAuthInfoResponse oAuthInfo) {
+        Owner oAuthOwner = Owner.builder()
+                .nickname(oAuthInfo.getNickname())
+                .email(oAuthInfo.getEmail())
+                .oAuthId(oAuthInfo.getOAuthId())
+                .oAuthProvider(oAuthInfo.getOAuthProvider())
                 .build();
 
         return ownerRepository.save(oAuthOwner).getId();
