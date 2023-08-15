@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     Optional<Owner> findByLoginId(String loginId);
+
+    Optional<Owner> findByNickname(String nickname);
 }
