@@ -2,6 +2,7 @@ package com.stampcrush.backend.entity.user;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -19,21 +20,23 @@ public class Owner extends BaseDate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(name = "name")
+    private String nickname;
     private String loginId;
     private String encryptedPassword;
     private String phoneNumber;
 
-    public Owner(Long id, String name, String loginId, String encryptedPassword, String phoneNumber) {
+    public Owner(Long id, String nickname, String loginId, String encryptedPassword, String phoneNumber) {
         this.id = id;
-        this.name = name;
+        this.nickname = nickname;
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
         this.phoneNumber = phoneNumber;
     }
 
-    public Owner(String name, String loginId, String encryptedPassword, String phoneNumber) {
-        this.name = name;
+    public Owner(String nickname, String loginId, String encryptedPassword, String phoneNumber) {
+        this.nickname = nickname;
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
         this.phoneNumber = phoneNumber;
