@@ -126,7 +126,7 @@ class CouponRepositoryTest {
         couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
         couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
 
-        coupon1 = new Coupon(LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
+        coupon1 = new Coupon(LocalDateTime.now(), LocalDateTime.now(), LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
         Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
