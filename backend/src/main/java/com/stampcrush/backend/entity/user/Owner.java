@@ -3,7 +3,10 @@ package com.stampcrush.backend.entity.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +28,9 @@ public class Owner extends BaseDate {
     private String loginId;
     private String encryptedPassword;
     private String phoneNumber;
-
-    @Transient
     private String email;
-
-    @Transient
     private OAuthProvider oAuthProvider;
+    private Long oAuthId;
 
     public Owner(Long id, String nickname, String loginId, String encryptedPassword, String phoneNumber) {
         this.id = id;
@@ -51,11 +51,13 @@ public class Owner extends BaseDate {
     public Owner(
             String nickname,
             String email,
-            OAuthProvider oAuthProvider
+            OAuthProvider oAuthProvider,
+            Long oAuthId
     ) {
         this.nickname = nickname;
         this.email = email;
         this.oAuthProvider = oAuthProvider;
+        this.oAuthId = oAuthId;
     }
 
     public void checkPassword(String encryptedPassword) {

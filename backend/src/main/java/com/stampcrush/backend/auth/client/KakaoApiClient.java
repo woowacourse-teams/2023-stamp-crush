@@ -1,13 +1,17 @@
 package com.stampcrush.backend.auth.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
+import com.stampcrush.backend.exception.StampCrushException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,6 +37,7 @@ public class KakaoApiClient implements OAuthApiClient {
     private String redirectUri;
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Override
     public OAuthProvider oAuthProvider() {
@@ -65,13 +70,21 @@ public class KakaoApiClient implements OAuthApiClient {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.setBearerAuth(accessToken);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("property_keys", "[\"kakao_account.email\", \"kakao_account.profile\"]");
+//        body.add("property_keys", "[\"kakao_account.email\", \"kakao_account.profile\"]");
 
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+        HttpEntity<?> request = new HttpEntity<>(null, httpHeaders);
+//        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
-        return restTemplate.postForObject(url, request, KakaoInfoResponse.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        String responseBody = response.getBody();
+
+        try {
+            return objectMapper.readValue(responseBody, KakaoInfoResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new StampCrushException("KakaoInfoResponse로 직렬화에 실패했습니다");
+        }
     }
 }
