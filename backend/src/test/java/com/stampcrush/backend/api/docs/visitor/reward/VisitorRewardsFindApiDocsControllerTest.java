@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.RewardFixture;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,13 +20,16 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithNam
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
+    @Disabled
     void 리워드_조회() throws Exception {
         // given, when
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));

@@ -3,4 +3,4 @@ spring:
     activate:
       on-profile: prod
     import:
-      - security/application-prod.yml
+      - profiles/application-prod.yml
