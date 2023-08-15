@@ -18,7 +18,7 @@ public class BasicAuthInterceptor implements HandlerInterceptor {
         String requestPath = request.getRequestURI();
 
         //TODO: 나중에 삭제해야함.
-        if (requestPath.startsWith("/admin/login/auth/")) {
+        if (requestPath.startsWith("/admin/login/auth/") || requestPath.startsWith("/api/admin/login/kakao")) {
             return true;
         }
 
