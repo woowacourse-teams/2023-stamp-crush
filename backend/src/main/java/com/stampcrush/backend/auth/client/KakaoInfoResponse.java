@@ -31,11 +31,6 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
     }
 
     @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
     public String getEmail() {
         return kakaoAccount.email;
     }
@@ -48,5 +43,10 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
     @Override
     public OAuthProvider getOAuthProvider() {
         return OAuthProvider.KAKAO;
+    }
+
+    @Override
+    public Long getOAuthId() {
+        return id;
     }
 }
