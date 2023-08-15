@@ -3,4 +3,4 @@ spring:
     activate:
       on-profile: dev
     import:
-      - security/application-dev.yml
+      - profiles/application-dev.yml
