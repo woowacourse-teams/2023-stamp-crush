@@ -20,10 +20,7 @@ import org.springframework.boot.ApplicationRunner;
 
 import java.time.LocalTime;
 
-//@Component
-//@Profile("dev")
 @RequiredArgsConstructor
-//@Order(2)
 public class DataInitializer implements ApplicationRunner {
 
     private final TemporaryCustomerRepository temporaryCustomerRepository;
