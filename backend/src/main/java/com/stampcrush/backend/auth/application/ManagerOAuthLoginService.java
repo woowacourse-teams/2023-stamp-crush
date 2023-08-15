@@ -2,8 +2,8 @@ package com.stampcrush.backend.auth.application;
 
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.auth.client.OAuthInfoResponse;
 import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
+import com.stampcrush.backend.auth.client.OAuthInfoResponse;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
