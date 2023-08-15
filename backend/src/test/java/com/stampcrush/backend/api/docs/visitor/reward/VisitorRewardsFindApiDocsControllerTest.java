@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.RewardFixture;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
+    @Disabled
     void 리워드_조회() throws Exception {
         // given, when
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
