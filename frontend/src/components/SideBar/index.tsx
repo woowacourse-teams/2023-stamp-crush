@@ -47,27 +47,24 @@ const SIDEBAR_ICONS = [
 
 const SideBar = () => {
   const navigate = useNavigate();
-  const options = SIDE_BAR_OPTIONS;
   const current = useLocation().pathname;
-  const [currentIndex, setCurrentIndex] = useState(
-    options.findIndex((option) => option.value === current) + 1,
-  );
   const [isDesignCoupon, setIsDesignCoupon] = useState(false);
   const [isEarnStamp, setIsEarnStamp] = useState(false);
   const [isUseReward, setIsUseReward] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(
+    SIDE_BAR_OPTIONS.findIndex((option) => option.value === current) + 1,
+  );
 
-  const modifyPolicyCouponRoute = ROUTER_PATH.modifyCouponPolicy;
+  const modifyPolicyCoupon = ROUTER_PATH.modifyCouponPolicy;
   const designCouponRoutes = [ROUTER_PATH.templateCouponDesign, ROUTER_PATH.customCouponDesign];
-
   const enterStamp = ROUTER_PATH.enterStamp;
   const stampRoutes = [ROUTER_PATH.selectCoupon, ROUTER_PATH.earnStamp];
-
   const enterReward = ROUTER_PATH.enterReward;
   const rewardRoutes = [ROUTER_PATH.useReward];
 
   useEffect(() => {
-    const foundIndex = options.findIndex(({ value }) => {
-      if (checkIncludeRoute(value, modifyPolicyCouponRoute, designCouponRoutes)) {
+    const foundIndex = SIDE_BAR_OPTIONS.findIndex(({ value }) => {
+      if (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes)) {
         setIsDesignCoupon(true);
         return true;
       }
@@ -86,16 +83,10 @@ const SideBar = () => {
     });
 
     setCurrentIndex(foundIndex + 1);
-  }, [current, options]);
+  }, [current]);
 
   if (current === ROUTER_PATH.registerCafe) return <></>;
 
-  const checkDesignCoupon = (value: string) => {
-    return (
-      value === modifyPolicyCouponRoute &&
-      designCouponRoutes.some((route) => current.includes(route))
-    );
-  };
   const handleLogout = () => {
     // TODO: log out 로직
     navigate(ROUTER_PATH.adminLogin);
@@ -115,14 +106,14 @@ const SideBar = () => {
           </LogoImgWrapper>
         </LogoHeader>
         <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>
-          {options.map(({ key, value }, index) => {
-            if (index === 0 || index === options.length - 1) return <EmptyContent />;
+          {SIDE_BAR_OPTIONS.map(({ key, value }, index) => {
+            if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) return <EmptyContent />;
             return (
               <SideBarContent
                 key={key}
                 $isSelected={
                   value === current ||
-                  (checkIncludeRoute(value, modifyPolicyCouponRoute, designCouponRoutes) &&
+                  (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
                     isDesignCoupon) ||
                   (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
                   (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
@@ -133,13 +124,13 @@ const SideBar = () => {
                   <LabelContent
                     $isSelected={
                       value === current ||
-                      (checkIncludeRoute(value, modifyPolicyCouponRoute, designCouponRoutes) &&
+                      (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
                         isDesignCoupon) ||
                       (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
                       (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
                     }
                     onClick={() => {
-                      if (index === 0 || index === options.length - 1) {
+                      if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) {
                         return;
                       }
                       setCurrentIndex(index + 1);
@@ -160,7 +151,6 @@ const SideBar = () => {
           </LogoutButton>
         </LogoutContainer>
       </Container>
-      {/* <CharacterImage src={Character} /> */}
     </>
   );
 };

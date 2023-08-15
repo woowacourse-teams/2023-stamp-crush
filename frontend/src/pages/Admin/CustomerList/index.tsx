@@ -93,7 +93,7 @@ const CustomerList = () => {
             isRegistered,
             firstVisitDate,
             visitCount,
-          }: Customer) => (
+          }) => (
             <CustomerBox key={id}>
               <LeftInfo>
                 <NameContainer>

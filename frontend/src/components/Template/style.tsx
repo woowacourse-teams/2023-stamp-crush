@@ -32,8 +32,6 @@ export const Footer = styled.div`
   width: 100vw;
   height: 150px;
   padding-top: 40px;
-  /* background: ${({ theme }) =>
-    `linear-gradient(to , ${theme.colors.main} 60%, ${theme.colors.point} 100%)`}; */
   background: ${({ theme }) => theme.colors.point};
 
   & > span {
