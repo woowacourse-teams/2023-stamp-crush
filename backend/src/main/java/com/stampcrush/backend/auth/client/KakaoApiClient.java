@@ -1,5 +1,7 @@
-package com.stampcrush.backend.auth;
+package com.stampcrush.backend.auth.client;
 
+import com.stampcrush.backend.auth.OAuthProvider;
+import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
