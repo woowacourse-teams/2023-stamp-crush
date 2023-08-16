@@ -1,19 +1,10 @@
 import Coupon from './Coupon';
-import {
-  CouponListContainer,
-  DetailButton,
-  HeaderContainer,
-  InfoContainer,
-  LogoImg,
-  MyPageIconWrapper,
-} from './style';
+import { CouponListContainer, DetailButton, InfoContainer } from './style';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
-import { GoPerson } from 'react-icons/go';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
 import type { CouponRes } from '../../types/api';
 import Alert from '../../components/Alert';
@@ -21,7 +12,7 @@ import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
-import { StampcrushLogo } from '../../assets';
+import Header from './Header';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -66,6 +57,15 @@ const CouponList = () => {
   if (couponStatus === 'loading') return <>로딩 중입니다.</>;
 
   const { coupons } = couponData;
+
+  if (coupons.length === 0)
+    return (
+      <>
+        <Header />
+        <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
+      </>
+    );
+
   const currentCoupon = coupons[currentIndex];
   const [currentCouponInfo] = currentCoupon.couponInfos;
 
@@ -129,14 +129,7 @@ const CouponList = () => {
 
   return (
     <>
-      <HeaderContainer>
-        <Link to={ROUTER_PATH.couponList}>
-          <LogoImg src={StampcrushLogo} alt="스탬프 크러쉬 로고" role="link" />
-        </Link>
-        <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
-          <GoPerson size={24} />
-        </MyPageIconWrapper>
-      </HeaderContainer>
+      <Header />
       {coupons.length === 0 ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
       ) : (

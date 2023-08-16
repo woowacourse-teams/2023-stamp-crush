@@ -33,7 +33,6 @@ export const getCustomer = async ({ params }: QueryReq<PhoneNumberParams>) => {
   );
 };
 
-// FIXME: cafeId 매개변수로 받아와서 처리
 export const getCustomers = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CustomersRes>(`/admin/cafes/${params.cafeId}/customers`, ownerHeader);

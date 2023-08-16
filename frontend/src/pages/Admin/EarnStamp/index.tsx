@@ -8,10 +8,12 @@ import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
 import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
-import { ROUTER_PATH } from '../../../constants';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const EarnStamp = () => {
+  const cafeId = useRedirectRegisterPage();
   const [stamp, setStamp] = useState(1);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -29,7 +31,10 @@ const EarnStamp = () => {
 
   const { data: couponData, status: couponStatus } = useQuery<IssuedCouponsRes>(
     ['earn-stamp-coupons', state.customer],
-    () => getCoupon({ params: { customerId: state.customer.id, cafeId: 1 } }),
+    () => getCoupon({ params: { customerId: state.customer.id, cafeId } }),
+    {
+      enabled: cafeId !== INVALID_CAFE_ID,
+    },
   );
 
   if (couponStatus === 'error') return <p>Error</p>;
