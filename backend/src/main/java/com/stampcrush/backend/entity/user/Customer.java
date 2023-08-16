@@ -21,10 +21,7 @@ public abstract class Customer {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "customer_id")
     private Long id;
-
-    @Column(name = "name")
     private String nickname;
-
     private String phoneNumber;
 
     protected Customer(String nickname, String phoneNumber) {
