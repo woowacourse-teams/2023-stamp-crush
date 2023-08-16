@@ -98,7 +98,7 @@ export const getOAuthToken = async (
 ) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<OAuthJWTRes>(
-    `/login/${params.resourceServer}/token?authorization-code=${params.code}`,
+    `/login/${params.resourceServer}/token?code=${params.code}`,
     init,
   );
 };
