@@ -24,5 +24,5 @@ export const RewardName = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.point};
+  color: ${({ theme }) => theme.colors.text};
 `;

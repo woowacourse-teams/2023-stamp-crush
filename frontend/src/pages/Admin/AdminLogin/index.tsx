@@ -1,16 +1,15 @@
-import { StampcrushLogo, KakaoLoginButton } from '../../../assets';
-import { Container, LogoImg, NaverLoginLink } from './style';
+import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
+import { Container, KakaoLoginImg, LogoImg, NaverLoginLink } from './style';
 
 const AdminLogin = () => {
   const KAKAO_LOGIN_PAGE_URL = 'https://stampcrush.site/api/admin/login/kakao';
 
   return (
     <Container>
-      <LogoImg src={StampcrushLogo} alt="스탬프크러쉬로고" />
+      <LogoImg src={LoginLogo} alt="스탬프크러쉬로고" />
       <NaverLoginLink href={KAKAO_LOGIN_PAGE_URL}>
-        <img src={KakaoLoginButton} alt="네이버로그인" />
+        <KakaoLoginImg src={CustomerKakaoLoginButton} alt="카카오 로그인" />
       </NaverLoginLink>
-      ㄴ 카카오임
     </Container>
   );
 };
