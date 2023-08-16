@@ -20,7 +20,7 @@ import { getCoupon, getCustomer } from '../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../api/post';
 import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
-import { ROUTER_PATH } from '../../../constants';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { CouponActivate } from '../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 import { LuStamp } from 'react-icons/lu';
@@ -64,9 +64,9 @@ const SelectCoupon = () => {
     {
       queryFn: async () => {
         if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
+        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId } });
       },
-      enabled: !!customer,
+      enabled: !!customer && cafeId !== INVALID_CAFE_ID,
     },
   );
 
