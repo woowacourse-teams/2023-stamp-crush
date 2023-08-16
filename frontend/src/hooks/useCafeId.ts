@@ -26,6 +26,7 @@ export const useRedirectRegisterPage = () => {
   const { status, cafeId } = useCafeId();
 
   if (cafeId === INVALID_CAFE_ID && status === 'success') {
+    alert('카페 등록 후 사용해주세요.');
     navigate('/admin/register-cafe');
   }
 
