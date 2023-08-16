@@ -21,41 +21,20 @@ public class ManagerOAuthLoginService {
 
     public AuthTokensResponse login(OAuthLoginParams params) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-
-        System.out.println("nickname is " + oAuthInfoResponse.getNickname());
-        System.out.println("email is " + oAuthInfoResponse.getEmail());
-
-        Long memberId = findOrCreateOwner_temp(oAuthInfoResponse);
-
-        System.out.println("member id is " + memberId);
-
+        Long memberId = findOrCreateOwner(oAuthInfoResponse);
         return authTokensGenerator.generate(memberId);
     }
 
-    private Long findOrCreateOwner_temp(OAuthInfoResponse oAuthInfo) {
-        return ownerRepository.findByNickname(oAuthInfo.getNickname())
-                .map(Owner::getId)
-                .orElseGet(() -> createOwner_temp(oAuthInfo));
-    }
-
-    private Long findOrCreateOwner_real(OAuthInfoResponse oAuthInfo) {
+    private Long findOrCreateOwner(OAuthInfoResponse oAuthInfo) {
         return ownerRepository.findByOAuthProviderAndOAuthId(
                         oAuthInfo.getOAuthProvider(),
                         oAuthInfo.getOAuthId()
                 )
                 .map(Owner::getId)
-                .orElseGet(() -> createOwner_real(oAuthInfo));
+                .orElseGet(() -> createOwner(oAuthInfo));
     }
 
-    private Long createOwner_temp(OAuthInfoResponse oAuthInfo) {
-        Owner oAuthOwner = Owner.builder()
-                .nickname(oAuthInfo.getNickname())
-                .build();
-
-        return ownerRepository.save(oAuthOwner).getId();
-    }
-
-    private Long createOwner_real(OAuthInfoResponse oAuthInfo) {
+    private Long createOwner(OAuthInfoResponse oAuthInfo) {
         Owner oAuthOwner = Owner.builder()
                 .nickname(oAuthInfo.getNickname())
                 .email(oAuthInfo.getEmail())
