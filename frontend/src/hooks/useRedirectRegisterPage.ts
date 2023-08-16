@@ -7,6 +7,7 @@ export const useCafeQuery = () => {
   const result = useQuery({
     queryKey: ['cafe'],
     queryFn: async () => await getCafe(),
+    staleTime: Infinity,
   });
 
   return result;
