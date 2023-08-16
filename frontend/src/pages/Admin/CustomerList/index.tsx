@@ -1,17 +1,4 @@
-import {
-  Badge,
-  CustomerBox,
-  CustomerContainer,
-  LeftInfo,
-  Name,
-  RightInfo,
-  Container,
-  NameContainer,
-  InfoContainer,
-  EmptyCustomers,
-  CustomerBoxContainer,
-} from './style';
-import { CustomerContainer, Container } from './style';
+import { CustomerContainer, Container, EmptyCustomers } from './style';
 import Text from '../../../components/Text';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';

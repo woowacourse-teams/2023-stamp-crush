@@ -1,6 +1,7 @@
 import { Customer } from '../../../../types';
 import { CustomersRes } from '../../../../types/api';
 import {
+  Container,
   Badge,
   CustomerBox,
   InfoContainer,
@@ -8,7 +9,7 @@ import {
   Name,
   NameContainer,
   RightInfo,
-} from '../style';
+} from './style';
 
 interface CustomersProps {
   customersData: CustomersRes;
@@ -16,7 +17,7 @@ interface CustomersProps {
 
 const Customers = ({ customersData }: CustomersProps) => {
   return (
-    <>
+    <Container>
       {customersData.customers.map(
         ({
           id,
@@ -48,7 +49,7 @@ const Customers = ({ customersData }: CustomersProps) => {
           </CustomerBox>
         ),
       )}
-    </>
+    </Container>
   );
 };
 

@@ -136,3 +136,15 @@ export interface MyRewardRes {
 export interface UsedParams {
   used: boolean;
 }
+
+export interface OAuthTokenParams {
+  resourceServer: 'kakao';
+  code: string;
+}
+
+export interface OAuthJWTRes {
+  accessToken: string;
+  refreshToken: string;
+  grantType: 'Bearer';
+  expiresIn: number;
+}
