@@ -51,7 +51,7 @@ public class ManagerSampleCouponFindApiDocsControllerTest extends DocsController
                                 resource(
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
-                                                .description("스탬프 개수별로 개본 샘플 조회")
+                                                .description("스탬프 개수별로 기본 샘플 조회")
                                                 .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
                                                 .queryParameters(parameterWithName("max-stamp-count").description("스탬프 개수(8, 10, 12)"))
                                                 .responseFields(

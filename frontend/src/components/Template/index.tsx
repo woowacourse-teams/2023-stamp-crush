@@ -1,13 +1,26 @@
 import { PropsWithChildren } from 'react';
-import { BaseTemplate, PageContainer } from './style';
-import PageSideBar from '../SideBar/PageSideBar';
+import SideBar from '../SideBar';
+import { BaseTemplate, Footer, PageContainer, SideBarWrapper } from './style';
+
+import { AiOutlineMail } from 'react-icons/ai';
 
 const Template = ({ children }: PropsWithChildren) => {
   return (
-    <BaseTemplate>
-      <PageSideBar />
-      <PageContainer>{children}</PageContainer>
-    </BaseTemplate>
+    <>
+      <BaseTemplate>
+        <SideBarWrapper>
+          <SideBar />
+        </SideBarWrapper>
+        <PageContainer>{children}</PageContainer>
+      </BaseTemplate>
+      <Footer>
+        <span>
+          CONTACT <AiOutlineMail /> stampcrush@gmail.com
+          <br />
+        </span>
+        <span>COPYRIGHT © 2023 STAMPCRUSH ALL RIGHTS RESERVED</span>
+      </Footer>
+    </>
   );
 };
 

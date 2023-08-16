@@ -35,7 +35,16 @@ export const PreviewImage = styled.img<{ $width: number; $height: number; $opaci
 `;
 
 export const ImageUpLoadInputLabel = styled.label`
-  color: ${({ theme }) => theme.colors.point};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 150px;
+  height: 40px;
+  background: #eee;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   &:hover {
     color: tomato;

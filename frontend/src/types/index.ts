@@ -72,7 +72,7 @@ export interface StampEarningReq {
   couponId: string;
 }
 
-export interface Reward {
+export interface RewardHistoryType {
   id: number;
   rewardName: string;
   cafeName: string;
@@ -141,3 +141,15 @@ export interface DateParseOption {
   hasMonth: boolean;
   hasDay: boolean;
 }
+
+export interface StampHistoryType {
+  id: number;
+  cafeName: string;
+  stampCount: number;
+  createdAt: string;
+}
+
+export type RewardHistoryDateProperties = Exclude<
+  keyof RewardHistoryType,
+  'id' | 'rewardName' | 'cafeName'
+>;

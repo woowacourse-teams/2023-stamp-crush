@@ -22,14 +22,15 @@ public class CafeCustomerFindResultDto {
     private boolean isRegistered;
     private int maxStampCount;
 
-    public static CafeCustomerFindResultDto of(Customer customer, CustomerCouponStatistics customerCouponStatistics) {
+    public static CafeCustomerFindResultDto of(Customer customer, CustomerCouponStatistics customerCouponStatistics,
+                                               int visitCount, LocalDateTime firstVisitDate) {
         return new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),
                 customerCouponStatistics.getStampCount(),
                 customerCouponStatistics.getRewardCount(),
-                customerCouponStatistics.getVisitCount(),
-                customerCouponStatistics.getFirstVisitDate(),
+                visitCount,
+                firstVisitDate,
                 customer.isRegistered(),
                 customerCouponStatistics.getMaxStampCount()
         );

@@ -257,6 +257,46 @@ export const cafeCustomer = [
     isRegistered: true,
     maxStampCount: 8,
   },
+  {
+    id: 4,
+    nickname: '레고밟은한우',
+    stampCount: 1,
+    rewardCount: 0,
+    visitCount: 12,
+    firstVisitDate: '23:06:22',
+    isRegistered: false,
+    maxStampCount: 10,
+  },
+  {
+    id: 5,
+    nickname: '라잇',
+    stampCount: 8,
+    rewardCount: 6,
+    visitCount: 8,
+    firstVisitDate: '23:01:10',
+    isRegistered: true,
+    maxStampCount: 8,
+  },
+  {
+    id: 6,
+    nickname: '레고밟은한우',
+    stampCount: 1,
+    rewardCount: 0,
+    visitCount: 12,
+    firstVisitDate: '23:06:22',
+    isRegistered: false,
+    maxStampCount: 10,
+  },
+  {
+    id: 7,
+    nickname: '라잇',
+    stampCount: 8,
+    rewardCount: 6,
+    visitCount: 8,
+    firstVisitDate: '23:01:10',
+    isRegistered: true,
+    maxStampCount: 8,
+  },
 ];
 
 export const customerCoupons = {
@@ -554,6 +594,35 @@ export const usedCustomerRewards = {
       cafeName: '깃짱카페',
       createdAt: '2023:08:01',
       usedAt: '2023:08:02',
+    },
+  ],
+};
+
+export const stampHistorys = {
+  stampHistorys: [
+    {
+      id: 1,
+      cafeName: '우아한 카페',
+      stampCount: 3,
+      createdAt: '2023:08:12 18:00:00',
+    },
+    {
+      id: 2,
+      cafeName: '레오 카페',
+      stampCount: 2,
+      createdAt: '2023:08:11 18:10:00',
+    },
+    {
+      id: 1,
+      cafeName: '하디 카페',
+      stampCount: 1,
+      createdAt: '2023:08:12 18:17:00',
+    },
+    {
+      id: 1,
+      cafeName: '우아한 카페',
+      stampCount: 1,
+      createdAt: '2023:08:11 18:00:00',
     },
   ],
 };

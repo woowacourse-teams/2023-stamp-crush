@@ -10,7 +10,11 @@ export const CouponWrapper = styled.button<{ $src: string }>`
   transform: translate(50%, -50%);
   transition: transform 0.1s;
   object-fit: cover;
-  box-shadow: 0px -2px 15px -2px #888;
+  box-shadow: 0px -5px 10px -7px #aaa;
   z-index: 2;
   -webkit-tap-highlight-color: transparent;
+`;
+
+export const ImageForLoading = styled.img`
+  display: none;
 `;

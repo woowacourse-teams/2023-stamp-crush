@@ -10,6 +10,7 @@ const Header = () => {
     // TODO: log out 로직
     navigate(ROUTER_PATH.adminLogin);
   };
+
   return (
     <HeaderContainer>
       <Link to={ROUTER_PATH.customerList}>

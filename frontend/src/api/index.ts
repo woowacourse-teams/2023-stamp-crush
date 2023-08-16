@@ -11,7 +11,7 @@ const request = async (path: string, init?: RequestInit) => {
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {
-      // Authorization: `Basic ${token}`,
+      Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
       'Content-Type': 'application/json',
       ...init?.headers,
     },

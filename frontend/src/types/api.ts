@@ -5,8 +5,10 @@ import {
   Coupon,
   CouponDesign,
   IssuedCoupon,
-  Reward,
+  RewardHistoryType,
   Customer,
+  StampHistoryType,
+  Reward,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -73,6 +75,10 @@ export interface IssuedCouponsRes {
   coupons: IssuedCoupon[];
 }
 
+export interface StampHistoryRes {
+  stampHistorys: StampHistoryType[];
+}
+
 export interface RewardReqBody {
   cafeId: number;
   used: boolean;
@@ -124,9 +130,21 @@ export interface MaxStampCountParams {
 }
 
 export interface MyRewardRes {
-  rewards: Reward[];
+  rewards: RewardHistoryType[];
 }
 
 export interface UsedParams {
   used: boolean;
+}
+
+export interface OAuthTokenParams {
+  resourceServer: 'kakao';
+  code: string;
+}
+
+export interface OAuthJWTRes {
+  accessToken: string;
+  refreshToken: string;
+  grantType: 'Bearer';
+  expiresIn: number;
 }

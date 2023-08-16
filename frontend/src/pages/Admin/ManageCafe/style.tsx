@@ -2,10 +2,17 @@ import styled from 'styled-components';
 
 export const PageContainer = styled.main`
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  justify-content: space-between;
+
+  width: 90%;
   padding-top: 40px;
-  gap: 100px;
+`;
+
+export const StepTitle = styled.p`
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
 `;
 
 export const ManageCafeForm = styled.form`
@@ -30,6 +37,8 @@ export const TextArea = styled.textarea`
   border-radius: 4px;
   padding: 10px;
   resize: none;
+  height: 100px;
+  font-size: 16px;
 `;
 
 export const PreviewContainer = styled.section`
@@ -42,6 +51,7 @@ export const PreviewContainer = styled.section`
 export const PreviewOverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
+
   position: absolute;
   align-items: center;
   width: 100%;
@@ -50,7 +60,6 @@ export const PreviewOverviewContainer = styled.div`
   padding: 0 10px;
   gap: 10px;
   word-break: break-all;
-
   overflow: hidden;
 
   :nth-child(2) {
