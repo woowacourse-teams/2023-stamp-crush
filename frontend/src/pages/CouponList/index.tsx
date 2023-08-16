@@ -21,6 +21,7 @@ import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
+import { StampcrushLogo } from '../../assets';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -38,9 +39,7 @@ const CouponList = () => {
     data: couponData,
     status: couponStatus,
     refetch: refetchCoupons,
-  } = useQuery<CouponRes>(['coupons'], getCoupons, {
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery<CouponRes>(['coupons'], getCoupons);
 
   useEffect(() => {
     if (couponData) {
@@ -132,7 +131,7 @@ const CouponList = () => {
     <>
       <HeaderContainer>
         <Link to={ROUTER_PATH.couponList}>
-          <LogoImg src={AdminHeaderLogo} alt="스탬프 크러쉬 로고" role="link" />
+          <LogoImg src={StampcrushLogo} alt="스탬프 크러쉬 로고" role="link" />
         </Link>
         <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
           <GoPerson size={24} />

@@ -7,17 +7,16 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Coupons;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.visithistory.VisitHistories;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
-import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.exception.VisitHistoryNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,15 +35,8 @@ public class ManagerCouponFindService {
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
-    private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafePolicyRepository cafePolicyRepository;
-    private final CouponDesignRepository couponDesignRepository;
-    private final CouponPolicyRepository couponPolicyRepository;
-    private final OwnerRepository ownerRepository;
-    private final RewardRepository rewardRepository;
-
-    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
-    }
+    private final VisitHistoryRepository visitHistoryRepository;
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
@@ -54,8 +46,22 @@ public class ManagerCouponFindService {
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
+            VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
+            // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customerCoupon.customer, customerCouponStatistics));
+            cafeCustomerFindResultDtos.add(
+                    new CafeCustomerFindResultDto(
+                            customerCoupon.customer.getId(),
+                            customerCoupon.customer.getNickname(),
+                            customerCouponStatistics.getStampCount(),
+                            customerCouponStatistics.getRewardCount(),
+                            // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
+                            visitHistories.getVisitCount(),
+                            visitHistories.getFirstVisitDate(),
+                            customerCoupon.customer.isRegistered(),
+                            customerCouponStatistics.getMaxStampCount()
+                    )
+            );
         }
 
         return cafeCustomerFindResultDtos;
@@ -73,6 +79,14 @@ public class ManagerCouponFindService {
         return customerCouponMap.keySet().stream()
                 .map(iter -> new CustomerCoupons(iter, customerCouponMap.get(iter)))
                 .toList();
+    }
+
+    private VisitHistories findVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
+        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
+        if (visitHistories.isEmpty()) {
+            throw new VisitHistoryNotFoundException("고객의 방문 이력을 찾을 수 없습니다");
+        }
+        return new VisitHistories(visitHistories);
     }
 
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long cafeId, Long customerId) {
@@ -93,5 +107,8 @@ public class ManagerCouponFindService {
         return !cafePolicyRepository
                 .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
                 .isEmpty();
+    }
+
+    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 }

@@ -30,12 +30,12 @@ const Stepper = ({
 
   return (
     <StepperWrapper $height={height}>
-      <BaseStepperButton $position="left" $height={height} onClick={increaseNumber}>
-        +
+      <BaseStepperButton $position="left" $height={height} onClick={decreaseNumber}>
+        -
       </BaseStepperButton>
       <BaseStepperInput $height={height} value={value} />
-      <BaseStepperButton $position="right" $height={height} onClick={decreaseNumber}>
-        -
+      <BaseStepperButton $position="right" $height={height} onClick={increaseNumber}>
+        +
       </BaseStepperButton>
     </StepperWrapper>
   );

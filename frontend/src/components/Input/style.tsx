@@ -9,11 +9,11 @@ type StyledInputProps = {
 
 export const BaseInput = styled.input<StyledInputProps>`
   width: ${(props) => (props.$width ? `${props.$width}px` : '100%')};
-  padding: 12px 0px;
+  padding: 8px 4px;
 
   border: none;
   text-align: ${(props) => (props.$center ? 'center' : 'initial')};
-  font-size: 18px;
+  font-size: 16px;
 
   background: transparent;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};

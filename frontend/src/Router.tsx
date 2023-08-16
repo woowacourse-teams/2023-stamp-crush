@@ -42,7 +42,7 @@ const CustomerRoot = () => {
 const Router = () => {
   const router = createBrowserRouter([
     // 사장
-    { path: ROUTER_PATH.adminLogin, element: <Login /> },
+    { path: ROUTER_PATH.adminLogin, element: <AdminLogin /> },
     { path: ROUTER_PATH.adminSignup, element: <SignUp /> },
     { path: ROUTER_PATH.enterReward, element: <EnterPhoneNumber /> },
     { path: ROUTER_PATH.enterStamp, element: <EnterPhoneNumber /> },

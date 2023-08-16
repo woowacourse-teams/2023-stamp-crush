@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
-//@Component
 @RequiredArgsConstructor
-//@Profile("dev")
-//@Order(1)
 public class SampleDataInitializer implements ApplicationRunner {
 
     private static final String SAMPLE_FRONT_IMAGE_URL = "https://picsum.photos/270/150";

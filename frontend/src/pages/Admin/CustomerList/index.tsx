@@ -8,7 +8,10 @@ import {
   Container,
   NameContainer,
   InfoContainer,
+  EmptyCustomers,
+  CustomerBoxContainer,
 } from './style';
+import { CustomerContainer, Container } from './style';
 import Text from '../../../components/Text';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
@@ -18,39 +21,53 @@ import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import Customers from './Customers';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
-    customers.sort((a: any, b: any) => (a[orderOption.key] < b[orderOption.key] ? 1 : -1));
+    customers.sort((a: Customer, b: Customer) => {
+      if (a[orderOption.key as keyof Customer] === b[orderOption.key as keyof Customer]) {
+        return a['nickname'] > b['nickname'] ? 1 : -1;
+      }
+      return a[orderOption.key as keyof Customer] < b[orderOption.key as keyof Customer] ? 1 : -1;
+    });
   };
 
-  const { data, status } = useQuery<CustomersRes>(
-    ['customers'],
-    () =>
+  const { data, status } = useQuery<CustomersRes>({
+    queryKey: ['customers'],
+    queryFn: () =>
       getCustomers({
         params: {
           cafeId: 1,
         },
       }),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        orderCustomer(data.customers);
-      },
+    onSuccess: (data) => {
+      orderCustomer(data.customers);
     },
-  );
+  });
 
   useEffect(() => {
-    if (status === 'success') {
+    if (status === 'success' && data.customers.length !== 0) {
       orderCustomer(data.customers);
     }
   }, [orderOption]);
 
-  if (status === 'loading') return <CustomerContainer>Loading</CustomerContainer>;
+  if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
+
+  if (data.customers.length === 0)
+    return (
+      <CustomerContainer>
+        <Text variant="pageTitle">내 고객 목록</Text>
+        <EmptyCustomers>
+          아직 보유고객이 없어요! <br />
+          카페를 방문한 고객에게 스탬프를 적립해 보세요.
+        </EmptyCustomers>
+      </CustomerContainer>
+    );
 
   const searchCustomer = () => {
     if (searchWord === '') return;
@@ -69,37 +86,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      {data.customers.map(
-        ({
-          id,
-          nickname,
-          stampCount,
-          maxStampCount,
-          rewardCount,
-          isRegistered,
-          firstVisitDate,
-          visitCount,
-        }: Customer) => (
-          <CustomerBox key={id}>
-            <LeftInfo>
-              <NameContainer>
-                <Name>{nickname}</Name>
-                <Badge $isRegistered={isRegistered}>{isRegistered ? '회원' : '임시'}</Badge>
-              </NameContainer>
-              <InfoContainer>
-                스탬프: {stampCount}/{maxStampCount} <br />
-                리워드: {rewardCount}개
-              </InfoContainer>
-            </LeftInfo>
-            <RightInfo>
-              <InfoContainer>
-                첫 방문일: {firstVisitDate}
-                <br /> 방문 횟수: {visitCount}번
-              </InfoContainer>
-            </RightInfo>
-          </CustomerBox>
-        ),
-      )}
+      <Customers customersData={data} />
     </CustomerContainer>
   );
 };
