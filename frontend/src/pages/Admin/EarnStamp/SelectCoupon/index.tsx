@@ -11,11 +11,12 @@ import {
   SelectorItemWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
+import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 import { getCoupon, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
 import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
-import { ROUTER_PATH } from '../../../../constants';
 import { CouponActivate } from '../../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../../types/api';
 import { LuStamp } from 'react-icons/lu';
@@ -23,6 +24,7 @@ import { MdAddCard } from 'react-icons/md';
 import { CouponSelectorContainer, CouponSelectorWrapper } from '../style';
 
 const SelectCoupon = () => {
+  const cafeId = useRedirectRegisterPage();
   const location = useLocation();
   const navigate = useNavigate();
   const [isPrevious, setIsPrevious] = useState(true);
@@ -58,21 +60,19 @@ const SelectCoupon = () => {
     {
       queryFn: async () => {
         if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
+        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId } });
       },
-      enabled: !!customer,
+      enabled: !!customer && cafeId !== INVALID_CAFE_ID,
     },
   );
 
-  // TODO: cafe id 하드코딩 된 값 제거
-  const TEMP_CAFE_ID = 1;
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
     mutationFn: async () => {
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
       return await postIssueCoupon({
         params: { customerId: customer.customer[0].id },
         body: {
-          cafeId: TEMP_CAFE_ID,
+          cafeId,
         },
       });
     },
