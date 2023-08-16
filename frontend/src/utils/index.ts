@@ -40,8 +40,8 @@ export const parsePhoneNumber = (phoneNumber: string | undefined) => {
   }
 };
 
-export const isEmptyData = (data: string | undefined) => {
-  if (data === undefined) return true;
+export const isEmptyData = (data: string | null) => {
+  if (data === null) return true;
 
   return data.length === 0;
 };
