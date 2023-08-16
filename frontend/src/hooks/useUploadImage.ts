@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useState } from 'react';
 import { postUploadImage } from '../api/post';
 import { ImageUploadRes } from '../types/api';
+import { isLargeThanBoundarySize } from '../utils';
 
 const useUploadImage = (initImgUrl = '') => {
   const [imgFileUrl, setImgFileUrl] = useState<string>(initImgUrl);
@@ -18,6 +19,10 @@ const useUploadImage = (initImgUrl = '') => {
   const uploadImageFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const uploadedImage = e.target.files[0];
+    if (isLargeThanBoundarySize(uploadedImage.size)) {
+      alert('파일은 5MB 미만 이어야 합니다.');
+      return;
+    }
     mutate(uploadedImage);
   };
 
