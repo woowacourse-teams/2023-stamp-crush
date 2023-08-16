@@ -14,10 +14,11 @@ import { GrSelect } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectLarge } from 'react-icons/md';
 
 interface CreatedTypeProps {
+  value: CouponCreated;
   setValue: Dispatch<SetStateAction<CouponCreated>>;
 }
 
-const CreatedType = ({ setValue }: CreatedTypeProps) => {
+const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
   const changeSelectValue = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === 'template' || e.target.value === 'custom') setValue(e.target.value);
   };
@@ -35,13 +36,13 @@ const CreatedType = ({ setValue }: CreatedTypeProps) => {
           defaultChecked
           onChange={changeSelectValue}
         />
-        <Label htmlFor="template">
+        <Label htmlFor="template" $isChecked={value === 'template'}>
           <TypeTitle>템플릿</TypeTitle>
           <TypeDescription>
             스탬프크러쉬에서 <br /> 제공해주는 템플릿을 <br /> 사용할게요.
           </TypeDescription>
           <IconWrapper>
-            <GrSelect size={60} />
+            <GrSelect size={30} />
           </IconWrapper>
         </Label>
         <RadioInput
@@ -51,14 +52,14 @@ const CreatedType = ({ setValue }: CreatedTypeProps) => {
           value="custom"
           onChange={changeSelectValue}
         />
-        <Label htmlFor="custom">
+        <Label htmlFor="custom" $isChecked={value === 'custom'}>
           <TypeTitle>커스텀</TypeTitle>
           <TypeDescription>
             직접 쿠폰 이미지를 <br /> 업로드하여 <br />
             커스텀할게요.
           </TypeDescription>
           <IconWrapper>
-            <MdOutlinePhotoSizeSelectLarge size={60} />
+            <MdOutlinePhotoSizeSelectLarge size={30} />
           </IconWrapper>
         </Label>
       </InputContainer>

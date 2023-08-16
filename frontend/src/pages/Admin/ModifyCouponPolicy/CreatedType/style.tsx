@@ -1,33 +1,37 @@
 import { styled } from 'styled-components';
 
-export const Label = styled.label`
+export const Label = styled.label<{ $isChecked: boolean }>`
   position: relative;
   width: 200px;
-  height: 250px;
-  background: #d3e3fa;
-  border-radius: 10px;
-  padding: 20px;
+  height: ${({ $isChecked }) => ($isChecked ? '200px' : '60px')};
+  border-radius: 20px;
+  padding: 17px 20px;
+  color: ${({ $isChecked, theme }) => ($isChecked ? 'black' : theme.colors.gray)};
+  border: 3px solid
+    ${({ $isChecked, theme }) => ($isChecked ? theme.colors.main : theme.colors.gray)};
+  box-shadow: ${({ $isChecked }) => ($isChecked ? '0px 0px 5px 2px rgba(0, 0, 0, 0.25)' : '')};
+
+  overflow: hidden;
+  transform: ${({ $isChecked }) => ($isChecked ? 'scale(1.1)' : '')};
+  transition: all 0.2s;
   cursor: pointer;
 
   &:hover {
     opacity: 80%;
   }
+
   &:first-of-type {
     margin-right: 50px;
-    background: #ffeefd;
   }
 `;
 
 export const RadioInput = styled.input`
   appearance: none;
-
-  &:checked + ${Label} {
-    box-shadow: 0 0 0 3px inset;
-  }
 `;
 
 export const InputContainer = styled.div`
   display: flex;
+  padding-left: 10px;
 `;
 
 export const TypeTitle = styled.h1`
@@ -46,6 +50,6 @@ export const TypeDescription = styled.p`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: 7px;
+  right: 12px;
 `;

@@ -11,7 +11,7 @@ const request = async (path: string, init?: RequestInit) => {
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
+      // Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
       'Content-Type': 'application/json',
       ...init?.headers,
     },
@@ -48,14 +48,14 @@ export const api = {
 
 export const customerHeader = {
   headers: {
-    Authorization: `Basic ${btoa('leo:1234')}`,
+    Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
     'Content-Type': 'application/json',
   },
 };
 
 export const ownerHeader = {
   headers: {
-    Authorization: `Basic ${btoa('owner1:owner1')}`,
+    Authorization: `Bearer ${localStorage.getItem('login-token')}`,
     'Content-Type': 'application/json',
   },
 };
