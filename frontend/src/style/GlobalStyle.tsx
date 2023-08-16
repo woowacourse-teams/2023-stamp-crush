@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import YeongdeokBlueLoad from '../assets/fonts/Yeongdeok_Blueroad.ttf';
 
 const GlobalStyle = createGlobalStyle`
 html,
@@ -106,12 +107,12 @@ section {
   display: block;
 }
 @font-face {
-    font-family: 'Do_Hyeon_Font';
-    src: url('https://fonts.googleapis.com/css2?&family=Do+Hyeon') format('woff');;
+    font-family: 'YeongdeokBlueLoad';
+    src: url(${YeongdeokBlueLoad});
 }
 body {
   line-height: 1;
-  font-family: 'Do_Hyeon_Font'
+  font-family: 'YeongdeokBlueLoad';
 }
 ol,
 ul {

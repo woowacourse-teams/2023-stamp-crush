@@ -1,3 +1,16 @@
+import {
+  Badge,
+  CustomerBox,
+  CustomerContainer,
+  LeftInfo,
+  Name,
+  RightInfo,
+  Container,
+  NameContainer,
+  InfoContainer,
+  EmptyCustomers,
+  CustomerBoxContainer,
+} from './style';
 import { CustomerContainer, Container } from './style';
 import Text from '../../../components/Text';
 import { useEffect, useState } from 'react';
@@ -37,13 +50,24 @@ const CustomerList = () => {
   });
 
   useEffect(() => {
-    if (status === 'success') {
+    if (status === 'success' && data.customers.length !== 0) {
       orderCustomer(data.customers);
     }
   }, [orderOption]);
 
   if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
+
+  if (data.customers.length === 0)
+    return (
+      <CustomerContainer>
+        <Text variant="pageTitle">내 고객 목록</Text>
+        <EmptyCustomers>
+          아직 보유고객이 없어요! <br />
+          카페를 방문한 고객에게 스탬프를 적립해 보세요.
+        </EmptyCustomers>
+      </CustomerContainer>
+    );
 
   const searchCustomer = () => {
     if (searchWord === '') return;

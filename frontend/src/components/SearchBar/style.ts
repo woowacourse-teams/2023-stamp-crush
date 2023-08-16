@@ -17,7 +17,7 @@ export const BaseInput = styled.input`
   padding: 0 15px;
 
   &:focus {
-    border: 2px solid black;
+    border: 2px solid ${({ theme }) => theme.colors.text};
   }
 `;
 
@@ -27,9 +27,9 @@ export const SearchButton = styled.button`
   border-radius: 50%;
   position: absolute;
   right: -10px;
-  top: 0;
+  top: -2px;
   box-shadow: 0px 0px 15px #888;
-  background: black;
+  background: ${({ theme }) => theme.colors.text};
 
   cursor: pointer;
 `;

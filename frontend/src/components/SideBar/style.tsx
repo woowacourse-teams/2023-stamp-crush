@@ -1,22 +1,25 @@
 import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 interface SideBarStyleProps {
-  $width: number;
-  $height: number;
   $isSelected: boolean;
 }
 
 interface SideBarContainerStyleProps {
-  $width: number;
-  $height: number;
   $prevIndex: number;
   $nextIndex: number;
 }
 
-export const LogoHeader = styled.header`
+export const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const LogoHeader = styled.header<{ $currentIndex: number }>`
   background: ${({ theme }) => theme.colors.main};
   padding-top: 40px;
+  border-radius: ${({ $currentIndex }) => ($currentIndex === 2 ? '0 0 40px 0' : '0')};
 `;
 
 export const LogoImgWrapper = styled.button`
@@ -24,28 +27,22 @@ export const LogoImgWrapper = styled.button`
   align-self: flex-start;
   background: transparent;
   width: 150px;
+  padding: 0 0 40px 40px;
 
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
 `;
 
 export const LogoImg = styled.img`
-  width: 120px;
-`;
-
-export const PageSideBarWrapper = styled.div`
-  padding: 0 0 0 30px;
+  width: 200px;
+  height: 25px;
 `;
 
 export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-
-  width: ${(props) => `${props.$width}px`};
-  height: ${(props) => `${props.$height}px`};
-
+  padding-left: 30px;
+  width: 240px;
+  height: 250px;
   background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.main} 20%, white 80%)`};
 
   div:nth-child(${(props) => props.$prevIndex}) {
@@ -60,11 +57,12 @@ export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
 export const LabelContent = styled.span<SideBarStyleProps>`
   display: flex;
   align-items: center;
+  gap: 10px;
   justify-content: flex-start;
-  width: ${(props) => `${props.$width}px`};
-  height: ${(props) => `${props.$height}px`};
-  font-size: 18px;
-  font-weight: ${(props) => (props.$isSelected ? 'bold' : 'normal')};
+  width: 240px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: ${(props) => (props.$isSelected ? '600' : '400')};
   color: ${({ theme, $isSelected }) => ($isSelected ? `${theme.colors.text}` : 'white')};
 
   border-radius: 40px 0 0 40px;
@@ -82,7 +80,60 @@ export const SideBarContent = styled.div<{ $isSelected: boolean; $currentIndex: 
   border-radius: 40px 0 0 40px;
 
   :hover {
-    font-weight: 600;
     opacity: 80%;
   }
+`;
+
+export const ImageWrapper = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+`;
+
+export const LogoutContainer = styled.div<{ $currentIndex: number }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  /* background: ${({ theme }) => theme.colors.main}; */
+  background: ${({ theme }) =>
+    `linear-gradient(to bottom,${theme.colors.main} 10%, ${theme.colors.main} 30%, ${theme.colors.point} 100%)`};
+  border-radius: 40px;
+  border-radius: ${({ $currentIndex }) => ($currentIndex === 6 ? '0 40px 0 0' : '0')};
+`;
+
+export const LogoutButton = styled.button`
+  border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  padding: 20px 0 0 20px;
+  margin: 10px 30px 0 30px;
+  background: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 80%;
+  }
+`;
+
+export const CopyRight = styled.p`
+  color: white;
+  padding-left: 50px;
+`;
+
+export const EmptyContent = styled.div`
+  width: 240px;
+  height: 50px;
+  background: ${({ theme }) => theme.colors.main};
+`;
+
+export const CharacterImage = styled.img`
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  bottom: 0;
+  left: 0;
 `;
