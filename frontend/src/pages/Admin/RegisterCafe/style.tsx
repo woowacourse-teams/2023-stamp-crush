@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const ContentContainer = styled.main`
   display: flex;
-  justify-content: center;
   padding-top: 48px;
 `;
 
