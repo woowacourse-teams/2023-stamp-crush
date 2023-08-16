@@ -21,41 +21,20 @@ public class VisitorOAuthLoginService {
 
     public AuthTokensResponse login(OAuthLoginParams params) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-
-        System.out.println("nickname is " + oAuthInfoResponse.getNickname());
-        System.out.println("email is " + oAuthInfoResponse.getEmail());
-
-        Long memberId = findOrCreateCustomer_temp(oAuthInfoResponse);
-
-        System.out.println("member id is " + memberId);
-
+        Long memberId = findOrCreateCustomer(oAuthInfoResponse);
         return authTokensGenerator.generate(memberId);
     }
 
-    private Long findOrCreateCustomer_temp(OAuthInfoResponse oAuthInfo) {
-        return registerCustomerRepository.findByNickname(oAuthInfo.getNickname())
-                .map(RegisterCustomer::getId)
-                .orElseGet(() -> createCustomer_temp(oAuthInfo));
-    }
-
-    private Long findOrCreateCustomer_real(OAuthInfoResponse oAuthInfo) {
+    private Long findOrCreateCustomer(OAuthInfoResponse oAuthInfo) {
         return registerCustomerRepository.findByOAuthProviderAndOAuthId(
                         oAuthInfo.getOAuthProvider(),
                         oAuthInfo.getOAuthId()
                 )
                 .map(RegisterCustomer::getId)
-                .orElseGet(() -> createCustomer_real(oAuthInfo));
+                .orElseGet(() -> createCustomer(oAuthInfo));
     }
 
-    private Long createCustomer_temp(OAuthInfoResponse oAuthInfo) {
-        RegisterCustomer customer = RegisterCustomer.builder()
-                .nickname(oAuthInfo.getNickname())
-                .build();
-
-        return registerCustomerRepository.save(customer).getId();
-    }
-
-    private Long createCustomer_real(OAuthInfoResponse oAuthInfo) {
+    private Long createCustomer(OAuthInfoResponse oAuthInfo) {
         RegisterCustomer customer = RegisterCustomer.builder()
                 .nickname(oAuthInfo.getNickname())
                 .email(oAuthInfo.getEmail())
