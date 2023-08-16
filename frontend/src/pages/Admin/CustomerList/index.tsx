@@ -5,13 +5,15 @@ import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getCustomers } from '../../../api/get';
-import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
+import { CUSTOMERS_ORDER_OPTIONS, INVALID_CAFE_ID } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
+import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
 
 const CustomerList = () => {
+  const cafeId = useRedirectRegisterPage();
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
@@ -28,12 +30,13 @@ const CustomerList = () => {
     queryFn: () =>
       getCustomers({
         params: {
-          cafeId: 1,
+          cafeId,
         },
       }),
     onSuccess: (data) => {
       orderCustomer(data.customers);
     },
+    enabled: cafeId !== INVALID_CAFE_ID,
   });
 
   useEffect(() => {
