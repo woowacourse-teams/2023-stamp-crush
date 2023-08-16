@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api;
 
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
@@ -20,4 +21,7 @@ public class ControllerSliceTest {
 
     @MockBean
     public RegisterCustomerRepository registerCustomerRepository;
+
+    @MockBean
+    public AuthTokensGenerator authTokensGenerator;
 }

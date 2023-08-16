@@ -1,31 +1,27 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../../../components/Button';
-import { RowSpacing, Spacing } from '../../../style/layout/common';
+import Button from '../../../../components/Button';
+import { Spacing } from '../../../../style/layout/common';
 import { ChangeEvent, useState } from 'react';
 import {
   CouponLabelContainer,
-  CouponSelectContainer,
   CouponSelector,
-  CouponSelectorContainer,
   CouponSelectorLabel,
-  CouponSelectorWrapper,
-  ExpirationDate,
   SelectDescription,
   SelectTitle,
   SelectorItemWrapper,
-  TitleWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getCoupon, getCustomer } from '../../../api/get';
-import { postIssueCoupon, postRegisterUser } from '../../../api/post';
-import { formatDate } from '../../../utils';
-import Text from '../../../components/Text';
-import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import { CouponActivate } from '../../../types';
-import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
+import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
+import { getCoupon, getCustomer } from '../../../../api/get';
+import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
+import { formatDate } from '../../../../utils';
+import Text from '../../../../components/Text';
+import { CouponActivate } from '../../../../types';
+import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
-import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import { CouponSelectorContainer, CouponSelectorWrapper } from '../style';
 
 const SelectCoupon = () => {
   const cafeId = useRedirectRegisterPage();
@@ -103,6 +99,18 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
+  const moveNextStep = () => {
+    selectedCoupon === 'current'
+      ? navigate(ROUTER_PATH.earnStamp, {
+          state: {
+            isPrevious,
+            customer: foundCustomer,
+            couponId: foundCoupon.id,
+          },
+        })
+      : mutateIssueCoupon();
+  };
+
   if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
 
   if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
@@ -111,27 +119,12 @@ const SelectCoupon = () => {
   const foundCoupon = coupon.coupons[0];
 
   return (
-    <CouponSelectContainer>
-      <TitleWrapper>
-        <Text variant="pageTitle">스탬프 적립</Text>
-        <Text variant="subTitle">1/2</Text>
-      </TitleWrapper>
-      <Spacing $size={90} />
-      <Text variant="subTitle">{foundCustomer.nickname} 고객님의 현재 쿠폰</Text>
-      <Spacing $size={80} />
+    <>
+      <Spacing $size={40} />
+      <Text variant="pageTitle">스탬프 적립</Text>
+      <Spacing $size={40} />
+      <Text variant="subTitle">step1. {foundCustomer.nickname} 고객님의 쿠폰을 선택해주세요.</Text>
       <CouponSelectorContainer>
-        {coupon.coupons.length > 0 && (
-          <CouponSelectorWrapper>
-            <Text>
-              현재 스탬프 개수: {foundCoupon.stampCount}/{10}
-            </Text>
-            <Spacing $size={8} />
-            <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
-            <Spacing $size={45} />
-            <ExpirationDate>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</ExpirationDate>
-          </CouponSelectorWrapper>
-        )}
-        <RowSpacing $size={20} />
         <CouponLabelContainer>
           <SelectorItemWrapper>
             <CouponSelector
@@ -147,49 +140,47 @@ const SelectCoupon = () => {
                 새 쿠폰을 만들고
                 <br />새 쿠폰에 적립할게요.
               </SelectDescription>
-              <MdAddCard size={40} />
+              <MdAddCard size={30} />
             </CouponSelectorLabel>
           </SelectorItemWrapper>
           <Spacing $size={40} />
           {coupon.coupons.length > 0 && (
-            <SelectorItemWrapper>
-              <CouponSelector
-                id="current"
-                type="radio"
-                value="current"
-                onChange={selectCoupon}
-                checked={selectedCoupon === 'current'}
-              />
-              <CouponSelectorLabel htmlFor="current" $isChecked={isPrevious}>
-                <SelectTitle>현재 쿠폰 적립</SelectTitle>
-                <SelectDescription>
-                  고객님이 보유하신 <br />
-                  현재 쿠폰에 적립할게요.
-                </SelectDescription>
-                <LuStamp size={40} />
-              </CouponSelectorLabel>
-            </SelectorItemWrapper>
+            <>
+              <SelectorItemWrapper>
+                <CouponSelector
+                  id="current"
+                  type="radio"
+                  value="current"
+                  onChange={selectCoupon}
+                  checked={selectedCoupon === 'current'}
+                />
+                <CouponSelectorLabel htmlFor="current" $isChecked={isPrevious}>
+                  <SelectTitle>현재 쿠폰 적립</SelectTitle>
+                  <SelectDescription>
+                    고객님이 보유하신 <br />
+                    현재 쿠폰에 적립할게요.
+                  </SelectDescription>
+                  <LuStamp size={30} />
+                </CouponSelectorLabel>
+              </SelectorItemWrapper>
+            </>
           )}
         </CouponLabelContainer>
+        <Button onClick={moveNextStep}>다음</Button>
+        {coupon.coupons.length > 0 && (
+          <CouponSelectorWrapper>
+            <h1>윤생 고객님의 현재 쿠폰</h1>
+            <Spacing $size={8} />
+            <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+            <Spacing $size={8} />
+            <span>
+              스탬프: {foundCoupon.stampCount}/{10} <br />
+              쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지
+            </span>
+          </CouponSelectorWrapper>
+        )}
       </CouponSelectorContainer>
-      <Spacing $size={70} />
-      <Button
-        onClick={() =>
-          // TODO: 함수로 분리
-          selectedCoupon === 'current'
-            ? navigate(ROUTER_PATH.earnStamp, {
-                state: {
-                  isPrevious,
-                  customer: foundCustomer,
-                  couponId: foundCoupon.id,
-                },
-              })
-            : mutateIssueCoupon()
-        }
-      >
-        다음
-      </Button>
-    </CouponSelectContainer>
+    </>
   );
 };
 

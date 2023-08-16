@@ -84,7 +84,7 @@ const ModifyCouponPolicy = () => {
           {(() => {
             switch (step) {
               case MODIFY_STEP_NUMBER.createdType:
-                return <CreatedType setValue={setCreatedType} />;
+                return <CreatedType value={createdType} setValue={setCreatedType} />;
               case MODIFY_STEP_NUMBER.maxStampCount:
                 return (
                   <MaxStampCount
@@ -107,11 +107,11 @@ const ModifyCouponPolicy = () => {
         <ButtonContainer $step={step}>
           {step !== MODIFY_STEP_NUMBER.createdType && (
             <Button variant="secondary" size="medium" onClick={movePrevStep}>
-              이전으로
+              이전
             </Button>
           )}
-          <Button variant="secondary" size="medium" onClick={moveNextStep}>
-            다음으로
+          <Button size="medium" onClick={moveNextStep}>
+            다음
           </Button>
         </ButtonContainer>
       </StepContainer>

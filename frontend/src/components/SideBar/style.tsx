@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SideBarStyleProps {
@@ -72,10 +71,6 @@ export const LabelContent = styled.span<SideBarStyleProps>`
   padding-left: 20px;
 
   cursor: pointer;
-`;
-
-export const SideBarLink = styled(Link)`
-  text-decoration: none;
 `;
 
 export const SideBarContent = styled.div<{ $isSelected: boolean; $currentIndex: number }>`

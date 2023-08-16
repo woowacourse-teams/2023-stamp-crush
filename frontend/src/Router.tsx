@@ -13,7 +13,7 @@ import MyPage from './pages/MyPage';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
-import SelectCoupon from './pages/Admin/SelectCoupon';
+import SelectCoupon from './pages/Admin/EarnStamp/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';

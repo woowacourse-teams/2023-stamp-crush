@@ -25,6 +25,7 @@ const CustomerList = () => {
     });
   };
 
+  // TODO: cafeId값 불러오기
   const { data, status } = useQuery<CustomersRes>({
     queryKey: ['customers'],
     queryFn: () =>
