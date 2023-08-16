@@ -86,6 +86,8 @@ const SideBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('admin-login-token');
+    localStorage.removeItem('login-token');
+
     navigate(ROUTER_PATH.adminLogin);
   };
 
