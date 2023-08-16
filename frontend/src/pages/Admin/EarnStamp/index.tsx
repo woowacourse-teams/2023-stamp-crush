@@ -16,6 +16,7 @@ import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
+import FlippedCoupon from '../../CouponList/FlippedCoupon';
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);
@@ -64,10 +65,18 @@ const EarnStamp = () => {
       <CouponSelectorContainer>
         <CouponSelectorWrapper>
           <Text>
-            현재 스탬프 개수: {couponData.coupons[0].stampCount}/{10}
+            현재 스탬프 개수: {couponData.coupons[0].stampCount}/
+            {couponData.coupons[0].maxStampCount}
           </Text>
           <Spacing $size={8} />
-          <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+          <FlippedCoupon
+            frontImageUrl={state.couponDesignData.frontImageUrl}
+            backImageUrl={state.couponDesignData.backImageUrl}
+            stampImageUrl={state.couponDesignData.stampImageUrl}
+            stampCount={couponData.coupons[0].stampCount}
+            coordinates={state.couponDesignData.coordinates}
+            isShown={true}
+          />
           <Spacing $size={45} />
           <ExpirationDate>쿠폰 유효기간: {couponData.coupons[0].expireDate}까지</ExpirationDate>
         </CouponSelectorWrapper>

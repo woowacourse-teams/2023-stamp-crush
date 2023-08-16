@@ -1,5 +1,6 @@
 import { api, customerHeader, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
+import { CouponDesign } from '../types';
 import {
   CafeIdParams,
   CafeInfoRes,
@@ -101,4 +102,9 @@ export const getOAuthToken = async (
     `/login/${params.resourceServer}/token?code=${params.code}`,
     init,
   );
+};
+
+export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(`/admin/coupon-setting?cafe-id=${params.cafeId}`, ownerHeader);
 };

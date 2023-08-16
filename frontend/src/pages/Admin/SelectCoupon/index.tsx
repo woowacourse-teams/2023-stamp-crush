@@ -16,7 +16,7 @@ import {
   TitleWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getCoupon, getCustomer } from '../../../api/get';
+import { getCoupon, getCouponDesign, getCustomer } from '../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../api/post';
 import { formatDate } from '../../../utils';
 import Text from '../../../components/Text';
@@ -25,6 +25,7 @@ import { CouponActivate } from '../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
+import FlippedCoupon from '../../CouponList/FlippedCoupon';
 
 const SelectCoupon = () => {
   const location = useLocation();
@@ -68,6 +69,11 @@ const SelectCoupon = () => {
     },
   );
 
+  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+    queryKey: ['couponDesign'],
+    queryFn: () => getCouponDesign({ params: { cafeId: 1 } }),
+  });
+
   // TODO: cafe id 하드코딩 된 값 제거
   const TEMP_CAFE_ID = 1;
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
@@ -103,9 +109,15 @@ const SelectCoupon = () => {
     setSelectedCoupon(value);
   };
 
-  if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
+  if (
+    couponStatus === 'loading' ||
+    customerStatus === 'loading' ||
+    couponDesignStatus === 'loading'
+  )
+    return <p>Loading</p>;
 
-  if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
+    return <p>Error</p>;
 
   const foundCustomer = customer.customer[0];
   const foundCoupon = coupon.coupons[0];
@@ -123,10 +135,17 @@ const SelectCoupon = () => {
         {coupon.coupons.length > 0 && (
           <CouponSelectorWrapper>
             <Text>
-              현재 스탬프 개수: {foundCoupon.stampCount}/{10}
+              현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
             </Text>
             <Spacing $size={8} />
-            <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+            <FlippedCoupon
+              frontImageUrl={couponDesignData.frontImageUrl}
+              backImageUrl={couponDesignData.backImageUrl}
+              stampImageUrl={couponDesignData.stampImageUrl}
+              stampCount={foundCoupon.stampCount}
+              coordinates={couponDesignData.coordinates}
+              isShown={true}
+            />
             <Spacing $size={45} />
             <ExpirationDate>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</ExpirationDate>
           </CouponSelectorWrapper>
@@ -182,6 +201,7 @@ const SelectCoupon = () => {
                   isPrevious,
                   customer: foundCustomer,
                   couponId: foundCoupon.id,
+                  couponDesignData,
                 },
               })
             : mutateIssueCoupon()
