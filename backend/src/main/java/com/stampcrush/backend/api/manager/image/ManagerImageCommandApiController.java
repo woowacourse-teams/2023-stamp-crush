@@ -1,5 +1,6 @@
 package com.stampcrush.backend.api.manager.image;
 
+import com.stampcrush.backend.api.manager.image.response.ImageUrlResponse;
 import com.stampcrush.backend.application.manager.image.ManagerImageCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class ManagerImageCommandApiController {
     private final ManagerImageCommandService managerImageCommandService;
 
     @PostMapping("/images")
-    public ResponseEntity<String> uploadImage(@RequestPart MultipartFile image) {
+    public ResponseEntity<ImageUrlResponse> uploadImage(@RequestPart MultipartFile image) {
         String url = managerImageCommandService.uploadImageAndReturnUrl(image);
-        return ResponseEntity.ok(url);
+        return ResponseEntity.ok(new ImageUrlResponse(url));
     }
 }

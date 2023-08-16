@@ -19,6 +19,7 @@ public class S3ImageUploader implements ImageUploader {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSSSSS");
     private static final String EXTENSION_DELIMITER = ".";
+    private static final String DIRECTORY_DELIMITER = "/";
 
     private final AmazonS3 s3;
 
@@ -27,6 +28,9 @@ public class S3ImageUploader implements ImageUploader {
 
     @Value("${s3.base-url}")
     private String BASE_URL;
+
+    @Value("${s3.dir}")
+    private String DIRECTORY;
 
     @Override
     public String upload(MultipartFile image) {
@@ -38,7 +42,7 @@ public class S3ImageUploader implements ImageUploader {
             s3.putObject(
                     new PutObjectRequest(
                             bucket,
-                            formattedFileName,
+                            DIRECTORY + DIRECTORY_DELIMITER + formattedFileName,
                             image.getInputStream(),
                             objectMetadata
                     )
@@ -46,7 +50,7 @@ public class S3ImageUploader implements ImageUploader {
         } catch (IOException exception) {
             throw new ImageUploadFailException("이미지 저장실패 + " + exception.getMessage());
         }
-        return BASE_URL + formattedFileName;
+        return BASE_URL + DIRECTORY + DIRECTORY_DELIMITER + formattedFileName;
     }
 
     private String formatFileName(String originalFileName) {
