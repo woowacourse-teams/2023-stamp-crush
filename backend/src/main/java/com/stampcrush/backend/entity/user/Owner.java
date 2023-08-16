@@ -1,10 +1,10 @@
 package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,24 +19,47 @@ public class Owner extends BaseDate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(name = "name")
+    private String nickname;
     private String loginId;
     private String encryptedPassword;
     private String phoneNumber;
+    private String email;
 
-    public Owner(Long id, String name, String loginId, String encryptedPassword, String phoneNumber) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_provider")
+    private OAuthProvider oAuthProvider;
+
+    @Column(name = "oauth_id")
+    private Long oAuthId;
+
+    public Owner(Long id, String nickname, String loginId, String encryptedPassword, String phoneNumber) {
         this.id = id;
-        this.name = name;
+        this.nickname = nickname;
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
         this.phoneNumber = phoneNumber;
     }
 
-    public Owner(String name, String loginId, String encryptedPassword, String phoneNumber) {
-        this.name = name;
+    public Owner(String nickname, String loginId, String encryptedPassword, String phoneNumber) {
+        this.nickname = nickname;
         this.loginId = loginId;
         this.encryptedPassword = encryptedPassword;
         this.phoneNumber = phoneNumber;
+    }
+
+    @Builder
+    public Owner(
+            String nickname,
+            String email,
+            OAuthProvider oAuthProvider,
+            Long oAuthId
+    ) {
+        this.nickname = nickname;
+        this.email = email;
+        this.oAuthProvider = oAuthProvider;
+        this.oAuthId = oAuthId;
     }
 
     public void checkPassword(String encryptedPassword) {

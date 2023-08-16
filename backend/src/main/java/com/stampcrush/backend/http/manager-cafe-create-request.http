@@ -1,0 +1,19 @@
+### 사장의 액세스 토큰 포함 요청
+
+POST http://localhost:8080/api/admin/cafes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkyMTUyNjg4fQ.VRWHEij1ugEU93tfJSS9XcWtVchRdATLruds2rbdth1ytyp8h3B7Q9PUm_RhTP8PfoqcoOyVKH1citNuqQFWyQ
+
+{
+  "name": "우아한카페",
+  "roadAddress": "서울시 잠실",
+  "detailAddress": "루터회관 13층",
+  "businessRegistrationNumber": "000-111-222"
+}
+
+### 고객의 액세스 토큰 포함 요청
+
+GET http://localhost:8080/api/coupons
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkyMTUyOTUyfQ.zclLXxrZ7B-OW6EpuUKuZnPApw_77i0eg8Y0upTawzifgnMWecFlE_UvxKtm-hZE2Iv4-0dR6SSToyqpdQq0hg
+
