@@ -75,3 +75,7 @@ export const postUploadImage = async (file: File) => {
     body: formData,
   });
 };
+
+export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserReqBody>) => {
+  return await api.post<RegisterUserReqBody>('/admin/cafes', ownerHeader, body);
+};

@@ -1,12 +1,12 @@
 import { worker } from '../mocks/browser';
 
 const request = async (path: string, init?: RequestInit) => {
-  let BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  if (process.env.NODE_ENV === 'development') {
-    worker.start({ onUnhandledRequest: 'bypass' });
-    BASE_URL = '';
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   worker.start({ onUnhandledRequest: 'bypass' });
+  //   BASE_URL = '';
+  // }
 
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,

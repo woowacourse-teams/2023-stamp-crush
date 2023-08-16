@@ -158,3 +158,7 @@ export interface CustomerProfileRes {
 export interface ImageUploadRes {
   imageUrl: string;
 }
+
+export interface PhoneNumberRegisteredRes {
+  isPhoneNumberRegistered: boolean;
+}

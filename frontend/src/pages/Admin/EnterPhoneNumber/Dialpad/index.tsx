@@ -1,4 +1,4 @@
-import useDialPad from '../../../hooks/useDialPad';
+import useDialPad from '../../../../hooks/useDialPad';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
 
 const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
