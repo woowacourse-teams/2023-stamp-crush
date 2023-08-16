@@ -106,4 +106,11 @@ public class ManagerCouponFindService {
                 )
                 .toList();
     }
+
+    private long countUnusedRewards(Cafe cafe, Customer customer) {
+        return rewardRepository.countByCafeAndCustomerAndUsed(cafe, customer, Boolean.FALSE);
+    }
+
+    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
+    }
 }
