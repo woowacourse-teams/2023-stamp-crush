@@ -23,6 +23,7 @@ public class S3ImageUploader implements ImageUploader {
 
     @Value("${s3.bucket}")
     private String bucket;
+
     @Value("${s3.base-url}")
     private String BASE_URL;
 
