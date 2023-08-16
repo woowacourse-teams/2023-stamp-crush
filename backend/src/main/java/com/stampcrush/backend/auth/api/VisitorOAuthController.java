@@ -32,7 +32,7 @@ public class VisitorOAuthController {
                 .build();
     }
 
-    @GetMapping("/auth/kakao")
+    @GetMapping("/kakao/token")
     public ResponseEntity<AuthTokensResponse> authorizeUser(@RequestParam("code") String authorizationCode) {
         KakaoLoginParams params = new KakaoLoginParams(authorizationCode);
         return ResponseEntity.ok(visitorOAuthLoginService.login(params));
