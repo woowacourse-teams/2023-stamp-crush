@@ -19,9 +19,10 @@ import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import RewardList from './pages/RewardList';
 import RewardHistory from './pages/RewardHistory';
-import AdminLogin from './pages/Admin/AdminLogin';
-import AdminAuth from './pages/Admin/AdminAuth';
+import RewardHistoryPage from './pages/HistoryPage/RewardHistory';
+import StampHistoryPage from './pages/HistoryPage/StampHistory';
 import Auth from './pages/Auth';
+
 
 const AdminRoot = () => {
   return (
@@ -61,7 +62,7 @@ const Router = () => {
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign,
-          element: <CustomCouponDesign />,
+          element: <TemplateCouponDesign />,
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign,
@@ -86,7 +87,8 @@ const Router = () => {
         { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
-        { path: ROUTER_PATH.rewardHistory, element: <RewardHistory /> },
+        { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
+        { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
       ],
     },
   ]);

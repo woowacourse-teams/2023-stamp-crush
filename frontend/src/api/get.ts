@@ -12,10 +12,12 @@ import {
   MaxStampCountParams,
   OAuthJWTRes,
   OAuthTokenParams,
+  MyRewardRes,
   PhoneNumberParams,
   QueryReq,
   RewardRes,
   SampleCouponRes,
+  StampHistoryRes,
   UsedParams,
 } from '../types/api';
 
@@ -72,7 +74,11 @@ export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
 
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<RewardRes>(`/rewards?used=${params.used}`, customerHeader);
+  return await api.get<MyRewardRes>(`/rewards?used=${params.used}`, customerHeader);
+};
+
+export const getStampHistories = async () => {
+  return await api.get<StampHistoryRes>('/stamp-history', customerHeader);
 };
 
 export const getAdminOAuthToken = async (

@@ -11,12 +11,12 @@ const MYPAGE_NAV_OPTIONS = [
     value: '내 리워드',
   },
   {
-    key: 'used-rewards',
+    key: 'rewardHistory',
     value: '리워드 사용 내역',
   },
   {
-    key: 'earned-stamps',
-    value: '스탬프 보유 내역',
+    key: 'stampHistory',
+    value: '스탬프 적립 내역',
   },
 ];
 
