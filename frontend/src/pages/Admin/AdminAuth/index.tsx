@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { api, ownerHeader } from '../../../api';
-import { getOAuthToken } from '../../../api/get';
+import { getAdminOAuthToken } from '../../../api/get';
 
 const AdminAuth = () => {
   const [searchParams] = useSearchParams();
-  const authorizationCode = searchParams.get('authorization-code');
+  // const code = searchParams.get('code');
 
-  if (!authorizationCode) {
-    throw new Error('code가 없습니다.');
-  }
+  // if (!code) {
+  //   throw new Error('code가 없습니다.');
+  // }
 
   const getToken = async () => {
-    const response = await getOAuthToken({
-      params: { resourceServer: 'kakao', authorizationCode },
+    console.log('dd');
+    const response = await getAdminOAuthToken({
+      params: { resourceServer: 'kakao', code: 'fff' },
     });
 
-    localStorage.setItem('login-token', response.accessToken);
+    localStorage.setItem('admin-login-token', response.accessToken);
   };
 
   useEffect(() => {

@@ -133,7 +133,7 @@ export interface UsedParams {
 
 export interface OAuthTokenParams {
   resourceServer: 'kakao';
-  authorizationCode: string;
+  code: string;
 }
 
 export interface OAuthJWTRes {
