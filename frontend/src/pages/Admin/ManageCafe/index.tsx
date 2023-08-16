@@ -77,7 +77,7 @@ const ManageCafe = () => {
     if (!isEmptyData(cafeInfo.introduction)) setIntroduction(cafeInfo.introduction);
   }, [cafeInfo]);
 
-  const { mutate, isLoading, isError } = useMutation(patchCafeInfo, {
+  const { mutate } = useMutation(patchCafeInfo, {
     onSuccess: () => {
       navigate(ROUTER_PATH.customerList);
     },
