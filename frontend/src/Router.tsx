@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import NotFound from './pages/NotFound';
-import Header from './components/Header';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/MyPage';
 import Template from './components/Template';
@@ -19,8 +18,8 @@ import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import RewardList from './pages/RewardList';
-import RewardHistory from './pages/RewardHistory';
-import AdminLogin from './pages/Admin/AdminLogin';
+import RewardHistoryPage from './pages/HistoryPage/RewardHistory';
+import StampHistoryPage from './pages/HistoryPage/StampHistory';
 
 const AdminRoot = () => {
   return (
@@ -59,7 +58,7 @@ const Router = () => {
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign,
-          element: <CustomCouponDesign />,
+          element: <TemplateCouponDesign />,
         },
         {
           path: ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign,
@@ -83,7 +82,8 @@ const Router = () => {
         { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
-        { path: ROUTER_PATH.rewardHistory, element: <RewardHistory /> },
+        { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
+        { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
       ],
     },
   ]);

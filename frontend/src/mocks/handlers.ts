@@ -11,6 +11,7 @@ import {
   customerCoupons,
   usedCustomerRewards,
   customerRewards,
+  stampHistorys,
 } from './mockData';
 
 const customerList = [...customers];
@@ -248,6 +249,11 @@ export const handlers = [
 
     if (used) return res(ctx.status(200), ctx.json(usedCustomerRewards));
     return res(ctx.status(200), ctx.json(customerRewards));
+  }),
+
+  // 스탬프 조회
+  rest.get('/stamp-history', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(stampHistorys));
   }),
 
   // 쿠폰 삭제
