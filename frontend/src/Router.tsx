@@ -18,11 +18,12 @@ import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import RewardList from './pages/RewardList';
-import RewardHistory from './pages/RewardHistory';
 import RewardHistoryPage from './pages/HistoryPage/RewardHistory';
 import StampHistoryPage from './pages/HistoryPage/StampHistory';
 import Auth from './pages/Auth';
-
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminAuth from './pages/Admin/AdminAuth';
+import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 
 const AdminRoot = () => {
   return (
