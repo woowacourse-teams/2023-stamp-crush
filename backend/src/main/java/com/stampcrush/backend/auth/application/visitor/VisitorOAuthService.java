@@ -2,8 +2,8 @@ package com.stampcrush.backend.auth.application.visitor;
 
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
-import com.stampcrush.backend.auth.client.OAuthApiClient;
 import com.stampcrush.backend.auth.client.OAuthInfoResponse;
+import com.stampcrush.backend.auth.client.VisitorOAuthApiClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -23,15 +23,15 @@ public class VisitorOAuthService {
     private final String apiUri;
     private final String redirectUri;
 
-    private final Map<OAuthProvider, OAuthApiClient> clients;
+    private final Map<OAuthProvider, VisitorOAuthApiClient> clients;
 
     public VisitorOAuthService(
             @Value("${oauth.kakao.client-id}") String clientId,
             @Value("${oauth.kakao.client-secret}") String clientSecret,
-            @Value("${oauth.kakao.redirect-uri}") String redirectUri,
+            @Value("${oauth.kakao.redirect-uri-visitor}") String redirectUri,
             @Value("${oauth.kakao.url.auth}") String baseUri,
             @Value("${oauth.kakao.url.api}") String apiUri,
-            List<OAuthApiClient> clients
+            List<VisitorOAuthApiClient> clients
     ) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -39,7 +39,7 @@ public class VisitorOAuthService {
         this.baseUri = baseUri;
         this.apiUri = apiUri;
         this.clients = clients.stream().collect(
-                Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
+                Collectors.toUnmodifiableMap(VisitorOAuthApiClient::oAuthProvider, Function.identity())
         );
     }
 
@@ -52,7 +52,7 @@ public class VisitorOAuthService {
     }
 
     public OAuthInfoResponse request(OAuthLoginParams params) {
-        OAuthApiClient client = clients.get(params.oAuthProvider());
+        VisitorOAuthApiClient client = clients.get(params.oAuthProvider());
         String accessToken = client.requestAccessToken(params);
 
         return client.requestOauthInfo(accessToken);

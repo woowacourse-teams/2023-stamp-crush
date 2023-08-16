@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @Profile("!test")
 @RequiredArgsConstructor
 @Component
-public class KakaoApiClient implements OAuthApiClient {
+public class ManagerKakaoApiClient implements ManagerOAuthApiClient {
 
     private static final String GRANT_TYPE = "authorization_code";
 
@@ -33,7 +33,7 @@ public class KakaoApiClient implements OAuthApiClient {
     @Value("${oauth.kakao.client-id}")
     private String clientId;
 
-    @Value("${oauth.kakao.redirect-uri}")
+    @Value("${oauth.kakao.redirect-uri-manager}")
     private String redirectUri;
 
     private final RestTemplate restTemplate;
