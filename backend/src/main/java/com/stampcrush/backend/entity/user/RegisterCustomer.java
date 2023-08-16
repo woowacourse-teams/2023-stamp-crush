@@ -62,4 +62,12 @@ public class RegisterCustomer extends Customer {
             throw new CustomerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
+
+    public void registerLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public void registerEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
 }
