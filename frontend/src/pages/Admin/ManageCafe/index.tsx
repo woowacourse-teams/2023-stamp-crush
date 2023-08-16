@@ -171,9 +171,9 @@ const ManageCafe = () => {
             maxLength={150}
             value={introduction}
           />
-          <RestrictionLabel
-            $isExceed={introduction.length >= 150}
-          >{`${introduction.length}/150`}</RestrictionLabel>
+          <RestrictionLabel $isExceed={!introduction ? false : introduction.length >= 150}>
+            {!introduction ? '0/150' : `${introduction.length}/150`}
+          </RestrictionLabel>
         </Wrapper>
         <Button type="submit" variant="primary" size="medium">
           저장하기
