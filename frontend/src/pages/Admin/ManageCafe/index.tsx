@@ -34,8 +34,10 @@ import { ROUTER_PATH } from '../../../constants';
 import { Cafe, Time } from '../../../types';
 import { CafeInfoReqBody } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
 
 const ManageCafe = () => {
+  useRedirectRegisterPage();
   const navigate = useNavigate();
   const [cafeImage, uploadCafeImage] = useUploadImage();
   const [phoneNumber, setPhoneNumber] = useState('');
