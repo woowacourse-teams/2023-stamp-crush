@@ -15,5 +15,8 @@ public interface RegisterCustomerRepository extends JpaRepository<RegisterCustom
     Optional<RegisterCustomer> findByNickname(String nickname);
 
     @Query("SELECT c FROM RegisterCustomer c WHERE c.oAuthProvider = :oAuthProvider AND c.oAuthId = :oAuthId")
-    Optional<RegisterCustomer> findByOAuthProviderAndOAuthId(@Param("oAuthProvider") OAuthProvider oAuthProvider, @Param("oAuthId") Long oAuthId);
+    Optional<RegisterCustomer> findByOAuthProviderAndOAuthId(
+            @Param("oAuthProvider") OAuthProvider oAuthProvider,
+            @Param("oAuthId") Long oAuthId
+    );
 }
