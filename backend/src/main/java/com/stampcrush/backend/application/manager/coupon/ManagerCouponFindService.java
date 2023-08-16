@@ -99,16 +99,12 @@ public class ManagerCouponFindService {
 
         return coupons.stream()
                 .map(coupon -> CustomerAccumulatingCouponFindResultDto.of(
-                        coupon,
-                        customer,
-                        isPrevious(coupon)))
+                                coupon,
+                                customer,
+                                coupon.isPrevious()
+                        )
+                )
                 .toList();
-    }
-
-    private boolean isPrevious(Coupon coupon) {
-        return !cafePolicyRepository
-                .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
-                .isEmpty();
     }
 
     private long countUnusedRewards(Cafe cafe, Customer customer) {

@@ -2,7 +2,9 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.exception.CafePolicyNotFoundException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -157,5 +159,20 @@ public class Coupon extends BaseDate {
 
     public String getRewardName() {
         return couponPolicy.getRewardName();
+    }
+
+    public boolean isPrevious() {
+        CafePolicy currentCafePolicy = findCurrentCafePolicy();
+        return couponPolicy.isPrevious(currentCafePolicy);
+    }
+
+    private CafePolicy findCurrentCafePolicy() {
+        List<CafePolicy> policies = cafe.getPolicies();
+
+        if (policies.isEmpty()) {
+            throw new CafePolicyNotFoundException("해당하는 카페의 정책이 존재하지 않습니다.");
+        }
+
+        return policies.get(0);
     }
 }
