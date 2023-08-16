@@ -3,7 +3,7 @@ import { getCafe } from '../api/get';
 import { useNavigate } from 'react-router-dom';
 import { INVALID_CAFE_ID } from '../constants';
 
-const useCafe = () => {
+export const useCafeQuery = () => {
   const result = useQuery({
     queryKey: ['cafe'],
     queryFn: async () => await getCafe(),
@@ -13,7 +13,7 @@ const useCafe = () => {
 };
 
 export const useCafeId = () => {
-  const { status, data } = useCafe();
+  const { status, data } = useCafeQuery();
   let cafeId = INVALID_CAFE_ID;
   if (status === 'success' && data.cafes.length !== 0) {
     cafeId = data.cafes[0].id;
