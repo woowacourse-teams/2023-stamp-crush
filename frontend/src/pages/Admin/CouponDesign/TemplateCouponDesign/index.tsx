@@ -19,7 +19,7 @@ import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
 import { CouponSettingReqBody } from '../../../../types/api';
-import { useRedirectRegisterPage } from '../../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 
 const TemplateCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();

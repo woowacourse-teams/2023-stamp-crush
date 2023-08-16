@@ -15,7 +15,7 @@ import {
   CustomerIdParams,
   CustomerPhoneNumberRes,
 } from '../../../types/api';
-import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const RewardPage = () => {
   const cafeId = useRedirectRegisterPage();

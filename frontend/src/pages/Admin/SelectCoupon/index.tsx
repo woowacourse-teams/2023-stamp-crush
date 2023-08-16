@@ -25,7 +25,7 @@ import { CouponActivate } from '../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
-import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const SelectCoupon = () => {
   const cafeId = useRedirectRegisterPage();

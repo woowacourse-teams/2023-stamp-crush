@@ -34,7 +34,7 @@ import { ROUTER_PATH } from '../../../constants';
 import { Cafe, Time } from '../../../types';
 import { CafeInfoReqBody } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const ManageCafe = () => {
   useRedirectRegisterPage();

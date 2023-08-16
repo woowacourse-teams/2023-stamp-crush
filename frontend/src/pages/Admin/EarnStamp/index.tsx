@@ -16,7 +16,7 @@ import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
-import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();

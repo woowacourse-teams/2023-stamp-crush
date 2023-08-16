@@ -10,7 +10,7 @@ import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
-import { useRedirectRegisterPage } from '../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();

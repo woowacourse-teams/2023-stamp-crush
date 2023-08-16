@@ -19,7 +19,7 @@ import { useLocation } from 'react-router-dom';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
-import { useRedirectRegisterPage } from '../../../../hooks/useCafeId';
+import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 
 const CustomCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();
