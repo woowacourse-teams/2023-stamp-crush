@@ -13,7 +13,6 @@ const AdminAuth = () => {
   }
 
   const getToken = async () => {
-    console.log('dd');
     const response = await getAdminOAuthToken({
       params: { resourceServer: 'kakao', code: code },
     });
