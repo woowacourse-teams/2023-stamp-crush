@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.visitor.info.request;
+package com.stampcrush.backend.api.visitor.profile.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package com.stampcrush.backend.api.visitor.info;
+package com.stampcrush.backend.api.visitor.profile;
 
-import com.stampcrush.backend.api.visitor.info.request.PhoneNumberUpdateRequest;
-import com.stampcrush.backend.application.visitor.info.VisitorProfilesCommandService;
+import com.stampcrush.backend.api.visitor.profile.request.PhoneNumberUpdateRequest;
+import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.config.resolver.CustomerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

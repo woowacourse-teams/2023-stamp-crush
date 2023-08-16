@@ -1,4 +1,4 @@
-package com.stampcrush.backend.application.visitor.info;
+package com.stampcrush.backend.application.visitor.profile;
 
 import org.springframework.stereotype.Service;
 
