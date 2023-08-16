@@ -9,13 +9,13 @@ import {
 } from '../SelectCoupon/style';
 import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
 import { getCoupon } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { ROUTER_PATH } from '../../../constants';
-import { IssuedCouponsRes } from '../../../types/api';
+import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
 
 const EarnStamp = () => {
   const [stamp, setStamp] = useState(1);
@@ -32,13 +32,10 @@ const EarnStamp = () => {
     },
   });
 
-  const { data: couponData, status: couponStatus } = useQuery<IssuedCouponsRes>(
-    ['earn-stamp-coupons', state.customer],
-    () => getCoupon({ params: { customerId: state.customer.id, cafeId: 1 } }),
-  );
-
-  if (couponStatus === 'error') return <p>Error</p>;
-  if (couponStatus === 'loading') return <p>Loading</p>;
+  const { data: couponData } = useSuspendedQuery({
+    queryKey: ['earn-stamp-coupons', state.customer],
+    queryFn: () => getCoupon({ params: { customerId: state.customer.id, cafeId: 1 } }),
+  });
 
   const earnStamp = () => {
     mutate({

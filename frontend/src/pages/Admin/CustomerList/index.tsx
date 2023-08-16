@@ -2,15 +2,13 @@ import { CustomerContainer, Container, EmptyCustomers } from './style';
 import Text from '../../../components/Text';
 import { Suspense, useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
-import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import { Customer } from '../../../types';
-import { CustomersRes } from '../../../types/api';
-import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import CustomerLoading from '../../../components/LoadingSpinner/CustomerLoading';
+import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
 
 const CustomerList = () => {
   const [searchWord, setSearchWord] = useState('');
@@ -24,7 +22,7 @@ const CustomerList = () => {
     });
   };
 
-  const { data, status } = useQuery<CustomersRes>({
+  const { data, status } = useSuspendedQuery({
     queryKey: ['customers'],
     queryFn: () =>
       getCustomers({
@@ -43,20 +41,6 @@ const CustomerList = () => {
     }
   }, [orderOption]);
 
-  if (status === 'loading') return <LoadingSpinner />;
-  if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
-
-  if (data.customers.length === 0)
-    return (
-      <CustomerContainer>
-        <Text variant="pageTitle">내 고객 목록</Text>
-        <EmptyCustomers>
-          아직 보유고객이 없어요! <br />
-          카페를 방문한 고객에게 스탬프를 적립해 보세요.
-        </EmptyCustomers>
-      </CustomerContainer>
-    );
-
   const searchCustomer = () => {
     if (searchWord === '') return;
 
@@ -74,9 +58,8 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Suspense fallback={<CustomerLoading />}>
-        <Customers customersData={data} />
-      </Suspense>
+
+      <Customers customersData={data} />
     </CustomerContainer>
   );
 };

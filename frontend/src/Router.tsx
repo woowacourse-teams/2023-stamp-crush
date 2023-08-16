@@ -26,14 +26,17 @@ import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import { Suspense } from 'react';
 import CustomerLoading from './components/LoadingSpinner/CustomerLoading';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const AdminRoot = () => {
   return (
-    <Suspense fallback={<CustomerLoading />}>
-      <Template>
-        <Outlet />
-      </Template>
-    </Suspense>
+    <ErrorBoundary fallback={<p>에러 발생!</p>}>
+      <Suspense fallback={<CustomerLoading />}>
+        <Template>
+          <Outlet />
+        </Template>
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 

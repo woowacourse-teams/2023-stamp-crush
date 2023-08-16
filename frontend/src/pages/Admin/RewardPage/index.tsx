@@ -15,27 +15,23 @@ import {
   CustomerIdParams,
   CustomerPhoneNumberRes,
 } from '../../../types/api';
+import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
 
 const RewardPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const phoneNumber = location.state.phoneNumber;
 
-  const { data: customerData, status: customerStatus } = useQuery<CustomerPhoneNumberRes>(
-    ['getCustomer', phoneNumber],
-    () => getCustomer({ params: { phoneNumber } }),
-  );
-  const { data: rewardData, status: rewardStatus } = useQuery(
-    ['getReward', customerData],
+  const { data: customerData } = useSuspendedQuery({
+    queryKey: ['getCustomer', phoneNumber],
+    queryFn: () => getCustomer({ params: { phoneNumber } }),
+  });
+
+  const { data: rewardData } = useSuspendedQuery({
+    queryKey: ['getReward', customerData],
     // TODO: cafeId 전역으로 받아오기
-    () => {
-      if (!customerData) throw new Error('고객 데이터 불러오기에 실패했습니다.');
-      return getReward({ params: { customerId: customerData.customer[0].id, cafeId: 1 } });
-    },
-    {
-      enabled: !!customerData,
-    },
-  );
+    queryFn: () => getReward({ params: { customerId: customerData.customer[0].id, cafeId: 1 } }),
+  });
 
   const { mutate: mutateReward } = useMutation({
     mutationFn: (request: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
@@ -49,14 +45,6 @@ const RewardPage = () => {
       alert('에러가 발생했습니다. 네트워크 상태를 확인해주세요.');
     },
   });
-
-  if (rewardStatus === 'error' || customerStatus === 'error') {
-    return <div>불러오는 중 에러가 발생했습니다. 다시 시도해주세요.</div>;
-  }
-
-  if (rewardStatus === 'loading' || customerStatus === 'loading') {
-    return <div>고객 정보 불러오는 중...</div>;
-  }
 
   // FIXME: 명세에 맞게 body 값 전달하기!! used 값과 cafeId 넣기
   const activateRewardButton = (rewardId: number) => {

@@ -2,12 +2,11 @@ import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { getCouponSamples } from '../../../../api/get';
 import { parseStampCount } from '../../../../utils';
 import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
-import { SampleCouponRes } from '../../../../types/api';
+import useSuspendedQuery from '../../../../hooks/api/useSuspendedQuery';
 
 interface ChoiceTemplateProps {
   frontImageUrl: string;
@@ -34,12 +33,10 @@ const ChoiceTemplate = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const maxStampCount = parseStampCount(location.state.stampCount);
 
-  const { data: sampleImages, status } = useQuery<SampleCouponRes>(['coupon-samples'], () =>
-    getCouponSamples({ params: { maxStampCount } }),
-  );
-
-  if (status === 'loading') return <div>페이지 로딩중..</div>;
-  if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
+  const { data: sampleImages } = useSuspendedQuery({
+    queryKey: ['coupon-samples'],
+    queryFn: () => getCouponSamples({ params: { maxStampCount } }),
+  });
 
   // TODO: 네이밍 변경
   const getImageFromData = (templateSelected: string): SampleImage[] | SampleBackCouponImage[] => {

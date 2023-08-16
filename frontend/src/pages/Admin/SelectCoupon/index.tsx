@@ -25,6 +25,7 @@ import { CouponActivate } from '../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
+import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
 
 const SelectCoupon = () => {
   const location = useLocation();
@@ -33,11 +34,8 @@ const SelectCoupon = () => {
   const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
   const phoneNumber = location.state.phoneNumber;
 
-  const {
-    data: customer,
-    status: customerStatus,
-    refetch: refetchCustomer,
-  } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
+  const { data: customer, refetch: refetchCustomer } = useSuspendedQuery({
+    queryKey: ['customer', phoneNumber],
     queryFn: () => getCustomer({ params: { phoneNumber } }),
     onSuccess: (data) => {
       if (data.customer.length === 0) {
@@ -57,16 +55,13 @@ const SelectCoupon = () => {
     },
   });
 
-  const { data: coupon, status: couponStatus } = useQuery<IssuedCouponsRes, Error>(
-    ['coupon', customer],
-    {
-      queryFn: async () => {
-        if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-        return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
-      },
-      enabled: !!customer,
+  const { data: coupon } = useSuspendedQuery({
+    queryKey: ['coupon', customer],
+    queryFn: async () => {
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+      return await getCoupon({ params: { customerId: customer.customer[0].id, cafeId: 1 } });
     },
-  );
+  });
 
   // TODO: cafe id 하드코딩 된 값 제거
   const TEMP_CAFE_ID = 1;
@@ -102,10 +97,6 @@ const SelectCoupon = () => {
     setIsPrevious(value === 'current');
     setSelectedCoupon(value);
   };
-
-  if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
-
-  if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
 
   const foundCustomer = customer.customer[0];
   const foundCoupon = coupon.coupons[0];

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
-import { CafeRegisterReqBody, MutateReq } from '../../../types/api';
+import { CafeRegisterReqBody } from '../../../types/api';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
