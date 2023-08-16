@@ -4,16 +4,16 @@ import { getAdminOAuthToken } from '../../../api/get';
 
 const AdminAuth = () => {
   const [searchParams] = useSearchParams();
-  // const code = searchParams.get('code');
+  const code = searchParams.get('code');
 
-  // if (!code) {
-  //   throw new Error('code가 없습니다.');
-  // }
+  if (!code) {
+    throw new Error('code가 없습니다.');
+  }
 
   const getToken = async () => {
     console.log('dd');
     const response = await getAdminOAuthToken({
-      params: { resourceServer: 'kakao', code: 'fff' },
+      params: { resourceServer: 'kakao', code: code },
     });
 
     localStorage.setItem('admin-login-token', response.accessToken);
