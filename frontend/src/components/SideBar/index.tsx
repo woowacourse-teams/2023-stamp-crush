@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Logo } from '../../assets';
-import { useLocation } from 'react-router-dom';
-import { StampcrushLogo } from '../../assets';
+import { StampcrushWhiteLogo } from '../../assets';
 import { Option } from '../../types';
 import {
   Container,
@@ -100,60 +98,58 @@ const SideBar = () => {
   };
 
   return (
-   <>
-      <Container>
-        <LogoHeader $currentIndex={currentIndex}>
-          <LogoImgWrapper>
-            <LogoImg src={Logo} alt="스탬프크러쉬 로고" />
-          </LogoImgWrapper>
-        </LogoHeader>
-        <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>
-          {SIDE_BAR_OPTIONS.map(({ key, value }, index) => {
-            if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) return <EmptyContent />;
-            return (
-              <SideBarContent
-                key={key}
-                $isSelected={
-                  value === current ||
-                  (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
-                    isDesignCoupon) ||
-                  (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
-                  (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
-                }
-                $currentIndex={index + 1}
-              >
-                <SideBarLink to={value}>
-                  <LabelContent
-                    $isSelected={
-                      value === current ||
-                      (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
-                        isDesignCoupon) ||
-                      (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
-                      (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
+    <Container>
+      <LogoHeader $currentIndex={currentIndex}>
+        <LogoImgWrapper>
+          <LogoImg src={StampcrushWhiteLogo} alt="스탬프크러쉬 로고" />
+        </LogoImgWrapper>
+      </LogoHeader>
+      <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>
+        {SIDE_BAR_OPTIONS.map(({ key, value }, index) => {
+          if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) return <EmptyContent />;
+          return (
+            <SideBarContent
+              key={key}
+              $isSelected={
+                value === current ||
+                (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
+                  isDesignCoupon) ||
+                (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
+                (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
+              }
+              $currentIndex={index + 1}
+            >
+              <SideBarLink to={value}>
+                <LabelContent
+                  $isSelected={
+                    value === current ||
+                    (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
+                      isDesignCoupon) ||
+                    (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
+                    (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
+                  }
+                  onClick={() => {
+                    if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) {
+                      return;
                     }
-                    onClick={() => {
-                      if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) {
-                        return;
-                      }
-                      setCurrentIndex(index + 1);
-                    }}
-                  >
-                    {SIDEBAR_ICONS[index]}
-                    {key}
-                  </LabelContent>
-                </SideBarLink>
-              </SideBarContent>
-            );
-          })}
-        </SideBarContainer>
-        <LogoutContainer $currentIndex={currentIndex}>
-          <LogoutButton onClick={handleLogout}>
-            <IoIosLogOut size="26px" />
-            로그아웃
-          </LogoutButton>
-        </LogoutContainer>
-      </Container>
-    </>
+                    setCurrentIndex(index + 1);
+                  }}
+                >
+                  {SIDEBAR_ICONS[index]}
+                  {key}
+                </LabelContent>
+              </SideBarLink>
+            </SideBarContent>
+          );
+        })}
+      </SideBarContainer>
+      <LogoutContainer $currentIndex={currentIndex}>
+        <LogoutButton onClick={handleLogout}>
+          <IoIosLogOut size="26px" />
+          로그아웃
+        </LogoutButton>
+      </LogoutContainer>
+    </Container>
   );
 };
 

@@ -33,8 +33,11 @@ export const LogoImgWrapper = styled.button`
 `;
 
 export const LogoImg = styled.img`
-  width: 200px;
-  height: 25px;
+  width: 150px;
+`;
+
+export const PageSideBarWrapper = styled.div`
+  padding: 0 0 0 30px;
 `;
 
 export const SideBarContainer = styled.div<SideBarContainerStyleProps>`
