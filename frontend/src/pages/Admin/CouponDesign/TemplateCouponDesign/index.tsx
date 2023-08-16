@@ -19,8 +19,10 @@ import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
 import { CouponSettingReqBody } from '../../../../types/api';
+import { useRedirectRegisterPage } from '../../../../hooks/useCafeId';
 
 const TemplateCouponDesign = () => {
+  const cafeId = useRedirectRegisterPage();
   const { state } = useLocation() as unknown as CouponDesignLocation;
   const [frontImageUrl, uploadFrontImageUrl, setFrontImageUrl] = useUploadImage(CouponPreviewImg);
   const [backImageUrl, uploadBackImageUrl, setBackImageUrl] = useUploadImage(CouponPreviewImg);
@@ -46,7 +48,7 @@ const TemplateCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutate({ body: couponSettingBody });
+    mutate({ params: { cafeId }, body: couponSettingBody });
   };
 
   return (

@@ -19,8 +19,10 @@ import { useLocation } from 'react-router-dom';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
+import { useRedirectRegisterPage } from '../../../../hooks/useCafeId';
 
 const CustomCouponDesign = () => {
+  const cafeId = useRedirectRegisterPage();
   const { state } = useLocation() as unknown as CouponDesignLocation;
   const [frontImageUrl, uploadFrontImageUrl] = useUploadImage(CouponPreviewImg);
   const [backImageUrl, uploadBackImageUrl] = useUploadImage(CouponPreviewImg);
@@ -52,7 +54,7 @@ const CustomCouponDesign = () => {
       maxStampCount: maxStampCount,
     };
 
-    mutate({ body: couponSettingBody });
+    mutate({ params: { cafeId }, body: couponSettingBody });
   };
 
   const customStampPosition = () => {
