@@ -3,6 +3,7 @@ package com.stampcrush.backend.entity.image;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.stampcrush.backend.exception.ImageUploadFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -43,7 +44,7 @@ public class S3ImageUploader implements ImageUploader {
                     )
             );
         } catch (IOException exception) {
-            throw new IllegalArgumentException("image 저장 실패");
+            throw new ImageUploadFailException("이미지 저장실패 + " + exception.getMessage());
         }
         return BASE_URL + formattedFileName;
     }
