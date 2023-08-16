@@ -1,9 +1,9 @@
 package com.stampcrush.backend.auth.application.manager;
 
-import com.stampcrush.backend.auth.client.OAuthApiClient;
-import com.stampcrush.backend.auth.client.OAuthInfoResponse;
-import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import com.stampcrush.backend.auth.OAuthProvider;
+import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
+import com.stampcrush.backend.auth.client.ManagerOAuthApiClient;
+import com.stampcrush.backend.auth.client.OAuthInfoResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -23,15 +23,15 @@ public class ManagerOAuthService {
     private final String apiUri;
     private final String redirectUri;
 
-    private final Map<OAuthProvider, OAuthApiClient> clients;
+    private final Map<OAuthProvider, ManagerOAuthApiClient> clients;
 
     public ManagerOAuthService(
             @Value("${oauth.kakao.client-id}") String clientId,
             @Value("${oauth.kakao.client-secret}") String clientSecret,
-            @Value("${oauth.kakao.redirect-uri}") String redirectUri,
+            @Value("${oauth.kakao.redirect-uri-manager}") String redirectUri,
             @Value("${oauth.kakao.url.auth}") String baseUri,
             @Value("${oauth.kakao.url.api}") String apiUri,
-            List<OAuthApiClient> clients
+            List<ManagerOAuthApiClient> clients
     ) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -39,7 +39,7 @@ public class ManagerOAuthService {
         this.baseUri = baseUri;
         this.apiUri = apiUri;
         this.clients = clients.stream().collect(
-                Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
+                Collectors.toUnmodifiableMap(ManagerOAuthApiClient::oAuthProvider, Function.identity())
         );
     }
 
@@ -52,7 +52,7 @@ public class ManagerOAuthService {
     }
 
     public OAuthInfoResponse request(OAuthLoginParams params) {
-        OAuthApiClient client = clients.get(params.oAuthProvider());
+        ManagerOAuthApiClient client = clients.get(params.oAuthProvider());
         String accessToken = client.requestAccessToken(params);
 
         return client.requestOauthInfo(accessToken);
