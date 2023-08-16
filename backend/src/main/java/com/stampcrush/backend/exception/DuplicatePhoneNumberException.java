@@ -1,6 +1,6 @@
 package com.stampcrush.backend.exception;
 
-public class DuplicatePhoneNumberException extends StampCrushException {
+public class DuplicatePhoneNumberException extends BadRequestException {
 
     public DuplicatePhoneNumberException(String message) {
         super(message);

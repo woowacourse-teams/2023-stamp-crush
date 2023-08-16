@@ -21,6 +21,7 @@ public class VisitorProfilesCommandApiController {
             CustomerAuth customer,
             PhoneNumberUpdateRequest request
     ) {
+        visitorProfilesCommandService.registerPhoneNumber(customer.getId(), request.getPhoneNumber());
         return ResponseEntity.ok().build();
     }
 }
