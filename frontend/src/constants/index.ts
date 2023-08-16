@@ -131,3 +131,5 @@ export const DATE_PARSE_OPTION = {
   hasMonth: true,
   hasDay: true,
 };
+
+export const INVALID_CAFE_ID = -1;
