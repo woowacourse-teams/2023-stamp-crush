@@ -15,6 +15,7 @@ import com.stampcrush.backend.exception.VisitHistoryNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class ManagerCouponFindService {
     private final CustomerRepository customerRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final VisitHistoryRepository visitHistoryRepository;
+    private final RewardRepository rewardRepository;
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
@@ -54,7 +56,7 @@ public class ManagerCouponFindService {
                             customerCoupon.customer.getId(),
                             customerCoupon.customer.getNickname(),
                             customerCouponStatistics.getStampCount(),
-                            customerCouponStatistics.getRewardCount(),
+                            (int) countUnusedRewards(cafe, customerCoupon.customer),
                             // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
                             visitHistories.getVisitCount(),
                             visitHistories.getFirstVisitDate(),
@@ -107,6 +109,10 @@ public class ManagerCouponFindService {
         return !cafePolicyRepository
                 .findByCafeAndCreatedAtGreaterThan(coupon.getCafe(), coupon.getCreatedAt())
                 .isEmpty();
+    }
+
+    private long countUnusedRewards(Cafe cafe, Customer customer) {
+        return rewardRepository.countByCafeAndCustomerAndUsed(cafe, customer, Boolean.FALSE);
     }
 
     private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
