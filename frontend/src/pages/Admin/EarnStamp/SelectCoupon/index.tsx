@@ -68,20 +68,6 @@ const SelectCoupon = () => {
     },
   );
 
-  const {
-    data: couponDesignData,
-    status: couponDesignStatus,
-    isSuccess,
-  } = useQuery({
-    queryKey: ['couponDesignData'],
-    queryFn: () => {
-      if (!coupon) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
-      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
-      return getCurrentCouponDesign({ params: { couponId: coupon.coupons[0].id, cafeId } });
-    },
-    enabled: coupon && coupon.coupons.length !== 0,
-  });
-
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
     mutationFn: async () => {
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
@@ -99,7 +85,6 @@ const SelectCoupon = () => {
           isPrevious,
           customer: foundCustomer,
           couponId: newCouponId,
-          couponDesignData,
         },
       });
     },
@@ -127,7 +112,6 @@ const SelectCoupon = () => {
           isPrevious,
           customer: foundCustomer,
           couponId: foundCoupon.id,
-          couponDesignData,
         },
       });
     }
@@ -146,24 +130,6 @@ const SelectCoupon = () => {
       <CouponSelectorContainer>
         {coupon.coupons.length > 0 ? (
           <>
-            <CouponSelectorWrapper>
-              <Text>
-                현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
-              </Text>
-              <Spacing $size={8} />
-              {isSuccess && (
-                <FlippedCoupon
-                  frontImageUrl={couponDesignData.frontImageUrl}
-                  backImageUrl={couponDesignData.backImageUrl}
-                  stampImageUrl={couponDesignData.stampImageUrl}
-                  stampCount={foundCoupon.stampCount}
-                  coordinates={couponDesignData.coordinates}
-                  isShown={true}
-                />
-              )}
-              <Spacing $size={45} />
-              <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
-            </CouponSelectorWrapper>
             <CouponLabelContainer>
               <SelectorItemWrapper>
                 <CouponSelector

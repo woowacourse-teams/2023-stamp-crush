@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
-import { getCoupon } from '../../../api/get';
+import { getCoupon, getCurrentCouponDesign } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
@@ -39,8 +39,18 @@ const EarnStamp = () => {
     },
   );
 
-  if (couponStatus === 'error') return <p>Error</p>;
-  if (couponStatus === 'loading') return <LoadingSpinner />;
+  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+    queryKey: ['couponDesignData'],
+    queryFn: () => {
+      if (!couponData) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
+
+      return getCurrentCouponDesign({ params: { couponId: couponData.coupons[0].id, cafeId } });
+    },
+    enabled: couponData && couponData.coupons.length !== 0,
+  });
+
+  if (couponStatus === 'error' || couponDesignStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <LoadingSpinner />;
 
   const earnStamp = () => {
     mutate({
@@ -71,11 +81,11 @@ const EarnStamp = () => {
           </Text>
           <Spacing $size={8} />
           <FlippedCoupon
-            frontImageUrl={state.couponDesignData.frontImageUrl}
-            backImageUrl={state.couponDesignData.backImageUrl}
-            stampImageUrl={state.couponDesignData.stampImageUrl}
+            frontImageUrl={couponDesignData.frontImageUrl}
+            backImageUrl={couponDesignData.backImageUrl}
+            stampImageUrl={couponDesignData.stampImageUrl}
             stampCount={couponData.coupons[0].stampCount}
-            coordinates={state.couponDesignData.coordinates}
+            coordinates={couponDesignData.coordinates}
             isShown={true}
           />
           <Spacing $size={45} />
