@@ -4,9 +4,10 @@ import Button from '../../../components/Button';
 import {
   ManageCafeForm,
   PageContainer,
+  PreviewBackImage,
   PreviewContainer,
   PreviewContentContainer,
-  PreviewEmptyCouponImage,
+  PreviewCouponBackImage,
   PreviewOverviewContainer,
   RestrictionLabel,
   StepTitle,
@@ -27,7 +28,7 @@ import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
 import { AiOutlineUpload } from 'react-icons/ai';
 import { FaLocationDot } from 'react-icons/fa6';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getCafe } from '../../../api/get';
+import { getCafe, getCouponDesign } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { patchCafeInfo } from '../../../api/patch';
 import { ROUTER_PATH } from '../../../constants';
@@ -63,6 +64,11 @@ const ManageCafe = () => {
           detailAddress: '',
         };
   }, [cafe]);
+
+  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+    queryKey: ['couponDesign'],
+    queryFn: () => getCouponDesign({ params: { cafeId: 1 } }),
+  });
 
   const splitTime = (timeString: string) => {
     const [hour, minute] = timeString.split(':');
@@ -122,8 +128,8 @@ const ManageCafe = () => {
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (status === 'loading') return <LoadingSpinner />;
-  if (status === 'error') return <>에러가 발생했습니다.</>;
+  if (status === 'loading' || couponDesignStatus === 'loading') return <LoadingSpinner />;
+  if (status === 'error' || couponDesignStatus === 'error') return <>에러가 발생했습니다.</>;
 
   return (
     <PageContainer>
@@ -192,7 +198,13 @@ const ManageCafe = () => {
             $height={594}
             $opacity={0.25}
           />
-          <PreviewEmptyCouponImage>쿠폰 뒷면 이미지가 들어갈 공간입니다.</PreviewEmptyCouponImage>
+          <PreviewCouponBackImage>
+            {couponDesignData.backImageUrl !== '' ? (
+              <PreviewBackImage src={couponDesignData.backImageUrl} />
+            ) : (
+              <p>쿠폰 뒷면 이미지가 들어갈 공간입니다.</p>
+            )}
+          </PreviewCouponBackImage>
           <PreviewOverviewContainer>
             <Text variant="subTitle">{cafeInfo.name}</Text>
             <Text>{introduction}</Text>
