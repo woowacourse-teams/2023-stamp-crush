@@ -140,45 +140,43 @@ const SelectCoupon = () => {
       <Spacing $size={40} />
       <Text variant="subTitle">step1. {foundCustomer.nickname} 고객님의 쿠폰을 선택해주세요.</Text>
       <CouponSelectorContainer>
-        {coupon.coupons.length > 0 && (
-          <CouponSelectorWrapper>
-            <Text>
-              현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
-            </Text>
-            <Spacing $size={8} />
-            <FlippedCoupon
-              frontImageUrl={couponDesignData.frontImageUrl}
-              backImageUrl={couponDesignData.backImageUrl}
-              stampImageUrl={couponDesignData.stampImageUrl}
-              stampCount={foundCoupon.stampCount}
-              coordinates={couponDesignData.coordinates}
-              isShown={true}
-            />
-            <Spacing $size={45} />
-            <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
-          </CouponSelectorWrapper>
-        )}
-        <CouponLabelContainer>
-          <SelectorItemWrapper>
-            <CouponSelector
-              id="new"
-              type="radio"
-              value="new"
-              onChange={selectCoupon}
-              checked={selectedCoupon === 'new' || coupon.coupons.length === 0}
-            />
-            <CouponSelectorLabel htmlFor="new" $isChecked={!isPrevious}>
-              <SelectTitle>새 쿠폰 발급</SelectTitle>
-              <SelectDescription>
-                새 쿠폰을 만들고
-                <br />새 쿠폰에 적립할게요.
-              </SelectDescription>
-              <MdAddCard size={30} />
-            </CouponSelectorLabel>
-          </SelectorItemWrapper>
-          <Spacing $size={40} />
-          {coupon.coupons.length > 0 && (
-            <>
+        {coupon.coupons.length > 0 ? (
+          <>
+            <CouponSelectorWrapper>
+              <Text>
+                현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
+              </Text>
+              <Spacing $size={8} />
+              <FlippedCoupon
+                frontImageUrl={couponDesignData.frontImageUrl}
+                backImageUrl={couponDesignData.backImageUrl}
+                stampImageUrl={couponDesignData.stampImageUrl}
+                stampCount={foundCoupon.stampCount}
+                coordinates={couponDesignData.coordinates}
+                isShown={true}
+              />
+              <Spacing $size={45} />
+              <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
+            </CouponSelectorWrapper>
+            <CouponLabelContainer>
+              <SelectorItemWrapper>
+                <CouponSelector
+                  id="new"
+                  type="radio"
+                  value="new"
+                  onChange={selectCoupon}
+                  checked={selectedCoupon === 'new' || coupon.coupons.length === 0}
+                />
+                <CouponSelectorLabel htmlFor="new" $isChecked={!isPrevious}>
+                  <SelectTitle>새 쿠폰 발급</SelectTitle>
+                  <SelectDescription>
+                    새 쿠폰을 만들고
+                    <br />새 쿠폰에 적립할게요.
+                  </SelectDescription>
+                  <MdAddCard size={30} />
+                </CouponSelectorLabel>
+              </SelectorItemWrapper>
+              <Spacing $size={40} />
               <SelectorItemWrapper>
                 <CouponSelector
                   id="current"
@@ -196,9 +194,11 @@ const SelectCoupon = () => {
                   <LuStamp size={30} />
                 </CouponSelectorLabel>
               </SelectorItemWrapper>
-            </>
-          )}
-        </CouponLabelContainer>
+            </CouponLabelContainer>
+          </>
+        ) : (
+          <Text>다음 버튼을 눌러 신규 쿠폰을 발급합니다.</Text>
+        )}
         <Button onClick={moveNextStep}>다음</Button>
       </CouponSelectorContainer>
     </>
