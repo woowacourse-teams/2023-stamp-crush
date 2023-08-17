@@ -16,12 +16,12 @@ export const patchReward = async ({
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.patch<RewardReqBody>(
     `/admin/customers/${params.customerId}/rewards/${params.rewardId}`,
-    ownerHeader,
+    ownerHeader(),
     body,
   );
 };
 
 export const patchCafeInfo = async ({ params, body }: MutateReq<CafeInfoReqBody, CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.patch<CafeInfoReqBody>(`/admin/cafes/${params.cafeId}`, ownerHeader, body);
+  return await api.patch<CafeInfoReqBody>(`/admin/cafes/${params.cafeId}`, ownerHeader(), body);
 };

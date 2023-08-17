@@ -45,16 +45,16 @@ export const api = {
     }),
 };
 
-export const customerHeader = {
+export const customerHeader = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem('login-token')}`,
     'Content-Type': 'application/json',
   },
-};
+});
 
-export const ownerHeader = {
+export const ownerHeader = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
     'Content-Type': 'application/json',
   },
-};
+});
