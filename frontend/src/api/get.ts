@@ -105,7 +105,7 @@ export const getOAuthToken = async (
 };
 
 export const getCustomerProfile = async () => {
-  return await api.get<CustomerProfileRes>('/profiles');
+  return await api.get<CustomerProfileRes>('/profiles', customerHeader);
 };
 
 export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
