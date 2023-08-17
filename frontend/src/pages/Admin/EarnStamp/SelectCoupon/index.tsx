@@ -14,12 +14,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import FlippedCoupon from '../../../CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import {
-  getCoupon,
-  getCouponDesign,
-  getCurrentCouponDesign,
-  getCustomer,
-} from '../../../../api/get';
+import { getCoupon, getCurrentCouponDesign, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
 import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
