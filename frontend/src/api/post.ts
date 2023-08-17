@@ -65,3 +65,13 @@ export const postIsFavorites = async ({
     body,
   );
 };
+
+export const postUploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return await fetch(`${process.env.REACT_APP_BASE_URL}/admin/images`, {
+    method: 'POST',
+    body: formData,
+  });
+};
