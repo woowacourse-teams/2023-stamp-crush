@@ -118,16 +118,17 @@ const SelectCoupon = () => {
   };
 
   const moveNextStep = () => {
-    selectedCoupon === 'current' || coupon.coupons.length !== 0
-      ? navigate(ROUTER_PATH.earnStamp, {
-          state: {
-            isPrevious,
-            customer: foundCustomer,
-            couponId: foundCoupon.id,
-            couponDesignData,
-          },
-        })
-      : mutateIssueCoupon();
+    if (selectedCoupon === 'current' && coupon.coupons.length !== 0) {
+      navigate(ROUTER_PATH.earnStamp, {
+        state: {
+          isPrevious,
+          customer: foundCustomer,
+          couponId: foundCoupon.id,
+          couponDesignData,
+        },
+      });
+    }
+    if (selectedCoupon === 'new' || coupon.coupons.length === 0) mutateIssueCoupon();
   };
 
   const foundCustomer = customer.customer[0];
