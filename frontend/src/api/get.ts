@@ -21,6 +21,7 @@ import {
   StampHistoryRes,
   UsedParams,
   CustomerProfileRes,
+  CouponIdParams,
 } from '../types/api';
 
 export const getCafe = async () => {
@@ -112,6 +113,14 @@ export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CouponDesign>(
     `/admin/coupon-setting?cafe-id=${params.cafeId}`,
+    ownerHeader(),
+  );
+};
+
+export const getCurrentCouponDesign = async ({ params }: QueryReq<CouponIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(
+    `/admin/coupon-setting?cafe-id=${params.couponId}`,
     ownerHeader(),
   );
 };
