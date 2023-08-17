@@ -19,4 +19,6 @@ public interface RegisterCustomerRepository extends JpaRepository<RegisterCustom
             @Param("oAuthProvider") OAuthProvider oAuthProvider,
             @Param("oAuthId") Long oAuthId
     );
+
+    Optional<RegisterCustomer> findById(Long customerId);
 }
