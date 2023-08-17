@@ -19,4 +19,7 @@ public interface RegisterCustomerRepository extends JpaRepository<RegisterCustom
             @Param("oAuthProvider") OAuthProvider oAuthProvider,
             @Param("oAuthId") Long oAuthId
     );
+
+    // TODO: 기본 제공되는 findById 가 인자를 Integer 로 받아서 재정의함
+    Optional<RegisterCustomer> findById(Long id);
 }
