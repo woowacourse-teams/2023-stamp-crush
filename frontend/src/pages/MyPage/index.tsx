@@ -3,6 +3,15 @@ import { ROUTER_PATH } from '../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { BiArrowBack } from 'react-icons/bi';
 import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import { AiOutlineUnorderedList, AiOutlineLogout } from 'react-icons/ai';
+import { PiGiftLight } from 'react-icons/pi';
+
+const ICONS = [
+  <PiGiftLight key="rewardList" size={20} />,
+  <AiOutlineUnorderedList key="rewardHistory" />,
+  <AiOutlineUnorderedList key="stampHistory" />,
+  <AiOutlineLogout key="logout" />,
+];
 
 const MYPAGE_NAV_OPTIONS = [
   {
@@ -50,8 +59,9 @@ const MyPage = () => {
         <Nickname>{customerProfile?.profile.nickname}</Nickname>님
       </NicknameContainer>
       <NavContainer>
-        {MYPAGE_NAV_OPTIONS.map((option) => (
+        {MYPAGE_NAV_OPTIONS.map((option, index) => (
           <NavWrapper key={option.key} onClick={navigatePage(option.key)}>
+            {ICONS[index]}
             {option.value}
           </NavWrapper>
         ))}
