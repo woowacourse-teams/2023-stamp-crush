@@ -11,12 +11,12 @@ import { ROUTER_PATH } from '../../constants';
 import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const InputPhoneNumber = () => {
-  const navigate = useNavigate();
   const { customerProfile } = useCustomerProfile();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (customerProfile?.profile.phoneNumber !== null) navigate(ROUTER_PATH.couponList);
-  }, []);
+    if (customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.couponList);
+  }, [customerProfile]);
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const { mutate } = useMutation({

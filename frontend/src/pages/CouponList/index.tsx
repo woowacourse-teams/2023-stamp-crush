@@ -37,11 +37,11 @@ const CouponList = () => {
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
-    if (customerProfile?.profile.phoneNumber === null) navigate(ROUTER_PATH.phoneNumber);
+    if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
     if (couponData) {
       setCurrentIndex(couponData?.coupons.length - 1);
     }
-  }, [couponData]);
+  }, [couponData, customerProfile?.profile.phoneNumber]);
 
   const { mutate: mutateIsFavorites } = useMutation(postIsFavorites, {
     onSuccess: () => {
@@ -94,10 +94,6 @@ const CouponList = () => {
       if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
       return prevIndex;
     });
-  };
-
-  const navigateMyPage = () => {
-    navigate(ROUTER_PATH.myPage);
   };
 
   const openCouponDetail = () => {
