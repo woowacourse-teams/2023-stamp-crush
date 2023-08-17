@@ -1,10 +1,10 @@
 package com.stampcrush.backend.application.manager.cafe;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
-import com.stampcrush.backend.exception.CafeCouponSettingNotFoundException;
 import com.stampcrush.backend.exception.CafeNotFoundException;
-import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.exception.CouponNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
+import com.stampcrush.backend.repository.coupon.CouponRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,7 +26,7 @@ public class ManagerCafeCouponSettingFindServiceTest {
     private CafeRepository cafeRepository;
 
     @Mock
-    private CafeCouponDesignRepository cafeCouponDesignRepository;
+    private CouponRepository couponRepository;
 
     @Test
     void 쿠폰_세팅을_조회할_때_카페_정보가_존재하지_않으면_예외가_발생한다() {
@@ -37,7 +37,7 @@ public class ManagerCafeCouponSettingFindServiceTest {
                 .thenReturn(Optional.empty());
 
         // when, then
-        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCafeCouponSetting(cafeId))
+        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(cafeId, 1L))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -48,10 +48,10 @@ public class ManagerCafeCouponSettingFindServiceTest {
 
         when(cafeRepository.findById(cafeId))
                 .thenReturn(Optional.of(GITCHAN_CAFE));
-        when(cafeCouponDesignRepository.findByCafe(any()))
+        when(couponRepository.findById(any()))
                 .thenReturn(Optional.empty());
         // when, then
-        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCafeCouponSetting(cafeId))
-                .isInstanceOf(CafeCouponSettingNotFoundException.class);
+        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(cafeId, 1L))
+                .isInstanceOf(CouponNotFoundException.class);
     }
 }
