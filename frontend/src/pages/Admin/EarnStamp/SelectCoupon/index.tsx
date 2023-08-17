@@ -68,7 +68,11 @@ const SelectCoupon = () => {
     },
   );
 
-  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+  const {
+    data: couponDesignData,
+    status: couponDesignStatus,
+    isSuccess,
+  } = useQuery({
     queryKey: ['couponDesignData'],
     queryFn: () => {
       if (!coupon) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
@@ -104,15 +108,9 @@ const SelectCoupon = () => {
     },
   });
 
-  if (
-    couponStatus === 'loading' ||
-    customerStatus === 'loading' ||
-    couponDesignStatus === 'loading'
-  )
-    return <LoadingSpinner />;
+  if (couponStatus === 'loading' || customerStatus === 'loading') return <LoadingSpinner />;
 
-  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
-    return <p>Error</p>;
+  if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
 
   const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -153,14 +151,16 @@ const SelectCoupon = () => {
                 현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
               </Text>
               <Spacing $size={8} />
-              <FlippedCoupon
-                frontImageUrl={couponDesignData.frontImageUrl}
-                backImageUrl={couponDesignData.backImageUrl}
-                stampImageUrl={couponDesignData.stampImageUrl}
-                stampCount={foundCoupon.stampCount}
-                coordinates={couponDesignData.coordinates}
-                isShown={true}
-              />
+              {isSuccess && (
+                <FlippedCoupon
+                  frontImageUrl={couponDesignData.frontImageUrl}
+                  backImageUrl={couponDesignData.backImageUrl}
+                  stampImageUrl={couponDesignData.stampImageUrl}
+                  stampCount={foundCoupon.stampCount}
+                  coordinates={couponDesignData.coordinates}
+                  isShown={true}
+                />
+              )}
               <Spacing $size={45} />
               <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
             </CouponSelectorWrapper>
