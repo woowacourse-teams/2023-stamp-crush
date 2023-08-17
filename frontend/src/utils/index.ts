@@ -1,4 +1,4 @@
-import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE } from '../constants';
+import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
 import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
@@ -15,7 +15,6 @@ export const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
-// TODO: 유효기간 없음 대응하기
 export const parseExpireDate = (value: ExpireDateOptionValue) => {
   return value === EXPIRE_DATE_NONE ? EXPIRE_DATE_MAX : +value.replaceAll('개월', '');
 };
@@ -73,4 +72,8 @@ export const transformEntries = <T extends NonNullable<unknown>, U extends keyof
   transformCallback: (target: T, propertyName: U) => T,
 ) => {
   return arr.map((element) => transformCallback(element, propertyName));
+};
+
+export const isLargeThanBoundarySize = (fileSize: number) => {
+  return fileSize > IMAGE_MAX_SIZE;
 };

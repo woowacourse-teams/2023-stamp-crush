@@ -148,3 +148,7 @@ export interface OAuthJWTRes {
   grantType: 'Bearer';
   expiresIn: number;
 }
+
+export interface ImageUploadRes {
+  imageUrl: string;
+}
