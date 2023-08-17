@@ -1,9 +1,6 @@
 package com.stampcrush.backend.api.visitor.profile.request;
 
-import lombok.Getter;
-
-@Getter
-public final class VisitorProfilesPhoneNumberUpdateRequest {
+public class VisitorProfilesPhoneNumberUpdateRequest {
 
     private String phoneNumber;
 
@@ -12,5 +9,9 @@ public final class VisitorProfilesPhoneNumberUpdateRequest {
     }
 
     public VisitorProfilesPhoneNumberUpdateRequest() {
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }
