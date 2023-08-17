@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +30,9 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
 
         CustomerStampHistoryFindResultDto expected1 =
-                new CustomerStampHistoryFindResultDto(1L, "cafe1", 3, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")));
+                new CustomerStampHistoryFindResultDto(1L, "cafe1", 3, LocalDateTime.now());
         CustomerStampHistoryFindResultDto expected2 =
-                new CustomerStampHistoryFindResultDto(2L, "cafe2", 5, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")));
+                new CustomerStampHistoryFindResultDto(2L, "cafe2", 5, LocalDateTime.now());
 
         // when
         given(visitorVisitHistoryFindService.findStampHistoriesByCustomer(CUSTOMER.getId()))
