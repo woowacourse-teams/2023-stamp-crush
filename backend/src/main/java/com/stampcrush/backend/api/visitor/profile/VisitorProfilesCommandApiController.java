@@ -21,6 +21,7 @@ public class VisitorProfilesCommandApiController {
             CustomerAuth customer,
             VisitorProfilesPhoneNumberUpdateRequest request
     ) {
+        System.out.println("request.getPhoneNumber() = " + request.getPhoneNumber());
         visitorProfilesCommandService.registerPhoneNumber(customer.getId(), request.getPhoneNumber());
         return ResponseEntity.ok().build();
     }
