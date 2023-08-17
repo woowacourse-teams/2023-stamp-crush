@@ -62,7 +62,7 @@ class VisitorCouponFindServiceTest {
         when(customerRepository.findById(customerId))
                 .thenReturn(Optional.of(customer));
 
-        when(couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING))
+        when(couponRepository.findFilteredAndSortedCoupons(customer, CouponStatus.ACCUMULATING))
                 .thenReturn(new ArrayList<>());
 
         assertThat(visitorCouponFindService.findOneCouponForOneCafe(customerId)).isEmpty();
@@ -77,7 +77,7 @@ class VisitorCouponFindServiceTest {
         when(customerRepository.findById(customerId))
                 .thenReturn(Optional.of(customer));
 
-        when(couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING))
+        when(couponRepository.findFilteredAndSortedCoupons(customer, CouponStatus.ACCUMULATING))
                 .thenReturn(List.of(gitchanCoupon));
 
         when(visitorFavoritesFindService.findIsFavorites(gitchanCoupon.getCafe(), customer))
