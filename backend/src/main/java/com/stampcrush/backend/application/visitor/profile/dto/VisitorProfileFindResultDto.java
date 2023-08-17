@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class VisitorProfileFindResultDto {
 
     private final Long id;
-    private final String nickName;
+    private final String nickname;
     private final String phoneNumber;
     private final String email;
 }
