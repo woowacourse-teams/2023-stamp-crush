@@ -36,13 +36,15 @@ import { Cafe, Time } from '../../../types';
 import { CafeInfoReqBody } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import defaultCafeImg from '../../../assets/default_cafe_bg.png';
 
 const ManageCafe = () => {
   const cafeId = useRedirectRegisterPage();
   const navigate = useNavigate();
-  const [cafeImage, uploadCafeImage] = useUploadImage();
+  const [cafeImage, uploadCafeImage, setCafeImage] = useUploadImage();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [introduction, setIntroduction] = useState('');
+
   const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
@@ -84,6 +86,7 @@ const ManageCafe = () => {
     }
     if (!isEmptyData(cafeInfo.telephoneNumber)) setPhoneNumber(cafeInfo.telephoneNumber);
     if (!isEmptyData(cafeInfo.introduction)) setIntroduction(cafeInfo.introduction);
+    if (!isEmptyData(cafeInfo.cafeImageUrl)) setCafeImage(cafeInfo.cafeImageUrl);
   }, [cafeInfo]);
 
   const { mutate } = useMutation(patchCafeInfo, {
@@ -107,6 +110,12 @@ const ManageCafe = () => {
     setIntroduction(e.target.value);
   };
 
+  const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    uploadCafeImage(e);
+  };
+
   // TODO: 시간이 빈값인 케이스 대처 x
   const submitCafeInfo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -116,7 +125,7 @@ const ManageCafe = () => {
       closeTime: parseTime(closeTime),
       telephoneNumber: phoneNumber,
       // FIXME: 하드코딩 된 값 변경하기
-      cafeImageUrl: cafeImage === '' ? 'https://picsum.photos/200/300' : cafeImage,
+      cafeImageUrl: cafeImage,
       introduction: introduction,
     };
 
@@ -142,7 +151,7 @@ const ManageCafe = () => {
             id="cafe-image"
             type="file"
             accept="image/jpg,image/png,image/jpeg,image/gif"
-            onChange={uploadCafeImage}
+            onChange={uploadImage}
           />
           <ImageUpLoadInputLabel htmlFor={'cafe-image'}>
             <AiOutlineUpload />
@@ -190,11 +199,7 @@ const ManageCafe = () => {
         <Text variant="subTitle">미리보기</Text>
         <PreviewImageWrapper $width={312} $height={594}>
           <PreviewImage
-            src={
-              isEmptyData(cafeInfo.cafeImageUrl) || !isEmptyData(cafeImage)
-                ? cafeImage
-                : cafeInfo.cafeImageUrl
-            }
+            src={!cafeImage ? defaultCafeImg : cafeImage}
             $width={312}
             $height={594}
             $opacity={0.25}
