@@ -5,14 +5,17 @@ import SearchBar from '../../../components/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getCustomers } from '../../../api/get';
-import { CUSTOMERS_ORDER_OPTIONS, INVALID_CAFE_ID } from '../../../constants';
+import { CUSTOMERS_ORDER_OPTIONS, INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { Customer } from '../../../types';
 import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import { useIsLoggedIn } from '../../../hooks/useIsLoggedIn';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerList = () => {
+  const navigate = useNavigate();
   const cafeId = useRedirectRegisterPage();
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });

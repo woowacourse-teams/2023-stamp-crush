@@ -77,3 +77,15 @@ export const transformEntries = <T extends NonNullable<unknown>, U extends keyof
 export const isLargeThanBoundarySize = (fileSize: number) => {
   return fileSize > IMAGE_MAX_SIZE;
 };
+
+export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
+  const data = localStorage.getItem(key);
+  if (!data) return defaultValue;
+
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    console.error(`[ERROR] ${key}값의 LocalStorage data 파싱 과정에서 오류가 발생했습니다.`);
+    return defaultValue;
+  }
+};

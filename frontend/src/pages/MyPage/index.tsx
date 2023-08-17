@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { BiArrowBack } from 'react-icons/bi';
-import { useCustomerProfile } from '../../hooks/useRedirectPhoneNumberPage';
+import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const MYPAGE_NAV_OPTIONS = [
   {

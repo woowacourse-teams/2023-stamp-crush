@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getOAuthToken, getRegisteredPhoneNumber } from '../../api/get';
+import { getOAuthToken } from '../../api/get';
 import { ROUTER_PATH } from '../../constants';
 import { useQuery } from '@tanstack/react-query';
 
@@ -25,17 +25,7 @@ const Auth = () => {
     getToken();
   }, []);
 
-  const { data, status } = useQuery({
-    queryKey: ['isRegistered'],
-    queryFn: () => getRegisteredPhoneNumber(),
-  });
-
   if (status === 'loading' || status === 'error') return <></>;
-
-  data.isPhoneNumberRegistered
-    ? navigate(ROUTER_PATH.couponList)
-    : navigate(ROUTER_PATH.inputPhoneNumber);
-
   return <></>;
 };
 

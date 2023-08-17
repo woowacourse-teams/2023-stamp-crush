@@ -7,6 +7,7 @@ import { parsePhoneNumber } from '../../utils';
 import { useMutation } from '@tanstack/react-query';
 import { postCustomerPhoneNumber } from '../../api/post';
 import { useNavigate } from 'react-router-dom';
+import { ROUTER_PATH } from '../../constants';
 
 const InputPhoneNumber = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const InputPhoneNumber = () => {
   const { mutate } = useMutation({
     mutationFn: () => postCustomerPhoneNumber({ body: { phoneNumber } }),
     onSuccess: () => {
-      navigate('/admin');
+      navigate(ROUTER_PATH.couponList);
     },
   });
 

@@ -324,4 +324,8 @@ export const handlers = [
   rest.delete('/coupons/:couponId', async (req, res, ctx) => {
     return res(ctx.status(204));
   }),
+
+  rest.get('/admin/login', (req, res, ctx) => {
+    localStorage.setItem('admin-login-token', 'regorego');
+  }),
 ];
