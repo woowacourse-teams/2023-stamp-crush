@@ -13,5 +13,5 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class CustomerStampHistoriesFindResponse {
 
-    private List<CustomerStampHistoryFindResponse> stampHistory;
+    private List<CustomerStampHistoryFindResponse> stampHistories;
 }
