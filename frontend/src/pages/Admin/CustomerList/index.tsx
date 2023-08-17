@@ -11,12 +11,10 @@ import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
-import { useIsLoggedIn } from '../../../hooks/useIsLoggedIn';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerList = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useIsLoggedIn('owner');
   const cafeId = useRedirectRegisterPage();
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
@@ -44,8 +42,11 @@ const CustomerList = () => {
   });
 
   useEffect(() => {
-    console.log('^^', isLoggedIn);
-    if (!isLoggedIn) navigate(ROUTER_PATH.adminLogin);
+    if (
+      localStorage.getItem('admin-login-token') === '' ||
+      !localStorage.getItem('admin-login-token')
+    )
+      navigate(ROUTER_PATH.adminLogin);
     if (status === 'success' && data.customers.length !== 0) {
       orderCustomer(data.customers);
     }

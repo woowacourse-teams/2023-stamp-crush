@@ -29,7 +29,7 @@ const MyPage = () => {
 
   const navigatePage = (key: string) => () => {
     if (key === 'logout') {
-      localStorage.removeItem('login-token');
+      localStorage.setItem('login-token', '');
       return;
     }
 
