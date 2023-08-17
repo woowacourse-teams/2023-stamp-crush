@@ -31,14 +31,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCafe, getCouponDesign } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { patchCafeInfo } from '../../../api/patch';
-import { ROUTER_PATH } from '../../../constants';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { Cafe, Time } from '../../../types';
 import { CafeInfoReqBody } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 
 const ManageCafe = () => {
-  useRedirectRegisterPage();
+  const cafeId = useRedirectRegisterPage();
   const navigate = useNavigate();
   const [cafeImage, uploadCafeImage] = useUploadImage();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -67,7 +67,8 @@ const ManageCafe = () => {
 
   const { data: couponDesignData, status: couponDesignStatus } = useQuery({
     queryKey: ['couponDesign'],
-    queryFn: () => getCouponDesign({ params: { cafeId: 1 } }),
+    queryFn: () => getCouponDesign({ params: { cafeId } }),
+    enabled: cafeId !== INVALID_CAFE_ID,
   });
 
   const splitTime = (timeString: string) => {

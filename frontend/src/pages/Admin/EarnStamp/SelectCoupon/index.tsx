@@ -69,7 +69,8 @@ const SelectCoupon = () => {
 
   const { data: couponDesignData, status: couponDesignStatus } = useQuery({
     queryKey: ['couponDesign'],
-    queryFn: () => getCouponDesign({ params: { cafeId: 1 } }),
+    queryFn: () => getCouponDesign({ params: { cafeId } }),
+    enabled: cafeId !== INVALID_CAFE_ID,
   });
 
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
