@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VisitorProfileFindService {
 
-    private RegisterCustomerRepository registerCustomerRepository;
+    private final RegisterCustomerRepository registerCustomerRepository;
 
     public VisitorProfileFindResultDto findProfile(Long customerId) {
         RegisterCustomer customer = registerCustomerRepository.findById(customerId)
