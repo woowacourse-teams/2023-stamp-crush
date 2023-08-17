@@ -34,7 +34,7 @@ const ChoiceTemplate = ({
   const maxStampCount = parseStampCount(location.state.stampCount);
 
   const { data: sampleImages, status } = useQuery<SampleCouponRes>(
-    ['coupon-samples'],
+    ['coupon-samples', maxStampCount],
     () => getCouponSamples({ params: { maxStampCount } }),
     {
       staleTime: Infinity,
