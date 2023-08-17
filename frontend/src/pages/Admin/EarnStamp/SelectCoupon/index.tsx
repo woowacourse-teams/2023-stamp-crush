@@ -69,13 +69,13 @@ const SelectCoupon = () => {
   );
 
   const { data: couponDesignData, status: couponDesignStatus } = useQuery({
-    queryKey: ['couponDesign'],
+    queryKey: ['couponDesignData'],
     queryFn: () => {
       if (!coupon) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
       return getCurrentCouponDesign({ params: { couponId: coupon.coupons[0].id, cafeId } });
     },
-    enabled: !!coupon && coupon.coupons.length !== 0,
+    enabled: coupon && coupon.coupons.length !== 0,
   });
 
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
