@@ -1,0 +1,3 @@
+POST http://localhost:8080/api/profiles/phone-number
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjkyMTUyNjg4fQ.VRWHEij1ugEU93tfJSS9XcWtVchRdATLruds2rbdth1ytyp8h3B7Q9PUm_RhTP8PfoqcoOyVKH1citNuqQFWyQ
