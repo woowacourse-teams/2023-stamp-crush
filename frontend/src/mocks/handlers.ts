@@ -328,4 +328,11 @@ export const handlers = [
   rest.get('/admin/login', (req, res, ctx) => {
     localStorage.setItem('admin-login-token', 'regorego');
   }),
+
+  rest.get('/profiles', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({ profile: { id: 10, nickname: '강영민', phoneNumber: null, email: null } }),
+    );
+  }),
 ];

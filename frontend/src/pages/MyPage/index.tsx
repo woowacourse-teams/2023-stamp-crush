@@ -30,6 +30,7 @@ const MyPage = () => {
   const navigatePage = (key: string) => () => {
     if (key === 'logout') {
       localStorage.setItem('login-token', '');
+      navigate(ROUTER_PATH.login);
       return;
     }
 
