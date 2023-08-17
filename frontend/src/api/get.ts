@@ -1,5 +1,6 @@
 import { api, customerHeader, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
+import { CouponDesign } from '../types';
 import {
   CafeIdParams,
   CafeInfoRes,
@@ -78,7 +79,7 @@ export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
 };
 
 export const getStampHistories = async () => {
-  return await api.get<StampHistoryRes>('/stamp-history', customerHeader);
+  return await api.get<StampHistoryRes>('/stamp-histories', customerHeader);
 };
 
 export const getAdminOAuthToken = async (
@@ -105,4 +106,9 @@ export const getOAuthToken = async (
 
 export const getCustomerProfile = async () => {
   return await api.get<CustomerProfileRes>('/profiles');
+}
+
+export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(`/admin/coupon-setting?cafe-id=${params.cafeId}`, ownerHeader);
 };

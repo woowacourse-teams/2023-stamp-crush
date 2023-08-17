@@ -86,7 +86,7 @@ export const PreviewContentContainer = styled.div`
   }
 `;
 
-export const PreviewEmptyCouponImage = styled.div`
+export const PreviewCouponBackImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,4 +104,9 @@ export const PreviewEmptyCouponImage = styled.div`
 export const RestrictionLabel = styled.label<{ $isExceed: boolean }>`
   color: ${({ $isExceed }) => ($isExceed ? 'tomato' : '#aaa')};
   margin-left: auto;
+`;
+
+export const PreviewBackImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;

@@ -154,3 +154,7 @@ export interface OAuthJWTRes {
 export interface CustomerProfileRes {
   profile: CustomerProfile;
 }
+
+export interface ImageUploadRes {
+  imageUrl: string;
+}

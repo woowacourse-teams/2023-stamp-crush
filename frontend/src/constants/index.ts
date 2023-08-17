@@ -133,3 +133,7 @@ export const DATE_PARSE_OPTION = {
 };
 
 export const INVALID_CAFE_ID = -1;
+
+export const MEGA_BYTE = 1024 ** 2;
+
+export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;

@@ -11,9 +11,10 @@ import {
   SelectorItemWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import FlippedCoupon from '../../../CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { getCoupon, getCustomer } from '../../../../api/get';
+import { getCoupon, getCouponDesign, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
 import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
@@ -66,6 +67,11 @@ const SelectCoupon = () => {
     },
   );
 
+  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+    queryKey: ['couponDesign'],
+    queryFn: () => getCouponDesign({ params: { cafeId: 1 } }),
+  });
+
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
     mutationFn: async () => {
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
@@ -111,9 +117,15 @@ const SelectCoupon = () => {
       : mutateIssueCoupon();
   };
 
-  if (couponStatus === 'loading' || customerStatus === 'loading') return <p>Loading</p>;
+  if (
+    couponStatus === 'loading' ||
+    customerStatus === 'loading' ||
+    couponDesignStatus === 'loading'
+  )
+    return <p>Loading</p>;
 
-  if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
+    return <p>Error</p>;
 
   const foundCustomer = customer.customer[0];
   const foundCoupon = coupon.coupons[0];
@@ -125,6 +137,24 @@ const SelectCoupon = () => {
       <Spacing $size={40} />
       <Text variant="subTitle">step1. {foundCustomer.nickname} 고객님의 쿠폰을 선택해주세요.</Text>
       <CouponSelectorContainer>
+        {coupon.coupons.length > 0 && (
+          <CouponSelectorWrapper>
+            <Text>
+              현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
+            </Text>
+            <Spacing $size={8} />
+            <FlippedCoupon
+              frontImageUrl={couponDesignData.frontImageUrl}
+              backImageUrl={couponDesignData.backImageUrl}
+              stampImageUrl={couponDesignData.stampImageUrl}
+              stampCount={foundCoupon.stampCount}
+              coordinates={couponDesignData.coordinates}
+              isShown={true}
+            />
+            <Spacing $size={45} />
+            <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
+          </CouponSelectorWrapper>
+        )}
         <CouponLabelContainer>
           <SelectorItemWrapper>
             <CouponSelector
@@ -180,6 +210,24 @@ const SelectCoupon = () => {
           </CouponSelectorWrapper>
         )}
       </CouponSelectorContainer>
+      <Spacing $size={70} />
+      <Button
+        onClick={() =>
+          // TODO: 함수로 분리
+          selectedCoupon === 'current'
+            ? navigate(ROUTER_PATH.earnStamp, {
+                state: {
+                  isPrevious,
+                  customer: foundCustomer,
+                  couponId: foundCoupon.id,
+                  couponDesignData,
+                },
+              })
+            : mutateIssueCoupon()
+        }
+      >
+        다음
+      </Button>
     </>
   );
 };
