@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public final class PhoneNumberUpdateRequest {
+public final class VisitorProfilesPhoneNumberUpdateRequest {
 
     private final String phoneNumber;
 }
