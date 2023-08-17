@@ -77,7 +77,7 @@ export interface IssuedCouponsRes {
 }
 
 export interface StampHistoryRes {
-  stampHistorys: StampHistoryType[];
+  stampHistories: StampHistoryType[];
 }
 
 export interface RewardReqBody {

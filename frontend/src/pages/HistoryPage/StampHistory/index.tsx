@@ -53,7 +53,7 @@ const StampHistoryPage = () => {
     return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;
   }
 
-  const stampEntries = Array.from(transformStampsToMap(stampData.stampHistorys).entries());
+  const stampEntries = Array.from(transformStampsToMap(stampData.stampHistories).entries());
   return (
     <HistoryPage title={title}>
       <ul>
