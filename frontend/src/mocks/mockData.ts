@@ -25,6 +25,22 @@ export const samples8 = {
       id: 2,
       imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
     },
+    {
+      id: 3,
+      imageUrl: 'https://picsum.photos/270/150',
+    },
+    {
+      id: 4,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
+    {
+      id: 5,
+      imageUrl: 'https://picsum.photos/270/150',
+    },
+    {
+      id: 6,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
   ],
   sampleBackImages: [
     {

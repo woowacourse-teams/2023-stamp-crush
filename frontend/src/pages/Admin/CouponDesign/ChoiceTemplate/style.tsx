@@ -11,6 +11,8 @@ export const SampleImageContainer = styled.div`
   width: 100%;
   align-items: center;
   gap: 42px;
+  overflow: scroll;
+  height: 80vh;
 `;
 
 export const SampleImg = styled.img<{
