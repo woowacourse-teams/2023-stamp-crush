@@ -27,4 +27,22 @@ public final class VisitorProfilesCommandStep {
                 .then()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 고객의_전화번호_등록_요청_token(
+            String accessToken,
+            VisitorProfilesPhoneNumberUpdateRequest request
+    ) {
+        return given()
+                .log().all()
+                .contentType(JSON)
+                .body(request)
+                .auth().preemptive()
+                .oauth2(accessToken)
+
+                .when()
+                .post("/api/profiles/phone-number")
+
+                .then()
+                .extract();
+    }
 }
