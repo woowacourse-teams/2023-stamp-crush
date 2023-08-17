@@ -42,11 +42,15 @@ export const CouponNotification = styled.p`
 export const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
   align-items: center;
-  width: 300px;
+  width: 400px;
   height: 130px;
+
+  position: absolute;
   top: 260px;
+  left: 50%;
+  transform: translateX(-50%);
+
   padding: 0 30px;
   gap: 10px;
   line-height: 24px;
