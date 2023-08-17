@@ -117,10 +117,12 @@ export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   );
 };
 
-export const getCurrentCouponDesign = async ({ params }: QueryReq<CouponIdParams>) => {
+export const getCurrentCouponDesign = async ({
+  params,
+}: QueryReq<CouponIdParams & CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CouponDesign>(
-    `/admin/coupon-setting?cafe-id=${params.couponId}`,
+    `/admin/coupon-setting/${params.couponId}?cafe-id=${params.cafeId}`,
     ownerHeader(),
   );
 };

@@ -71,8 +71,9 @@ const SelectCoupon = () => {
     queryKey: ['couponDesign'],
     queryFn: () => {
       if (!coupon) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
 
-      return getCurrentCouponDesign({ params: { couponId: coupon.coupons[0].id } });
+      return getCurrentCouponDesign({ params: { couponId: coupon.coupons[0].id, cafeId } });
     },
   });
 
