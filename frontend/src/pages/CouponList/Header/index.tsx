@@ -16,7 +16,7 @@ const Header = () => {
         <LogoImg src={StampcrushLogo} alt="스탬프 크러쉬 로고" role="link" />
       </Link>
       <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
-        <GoPerson size={24} />
+        <GoPerson size={24} color="black" />
       </MyPageIconWrapper>
     </HeaderContainer>
   );

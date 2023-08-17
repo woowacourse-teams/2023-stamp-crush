@@ -25,6 +25,7 @@ export const Pad = styled.button`
 
   font-size: 50px;
   background-color: white;
+  color: black;
 
   &:active {
     background-color: ${({ theme }) => theme.colors.gray100};
