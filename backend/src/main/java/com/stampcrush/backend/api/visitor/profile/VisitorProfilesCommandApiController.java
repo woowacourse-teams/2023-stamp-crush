@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.profile;
 
-import com.stampcrush.backend.api.visitor.profile.request.PhoneNumberUpdateRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.config.resolver.CustomerAuth;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class VisitorProfilesCommandApiController {
     @PostMapping("/phone-number")
     public ResponseEntity<Void> savePhoneNumber(
             CustomerAuth customer,
-            PhoneNumberUpdateRequest request
+            VisitorProfilesPhoneNumberUpdateRequest request
     ) {
         visitorProfilesCommandService.registerPhoneNumber(customer.getId(), request.getPhoneNumber());
         return ResponseEntity.ok().build();

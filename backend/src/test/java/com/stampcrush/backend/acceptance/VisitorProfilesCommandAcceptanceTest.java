@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.visitor.profile.request.PhoneNumberUpdateRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -39,7 +39,7 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
         oAuthRegisterCustomer.registerEncryptedPassword("password");
         RegisterCustomer savedCustomer = customerRepository.save(oAuthRegisterCustomer);
 
-        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(savedCustomer, new PhoneNumberUpdateRequest("01012345678"));
+        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(savedCustomer, new VisitorProfilesPhoneNumberUpdateRequest("01012345678"));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -61,7 +61,7 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
         RegisterCustomer newCustomer = customerRepository.save(newOAuthRegisterCustomer);
         transaction.commit();
 
-        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(newCustomer, new PhoneNumberUpdateRequest(recentCustomer.getPhoneNumber()));
+        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(newCustomer, new VisitorProfilesPhoneNumberUpdateRequest(recentCustomer.getPhoneNumber()));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
