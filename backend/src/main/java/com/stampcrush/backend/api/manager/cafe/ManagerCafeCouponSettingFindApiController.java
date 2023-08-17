@@ -47,7 +47,7 @@ public class ManagerCafeCouponSettingFindApiController {
             @RequestParam("cafe-id") Long cafeId,
             @PathVariable("couponId") Long couponId
     ) {
-        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCouponSetting(cafeId, couponId);
+        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCafeCouponSetting(cafeId);
         CafeCouponSettingFindResponse response = new CafeCouponSettingFindResponse(
                 cafeCouponSetting.getFrontImageUrl(),
                 cafeCouponSetting.getBackImageUrl(),
