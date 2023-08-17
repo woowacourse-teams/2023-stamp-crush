@@ -2,17 +2,23 @@ import { Input } from '../../components/Input';
 import { Container } from './style';
 import { LoginLogo } from '../../assets';
 import Button from '../../components/Button';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { parsePhoneNumber } from '../../utils';
 import { useMutation } from '@tanstack/react-query';
 import { postCustomerPhoneNumber } from '../../api/post';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../constants';
+import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const InputPhoneNumber = () => {
   const navigate = useNavigate();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const { customerProfile } = useCustomerProfile();
 
+  useEffect(() => {
+    if (customerProfile?.profile.phoneNumber !== null) navigate(ROUTER_PATH.couponList);
+  }, []);
+
+  const [phoneNumber, setPhoneNumber] = useState('');
   const { mutate } = useMutation({
     mutationFn: () => postCustomerPhoneNumber({ body: { phoneNumber } }),
     onSuccess: () => {
