@@ -11,7 +11,6 @@ import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
-import com.stampcrush.backend.exception.VisitHistoryNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
@@ -85,9 +84,7 @@ public class ManagerCouponFindService {
 
     private VisitHistories findVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
         List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
-        if (visitHistories.isEmpty()) {
-            throw new VisitHistoryNotFoundException("고객의 방문 이력을 찾을 수 없습니다");
-        }
+
         return new VisitHistories(visitHistories);
     }
 
