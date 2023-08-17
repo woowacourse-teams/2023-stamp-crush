@@ -6,7 +6,7 @@ import { ROUTER_PATH } from '../../../constants';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const KAKAO_LOGIN_PAGE_URL = 'https://stampcrush.site/api/admin/login/kakao';
+  const KAKAO_LOGIN_PAGE_URL = `${process.env.REACT_APP_BASE_URL}/admin/login/kakao`;
 
   const test = (e: MouseEvent<HTMLAnchorElement>) => {
     if (process.env.NODE_ENV === 'development') {
