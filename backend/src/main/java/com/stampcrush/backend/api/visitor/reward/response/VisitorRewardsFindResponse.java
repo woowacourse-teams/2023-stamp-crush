@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -28,16 +29,16 @@ public class VisitorRewardsFindResponse {
         private final Long id;
         private final String rewardName;
         private final String cafeName;
-        private final LocalDate createdAt;
-        private final LocalDate usedAt;
+        private final String createdAt;
+        private final String usedAt;
 
         public static VisitorRewardFindResponse from(VisitorRewardsFindResultDto dto) {
             return new VisitorRewardFindResponse(
                     dto.getId(),
                     dto.getRewardName(),
                     dto.getCafeName(),
-                    LocalDate.from(dto.getCreatedAt()),
-                    LocalDate.from(dto.getUpdatedAt())
+                    LocalDate.from(dto.getCreatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd")),
+                    LocalDate.from(dto.getUpdatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))
             );
         }
     }
