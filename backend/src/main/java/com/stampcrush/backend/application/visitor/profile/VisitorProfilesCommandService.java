@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.visitor.profile;
 
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
-import com.stampcrush.backend.exception.DuplicatePhoneNumberException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +23,7 @@ public class VisitorProfilesCommandService {
             Customer customer = findExistingCustomer(customerId);
             customer.registerPhoneNumber(phoneNumber);
         } catch (DataIntegrityViolationException exception) {
-            throw new DuplicatePhoneNumberException("이미 등록된 전화번호입니다.", exception);
+            throw new CustomerBadRequestException("이미 등록된 전화번호입니다.", exception);
         }
     }
 

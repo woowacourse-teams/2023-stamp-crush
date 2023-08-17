@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.visitor.profile;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
-import com.stampcrush.backend.exception.DuplicatePhoneNumberException;
+import com.stampcrush.backend.exception.CustomerBadRequestException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,7 +43,7 @@ class VisitorProfilesCommandApiControllerTest extends ControllerSliceTest {
 
     @Test
     void 전화번호가_기존과_중복되면_BAD_REQUEST_상태코드를_반환한다() throws Exception {
-        doThrow(DuplicatePhoneNumberException.class)
+        doThrow(CustomerBadRequestException.class)
                 .when(visitorProfilesCommandService)
                 .registerPhoneNumber(null, null);
 
