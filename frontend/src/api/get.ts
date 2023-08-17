@@ -23,8 +23,10 @@ import {
   CustomerProfileRes,
 } from '../types/api';
 
+const ownerHeaderr = structuredClone(ownerHeader);
+
 export const getCafe = async () => {
-  return await api.get<CafeRes>('/admin/cafes', ownerHeader);
+  return await api.get<CafeRes>('/admin/cafes', ownerHeaderr);
 };
 
 export const getCustomer = async ({ params }: QueryReq<PhoneNumberParams>) => {
