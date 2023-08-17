@@ -90,6 +90,7 @@ const SelectCoupon = () => {
           isPrevious,
           customer: foundCustomer,
           couponId: newCouponId,
+          couponDesignData,
         },
       });
     },
@@ -113,6 +114,7 @@ const SelectCoupon = () => {
             isPrevious,
             customer: foundCustomer,
             couponId: foundCoupon.id,
+            couponDesignData,
           },
         })
       : mutateIssueCoupon();
