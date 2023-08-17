@@ -14,7 +14,6 @@ import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
 import Header from './Header';
 import { useIsLoggedIn } from '../../hooks/useIsLoggedIn';
-import { useRedirectRegisterPage } from '../../hooks/useRedirectRegisterPage';
 import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const CouponList = () => {

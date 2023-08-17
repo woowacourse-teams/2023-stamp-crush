@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CustomerList = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useIsLoggedIn('owner');
   const cafeId = useRedirectRegisterPage();
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
@@ -28,7 +29,6 @@ const CustomerList = () => {
     });
   };
 
-  // TODO: cafeId값 불러오기
   const { data, status } = useQuery<CustomersRes>({
     queryKey: ['customers'],
     queryFn: () =>
@@ -44,6 +44,8 @@ const CustomerList = () => {
   });
 
   useEffect(() => {
+    console.log('^^', isLoggedIn);
+    if (!isLoggedIn) navigate(ROUTER_PATH.adminLogin);
     if (status === 'success' && data.customers.length !== 0) {
       orderCustomer(data.customers);
     }
