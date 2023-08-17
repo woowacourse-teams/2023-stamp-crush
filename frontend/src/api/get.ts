@@ -114,10 +114,6 @@ export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   return await api.get<CouponDesign>(`/admin/coupon-setting?cafe-id=${params.cafeId}`, ownerHeader);
 };
 
-export const getRegisteredPhoneNumber = async ({ params }: QueryReq<CustomerIdParams>) => {
-  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<PhoneNumberRegisteredRes>(
-    `/customers/${params.customerId}/phone-number`,
-    customerHeader,
-  );
+export const getRegisteredPhoneNumber = async () => {
+  return await api.get<PhoneNumberRegisteredRes>('/phone-number', customerHeader);
 };

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getOAuthToken } from '../../api/get';
+import { getOAuthToken, getRegisteredPhoneNumber } from '../../api/get';
 import { ROUTER_PATH } from '../../constants';
+import { useQuery } from '@tanstack/react-query';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -18,12 +19,22 @@ const Auth = () => {
     });
 
     localStorage.setItem('login-token', response.accessToken);
-    navigate(ROUTER_PATH.couponList);
   };
 
   useEffect(() => {
     getToken();
   }, []);
+
+  const { data, status } = useQuery({
+    queryKey: ['isRegistered'],
+    queryFn: () => getRegisteredPhoneNumber(),
+  });
+
+  if (status === 'loading' || status === 'error') return <></>;
+
+  data.isPhoneNumberRegistered
+    ? navigate(ROUTER_PATH.couponList)
+    : navigate(ROUTER_PATH.inputPhoneNumber);
 
   return <></>;
 };
