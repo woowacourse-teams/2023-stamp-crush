@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorProfilesCommandStep.고객의_전화번호_등록_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorProfilesCommandStep.고객의_전화번호_등록_요청_token;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
@@ -51,24 +51,6 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 고객의_전화번호_등록_요청_token(accessToken, new VisitorProfilesPhoneNumberUpdateRequest("01012345678"));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    private static String 회원_가입_요청하고_액세스_토큰_반환(OAuthRegisterCustomerCreateRequest request) {
-        ExtractableResponse<Response> response = 회원_가입_요청(request);
-        return response.jsonPath().getString("accessToken");
-    }
-
-    private static ExtractableResponse<Response> 회원_가입_요청(OAuthRegisterCustomerCreateRequest request) {
-        return given()
-                .log().all()
-                .body(request)
-
-                .when()
-                .post("/api/login/test/token")
-
-                .then()
-                .log().all()
-                .extract();
     }
 
     @Test
