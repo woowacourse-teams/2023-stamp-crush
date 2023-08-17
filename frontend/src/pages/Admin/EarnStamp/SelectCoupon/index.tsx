@@ -197,37 +197,7 @@ const SelectCoupon = () => {
           )}
         </CouponLabelContainer>
         <Button onClick={moveNextStep}>다음</Button>
-        {coupon.coupons.length > 0 && (
-          <CouponSelectorWrapper>
-            <h1>윤생 고객님의 현재 쿠폰</h1>
-            <Spacing $size={8} />
-            <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
-            <Spacing $size={8} />
-            <span>
-              스탬프: {foundCoupon.stampCount}/{10} <br />
-              쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지
-            </span>
-          </CouponSelectorWrapper>
-        )}
       </CouponSelectorContainer>
-      <Spacing $size={70} />
-      <Button
-        onClick={() =>
-          // TODO: 함수로 분리
-          selectedCoupon === 'current'
-            ? navigate(ROUTER_PATH.earnStamp, {
-                state: {
-                  isPrevious,
-                  customer: foundCustomer,
-                  couponId: foundCoupon.id,
-                  couponDesignData,
-                },
-              })
-            : mutateIssueCoupon()
-        }
-      >
-        다음
-      </Button>
     </>
   );
 };
