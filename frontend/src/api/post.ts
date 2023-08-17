@@ -77,5 +77,5 @@ export const postUploadImage = async (file: File) => {
 };
 
 export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserReqBody>) => {
-  return await api.post<RegisterUserReqBody>('/profile/phone-number', customerHeader, body);
+  return await api.post<RegisterUserReqBody>('/profiles/phone-number', customerHeader, body);
 };
