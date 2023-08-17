@@ -19,13 +19,13 @@ export const postEarnStamp = async ({
   if (!params) return;
   return await api.post<StampEarningReqBody>(
     `/admin/customers/${params.customerId}/coupons/${params.couponId}/stamps`,
-    ownerHeader,
+    ownerHeader(),
     body,
   );
 };
 
 export const postRegisterUser = async ({ body }: MutateReq<RegisterUserReqBody>) => {
-  return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader, body);
+  return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader(), body);
 };
 
 export const postIssueCoupon = async ({
@@ -34,7 +34,7 @@ export const postIssueCoupon = async ({
 }: MutateReq<IssueCouponReqBody, CustomerIdParams>) => {
   if (!params) return;
   return await api
-    .post<IssueCouponReqBody>(`/admin/customers/${params.customerId}/coupons`, ownerHeader, body)
+    .post<IssueCouponReqBody>(`/admin/customers/${params.customerId}/coupons`, ownerHeader(), body)
     .then((response) => response.json());
 };
 
@@ -45,13 +45,13 @@ export const postCouponSetting = async ({
   if (!params) return;
   return await api.post<CouponSettingReqBody>(
     `/admin/coupon-setting?cafe-id=${params.cafeId}`,
-    ownerHeader,
+    ownerHeader(),
     body,
   );
 };
 
 export const postRegisterCafe = async ({ body }: MutateReq<CafeRegisterReqBody>) => {
-  return await api.post<CafeRegisterReqBody>('/admin/cafes', ownerHeader, body);
+  return await api.post<CafeRegisterReqBody>('/admin/cafes', ownerHeader(), body);
 };
 
 export const postIsFavorites = async ({
@@ -61,7 +61,7 @@ export const postIsFavorites = async ({
   if (!params) return;
   return await api.post<IsFavoritesReqBody>(
     `/cafes/${params.cafeId}/favorites`,
-    customerHeader,
+    customerHeader(),
     body,
   );
 };
@@ -77,5 +77,5 @@ export const postUploadImage = async (file: File) => {
 };
 
 export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserReqBody>) => {
-  return await api.post<RegisterUserReqBody>('/profiles/phone-number', customerHeader, body);
+  return await api.post<RegisterUserReqBody>('/profiles/phone-number', customerHeader(), body);
 };
