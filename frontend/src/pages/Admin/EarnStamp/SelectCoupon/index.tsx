@@ -99,6 +99,16 @@ const SelectCoupon = () => {
     },
   });
 
+  if (
+    couponStatus === 'loading' ||
+    customerStatus === 'loading' ||
+    couponDesignStatus === 'loading'
+  )
+    return <p>Loading</p>;
+
+  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
+    return <p>Error</p>;
+
   const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (value !== 'current' && value !== 'new') return;
@@ -108,7 +118,7 @@ const SelectCoupon = () => {
   };
 
   const moveNextStep = () => {
-    selectedCoupon === 'current'
+    selectedCoupon === 'current' || coupon.coupons.length !== 0
       ? navigate(ROUTER_PATH.earnStamp, {
           state: {
             isPrevious,
@@ -119,16 +129,6 @@ const SelectCoupon = () => {
         })
       : mutateIssueCoupon();
   };
-
-  if (
-    couponStatus === 'loading' ||
-    customerStatus === 'loading' ||
-    couponDesignStatus === 'loading'
-  )
-    return <p>Loading</p>;
-
-  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
-    return <p>Error</p>;
 
   const foundCustomer = customer.customer[0];
   const foundCoupon = coupon.coupons[0];
