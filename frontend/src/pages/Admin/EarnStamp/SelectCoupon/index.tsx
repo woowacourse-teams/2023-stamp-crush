@@ -14,7 +14,12 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import FlippedCoupon from '../../../CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { getCoupon, getCouponDesign, getCustomer } from '../../../../api/get';
+import {
+  getCoupon,
+  getCouponDesign,
+  getCurrentCouponDesign,
+  getCustomer,
+} from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
 import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
@@ -69,8 +74,12 @@ const SelectCoupon = () => {
 
   const { data: couponDesignData, status: couponDesignStatus } = useQuery({
     queryKey: ['couponDesign'],
-    queryFn: () => getCouponDesign({ params: { cafeId } }),
-    enabled: cafeId !== INVALID_CAFE_ID,
+    queryFn: () => {
+      if (!coupon) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
+      if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
+
+      return getCurrentCouponDesign({ params: { couponId: coupon.coupons[0].id, cafeId } });
+    },
   });
 
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
