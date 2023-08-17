@@ -213,7 +213,7 @@ const ManageCafe = () => {
           <PreviewContentContainer>
             <Text>
               <FaRegClock size={25} />
-              {`여는 시간 ${parseTime(openTime)}\n닫는 시간 ${parseTime(closeTime)}`}
+              {`${parseTime(openTime)} - ${parseTime(closeTime)}`}
             </Text>
             <Text>
               <FaPhoneAlt size={25} />
