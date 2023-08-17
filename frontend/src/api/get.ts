@@ -19,6 +19,7 @@ import {
   SampleCouponRes,
   StampHistoryRes,
   UsedParams,
+  CustomerProfileRes,
 } from '../types/api';
 
 export const getCafe = async () => {
@@ -100,4 +101,8 @@ export const getOAuthToken = async (
     `/login/${params.resourceServer}/token?code=${params.code}`,
     init,
   );
+};
+
+export const getCustomerProfile = async () => {
+  return await api.get<CustomerProfileRes>('/profiles');
 };

@@ -9,6 +9,7 @@ import {
   Customer,
   StampHistoryType,
   Reward,
+  CustomerProfile,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -143,8 +144,13 @@ export interface OAuthTokenParams {
 }
 
 export interface OAuthJWTRes {
+  customerId?: number;
   accessToken: string;
   refreshToken: string;
   grantType: 'Bearer';
   expiresIn: number;
+}
+
+export interface CustomerProfileRes {
+  profile: CustomerProfile;
 }
