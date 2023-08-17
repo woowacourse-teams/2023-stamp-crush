@@ -66,7 +66,7 @@ const RewardPage = () => {
         customerId: customerData.customer[0].id,
       },
       body: {
-        used: false,
+        used: true,
         cafeId,
       },
     });

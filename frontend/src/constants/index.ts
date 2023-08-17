@@ -114,7 +114,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
-  useReward: '/admin/useReward',
+  useReward: '/admin/use-reward',
   couponList: '/',
   login: '/login',
   signup: '/sign-up',
