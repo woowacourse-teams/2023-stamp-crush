@@ -8,10 +8,7 @@ import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,12 +17,13 @@ public class ManagerCafeCouponSettingFindApiController {
 
     private final ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
 
-    @GetMapping
-    public ResponseEntity<CafeCouponSettingFindResponse> findCafeCouponSetting(
+    @GetMapping("/{couponId}")
+    public ResponseEntity<CafeCouponSettingFindResponse> findCouponSetting(
             OwnerAuth owner,
-            @RequestParam("cafe-id") Long cafeId
+            @RequestParam("cafe-id") Long cafeId,
+            @PathVariable("couponId") Long couponId
     ) {
-        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCafeCouponSetting(cafeId);
+        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCouponSetting(cafeId, couponId);
         CafeCouponSettingFindResponse response = new CafeCouponSettingFindResponse(
                 cafeCouponSetting.getFrontImageUrl(),
                 cafeCouponSetting.getBackImageUrl(),
@@ -37,4 +35,25 @@ public class ManagerCafeCouponSettingFindApiController {
                                 stamp.getYCoordinate())).toList());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping
+    public ResponseEntity<CafeCouponSettingFindResponse> findCafeCouponSetting(
+            OwnerAuth owner,
+            @RequestParam("cafe-id") Long cafeId,
+            @PathVariable("couponId") Long couponId
+    ) {
+        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCouponSetting(cafeId, couponId);
+        CafeCouponSettingFindResponse response = new CafeCouponSettingFindResponse(
+                cafeCouponSetting.getFrontImageUrl(),
+                cafeCouponSetting.getBackImageUrl(),
+                cafeCouponSetting.getStampImageUrl(),
+                cafeCouponSetting.getCoordinates().stream()
+                        .map(stamp -> new CafeCouponCoordinateFindResponse(
+                                stamp.getOrder(),
+                                stamp.getXCoordinate(),
+                                stamp.getYCoordinate())).toList());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
 }
