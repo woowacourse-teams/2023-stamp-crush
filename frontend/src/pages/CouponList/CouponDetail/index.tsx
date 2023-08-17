@@ -95,7 +95,7 @@ const CouponDetail = ({
         <ContentContainer>
           <Text ariaLabel="쿠폰 정책">
             <FaRegBell size={22} />
-            {`스탬프 ${couponInfos.maxStampCount}개를 채우면 ${couponInfos.rewardName} 무료!`}
+            {`${couponInfos.rewardName} 무료!`}
           </Text>
           <Text ariaLabel="영업 시간">
             <FaRegClock size={22} />

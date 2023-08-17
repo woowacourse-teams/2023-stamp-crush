@@ -44,7 +44,7 @@ export const OverviewContainer = styled.div`
   flex-direction: column;
   position: absolute;
   align-items: center;
-  width: 100%;
+  width: 300px;
   height: 130px;
   top: 260px;
   padding: 0 30px;
@@ -59,6 +59,7 @@ export const OverviewContainer = styled.div`
 
   :nth-child(2) {
     overflow: scroll;
+    text-align: center;
   }
 `;
 
@@ -75,12 +76,11 @@ export const ContentContainer = styled.div`
   position: absolute;
   bottom: 15%;
   left: 50px;
-  width: 300px;
+  width: 345px;
   gap: 10px;
 
   :nth-child(n) {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
