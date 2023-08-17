@@ -153,3 +153,10 @@ export type RewardHistoryDateProperties = Exclude<
   keyof RewardHistoryType,
   'id' | 'rewardName' | 'cafeName'
 >;
+
+export interface CustomerProfile {
+  id: number;
+  nickname: string;
+  phoneNumber: string | null;
+  email: string | null;
+}

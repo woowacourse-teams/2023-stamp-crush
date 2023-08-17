@@ -20,6 +20,7 @@ import {
   SampleCouponRes,
   StampHistoryRes,
   UsedParams,
+  CustomerProfileRes,
 } from '../types/api';
 
 export const getCafe = async () => {
@@ -102,6 +103,10 @@ export const getOAuthToken = async (
     init,
   );
 };
+
+export const getCustomerProfile = async () => {
+  return await api.get<CustomerProfileRes>('/profiles');
+}
 
 export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
