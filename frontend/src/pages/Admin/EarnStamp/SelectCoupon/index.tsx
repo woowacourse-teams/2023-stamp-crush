@@ -165,7 +165,7 @@ const SelectCoupon = () => {
               type="radio"
               value="new"
               onChange={selectCoupon}
-              checked={selectedCoupon === 'new'}
+              checked={selectedCoupon === 'new' || coupon.coupons.length === 0}
             />
             <CouponSelectorLabel htmlFor="new" $isChecked={!isPrevious}>
               <SelectTitle>새 쿠폰 발급</SelectTitle>
