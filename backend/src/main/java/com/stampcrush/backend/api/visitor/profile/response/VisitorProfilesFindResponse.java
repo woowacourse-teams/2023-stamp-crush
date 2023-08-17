@@ -6,17 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisitorProfilesFindResponse {
 
-    private List<VisitorProfileFindResponse> profile;
+    private VisitorProfileFindResponse profile;
 
     public static VisitorProfilesFindResponse from(VisitorProfileFindResultDto dto) {
-        return new VisitorProfilesFindResponse(List.of(VisitorProfileFindResponse.from(dto)));
+        return new VisitorProfilesFindResponse(VisitorProfileFindResponse.from(dto));
     }
 
     @Getter
