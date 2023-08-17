@@ -16,7 +16,7 @@ public class VisitorProfileFindService {
     private RegisterCustomerRepository registerCustomerRepository;
 
     public VisitorProfileFindResultDto findProfile(Long customerId) {
-        RegisterCustomer customer = registerCustomerRepository.findById(Math.toIntExact(customerId))
+        RegisterCustomer customer = registerCustomerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("고객이 존재하지 않습니다"));
 
         return new VisitorProfileFindResultDto(customer.getId(), customer.getNickname(), customer.getPhoneNumber(), customer.getEmail());
