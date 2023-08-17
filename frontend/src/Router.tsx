@@ -4,7 +4,7 @@ import { ROUTER_PATH } from './constants';
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/CouponList';
-import EnterPhoneNumber from './pages/EnterPhoneNumber';
+import EnterPhoneNumber from './pages/Admin/EnterPhoneNumber';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
@@ -24,6 +24,7 @@ import Auth from './pages/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
+import InputPhoneNumber from './pages/InputPhoneNumber';
 
 const AdminRoot = () => {
   return (
@@ -90,6 +91,7 @@ const Router = () => {
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
         { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
+        { path: ROUTER_PATH.inputPhoneNumber, element: <InputPhoneNumber /> },
       ],
     },
   ]);

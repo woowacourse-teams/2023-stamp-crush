@@ -106,7 +106,7 @@ export const getOAuthToken = async (
 
 export const getCustomerProfile = async () => {
   return await api.get<CustomerProfileRes>('/profiles');
-}
+};
 
 export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);

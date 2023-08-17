@@ -13,9 +13,14 @@ import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
 import Header from './Header';
+import { useIsLoggedIn } from '../../hooks/useIsLoggedIn';
+import { useRedirectRegisterPage } from '../../hooks/useRedirectRegisterPage';
+import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const CouponList = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useIsLoggedIn('customer');
+  const { customerProfile } = useCustomerProfile();
   const { isOpen, openModal, closeModal } = useModal();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLast, setIsLast] = useState(false);
@@ -33,6 +38,8 @@ const CouponList = () => {
   } = useQuery<CouponRes>(['coupons'], getCoupons);
 
   useEffect(() => {
+    if (!isLoggedIn) navigate(ROUTER_PATH.login);
+    if (customerProfile?.profile.phoneNumber === null) navigate(ROUTER_PATH.phoneNumber);
     if (couponData) {
       setCurrentIndex(couponData?.coupons.length - 1);
     }
