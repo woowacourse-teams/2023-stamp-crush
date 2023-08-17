@@ -6,7 +6,7 @@ export const cafes = {
       openTime: '09:00',
       closeTime: '18:00',
       telephoneNumber: '0212345678',
-      cafeImageUrl: 'https://picsum.photos/200/300',
+      cafeImageUrl: null,
       roadAddress: '서울시 송파구',
       detailAddress: '루터회관',
       businessRegistrationNumber: '00-000-00000',

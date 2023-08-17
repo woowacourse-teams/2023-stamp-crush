@@ -12,6 +12,7 @@ import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
 import FlippedCoupon from '../../CouponList/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();
@@ -39,7 +40,7 @@ const EarnStamp = () => {
   );
 
   if (couponStatus === 'error') return <p>Error</p>;
-  if (couponStatus === 'loading') return <p>Loading</p>;
+  if (couponStatus === 'loading') return <LoadingSpinner />;
 
   const earnStamp = () => {
     mutate({
