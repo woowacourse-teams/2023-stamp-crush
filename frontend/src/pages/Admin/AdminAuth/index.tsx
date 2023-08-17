@@ -20,6 +20,7 @@ const AdminAuth = () => {
     localStorage.setItem('admin-login-token', response.accessToken);
 
     // 카페정보 조회해서 없으면 카페등록페이지, 있으면 고객목록페이지로 가야함.
+
     navigate(ROUTER_PATH.customerList);
   };
 

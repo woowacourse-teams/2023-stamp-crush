@@ -12,7 +12,6 @@ import {
   LogoutContainer,
   SideBarContainer,
   SideBarContent,
-  SideBarLink,
 } from './style';
 import { useEffect, useState } from 'react';
 import {
@@ -85,16 +84,27 @@ const SideBar = () => {
     setCurrentIndex(foundIndex + 1);
   }, [current]);
 
-  if (current === ROUTER_PATH.registerCafe) return <></>;
-
   const handleLogout = () => {
-    // TODO: log out 로직
+    localStorage.removeItem('admin-login-token');
+    localStorage.removeItem('login-token');
+
     navigate(ROUTER_PATH.adminLogin);
   };
 
   const checkIncludeRoute = (value: string, route: string, routes: string[]) => {
     if (value !== route) return false;
     return routes.some((route) => current.includes(route));
+  };
+
+  const routeSideBar = (index: number) => () => {
+    if (current === ROUTER_PATH.registerCafe) {
+      alert('카페 등록 후 사용하실 수 있는 서비스입니다. 😄');
+      return;
+    }
+    if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) return;
+
+    setCurrentIndex(index + 1);
+    navigate(SIDE_BAR_OPTIONS[index].value);
   };
 
   return (
@@ -119,26 +129,19 @@ const SideBar = () => {
               }
               $currentIndex={index + 1}
             >
-              <SideBarLink to={value}>
-                <LabelContent
-                  $isSelected={
-                    value === current ||
-                    (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
-                      isDesignCoupon) ||
-                    (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
-                    (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
-                  }
-                  onClick={() => {
-                    if (index === 0 || index === SIDE_BAR_OPTIONS.length - 1) {
-                      return;
-                    }
-                    setCurrentIndex(index + 1);
-                  }}
-                >
-                  {SIDEBAR_ICONS[index]}
-                  {key}
-                </LabelContent>
-              </SideBarLink>
+              <LabelContent
+                $isSelected={
+                  value === current ||
+                  (checkIncludeRoute(value, modifyPolicyCoupon, designCouponRoutes) &&
+                    isDesignCoupon) ||
+                  (checkIncludeRoute(value, enterStamp, stampRoutes) && isEarnStamp) ||
+                  (checkIncludeRoute(value, enterReward, rewardRoutes) && isUseReward)
+                }
+                onClick={routeSideBar(index)}
+              >
+                {SIDEBAR_ICONS[index]}
+                {key}
+              </LabelContent>
             </SideBarContent>
           );
         })}

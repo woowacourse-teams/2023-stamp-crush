@@ -33,6 +33,7 @@ import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindServic
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
@@ -151,6 +152,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
+
+    @MockBean
+    public AuthTokensGenerator authTokensGenerator;
 
     @BeforeAll
     static void setUpAuth() {

@@ -8,6 +8,7 @@ import useFindAddress from '../../../hooks/useFindAddress';
 import { postRegisterCafe } from '../../../api/post';
 import { ROUTER_PATH } from '../../../constants';
 import { CafeRegisterReqBody, MutateReq } from '../../../types/api';
+import { useCafeQuery } from '../../../hooks/useRedirectRegisterPage';
 
 const RegisterCafe = () => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
@@ -17,9 +18,11 @@ const RegisterCafe = () => {
   const [roadAddress, setRoadAddress] = useState('');
   const { openAddressPopup } = useFindAddress(setRoadAddress);
   const navigate = useNavigate();
+  const { refetch: refetchCafe } = useCafeQuery();
 
   const { mutate, isLoading, isError } = useMutation(postRegisterCafe, {
     onSuccess: () => {
+      refetchCafe();
       navigate(ROUTER_PATH.customerList);
     },
     onError: () => {

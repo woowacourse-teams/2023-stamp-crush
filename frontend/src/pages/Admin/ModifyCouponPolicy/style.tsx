@@ -11,7 +11,7 @@ export const StepContainer = styled.div`
   justify-content: space-between;
   width: 60%;
   max-width: 500px;
-  height: 60%;
+  height: 550px;
 `;
 
 export const StepWrapper = styled.div`

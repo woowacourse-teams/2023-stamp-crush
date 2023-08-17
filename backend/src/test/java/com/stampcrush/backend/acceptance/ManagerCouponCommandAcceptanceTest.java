@@ -1,9 +1,11 @@
 package com.stampcrush.backend.acceptance;
 
+import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
+import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponsFindResponse;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -15,9 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_YOUNGHO;
@@ -35,18 +40,28 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     @Autowired
     private RegisterCustomerRepository registerCustomerRepository;
 
+    private static Response 고객_조회_요청(Owner owner, Long savedCafeId) {
+        return given()
+                .log().all()
+                .auth().preemptive()
+                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+
+                .when()
+                .get("/api/admin/cafes/{cafeId}/customers", savedCafeId);
+    }
+
     @Test
     void 쿠폰을_발급한다() {
         // given
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         RegisterCustomer savedCustomer = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
-        CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust, savedCustomer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, savedCustomer.getId());
 
-        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, savedCustomer);
 
         // then
         assertAll(
@@ -73,15 +88,15 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         RegisterCustomer savedCustomer = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
-        CouponCreateRequest reqeust = new CouponCreateRequest(savedCafeId);
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust, savedCustomer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, savedCustomer.getId());
 
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
         쿠폰에_스탬프를_적립_요청(owner, savedCustomer, couponId, stampCreateRequest);
 
-        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, savedCustomer);
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, savedCustomer);
 
         // then
         assertAll(
@@ -196,16 +211,6 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 .containsExactlyInAnyOrder(customer1Expected, customer2Expected);
     }
 
-    private static Response 고객_조회_요청(Owner owner, Long savedCafeId) {
-        return given()
-                .log().all()
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
-                .when()
-                .get("/api/admin/cafes/{cafeId}/customers", savedCafeId);
-    }
-
     @Test
     void 인증정보_없이_특정_카페의_방문한_고객들의_정보를_조회하면_예외발생() {
         // when
@@ -241,19 +246,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, newCouponId, newCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = given()
-                .log().all()
-                .queryParam("cafe-id", savedCafeId)
-                .queryParam("active", true)
-                .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
-                .when()
-                .get("/api/admin/customers/{customerId}/coupons", customer.getId())
-
-                .thenReturn()
-                .jsonPath()
-                .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
+        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, owner, customer);
+        CustomerAccumulatingCouponsFindResponse coupons = response.body().as(CustomerAccumulatingCouponsFindResponse.class);
         // then
         CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(newCouponId,
                 customer.getId(),
@@ -263,7 +257,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 false,
                 10);
 
-        assertThat(coupons).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+        assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 
@@ -280,10 +274,42 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(owner, customer, oldCouponId, oldCouponStampCreate);
 
         // when
-        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(savedCafeId, customer);
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, customer);
 
         // then
         assertThat(coupons).isEmpty();
+    }
+
+    @Test
+    void 카페_정책을_바꾸고_현재_적립_중인_쿠폰이_이전_정책의_쿠폰일때_isPrevious_true_확인() {
+        // given
+        Owner owner = 사장_생성();
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+
+        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
+        StampCreateRequest stampCreateRequest = new StampCreateRequest(3);
+        쿠폰에_스탬프를_적립_요청(owner, customer, couponId, stampCreateRequest);
+
+        CafeCouponSettingUpdateRequest updateRequest = CAFE_COUPON_SETTING_UPDATE_REQUEST;
+        카페_쿠폰_정책_수정_요청(updateRequest, owner, savedCafeId);
+
+        // when
+        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, owner, customer);
+        CustomerAccumulatingCouponsFindResponse coupons = response.body().as(CustomerAccumulatingCouponsFindResponse.class);
+
+        // then
+        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(couponId,
+                customer.getId(),
+                customer.getNickname(),
+                stampCreateRequest.getEarningStampCount(),
+                null,
+                true,
+                10);
+
+        assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+                .containsExactlyInAnyOrder(expected);
     }
 
     private Owner 사장_생성() {

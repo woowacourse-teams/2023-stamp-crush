@@ -1,6 +1,8 @@
 package com.stampcrush.backend.repository.user;
 
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.common.KorNamingConverter;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +43,23 @@ class RegisterCustomerRepositoryTest {
 
         // then
         assertThat(findCustomer).isEmpty();
+    }
+
+    @Test
+    void OAuthProvider와_OAuthId로_고객을_조회한다() {
+        long oAuthId = 123L;
+        OAuthProvider oauthProvider = OAuthProvider.KAKAO;
+
+        RegisterCustomer customer = RegisterCustomer.builder()
+                .nickname("제나")
+                .email("yenawee@naver.com")
+                .oAuthId(oAuthId)
+                .oAuthProvider(oauthProvider)
+                .build();
+
+        Customer savedCustomer = registerCustomerRepository.save(customer);
+        RegisterCustomer findCustomer = registerCustomerRepository.findByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
+
+        assertThat(savedCustomer).isEqualTo(findCustomer);
     }
 }
