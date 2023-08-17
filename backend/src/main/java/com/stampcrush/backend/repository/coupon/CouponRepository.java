@@ -18,7 +18,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     List<Coupon> findByCafeAndCustomerAndStatus(@Param("cafe") Cafe cafe, @Param("customer") Customer customer, @Param("status") CouponStatus status);
 
-    @Query("SELECT c FROM Coupon c LEFT JOIN Favorites f ON c.cafe.id = f.cafe.id WHERE c.customer = :customer AND c.status = :status ORDER BY f.isFavorites ASC, c.expiredDate ASC")
+    @Query("SELECT c FROM Coupon c LEFT JOIN Favorites f ON c.cafe.id = f.cafe.id WHERE c.customer = :customer AND c.status = :status ORDER BY f.isFavorites DESC, c.expiredDate ASC")
     List<Coupon> findFilteredAndSortedCoupons(@Param("customer") Customer customer, @Param("status") CouponStatus status);
 
     Optional<Coupon> findByIdAndCustomerId(Long id, Long customerId);
