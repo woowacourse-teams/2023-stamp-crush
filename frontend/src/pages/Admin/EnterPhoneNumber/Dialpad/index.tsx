@@ -22,6 +22,7 @@ const Dialpad = () => {
         onChange={handlePhoneNumber}
         onKeyDown={handleBackspace}
         autoComplete="off"
+        inputMode="none"
       />
       <KeyContainer>
         {DIAL_KEYS.map((dialKey) => (

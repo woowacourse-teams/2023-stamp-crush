@@ -2,10 +2,8 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getOAuthToken } from '../../api/get';
 import { ROUTER_PATH } from '../../constants';
-import { useCustomerProfile } from '../../hooks/useCustomerProfile';
 
 const Auth = () => {
-  const { customerProfile } = useCustomerProfile();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
@@ -21,10 +19,6 @@ const Auth = () => {
 
     localStorage.setItem('login-token', response.accessToken);
 
-    if (customerProfile?.profile.phoneNumber) {
-      navigate(ROUTER_PATH.couponList);
-      return;
-    }
     navigate(ROUTER_PATH.inputPhoneNumber);
   };
 
