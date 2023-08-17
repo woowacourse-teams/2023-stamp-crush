@@ -3,7 +3,7 @@ import { CustomerKakaoLoginButton } from '../../assets';
 import { Container } from './style';
 
 const Login = () => {
-  const KAKAO_LOGIN_PAGE_URL = 'https://stampcrush.site/api/login/kakao';
+  const KAKAO_LOGIN_PAGE_URL = `${process.env.REACT_APP_BASE_URL}/login/kakao`;
 
   return (
     <Container>

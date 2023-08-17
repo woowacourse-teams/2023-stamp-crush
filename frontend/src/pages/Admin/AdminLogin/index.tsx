@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
 import { Container, KakaoLoginImg, LogoImg, NaverLoginLink } from './style';
-import { MouseEvent, useEffect } from 'react';
+import { MouseEvent } from 'react';
 import { ROUTER_PATH } from '../../../constants';
 
 const AdminLogin = () => {
