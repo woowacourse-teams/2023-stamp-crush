@@ -25,6 +25,7 @@ import { getCafeInfo } from '../../../api/get';
 import { deleteCoupon } from '../../../api/delete';
 import useModal from '../../../hooks/useModal';
 import Alert from '../../../components/Alert';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -67,7 +68,7 @@ const CouponDetail = ({
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (cafeStatus === 'loading') return <>Loading</>;
+  if (cafeStatus === 'loading') return <CustomerLoadingSpinner />;
   if (cafeStatus === 'error') return <>error</>;
 
   return (
