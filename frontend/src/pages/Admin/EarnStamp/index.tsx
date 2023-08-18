@@ -40,13 +40,13 @@ const EarnStamp = () => {
   );
 
   const { data: couponDesignData, status: couponDesignStatus } = useQuery({
-    queryKey: ['couponDesignData'],
+    queryKey: ['couponDesignData', couponData],
     queryFn: () => {
       if (!couponData) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
 
       return getCurrentCouponDesign({ params: { couponId: couponData.coupons[0].id, cafeId } });
     },
-    enabled: couponData && couponData.coupons.length !== 0,
+    enabled: !!couponData && couponData.coupons.length !== 0,
   });
 
   if (couponStatus === 'error' || couponDesignStatus === 'error') return <p>Error</p>;
