@@ -14,6 +14,7 @@ import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
 import Header from './Header';
 import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import CustomerLoadingSpinner from '../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const CouponList = () => {
   });
 
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (couponStatus === 'loading') return <>로딩 중입니다.</>;
+  if (couponStatus === 'loading') return <CustomerLoadingSpinner />;
 
   const { coupons } = couponData;
 
