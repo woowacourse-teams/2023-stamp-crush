@@ -25,6 +25,7 @@ import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import InputPhoneNumber from './pages/InputPhoneNumber';
+import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 
 const AdminRoot = () => {
   return (
@@ -81,7 +82,7 @@ const Router = () => {
     {
       path: '/',
       element: <CustomerRoot />,
-      errorElement: <NotFound />,
+      errorElement: <CustomerNotFound />,
       children: [
         { index: true, element: <CouponList /> },
         { path: ROUTER_PATH.auth, element: <Auth /> },
