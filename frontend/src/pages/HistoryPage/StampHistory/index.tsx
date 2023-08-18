@@ -5,6 +5,7 @@ import { StampHistoryType } from '../../../types';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../utils';
 import { DATE_PARSE_OPTION } from '../../../constants';
 import HistoryPage from '../HistoryPage';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {
@@ -47,7 +48,11 @@ const StampHistoryPage = () => {
   const title = '스탬프 적립 내역';
 
   if (stampStatus === 'loading') {
-    return <HistoryPage title={title}>로딩중입니다..</HistoryPage>;
+    return (
+      <HistoryPage title={title}>
+        <CustomerLoadingSpinner />
+      </HistoryPage>
+    );
   }
   if (stampStatus === 'error') {
     return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;
