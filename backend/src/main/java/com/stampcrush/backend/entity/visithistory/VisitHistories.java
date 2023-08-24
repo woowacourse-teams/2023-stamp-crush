@@ -17,6 +17,9 @@ public class VisitHistories {
     }
 
     public LocalDateTime getFirstVisitDate() {
+        if (visitHistories.isEmpty()) {
+            return LocalDateTime.now();
+        }
         VisitHistory firstVisit = visitHistories.stream()
                 .min(Comparator.comparing(BaseDate::getCreatedAt))
                 .get();

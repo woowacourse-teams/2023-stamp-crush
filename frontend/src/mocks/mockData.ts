@@ -6,7 +6,7 @@ export const cafes = {
       openTime: '09:00',
       closeTime: '18:00',
       telephoneNumber: '0212345678',
-      cafeImageUrl: 'https://picsum.photos/200/300',
+      cafeImageUrl: null,
       roadAddress: '서울시 송파구',
       detailAddress: '루터회관',
       businessRegistrationNumber: '00-000-00000',
@@ -23,6 +23,22 @@ export const samples8 = {
     },
     {
       id: 2,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
+    {
+      id: 3,
+      imageUrl: 'https://picsum.photos/270/150',
+    },
+    {
+      id: 4,
+      imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+    },
+    {
+      id: 5,
+      imageUrl: 'https://picsum.photos/270/150',
+    },
+    {
+      id: 6,
       imageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
     },
   ],

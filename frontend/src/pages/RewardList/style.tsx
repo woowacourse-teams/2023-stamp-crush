@@ -20,9 +20,10 @@ export const CafeName = styled.span`
 `;
 
 export const RewardName = styled.span`
-  width: 100px;
+  max-width: 100px;
+
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.point};
+  color: ${({ theme }) => theme.colors.text};
 `;

@@ -1,23 +1,21 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
-import { RowSpacing, Spacing } from '../../../style/layout/common';
-import {
-  CouponSelectorContainer,
-  CouponSelectorWrapper,
-  ExpirationDate,
-  TitleWrapper,
-} from '../SelectCoupon/style';
+import { Spacing } from '../../../style/layout/common';
 import { useState } from 'react';
 import Stepper from '../../../components/Stepper';
-import { useMutation } from '@tanstack/react-query';
-import { CouponStepperWrapper, EarnStampContainer, StepperGuide } from './style';
-import { getCoupon } from '../../../api/get';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
+import { getCoupon, getCurrentCouponDesign } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
-import { ROUTER_PATH } from '../../../constants';
-import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
+import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
+import { IssuedCouponsRes } from '../../../types/api';
+import FlippedCoupon from '../../CouponList/FlippedCoupon';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const EarnStamp = () => {
+  const cafeId = useRedirectRegisterPage();
   const [stamp, setStamp] = useState(1);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -25,6 +23,7 @@ const EarnStamp = () => {
   const { mutate } = useMutation({
     mutationFn: postEarnStamp,
     onSuccess: () => {
+      alert('스탬프 적립에 성공했습니다.');
       navigate(ROUTER_PATH.customerList);
     },
     onError: () => {
@@ -32,10 +31,26 @@ const EarnStamp = () => {
     },
   });
 
-  const { data: couponData } = useSuspendedQuery({
-    queryKey: ['earn-stamp-coupons', state.customer],
-    queryFn: () => getCoupon({ params: { customerId: state.customer.id, cafeId: 1 } }),
+  const { data: couponData, status: couponStatus } = useQuery<IssuedCouponsRes>(
+    ['earn-stamp-coupons', state.customer],
+    () => getCoupon({ params: { customerId: state.customer.id, cafeId } }),
+    {
+      enabled: cafeId !== INVALID_CAFE_ID,
+    },
+  );
+
+  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
+    queryKey: ['couponDesignData', couponData],
+    queryFn: () => {
+      if (!couponData) throw new Error('쿠폰 정보를 불러오지 못했습니다.');
+
+      return getCurrentCouponDesign({ params: { couponId: couponData.coupons[0].id, cafeId } });
+    },
+    enabled: !!couponData && couponData.coupons.length !== 0,
   });
+
+  if (couponStatus === 'error' || couponDesignStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <LoadingSpinner />;
 
   const earnStamp = () => {
     mutate({
@@ -50,37 +65,35 @@ const EarnStamp = () => {
   };
 
   return (
-    <EarnStampContainer>
-      <TitleWrapper>
-        <Text variant="pageTitle">스탬프 적립</Text>
-        <Text variant="subTitle">2/2</Text>
-      </TitleWrapper>
-      <Spacing $size={90} />
-      <Text variant="subTitle">{state.customer.nickname} 고객님의 현재 쿠폰</Text>
-      <Spacing $size={80} />
+    <>
+      <Spacing $size={40} />
+      <Text variant="pageTitle">스탬프 적립</Text>
+      <Spacing $size={40} />
+      <Text variant="subTitle">
+        step2. {state.customer.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.
+      </Text>
       <CouponSelectorContainer>
+        <Stepper value={stamp} setValue={setStamp} />
         <CouponSelectorWrapper>
           <Text>
-            현재 스탬프 개수: {couponData.coupons[0].stampCount}/{10}
+            현재 스탬프 개수: {couponData.coupons[0].stampCount}/
+            {couponData.coupons[0].maxStampCount}
           </Text>
           <Spacing $size={8} />
-          <img src="https://picsum.photos/seed/picsum/270/150" width={270} height={150} />
+          <FlippedCoupon
+            frontImageUrl={couponDesignData.frontImageUrl}
+            backImageUrl={couponDesignData.backImageUrl}
+            stampImageUrl={couponDesignData.stampImageUrl}
+            stampCount={couponData.coupons[0].stampCount}
+            coordinates={couponDesignData.coordinates}
+            isShown={true}
+          />
           <Spacing $size={45} />
-          <ExpirationDate>쿠폰 유효기간: {couponData.coupons[0].expireDate}까지</ExpirationDate>
+          <span>쿠폰 유효기간: {couponData.coupons[0].expireDate}까지</span>
         </CouponSelectorWrapper>
-        <RowSpacing $size={110} />
-        <CouponStepperWrapper>
-          <StepperGuide>
-            현재 쿠폰에 적립할
-            <br /> 스탬프 개수를 설정해주세요.
-          </StepperGuide>
-          <Spacing $size={30} />
-          <Stepper value={stamp} setValue={setStamp} />
-        </CouponStepperWrapper>
+        <Button onClick={earnStamp}>적립</Button>
       </CouponSelectorContainer>
-      <Spacing $size={70} />
-      <Button onClick={earnStamp}>적립하기</Button>
-    </EarnStampContainer>
+    </>
   );
 };
 

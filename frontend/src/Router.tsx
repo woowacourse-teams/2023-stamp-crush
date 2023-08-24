@@ -4,7 +4,7 @@ import { ROUTER_PATH } from './constants';
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/CouponList';
-import EnterPhoneNumber from './pages/EnterPhoneNumber';
+import EnterPhoneNumber from './pages/Admin/EnterPhoneNumber';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
@@ -13,7 +13,7 @@ import MyPage from './pages/MyPage';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
-import SelectCoupon from './pages/Admin/SelectCoupon';
+import SelectCoupon from './pages/Admin/EarnStamp/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
@@ -27,6 +27,8 @@ import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesig
 import { Suspense } from 'react';
 import CustomerLoading from './components/LoadingSpinner/CustomerLoading';
 import ErrorBoundary from './components/ErrorBoundary';
+import InputPhoneNumber from './pages/InputPhoneNumber';
+import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 
 const AdminRoot = () => {
   return (
@@ -85,7 +87,7 @@ const Router = () => {
     {
       path: '/',
       element: <CustomerRoot />,
-      errorElement: <NotFound />,
+      errorElement: <CustomerNotFound />,
       children: [
         { index: true, element: <CouponList /> },
         { path: ROUTER_PATH.auth, element: <Auth /> },
@@ -95,6 +97,7 @@ const Router = () => {
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
         { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
+        { path: ROUTER_PATH.inputPhoneNumber, element: <InputPhoneNumber /> },
       ],
     },
   ]);

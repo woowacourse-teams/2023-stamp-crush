@@ -114,7 +114,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
-  useReward: '/admin/useReward',
+  useReward: '/admin/use-reward',
   couponList: '/',
   login: '/login',
   signup: '/sign-up',
@@ -122,6 +122,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   rewardList: '/reward-list',
   rewardHistory: '/reward-history',
   stampHistory: '/stamp-history',
+  inputPhoneNumber: '/input-phone-number',
 } as const;
 
 export const PARAMS_ERROR_MESSAGE = '[ERROR] params를 지정해주세요.';
@@ -131,3 +132,9 @@ export const DATE_PARSE_OPTION = {
   hasMonth: true,
   hasDay: true,
 };
+
+export const INVALID_CAFE_ID = -1;
+
+export const MEGA_BYTE = 1024 ** 2;
+
+export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;

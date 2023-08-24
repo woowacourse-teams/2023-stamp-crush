@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getOAuthToken } from '../../api/get';
+import { ROUTER_PATH } from '../../constants';
 
 const Auth = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
 
@@ -16,6 +18,8 @@ const Auth = () => {
     });
 
     localStorage.setItem('login-token', response.accessToken);
+
+    navigate(ROUTER_PATH.inputPhoneNumber);
   };
 
   useEffect(() => {

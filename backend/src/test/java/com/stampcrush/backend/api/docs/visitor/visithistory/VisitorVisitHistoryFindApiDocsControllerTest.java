@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +30,9 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
 
         CustomerStampHistoryFindResultDto expected1 =
-                new CustomerStampHistoryFindResultDto(1L, "cafe1", 3, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")));
+                new CustomerStampHistoryFindResultDto(1L, "cafe1", 3, LocalDateTime.now());
         CustomerStampHistoryFindResultDto expected2 =
-                new CustomerStampHistoryFindResultDto(2L, "cafe2", 5, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")));
+                new CustomerStampHistoryFindResultDto(2L, "cafe2", 5, LocalDateTime.now());
 
         // when
         given(visitorVisitHistoryFindService.findStampHistoriesByCustomer(CUSTOMER.getId()))
@@ -53,10 +52,10 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
                                                 .description("스탬프 적립내역 조회")
                                                 .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
                                                 .responseFields(
-                                                        fieldWithPath("stampHistory[].id").description("적립내역 ID"),
-                                                        fieldWithPath("stampHistory[].cafeName").description("카페 이름"),
-                                                        fieldWithPath("stampHistory[].stampCount").description("스탬프 적립개수 "),
-                                                        fieldWithPath("stampHistory[].createdAt").description("스탬프 적립일")
+                                                        fieldWithPath("stampHistories[].id").description("적립내역 ID"),
+                                                        fieldWithPath("stampHistories[].cafeName").description("카페 이름"),
+                                                        fieldWithPath("stampHistories[].stampCount").description("스탬프 적립개수 "),
+                                                        fieldWithPath("stampHistories[].createdAt").description("스탬프 적립일")
                                                 )
                                                 .responseSchema(Schema.schema("CustomerStampHistoriesFindResponse"))
                                                 .build()

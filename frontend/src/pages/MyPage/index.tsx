@@ -2,9 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { BiArrowBack } from 'react-icons/bi';
-import { RouterPath } from '../../types';
+import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import { AiOutlineUnorderedList, AiOutlineLogout } from 'react-icons/ai';
+import { PiGiftLight } from 'react-icons/pi';
 
-// TODO: 추후에 결정된 routerPath로 수정
+const ICONS = [
+  <PiGiftLight key="rewardList" size={20} />,
+  <AiOutlineUnorderedList key="rewardHistory" />,
+  <AiOutlineUnorderedList key="stampHistory" />,
+  <AiOutlineLogout key="logout" />,
+];
+
 const MYPAGE_NAV_OPTIONS = [
   {
     key: 'rewardList',
@@ -18,31 +26,42 @@ const MYPAGE_NAV_OPTIONS = [
     key: 'stampHistory',
     value: '스탬프 적립 내역',
   },
+  {
+    key: 'logout',
+    value: '로그아웃',
+  },
 ];
 
 const MyPage = () => {
+  const { customerProfile } = useCustomerProfile();
   const navigate = useNavigate();
 
-  const navigatePage = (path: RouterPath) => () => {
-    navigate(path);
+  const navigatePage = (key: string) => () => {
+    if (key === 'logout') {
+      localStorage.setItem('login-token', '');
+      navigate(ROUTER_PATH.login);
+      return;
+    }
+
+    navigate(ROUTER_PATH[key]);
   };
 
-  // TODO: 추후에 oAuth후 받아온 닉네임으로 하드코딩된 값 '라잇' 수정
   return (
     <>
       <ArrowIconWrapper
-        onClick={navigatePage(ROUTER_PATH.couponList)}
+        onClick={navigatePage('couponList')}
         aria-label="홈으로 돌아가기"
         role="button"
       >
         <BiArrowBack size={24} />
       </ArrowIconWrapper>
       <NicknameContainer>
-        <Nickname>라잇</Nickname>님
+        <Nickname>{customerProfile?.profile.nickname}</Nickname>님
       </NicknameContainer>
       <NavContainer>
-        {MYPAGE_NAV_OPTIONS.map((option) => (
-          <NavWrapper key={option.key} onClick={navigatePage(ROUTER_PATH[option.key])}>
+        {MYPAGE_NAV_OPTIONS.map((option, index) => (
+          <NavWrapper key={option.key} onClick={navigatePage(option.key)}>
+            {ICONS[index]}
             {option.value}
           </NavWrapper>
         ))}

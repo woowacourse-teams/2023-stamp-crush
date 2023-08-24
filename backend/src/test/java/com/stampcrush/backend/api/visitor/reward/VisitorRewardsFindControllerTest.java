@@ -14,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -57,8 +58,8 @@ class VisitorRewardsFindControllerTest extends ControllerSliceTest {
                 .andExpect(jsonPath("rewards[0].id").value(reward.getId()))
                 .andExpect(jsonPath("rewards[0].rewardName").value(reward.getName()))
                 .andExpect(jsonPath("rewards[0].cafeName").value(reward.getCafe().getName()))
-                .andExpect(jsonPath("rewards[0].createdAt").value(String.valueOf(LocalDate.from(reward.getCreatedAt()))))
-                .andExpect(jsonPath("rewards[0].usedAt").value(String.valueOf(LocalDate.from(reward.getUpdatedAt()))));
+                .andExpect(jsonPath("rewards[0].createdAt").value(LocalDate.from(reward.getCreatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))))
+                .andExpect(jsonPath("rewards[0].usedAt").value(LocalDate.from(reward.getUpdatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))));
     }
 
     @Test
@@ -84,8 +85,7 @@ class VisitorRewardsFindControllerTest extends ControllerSliceTest {
                 .andExpect(jsonPath("rewards[0].id").value(reward.getId()))
                 .andExpect(jsonPath("rewards[0].rewardName").value(reward.getName()))
                 .andExpect(jsonPath("rewards[0].cafeName").value(reward.getCafe().getName()))
-                .andExpect(jsonPath("rewards[0].createdAt").value(String.valueOf(LocalDate.from(reward.getCreatedAt()))))
-                .andExpect(jsonPath("rewards[0].usedAt").value(String.valueOf(LocalDate.from(reward.getUpdatedAt()))));
-        ;
+                .andExpect(jsonPath("rewards[0].createdAt").value(LocalDate.from(reward.getCreatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))))
+                .andExpect(jsonPath("rewards[0].usedAt").value(LocalDate.from(reward.getUpdatedAt()).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))));
     }
 }

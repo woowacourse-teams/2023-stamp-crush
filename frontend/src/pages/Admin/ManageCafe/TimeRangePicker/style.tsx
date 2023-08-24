@@ -6,6 +6,7 @@ export const TimeRangePickerContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 30px;
+  color: black;
 
   select {
     width: 50px;

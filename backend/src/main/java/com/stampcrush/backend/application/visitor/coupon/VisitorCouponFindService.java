@@ -30,7 +30,7 @@ public class VisitorCouponFindService {
 
     public List<CustomerCouponFindResultDto> findOneCouponForOneCafe(Long customerId) {
         Customer customer = findExistingCustomer(customerId);
-        List<Coupon> coupons = couponRepository.findByCustomerAndStatus(customer, CouponStatus.ACCUMULATING);
+        List<Coupon> coupons = couponRepository.findFilteredAndSortedCoupons(customer, CouponStatus.ACCUMULATING);
 
         return coupons.stream()
                 .map(coupon -> formatToDto(customer, coupon))

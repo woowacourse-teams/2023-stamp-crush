@@ -1,4 +1,4 @@
-import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE } from '../constants';
+import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
 import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
 
 export const formatDate = (dateString: string) => {
@@ -15,7 +15,6 @@ export const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
-// TODO: 유효기간 없음 대응하기
 export const parseExpireDate = (value: ExpireDateOptionValue) => {
   return value === EXPIRE_DATE_NONE ? EXPIRE_DATE_MAX : +value.replaceAll('개월', '');
 };
@@ -40,8 +39,8 @@ export const parsePhoneNumber = (phoneNumber: string | undefined) => {
   }
 };
 
-export const isEmptyData = (data: string | undefined) => {
-  if (data === undefined) return true;
+export const isEmptyData = (data: string | null) => {
+  if (data === null) return true;
 
   return data.length === 0;
 };
@@ -73,4 +72,20 @@ export const transformEntries = <T extends NonNullable<unknown>, U extends keyof
   transformCallback: (target: T, propertyName: U) => T,
 ) => {
   return arr.map((element) => transformCallback(element, propertyName));
+};
+
+export const isLargeThanBoundarySize = (fileSize: number) => {
+  return fileSize > IMAGE_MAX_SIZE;
+};
+
+export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
+  const data = localStorage.getItem(key);
+  if (!data) return defaultValue;
+
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    console.error(`[ERROR] ${key}값의 LocalStorage data 파싱 과정에서 오류가 발생했습니다.`);
+    return defaultValue;
+  }
 };

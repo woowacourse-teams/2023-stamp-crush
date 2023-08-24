@@ -15,6 +15,10 @@ export const LogoImg = styled.img`
 `;
 
 export const NaverLoginLink = styled.a`
-  width: 100px;
+  margin-top: 40px;
   background: transparent;
+`;
+
+export const KakaoLoginImg = styled.img`
+  width: 200px;
 `;

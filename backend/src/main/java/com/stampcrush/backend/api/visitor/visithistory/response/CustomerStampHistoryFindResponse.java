@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.format.DateTimeFormatter;
+
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -22,7 +24,7 @@ public class CustomerStampHistoryFindResponse {
                 serviceDto.getId(),
                 serviceDto.getCafeName(),
                 serviceDto.getStampCount(),
-                serviceDto.getCreatedAt()
+                serviceDto.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy:MM:dd hh:mm:ss"))
         );
     }
 }

@@ -5,10 +5,7 @@ import com.stampcrush.backend.application.manager.cafe.dto.CafeUpdateDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
-import com.stampcrush.backend.entity.sample.SampleBackImage;
-import com.stampcrush.backend.entity.sample.SampleFrontImage;
-import com.stampcrush.backend.entity.sample.SampleStampCoordinate;
-import com.stampcrush.backend.entity.sample.SampleStampImage;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
@@ -24,8 +21,6 @@ import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.stampcrush.backend.application.manager.cafe.SampleCouponImage.*;
 
 @RequiredArgsConstructor
 @Transactional
@@ -74,29 +69,39 @@ public class ManagerCafeCommandService {
     }
 
     private void assignDefaultSampleCafeCouponToCafe(Cafe savedCafe) {
-        SampleFrontImage defaultSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
-        SampleBackImage defaultSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
+//        SampleFrontImage defaultSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
+//        SampleBackImage defaultSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
+//        SampleStampImage defaultSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
 
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(1, 37, 50, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(2, 86, 50, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(3, 134, 50, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(4, 182, 50, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(5, 233, 50, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(6, 37, 100, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(7, 86, 100, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(8, 134, 100, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(9, 182, 100, defaultSampleBackImage));
-        sampleStampCoordinateRepository.save(new SampleStampCoordinate(10, 233, 100, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(1, 37, 50, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(2, 86, 50, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(3, 134, 50, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(4, 182, 50, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(5, 233, 50, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(6, 37, 100, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(7, 86, 100, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(8, 134, 100, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(9, 182, 100, defaultSampleBackImage));
+//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(10, 233, 100, defaultSampleBackImage));
 
-        SampleStampImage defaultSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
-        CafeCouponDesign defaultCafeCouponDesign = new CafeCouponDesign(
-                defaultSampleFrontImage.getImageUrl(),
-                defaultSampleBackImage.getImageUrl(),
-                defaultSampleStampImage.getImageUrl(),
+        CafeCouponDesign defaultCafeCouponDesign = cafeCouponDesignRepository.save(new CafeCouponDesign(
+                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-50-06-263937.png",
+                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-29-33-133005.png",
+                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-54-58-672655.png",
                 false,
                 savedCafe
-        );
-        cafeCouponDesignRepository.save(defaultCafeCouponDesign);
+        ));
+
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(1, 37, 50, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(2, 86, 50, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(3, 134, 50, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(4, 182, 50, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(5, 233, 50, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(6, 37, 100, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(7, 86, 100, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(8, 134, 100, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(9, 182, 100, defaultCafeCouponDesign));
+        cafeStampCoordinateRepository.save(new CafeStampCoordinate(10, 233, 100, defaultCafeCouponDesign));
     }
 
     public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {

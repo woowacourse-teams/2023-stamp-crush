@@ -1,5 +1,6 @@
 import { api, customerHeader, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
+import { CouponDesign } from '../types';
 import {
   CafeIdParams,
   CafeInfoRes,
@@ -19,31 +20,32 @@ import {
   SampleCouponRes,
   StampHistoryRes,
   UsedParams,
+  CustomerProfileRes,
+  CouponIdParams,
 } from '../types/api';
 
 export const getCafe = async () => {
-  return await api.get<CafeRes>('/admin/cafes', ownerHeader);
+  return await api.get<CafeRes>('/admin/cafes', ownerHeader());
 };
 
 export const getCustomer = async ({ params }: QueryReq<PhoneNumberParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CustomerPhoneNumberRes>(
     `/admin/customers?phone-number=${params.phoneNumber}`,
-    ownerHeader,
+    ownerHeader(),
   );
 };
 
-// FIXME: cafeId 매개변수로 받아와서 처리
 export const getCustomers = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<CustomersRes>(`/admin/cafes/${params.cafeId}/customers`, ownerHeader);
+  return await api.get<CustomersRes>(`/admin/cafes/${params.cafeId}/customers`, ownerHeader());
 };
 
 export const getCoupon = async ({ params }: QueryReq<CustomerIdParams & CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<IssuedCouponsRes>(
     `/admin/customers/${params.customerId}/coupons?cafe-id=${params.cafeId}&active=true`,
-    ownerHeader,
+    ownerHeader(),
   );
 };
 
@@ -51,7 +53,7 @@ export const getReward = async ({ params }: QueryReq<CustomerIdParams & CafeIdPa
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<RewardRes>(
     `/admin/customers/${params.customerId}/rewards?cafe-id=${params.cafeId}&used=${false}`,
-    ownerHeader,
+    ownerHeader(),
   );
 };
 
@@ -59,26 +61,26 @@ export const getCouponSamples = async ({ params }: QueryReq<MaxStampCountParams>
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<SampleCouponRes>(
     `/admin/coupon-samples?max-stamp-count=${params.maxStampCount}`,
-    ownerHeader,
+    ownerHeader(),
   );
 };
 
 export const getCoupons = async () => {
-  return await api.get<CouponRes>('/coupons', customerHeader);
+  return await api.get<CouponRes>('/coupons', customerHeader());
 };
 
 export const getCafeInfo = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<CafeInfoRes>(`/cafes/${params.cafeId}`, customerHeader);
+  return await api.get<CafeInfoRes>(`/cafes/${params.cafeId}`, customerHeader());
 };
 
 export const getMyRewards = async ({ params }: QueryReq<UsedParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<MyRewardRes>(`/rewards?used=${params.used}`, customerHeader);
+  return await api.get<MyRewardRes>(`/rewards?used=${params.used}`, customerHeader());
 };
 
 export const getStampHistories = async () => {
-  return await api.get<StampHistoryRes>('/stamp-history', customerHeader);
+  return await api.get<StampHistoryRes>('/stamp-histories', customerHeader());
 };
 
 export const getAdminOAuthToken = async (
@@ -98,7 +100,29 @@ export const getOAuthToken = async (
 ) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<OAuthJWTRes>(
-    `/login/${params.resourceServer}/token?authorization-code=${params.code}`,
+    `/login/${params.resourceServer}/token?code=${params.code}`,
     init,
+  );
+};
+
+export const getCustomerProfile = async () => {
+  return await api.get<CustomerProfileRes>('/profiles', customerHeader());
+};
+
+export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(
+    `/admin/coupon-setting?cafe-id=${params.cafeId}`,
+    ownerHeader(),
+  );
+};
+
+export const getCurrentCouponDesign = async ({
+  params,
+}: QueryReq<CouponIdParams & CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(
+    `/admin/coupon-setting/${params.couponId}?cafe-id=${params.cafeId}`,
+    ownerHeader(),
   );
 };

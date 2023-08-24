@@ -4,13 +4,17 @@ import { Suspense, useEffect, useState } from 'react';
 import SearchBar from '../../../components/SearchBar';
 import SelectBox from '../../../components/SelectBox';
 import { getCustomers } from '../../../api/get';
-import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
+import { CUSTOMERS_ORDER_OPTIONS, INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { Customer } from '../../../types';
 import Customers from './Customers';
-import CustomerLoading from '../../../components/LoadingSpinner/CustomerLoading';
-import useSuspendedQuery from '../../../hooks/api/useSuspendedQuery';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { CustomersRes } from '../../../types/api';
 
 const CustomerList = () => {
+  const navigate = useNavigate();
+  const cafeId = useRedirectRegisterPage();
   const [searchWord, setSearchWord] = useState('');
   const [orderOption, setOrderOption] = useState({ key: 'stampCount', value: '스탬프순' });
   const orderCustomer = (customers: Customer[]) => {
@@ -22,20 +26,26 @@ const CustomerList = () => {
     });
   };
 
-  const { data, status } = useSuspendedQuery({
+  const { data, status } = useQuery<CustomersRes>({
     queryKey: ['customers'],
     queryFn: () =>
       getCustomers({
         params: {
-          cafeId: 1,
+          cafeId,
         },
       }),
     onSuccess: (data) => {
       orderCustomer(data.customers);
     },
+    enabled: cafeId !== INVALID_CAFE_ID,
   });
 
   useEffect(() => {
+    if (
+      localStorage.getItem('admin-login-token') === '' ||
+      !localStorage.getItem('admin-login-token')
+    )
+      navigate(ROUTER_PATH.adminLogin);
     if (status === 'success' && data.customers.length !== 0) {
       orderCustomer(data.customers);
     }

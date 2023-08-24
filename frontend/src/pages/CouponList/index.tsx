@@ -1,19 +1,10 @@
 import Coupon from './Coupon';
-import {
-  CouponListContainer,
-  DetailButton,
-  HeaderContainer,
-  InfoContainer,
-  LogoImg,
-  MyPageIconWrapper,
-} from './style';
+import { CouponListContainer, DetailButton, InfoContainer } from './style';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { getCoupons } from '../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { ROUTER_PATH } from '../../constants';
-import { GoPerson } from 'react-icons/go';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
 import type { CouponRes } from '../../types/api';
 import Alert from '../../components/Alert';
@@ -21,10 +12,13 @@ import useModal from '../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
 import { postIsFavorites } from '../../api/post';
 import CafeInfo from './CafeInfo';
-import { StampcrushLogo } from '../../assets';
+import Header from './Header';
+import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import CustomerLoadingSpinner from '../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 const CouponList = () => {
   const navigate = useNavigate();
+  const { customerProfile } = useCustomerProfile();
   const { isOpen, openModal, closeModal } = useModal();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLast, setIsLast] = useState(false);
@@ -42,10 +36,13 @@ const CouponList = () => {
   } = useQuery<CouponRes>(['coupons'], getCoupons);
 
   useEffect(() => {
+    if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
+      navigate(ROUTER_PATH.login);
+    if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
     if (couponData) {
       setCurrentIndex(couponData?.coupons.length - 1);
     }
-  }, [couponData]);
+  }, [couponData, customerProfile?.profile.phoneNumber]);
 
   const { mutate: mutateIsFavorites } = useMutation(postIsFavorites, {
     onSuccess: () => {
@@ -63,9 +60,18 @@ const CouponList = () => {
   });
 
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (couponStatus === 'loading') return <>로딩 중입니다.</>;
+  if (couponStatus === 'loading') return <CustomerLoadingSpinner />;
 
   const { coupons } = couponData;
+
+  if (coupons.length === 0)
+    return (
+      <>
+        <Header />
+        <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
+      </>
+    );
+
   const currentCoupon = coupons[currentIndex];
   const [currentCouponInfo] = currentCoupon.couponInfos;
 
@@ -89,10 +95,6 @@ const CouponList = () => {
       if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
       return prevIndex;
     });
-  };
-
-  const navigateMyPage = () => {
-    navigate(ROUTER_PATH.myPage);
   };
 
   const openCouponDetail = () => {
@@ -129,14 +131,7 @@ const CouponList = () => {
 
   return (
     <>
-      <HeaderContainer>
-        <Link to={ROUTER_PATH.couponList}>
-          <LogoImg src={StampcrushLogo} alt="스탬프 크러쉬 로고" role="link" />
-        </Link>
-        <MyPageIconWrapper onClick={navigateMyPage} aria-label="마이 페이지" role="button">
-          <GoPerson size={24} />
-        </MyPageIconWrapper>
-      </HeaderContainer>
+      <Header />
       {coupons.length === 0 ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
       ) : (

@@ -9,6 +9,7 @@ import {
   Customer,
   StampHistoryType,
   Reward,
+  CustomerProfile,
 } from '.';
 import { CustomerPhoneNumber } from './index';
 
@@ -76,7 +77,7 @@ export interface IssuedCouponsRes {
 }
 
 export interface StampHistoryRes {
-  stampHistorys: StampHistoryType[];
+  stampHistories: StampHistoryType[];
 }
 
 export interface RewardReqBody {
@@ -143,8 +144,17 @@ export interface OAuthTokenParams {
 }
 
 export interface OAuthJWTRes {
+  customerId?: number;
   accessToken: string;
   refreshToken: string;
   grantType: 'Bearer';
   expiresIn: number;
+}
+
+export interface CustomerProfileRes {
+  profile: CustomerProfile;
+}
+
+export interface ImageUploadRes {
+  imageUrl: string;
 }

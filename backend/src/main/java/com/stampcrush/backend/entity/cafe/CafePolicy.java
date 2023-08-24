@@ -4,12 +4,15 @@ import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @SQLDelete(sql = "UPDATE cafe_policy SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
@@ -38,9 +41,6 @@ public class CafePolicy extends BaseDate {
         this.expirePeriod = expirePeriod;
         this.deleted = deleted;
         this.cafe = cafe;
-    }
-
-    protected CafePolicy() {
     }
 
     public static CafePolicy createDefaultCafePolicy(Cafe cafe) {

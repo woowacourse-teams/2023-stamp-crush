@@ -211,6 +211,70 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
+  rest.get('/admin/coupon-setting', async (req, res, ctx) => {
+    const cafeIdParam = req.url.searchParams.get('cafe-id');
+    const coupon = {
+      frontImageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
+      backImageUrl:
+        'https://wemix-dev-s3.s3.amazonaws.com/media/sample/%EC%BF%A0%ED%8F%B0(%EB%AA%85%ED%95%A8)/2019/NC236B.jpg',
+      stampImageUrl:
+        'https://blog.kakaocdn.net/dn/Idhl1/btqDj3EXl1n/Q8AkpYkKmc3wkAyXJZX3g0/img.png',
+      coordinates: [
+        {
+          order: 1,
+          xCoordinate: 37,
+          yCoordinate: 50,
+        },
+        {
+          order: 2,
+          xCoordinate: 86,
+          yCoordinate: 50,
+        },
+        {
+          order: 3,
+          xCoordinate: 134,
+          yCoordinate: 50,
+        },
+        {
+          order: 4,
+          xCoordinate: 182,
+          yCoordinate: 50,
+        },
+        {
+          order: 5,
+          xCoordinate: 233,
+          yCoordinate: 50,
+        },
+        {
+          order: 6,
+          xCoordinate: 37,
+          yCoordinate: 100,
+        },
+        {
+          order: 7,
+          xCoordinate: 86,
+          yCoordinate: 100,
+        },
+        {
+          order: 8,
+          xCoordinate: 134,
+          yCoordinate: 100,
+        },
+        {
+          order: 9,
+          xCoordinate: 182,
+          yCoordinate: 100,
+        },
+        {
+          order: 10,
+          xCoordinate: 233,
+          yCoordinate: 100,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(coupon));
+  }),
+
   /** -----------------  아래부터는 고객모드의 api 입니다. ----------------- */
 
   // 쿠폰 리스트
@@ -259,5 +323,16 @@ export const handlers = [
   // 쿠폰 삭제
   rest.delete('/coupons/:couponId', async (req, res, ctx) => {
     return res(ctx.status(204));
+  }),
+
+  rest.get('/admin/login', (req, res, ctx) => {
+    localStorage.setItem('admin-login-token', 'regorego');
+  }),
+
+  rest.get('/profiles', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({ profile: { id: 10, nickname: '강영민', phoneNumber: null, email: null } }),
+    );
   }),
 ];

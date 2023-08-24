@@ -21,13 +21,17 @@ public abstract class Customer {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "customer_id")
     private Long id;
-
     private String nickname;
 
+    @Column(unique = true)
     private String phoneNumber;
 
-    protected Customer(String nickname, String phoneNumber) {
+    public Customer(String nickname, String phoneNumber) {
         this(null, nickname, phoneNumber);
+    }
+
+    public void registerPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public abstract boolean isRegistered();
