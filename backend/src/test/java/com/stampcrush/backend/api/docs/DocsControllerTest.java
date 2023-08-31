@@ -9,6 +9,7 @@ import com.stampcrush.backend.api.manager.coupon.ManagerCouponCommandApiControll
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
+import com.stampcrush.backend.api.manager.image.ManagerImageCommandApiController;
 import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiController;
 import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
 import com.stampcrush.backend.api.manager.sample.ManagerSampleCouponFindApiController;
@@ -28,6 +29,7 @@ import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandSer
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
+import com.stampcrush.backend.application.manager.image.ManagerImageCommandService;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
@@ -88,7 +90,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorVisitHistoryFindApiController.class,
         VisitorProfilesCommandApiController.class,
         VisitorProfilesFindApiController.class,
-        ManagerCafeCouponSettingFindApiController.class
+        ManagerCafeCouponSettingFindApiController.class,
+        ManagerImageCommandApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -170,6 +173,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
+
+    @MockBean
+    protected ManagerImageCommandService managerImageCommandService;
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
