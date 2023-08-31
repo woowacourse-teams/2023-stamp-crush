@@ -3,6 +3,7 @@ package com.stampcrush.backend.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
+import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingFindApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponCommandApiController;
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
@@ -21,6 +22,7 @@ import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
 import com.stampcrush.backend.api.visitor.visithistory.VisitorVisitHistoryFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingFindService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
@@ -85,7 +87,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorRewardsFindController.class,
         VisitorVisitHistoryFindApiController.class,
         VisitorProfilesCommandApiController.class,
-        VisitorProfilesFindApiController.class
+        VisitorProfilesFindApiController.class,
+        ManagerCafeCouponSettingFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -164,6 +167,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorProfilesFindService visitorProfilesFindService;
+
+    @MockBean
+    protected ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
