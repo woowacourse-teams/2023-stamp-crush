@@ -16,6 +16,7 @@ import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiControll
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesCommandApiController;
+import com.stampcrush.backend.api.visitor.profile.VisitorProfilesFindApiController;
 import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
 import com.stampcrush.backend.api.visitor.visithistory.VisitorVisitHistoryFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
@@ -33,6 +34,7 @@ import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandSer
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
+import com.stampcrush.backend.application.visitor.profile.VisitorProfilesFindService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
@@ -82,7 +84,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorCouponCommandApiController.class,
         VisitorRewardsFindController.class,
         VisitorVisitHistoryFindApiController.class,
-        VisitorProfilesCommandApiController.class
+        VisitorProfilesCommandApiController.class,
+        VisitorProfilesFindApiController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -158,6 +161,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorProfilesCommandService visitorProfilesCommandService;
+
+    @MockBean
+    protected VisitorProfilesFindService visitorProfilesFindService;
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
