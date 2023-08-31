@@ -3,11 +3,13 @@ package com.stampcrush.backend.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
+import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingFindApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeFindApiController;
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponCommandApiController;
 import com.stampcrush.backend.api.manager.coupon.ManagerCouponFindApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerCommandApiController;
 import com.stampcrush.backend.api.manager.customer.ManagerCustomerFindApiController;
+import com.stampcrush.backend.api.manager.image.ManagerImageCommandApiController;
 import com.stampcrush.backend.api.manager.reward.ManagerRewardCommandApiController;
 import com.stampcrush.backend.api.manager.reward.ManagerRewardFindApiController;
 import com.stampcrush.backend.api.manager.sample.ManagerSampleCouponFindApiController;
@@ -15,15 +17,19 @@ import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.api.visitor.profile.VisitorProfilesCommandApiController;
+import com.stampcrush.backend.api.visitor.profile.VisitorProfilesFindApiController;
 import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
 import com.stampcrush.backend.api.visitor.visithistory.VisitorVisitHistoryFindApiController;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
+import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingFindService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
+import com.stampcrush.backend.application.manager.image.ManagerImageCommandService;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardCommandService;
 import com.stampcrush.backend.application.manager.reward.ManagerRewardFindService;
 import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
@@ -31,8 +37,13 @@ import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
+import com.stampcrush.backend.application.visitor.profile.VisitorProfilesFindService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
+import com.stampcrush.backend.auth.api.ManagerOAuthController;
+import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
+import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
@@ -79,7 +90,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerRewardFindApiController.class,
         VisitorCouponCommandApiController.class,
         VisitorRewardsFindController.class,
-        VisitorVisitHistoryFindApiController.class
+        VisitorVisitHistoryFindApiController.class,
+        VisitorProfilesCommandApiController.class,
+        VisitorProfilesFindApiController.class,
+        ManagerCafeCouponSettingFindApiController.class,
+        ManagerImageCommandApiController.class,
+        ManagerOAuthController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -152,6 +168,24 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
+
+    @MockBean
+    protected VisitorProfilesCommandService visitorProfilesCommandService;
+
+    @MockBean
+    protected VisitorProfilesFindService visitorProfilesFindService;
+
+    @MockBean
+    protected ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
+
+    @MockBean
+    protected ManagerImageCommandService managerImageCommandService;
+
+    @MockBean
+    protected ManagerOAuthService managerOAuthService;
+
+    @MockBean
+    protected ManagerOAuthLoginService managerOAuthLoginService;
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
