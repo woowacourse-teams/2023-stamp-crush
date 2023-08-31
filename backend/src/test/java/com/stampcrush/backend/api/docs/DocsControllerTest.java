@@ -41,6 +41,9 @@ import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommand
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesFindService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
 import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
+import com.stampcrush.backend.auth.api.ManagerOAuthController;
+import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
+import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
@@ -91,7 +94,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorProfilesCommandApiController.class,
         VisitorProfilesFindApiController.class,
         ManagerCafeCouponSettingFindApiController.class,
-        ManagerImageCommandApiController.class
+        ManagerImageCommandApiController.class,
+        ManagerOAuthController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
 public abstract class DocsControllerTest {
@@ -176,6 +180,12 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected ManagerImageCommandService managerImageCommandService;
+
+    @MockBean
+    protected ManagerOAuthService managerOAuthService;
+
+    @MockBean
+    protected ManagerOAuthLoginService managerOAuthLoginService;
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
