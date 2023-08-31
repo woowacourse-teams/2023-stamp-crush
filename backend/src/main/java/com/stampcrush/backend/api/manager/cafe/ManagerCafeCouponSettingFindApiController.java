@@ -58,6 +58,4 @@ public class ManagerCafeCouponSettingFindApiController {
                                 stamp.getYCoordinate())).toList());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-
 }
