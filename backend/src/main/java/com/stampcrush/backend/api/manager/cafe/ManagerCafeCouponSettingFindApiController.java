@@ -44,10 +44,9 @@ public class ManagerCafeCouponSettingFindApiController {
     @GetMapping
     public ResponseEntity<CafeCouponSettingFindResponse> findCafeCouponSetting(
             OwnerAuth owner,
-            @RequestParam("cafe-id") Long cafeId,
-            @PathVariable("couponId") Long couponId
+            @RequestParam("cafe-id") Long cafeId
     ) {
-        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCouponSetting(cafeId, couponId);
+        CafeCouponSettingFindResultDto cafeCouponSetting = managerCafeCouponSettingFindService.findCafeCouponSetting(cafeId);
         CafeCouponSettingFindResponse response = new CafeCouponSettingFindResponse(
                 cafeCouponSetting.getFrontImageUrl(),
                 cafeCouponSetting.getBackImageUrl(),

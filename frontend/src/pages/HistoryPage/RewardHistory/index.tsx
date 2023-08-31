@@ -5,6 +5,7 @@ import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../.
 import { RewardHistoryDateProperties, RewardHistoryType } from '../../../types';
 import { DATE_PARSE_OPTION } from '../../../constants';
 import HistoryPage from '../HistoryPage';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 export const concatHistoryDate = (
   reward: RewardHistoryType,
@@ -45,7 +46,11 @@ const RewardHistoryPage = () => {
   const title = '리워드 사용 내역';
 
   if (rewardStatus === 'loading') {
-    return <HistoryPage title={title}>로딩중입니다..</HistoryPage>;
+    return (
+      <HistoryPage title={title}>
+        <CustomerLoadingSpinner />
+      </HistoryPage>
+    );
   }
   if (rewardStatus === 'error') {
     return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;

@@ -14,7 +14,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import FlippedCoupon from '../../../CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { getCoupon, getCouponDesign, getCustomer } from '../../../../api/get';
+import { getCoupon, getCurrentCouponDesign, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
 import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
@@ -23,6 +23,7 @@ import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
 import { CouponSelectorContainer, CouponSelectorWrapper } from '../style';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 const SelectCoupon = () => {
   const cafeId = useRedirectRegisterPage();
@@ -67,12 +68,6 @@ const SelectCoupon = () => {
     },
   );
 
-  const { data: couponDesignData, status: couponDesignStatus } = useQuery({
-    queryKey: ['couponDesign'],
-    queryFn: () => getCouponDesign({ params: { cafeId } }),
-    enabled: cafeId !== INVALID_CAFE_ID,
-  });
-
   const { mutate: mutateIssueCoupon } = useMutation<IssueCouponRes, Error>({
     mutationFn: async () => {
       if (!customer) throw new Error('고객 정보를 불러오지 못했습니다.');
@@ -90,7 +85,6 @@ const SelectCoupon = () => {
           isPrevious,
           customer: foundCustomer,
           couponId: newCouponId,
-          couponDesignData,
         },
       });
     },
@@ -99,15 +93,9 @@ const SelectCoupon = () => {
     },
   });
 
-  if (
-    couponStatus === 'loading' ||
-    customerStatus === 'loading' ||
-    couponDesignStatus === 'loading'
-  )
-    return <p>Loading</p>;
+  if (couponStatus === 'loading' || customerStatus === 'loading') return <LoadingSpinner />;
 
-  if (couponStatus === 'error' || customerStatus === 'error' || couponDesignStatus === 'error')
-    return <p>Error</p>;
+  if (couponStatus === 'error' || customerStatus === 'error') return <p>Error</p>;
 
   const selectCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -124,7 +112,6 @@ const SelectCoupon = () => {
           isPrevious,
           customer: foundCustomer,
           couponId: foundCoupon.id,
-          couponDesignData,
         },
       });
     }
@@ -143,22 +130,6 @@ const SelectCoupon = () => {
       <CouponSelectorContainer>
         {coupon.coupons.length > 0 ? (
           <>
-            <CouponSelectorWrapper>
-              <Text>
-                현재 스탬프 개수: {foundCoupon.stampCount}/{foundCoupon.maxStampCount}
-              </Text>
-              <Spacing $size={8} />
-              <FlippedCoupon
-                frontImageUrl={couponDesignData.frontImageUrl}
-                backImageUrl={couponDesignData.backImageUrl}
-                stampImageUrl={couponDesignData.stampImageUrl}
-                stampCount={foundCoupon.stampCount}
-                coordinates={couponDesignData.coordinates}
-                isShown={true}
-              />
-              <Spacing $size={45} />
-              <span>쿠폰 유효기간: {formatDate(foundCoupon.expireDate)}까지</span>
-            </CouponSelectorWrapper>
             <CouponLabelContainer>
               <SelectorItemWrapper>
                 <CouponSelector

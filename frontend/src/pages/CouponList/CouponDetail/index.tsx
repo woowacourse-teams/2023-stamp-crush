@@ -25,6 +25,7 @@ import { getCafeInfo } from '../../../api/get';
 import { deleteCoupon } from '../../../api/delete';
 import useModal from '../../../hooks/useModal';
 import Alert from '../../../components/Alert';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -67,7 +68,7 @@ const CouponDetail = ({
   };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
-  if (cafeStatus === 'loading') return <>Loading</>;
+  if (cafeStatus === 'loading') return <CustomerLoadingSpinner />;
   if (cafeStatus === 'error') return <>error</>;
 
   return (
@@ -97,18 +98,24 @@ const CouponDetail = ({
             <FaRegBell size={22} />
             {`${couponInfos.rewardName} 무료!`}
           </Text>
-          <Text ariaLabel="영업 시간">
-            <FaRegClock size={22} />
-            {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
-          </Text>
-          <Text ariaLabel="전화번호">
-            <FaPhoneAlt size={22} />
-            {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
-          </Text>
-          <Text ariaLabel="주소">
-            <FaLocationDot size={22} />
-            {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
-          </Text>
+          {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
+            <Text ariaLabel="영업 시간">
+              <FaRegClock size={22} />
+              {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+            </Text>
+          )}
+          {cafeData.cafe.telephoneNumber && (
+            <Text ariaLabel="전화번호">
+              <FaPhoneAlt size={22} />
+              {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
+            </Text>
+          )}
+          {cafeData.cafe.roadAddress && (
+            <Text ariaLabel="주소">
+              <FaLocationDot size={22} />
+              {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+            </Text>
+          )}
         </ContentContainer>
       </CouponDetailContainer>
       {isOpen && (
