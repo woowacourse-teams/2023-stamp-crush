@@ -7,7 +7,6 @@ import {
   samples12,
   samples8,
   mockCoupons,
-  cafeCustomer,
   customerCoupons,
   usedCustomerRewards,
   customerRewards,
@@ -100,10 +99,17 @@ export const handlers = [
   // 임시 가입 고객 생성
   rest.post('/admin/temporary-customers', async (req, res, ctx) => {
     const body = await req.json();
+    const newId = Math.floor(Math.random() * 1000 + 29);
+
     const createdCustomer = {
-      id: Math.floor(Math.random() * 1000 + 29),
+      id: newId,
       nickname: '레고(임시회원, 신규)',
       phoneNumber: body.phoneNumber,
+      customerId: newId,
+      stampCount: 1,
+      expireDate: '2023:08:11',
+      isPrevious: 'false',
+      maxStampCount: 10,
     };
 
     customerList.push(createdCustomer);
@@ -180,8 +186,13 @@ export const handlers = [
       return res(ctx.status(400));
     }
 
-    findCustomer.stampCount += +earningStampCount;
+    const customerIndex = customerList.findIndex((e) => e.customerId === +customerId);
 
+    if (customerIndex === -1) {
+      return res(ctx.status(400));
+    }
+
+    customerList[customerIndex].stampCount += +earningStampCount;
     return res(ctx.status(201));
   }),
 
@@ -196,7 +207,7 @@ export const handlers = [
       return res(ctx.status(200), ctx.json({ customers: [] }));
     }
 
-    return res(ctx.status(200), ctx.json({ customers: cafeCustomer }));
+    return res(ctx.status(200), ctx.json({ customers: customerList }));
   }),
 
   // 리워드 사용
@@ -211,7 +222,8 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
-  rest.get('/admin/coupon-setting', async (req, res, ctx) => {
+  rest.get('/admin/coupon-setting/:couponId', async (req, res, ctx) => {
+    const { couponId } = req.params;
     const cafeIdParam = req.url.searchParams.get('cafe-id');
     const coupon = {
       frontImageUrl: 'https://drive.google.com/uc?export=view&id=1J6HcagcK65D6_i0bDQ7llbvdCnCOkJ7h',
