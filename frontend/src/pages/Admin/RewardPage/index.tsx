@@ -27,6 +27,7 @@ const RewardPage = () => {
     ['getCustomer', phoneNumber],
     () => getCustomer({ params: { phoneNumber } }),
   );
+
   const { data: rewardData, status: rewardStatus } = useQuery(
     ['getReward', customerData],
     () => {

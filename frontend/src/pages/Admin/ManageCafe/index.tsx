@@ -15,7 +15,7 @@ import {
   Wrapper,
 } from './style';
 import TimeRangePicker from './TimeRangePicker';
-import { ChangeEvent, FormEventHandler, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEventHandler, Suspense, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ImageUpLoadInput,
