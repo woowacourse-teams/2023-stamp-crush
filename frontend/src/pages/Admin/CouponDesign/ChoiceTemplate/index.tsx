@@ -2,11 +2,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { getCouponSamples } from '../../../../api/get';
 import { parseStampCount } from '../../../../utils';
 import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
+import { useQuery } from '@tanstack/react-query';
 import { SampleCouponRes } from '../../../../types/api';
 
 interface ChoiceTemplateProps {
