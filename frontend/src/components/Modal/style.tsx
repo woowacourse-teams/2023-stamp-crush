@@ -18,7 +18,7 @@ export const BaseModal = styled.div`
 
   top: 50%;
   left: 50%;
-  width: 60vw;
+  width: fit-content;
   height: auto;
 
   padding: 35px;
@@ -29,10 +29,6 @@ export const BaseModal = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 
   transform: translate(-50%, -50%);
-
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    width: 70vw;
-  }
 `;
 
 export const CloseButton = styled.button`
