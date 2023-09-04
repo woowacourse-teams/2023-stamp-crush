@@ -1,13 +1,6 @@
-import { worker } from '../mocks/browser';
+import { BASE_URL } from '../constants';
 
 const request = async (path: string, init?: RequestInit) => {
-  let BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  if (process.env.NODE_ENV === 'development') {
-    worker.start({ onUnhandledRequest: 'bypass' });
-    BASE_URL = '';
-  }
-
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {

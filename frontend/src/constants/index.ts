@@ -138,3 +138,5 @@ export const INVALID_CAFE_ID = -1;
 export const MEGA_BYTE = 1024 ** 2;
 
 export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;
+
+export const BASE_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_BASE_URL;
