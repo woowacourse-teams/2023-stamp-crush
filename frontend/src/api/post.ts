@@ -1,4 +1,5 @@
 import { api, customerHeader, ownerHeader } from '.';
+import { BASE_URL } from '../constants';
 import {
   CouponSettingReqBody,
   StampEarningReqBody,
@@ -70,7 +71,7 @@ export const postUploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  return await fetch(`${process.env.REACT_APP_BASE_URL}/admin/images`, {
+  return await fetch(`${BASE_URL}/admin/images`, {
     method: 'POST',
     body: formData,
   });
