@@ -24,21 +24,14 @@ import Auth from './pages/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
-import { Suspense } from 'react';
-import CustomerLoading from './components/LoadingSpinner/CustomerLoading';
-import ErrorBoundary from './components/ErrorBoundary';
 import InputPhoneNumber from './pages/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 
 const AdminRoot = () => {
   return (
-    <ErrorBoundary fallback={<p>에러 발생!</p>}>
-      <Suspense fallback={<CustomerLoading />}>
-        <Template>
-          <Outlet />
-        </Template>
-      </Suspense>
-    </ErrorBoundary>
+    <Template>
+      <Outlet />
+    </Template>
   );
 };
 
