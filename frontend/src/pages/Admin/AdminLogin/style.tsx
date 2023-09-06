@@ -14,7 +14,7 @@ export const LogoImg = styled.img`
   height: 150px;
 `;
 
-export const NaverLoginLink = styled.a`
+export const LoginLink = styled.a`
   margin-top: 40px;
   background: transparent;
 `;
