@@ -14,6 +14,10 @@ public class VisitorProfileFindByPhoneNumberResultDto {
     private final String registerType;
 
     public static VisitorProfileFindByPhoneNumberResultDto from(Customer customer) {
+        if (customer == null) {
+            return null;
+        }
+
         return new VisitorProfileFindByPhoneNumberResultDto(
                 customer.getId(),
                 customer.getNickname(),
