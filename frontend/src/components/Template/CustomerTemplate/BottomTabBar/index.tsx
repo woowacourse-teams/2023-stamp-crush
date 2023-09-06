@@ -27,13 +27,6 @@ const BottomTabBar = () => {
     return null;
   }
 
-  console.log(
-    tabs.map((tab, index) => {
-      console.log(tab.path);
-      console.log(tab.path.includes(location.pathname as RouterPath));
-    }),
-  );
-
   return (
     <TabBarContainer>
       {tabs.map((tab, index) => (
