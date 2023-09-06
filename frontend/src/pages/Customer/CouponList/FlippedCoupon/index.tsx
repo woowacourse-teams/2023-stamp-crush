@@ -25,7 +25,7 @@ const FlippedCoupon = ({
     if (isShown) {
       setTimeout(() => {
         setIsFlipped(true);
-      }, 400);
+      }, 100);
     }
 
     if (!isShown) {
