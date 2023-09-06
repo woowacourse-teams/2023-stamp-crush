@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BackImage, CouponContainer, CouponWrapper, FrontImage, StampImage } from './style';
-import { StampCoordinate } from '../../../types';
+import { StampCoordinate } from '../../../../types';
 
 export interface FlippedCouponProps {
   frontImageUrl: string;
@@ -25,7 +25,7 @@ const FlippedCoupon = ({
     if (isShown) {
       setTimeout(() => {
         setIsFlipped(true);
-      }, 100);
+      }, 400);
     }
 
     if (!isShown) {
@@ -34,7 +34,7 @@ const FlippedCoupon = ({
   }, [isShown]);
 
   return (
-    <CouponContainer $isShown={isShown}>
+    <CouponContainer>
       <CouponWrapper $isFlipped={isFlipped}>
         <FrontImage src={frontImageUrl} />
         <BackImage src={backImageUrl} />

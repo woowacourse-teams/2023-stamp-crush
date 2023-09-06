@@ -1,20 +1,20 @@
 import Coupon from './Coupon';
 import { CouponListContainer, DetailButton, InfoContainer } from './style';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { getCoupons } from '../../api/get';
+import { getCoupons } from '../../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ROUTER_PATH } from '../../constants';
+import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CouponRes } from '../../types/api';
-import Alert from '../../components/Alert';
-import useModal from '../../hooks/useModal';
+import type { CouponRes } from '../../../types/api';
+import Alert from '../../../components/Alert';
+import useModal from '../../../hooks/useModal';
 import { CiCircleMore } from 'react-icons/ci';
-import { postIsFavorites } from '../../api/post';
+import { postIsFavorites } from '../../../api/post';
 import CafeInfo from './CafeInfo';
 import Header from './Header';
-import { useCustomerProfile } from '../../hooks/useCustomerProfile';
-import CustomerLoadingSpinner from '../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 const CouponList = () => {
   const navigate = useNavigate();

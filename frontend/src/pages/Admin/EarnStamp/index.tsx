@@ -10,7 +10,7 @@ import { postEarnStamp } from '../../../api/post';
 import Text from '../../../components/Text';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
-import FlippedCoupon from '../../CouponList/FlippedCoupon';
+import FlippedCoupon from '../../Customer/CouponList/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 

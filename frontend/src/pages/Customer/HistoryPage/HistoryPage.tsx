@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import SubHeader from '../../components/Header/SubHeader';
+import SubHeader from '../../../components/Header/SubHeader';
 
 interface HistoryPageProps {
   title: string;

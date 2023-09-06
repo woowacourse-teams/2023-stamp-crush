@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../constants';
+import { ROUTER_PATH } from '../../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { BiArrowBack } from 'react-icons/bi';
-import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList, AiOutlineLogout } from 'react-icons/ai';
 import { PiGiftLight } from 'react-icons/pi';
 

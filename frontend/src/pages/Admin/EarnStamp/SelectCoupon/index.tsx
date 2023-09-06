@@ -11,7 +11,7 @@ import {
   SelectorItemWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import FlippedCoupon from '../../../CouponList/FlippedCoupon';
+import FlippedCoupon from '../../../Customer/CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 import { getCoupon, getCurrentCouponDesign, getCustomer } from '../../../../api/get';

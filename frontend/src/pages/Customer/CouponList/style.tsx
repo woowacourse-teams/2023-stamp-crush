@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { detail, swap } from '../../style/keyframes';
+import { swap } from '../../../style/keyframes';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -84,7 +84,7 @@ export const CouponListContainer = styled.div<{
   display: flex;
   justify-content: center;
   position: relative;
-  height: 270px;
+  height: 150px;
   transition: all 0.1s;
 
   :nth-last-child(1) {
@@ -103,11 +103,7 @@ export const CouponListContainer = styled.div<{
   ${({ $isDetail }) =>
     $isDetail &&
     css`
-      :nth-last-child(1) {
-        transform: translateY(-219%) scale(0.86);
-        animation: ${detail} 0.3s;
-      }
-      :nth-last-child(n + 2) {
+      :nth-last-child(n) {
         display: none;
       }
     `}
@@ -137,9 +133,4 @@ export const DetailButton = styled.button<{ $isDetail: boolean }>`
   background: white;
   box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
   z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
-`;
-
-export const MyPageIconWrapper = styled.button`
-  background: transparent;
-  cursor: pointer;
 `;

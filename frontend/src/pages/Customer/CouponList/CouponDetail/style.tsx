@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { popup } from '../../../style/keyframes';
+import { popup } from '../../../../style/keyframes';
 
 export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   display: none;
