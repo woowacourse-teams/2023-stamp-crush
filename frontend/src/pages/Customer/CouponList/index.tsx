@@ -156,7 +156,7 @@ const CouponList = () => {
                 key={cafeInfo.id}
                 coupon={{ cafeInfo, couponInfos }}
                 data-index={index}
-                onClick={changeCurrentIndex(index)}
+                onClick={openCouponDetail}
                 aria-label={`${cafeInfo.name} 쿠폰`}
                 isFocused={currentIndex === index}
               />
@@ -169,9 +169,6 @@ const CouponList = () => {
             refetchCoupons={refetchCoupons}
             closeDetail={closeCouponDetail}
           />
-          <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
-            <CiCircleMore size={36} color={'#424242'} />
-          </DetailButton>
           {isOpen && (
             <Alert
               text={alertMessage}
