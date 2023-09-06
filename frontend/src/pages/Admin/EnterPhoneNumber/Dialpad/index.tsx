@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCustomer } from '../../../../api/get';
 import Alert from '../../../../components/Alert';
@@ -25,6 +25,7 @@ const Dialpad = () => {
     onSuccess: (data) => {
       if (data.customer.length === 0) {
         openModal();
+        return;
       }
       navigate(ROUTER_PATH.selectCoupon, {
         state: { phoneNumber: phoneNumber.replaceAll('-', '') },
@@ -49,6 +50,14 @@ const Dialpad = () => {
     setIsDone(false);
   };
 
+  const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (phoneNumber.replaceAll('-', '').length === 11 && e.key === 'Enter') {
+      sendPhoneNumber('입력')();
+      return;
+    }
+    handleBackspace(e);
+  };
+
   return (
     <Container>
       {isOpen && (
@@ -69,7 +78,7 @@ const Dialpad = () => {
         minLength={4}
         maxLength={13}
         onChange={handlePhoneNumber}
-        onKeyDown={handleBackspace}
+        onKeyDown={handleEnter}
         autoComplete="off"
         inputMode="none"
       />
