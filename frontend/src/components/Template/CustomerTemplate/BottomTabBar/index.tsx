@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { TabBarContainer } from './style';
-import { FaHome, FaGift, FaUser } from 'react-icons/fa';
+import { AiOutlineHome, AiOutlineGift, AiOutlineUser } from 'react-icons/ai';
 import { ROUTER_PATH } from '../../../../constants';
 
 const BottomTabBar = () => {
@@ -17,14 +17,14 @@ const BottomTabBar = () => {
   return (
     <TabBarContainer>
       <Link to="/">
-        <FaHome size={32} />홈
+        <AiOutlineHome size={28} />홈
       </Link>
       <Link to="/reward-list">
-        <FaGift size={32} />
+        <AiOutlineGift size={28} />
         리워드
       </Link>
       <Link to="/my-page">
-        <FaUser size={32} />
+        <AiOutlineUser size={28} />
         마이페이지
       </Link>
     </TabBarContainer>

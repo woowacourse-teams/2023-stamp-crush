@@ -18,7 +18,7 @@ export const TabBarContainer = styled.div`
     width: 70px;
     flex-direction: column;
     align-items: center;
-    color: #888;
+    color: black;
 
     font-size: 14px;
     text-decoration: none;
