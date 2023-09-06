@@ -1,6 +1,6 @@
 package com.stampcrush.backend.api.visitor.profile.response;
 
-import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindByPhoneNumberResulteDto;
+import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindByPhoneNumberResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,7 @@ public class VisitorProfilesFindByPhoneNumberResponse {
 
     private final List<VisitorProfileFindByPhoneNumberResponse> customers;
 
-    public static VisitorProfilesFindByPhoneNumberResponse from(VisitorProfileFindByPhoneNumberResulteDto dto) {
+    public static VisitorProfilesFindByPhoneNumberResponse from(VisitorProfileFindByPhoneNumberResultDto dto) {
         if (dto == null) {
             return new VisitorProfilesFindByPhoneNumberResponse(List.of());
         }
@@ -30,7 +30,7 @@ public class VisitorProfilesFindByPhoneNumberResponse {
         private final String phoneNumber;
         private final String registerType;
 
-        public static VisitorProfileFindByPhoneNumberResponse from(VisitorProfileFindByPhoneNumberResulteDto dto) {
+        public static VisitorProfileFindByPhoneNumberResponse from(VisitorProfileFindByPhoneNumberResultDto dto) {
             return new VisitorProfileFindByPhoneNumberResponse(
                     dto.getId(),
                     dto.getNickname(),
