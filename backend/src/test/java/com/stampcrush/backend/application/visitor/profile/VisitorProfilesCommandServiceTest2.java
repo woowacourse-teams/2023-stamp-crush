@@ -29,7 +29,7 @@ class VisitorProfilesCommandServiceTest2 {
                 .build()
         );
 
-        String phoneNumber = "01012345678";
+        String phoneNumber = "01098765432";
         visitorProfilesCommandService.registerPhoneNumber(gitchan.getId(), phoneNumber);
 
         Customer findGitchan = customerRepository.findById(gitchan.getId()).get();
