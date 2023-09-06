@@ -1,8 +1,9 @@
 import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
+import { BASE_URL } from '../../../constants';
 import { Container, KakaoLoginImg, LogoImg, NaverLoginLink } from './style';
 
 const AdminLogin = () => {
-  const KAKAO_LOGIN_PAGE_URL = `${process.env.REACT_APP_BASE_URL}/admin/login/kakao`;
+  const KAKAO_LOGIN_PAGE_URL = `${BASE_URL}/admin/login/kakao`;
 
   return (
     <Container>
