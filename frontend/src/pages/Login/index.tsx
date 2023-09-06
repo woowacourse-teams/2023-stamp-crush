@@ -1,5 +1,4 @@
-import { LoginLogo } from '../../assets';
-import { CustomerKakaoLoginButton } from '../../assets';
+import { LoginLogo, CustomerKakaoLoginButton } from '../../assets';
 import { BASE_URL, ROUTER_PATH } from '../../constants';
 import {
   Container,

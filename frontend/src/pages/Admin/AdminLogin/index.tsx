@@ -1,4 +1,4 @@
-import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
+import { LoginLogo, AdminKakaoLoginButton } from '../../../assets';
 import { BASE_URL, ROUTER_PATH } from '../../../constants';
 import {
   Container,
@@ -32,7 +32,7 @@ const AdminLogin = () => {
           <CheckItem text="손쉬운 적립 및 리워드 사용" />
         </CheckList>
         <LoginLink href={KAKAO_LOGIN_PAGE_URL}>
-          <KakaoLoginImg src={CustomerKakaoLoginButton} alt="카카오 로그인" />
+          <KakaoLoginImg src={AdminKakaoLoginButton} alt="카카오 로그인" />
         </LoginLink>
         <RedirectContainer>
           <span>고객님이신가요? </span>
