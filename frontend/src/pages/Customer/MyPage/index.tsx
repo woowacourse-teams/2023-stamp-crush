@@ -4,20 +4,14 @@ import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer
 import { BiArrowBack } from 'react-icons/bi';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList, AiOutlineLogout } from 'react-icons/ai';
-import { PiGiftLight } from 'react-icons/pi';
 
 const ICONS = [
-  <PiGiftLight key="rewardList" size={20} />,
   <AiOutlineUnorderedList key="rewardHistory" />,
   <AiOutlineUnorderedList key="stampHistory" />,
   <AiOutlineLogout key="logout" />,
 ];
 
 const MYPAGE_NAV_OPTIONS = [
-  {
-    key: 'rewardList',
-    value: '내 리워드',
-  },
   {
     key: 'rewardHistory',
     value: '리워드 사용 내역',
