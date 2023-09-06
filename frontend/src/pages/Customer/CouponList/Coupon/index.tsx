@@ -6,10 +6,11 @@ import CouponLoading from '../../../../assets/coupon_load_img_for_customer.png';
 interface CouponProps {
   coupon: CouponType;
   isFocused: boolean;
+  dataIndex: number;
   onClick: () => void;
 }
 
-const Coupon = ({ coupon, isFocused, onClick }: CouponProps) => {
+const Coupon = ({ coupon, isFocused, dataIndex, onClick }: CouponProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const checkLoadImage = () => {
     setIsImageLoaded(true);
@@ -21,6 +22,7 @@ const Coupon = ({ coupon, isFocused, onClick }: CouponProps) => {
       onClick={onClick}
       aria-label={coupon.cafeInfo.name}
       aria-hidden={isFocused ? 'false' : 'true'}
+      data-index={dataIndex}
       disabled={!isFocused}
     >
       <ImageForLoading

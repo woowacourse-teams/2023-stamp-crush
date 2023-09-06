@@ -121,16 +121,3 @@ export const CouponListContainer = styled.div<{
     pointer-events: none;
   }
 `;
-
-export const DetailButton = styled.button<{ $isDetail: boolean }>`
-  position: fixed;
-  bottom: 30px;
-  right: calc(50% - 170px);
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  outline: none;
-  background: white;
-  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1);
-  z-index: ${({ $isDetail }) => ($isDetail ? -1 : 4)};
-`;
