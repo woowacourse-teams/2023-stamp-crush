@@ -108,15 +108,14 @@ const CouponList = () => {
 
   const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
     const deltaY = startY - endY;
-    if (deltaY > 100 && deltaY < 250) {
-      console.log(startY, 'startY', endY, 'endY');
-      const dataIndex = e.target instanceof HTMLButtonElement ? e.target.dataset.index : undefined;
-      if (dataIndex !== undefined) {
-        changeCurrentIndex(Number(dataIndex));
-        setStartY(0);
-        setEndY(0);
-        swapCoupon(e);
-      }
+    if (deltaY < 100 || deltaY > 250) return;
+
+    const dataIndex = e.target instanceof HTMLButtonElement ? e.target.dataset.index : undefined;
+    if (dataIndex !== undefined) {
+      changeCurrentIndex(Number(dataIndex));
+      setStartY(0);
+      setEndY(0);
+      swapCoupon(e);
     }
   };
 
