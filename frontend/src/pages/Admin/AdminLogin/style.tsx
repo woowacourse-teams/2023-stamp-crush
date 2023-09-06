@@ -22,7 +22,7 @@ export const LoginContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 10%;
+  padding-left: 6%;
   height: 100vh;
   width: 37%;
 `;
