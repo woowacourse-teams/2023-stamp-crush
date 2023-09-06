@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.profile;
 
+import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindByPhoneNumberResultDto;
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindResultDto;
 import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
@@ -20,5 +21,9 @@ public class VisitorProfilesFindService {
                 .orElseThrow(() -> new CustomerNotFoundException("고객을 찾을 수 없습니다"));
 
         return new VisitorProfileFindResultDto(customer.getId(), customer.getNickname(), customer.getPhoneNumber(), customer.getEmail());
+    }
+
+    public VisitorProfileFindByPhoneNumberResultDto findCustomerProfileByNumber(String phoneNumber) {
+        return null;
     }
 }
