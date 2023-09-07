@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyRewards } from '../../api/get';
-import SubHeader from '../../components/Header/SubHeader';
+import { getMyRewards } from '../../../api/get';
+import SubHeader from '../../../components/Header/SubHeader';
 import { CafeName, RewardContainer, RewardName, RewardWrapper } from './style';
 
 const RewardList = () => {

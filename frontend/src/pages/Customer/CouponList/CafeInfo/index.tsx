@@ -1,7 +1,7 @@
 import Color from 'color-thief-react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import ProgressBar from '../../../components/ProgressBar';
-import { addGoogleProxyUrl } from '../../../utils';
+import ProgressBar from '../../../../components/ProgressBar';
+import { addGoogleProxyUrl } from '../../../../utils';
 import {
   BackDrop,
   CafeName,

@@ -1,14 +1,14 @@
-import { Input } from '../../components/Input';
+import { Input } from '../../../components/Input';
 import { Container } from './style';
-import { LoginLogo } from '../../assets';
-import Button from '../../components/Button';
+import { LoginLogo } from '../../../assets';
+import Button from '../../../components/Button';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { parsePhoneNumber } from '../../utils';
+import { parsePhoneNumber } from '../../../utils';
 import { useMutation } from '@tanstack/react-query';
-import { postCustomerPhoneNumber } from '../../api/post';
+import { postCustomerPhoneNumber } from '../../../api/post';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../constants';
-import { useCustomerProfile } from '../../hooks/useCustomerProfile';
+import { ROUTER_PATH } from '../../../constants';
+import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 
 const InputPhoneNumber = () => {
   const { customerProfile } = useCustomerProfile();

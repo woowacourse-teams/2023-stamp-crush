@@ -1,20 +1,19 @@
 import Coupon from './Coupon';
-import { CouponListContainer, DetailButton, InfoContainer } from './style';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { getCoupons } from '../../api/get';
+import { CouponListContainer, InfoContainer } from './style';
+import { TouchEvent, useEffect, useRef, useState } from 'react';
+import { getCoupons } from '../../../api/get';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ROUTER_PATH } from '../../constants';
+import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CouponRes } from '../../types/api';
-import Alert from '../../components/Alert';
-import useModal from '../../hooks/useModal';
-import { CiCircleMore } from 'react-icons/ci';
-import { postIsFavorites } from '../../api/post';
+import type { CouponRes } from '../../../types/api';
+import Alert from '../../../components/Alert';
+import useModal from '../../../hooks/useModal';
+import { postIsFavorites } from '../../../api/post';
 import CafeInfo from './CafeInfo';
 import Header from './Header';
-import { useCustomerProfile } from '../../hooks/useCustomerProfile';
-import CustomerLoadingSpinner from '../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -26,6 +25,8 @@ const CouponList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
   const couponListContainerRef = useRef<HTMLDivElement>(null);
+  const [startY, setStartY] = useState(0);
+  const [endY, setEndY] = useState(0);
 
   const queryClient = useQueryClient();
 
@@ -75,7 +76,7 @@ const CouponList = () => {
   const currentCoupon = coupons[currentIndex];
   const [currentCouponInfo] = currentCoupon.couponInfos;
 
-  const swapCoupon = (e: MouseEvent<HTMLDivElement>) => {
+  const swapCoupon = (e: TouchEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current || isDetail) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
@@ -90,11 +91,32 @@ const CouponList = () => {
     }, 700);
   };
 
-  const changeCurrentIndex = (index: number) => () => {
+  const changeCurrentIndex = (index: number) => {
     setCurrentIndex((prevIndex) => {
       if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
       return prevIndex;
     });
+  };
+
+  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    setStartY(e.touches[0].clientY);
+  };
+
+  const onTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    setEndY(e.touches[0].clientY);
+  };
+
+  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    const deltaY = startY - endY;
+    if (deltaY < 100 || deltaY > 250) return;
+
+    const dataIndex = e.target instanceof HTMLButtonElement ? e.target.dataset.index : undefined;
+    if (dataIndex !== undefined) {
+      changeCurrentIndex(Number(dataIndex));
+      setStartY(0);
+      setEndY(0);
+      swapCoupon(e);
+    }
   };
 
   const openCouponDetail = () => {
@@ -149,14 +171,16 @@ const CouponList = () => {
             $isLast={isLast}
             $isDetail={isDetail}
             $isShown={isFlippedCouponShown}
-            onClick={swapCoupon}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
           >
             {coupons.map(({ cafeInfo, couponInfos }, index) => (
               <Coupon
                 key={cafeInfo.id}
                 coupon={{ cafeInfo, couponInfos }}
-                data-index={index}
-                onClick={changeCurrentIndex(index)}
+                dataIndex={index}
+                onClick={openCouponDetail}
                 aria-label={`${cafeInfo.name} 쿠폰`}
                 isFocused={currentIndex === index}
               />
@@ -169,9 +193,6 @@ const CouponList = () => {
             refetchCoupons={refetchCoupons}
             closeDetail={closeCouponDetail}
           />
-          <DetailButton onClick={openCouponDetail} $isDetail={isDetail} aria-label="쿠폰 상세 보기">
-            <CiCircleMore size={36} color={'#424242'} />
-          </DetailButton>
           {isOpen && (
             <Alert
               text={alertMessage}
