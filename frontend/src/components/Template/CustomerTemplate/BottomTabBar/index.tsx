@@ -3,7 +3,8 @@ import { TabBarContainer, TapBarItem } from './style';
 import { AiOutlineHome, AiOutlineGift, AiOutlineUser } from 'react-icons/ai';
 import { ROUTER_PATH } from '../../../../constants';
 import { RouterPath } from '../../../../types';
-const tabs = [
+
+const BOTTOM_TABS = [
   { path: [ROUTER_PATH.couponList], icon: <AiOutlineHome size={28} />, label: '홈' },
   { path: [ROUTER_PATH.rewardList], icon: <AiOutlineGift size={28} />, label: '리워드' },
   {
@@ -29,7 +30,7 @@ const BottomTabBar = () => {
 
   return (
     <TabBarContainer>
-      {tabs.map((tab, index) => (
+      {BOTTOM_TABS.map((tab, index) => (
         <TapBarItem key={index} $isSelected={tab.path.includes(location.pathname as RouterPath)}>
           <Link to={Array.isArray(tab.path) ? tab.path[0] : tab.path}>
             {tab.icon}
