@@ -26,9 +26,6 @@ class VisitorProfilesFindServiceTest {
     @Mock
     private CustomerRepository customerRepository;
 
-//    @Mock
-//    private RegisterCustomerRepository registerCustomerRepository;
-
     @Test
     void 전화번호로_사용자_정상_조회() {
         RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
