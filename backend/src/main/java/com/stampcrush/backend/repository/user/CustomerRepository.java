@@ -15,8 +15,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByLoginId(String loginId);
 
-    Optional<Customer> findByNickname(String nickname);
-
     @Query("SELECT c FROM Customer c WHERE c.oAuthProvider = :oAuthProvider AND c.oAuthId = :oAuthId")
     Optional<Customer> findByOAuthProviderAndOAuthId(
             @Param("oAuthProvider") OAuthProvider oAuthProvider,
