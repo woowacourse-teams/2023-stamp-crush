@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
+import static com.stampcrush.backend.entity.user.CustomerType.TEMPORARY;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -35,7 +36,7 @@ class VisitorProfilesFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 전화번호로_고객을_조회한다() throws Exception {
         Customer customer = CustomerFixture.TEMPORARY_CUSTOMER_1;
-
+        System.out.println(customer.getCustomerType());
         when(visitorProfilesFindService.findCustomerProfileByNumber(anyString()))
                 .thenReturn(
                         VisitorProfileFindByPhoneNumberResultDto.from(customer)
@@ -50,6 +51,6 @@ class VisitorProfilesFindApiControllerTest extends ControllerSliceTest {
                 .andExpect(jsonPath("customers[0].id").value(customer.getId()))
                 .andExpect(jsonPath("customers[0].nickname").value(customer.getNickname()))
                 .andExpect(jsonPath("customers[0].phoneNumber").value(customer.getPhoneNumber()))
-                .andExpect(jsonPath("customers[0].registerType").value("temporary"));
+                .andExpect(jsonPath("customers[0].registerType").value(TEMPORARY.getCustomerType()));
     }
 }
