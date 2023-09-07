@@ -50,10 +50,6 @@ public class Customer {
     @Enumerated(STRING)
     private CustomerType customerType;
 
-    public Customer(Long id, String nickname, String phoneNumber, String loginId, String encryptedPassword) {
-        this(id, nickname, phoneNumber, loginId, encryptedPassword, null, null, null, REGISTERED);
-    }
-
     @Builder(builderMethodName = "registeredCustomerBuilder", builderClassName = "RegisterCustomer")
     public Customer(
             Long id,
@@ -81,10 +77,8 @@ public class Customer {
             Long id,
             String phoneNumber
     ) {
-        System.out.println("builder phone: " + phoneNumber);
         this.id = id;
         this.nickname = formatNickname(phoneNumber);
-        System.out.println("builder nickname: " + nickname);
         this.phoneNumber = phoneNumber;
         this.customerType = TEMPORARY;
     }
