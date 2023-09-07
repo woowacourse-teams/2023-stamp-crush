@@ -19,8 +19,6 @@ public class VisitorAuthService {
         Customer customer = Customer.registeredCustomerBuilder()
                 .nickname(nickname)
                 .email(email)
-                .loginId(null)
-                .encryptedPassword(null)
                 .oAuthProvider(OAuthProvider.KAKAO)
                 .oAuthId(123L)
                 .build();
