@@ -1,18 +1,18 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../../../components/Button';
 import { Spacing } from '../../../style/layout/common';
 import { useState } from 'react';
-import Stepper from '../../../components/Stepper';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
 import { getCoupon, getCurrentCouponDesign } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
-import Text from '../../../components/Text';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
 import { IssuedCouponsRes } from '../../../types/api';
 import FlippedCoupon from '../../Customer/CouponList/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import Button from '../../../components/Button';
+import Stepper from '../../../components/Stepper';
+import Text from '../../../components/Text';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();
