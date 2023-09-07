@@ -25,6 +25,9 @@ export const IconWrapper = styled.div`
 export const Container = styled.div`
   display: flex;
   height: 100%;
+  @media screen and (max-width: 700px) {
+    justify-content: center;
+  }
 `;
 
 export const PrivacyBox = styled.section`
@@ -40,6 +43,10 @@ export const PrivacyBox = styled.section`
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 15px;
+  }
+
+  @media screen and (max-width: 700px) {
+    display: none;
   }
 `;
 
