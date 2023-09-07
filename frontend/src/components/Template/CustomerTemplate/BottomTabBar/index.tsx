@@ -17,14 +17,14 @@ const BOTTOM_TABS = [
 const BottomTabBar = () => {
   const location = useLocation();
 
-  const shouldDisplayTabBar = ![
+  const isDisplayTabBar = ![
     ROUTER_PATH.login,
     ROUTER_PATH.auth,
     ROUTER_PATH.signup,
     ROUTER_PATH.inputPhoneNumber,
   ].includes(location.pathname as RouterPath);
 
-  if (!shouldDisplayTabBar) {
+  if (!isDisplayTabBar) {
     return null;
   }
 
