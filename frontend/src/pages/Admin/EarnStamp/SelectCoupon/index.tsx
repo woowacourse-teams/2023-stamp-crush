@@ -11,24 +11,22 @@ import {
   SelectorItemWrapper,
 } from './style';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import FlippedCoupon from '../../../CouponList/FlippedCoupon';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { getCoupon, getCurrentCouponDesign, getCustomer } from '../../../../api/get';
+import { getCoupon, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
-import { formatDate } from '../../../../utils';
 import Text from '../../../../components/Text';
 import { CouponActivate } from '../../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
-import { CouponSelectorContainer, CouponSelectorWrapper } from '../style';
+import { CouponSelectorContainer } from '../style';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 const SelectCoupon = () => {
+  const navigate = useNavigate();
   const cafeId = useRedirectRegisterPage();
   const location = useLocation();
-  const navigate = useNavigate();
   const [isPrevious, setIsPrevious] = useState(true);
   const [selectedCoupon, setSelectedCoupon] = useState<CouponActivate>('current');
   const phoneNumber = location.state.phoneNumber;
