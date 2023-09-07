@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static jakarta.persistence.InheritanceType.JOINED;
+import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 import static lombok.AccessLevel.PROTECTED;
 
 @AllArgsConstructor
@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @Entity
 @DiscriminatorColumn(name = "dtype")
-@Inheritance(strategy = JOINED)
+@Inheritance(strategy = SINGLE_TABLE)
 public abstract class Customer {
 
     @Id
@@ -22,8 +22,6 @@ public abstract class Customer {
     @Column(name = "customer_id")
     private Long id;
     private String nickname;
-
-    @Column(unique = true)
     private String phoneNumber;
 
     public Customer(String nickname, String phoneNumber) {

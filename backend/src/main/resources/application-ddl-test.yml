@@ -1,0 +1,48 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 10
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600 # Preflight 요청의 캐시 유지 시간(초 단위)
+
+jwt:
+  secret-key: 127bce3cf84f6d24eca8a336deb502f6818a1650e92b7908d7a148db38e63e9a7eef443396e9bb961d8e2567c743b8451a03df56447c261827723fe5f8edf366
+
+oauth:
+  kakao:
+    client-id: 70e2bd57133efde3171725c762b61188
+    client-secret: fwPoTjXFdKOrSzypOfBveGemj59FSIo7
+    redirect-uri-manager: http://localhost:3000/admin/login/auth/kakao
+    redirect-uri-visitor: http://localhost:3000/login/auth/kakao
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+
+springdoc:
+  swagger-ui:
+    url: /docs/openapi3.json
+    path: /api/swagger-ui/index.html
+
+s3:
+  bucket: 2023-team-project/2023-stamp-crush
+  base-url: https://dnv0gl9rzyzod.cloudfront.net/
+  dir: local
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    credentials:
+      instance-profile: true
