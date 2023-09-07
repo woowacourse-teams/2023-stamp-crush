@@ -19,8 +19,8 @@ public class VisitorAuthService {
         Customer customer = Customer.registeredCustomerBuilder()
                 .nickname(nickname)
                 .email(email)
-                .oAuthProvider(OAuthProvider.KAKAO)
-                .oAuthId(123L)
+                .oAuthProvider(oAuthProvider)
+                .oAuthId(oAuthId)
                 .build();
 
         Customer savedCustomer = customerRepository.save(customer);
