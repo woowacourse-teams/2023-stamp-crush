@@ -32,7 +32,7 @@ const BottomTabBar = () => {
     <TabBarContainer>
       {BOTTOM_TABS.map((tab, index) => (
         <TapBarItem key={index} $isSelected={tab.path.includes(location.pathname as RouterPath)}>
-          <Link to={Array.isArray(tab.path) ? tab.path[0] : tab.path}>
+          <Link to={tab.path[0]}>
             {tab.icon}
             {tab.label}
           </Link>
