@@ -2,8 +2,8 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.visitor.profile.response.VisitorProfilesFindResponse;
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
+import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Test
     void 고객의_프로필을_조회한다() {
         // given
-        RegisterCustomer customer = registerCustomerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+        Customer customer = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
 
         ExtractableResponse<Response> response = given()
                 .log().all()
@@ -53,10 +53,12 @@ public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 고객의_전화번호가_등록되어있지_않을때_전화번호_필드가_null이다() {
         // given
-        RegisterCustomer customer = RegisterCustomer.builder().nickname("jena").build();
+        Customer customer = Customer.registeredCustomerBuilder()
+                .nickname("jena")
+                .build();
         customer.registerLoginId("jenaId");
         customer.registerEncryptedPassword("jenaPw");
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(customer);
+        Customer savedCustomer = customerRepository.save(customer);
 
         ExtractableResponse<Response> response = given()
                 .log().all()

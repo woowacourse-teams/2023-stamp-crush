@@ -3,8 +3,8 @@ package com.stampcrush.backend.auth.application;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
+import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class VisitorAuthService {
 
-    private final RegisterCustomerRepository registerCustomerRepository;
+    private final CustomerRepository customerRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
     public AuthTokensResponse join(String nickname, String email, OAuthProvider oAuthProvider, Long oAuthId) {
-        RegisterCustomer customer = RegisterCustomer.builder()
+        Customer customer = Customer.registeredCustomerBuilder()
                 .nickname(nickname)
                 .email(email)
-                .oAuthProvider(oAuthProvider)
-                .oAuthId(oAuthId)
+                .loginId(null)
+                .encryptedPassword(null)
+                .oAuthProvider(OAuthProvider.KAKAO)
+                .oAuthId(123L)
                 .build();
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(customer);
+
+        Customer savedCustomer = customerRepository.save(customer);
         Long customerId = savedCustomer.getId();
         return authTokensGenerator.generate(customerId);
     }

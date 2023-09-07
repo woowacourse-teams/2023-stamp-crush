@@ -3,7 +3,7 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.request.OAuthRegisterCustomerCreateRequest;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -22,13 +22,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
 
-    private static final RegisterCustomer OAUTH_REGISTER_CUSTOMER = RegisterCustomer
-            .builder()
+    private static final Customer OAUTH_REGISTER_CUSTOMER = Customer.registeredCustomerBuilder()
             .nickname("깃짱")
             .email("gitchan@naver.com")
             .oAuthId(1L)
             .oAuthProvider(OAuthProvider.KAKAO)
+            .loginId(null)
+            .encryptedPassword(null)
             .build();
+
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -38,7 +40,7 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 고객의_전화번호를_저장한다() {
-        RegisterCustomer customer = OAUTH_REGISTER_CUSTOMER;
+        Customer customer = OAUTH_REGISTER_CUSTOMER;
         OAuthRegisterCustomerCreateRequest request = new OAuthRegisterCustomerCreateRequest(
                 customer.getNickname(),
                 customer.getEmail(),
@@ -60,14 +62,14 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
-        RegisterCustomer recentCustomer = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+        Customer recentCustomer = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
         transaction.commit();
 
         transaction.begin();
-        RegisterCustomer newOAuthRegisterCustomer = OAUTH_REGISTER_CUSTOMER;
+        Customer newOAuthRegisterCustomer = OAUTH_REGISTER_CUSTOMER;
         newOAuthRegisterCustomer.registerLoginId("loginId");
         newOAuthRegisterCustomer.registerEncryptedPassword("password");
-        RegisterCustomer newCustomer = customerRepository.save(newOAuthRegisterCustomer);
+        Customer newCustomer = customerRepository.save(newOAuthRegisterCustomer);
         transaction.commit();
 
         ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(newCustomer, new VisitorProfilesPhoneNumberUpdateRequest(recentCustomer.getPhoneNumber()));

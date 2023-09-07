@@ -4,13 +4,10 @@ import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +26,7 @@ class VisitHistoryRepositoryTest {
     private VisitHistoryRepository visitHistoryRepository;
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
-
-    @Autowired
-    private TemporaryCustomerRepository temporaryCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
     private OwnerRepository ownerRepository;
@@ -40,13 +34,18 @@ class VisitHistoryRepositoryTest {
     @Autowired
     private CafeRepository cafeRepository;
 
-    private TemporaryCustomer temporaryCustomer1;
-    private TemporaryCustomer temporaryCustomer2;
+    private Customer temporaryCustomer1;
+    private Customer temporaryCustomer2;
 
     @BeforeEach
     void setUp() {
-        temporaryCustomer1 = temporaryCustomerRepository.save(TemporaryCustomer.from("1234"));
-        temporaryCustomer2 = temporaryCustomerRepository.save(TemporaryCustomer.from("5678"));
+        temporaryCustomer1 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build());
+
+        temporaryCustomer2 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("01087654321")
+                .build());
     }
 
     @Test
@@ -68,9 +67,16 @@ class VisitHistoryRepositoryTest {
 
     @Test
     void 특정_카페에_대한_특정_고객의_방문_이력을_조회한다() {
+//        Customer.createRegisteredCustomer("jena", "01012345678", OAuthProvider.KAKAO, 123L);
         // given
-        Customer customer1 = registerCustomerRepository.save(new RegisterCustomer("jena", "01012345678", "jenaId", "jenaPw"));
-        TemporaryCustomer customer2 = temporaryCustomerRepository.save(TemporaryCustomer.from("010000011111"));
+        Customer registered = Customer.registeredCustomerBuilder()
+                .nickname("jena")
+                .phoneNumber("01012345678")
+                .build();
+        Customer customer1 = customerRepository.save(registered);
+        Customer customer2 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("010000011111")
+                .build());
 
         Owner cafe1Owner = ownerRepository.save(new Owner("owner1", "owner1Id", "owner1Pw", "01076532456"));
         Cafe cafe1 = cafeRepository.save(new Cafe("우아한카페",

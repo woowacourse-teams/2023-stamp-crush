@@ -5,7 +5,7 @@ import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindR
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
@@ -57,7 +57,7 @@ class VisitorCouponFindServiceTest {
     @Test
     void 하나의_카페당_하나의_쿠폰을_조회할_때_ACCUMULATING_상태의_쿠폰이_없으면_아무것도_조회하지_않는다() {
         long customerId = 1L;
-        RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+        Customer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 
         when(customerRepository.findById(customerId))
                 .thenReturn(Optional.of(customer));
@@ -71,7 +71,7 @@ class VisitorCouponFindServiceTest {
     @Test
     void 하나의_카페당_하나의_쿠폰을_조회할_수_있다() {
         long customerId = 1L;
-        RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+        Customer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
         Coupon gitchanCoupon = GITCHAN_CAFE_COUPON;
 
         when(customerRepository.findById(customerId))

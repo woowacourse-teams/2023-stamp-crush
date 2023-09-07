@@ -1,19 +1,18 @@
 package com.stampcrush.backend.initializer;
 
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,13 +22,12 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-    private final TemporaryCustomerRepository temporaryCustomerRepository;
-    private final RegisterCustomerRepository registerCustomerRepository;
     private final CafeRepository cafeRepository;
     private final OwnerRepository ownerRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
+    private final CustomerRepository customerRepository;
 
     public void run(ApplicationArguments args) {
 
@@ -47,9 +45,32 @@ public class DataInitializer implements ApplicationRunner {
                 "11111111",
                 owner_1));
 
-        RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("레오", "01038626099", "leo", "1234"));
-        RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("하디", "01064394814", "hardy", "5678"));
-        TemporaryCustomer temporaryCustomer = temporaryCustomerRepository.save(TemporaryCustomer.from("01012345678"));
+        Customer registeredCustomer1 = Customer.registeredCustomerBuilder()
+                .nickname("레오")
+                .email("01038626099")
+                .loginId("leoId")
+                .encryptedPassword("leoPw")
+                .oAuthProvider(OAuthProvider.KAKAO)
+                .oAuthId(123L)
+                .build();
+
+        Customer registeredCustomer2 = Customer.registeredCustomerBuilder()
+                .nickname("하디")
+                .email("01064394814")
+                .loginId("hardy")
+                .encryptedPassword("hardyPw")
+                .oAuthProvider(OAuthProvider.KAKAO)
+                .oAuthId(123L)
+                .build();
+
+        Customer temporaryCustomer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build();
+
+
+        Customer savedRegisteredCustomer1 = customerRepository.save(registeredCustomer1);
+        Customer savedRegisteredCustomer2 = customerRepository.save(registeredCustomer2);
+        Customer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
 
         CafePolicy savedCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(

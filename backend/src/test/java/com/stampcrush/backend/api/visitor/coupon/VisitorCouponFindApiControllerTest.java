@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.visitor.coupon;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CouponFixture;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class VisitorCouponFindApiControllerTest extends ControllerSliceTest {
     void 고객의_쿠폰_조회_요청_시_인증이_안되면_401_상태코드를_반환한다() throws Exception {
         CustomerAuthorization customerAuthorization = createCustomerAuthorization(REGISTER_CUSTOMER_GITCHAN);
 
-        when(registerCustomerRepository.findByLoginId(customerAuthorization.loginId()))
+        when(customerRepository.findByLoginId(customerAuthorization.loginId()))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(
@@ -56,11 +56,11 @@ class VisitorCouponFindApiControllerTest extends ControllerSliceTest {
 
     @Test
     void 고객의_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
-        RegisterCustomer customer = REGISTER_CUSTOMER_GITCHAN_SAVED;
+        Customer customer = REGISTER_CUSTOMER_GITCHAN_SAVED;
 
         CustomerAuthorization customerAuthorization = createCustomerAuthorization(customer);
 
-        when(registerCustomerRepository.findByLoginId(customerAuthorization.loginId()))
+        when(customerRepository.findByLoginId(customerAuthorization.loginId()))
                 .thenReturn(Optional.of(customer));
 
         when(visitorCouponFindService.findOneCouponForOneCafe(customer.getId()))
