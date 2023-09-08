@@ -26,9 +26,9 @@ const AdminLogin = () => {
         <SubTitle>스탬프크러쉬입니다.</SubTitle>
         <Text>쿠폰 관리, 이제는 온라인으로 만나보세요.</Text>
         <CheckList>
-          <CheckItem text="쿠폰 적립 고객 통계 제공" />
-          <CheckItem text="원하는 디자인으로 쿠폰 디자인 가능" />
-          <CheckItem text="손쉬운 적립 및 리워드 사용" />
+          <CheckItem text="고객에게 간편한 적립 및 리워드 사용" />
+          <CheckItem text="원하는 디자인으로 쿠폰 제작 가능" />
+          <CheckItem text="쿠폰 적립 고객 리스트 제공" />
         </CheckList>
         <a href={KAKAO_LOGIN_PAGE_URL}>
           <KakaoLoginImg src={AdminKakaoLoginButton} alt="카카오 로그인" />
