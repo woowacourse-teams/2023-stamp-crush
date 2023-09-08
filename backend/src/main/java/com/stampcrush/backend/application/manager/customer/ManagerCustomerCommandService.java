@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.manager.customer;
 
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +17,13 @@ public class ManagerCustomerCommandService {
     public Long createTemporaryCustomer(String phoneNumber) {
         checkExistCustomer(phoneNumber);
 
-        TemporaryCustomer temporaryCustomer = TemporaryCustomer.from(phoneNumber);
-        TemporaryCustomer savedTemporaryCustomer = customerRepository.save(temporaryCustomer);
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber(phoneNumber)
+                .build();
 
-        return savedTemporaryCustomer.getId();
+        Customer savedCustomer = customerRepository.save(customer);
+
+        return savedCustomer.getId();
     }
 
     private void checkExistCustomer(String phoneNumber) {

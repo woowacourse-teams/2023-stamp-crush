@@ -2,14 +2,16 @@ package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.entity.coupon.*;
+import com.stampcrush.backend.entity.coupon.Coupon;
+import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.coupon.CouponPolicy;
+import com.stampcrush.backend.entity.coupon.CouponStatus;
+import com.stampcrush.backend.entity.coupon.Stamp;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -33,10 +35,7 @@ class CouponRepositoryTest {
     private CouponRepository couponRepository;
 
     @Autowired
-    private TemporaryCustomerRepository temporaryCustomerRepository;
-
-    @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
     private CafeRepository cafeRepository;
@@ -50,12 +49,12 @@ class CouponRepositoryTest {
     @Autowired
     private OwnerRepository ownerRepository;
 
-    private TemporaryCustomer tmpCustomer1;
-    private TemporaryCustomer tmpCustomer2;
-    private TemporaryCustomer tmpCustomer3;
+    private Customer tmpCustomer1;
+    private Customer tmpCustomer2;
+    private Customer tmpCustomer3;
 
-    private RegisterCustomer registerCustomer1;
-    private RegisterCustomer registerCustomer2;
+    private Customer registerCustomer1;
+    private Customer registerCustomer2;
 
     private Cafe cafe1;
     private Cafe cafe2;
@@ -85,12 +84,24 @@ class CouponRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        tmpCustomer1 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호1"));
-        tmpCustomer2 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호2"));
-        tmpCustomer3 = temporaryCustomerRepository.save(TemporaryCustomer.from("깃짱 번호3"));
+        tmpCustomer1 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("깃짱 번호1")
+                .build());
+        tmpCustomer2 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("깃짱 번호2")
+                .build());
+        tmpCustomer3 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("깃짱 번호3")
+                .build());
 
-        registerCustomer1 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호4", "깃짱 아이디", "깃짱 비번"));
-        registerCustomer2 = registerCustomerRepository.save(new RegisterCustomer("깃짱 닉네임", "깃짱 번호5", "깃짱 아이디", "깃짱 비번"));
+        registerCustomer1 = customerRepository.save(Customer.registeredCustomerBuilder()
+                .nickname("깃짱 닉네임")
+                .phoneNumber("깃짱 번호4")
+                .build());
+        registerCustomer2 = customerRepository.save(Customer.registeredCustomerBuilder()
+                .nickname("깃짱 닉네임")
+                .phoneNumber("깃짱 번호4")
+                .build());
 
         cafe1 = cafeRepository.save(new Cafe(
                 "하디까페",

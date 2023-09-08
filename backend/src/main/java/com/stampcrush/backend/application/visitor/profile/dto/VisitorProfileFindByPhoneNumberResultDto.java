@@ -4,6 +4,9 @@ import com.stampcrush.backend.entity.user.Customer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import static com.stampcrush.backend.entity.user.CustomerType.REGISTERED;
+import static com.stampcrush.backend.entity.user.CustomerType.TEMPORARY;
+
 @Getter
 @RequiredArgsConstructor
 public class VisitorProfileFindByPhoneNumberResultDto {
@@ -28,8 +31,8 @@ public class VisitorProfileFindByPhoneNumberResultDto {
 
     private static String getRegisterType(Customer customer) {
         if (customer.isRegistered()) {
-            return "register";
+            return REGISTERED.getCustomerType();
         }
-        return "temporary";
+        return TEMPORARY.getCustomerType();
     }
 }

@@ -8,7 +8,6 @@ import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -64,8 +63,15 @@ public class ManagerCouponFindServiceTest {
     @BeforeAll
     static void setUp() {
         cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", null);
-        customer1 = new TemporaryCustomer(1L, "customer1", "phone");
-        customer2 = new TemporaryCustomer(2L, "customer2", "phone");
+//        customer1 = new TemporaryCustomer(1L, "customer1", "phone");
+        customer1 = Customer.temporaryCustomerBuilder()
+                .id(1L)
+                .phoneNumber("01012345678")
+                .build();
+        customer2 = Customer.temporaryCustomerBuilder()
+                .id(2L)
+                .phoneNumber("01098765432")
+                .build();
         couponPolicy1 = new CouponPolicy(10, "reward", 6);
         couponPolicy2 = new CouponPolicy(15, "reward", 6);
     }

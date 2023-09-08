@@ -2,7 +2,7 @@ package com.stampcrush.backend.application.visitor.profile;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindByPhoneNumberResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.StampCrushException;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -28,7 +28,7 @@ class VisitorProfilesFindServiceTest {
 
     @Test
     void 전화번호로_사용자_정상_조회() {
-        RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+        Customer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 
         given(customerRepository.findByPhoneNumber(anyString()))
                 .willReturn(List.of(customer));

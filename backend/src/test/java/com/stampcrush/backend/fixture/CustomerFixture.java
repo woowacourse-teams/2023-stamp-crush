@@ -1,19 +1,51 @@
 package com.stampcrush.backend.fixture;
 
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 
 public final class CustomerFixture {
 
-    public static final TemporaryCustomer TEMPORARY_CUSTOMER_1 = TemporaryCustomer.from("깃짱 번호");
-    public static final TemporaryCustomer TEMPORARY_CUSTOMER_2 = TemporaryCustomer.from("깃짱 번호");
-    public static final TemporaryCustomer TEMPORARY_CUSTOMER_3 = TemporaryCustomer.from("깃짱 번호");
-    public static final RegisterCustomer REGISTER_CUSTOMER_1 = new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번");
-    public static final RegisterCustomer REGISTER_CUSTOMER_2 = new RegisterCustomer("깃짱 닉네임", "깃짱 번호", "깃짱 아이디", "깃짱 비번");
-    public static final RegisterCustomer REGISTER_CUSTOMER_GITCHAN = new RegisterCustomer("깃짱", "01012345678", "gitchan", "password");
-    public static final RegisterCustomer REGISTER_CUSTOMER_GITCHAN_SAVED = new RegisterCustomer(1L, "깃짱", "01012345678", "gitchan", "password");
-    public static final RegisterCustomer REGISTER_CUSTOMER_JENA = new RegisterCustomer("jena", "01012345678", "jena", "1234");
-    public static final RegisterCustomer REGISTER_CUSTOMER_YOUNGHO = new RegisterCustomer("name", "phone", "id", "pw");
+    public static final Customer TEMPORARY_CUSTOMER_1 = Customer.temporaryCustomerBuilder()
+            .phoneNumber("깃짱 번호")
+            .build();
+    public static final Customer TEMPORARY_CUSTOMER_2 = Customer.temporaryCustomerBuilder()
+            .phoneNumber("깃짱 번호")
+            .build();
+    public static final Customer TEMPORARY_CUSTOMER_3 = Customer.temporaryCustomerBuilder()
+            .phoneNumber("깃짱 번호")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_1 = Customer.registeredCustomerBuilder()
+            .nickname("깃짱 닉네임")
+            .phoneNumber("깃짱 번호")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_2 = Customer.registeredCustomerBuilder()
+            .nickname("깃짱 닉네임")
+            .phoneNumber("깃짱 번호")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_GITCHAN = Customer.registeredCustomerBuilder()
+            .nickname("깃짱")
+            .phoneNumber("01012345678")
+            .loginId("loginId")
+            .encryptedPassword("pw")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_GITCHAN_SAVED = Customer.registeredCustomerBuilder()
+            .id(1L)
+            .nickname("깃짱")
+            .phoneNumber("01012345678")
+            .loginId("loginId")
+            .encryptedPassword("pw")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_JENA = Customer.registeredCustomerBuilder()
+            .nickname("jena")
+            .phoneNumber("01012345678")
+            .loginId("jenaId")
+            .encryptedPassword("jenaPw")
+            .build();
+    public static final Customer REGISTER_CUSTOMER_YOUNGHO = Customer.registeredCustomerBuilder()
+            .nickname("name")
+            .phoneNumber("phone")
+            .loginId("0h0Id")
+            .encryptedPassword("0h0Pw")
+            .build();
 
     private CustomerFixture() {
     }

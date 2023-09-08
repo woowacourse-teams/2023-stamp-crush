@@ -3,7 +3,11 @@ package com.stampcrush.backend.entity.reward;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -76,7 +80,7 @@ public class Reward extends BaseDate {
     }
 
     private boolean isTemporaryCustomer() {
-        return !customer.isRegistered();
+        return customer.isTemporaryCustomer();
     }
 
     private boolean isNotPublisher(Cafe cafe) {
