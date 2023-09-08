@@ -160,3 +160,5 @@ export interface CustomerProfile {
   phoneNumber: string | null;
   email: string | null;
 }
+
+export type TemplateMenu = '쿠폰(앞)' | '쿠폰(뒤)' | '스탬프';

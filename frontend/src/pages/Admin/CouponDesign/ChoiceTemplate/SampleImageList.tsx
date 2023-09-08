@@ -1,11 +1,11 @@
 import { TEMPLATE_MENU } from '../../../../constants';
-import { SampleBackCouponImage, SampleImage } from '../../../../types';
+import { SampleBackCouponImage, SampleImage, TemplateMenu } from '../../../../types';
 import { SampleCouponRes } from '../../../../types/api';
 import { useSampleImages } from './hooks/useSampleImages';
 import { SampleImageContainer, SampleImg } from './style';
 
 interface SampleImageListProps {
-  templateSelect: string; // TODO: 타입 구체화 하기
+  templateSelect: TemplateMenu; // TODO: 타입 구체화 하기
   selectedImageUrl: string;
   clickSampleImage: (image: SampleImage | SampleBackCouponImage) => void;
 }
@@ -13,7 +13,7 @@ interface SampleImageListProps {
 // TODO: 네이밍 변경
 const getImageFromData = (
   sampleImages: SampleCouponRes,
-  templateSelected: string,
+  templateSelected: TemplateMenu,
 ): SampleImage[] | SampleBackCouponImage[] => {
   switch (templateSelected) {
     case TEMPLATE_MENU.FRONT_IMAGE:

@@ -28,7 +28,6 @@ const ChoiceTemplate = ({
   const [selectedImageUrl, setSelectedImageUrl] = useState('');
 
   const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTemplateSelect(e.target.value);
     switch (e.target.value) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         setSelectedImageUrl(frontImageUrl);
@@ -40,8 +39,9 @@ const ChoiceTemplate = ({
         setSelectedImageUrl(stampImageUrl);
         break;
       default:
-        break;
+        throw new Error('유효하지 않은 템플릿 입니다.');
     }
+    setTemplateSelect(e.target.value);
   };
 
   const selectSampleImage = (imageUrl: string, coordinates?: StampCoordinate[]) => {
@@ -58,7 +58,7 @@ const ChoiceTemplate = ({
         setStampImageUrl(imageUrl);
         break;
       default:
-        break;
+        throw new Error('유효하지 않은 템플릿 입니다.');
     }
     setSelectedImageUrl(imageUrl);
   };
