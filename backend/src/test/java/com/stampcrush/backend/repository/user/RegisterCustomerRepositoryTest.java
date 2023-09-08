@@ -3,7 +3,6 @@ package com.stampcrush.backend.repository.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,17 +16,22 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class RegisterCustomerRepositoryTest {
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Test
     void 주어진_LoginId에_해당하는_고객을_조회한다() {
         // given
         String loginId = "jenaId";
-        RegisterCustomer registerCustomer = new RegisterCustomer("jena", "01012345678", loginId, "jenapw");
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(registerCustomer);
+
+        Customer registerCustomer = customerRepository.save(Customer.registeredCustomerBuilder()
+                .nickname("jena")
+                .phoneNumber("01012345678")
+                .loginId(loginId)
+                .build());
+        Customer savedCustomer = customerRepository.save(registerCustomer);
 
         // when
-        Optional<RegisterCustomer> findCustomer = registerCustomerRepository.findByLoginId(loginId);
+        Optional<Customer> findCustomer = customerRepository.findByLoginId(loginId);
 
         // then
         assertThat(findCustomer.get()).isEqualTo(savedCustomer);
@@ -39,7 +43,7 @@ class RegisterCustomerRepositoryTest {
         String notExistLoginId = "notExist";
 
         // when
-        Optional<RegisterCustomer> findCustomer = registerCustomerRepository.findByLoginId(notExistLoginId);
+        Optional<Customer> findCustomer = customerRepository.findByLoginId(notExistLoginId);
 
         // then
         assertThat(findCustomer).isEmpty();
@@ -50,15 +54,15 @@ class RegisterCustomerRepositoryTest {
         long oAuthId = 123L;
         OAuthProvider oauthProvider = OAuthProvider.KAKAO;
 
-        RegisterCustomer customer = RegisterCustomer.builder()
+        Customer customer = Customer.registeredCustomerBuilder()
                 .nickname("제나")
                 .email("yenawee@naver.com")
-                .oAuthId(oAuthId)
                 .oAuthProvider(oauthProvider)
+                .oAuthId(oAuthId)
                 .build();
 
-        Customer savedCustomer = registerCustomerRepository.save(customer);
-        RegisterCustomer findCustomer = registerCustomerRepository.findByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
+        Customer savedCustomer = customerRepository.save(customer);
+        Customer findCustomer = customerRepository.findByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
 
         assertThat(savedCustomer).isEqualTo(findCustomer);
     }

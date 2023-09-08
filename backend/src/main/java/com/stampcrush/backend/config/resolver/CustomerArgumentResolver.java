@@ -1,9 +1,9 @@
 package com.stampcrush.backend.config.resolver;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.MethodParameter;
@@ -23,7 +23,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
     private static final String BEARER_TYPE = "Bearer";
     private static final String DELIMITER = ":";
 
-    private final RegisterCustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
     @Override
@@ -43,7 +43,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
             // 비밀번호 암호화는 어디서 해야하는지 ..
             String encryptedPassword = credentials[1];
 
-            RegisterCustomer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
+            Customer customer = customerRepository.findByLoginId(loginId).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
 
             customer.checkPassword(encryptedPassword);
 
@@ -55,7 +55,7 @@ public class CustomerArgumentResolver implements HandlerMethodArgumentResolver {
             String jwtToken = authorization.substring(7);
             Long customerId = authTokensGenerator.extractMemberId(jwtToken);
             // TODO: findById 매개변수로 왜 Integer 가 들어가는지 모르겠음
-            RegisterCustomer customer = customerRepository.findById(Math.toIntExact(customerId)).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
+            Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerUnAuthorizationException("회원정보가 잘못되었습니다."));
 
             return new CustomerAuth(customer.getId());
         }

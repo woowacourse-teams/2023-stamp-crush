@@ -2,8 +2,8 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -15,10 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @KorNamingConverter
 class CouponTest {
 
+    private final Customer temporaryCustomer = Customer.temporaryCustomerBuilder()
+            .phoneNumber("01012345678")
+            .build();
+
     @Test
     void 쿠폰이_현재_USING_상태인지_확인한다() {
         // given, when
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -40,7 +44,7 @@ class CouponTest {
     @Test
     void 쿠폰이_현재_REWARD_상태인지_확인한다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -65,7 +69,7 @@ class CouponTest {
     @Test
     void 스탬프를_적립한다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -89,7 +93,7 @@ class CouponTest {
     @Test
     void 스탬프를_적립하고_최대_스탬프_개수와_같아지면_쿠폰_상태가_REWARDED가_된다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -113,7 +117,7 @@ class CouponTest {
     @Test
     void 스탬프를_적립하고_최대_스탬프_개수와_같아지면_쿠폰_상태가_REWARDED가_된다1() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -137,7 +141,7 @@ class CouponTest {
     @Test
     void 보상까지_남은_스탬프_개수를_계산한다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -161,7 +165,7 @@ class CouponTest {
     @Test
     void 스탬프_적립_시_찍힌_스탬프_합이_보상_개수보다_적으면_true다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),
@@ -184,7 +188,7 @@ class CouponTest {
     @Test
     void 스탬프_적립_시_찍힌_스탬프_합이_보상_개수와_같으면_true다() {
         // given
-        Coupon coupon = new Coupon(LocalDate.EPOCH, TemporaryCustomer.from("01012345678"), new Cafe(
+        Coupon coupon = new Coupon(LocalDate.EPOCH, temporaryCustomer, new Cafe(
                 "하디까페",
                 LocalTime.of(12, 30),
                 LocalTime.of(18, 30),

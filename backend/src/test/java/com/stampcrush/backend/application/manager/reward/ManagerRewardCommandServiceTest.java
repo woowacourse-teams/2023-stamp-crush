@@ -8,13 +8,10 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +45,7 @@ class ManagerRewardCommandServiceTest {
     private CafeRepository cafeRepository;
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
-
-    @Autowired
-    private TemporaryCustomerRepository temporaryCustomerRepository;
+    private CustomerRepository customerRepository;
 
     private Owner owner_1;
     private Owner owner_2;
@@ -70,9 +64,23 @@ class ManagerRewardCommandServiceTest {
         cafe_1 = cafeRepository.save(new Cafe("stamp-crush", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "안녕하세요", "잠실도로명", "14층", "11-11111", owner_1));
         cafe_2 = cafeRepository.save(new Cafe("wrongCafe", LocalTime.of(18, 0), LocalTime.of(23, 59), "0211111111", "imageUrl", "안녕하세요", "잠실도로", "1층", "11-11111", owner_2));
 
-        registerCustomer_1 = registerCustomerRepository.save(new RegisterCustomer("registered", "01022222222", "ehdgur@naver.com", "1111"));
-        registerCustomer_2 = registerCustomerRepository.save(new RegisterCustomer("registered2", "01044444444", "dsadsa@naver.com", "2345"));
-        temporaryCustomer = temporaryCustomerRepository.save(TemporaryCustomer.from("01033333333"));
+        Customer registered1 = Customer.registeredCustomerBuilder()
+                .nickname("registered")
+                .phoneNumber("01022222222")
+                .email("ehdgur@naver.com")
+                .build();
+
+        Customer registered2 = Customer.registeredCustomerBuilder()
+                .nickname("registered2")
+                .phoneNumber("01044444444")
+                .email("dsadsa@naver.com")
+                .build();
+
+        registerCustomer_1 = customerRepository.save(registered1);
+        registerCustomer_2 = customerRepository.save(registered2);
+        temporaryCustomer = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("01033333333")
+                .build());
 
         unusedReward = rewardRepository.save(new Reward("Americano", registerCustomer_1, cafe_1));
     }

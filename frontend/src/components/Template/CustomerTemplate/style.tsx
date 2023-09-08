@@ -1,9 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const BaseCustomerTemplate = styled.div`
+export const BaseCustomerTemplate = styled.div<{ $isHome: boolean }>`
   display: flex;
   width: 100vw;
   height: 100vh;
+
+  ${({ $isHome }) =>
+    $isHome &&
+    css`
+      touch-action: none;
+    `}
 `;
 
 export const ContentContainer = styled.main`

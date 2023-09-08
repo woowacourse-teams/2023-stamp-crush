@@ -46,10 +46,10 @@ import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,7 +102,7 @@ public abstract class DocsControllerTest {
 
     protected static final Long CAFE_ID = 1L;
     protected static final Owner OWNER = OWNER3;
-    protected static final RegisterCustomer CUSTOMER = REGISTER_CUSTOMER_GITCHAN;
+    protected static final Customer CUSTOMER = REGISTER_CUSTOMER_GITCHAN;
 
     protected static String OWNER_BASIC_HEADER;
     protected static String CUSTOMER_BASIC_HEADER;
@@ -122,7 +122,7 @@ public abstract class DocsControllerTest {
     protected OwnerRepository ownerRepository;
 
     @MockBean
-    protected RegisterCustomerRepository customerRepository;
+    protected CustomerRepository customerRepository;
 
     @MockBean
     protected VisitorCafeFindService visitorCafeFindService;

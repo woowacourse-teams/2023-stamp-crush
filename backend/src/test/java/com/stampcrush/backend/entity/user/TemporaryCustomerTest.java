@@ -15,6 +15,8 @@ class TemporaryCustomerTest {
         String invalidPhoneNumber = "010";
 
         // when, then
-        assertThatThrownBy(() -> TemporaryCustomer.from(invalidPhoneNumber)).isInstanceOf(CustomerBadRequestException.class);
+        assertThatThrownBy(() -> Customer.temporaryCustomerBuilder()
+                .phoneNumber(invalidPhoneNumber)
+                .build()).isInstanceOf(CustomerBadRequestException.class);
     }
 }

@@ -1,10 +1,11 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -29,8 +30,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
 
-    private static final RegisterCustomer REGISTER_CUSTOMER = new RegisterCustomer("깃짱", "01012345678", "customer1", "customer1");
-
+    private final Customer registerCustomer = Customer.registeredCustomerBuilder()
+            .nickname("깃짱")
+            .email("email@email.com")
+            .loginId("cutomerId")
+            .encryptedPassword("customerPw")
+            .oAuthProvider(OAuthProvider.KAKAO)
+            .oAuthId(123L)
+            .build();
     @Autowired
     private OwnerRepository ownerRepository;
 
@@ -46,12 +53,11 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페당_하나의_쿠폰을_조회할_수_있다() {
         // given
-
         // TODO: Owner에 대한 회원가입 로직이 생기면 요청으로 대체한다.
         Owner gitchan = ownerRepository.save(GITCHAN);
         Owner jena = ownerRepository.save(JENA);
 
-        RegisterCustomer customer = customerRepository.save(REGISTER_CUSTOMER);
+        Customer customer = customerRepository.save(registerCustomer);
 
         Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan, CAFE_CREATE_REQUEST);
         Cafe gitchanCafe = cafeRepository.findById(gitchanCafeId).get();
@@ -94,7 +100,7 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         Owner gitchan = ownerRepository.save(GITCHAN);
         Owner jena = ownerRepository.save(JENA);
 
-        RegisterCustomer customer = customerRepository.save(REGISTER_CUSTOMER);
+        Customer customer = customerRepository.save(registerCustomer);
 
         Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchan, CAFE_CREATE_REQUEST);
         Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jena, CAFE_CREATE_REQUEST);

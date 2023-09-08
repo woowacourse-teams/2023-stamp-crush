@@ -2,9 +2,13 @@ package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.entity.coupon.*;
+import com.stampcrush.backend.entity.coupon.Coupon;
+import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.coupon.CouponPolicy;
+import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
+import com.stampcrush.backend.entity.coupon.CouponStatus;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CouponDesignFixture;
 import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.fixture.CustomerFixture;
@@ -62,7 +66,7 @@ class CouponRepositoryTest2 {
         CouponStampCoordinate coordinates = new CouponStampCoordinate(1, 1, 1, couponDesign);
         addCouponStampCoordinate(List.of(coordinates), couponDesign);
 
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(couponDesign), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
 
         em.flush();
@@ -88,7 +92,7 @@ class CouponRepositoryTest2 {
     void 쿠폰이_참조하는_카페를_찾을_수_있다() {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
         Cafe cafe = gitchanCafeCoupon.getCafe();
 
@@ -104,7 +108,7 @@ class CouponRepositoryTest2 {
     void 쿠폰이_참조하는_카페정책을_찾을_수_있다() {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
         CouponPolicy couponPolicy = gitchanCafeCoupon.getCouponPolicy();
 
@@ -118,7 +122,7 @@ class CouponRepositoryTest2 {
     @Test
     void 쿠폰이_참조하는_쿠폰디자인을_찾을_수_있다() {
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
         CouponDesign couponDesign = gitchanCafeCoupon.getCouponDesign();
 
@@ -133,7 +137,7 @@ class CouponRepositoryTest2 {
     void 쿠폰에_적립된_스탬프의_개수를_찾을_수_있다() {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
 
         int stampCount = 4;
@@ -156,7 +160,7 @@ class CouponRepositoryTest2 {
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Cafe jenaCafe = createCafe(OwnerFixture.JENA);
 
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
 
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
         Coupon jenaCafeCoupon = saveCoupon(jenaCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
@@ -174,7 +178,7 @@ class CouponRepositoryTest2 {
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Cafe jenaCafe = createCafe(OwnerFixture.JENA);
 
-        RegisterCustomer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
 
         CouponPolicy gitchanCafeCouponPolicy = CouponPolicyFixture.COUPON_POLICY_1;
 
@@ -202,7 +206,7 @@ class CouponRepositoryTest2 {
         );
     }
 
-    private Coupon saveCoupon(Cafe savedCafe, RegisterCustomer savedCustomer, CouponDesign savedCouponDesign, CouponPolicy savedCouponPolicy) {
+    private Coupon saveCoupon(Cafe savedCafe, Customer savedCustomer, CouponDesign savedCouponDesign, CouponPolicy savedCouponPolicy) {
         return couponRepository.save(
                 new Coupon(
                         LocalDate.MAX,

@@ -1,7 +1,7 @@
 package com.stampcrush.backend.helper;
 
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 
 import java.util.Base64;
 
@@ -34,7 +34,7 @@ public final class AuthHelper {
         }
     }
 
-    public static CustomerAuthorization createCustomerAuthorization(RegisterCustomer customer) {
+    public static CustomerAuthorization createCustomerAuthorization(Customer customer) {
         String loginId = customer.getLoginId();
         String encryptedPassword = customer.getEncryptedPassword();
         String basicAuthHeader = generateBasicAuthHeader(loginId, encryptedPassword);
