@@ -26,23 +26,25 @@ import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import InputPhoneNumber from './pages/Admin/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
-import PrivateAdminProvider from './provider/PrivateAdminProvider';
+import PrivateProvider from './provider/PrivateProvider';
 
 const AdminRoot = () => {
   return (
-    <PrivateAdminProvider>
+    <PrivateProvider consumer={'admin'}>
       <Template>
         <Outlet />
       </Template>
-    </PrivateAdminProvider>
+    </PrivateProvider>
   );
 };
 
 const CustomerRoot = () => {
   return (
-    <CustomerTemplate>
-      <Outlet />
-    </CustomerTemplate>
+    <PrivateProvider consumer={'customer'}>
+      <CustomerTemplate>
+        <Outlet />
+      </CustomerTemplate>
+    </PrivateProvider>
   );
 };
 

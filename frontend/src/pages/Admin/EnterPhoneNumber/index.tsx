@@ -4,7 +4,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../constants';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
-import PrivateAdminProvider from '../../../provider/PrivateAdminProvider';
+import PrivateProvider from '../../../provider/PrivateProvider';
 
 const EnterPhoneNumber = () => {
   useRedirectRegisterPage();
@@ -15,7 +15,7 @@ const EnterPhoneNumber = () => {
   };
 
   return (
-    <PrivateAdminProvider>
+    <PrivateProvider consumer={'admin'}>
       <PageContainer>
         <Title>
           <IconWrapper onClick={navigateBack}>
@@ -31,7 +31,7 @@ const EnterPhoneNumber = () => {
           <Dialpad />
         </Container>
       </PageContainer>
-    </PrivateAdminProvider>
+    </PrivateProvider>
   );
 };
 
