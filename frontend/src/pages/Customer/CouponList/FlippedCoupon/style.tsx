@@ -1,7 +1,7 @@
 import { css, styled } from 'styled-components';
 
-export const CouponContainer = styled.div<{ $isShown: boolean }>`
-  display: ${({ $isShown }) => ($isShown ? 'flex' : 'none')};
+export const CouponContainer = styled.div`
+  display: flex;
   position: relative;
   width: 270px;
   height: 150px;

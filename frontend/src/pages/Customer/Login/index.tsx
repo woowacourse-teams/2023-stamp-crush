@@ -1,6 +1,6 @@
-import { LoginLogo } from '../../assets';
-import { CustomerKakaoLoginButton } from '../../assets';
-import { BASE_URL } from '../../constants';
+import { LoginLogo } from '../../../assets';
+import { CustomerKakaoLoginButton } from '../../../assets';
+import { BASE_URL } from '../../../constants';
 import { Container } from './style';
 
 const Login = () => {

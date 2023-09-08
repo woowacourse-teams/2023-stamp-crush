@@ -10,23 +10,25 @@ const addHypen = (phoneNumber: string) => {
 };
 
 const useDialPad = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string>('010-');
-  const phoneNumberRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [isDone, setIsDone] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('010-');
+  const phoneNumberRef = useRef<HTMLInputElement>(null);
+
   const removeNumber = () => {
-    if (phoneNumber.length < 5) {
-      return;
-    }
+    if (phoneNumber.length < 5) return;
+
     if (phoneNumber.length === 9) {
       setPhoneNumber((prev) => prev.substring(0, 7));
       return;
     }
+
     setPhoneNumber((prev) => prev.substring(0, prev.length - 1));
   };
 
-  const enter = () => {
+  const navigateNextPage = () => {
     if (phoneNumber.length !== PHONE_NUMBER_LENGTH) {
       alert('올바른 전화번호를 입력해주세요.');
       return;
@@ -36,12 +38,10 @@ const useDialPad = () => {
 
     if (location.pathname === ROUTER_PATH.enterStamp) {
       navigate(ROUTER_PATH.selectCoupon, { state: { phoneNumber: replacedPhoneNumber } });
-      return;
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {
       navigate(ROUTER_PATH.useReward, { state: { phoneNumber: replacedPhoneNumber } });
-      return;
     }
   };
 
@@ -54,7 +54,7 @@ const useDialPad = () => {
     setPhoneNumber(addHypen(e.target.value));
   };
 
-  const handleBackspace = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!(e.target instanceof HTMLInputElement)) return;
 
     if (e.target.value.length < 5 && e.key === 'Backspace') {
@@ -66,6 +66,11 @@ const useDialPad = () => {
       setPhoneNumber(e.target.value.substring(0, 8));
       return;
     }
+
+    if (e.target.value.length === 13 && e.key === 'Enter') {
+      pressPad('입력')();
+      return;
+    }
   };
 
   const pressPad = (dialKey: DialKeyType) => () => {
@@ -75,22 +80,26 @@ const useDialPad = () => {
       removeNumber();
       return;
     }
-    if (dialKey === '입력') {
-      enter();
+
+    if (phoneNumber.length === 13 && dialKey === '입력') {
+      setIsDone(true);
       return;
     }
 
-    if (phoneNumber.length > 12) return;
+    if (phoneNumber.length > 12 || dialKey === '입력') return;
 
     setPhoneNumber((prev) => addHypen(prev + dialKey));
   };
 
   return {
+    isDone,
+    setIsDone,
     phoneNumber,
     phoneNumberRef,
     handlePhoneNumber,
-    handleBackspace,
+    handleKeyDown,
     pressPad,
+    navigateNextPage,
   };
 };
 

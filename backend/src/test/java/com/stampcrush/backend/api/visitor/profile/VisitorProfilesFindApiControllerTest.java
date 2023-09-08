@@ -36,7 +36,6 @@ class VisitorProfilesFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 전화번호로_고객을_조회한다() throws Exception {
         Customer customer = CustomerFixture.TEMPORARY_CUSTOMER_1;
-        System.out.println(customer.getCustomerType());
         when(visitorProfilesFindService.findCustomerProfileByNumber(anyString()))
                 .thenReturn(
                         VisitorProfileFindByPhoneNumberResultDto.from(customer)
