@@ -5,13 +5,12 @@ import { useSampleImages } from './hooks/useSampleImages';
 import { WarnMsg, SampleImageContainer, SampleImg } from './style';
 
 interface SampleImageListProps {
-  templateSelect: TemplateMenu; // TODO: 타입 구체화 하기
+  templateSelect: TemplateMenu;
   selectedImageUrl: string;
   clickSampleImage: (image: SampleImage | SampleBackCouponImage) => void;
 }
 
-// TODO: 네이밍 변경
-const getImageFromData = (
+const getImagesFromData = (
   sampleImages: SampleCouponRes,
   templateSelected: TemplateMenu,
 ): SampleImage[] | SampleBackCouponImage[] => {
@@ -32,20 +31,22 @@ const SampleImageList = ({
   selectedImageUrl,
   clickSampleImage,
 }: SampleImageListProps) => {
-  const { data: sampleImages, status } = useSampleImages();
+  const { data, status } = useSampleImages();
 
   if (status === 'loading') return <div>페이지 로딩중..</div>;
   if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
 
+  const sampleImages = getImagesFromData(data, templateSelect);
+
   return (
     <SampleImageContainer>
-      {getImageFromData(sampleImages, templateSelect).length === 0 && (
+      {sampleImages.length === 0 && (
         <>
           <WarnMsg>템플릿이 존재하지 않아요:(</WarnMsg>
           <WarnMsg>빠른 시일 내 준비하겠습니다.</WarnMsg>
         </>
       )}
-      {getImageFromData(sampleImages, templateSelect).map((element) => (
+      {sampleImages.map((element) => (
         <SampleImg
           key={element.id}
           src={element.imageUrl}
