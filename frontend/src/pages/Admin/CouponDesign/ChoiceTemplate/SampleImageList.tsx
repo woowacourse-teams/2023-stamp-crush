@@ -2,7 +2,7 @@ import { TEMPLATE_MENU } from '../../../../constants';
 import { SampleBackCouponImage, SampleImage, TemplateMenu } from '../../../../types';
 import { SampleCouponRes } from '../../../../types/api';
 import { useSampleImages } from './hooks/useSampleImages';
-import { WarnMsg, SampleImageContainer, SampleImg } from './style';
+import { WarnMsg, SampleImageContainer, SampleImg, WarnMsgBox } from './style';
 
 interface SampleImageListProps {
   templateSelect: TemplateMenu;
@@ -38,14 +38,17 @@ const SampleImageList = ({
 
   const sampleImages = getImagesFromData(data, templateSelect);
 
+  if (!sampleImages.length) {
+    return (
+      <WarnMsgBox>
+        <WarnMsg>템플릿이 존재하지 않아요:(</WarnMsg>
+        <WarnMsg>빠른 시일 내 준비하겠습니다.</WarnMsg>
+      </WarnMsgBox>
+    );
+  }
+
   return (
     <SampleImageContainer>
-      {sampleImages.length === 0 && (
-        <>
-          <WarnMsg>템플릿이 존재하지 않아요:(</WarnMsg>
-          <WarnMsg>빠른 시일 내 준비하겠습니다.</WarnMsg>
-        </>
-      )}
       {sampleImages.map((element) => (
         <SampleImg
           key={element.id}

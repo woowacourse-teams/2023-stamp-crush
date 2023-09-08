@@ -19,6 +19,15 @@ export const WarnMsg = styled.p`
   color: ${({ theme }) => theme.colors.gray400};
 `;
 
+export const WarnMsgBox = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
 export const SampleImg = styled.img<{
   $templateType: string;
   $isSelected: boolean;
