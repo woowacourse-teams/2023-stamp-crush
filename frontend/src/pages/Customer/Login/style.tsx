@@ -53,3 +53,19 @@ export const Title = styled.h2`
   font-size: 36px;
   font-weight: 700;
 `;
+
+export const Template = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  max-width: 450px;
+  margin: 0 auto;
+  border-radius: 8px;
+
+  @media screen and (min-width: 450px) {
+    position: relative;
+
+    margin: 0 auto;
+  }
+`;
