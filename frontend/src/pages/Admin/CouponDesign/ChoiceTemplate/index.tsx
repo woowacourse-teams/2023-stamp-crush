@@ -2,12 +2,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
-import { useLocation } from 'react-router-dom';
-import { getCouponSamples } from '../../../../api/get';
-import { parseStampCount } from '../../../../utils';
 import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
-import { useQuery } from '@tanstack/react-query';
-import { SampleCouponRes } from '../../../../types/api';
+import { useSampleImages } from './hooks/useSampleImages';
 
 interface ChoiceTemplateProps {
   frontImageUrl: string;
@@ -28,18 +24,9 @@ const ChoiceTemplate = ({
   setStampImageUrl,
   setStampCoordinates,
 }: ChoiceTemplateProps) => {
-  const location = useLocation();
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
   const [selectedImageUrl, setSelectedImageUrl] = useState('');
-  const maxStampCount = parseStampCount(location.state.stampCount);
-
-  const { data: sampleImages, status } = useQuery<SampleCouponRes>(
-    ['coupon-samples', maxStampCount],
-    () => getCouponSamples({ params: { maxStampCount } }),
-    {
-      staleTime: Infinity,
-    },
-  );
+  const { data: sampleImages, status } = useSampleImages();
 
   if (status === 'loading') return <div>페이지 로딩중..</div>;
   if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
