@@ -44,7 +44,7 @@ const CouponList = () => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
     if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
-    if (couponData) {
+    if (couponData && couponData.coupons.length > 0) {
       setCurrentIndex(couponData.coupons.length - 1);
     }
   }, [couponData, customerProfile?.profile.phoneNumber]);
