@@ -18,13 +18,17 @@ import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerL
 const CouponList = () => {
   const navigate = useNavigate();
   const { customerProfile } = useCustomerProfile();
+
   const { isOpen, openModal, closeModal } = useModal();
+  const [alertMessage, setAlertMessage] = useState('');
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLast, setIsLast] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
   const [isDetail, setIsDetail] = useState(false);
   const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
+
   const couponListContainerRef = useRef<HTMLDivElement>(null);
+
   const [startY, setStartY] = useState(0);
   const [endY, setEndY] = useState(0);
 
@@ -41,7 +45,7 @@ const CouponList = () => {
       navigate(ROUTER_PATH.login);
     if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
     if (couponData) {
-      setCurrentIndex(couponData?.coupons.length - 1);
+      setCurrentIndex(couponData.coupons.length - 1);
     }
   }, [couponData, customerProfile?.profile.phoneNumber]);
 
@@ -78,6 +82,7 @@ const CouponList = () => {
 
   const swapCoupon = (e: TouchEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current || isDetail) return;
+    if (coupons.length === 1) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
