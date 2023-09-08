@@ -12,8 +12,6 @@ export const LogoImg = styled.img`
   width: 200px;
 `;
 
-export const LoginLink = styled.a``;
-
 export const KakaoLoginImg = styled.img`
   width: 300px;
 `;

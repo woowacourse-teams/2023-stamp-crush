@@ -4,7 +4,6 @@ import {
   Container,
   KakaoLoginImg,
   LogoImg,
-  LoginLink,
   LoginContent,
   BackgroundImg,
   Title,
@@ -23,7 +22,7 @@ const AdminLogin = () => {
     <Container>
       <LoginContent>
         <LogoImg src={LoginLogo} alt="스탬프크러쉬로고" />
-        <Title>안녕하세요 사장님!:{')'}</Title>
+        <Title>안녕하세요 사장님!:)</Title>
         <SubTitle>스탬프크러쉬입니다.</SubTitle>
         <Text>쿠폰 관리, 이제는 온라인으로 만나보세요.</Text>
         <CheckList>
@@ -31,9 +30,9 @@ const AdminLogin = () => {
           <CheckItem text="원하는 디자인으로 쿠폰 디자인 가능" />
           <CheckItem text="손쉬운 적립 및 리워드 사용" />
         </CheckList>
-        <LoginLink href={KAKAO_LOGIN_PAGE_URL}>
+        <a href={KAKAO_LOGIN_PAGE_URL}>
           <KakaoLoginImg src={AdminKakaoLoginButton} alt="카카오 로그인" />
-        </LoginLink>
+        </a>
         <RedirectContainer>
           <span>고객님이신가요? </span>
           <RedirectLink to={ROUTER_PATH.login}>고객님 로그인</RedirectLink>
