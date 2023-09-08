@@ -4,10 +4,10 @@ import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomersFindResponse;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     private OwnerRepository ownerRepository;
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Test
     void 고객_목록을_조회한다() {
@@ -40,8 +40,9 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         Owner owner = ownerRepository.save(JENA);
 
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer youngho = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
-        RegisterCustomer gitchan = registerCustomerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+        Customer youngho = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
+        Customer gitchan = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         Long couponId1 = 쿠폰_생성_요청하고_아이디_반환(owner, request, youngho.getId());

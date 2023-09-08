@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.visitor.cafe;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +28,7 @@ class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
     @MockBean
     private VisitorCafeFindService visitorCafeFindService;
 
-    private RegisterCustomer customer;
+    private Customer customer;
     private String basicAuthHeader;
 
     @BeforeEach
@@ -50,7 +50,7 @@ class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 카페_조회_요청_시_고객_인증이_안되면_401코드_반환() throws Exception {
         // given
-        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.empty());
+        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.empty());
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + CAFE_ID)
@@ -62,7 +62,7 @@ class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 카페_조회_요청_시_고객_인증되면_200코드_반환() throws Exception {
         // given
-        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
+        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(customer));
         when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "cafe", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "image", "address", "detail"));
 
         // when, then
@@ -75,7 +75,12 @@ class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 카페_조회_요청_시_비밀번호가_틀리면_401코드_반환() throws Exception {
         // given
-        when(registerCustomerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(new RegisterCustomer("깃짱", "01012345678", "gitchan", "wrong")));
+        Customer wrongCustomer = Customer.registeredCustomerBuilder()
+                .nickname("깃짱")
+                .loginId("gitchan")
+                .encryptedPassword("wrong")
+                .build();
+        when(customerRepository.findByLoginId(customer.getLoginId())).thenReturn(Optional.of(wrongCustomer));
 
         // when, then
         mockMvc.perform(get("/api/cafes/" + 1)

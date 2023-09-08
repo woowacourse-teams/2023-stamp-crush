@@ -5,7 +5,6 @@ import com.stampcrush.backend.api.visitor.cafe.response.CafeInfoFindResponse;
 import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustomerResultDto;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -40,7 +39,7 @@ public class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청((RegisterCustomer) customer, savedCafe.getId());
+        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청(customer, savedCafe.getId());
         CafeInfoFindByCustomerResponse cafeInfoFindByCustomerResponse = response.body().as(CafeInfoFindByCustomerResponse.class);
 
         // then
@@ -54,7 +53,7 @@ public class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
         Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_JENA);
 
         long NOT_EXIST_CAFE_ID = 1L;
-        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청((RegisterCustomer) customer, NOT_EXIST_CAFE_ID);
+        ExtractableResponse<Response> response = 고객의_카페_정보_조회_요청(customer, NOT_EXIST_CAFE_ID);
 
         assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value());
     }

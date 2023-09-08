@@ -3,7 +3,7 @@ package com.stampcrush.backend.application.visitor.reward;
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.entity.reward.Reward;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.RewardFixture;
@@ -19,7 +19,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @ServiceSliceTest
@@ -46,15 +48,15 @@ class VisitorRewardsFindServiceTest {
     @Test
     void 리워드를_조회한다() {
         // given
-        RegisterCustomer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
+        Customer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
         Reward availableReward = RewardFixture.REWARD_USED_TRUE;
         Reward usedReward = RewardFixture.REWARD_USED_FALSE;
 
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer));
-        given(rewardRepository.findAllByCustomerAndUsed(any(RegisterCustomer.class), eq(true)))
+        given(rewardRepository.findAllByCustomerAndUsed(any(Customer.class), eq(true)))
                 .willReturn(List.of(availableReward));
-        given(rewardRepository.findAllByCustomerAndUsed(any(RegisterCustomer.class), eq(false)))
+        given(rewardRepository.findAllByCustomerAndUsed(any(Customer.class), eq(false)))
                 .willReturn(List.of(usedReward));
 
         // when

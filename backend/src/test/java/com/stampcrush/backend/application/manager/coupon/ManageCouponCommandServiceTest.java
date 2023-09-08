@@ -10,7 +10,6 @@ import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
@@ -19,7 +18,6 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
 import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.coupon.StampRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -78,9 +76,6 @@ public class ManageCouponCommandServiceTest {
     @Mock
     private VisitHistoryRepository visitHistoryRepository;
 
-    @Mock
-    private StampRepository stampRepository;
-
     private static Cafe cafe;
     private static Customer customer;
     private static CouponPolicy couponPolicy;
@@ -88,7 +83,10 @@ public class ManageCouponCommandServiceTest {
     @BeforeAll
     static void setUp() {
         cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", null);
-        customer = new TemporaryCustomer(1L, "name", "phone");
+        customer = Customer.temporaryCustomerBuilder()
+                .id(1L)
+                .phoneNumber("01012345678")
+                .build();
         couponPolicy = new CouponPolicy(10, "reward", 6);
     }
 
