@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCustomer } from '../../../../api/get';
+import { postTemporaryCustomer } from '../../../../api/post';
 import Alert from '../../../../components/Alert';
-import { ROUTER_PATH } from '../../../../constants';
 import useDialPad from '../../../../hooks/useDialPad';
 import useModal from '../../../../hooks/useModal';
 import { CustomerPhoneNumberRes } from '../../../../types/api';
@@ -13,7 +12,6 @@ const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입
 export type DialKeyType = (typeof DIAL_KEYS)[number];
 
 const Dialpad = () => {
-  const navigate = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
   const {
     isDone,
@@ -26,18 +24,35 @@ const Dialpad = () => {
     navigateNextPage,
   } = useDialPad();
 
-  const { status: customerStatus } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
+  const {
+    data: customers,
+    status: customerStatus,
+    refetch: refetchCustomers,
+  } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
     queryFn: () => getCustomer({ params: { phoneNumber: phoneNumber.replaceAll('-', '') } }),
     onSuccess: (data) => {
       if (data.customer.length === 0) {
         openModal();
         return;
       }
-      navigate(ROUTER_PATH.selectCoupon, {
-        state: { phoneNumber: phoneNumber.replaceAll('-', '') },
-      });
+      navigateNextPage(data.customer[0]);
     },
     enabled: isDone,
+  });
+
+  const requestTemporaryCustomer = () => {
+    mutateTemporaryCustomer({ body: { phoneNumber: phoneNumber.replaceAll('-', '') } });
+  };
+
+  const { mutate: mutateTemporaryCustomer } = useMutation({
+    mutationFn: postTemporaryCustomer,
+    onSuccess: async () => {
+      await refetchCustomers();
+      if (customers?.customer[0]) navigateNextPage(customers.customer[0]);
+    },
+    onError: () => {
+      throw new Error('[ERROR] 임시 가입 고객 생성에 실패하였습니다.');
+    },
   });
 
   if (customerStatus === 'error') return <div>Error</div>;
@@ -51,10 +66,10 @@ const Dialpad = () => {
     <Container>
       {isOpen && (
         <Alert
-          text={phoneNumber + '님, 첫 적립이 맞으신가요?'}
+          text={phoneNumber + '님, 첫 스탬프 적립이 맞으신가요?'}
           rightOption={'네'}
           leftOption={'다시 입력'}
-          onClickRight={navigateNextPage}
+          onClickRight={requestTemporaryCustomer}
           onClickLeft={retryPhoneNumber}
         />
       )}

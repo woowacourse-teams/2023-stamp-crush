@@ -2,6 +2,7 @@ import { PHONE_NUMBER_LENGTH, REGEX, ROUTER_PATH } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../pages/Admin/EnterPhoneNumber/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { CustomerPhoneNumber } from '../types';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -28,20 +29,18 @@ const useDialPad = () => {
     setPhoneNumber((prev) => prev.substring(0, prev.length - 1));
   };
 
-  const navigateNextPage = () => {
+  const navigateNextPage = (customerState: CustomerPhoneNumber) => {
     if (phoneNumber.length !== PHONE_NUMBER_LENGTH) {
       alert('올바른 전화번호를 입력해주세요.');
       return;
     }
 
-    const replacedPhoneNumber = phoneNumber.replaceAll('-', '');
-
     if (location.pathname === ROUTER_PATH.enterStamp) {
-      navigate(ROUTER_PATH.selectCoupon, { state: { phoneNumber: replacedPhoneNumber } });
+      navigate(ROUTER_PATH.selectCoupon, { state: customerState });
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {
-      navigate(ROUTER_PATH.useReward, { state: { phoneNumber: replacedPhoneNumber } });
+      navigate(ROUTER_PATH.useReward, { state: customerState });
     }
   };
 
