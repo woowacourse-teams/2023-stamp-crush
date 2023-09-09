@@ -5,9 +5,9 @@ import com.stampcrush.backend.auth.application.VisitorAuthService;
 import com.stampcrush.backend.auth.request.OAuthRegisterCustomerCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,16 +16,24 @@ public class VisitorAuthController {
 
     private final VisitorAuthService visitorAuthService;
 
-    @PostMapping("/test/token")
-    public ResponseEntity<AuthTokensResponse> authorizeUser(
-            OAuthRegisterCustomerCreateRequest request
+    @PostMapping("/temporary/test")
+    public ResponseEntity<Void> joinTemporaryCustomer(
+            @RequestParam("phone-number") String phoneNumber
+    ) {
+        Long id = visitorAuthService.joinTemporaryCustomer(phoneNumber);
+        return ResponseEntity.created(URI.create("/customers/" + id)).build();
+    }
+
+    @PostMapping("/register/test/token")
+    public ResponseEntity<AuthTokensResponse> joinRegisterCustomer(
+            @RequestBody OAuthRegisterCustomerCreateRequest request
     ) {
         return ResponseEntity.ok().body(
                 visitorAuthService.join(
                         request.getNickname(),
                         request.getEmail(),
-                        request.getOAuthProvider(),
-                        request.getOAuthId()
+                        request.getoAuthProvider(),
+                        request.getoAuthId()
                 )
         );
     }
