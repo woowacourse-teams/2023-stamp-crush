@@ -7,5 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VisitorProfilesLinkDataDto {
 
-    private final Long id;
+    private final Long previousTemporaryCustomerId;
 }
