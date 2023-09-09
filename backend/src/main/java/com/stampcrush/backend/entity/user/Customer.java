@@ -115,4 +115,36 @@ public class Customer {
             throw new CustomerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setoAuthProvider(OAuthProvider oAuthProvider) {
+        this.oAuthProvider = oAuthProvider;
+    }
+
+    public void setoAuthId(Long oAuthId) {
+        this.oAuthId = oAuthId;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
 }
