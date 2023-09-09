@@ -1,5 +1,6 @@
 package com.stampcrush.backend.application.visitor.profile;
 
+import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.BadRequestException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
@@ -39,5 +40,8 @@ public class VisitorProfilesCommandService {
         }
 
         return findCustomer.get();
+    }
+
+    public void linkData(Long customerId, VisitorProfilesLinkDataDto dto) {
     }
 }
