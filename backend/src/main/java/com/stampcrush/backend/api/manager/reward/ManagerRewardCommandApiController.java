@@ -24,7 +24,7 @@ public class ManagerRewardCommandApiController {
             @RequestBody @Valid RewardUsedUpdateRequest request
     ) {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(rewardId, customerId, request.getCafeId(), request.getUsed());
-        managerRewardCommandService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(owner.getId(), rewardUsedUpdateDto);
         return ResponseEntity.ok().build();
     }
 }

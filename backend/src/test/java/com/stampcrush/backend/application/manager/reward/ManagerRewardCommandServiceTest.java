@@ -91,7 +91,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        managerRewardCommandService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto);
 
         // then
         assertThat(unusedReward.getUsed()).isTrue();
@@ -103,7 +103,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), Long.MAX_VALUE, cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -113,7 +113,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(Long.MAX_VALUE, registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -123,7 +123,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), Long.MAX_VALUE, true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -133,7 +133,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), temporaryCustomer.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -141,10 +141,10 @@ class ManagerRewardCommandServiceTest {
     void 이미_사용된_리워드를_사용하려하면_예외를_던진다() {
         //given
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_1.getId(), true);
-        managerRewardCommandService.useReward(rewardUsedUpdateDto);
+        managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -154,7 +154,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_1.getId(), cafe_2.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_2.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -164,7 +164,7 @@ class ManagerRewardCommandServiceTest {
         RewardUsedUpdateDto rewardUsedUpdateDto = new RewardUsedUpdateDto(unusedReward.getId(), registerCustomer_2.getId(), cafe_1.getId(), true);
 
         // when, then
-        assertThatThrownBy(() -> managerRewardCommandService.useReward(rewardUsedUpdateDto))
+        assertThatThrownBy(() -> managerRewardCommandService.useReward(owner_1.getId(), rewardUsedUpdateDto))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
