@@ -29,6 +29,7 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
         // given
         Long CAFE_ID = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         when(managerCafeCouponSettingFindService.findCafeCouponSetting(CAFE_ID)).thenReturn(
                 new CafeCouponSettingFindResultDto("frontImageUrl", "backImageUrl",
                         "stampImageUrl", List.of(
@@ -74,6 +75,7 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
         Long CAFE_ID = 1L;
         Long COUPON_ID = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         when(managerCafeCouponSettingFindService.findCouponSetting(CAFE_ID, COUPON_ID)).thenReturn(
                 new CafeCouponSettingFindResultDto("frontImageUrl", "backImageUrl",
                         "stampImageUrl", List.of(

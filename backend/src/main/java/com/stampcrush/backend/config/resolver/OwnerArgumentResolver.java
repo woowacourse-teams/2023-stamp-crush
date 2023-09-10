@@ -1,9 +1,13 @@
 package com.stampcrush.backend.config.resolver;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.MethodParameter;
@@ -14,6 +18,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.naming.AuthenticationException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
@@ -23,6 +29,8 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
     private static final String DELIMITER = ":";
 
     private final OwnerRepository ownerRepository;
+
+    private final CafeRepository cafeRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
     @Override
@@ -45,6 +53,10 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
             Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerUnAuthorizationException("회원정보가 잘못되었습니다."));
             owner.checkPassword(encryptedPassword);
 
+            HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+
+            validateOwnerShipWhenQueryString(request, owner);
+
             return new OwnerAuth(owner.getId());
         }
 
@@ -53,6 +65,10 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
             String jwtToken = authorization.substring(7);
             Long ownerId = authTokensGenerator.extractMemberId(jwtToken);
             Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerUnAuthorizationException("회원정보가 잘못되었습니다."));
+
+            HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+
+            validateOwnerShipWhenQueryString(request, owner);
 
             return new OwnerAuth(owner.getId());
         }
@@ -67,5 +83,22 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         String decodedString = new String(decodedBytes);
 
         return decodedString.split(DELIMITER);
+    }
+
+    private void validateOwnerShipWhenQueryString(HttpServletRequest request, Owner owner) {
+        String queryString = request.getQueryString();
+
+        if (queryString != null) {
+            Pattern pattern = Pattern.compile("cafe-id=([0-9]+)");
+            Matcher matcher = pattern.matcher(queryString);
+
+            if (matcher.find()) {
+                Long cafeId = Long.parseLong(matcher.group(1));
+
+                Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CafeNotFoundException("카페정보가 없습니다"));
+
+                cafe.validateOwnership(owner);
+            }
+        }
     }
 }
