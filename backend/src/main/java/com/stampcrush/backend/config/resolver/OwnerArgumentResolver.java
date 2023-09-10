@@ -14,12 +14,11 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.naming.AuthenticationException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
@@ -55,7 +54,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
 
             HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-            validateOwnerShipWhenQueryString(request, owner);
+            validateOwnerShipWhenQueryString(webRequest, owner);
             validateOwnerShipWhenPathVariable(request, owner);
 
 
@@ -70,7 +69,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
 
             HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-            validateOwnerShipWhenQueryString(request, owner);
+            validateOwnerShipWhenQueryString(webRequest, owner);
             validateOwnerShipWhenPathVariable(request, owner);
 
             return new OwnerAuth(owner.getId());
@@ -88,20 +87,14 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
         return decodedString.split(DELIMITER);
     }
 
-    private void validateOwnerShipWhenQueryString(HttpServletRequest request, Owner owner) {
-        String queryString = request.getQueryString();
+    private void validateOwnerShipWhenQueryString(WebRequest request, Owner owner) {
+        String parameter = request.getParameter("cafe-id");
 
-        if (queryString != null) {
-            Pattern pattern = Pattern.compile("cafe-id=([0-9]+)");
-            Matcher matcher = pattern.matcher(queryString);
+        if (parameter != null) {
+            Long cafeId = Long.parseLong(parameter);
 
-            if (matcher.find()) {
-                Long cafeId = Long.parseLong(matcher.group(1));
-
-                Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CafeNotFoundException("카페정보가 없습니다"));
-
-                cafe.validateOwnership(owner);
-            }
+            Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CafeNotFoundException("카페정보가 없습니다"));
+            cafe.validateOwnership(owner);
         }
     }
 
