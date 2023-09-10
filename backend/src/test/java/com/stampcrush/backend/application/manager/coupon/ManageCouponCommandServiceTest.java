@@ -78,11 +78,13 @@ public class ManageCouponCommandServiceTest {
 
     private static Cafe cafe;
     private static Customer customer;
+    private static Owner owner;
     private static CouponPolicy couponPolicy;
 
     @BeforeAll
     static void setUp() {
-        cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", null);
+        owner = new Owner(1L, "owner", "id", "pw", "010193847362");
+        cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", owner);
         customer = Customer.temporaryCustomerBuilder()
                 .id(1L)
                 .phoneNumber("01012345678")
@@ -96,6 +98,8 @@ public class ManageCouponCommandServiceTest {
         Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafe(any()))
@@ -106,7 +110,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(List.of(currentCoupon));
 
         // when
-        managerCouponCommandService.createCoupon(1L, 1L);
+        managerCouponCommandService.createCoupon(1L,1L, 1L);
 
         // then
         then(couponRepository).should(times(1)).save(any());
@@ -120,6 +124,8 @@ public class ManageCouponCommandServiceTest {
         // given
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafe(any()))
@@ -130,7 +136,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Collections.emptyList());
 
         // when
-        managerCouponCommandService.createCoupon(1L, 1L);
+        managerCouponCommandService.createCoupon(1L,1L, 1L);
 
         // then
         then(couponRepository).should(times(1)).save(any());
@@ -141,24 +147,26 @@ public class ManageCouponCommandServiceTest {
     @Test
     void 존재하지_않는_회원이_쿠폰을_발급받으려_하면_예외발생() {
         // given, when
+        given(cafeRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
                 .isInstanceOf(CustomerNotFoundException.class);
     }
 
     @Test
     void 존재하지_않는_카페가_쿠폰을_발급하려고_하면_예외발생() {
         // given, when
-        given(customerRepository.findById(anyLong()))
-                .willReturn(Optional.of(customer));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -171,9 +179,11 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafe(any()))
                 .willReturn(Optional.empty());
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -182,6 +192,8 @@ public class ManageCouponCommandServiceTest {
         // given, when
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafe(any()))
@@ -190,7 +202,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -339,7 +351,7 @@ public class ManageCouponCommandServiceTest {
 
     private void 스탬프_적립을_위해_필요한_엔티티를_조회한다(int maxStampCount, Coupon coupon) {
         given(ownerRepository.findById(any()))
-                .willReturn(Optional.of(new Owner("owner", "id", "pw", "phone")));
+                .willReturn(Optional.of(owner));
         given(customerRepository.findById(any()))
                 .willReturn(Optional.of(customer));
         given(cafeRepository.findAllByOwner(any()))

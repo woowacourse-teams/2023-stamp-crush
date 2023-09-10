@@ -46,7 +46,6 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
             String[] credentials = getCredentials(authorization);
 
             String loginId = credentials[0];
-            // 비밀번호 암호화는 어디서 해야하는지 ..
             String encryptedPassword = credentials[1];
 
             Owner owner = ownerRepository.findByLoginId(loginId).orElseThrow(() -> new OwnerUnAuthorizationException("회원정보가 잘못되었습니다."));
@@ -56,7 +55,6 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
 
             validateOwnerShipWhenQueryString(webRequest, owner);
             validateOwnerShipWhenPathVariable(request, owner);
-
 
             return new OwnerAuth(owner.getId());
         }
