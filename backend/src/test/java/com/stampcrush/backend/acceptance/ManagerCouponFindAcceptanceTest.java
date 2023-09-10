@@ -40,8 +40,8 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         Owner owner = ownerRepository.save(JENA);
 
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        Customer youngho = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
-        Customer gitchan = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+        Customer youngho = customerRepository.save(Customer.registeredCustomerBuilder().nickname("youngho").build());
+        Customer gitchan = customerRepository.save(Customer.registeredCustomerBuilder().nickname("gitchan").build());
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
@@ -67,5 +67,25 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(actual.getCustomers()).containsExactlyInAnyOrder(expected1, expected2);
+    }
+
+    @Test
+    void 내_카페가_아닌_고객의_고객목록_조회_불가능() {
+        // given
+        Owner owner = ownerRepository.save(JENA);
+        Owner notOwner = ownerRepository.save(new Owner("notOwner", "id", "pw", "01029384726"));
+
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        Customer gitchan = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
+
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
+
+        Long couponId2 = 쿠폰_생성_요청하고_아이디_반환(owner, request, gitchan.getId());
+
+        // when
+        ExtractableResponse<Response> response = 고객_목록_조회_요청(notOwner, savedCafeId);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(401);
     }
 }

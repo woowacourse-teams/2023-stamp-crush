@@ -56,6 +56,8 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
             HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
             validateOwnerShipWhenQueryString(request, owner);
+            validateOwnerShipWhenPathVariable(request, owner);
+
 
             return new OwnerAuth(owner.getId());
         }
@@ -69,6 +71,7 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
             HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
             validateOwnerShipWhenQueryString(request, owner);
+            validateOwnerShipWhenPathVariable(request, owner);
 
             return new OwnerAuth(owner.getId());
         }
@@ -99,6 +102,24 @@ public class OwnerArgumentResolver implements HandlerMethodArgumentResolver {
 
                 cafe.validateOwnership(owner);
             }
+        }
+    }
+
+    private void validateOwnerShipWhenPathVariable(HttpServletRequest request, Owner owner) {
+        String requestUri = request.getRequestURI();
+
+        String[] uriParts = requestUri.split("/");
+        Long cafeId = null;
+        for (int i = 0; i < uriParts.length; i++) {
+            if ("cafes".equals(uriParts[i]) && i + 1 < uriParts.length) {
+                cafeId = Long.parseLong(uriParts[i + 1]);
+                break;
+            }
+        }
+        if (cafeId != null) {
+            Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CafeNotFoundException("카페정보가 없습니다"));
+
+            cafe.validateOwnership(owner);
         }
     }
 }

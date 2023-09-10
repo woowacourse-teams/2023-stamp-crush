@@ -69,6 +69,7 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         // given
         Long cafeId = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         when(managerCouponFindService.findCouponsByCafe(cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10)));
 
         // when, then
