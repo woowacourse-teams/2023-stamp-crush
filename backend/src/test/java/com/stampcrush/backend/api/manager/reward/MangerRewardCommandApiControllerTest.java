@@ -36,7 +36,7 @@ public class MangerRewardCommandApiControllerTest extends ControllerSliceTest {
         RewardUsedUpdateRequest request = new RewardUsedUpdateRequest(1L, true);
         doNothing()
                 .when(managerRewardCommandService)
-                .useReward(any(RewardUsedUpdateDto.class));
+                .useReward(any(), any(RewardUsedUpdateDto.class));
 
         // when, then
         mockMvc.perform(

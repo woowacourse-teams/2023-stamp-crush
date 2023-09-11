@@ -12,22 +12,22 @@ import static io.restassured.RestAssured.given;
 
 public class ManagerCouponFindStep {
 
-    public static List<CustomerAccumulatingCouponFindResponse> 고객의_쿠폰_조회하고_결과_반환(Owner owner, Long savedCafeId, Customer savedCustomer) {
-        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, owner, savedCustomer);
+    public static List<CustomerAccumulatingCouponFindResponse> 고객의_쿠폰_조회하고_결과_반환(Owner owner, Long cafeId, Customer customer) {
+        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(cafeId, owner, customer);
         return response.jsonPath()
                 .getList("coupons", CustomerAccumulatingCouponFindResponse.class);
     }
 
-    public static ExtractableResponse<Response> 고객의_쿠폰_조회_요청(Long savedCafeId, Owner owner, Customer savedCustomer) {
+    public static ExtractableResponse<Response> 고객의_쿠폰_조회_요청(Long cafeId, Owner owner, Customer customer) {
         return given()
                 .log().all()
                 .auth().preemptive()
                 .basic(owner.getLoginId(), owner.getEncryptedPassword())
-                .queryParam("cafe-id", savedCafeId)
+                .queryParam("cafe-id", cafeId)
                 .queryParam("active", true)
 
                 .when()
-                .get("api/admin/customers/{customerId}/coupons", savedCustomer.getId())
+                .get("api/admin/customers/{customerId}/coupons", customer.getId())
 
                 .then()
                 .log().all()
