@@ -30,6 +30,10 @@ public class AuthTokensGenerator {
         return AuthTokensResponse.of(accessToken, refreshToken, BEARER_TYPE, ACCESS_TOKEN_EXPIRE_TIME / 1000L);
     }
 
+    public boolean isValidToken(String accessToken) {
+        return jwtTokenProvider.isValidToken(accessToken);
+    }
+
     public Long extractMemberId(String accessToken) {
         return Long.valueOf(jwtTokenProvider.extractSubject(accessToken));
     }
