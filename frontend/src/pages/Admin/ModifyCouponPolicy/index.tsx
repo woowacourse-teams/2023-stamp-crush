@@ -10,6 +10,7 @@ import CreatedType from './CreatedType';
 import MaxStampCount from './MaxStampCount';
 import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
+import { selectRoutePathByCreatedType } from './logic';
 
 const MODIFY_STEP_NUMBER = {
   createdType: 1,
@@ -33,27 +34,14 @@ const ModifyCouponPolicy = () => {
   });
 
   const navigateNextPage = () => {
-    if (createdType === 'template') {
-      navigate(ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.templateCouponDesign, {
-        state: {
-          createdType,
-          reward: rewardName,
-          expirePeriod,
-          stampCount: stampCount.value,
-        },
-      });
-    }
-
-    if (createdType === 'custom') {
-      navigate(ROUTER_PATH.modifyCouponPolicy + ROUTER_PATH.customCouponDesign, {
-        state: {
-          createdType,
-          reward: rewardName,
-          expirePeriod,
-          stampCount: stampCount.value,
-        },
-      });
-    }
+    navigate(`${ROUTER_PATH.modifyCouponPolicy}${selectRoutePathByCreatedType(createdType)}`, {
+      state: {
+        createdType,
+        reward: rewardName,
+        expirePeriod,
+        stampCount: stampCount.value,
+      },
+    });
   };
 
   const moveNextStep = () => {
