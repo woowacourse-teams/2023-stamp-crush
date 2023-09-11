@@ -28,6 +28,7 @@ public class ManagerCafeCommandApiDocsControllerTest extends DocsControllerTest 
     void 카페_상세_정보_변경() throws Exception {
         // given
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         CafeUpdateRequest request = new CafeUpdateRequest("안녕하세요", LocalTime.NOON, LocalTime.MIDNIGHT, "01012345678", "imageUrl");
 
         // when, then
