@@ -14,6 +14,7 @@ import CafeInfo from './CafeInfo';
 import Header from './Header';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { isEmptyArray } from '../../../utils';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const CouponList = () => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
     if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
-    if (couponData && couponData.coupons.length > 0) {
+    if (couponData && !isEmptyArray(couponData.coupons)) {
       setCurrentIndex(couponData.coupons.length - 1);
     }
   }, [couponData, customerProfile?.profile.phoneNumber]);
@@ -159,7 +160,7 @@ const CouponList = () => {
   return (
     <>
       <Header />
-      {coupons.length === 0 ? (
+      {isEmptyArray(coupons) ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
       ) : (
         <>
