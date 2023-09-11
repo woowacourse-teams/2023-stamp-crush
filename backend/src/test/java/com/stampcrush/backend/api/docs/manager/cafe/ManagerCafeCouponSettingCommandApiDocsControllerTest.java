@@ -15,6 +15,7 @@ import java.util.Optional;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,8 +27,11 @@ public class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsCo
     @Test
     void 쿠폰_디자인_및_정책_수정() throws Exception {
         // given
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
         CafeCouponSettingUpdateRequest request = new CafeCouponSettingUpdateRequest(
                 "frontImageUrl",
                 "backImageUrl",
@@ -42,7 +46,7 @@ public class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsCo
                         .param("cafe-id", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/cafe/cafe-coupon-setting",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

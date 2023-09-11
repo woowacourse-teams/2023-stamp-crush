@@ -6,8 +6,10 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponsFindResponse;
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
@@ -45,7 +47,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         return given()
                 .log().all()
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", savedCafeId);
@@ -202,7 +205,6 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         );
         CouponCreateRequest reqeust1 = new CouponCreateRequest(savedCafeId);
         Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust1, customer1.getId());
-
         Customer customer2 = customerRepository.save(
                 Customer.registeredCustomerBuilder()
                         .nickname("name2")

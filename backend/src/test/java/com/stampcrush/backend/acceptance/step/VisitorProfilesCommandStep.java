@@ -2,6 +2,7 @@ package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -19,7 +20,9 @@ public final class VisitorProfilesCommandStep {
                 .contentType(JSON)
                 .body(request)
                 .auth().preemptive()
-                .basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
+
+//                .basic(customer.getLoginId(), customer.getEncryptedPassword())
 
                 .when()
                 .post("/api/profiles/phone-number")

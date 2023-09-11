@@ -3,6 +3,7 @@ package com.stampcrush.backend.api.manager.cafe;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +27,7 @@ class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
 
     private Owner owner;
     private String basicAuthHeader;
+    private String bearerAuthHeader;
 
     @BeforeEach
     void setUp() {
@@ -34,6 +36,7 @@ class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
         String username = owner.getLoginId();
         String password = owner.getEncryptedPassword();
         basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+        bearerAuthHeader = "Bearer " + BearerAuthHelper.generateToken(owner.getId());
     }
 
     @Test
@@ -52,20 +55,21 @@ class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
         // when, then
         mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void 카페_조회_요청_시_사장_인증_되면_200코드_반환() throws Exception {
         // given
+        when(ownerRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
         when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
 
         // when, then
         mockMvc.perform(
                         get("/api/admin/cafes")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
+                                .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader)
                 )
                 .andExpect(status().isOk());
     }
@@ -79,7 +83,7 @@ class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
         // when, then
         mockMvc.perform(get("/api/admin/cafes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, basicAuthHeader))
+                        .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader))
                 .andExpect(status().isUnauthorized());
     }
 }

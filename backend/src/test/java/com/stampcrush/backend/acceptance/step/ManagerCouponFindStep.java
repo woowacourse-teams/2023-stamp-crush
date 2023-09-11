@@ -3,6 +3,7 @@ package com.stampcrush.backend.acceptance.step;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -22,7 +23,9 @@ public class ManagerCouponFindStep {
         return given()
                 .log().all()
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .queryParam("cafe-id", cafeId)
                 .queryParam("active", true)
 

@@ -14,6 +14,7 @@ import java.util.Optional;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -29,6 +30,7 @@ public class ManagerSampleCouponFindApiDocsControllerTest extends DocsController
     void 스탬프_개수별로_기본_샘플_조회() throws Exception {
         // given
         int maxStampCount = 8;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
                 .thenReturn(
@@ -39,11 +41,13 @@ public class ManagerSampleCouponFindApiDocsControllerTest extends DocsController
                                 List.of(SAMPLE_STAMP_IMAGE_SAVED)
                         )
                 );
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
 
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/admin/coupon-samples?max-stamp-count=" + maxStampCount)
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, OWNER_BASIC_HEADER)
+                                .header(AUTHORIZATION, OWNER_BEARER_HEADER)
                 )
                 .andDo(document("manager/samples/find-samples",
                                 preprocessRequest(prettyPrint()),

@@ -6,7 +6,6 @@ import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.fixture.RewardFixture;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,11 +17,10 @@ import java.util.Optional;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +29,7 @@ public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest 
     @Test
     void 리워드_조회() throws Exception {
         // given, when
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         Reward reward = RewardFixture.REWARD_USED_FALSE;
 
@@ -40,13 +39,16 @@ public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest 
                                 VisitorRewardsFindResultDto.from(reward)
                         )
                 );
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
 
         // then
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/rewards")
                                 .param("used", "false")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
+                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
+//                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
                 .andDo(document("visitor/rewards/find-rewards",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

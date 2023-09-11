@@ -3,6 +3,7 @@ package com.stampcrush.backend.acceptance.step;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CouponCreateResponse;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -22,7 +23,10 @@ public class ManagerCouponCreateStep {
                 .log().all()
                 .contentType(JSON)
                 .body(request)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .post("/api/admin/customers/" + customerId + "/coupons")

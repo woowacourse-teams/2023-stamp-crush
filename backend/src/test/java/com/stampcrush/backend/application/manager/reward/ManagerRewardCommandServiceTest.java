@@ -174,7 +174,7 @@ class ManagerRewardCommandServiceTest {
         RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), true);
 
         // when
-        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(rewardFindDto);
+        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(cafe_1.getOwner().getId(), rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(0);
@@ -186,7 +186,7 @@ class ManagerRewardCommandServiceTest {
         RewardFindDto rewardFindDto = new RewardFindDto(registerCustomer_1.getId(), cafe_1.getId(), false);
 
         // when
-        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(rewardFindDto);
+        List<RewardFindResultDto> rewards = managerRewardFindService.findRewards(cafe_1.getOwner().getId(), rewardFindDto);
 
         // then
         assertThat(rewards).hasSize(1);

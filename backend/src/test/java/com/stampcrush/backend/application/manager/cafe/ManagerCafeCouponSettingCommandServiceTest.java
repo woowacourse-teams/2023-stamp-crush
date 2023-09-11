@@ -7,6 +7,7 @@ import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,6 +40,9 @@ class ManagerCafeCouponSettingCommandServiceTest {
     private CafeRepository cafeRepository;
 
     @Mock
+    private OwnerRepository ownerRepository;
+
+    @Mock
     private CafeCouponDesignRepository cafeCouponDesignRepository;
 
     @Mock
@@ -53,18 +57,20 @@ class ManagerCafeCouponSettingCommandServiceTest {
 
         when(cafeRepository.findById(cafeId))
                 .thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> managerCafeCouponSettingCommandService.updateCafeCouponSetting(cafeId, CAFE_COUPON_SETTING_DTO))
+        assertThatThrownBy(() -> managerCafeCouponSettingCommandService.updateCafeCouponSetting(1L, cafeId, CAFE_COUPON_SETTING_DTO))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
     @Test
     void 쿠폰_세팅을_업데이트할_수_있다() {
         long cafeId = 1L;
+        long ownerId = GITCHAN_CAFE.getOwner().getId();
 
         when(cafeRepository.findById(cafeId))
                 .thenReturn(Optional.of(GITCHAN_CAFE));
+        when(ownerRepository.findById(ownerId))
+                .thenReturn(Optional.of(GITCHAN_CAFE.getOwner()));
 
-        assertDoesNotThrow(() -> managerCafeCouponSettingCommandService.updateCafeCouponSetting(cafeId, CAFE_COUPON_SETTING_DTO));
+        assertDoesNotThrow(() -> managerCafeCouponSettingCommandService.updateCafeCouponSetting(ownerId, cafeId, CAFE_COUPON_SETTING_DTO));
     }
 }

@@ -1,6 +1,7 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -14,7 +15,9 @@ public class ManagerCustomerFindStep {
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", cafeId)

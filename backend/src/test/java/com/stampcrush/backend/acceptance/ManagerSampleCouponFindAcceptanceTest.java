@@ -2,6 +2,7 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
@@ -82,7 +83,9 @@ public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .get("/api/admin/coupon-samples?max-stamp-count=8")
 
                 .then()
@@ -104,7 +107,9 @@ public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
                 .log().all()
 
                 .when()
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .get("/api/admin/coupon-samples?max-stamp-count=10")
 
                 .then()

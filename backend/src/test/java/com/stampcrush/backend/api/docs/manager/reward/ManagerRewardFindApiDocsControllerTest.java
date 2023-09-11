@@ -17,6 +17,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -30,16 +31,22 @@ public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
         // given
         Long customerId = 1L;
         Long cafeId = 1L;
+        Long ownerId = OWNER.getId();
+
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerRewardFindService.findRewards(any(RewardFindDto.class))).thenReturn(List.of(new RewardFindResultDto(1L, "아메리카노"), new RewardFindResultDto(2L, "조각케익")));
+        when(managerRewardFindService.findRewards(any(), any(RewardFindDto.class))).thenReturn(List.of(new RewardFindResultDto(1L, "아메리카노"), new RewardFindResultDto(2L, "조각케익")));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers/{customerId}/rewards", customerId)
                         .queryParam("cafe-id", String.valueOf(cafeId))
                         .queryParam("used", "false")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
+//                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/reward/find-reward",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
