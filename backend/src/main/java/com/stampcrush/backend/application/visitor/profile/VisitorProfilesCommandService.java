@@ -3,7 +3,6 @@ package com.stampcrush.backend.application.visitor.profile;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataDto;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.CustomerType;
 import com.stampcrush.backend.exception.BadRequestException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -45,7 +44,7 @@ public class VisitorProfilesCommandService {
         OAuthProvider oAuthProvider = registerCustomer.getOAuthProvider();
         Long oAuthId = registerCustomer.getOAuthId();
 
-        temporaryCustomer.setCustomerType(CustomerType.REGISTERED);
+        temporaryCustomer.toRegisterCustomer();
         temporaryCustomer.setNickname(nickname);
         temporaryCustomer.setLoginId(loginId);
         temporaryCustomer.setEncryptedPassword(encryptedPassword);

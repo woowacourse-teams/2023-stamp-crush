@@ -3,11 +3,7 @@ package com.stampcrush.backend.entity.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -144,7 +140,7 @@ public class Customer {
         this.oAuthId = oAuthId;
     }
 
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
+    public void toRegisterCustomer() {
+        this.customerType = REGISTERED;
     }
 }
