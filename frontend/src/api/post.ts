@@ -25,7 +25,7 @@ export const postEarnStamp = async ({
   );
 };
 
-export const postRegisterUser = async ({ body }: MutateReq<RegisterUserReqBody>) => {
+export const postTemporaryCustomer = async ({ body }: MutateReq<RegisterUserReqBody>) => {
   return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader(), body);
 };
 
