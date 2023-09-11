@@ -111,7 +111,6 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   modifyCouponPolicy: '/admin/modify-coupon-policy',
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
-  selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
   useReward: '/admin/use-reward',
@@ -139,4 +138,7 @@ export const MEGA_BYTE = 1024 ** 2;
 
 export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;
 
-export const BASE_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_BASE_URL;
+export const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_DEV_URL
+    : process.env.REACT_APP_BASE_URL;
