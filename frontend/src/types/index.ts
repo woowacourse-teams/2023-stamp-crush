@@ -161,4 +161,4 @@ export interface CustomerProfile {
   email: string | null;
 }
 
-export type EmptyArray<T> = T[] & { _brand: 'no empty array' };
+export type NotEmptyArray<T> = T[] & { _brand: 'not empty array' };

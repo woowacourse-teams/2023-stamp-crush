@@ -4,7 +4,7 @@ import {
   StampCountOptionValue,
   DateParseOption,
   Time,
-  EmptyArray,
+  NotEmptyArray,
 } from '../types';
 
 export const formatDate = (dateString: string) => {
@@ -96,6 +96,6 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
   }
 };
 
-export const isEmptyArray = <T>(array: T[]): array is EmptyArray<T> => {
-  return array.length === 0;
+export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
+  return array.length !== 0;
 };
