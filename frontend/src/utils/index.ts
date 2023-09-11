@@ -97,5 +97,5 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
 };
 
 export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
-  return array.length !== 0;
+  return array.length > 0;
 };
