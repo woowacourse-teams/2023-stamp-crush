@@ -14,8 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -63,5 +62,21 @@ class VisitorProfilesCommandApiControllerTest extends ControllerSliceTest {
                                 .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 데이터_연동에_성공하면_200_상태코드를_반환한다() throws Exception {
+        doNothing()
+                .when(visitorProfilesCommandService)
+                .linkData(eq(null), any());
+
+        VisitorProfilesLinkDataRequest request = new VisitorProfilesLinkDataRequest(1L);
+
+        mockMvc.perform(
+                        post("/api/profiles/link-data")
+                                .contentType(APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isOk());
     }
 }

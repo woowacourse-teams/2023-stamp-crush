@@ -1,5 +1,11 @@
 import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
-import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
+import {
+  ExpireDateOptionValue,
+  StampCountOptionValue,
+  DateParseOption,
+  Time,
+  NotEmptyArray,
+} from '../types';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
@@ -91,3 +97,7 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
 };
 
 export const removeHypen = (value: string) => value.replaceAll('-', '');
+
+export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
+  return array.length > 0;
+};

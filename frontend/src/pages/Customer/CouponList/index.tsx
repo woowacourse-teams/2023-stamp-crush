@@ -14,17 +14,22 @@ import CafeInfo from './CafeInfo';
 import Header from './Header';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { isNotEmptyArray } from '../../../utils';
 
 const CouponList = () => {
   const navigate = useNavigate();
   const { customerProfile } = useCustomerProfile();
+
   const { isOpen, openModal, closeModal } = useModal();
+  const [alertMessage, setAlertMessage] = useState('');
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLast, setIsLast] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
   const [isDetail, setIsDetail] = useState(false);
   const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
+
   const couponListContainerRef = useRef<HTMLDivElement>(null);
+
   const [startY, setStartY] = useState(0);
   const [endY, setEndY] = useState(0);
 
@@ -40,8 +45,8 @@ const CouponList = () => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
     if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
-    if (couponData) {
-      setCurrentIndex(couponData?.coupons.length - 1);
+    if (couponData && isNotEmptyArray(couponData.coupons)) {
+      setCurrentIndex(couponData.coupons.length - 1);
     }
   }, [couponData, customerProfile?.profile.phoneNumber]);
 
@@ -78,6 +83,7 @@ const CouponList = () => {
 
   const swapCoupon = (e: TouchEvent<HTMLDivElement>) => {
     if (!couponListContainerRef.current || isDetail) return;
+    if (coupons.length === 1) return;
 
     const coupon = couponListContainerRef.current.lastElementChild;
     if (e.target !== coupon) return;
@@ -154,7 +160,7 @@ const CouponList = () => {
   return (
     <>
       <Header />
-      {coupons.length === 0 ? (
+      {!isNotEmptyArray(coupons) ? (
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
       ) : (
         <>

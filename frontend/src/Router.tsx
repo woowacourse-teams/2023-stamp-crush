@@ -26,20 +26,25 @@ import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import InputPhoneNumber from './pages/Admin/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
+import PrivateProvider from './provider/PrivateProvider';
 
 const AdminRoot = () => {
   return (
-    <Template>
-      <Outlet />
-    </Template>
+    <PrivateProvider consumer={'admin'}>
+      <Template>
+        <Outlet />
+      </Template>
+    </PrivateProvider>
   );
 };
 
 const CustomerRoot = () => {
   return (
-    <CustomerTemplate>
-      <Outlet />
-    </CustomerTemplate>
+    <PrivateProvider consumer={'customer'}>
+      <CustomerTemplate>
+        <Outlet />
+      </CustomerTemplate>
+    </PrivateProvider>
   );
 };
 
@@ -77,15 +82,14 @@ const Router = () => {
       ],
     },
     // 고객
+    { path: ROUTER_PATH.auth, element: <Auth /> },
+    { path: ROUTER_PATH.login, element: <Login /> },
     {
       path: '/',
       element: <CustomerRoot />,
       errorElement: <CustomerNotFound />,
       children: [
         { index: true, element: <CouponList /> },
-        { path: ROUTER_PATH.auth, element: <Auth /> },
-        { path: ROUTER_PATH.login, element: <Login /> },
-        { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
