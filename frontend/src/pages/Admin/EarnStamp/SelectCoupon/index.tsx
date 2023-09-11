@@ -14,7 +14,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../../constants';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 import { getCoupon, getCustomer } from '../../../../api/get';
-import { postIssueCoupon, postRegisterUser } from '../../../../api/post';
+import { postIssueCoupon, postTemporaryCustomer } from '../../../../api/post';
 import Text from '../../../../components/Text';
 import { CouponActivate } from '../../../../types';
 import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../../types/api';
@@ -45,7 +45,7 @@ const SelectCoupon = () => {
   });
 
   const { mutate: mutateTempCustomer } = useMutation({
-    mutationFn: postRegisterUser,
+    mutationFn: postTemporaryCustomer,
     onSuccess: () => {
       setSelectedCoupon('new');
       refetchCustomer();
