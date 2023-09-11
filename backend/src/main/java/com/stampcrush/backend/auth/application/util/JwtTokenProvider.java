@@ -38,18 +38,12 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            System.out.println("Invalid JWT Token");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            System.out.println("Expired");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            System.out.println("Unsupported");
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            System.out.println("empty");
-        } catch (Exception e) {
-            System.out.println("뭐임?");
         }
         return false;
     }
