@@ -3,11 +3,7 @@ package com.stampcrush.backend.entity.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -114,5 +110,37 @@ public class Customer {
         if (!this.encryptedPassword.equals(encryptedPassword)) {
             throw new CustomerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setoAuthProvider(OAuthProvider oAuthProvider) {
+        this.oAuthProvider = oAuthProvider;
+    }
+
+    public void setoAuthId(Long oAuthId) {
+        this.oAuthId = oAuthId;
+    }
+
+    public void toRegisterCustomer() {
+        this.customerType = REGISTERED;
     }
 }

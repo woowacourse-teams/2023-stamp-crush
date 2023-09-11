@@ -26,4 +26,14 @@ public class VisitorProfilesCommandApiController {
         visitorProfilesCommandService.registerPhoneNumber(customer.getId(), request.getPhoneNumber());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/link-data")
+    public ResponseEntity<Void> linkData(
+            CustomerAuth customer,
+            @RequestBody VisitorProfilesLinkDataRequest request
+    ) {
+        VisitorProfilesLinkDataDto dto = request.toDto();
+        visitorProfilesCommandService.linkData(customer.getId(), dto);
+        return ResponseEntity.ok().build();
+    }
 }
