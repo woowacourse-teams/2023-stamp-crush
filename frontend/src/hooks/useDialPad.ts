@@ -3,6 +3,7 @@ import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../pages/Admin/EnterPhoneNumber/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CustomerPhoneNumber } from '../types';
+import { removeHypen } from '../utils';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -48,7 +49,7 @@ const useDialPad = () => {
     if (e.target.value.length > 4 && e.target.value.endsWith('-'))
       e.target.value = e.target.value.substring(0, e.target.value.length - 1);
 
-    if (!REGEX.number.test(e.target.value.replaceAll('-', ''))) return;
+    if (!REGEX.number.test(removeHypen(e.target.value))) return;
 
     setPhoneNumber(addHypen(e.target.value));
   };

@@ -89,3 +89,5 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
     return defaultValue;
   }
 };
+
+export const removeHypen = (value: string) => value.replaceAll('-', '');
