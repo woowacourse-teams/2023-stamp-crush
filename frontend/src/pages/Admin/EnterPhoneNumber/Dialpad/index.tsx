@@ -51,7 +51,7 @@ const Dialpad = () => {
 
   const { mutate: mutateTemporaryCustomer } = useMutation({
     mutationFn: postTemporaryCustomer,
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['customer'] });
       if (customers?.customer[0]) navigateNextPage(customers.customer[0]);
     },
