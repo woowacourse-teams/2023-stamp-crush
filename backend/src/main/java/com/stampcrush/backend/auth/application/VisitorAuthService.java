@@ -27,4 +27,12 @@ public class VisitorAuthService {
         Long customerId = savedCustomer.getId();
         return authTokensGenerator.generate(customerId);
     }
+
+    public Long joinTemporaryCustomer(String phoneNumber) {
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber(phoneNumber)
+                .build();
+
+        return customerRepository.save(customer).getId();
+    }
 }
