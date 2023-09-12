@@ -26,17 +26,16 @@ const EarnStamp = () => {
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
 
   const { data: coupon, status: couponStatus } = useGetCoupon(cafeId, customer);
+  const { data: couponDesignData, status: couponDesignStatus } = useGetCurrentCouponDesign(
+    cafeId,
+    coupon,
+  );
 
   useEffect(() => {
     if (coupon && !isNotEmptyArray(coupon.coupons)) {
       mutateIssueCoupon();
     }
   }, [coupon]);
-
-  const { data: couponDesignData, status: couponDesignStatus } = useGetCurrentCouponDesign(
-    cafeId,
-    coupon,
-  );
 
   if (couponStatus === 'error' || couponDesignStatus === 'error') return <p>Error</p>;
   if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <LoadingSpinner />;
