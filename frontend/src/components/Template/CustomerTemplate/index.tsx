@@ -3,7 +3,7 @@ import { BaseCustomerTemplate, ContentContainer } from './style';
 import BottomTabBar from './BottomTabBar';
 import { useLocation } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../constants';
-import { RouterPath } from '../../../types';
+import { RouterPath } from '../../../types/utils';
 
 const CustomerTemplate = ({ children }: PropsWithChildren) => {
   const location = useLocation();

@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StampcrushWhiteLogo } from '../../assets';
-import { Option } from '../../types';
 import {
   Container,
   EmptyContent,
@@ -23,6 +22,7 @@ import {
 } from 'react-icons/pi';
 import { IoIosLogOut } from 'react-icons/io';
 import { ROUTER_PATH } from '../../constants';
+import { Option } from '../../types/utils';
 
 const SIDE_BAR_OPTIONS: Option[] = [
   { key: '', value: '' },

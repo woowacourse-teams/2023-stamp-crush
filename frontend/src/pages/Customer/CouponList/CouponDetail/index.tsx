@@ -11,7 +11,6 @@ import {
 import { BiArrowBack } from 'react-icons/bi';
 import { FaRegClock, FaPhoneAlt, FaRegBell, FaRegTrashAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-import { Coupon } from '../../../../types';
 import { parsePhoneNumber } from '../../../../utils';
 import {
   QueryObserverResult,
@@ -20,12 +19,13 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
-import { CouponRes } from '../../../../types/api';
 import { getCafeInfo } from '../../../../api/get';
 import { deleteCoupon } from '../../../../api/delete';
 import useModal from '../../../../hooks/useModal';
 import Alert from '../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { CouponRes } from '../../../../types/api/response';
+import { Coupon } from '../../../../types/domain/coupon';
 
 interface CouponDetailProps {
   isDetail: boolean;

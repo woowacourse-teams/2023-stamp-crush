@@ -6,13 +6,13 @@ import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
 import { getCoupon, getCurrentCouponDesign } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import { IssuedCouponsRes } from '../../../types/api';
 import FlippedCoupon from '../../Customer/CouponList/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
 import Stepper from '../../../components/Stepper';
 import Text from '../../../components/Text';
+import { IssuedCouponsRes } from '../../../types/api/response';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();
