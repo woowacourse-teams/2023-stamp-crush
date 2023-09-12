@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IssueCouponRes } from '../../../../types/api';
 import { postIssueCoupon } from '../../../../api/post';
+import { CustomerPhoneNumber } from '../../../../types';
 
-const usePostIssueCoupon = (cafeId: number, customer: any) => {
+const usePostIssueCoupon = (cafeId: number, customer: CustomerPhoneNumber) => {
   const queryClient = useQueryClient();
 
   return useMutation<IssueCouponRes>({
