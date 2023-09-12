@@ -66,9 +66,9 @@ const ChoiceTemplate = ({
   const clickSampleImage = (image: SampleImage | SampleBackCouponImage) => {
     if ('stampCoordinates' in image) {
       selectSampleImage(image.imageUrl, image.stampCoordinates);
-    } else {
-      selectSampleImage(image.imageUrl);
+      return;
     }
+      selectSampleImage(image.imageUrl);
   };
 
   return (
