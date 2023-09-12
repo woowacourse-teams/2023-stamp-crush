@@ -7,7 +7,7 @@ import { WarnMsg, SampleImageContainer, SampleImg, WarnMsgBox } from './style';
 interface SampleImageListProps {
   templateSelect: TemplateMenu;
   selectedImageUrl: string;
-  clickSampleImage: (image: SampleImage | SampleBackCouponImage) => void;
+  clickSampleImage: (image: SampleImage | SampleBackCouponImage) => () => void;
 }
 
 const getImagesFromData = (
@@ -55,7 +55,7 @@ const SampleImageList = ({
           src={element.imageUrl}
           $templateType={templateSelect}
           $isSelected={selectedImageUrl === element.imageUrl}
-          onClick={() => clickSampleImage(element)}
+          onClick={clickSampleImage(element)}
         />
       ))}
     </SampleImageContainer>
