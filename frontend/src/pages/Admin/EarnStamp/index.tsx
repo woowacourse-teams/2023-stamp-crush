@@ -22,8 +22,6 @@ const EarnStamp = () => {
   const location = useLocation();
   const customer: CustomerPhoneNumber = location.state;
 
-  console.log(customer);
-
   const { mutate: mutatePostEarnStamp } = usePostEarnStamp();
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
 
