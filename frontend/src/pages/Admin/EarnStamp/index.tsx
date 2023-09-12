@@ -24,7 +24,7 @@ const EarnStamp = () => {
 
   console.log(customer);
 
-  const { mutate } = usePostEarnStamp();
+  const { mutate: mutatePostEarnStamp } = usePostEarnStamp();
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
 
   const { data: coupon, status: couponStatus } = useGetCoupon(cafeId, customer);
@@ -44,7 +44,7 @@ const EarnStamp = () => {
   if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <LoadingSpinner />;
 
   const earnStamp = () => {
-    mutate({
+    mutatePostEarnStamp({
       params: {
         customerId: Number(state.id),
         couponId: coupon.coupons[0].id,
