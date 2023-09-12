@@ -62,9 +62,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
+        log.error("", exception);
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR.value())
-                .body(new ExceptionResponse(exception.getMessage()));
-//                .body(new ExceptionResponse("알 수 없는 에러가 발생했습니다. 잠시 후 다시 시도해 주세요."));
+                .body(new ExceptionResponse("알 수 없는 에러가 발생했습니다. 잠시 후 다시 시도해 주세요."));
     }
 }
