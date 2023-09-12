@@ -23,6 +23,7 @@ module.exports = {
       {
         test: /\.(js|ts|tsx)$/i,
         exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
         use: {
           loader: 'ts-loader',
           options: {
@@ -32,6 +33,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|gif|svg|woff|woff2|eot|ttf|otf)$/,
+        include: path.resolve(__dirname, 'src/assets'),
         type: 'asset/resource',
       },
     ],
