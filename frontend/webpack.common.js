@@ -44,5 +44,4 @@ module.exports = {
       'process.env': JSON.stringify(process.env),
     }),
   ],
-  devtool: 'inline-source-map',
 };
