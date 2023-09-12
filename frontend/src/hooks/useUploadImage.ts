@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useState } from 'react';
 import { postUploadImage } from '../api/post';
-import { ImageUploadRes } from '../types/api';
+import { ImageUploadRes } from '../types/api/response';
 import { isLargeThanBoundarySize } from '../utils';
 
 const useUploadImage = (initImgUrl = '') => {

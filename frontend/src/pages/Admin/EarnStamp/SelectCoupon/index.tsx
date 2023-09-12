@@ -16,12 +16,16 @@ import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPa
 import { getCoupon, getCustomer } from '../../../../api/get';
 import { postIssueCoupon, postTemporaryCustomer } from '../../../../api/post';
 import Text from '../../../../components/Text';
-import { CouponActivate } from '../../../../types';
-import { CustomerPhoneNumberRes, IssueCouponRes, IssuedCouponsRes } from '../../../../types/api';
 import { LuStamp } from 'react-icons/lu';
 import { MdAddCard } from 'react-icons/md';
 import { CouponSelectorContainer } from '../style';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
+import { CouponActivate } from '../../../../types/domain/coupon';
+import {
+  CustomerPhoneNumberRes,
+  IssueCouponRes,
+  IssuedCouponsRes,
+} from '../../../../types/api/response';
 
 const SelectCoupon = () => {
   const navigate = useNavigate();

@@ -7,9 +7,14 @@ import { Spacing } from '../../../style/layout/common';
 import { getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import { Reward } from '../../../types';
-import { MutateReq, RewardReqBody, RewardIdParams, CustomerIdParams } from '../../../types/api';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import {
+  MutateReq,
+  RewardReqBody,
+  RewardIdParams,
+  CustomerIdParams,
+} from '../../../types/api/request';
+import { Reward } from '../../../types/domain/reward';
 
 const RewardPage = () => {
   const cafeId = useRedirectRegisterPage();

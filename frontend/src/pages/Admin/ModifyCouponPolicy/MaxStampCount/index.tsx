@@ -3,7 +3,8 @@ import Text from '../../../../components/Text';
 import SelectBox from '../../../../components/SelectBox';
 import { STAMP_COUNT_CUSTOM_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../../constants';
 import { Dispatch, SetStateAction } from 'react';
-import { CouponCreated, Option } from '../../../../types';
+import { CouponCreated } from '../../../../types/domain/coupon';
+import { Option } from '../../../../types/utils';
 
 interface MaxStampCountProps {
   createdType: CouponCreated;

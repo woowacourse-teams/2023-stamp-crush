@@ -1,17 +1,17 @@
 import { api, customerHeader, ownerHeader } from '.';
 import { BASE_URL } from '../constants';
 import {
-  CouponSettingReqBody,
-  StampEarningReqBody,
-  CafeRegisterReqBody,
-  IssueCouponReqBody,
-  RegisterUserReqBody,
-  CafeIdParams,
   MutateReq,
-  IsFavoritesReqBody,
-  CustomerIdParams,
+  StampEarningReqBody,
   CouponIdParams,
-} from '../types/api';
+  CustomerIdParams,
+  RegisterUserReqBody,
+  IssueCouponReqBody,
+  CouponSettingReqBody,
+  CafeIdParams,
+  CafeRegisterReqBody,
+  IsFavoritesReqBody,
+} from '../types/api/request';
 
 export const postEarnStamp = async ({
   params,
