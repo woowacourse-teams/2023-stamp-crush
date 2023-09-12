@@ -7,10 +7,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.tsx',
   output: {
-    filename: 'bundle.js',
+    filename: 'main.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     publicPath: '/',
