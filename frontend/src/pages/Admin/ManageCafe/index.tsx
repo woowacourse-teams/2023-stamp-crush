@@ -27,13 +27,13 @@ import { parsePhoneNumber, parseTime } from '../../../utils';
 import { DEFAULT_CAFE } from '../../../constants';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
-import defaultCafeImg from '../../../assets/default_cafe_bg.png';
 import { Cafe } from '../../../types/domain/cafe';
 import useGetCafe from './hooks/useGetCafe';
 import useGetCouponDesign from './hooks/useGetCouponDesign';
 import usePatchCafeInfo from './hooks/usePatchCafeInfo';
 import useManageCafe from './hooks/useManageCafe';
 import CafeIntroduction from './components/CafeIntroduction';
+import PreviewCafeImage from './components/PreviewCafeImage';
 
 const ManageCafe = () => {
   const cafeId = useRedirectRegisterPage();
@@ -112,12 +112,7 @@ const ManageCafe = () => {
       <PreviewContainer>
         <Text variant="subTitle">미리보기</Text>
         <PreviewImageWrapper $width={312} $height={594}>
-          <PreviewImage
-            src={!cafeImage ? defaultCafeImg : cafeImage}
-            $width={312}
-            $height={594}
-            $opacity={0.25}
-          />
+          <PreviewCafeImage cafeImage={cafeImage} />
           <PreviewCouponBackImage>
             {couponDesignData.backImageUrl !== '' ? (
               <PreviewBackImage src={couponDesignData.backImageUrl} />
