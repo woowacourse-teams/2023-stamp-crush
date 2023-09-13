@@ -23,14 +23,20 @@ const useManageCafe = (
   const [openTime, setOpenTime] = useState<Time>({ hour: '10', minute: '00' });
   const [closeTime, setCloseTime] = useState<Time>({ hour: '18', minute: '00' });
 
-  useEffect(() => {
-    if (!(isEmptyData(cafeInfo.openTime) && isEmptyData(cafeInfo.closeTime))) {
-      setOpenTime(splitTime(cafeInfo.openTime));
-      setCloseTime(splitTime(cafeInfo.closeTime));
+  const initializeCafeInfo = () => {
+    const { openTime, closeTime, telephoneNumber, introduction, cafeImageUrl } = cafeInfo;
+
+    if (!(isEmptyData(openTime) && isEmptyData(closeTime))) {
+      setOpenTime(splitTime(openTime));
+      setCloseTime(splitTime(closeTime));
     }
-    if (!isEmptyData(cafeInfo.telephoneNumber)) setPhoneNumber(cafeInfo.telephoneNumber);
-    if (!isEmptyData(cafeInfo.introduction)) setIntroduction(cafeInfo.introduction);
-    if (!isEmptyData(cafeInfo.cafeImageUrl)) setCafeImage(cafeInfo.cafeImageUrl);
+    if (!isEmptyData(telephoneNumber)) setPhoneNumber(telephoneNumber);
+    if (!isEmptyData(introduction)) setIntroduction(introduction);
+    if (!isEmptyData(cafeImageUrl)) setCafeImage(cafeImageUrl);
+  };
+
+  useEffect(() => {
+    initializeCafeInfo();
   }, [cafeInfo]);
 
   const inputPhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
