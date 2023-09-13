@@ -1,6 +1,7 @@
 import { TEMPLATE_MENU } from '../../../../constants';
-import { SampleBackCouponImage, SampleImage, TemplateMenu } from '../../../../types';
-import { SampleCouponRes } from '../../../../types/api';
+import { SampleCouponRes } from '../../../../types/api/response';
+import { SampleImage, SampleBackCouponImage } from '../../../../types/domain/coupon';
+import { TemplateMenu } from '../../../../types/utils';
 import { useSampleImages } from './hooks/useSampleImages';
 import { WarnMsg, SampleImageContainer, SampleImg, WarnMsgBox } from './style';
 
