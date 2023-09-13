@@ -14,6 +14,7 @@ const Dialpad = () => {
   const navigate = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
   const {
+    setIsDone,
     phoneNumber,
     phoneNumberRef,
     handlePhoneNumber,
@@ -27,6 +28,11 @@ const Dialpad = () => {
     navigate(ROUTER_PATH.customerList);
   };
 
+  const retryEnter = () => {
+    setIsDone(false);
+    closeModal();
+  };
+
   return (
     <Container>
       {location.pathname === ROUTER_PATH.enterStamp
@@ -36,7 +42,7 @@ const Dialpad = () => {
               rightOption={'네'}
               leftOption={'다시 입력'}
               onClickRight={requestTemporaryCustomer}
-              onClickLeft={closeModal}
+              onClickLeft={retryEnter}
             />
           )
         : isOpen && (
@@ -45,7 +51,7 @@ const Dialpad = () => {
               rightOption={'나가기'}
               leftOption={'다시 입력'}
               onClickRight={exitPage}
-              onClickLeft={closeModal}
+              onClickLeft={retryEnter}
             />
           )}
       <BaseInput

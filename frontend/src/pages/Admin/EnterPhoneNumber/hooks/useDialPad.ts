@@ -21,6 +21,7 @@ const removeNumber = (phoneNumber: string) => {
 
 const useDialPad = (openModal: () => void) => {
   const navigate = useNavigate();
+  const [isDone, setIsDone] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>('010-');
   const phoneNumberRef = useRef<HTMLInputElement>(null);
 
@@ -29,7 +30,7 @@ const useDialPad = (openModal: () => void) => {
   const { mutateAsync: mutateTemporaryCustomer } = usePostTemporaryCustomer();
 
   useEffect(() => {
-    navigateNextPage();
+    if (isDone) navigateNextPage();
   }, [customer]);
 
   const requestTemporaryCustomer = async () => {
@@ -74,13 +75,13 @@ const useDialPad = (openModal: () => void) => {
 
   const sendPhoneNumber = () => {
     if (phoneNumber.length === 13) {
+      setIsDone(true);
       navigateNextPage();
     }
   };
 
   const handlePadPressed = (dialKey: DialKeyType) => () => {
     if (phoneNumberRef.current) phoneNumberRef.current.focus();
-    if (phoneNumber.length > 12) return;
 
     if (dialKey === '←') {
       setPhoneNumber((prev) => removeNumber(prev));
@@ -92,10 +93,13 @@ const useDialPad = (openModal: () => void) => {
       return;
     }
 
+    if (phoneNumber.length > 12) return;
+
     setPhoneNumber((prev) => addHyphen(prev + dialKey));
   };
 
   return {
+    setIsDone,
     phoneNumber,
     phoneNumberRef,
     handlePhoneNumber,
