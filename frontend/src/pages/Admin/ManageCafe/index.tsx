@@ -1,12 +1,6 @@
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';
-import {
-  ManageCafeForm,
-  PageContainer,
-  PreviewContainer,
-  PreviewOverviewContainer,
-  Wrapper,
-} from './style';
+import { ManageCafeForm, PageContainer, PreviewContainer, Wrapper } from './style';
 import { useMemo } from 'react';
 import { PreviewImageWrapper } from '../CouponDesign/CustomCouponDesign/style';
 import { DEFAULT_CAFE } from '../../../constants';
@@ -23,6 +17,7 @@ import PreviewContent from './components/PreviewContent';
 import CafeImageUpload from './components/CafeImageUpload';
 import CafePhoneNumber from './components/CafePhoneNumber';
 import CafeTimePicker from './components/CafeTimePicker';
+import PreviewOverview from './components/PreviewOverview';
 
 const ManageCafe = () => {
   const cafeId = useRedirectRegisterPage();
@@ -76,10 +71,7 @@ const ManageCafe = () => {
         <PreviewImageWrapper $width={312} $height={594}>
           <PreviewCafeImage cafeImage={cafeImage} />
           <PreviewCoupon />
-          <PreviewOverviewContainer>
-            <Text variant="subTitle">{cafeInfo.name}</Text>
-            <Text>{introduction}</Text>
-          </PreviewOverviewContainer>
+          <PreviewOverview cafeName={cafeInfo.name} introduction={introduction} />
           <PreviewContent
             openTime={openTime}
             closeTime={closeTime}
