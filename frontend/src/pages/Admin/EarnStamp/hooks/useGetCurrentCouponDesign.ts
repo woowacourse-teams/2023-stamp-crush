@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCurrentCouponDesign } from '../../../../api/get';
-import { IssuedCouponsRes } from '../../../../types/api';
+import { IssuedCouponsRes } from '../../../../types/api/response';
 
 const useGetCurrentCouponDesign = (cafeId: number, coupon: IssuedCouponsRes | undefined) => {
   return useQuery({
