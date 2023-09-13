@@ -1,5 +1,5 @@
 import { MouseEvent, useState, Dispatch, SetStateAction } from 'react';
-import { Option } from '../../types';
+import { Option } from '../../types/utils';
 import { BaseSelectBox, LabelContent, SelectBoxWrapper, SelectContent } from './style';
 
 interface SelectBoxProps {

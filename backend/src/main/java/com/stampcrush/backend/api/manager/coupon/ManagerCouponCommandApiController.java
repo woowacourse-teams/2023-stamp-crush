@@ -25,7 +25,7 @@ public class ManagerCouponCommandApiController {
             @RequestBody @Valid CouponCreateRequest request,
             @PathVariable("customerId") Long customerId
     ) {
-        Long couponId = managerCouponCommandService.createCoupon(request.getCafeId(), customerId);
+        Long couponId = managerCouponCommandService.createCoupon(owner.getId(), request.getCafeId(), customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CouponCreateResponse(couponId));
     }
 

@@ -27,6 +27,7 @@ public class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsCo
     void 쿠폰_디자인_및_정책_수정() throws Exception {
         // given
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         CafeCouponSettingUpdateRequest request = new CafeCouponSettingUpdateRequest(
                 "frontImageUrl",
                 "backImageUrl",

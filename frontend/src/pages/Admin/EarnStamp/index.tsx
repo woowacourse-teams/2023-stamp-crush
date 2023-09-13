@@ -8,12 +8,12 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
 import Stepper from '../../../components/Stepper';
 import Text from '../../../components/Text';
-import { isNotEmptyArray } from '../../../utils';
 import usePostEarnStamp from './hooks/usePostEarnStamp';
+import { CustomerPhoneNumber } from '../../../types/domain/customer';
 import usePostIssueCoupon from './hooks/usePostIssueCoupon';
-import useGetCurrentCouponDesign from './hooks/useGetCurrentCouponDesign';
 import useGetCoupon from './hooks/useGetCoupon';
-import { CustomerPhoneNumber } from '../../../types';
+import useGetCurrentCouponDesign from './hooks/useGetCurrentCouponDesign';
+import { isNotEmptyArray } from '../../../utils';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();

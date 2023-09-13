@@ -4,6 +4,7 @@ import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.config.interceptor.BasicAuthInterceptor;
 import com.stampcrush.backend.config.resolver.CustomerArgumentResolver;
 import com.stampcrush.backend.config.resolver.OwnerArgumentResolver;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final OwnerRepository ownerRepository;
     private final AuthTokensGenerator authTokensGenerator;
     private final CustomerRepository customerRepository;
+    private final CafeRepository cafeRepository;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -38,7 +40,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new OwnerArgumentResolver(ownerRepository, authTokensGenerator));
+        resolvers.add(new OwnerArgumentResolver(ownerRepository, cafeRepository, authTokensGenerator));
         resolvers.add(new CustomerArgumentResolver(customerRepository, authTokensGenerator));
     }
 }

@@ -2,8 +2,8 @@ import { PHONE_NUMBER_LENGTH, REGEX, ROUTER_PATH } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../pages/Admin/EnterPhoneNumber/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CustomerPhoneNumber } from '../types';
 import { removeHypen } from '../utils';
+import { CustomerPhoneNumber } from '../types/domain/customer';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8

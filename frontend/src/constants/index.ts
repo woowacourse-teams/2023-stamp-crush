@@ -1,4 +1,5 @@
-import { StampCountOption, RouterPath } from '../types';
+import { StampCountOption } from '../types/domain/coupon';
+import { RouterPath } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,

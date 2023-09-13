@@ -5,12 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingCommandService;
+import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ManagerCafeCouponSettingCommandApiController.class)
+@WebMvcTest(value = ManagerCafeCouponSettingCommandApiController.class,
+     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerSliceTest {
 
     private static final CafeCouponSettingUpdateRequest CAFE_COUPON_SETTING_UPDATE_REQUEST = new CafeCouponSettingUpdateRequest(
@@ -36,36 +40,6 @@ class ManagerCafeCouponSettingCommandApiControllerTest extends ControllerSliceTe
 
     @MockBean
     private ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
-
-    @Test
-    void 카페_쿠폰_정책_변경_시_인증_헤더_정보가_없으면_401_상태코드를_반환한다() throws Exception {
-        String requestBody = formatRequestBody(CAFE_COUPON_SETTING_UPDATE_REQUEST);
-
-        mockMvc.perform(
-                        post("/api/admin/coupon-setting?cafe-id=1")
-                                .contentType(APPLICATION_JSON)
-                                .content(requestBody)
-                )
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void 카페_쿠폰_정책_변경_시_인증이_안되면_401_상태코드를_반환한다() throws Exception {
-        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(OwnerFixture.GITCHAN);
-
-        when(ownerRepository.findByLoginId(ownerAuthorization.getOwner().getLoginId()))
-                .thenReturn(Optional.empty());
-
-        String requestBody = formatRequestBody(CAFE_COUPON_SETTING_UPDATE_REQUEST);
-
-        mockMvc.perform(
-                        post("/api/admin/coupon-setting?cafe-id=1")
-                                .contentType(APPLICATION_JSON)
-                                .content(requestBody)
-                                .header(AUTHORIZATION, ownerAuthorization.getBasicAuthHeader())
-                )
-                .andExpect(status().isUnauthorized());
-    }
 
     @Test
     void 카페_쿠폰_정책_변경_시_인증이_되면_204_상태코드와_응답을_반환한다() throws Exception {

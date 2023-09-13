@@ -13,13 +13,13 @@ import { useState } from 'react';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import Text from '../../../../components/Text';
 import StampCustomModal from './StampCustomModal';
-import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import CouponPreviewSection from '../CouponPreviewSection';
 import { useLocation } from 'react-router-dom';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
+import { CouponDesignLocation, StampCoordinate } from '../../../../types/domain/coupon';
 
 const CustomCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();

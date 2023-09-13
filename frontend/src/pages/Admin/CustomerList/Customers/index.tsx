@@ -1,5 +1,5 @@
-import { Customer } from '../../../../types';
-import { CustomersRes } from '../../../../types/api';
+import { CustomersRes } from '../../../../types/api/response';
+import { Customer } from '../../../../types/domain/customer';
 import {
   Container,
   Badge,

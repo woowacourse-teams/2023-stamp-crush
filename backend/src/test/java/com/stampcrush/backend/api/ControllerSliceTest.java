@@ -2,6 +2,7 @@ package com.stampcrush.backend.api;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,7 @@ public abstract class ControllerSliceTest {
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
+
+    @MockBean
+    public CafeRepository cafeRepository;
 }

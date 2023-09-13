@@ -31,6 +31,7 @@ public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
         Long customerId = 1L;
         Long cafeId = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         when(managerRewardFindService.findRewards(any(RewardFindDto.class))).thenReturn(List.of(new RewardFindResultDto(1L, "아메리카노"), new RewardFindResultDto(2L, "조각케익")));
 
         // when, then
