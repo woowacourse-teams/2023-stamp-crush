@@ -2,10 +2,10 @@ import { PHONE_NUMBER_LENGTH, REGEX, ROUTER_PATH } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../pages/Admin/EnterPhoneNumber/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { removeHypen } from '../utils';
+import { removeHyphen } from '../utils';
 import { CustomerPhoneNumber } from '../types/domain/customer';
 
-const addHypen = (phoneNumber: string) => {
+const addHyphen = (phoneNumber: string) => {
   return phoneNumber.length === 8
     ? phoneNumber.substring(0, 8) + '-' + phoneNumber.substring(8, phoneNumber.length)
     : phoneNumber;
@@ -49,9 +49,9 @@ const useDialPad = () => {
     if (e.target.value.length > 4 && e.target.value.endsWith('-'))
       e.target.value = e.target.value.substring(0, e.target.value.length - 1);
 
-    if (!REGEX.number.test(removeHypen(e.target.value))) return;
+    if (!REGEX.number.test(removeHyphen(e.target.value))) return;
 
-    setPhoneNumber(addHypen(e.target.value));
+    setPhoneNumber(addHyphen(e.target.value));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -88,7 +88,7 @@ const useDialPad = () => {
 
     if (phoneNumber.length > 12 || dialKey === '입력') return;
 
-    setPhoneNumber((prev) => addHypen(prev + dialKey));
+    setPhoneNumber((prev) => addHyphen(prev + dialKey));
   };
 
   return {
