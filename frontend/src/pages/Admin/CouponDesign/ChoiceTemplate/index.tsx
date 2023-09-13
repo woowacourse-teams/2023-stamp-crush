@@ -2,7 +2,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
-import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
+import {
+  SampleBackCouponImage,
+  SampleImage,
+  StampCoordinate,
+} from '../../../../types/domain/coupon';
 import SampleImageList from './SampleImageList';
 
 interface ChoiceTemplateProps {

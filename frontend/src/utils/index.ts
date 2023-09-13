@@ -1,5 +1,6 @@
 import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
-import { ExpireDateOptionValue, StampCountOptionValue, DateParseOption, Time } from '../types';
+import { ExpireDateOptionValue, StampCountOptionValue } from '../types/domain/coupon';
+import { Time, DateParseOption, NotEmptyArray } from '../types/utils';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
@@ -88,4 +89,10 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
     console.error(`[ERROR] ${key}값의 LocalStorage data 파싱 과정에서 오류가 발생했습니다.`);
     return defaultValue;
   }
+};
+
+export const removeHypen = (value: string) => value.replaceAll('-', '');
+
+export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
+  return array.length > 0;
 };

@@ -21,6 +21,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpd
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
@@ -80,6 +81,24 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                                 )
                         )
         );
+    }
+
+    @Test
+    void 내카페가_아닌_카페의_쿠폰을_발급할수_없다() {
+        // given
+        Owner owner = ownerRepository.save(new Owner("owner", "id1", "pw1", "01029384234"));
+        Owner notOwner = ownerRepository.save(new Owner("notowner", "id2", "pw2", "01049384234"));
+
+        Customer savedCustomer = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
+
+        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        CouponCreateRequest request = new CouponCreateRequest(cafeId);
+
+        // when
+        ExtractableResponse<Response> response = 쿠폰_생성_요청(notOwner, request, savedCustomer.getId());
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(401);
     }
 
     @Test

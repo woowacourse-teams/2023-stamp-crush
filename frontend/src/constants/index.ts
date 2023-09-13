@@ -1,4 +1,5 @@
-import { StampCountOption, RouterPath, TemplateMenu } from '../types';
+import { StampCountOption } from '../types/domain/coupon';
+import { RouterPath, TemplateMenu } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
@@ -111,7 +112,6 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   modifyCouponPolicy: '/admin/modify-coupon-policy',
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
-  selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
   useReward: '/admin/use-reward',

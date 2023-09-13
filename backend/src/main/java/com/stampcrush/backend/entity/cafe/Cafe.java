@@ -2,6 +2,7 @@ package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -90,5 +91,11 @@ public class Cafe extends BaseDate {
         this.closeTime = closeTime;
         this.telephoneNumber = telephoneNumber;
         this.cafeImageUrl = cafeImageUrl;
+    }
+
+    public void validateOwnership(Owner owner) {
+        if (!this.owner.equals(owner)) {
+            throw new OwnerUnAuthorizationException("카페에 대한 권한이 없습니다");
+        }
     }
 }

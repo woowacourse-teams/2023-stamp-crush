@@ -3,17 +3,13 @@ package com.stampcrush.backend.entity.user;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import com.stampcrush.backend.exception.CustomerUnAuthorizationException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.stampcrush.backend.entity.user.CustomerType.REGISTERED;
+import static com.stampcrush.backend.entity.user.CustomerType.REGISTER;
 import static com.stampcrush.backend.entity.user.CustomerType.TEMPORARY;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -48,6 +44,7 @@ public class Customer {
     private Long oAuthId;
 
     @Enumerated(STRING)
+    @Column(name = "customer_type")
     private CustomerType customerType;
 
     @Builder(builderMethodName = "registeredCustomerBuilder", builderClassName = "RegisterCustomer")
@@ -69,7 +66,7 @@ public class Customer {
         this.encryptedPassword = encryptedPassword;
         this.oAuthProvider = oAuthProvider;
         this.oAuthId = oAuthId;
-        this.customerType = REGISTERED;
+        this.customerType = REGISTER;
     }
 
     @Builder(builderMethodName = "temporaryCustomerBuilder")
@@ -107,12 +104,44 @@ public class Customer {
     }
 
     public boolean isRegistered() {
-        return customerType == REGISTERED;
+        return customerType == REGISTER;
     }
 
     public void checkPassword(String encryptedPassword) {
         if (!this.encryptedPassword.equals(encryptedPassword)) {
             throw new CustomerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setoAuthProvider(OAuthProvider oAuthProvider) {
+        this.oAuthProvider = oAuthProvider;
+    }
+
+    public void setoAuthId(Long oAuthId) {
+        this.oAuthId = oAuthId;
+    }
+
+    public void toRegisterCustomer() {
+        this.customerType = REGISTER;
     }
 }

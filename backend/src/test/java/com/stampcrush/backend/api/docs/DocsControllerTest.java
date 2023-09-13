@@ -46,8 +46,10 @@ import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
+import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -65,6 +67,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.time.LocalTime;
 import java.util.Base64;
 
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
@@ -102,6 +105,8 @@ public abstract class DocsControllerTest {
 
     protected static final Long CAFE_ID = 1L;
     protected static final Owner OWNER = OWNER3;
+    protected static final Cafe CAFE = new Cafe(CAFE_ID, "cafe", LocalTime.NOON, LocalTime.MIDNIGHT,
+            "010123432445", "imageUrl", "intro", "road", "detail", "1234", OWNER);
     protected static final Customer CUSTOMER = REGISTER_CUSTOMER_GITCHAN;
 
     protected static String OWNER_BASIC_HEADER;
@@ -189,6 +194,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     public AuthTokensGenerator authTokensGenerator;
+
+    @MockBean
+    public CafeRepository cafeRepository;
 
     @BeforeAll
     static void setUpAuth() {

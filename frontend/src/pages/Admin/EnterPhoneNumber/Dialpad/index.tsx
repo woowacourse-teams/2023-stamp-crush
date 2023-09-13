@@ -1,11 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getCustomer } from '../../../../api/get';
+import { postTemporaryCustomer } from '../../../../api/post';
 import Alert from '../../../../components/Alert';
 import { ROUTER_PATH } from '../../../../constants';
 import useDialPad from '../../../../hooks/useDialPad';
 import useModal from '../../../../hooks/useModal';
-import { CustomerPhoneNumberRes } from '../../../../types/api';
+import { CustomerPhoneNumberRes } from '../../../../types/api/response';
+import { removeHypen } from '../../../../utils';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
 
 const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
@@ -13,7 +15,9 @@ const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입
 export type DialKeyType = (typeof DIAL_KEYS)[number];
 
 const Dialpad = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isOpen, openModal, closeModal } = useModal();
   const {
     isDone,
@@ -26,18 +30,34 @@ const Dialpad = () => {
     navigateNextPage,
   } = useDialPad();
 
-  const { status: customerStatus } = useQuery<CustomerPhoneNumberRes>(['customer', phoneNumber], {
-    queryFn: () => getCustomer({ params: { phoneNumber: phoneNumber.replaceAll('-', '') } }),
-    onSuccess: (data) => {
-      if (data.customer.length === 0) {
-        openModal();
-        return;
-      }
-      navigate(ROUTER_PATH.selectCoupon, {
-        state: { phoneNumber: phoneNumber.replaceAll('-', '') },
-      });
+  const { data: customers, status: customerStatus } = useQuery<CustomerPhoneNumberRes>(
+    ['customer', phoneNumber],
+    {
+      queryFn: () => getCustomer({ params: { phoneNumber: removeHypen(phoneNumber) } }),
+      onSuccess: (data) => {
+        if (data.customer.length === 0) {
+          openModal();
+          return;
+        }
+        navigateNextPage(data.customer[0]);
+      },
+      enabled: isDone,
     },
-    enabled: isDone,
+  );
+
+  const requestTemporaryCustomer = () => {
+    mutateTemporaryCustomer({ body: { phoneNumber: removeHypen(phoneNumber) } });
+  };
+
+  const { mutate: mutateTemporaryCustomer } = useMutation({
+    mutationFn: postTemporaryCustomer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['customer'] });
+      if (customers?.customer[0]) navigateNextPage(customers.customer[0]);
+    },
+    onError: () => {
+      throw new Error('[ERROR] 임시 가입 고객 생성에 실패하였습니다.');
+    },
   });
 
   if (customerStatus === 'error') return <div>Error</div>;
@@ -47,17 +67,32 @@ const Dialpad = () => {
     setIsDone(false);
   };
 
+  const navigateCustomerListPage = () => {
+    closeModal();
+    navigate(ROUTER_PATH.customerList);
+  };
+
   return (
     <Container>
-      {isOpen && (
-        <Alert
-          text={phoneNumber + '님, 첫 적립이 맞으신가요?'}
-          rightOption={'네'}
-          leftOption={'다시 입력'}
-          onClickRight={navigateNextPage}
-          onClickLeft={retryPhoneNumber}
-        />
-      )}
+      {location.pathname === ROUTER_PATH.enterStamp
+        ? isOpen && (
+            <Alert
+              text={phoneNumber + '님, 첫 스탬프 적립이 맞으신가요?'}
+              rightOption={'네'}
+              leftOption={'다시 입력'}
+              onClickRight={requestTemporaryCustomer}
+              onClickLeft={retryPhoneNumber}
+            />
+          )
+        : isOpen && (
+            <Alert
+              text={phoneNumber + '님은 \n스탬프크러쉬 회원이 아니에요 🥲'}
+              rightOption={'네'}
+              leftOption={'다시 입력'}
+              onClickRight={navigateCustomerListPage}
+              onClickLeft={retryPhoneNumber}
+            />
+          )}
       <BaseInput
         id="phoneNumber"
         value={phoneNumber}

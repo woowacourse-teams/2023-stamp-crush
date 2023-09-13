@@ -14,6 +14,7 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
+import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
@@ -50,9 +51,14 @@ public class ManagerCouponCommandService {
     private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 
-    public Long createCoupon(Long cafeId, Long customerId) {
-        Customer customer = findCustomerById(customerId);
+    public Long createCoupon(Long ownerId, Long cafeId, Long customerId) {
         Cafe cafe = findCafeById(cafeId);
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException("회원가입을 먼저 진행해주세요"));
+
+        cafe.validateOwnership(owner);
+
+        Customer customer = findCustomerById(customerId);
         CafePolicy cafePolicy = findCafePolicy(cafe);
         CafeCouponDesign cafeCouponDesign = findCafeCouponDesign(cafe);
         List<Coupon> existCoupons = couponRepository.findByCafeAndCustomerAndStatus(cafe, customer, CouponStatus.ACCUMULATING);

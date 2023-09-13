@@ -5,11 +5,12 @@ import { ButtonContainer, StepContainer, StepWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
 import Text from '../../../components/Text';
 import { EXPIRE_DATE_OPTIONS, ROUTER_PATH, STAMP_COUNT_OPTIONS } from '../../../constants';
-import { CouponCreated, Option } from '../../../types';
 import CreatedType from './CreatedType';
 import MaxStampCount from './MaxStampCount';
 import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
+import { CouponCreated } from '../../../types/domain/coupon';
+import { Option } from '../../../types/utils';
 
 const MODIFY_STEP_NUMBER = {
   createdType: 1,

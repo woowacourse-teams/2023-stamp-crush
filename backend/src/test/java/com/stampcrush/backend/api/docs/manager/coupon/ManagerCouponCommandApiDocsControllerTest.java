@@ -29,7 +29,7 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
         Long customerId = 1L;
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CouponCreateRequest request = new CouponCreateRequest(cafeId);
-        when(managerCouponCommandService.createCoupon(cafeId, customerId)).thenReturn(1L);
+        when(managerCouponCommandService.createCoupon(OWNER.getId(), cafeId, customerId)).thenReturn(1L);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons", customerId)

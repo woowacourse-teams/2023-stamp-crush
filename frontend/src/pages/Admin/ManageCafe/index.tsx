@@ -15,7 +15,7 @@ import {
   Wrapper,
 } from './style';
 import TimeRangePicker from './TimeRangePicker';
-import { ChangeEvent, FormEventHandler, Suspense, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ImageUpLoadInput,
@@ -32,11 +32,12 @@ import { getCafe, getCouponDesign } from '../../../api/get';
 import { isEmptyData, parsePhoneNumber, parseTime } from '../../../utils';
 import { patchCafeInfo } from '../../../api/patch';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import { Cafe, Time } from '../../../types';
-import { CafeInfoReqBody } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import defaultCafeImg from '../../../assets/default_cafe_bg.png';
+import { Time } from '../../../types/utils';
+import { CafeInfoReqBody } from '../../../types/api/request';
+import { Cafe } from '../../../types/domain/cafe';
 
 const ManageCafe = () => {
   const cafeId = useRedirectRegisterPage();
