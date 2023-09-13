@@ -1,11 +1,11 @@
 import { StampCountOption } from '../types/domain/coupon';
-import { RouterPath } from '../types/utils';
+import { RouterPath, TemplateMenu } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
 } as const;
 
-export const TEMPLATE_MENU = {
+export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
   FRONT_IMAGE: '쿠폰(앞)',
   BACK_IMAGE: '쿠폰(뒤)',
   STAMP: '스탬프',
