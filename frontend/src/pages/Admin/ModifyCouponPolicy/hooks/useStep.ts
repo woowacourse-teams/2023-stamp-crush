@@ -1,9 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MODIFY_STEP_NUMBER } from '../common/constant';
-import { CouponCreated, Option } from '../../../../types';
 import { selectRoutePathByCreatedType } from '../logic';
 import { ROUTER_PATH } from '../../../../constants';
-import { useNavigate } from 'react-router-dom';
+import { CouponCreated } from '../../../../types/domain/coupon';
+import { Option } from '../../../../types/utils';
 
 const useStep = (
   createdType: CouponCreated,

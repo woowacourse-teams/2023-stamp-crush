@@ -3,14 +3,15 @@ import Button from '../../../components/Button';
 import { ButtonContainer, StepContainer, StepWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
 import Text from '../../../components/Text';
-import { EXPIRE_DATE_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../constants';
-import { CouponCreated, Option } from '../../../types';
 import CreatedType from './CreatedType';
 import MaxStampCount from './MaxStampCount';
 import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
 import { MODIFY_STEP_NUMBER } from './common/constant';
 import useStep from './hooks/useStep';
+import { EXPIRE_DATE_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../constants';
+import { CouponCreated } from '../../../types/domain/coupon';
+import { Option } from '../../../types/utils';
 
 const ModifyCouponPolicy = () => {
   const [createdType, setCreatedType] = useState<CouponCreated>('template');

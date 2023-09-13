@@ -1,10 +1,11 @@
-import { StampCountOption, RouterPath } from '../types';
+import { StampCountOption } from '../types/domain/coupon';
+import { RouterPath, TemplateMenu } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
 } as const;
 
-export const TEMPLATE_MENU = {
+export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
   FRONT_IMAGE: '쿠폰(앞)',
   BACK_IMAGE: '쿠폰(뒤)',
   STAMP: '스탬프',
@@ -111,7 +112,6 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   modifyCouponPolicy: '/admin/modify-coupon-policy',
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
-  selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
   useReward: '/admin/use-reward',
@@ -139,4 +139,7 @@ export const MEGA_BYTE = 1024 ** 2;
 
 export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;
 
-export const BASE_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_BASE_URL;
+export const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_DEV_URL
+    : process.env.REACT_APP_BASE_URL;
