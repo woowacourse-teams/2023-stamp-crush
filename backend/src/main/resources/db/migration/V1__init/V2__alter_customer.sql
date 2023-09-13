@@ -11,7 +11,7 @@ alter table customer
     add `oauth_provider` varchar(255);
 
 alter table customer
-    add `oauth_id` varchar(255);
+    add `oauth_id` bigint;
 
 alter table customer
     add `customer_type` ENUM('REGISTER', 'TEMPORARY');
