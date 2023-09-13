@@ -96,3 +96,9 @@ export const removeHypen = (value: string) => value.replaceAll('-', '');
 export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
   return array.length > 0;
 };
+
+export const splitTime = (timeString: string) => {
+  const [hour, minute] = timeString.split(':');
+
+  return { hour, minute };
+};

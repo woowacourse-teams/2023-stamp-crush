@@ -32,15 +32,6 @@ export const Wrapper = styled.div`
   gap: 8px;
 `;
 
-export const TextArea = styled.textarea`
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  padding: 10px;
-  resize: none;
-  height: 100px;
-  font-size: 16px;
-`;
-
 export const PreviewContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -99,11 +90,6 @@ export const PreviewCouponBackImage = styled.div`
   font-weight: 500;
   background: white;
   border: 3px dotted black;
-`;
-
-export const RestrictionLabel = styled.label<{ $isExceed: boolean }>`
-  color: ${({ $isExceed }) => ($isExceed ? 'tomato' : '#aaa')};
-  margin-left: auto;
 `;
 
 export const PreviewBackImage = styled.img`

@@ -143,3 +143,15 @@ export const BASE_URL =
   process.env.NODE_ENV === 'development'
     ? process.env.REACT_APP_DEV_URL
     : process.env.REACT_APP_BASE_URL;
+
+export const DEFAULT_CAFE = {
+  id: 0,
+  name: '',
+  introduction: '',
+  openTime: '',
+  closeTime: '',
+  telephoneNumber: '',
+  cafeImageUrl: '',
+  roadAddress: '',
+  detailAddress: '',
+};
