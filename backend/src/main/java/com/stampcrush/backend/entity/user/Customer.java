@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.stampcrush.backend.entity.user.CustomerType.REGISTERED;
+import static com.stampcrush.backend.entity.user.CustomerType.REGISTER;
 import static com.stampcrush.backend.entity.user.CustomerType.TEMPORARY;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -66,7 +66,7 @@ public class Customer {
         this.encryptedPassword = encryptedPassword;
         this.oAuthProvider = oAuthProvider;
         this.oAuthId = oAuthId;
-        this.customerType = REGISTERED;
+        this.customerType = REGISTER;
     }
 
     @Builder(builderMethodName = "temporaryCustomerBuilder")
@@ -104,7 +104,7 @@ public class Customer {
     }
 
     public boolean isRegistered() {
-        return customerType == REGISTERED;
+        return customerType == REGISTER;
     }
 
     public void checkPassword(String encryptedPassword) {
@@ -142,6 +142,6 @@ public class Customer {
     }
 
     public void toRegisterCustomer() {
-        this.customerType = REGISTERED;
+        this.customerType = REGISTER;
     }
 }
