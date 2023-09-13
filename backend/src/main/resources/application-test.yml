@@ -2,6 +2,8 @@ spring:
   config:
     activate:
       on-profile: test
+  flyway:
+    enabled: false
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:

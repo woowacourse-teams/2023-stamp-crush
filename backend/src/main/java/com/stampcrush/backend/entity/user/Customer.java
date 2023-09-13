@@ -44,6 +44,7 @@ public class Customer {
     private Long oAuthId;
 
     @Enumerated(STRING)
+    @Column(name = "customer_type")
     private CustomerType customerType;
 
     @Builder(builderMethodName = "registeredCustomerBuilder", builderClassName = "RegisterCustomer")
