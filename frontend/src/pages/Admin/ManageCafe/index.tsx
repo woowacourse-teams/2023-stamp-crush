@@ -1,6 +1,12 @@
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';
-import { ManageCafeForm, PageContainer, PreviewContainer, Wrapper } from './style';
+import {
+  ManageCafeForm,
+  ManageCafeGridContainer,
+  PageContainer,
+  PreviewContainer,
+  Wrapper,
+} from './style';
 import { useMemo } from 'react';
 import { PreviewImageWrapper } from '../CouponDesign/CustomCouponDesign/style';
 import { DEFAULT_CAFE } from '../../../constants';
@@ -48,7 +54,7 @@ const ManageCafe = () => {
   if (status === 'error') return <>에러가 발생했습니다.</>;
 
   return (
-    <PageContainer>
+    <ManageCafeGridContainer>
       <ManageCafeForm onSubmit={submitCafeInfo}>
         <Text variant="pageTitle">내 카페 관리</Text>
         <CafeImageUpload uploadImage={uploadImage} />
@@ -61,10 +67,10 @@ const ManageCafe = () => {
         />
         <Wrapper>
           <CafeIntroduction introduction={introduction} inputIntroduction={inputIntroduction} />
+          <Button type="submit" variant="primary" size="medium">
+            저장하기
+          </Button>
         </Wrapper>
-        <Button type="submit" variant="primary" size="medium">
-          저장하기
-        </Button>
       </ManageCafeForm>
       <PreviewContainer>
         <Text variant="subTitle">미리보기</Text>
@@ -80,7 +86,7 @@ const ManageCafe = () => {
           />
         </PreviewImageWrapper>
       </PreviewContainer>
-    </PageContainer>
+    </ManageCafeGridContainer>
   );
 };
 

@@ -3,7 +3,8 @@ import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
 } from '../../../CouponDesign/CustomCouponDesign/style';
-import { StepTitle, Wrapper } from '../../style';
+import { StepTitle } from '../../style';
+import { Wrapper } from './style';
 
 interface CafeImageUploadProps {
   uploadImage: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -16,9 +16,9 @@ export const StepTitle = styled.p`
 `;
 
 export const ManageCafeForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 40%;
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  width: 100%;
   gap: 40px;
 
   & > button {
@@ -28,6 +28,8 @@ export const ManageCafeForm = styled.form`
 
 export const Wrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 400px;
   flex-direction: column;
   gap: 8px;
 `;
@@ -56,4 +58,13 @@ export const PreviewOverviewContainer = styled.div`
   :nth-child(2) {
     overflow: scroll;
   }
+`;
+
+export const ManageCafeGridContainer = styled.div`
+  display: grid;
+  width: 100%;
+  height: 90%;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 40px;
+  gap: 40px;
 `;
