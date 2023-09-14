@@ -37,7 +37,7 @@ const useDialPad = () => {
     }
 
     if (location.pathname === ROUTER_PATH.enterStamp) {
-      navigate(ROUTER_PATH.earnStamp, { state: customerState });
+      navigate(ROUTER_PATH.selectCoupon, { state: customerState });
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {

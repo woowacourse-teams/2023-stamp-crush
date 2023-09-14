@@ -33,6 +33,7 @@ const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
           type="radio"
           name="create-formula"
           value="template"
+          defaultChecked
           onChange={changeSelectValue}
         />
         <Label htmlFor="template" $isChecked={value === 'template'}>

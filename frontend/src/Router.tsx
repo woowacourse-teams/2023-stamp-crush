@@ -13,6 +13,7 @@ import MyPage from './pages/Customer/MyPage';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
+import SelectCoupon from './pages/Admin/EarnStamp/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
@@ -75,6 +76,7 @@ const Router = () => {
         },
         { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },
         { path: ROUTER_PATH.registerCafe, element: <RegisterCafe /> },
+        { path: ROUTER_PATH.selectCoupon, element: <SelectCoupon /> },
         { path: ROUTER_PATH.earnStamp, element: <EarnStamp /> },
         { path: ROUTER_PATH.useReward, element: <RewardPage /> },
       ],
