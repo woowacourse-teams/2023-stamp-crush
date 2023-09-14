@@ -37,7 +37,7 @@ public class ManagerRewardFindApiControllerTest extends ControllerSliceTest {
                 new RewardFindResultDto(1L, "Americano"),
                 new RewardFindResultDto(3L, "HotChocoLatte")
         );
-        when(managerRewardFindService.findRewards(any(RewardFindDto.class)))
+        when(managerRewardFindService.findRewards(any(), any(RewardFindDto.class)))
                 .thenReturn(expectedServiceReturn);
 
         // when, then

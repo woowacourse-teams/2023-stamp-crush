@@ -2,6 +2,7 @@ package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -23,7 +24,8 @@ public class ManagerCafeCreateStep {
                 .log().all()
                 .contentType(JSON)
                 .body(cafeCreateRequest)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .post("/api/admin/cafes")

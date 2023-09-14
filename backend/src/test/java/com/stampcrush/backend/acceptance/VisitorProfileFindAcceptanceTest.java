@@ -3,6 +3,7 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.api.visitor.profile.response.VisitorProfilesFindResponse;
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindResultDto;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -28,7 +29,7 @@ public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = given()
                 .log().all()
                 .auth().preemptive()
-                .basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
 
                 .when()
                 .get("/api/profiles")
@@ -63,7 +64,7 @@ public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = given()
                 .log().all()
                 .auth().preemptive()
-                .basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
 
                 .when()
                 .get("/api/profiles")

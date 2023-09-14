@@ -23,7 +23,7 @@ public class ManagerCafeCouponSettingCommandApiController {
             @RequestBody @Valid CafeCouponSettingUpdateRequest request
     ) {
         CafeCouponSettingDto cafeCouponSettingDto = request.toCouponSettingDto();
-        managerCafeCouponSettingCommandService.updateCafeCouponSetting(cafeId, cafeCouponSettingDto);
+        managerCafeCouponSettingCommandService.updateCafeCouponSetting(owner.getId(), cafeId, cafeCouponSettingDto);
         return ResponseEntity.noContent().build();
     }
 }

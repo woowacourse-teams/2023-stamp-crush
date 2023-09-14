@@ -27,7 +27,7 @@ public class ManagerRewardFindApiController {
             @RequestParam("used") Boolean used
     ) {
         RewardFindDto rewardFindDto = new RewardFindDto(customerId, cafeId, used);
-        List<RewardFindResultDto> rewardFindResultDtos = managerRewardFindService.findRewards(rewardFindDto);
+        List<RewardFindResultDto> rewardFindResultDtos = managerRewardFindService.findRewards(owner.getId(), rewardFindDto);
 
         List<RewardFindResponse> rewardFindResponses = rewardFindResultDtos.stream()
                 .map(RewardFindResponse::new)

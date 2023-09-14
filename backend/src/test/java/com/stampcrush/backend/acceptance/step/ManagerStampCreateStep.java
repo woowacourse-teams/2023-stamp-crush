@@ -3,6 +3,7 @@ package com.stampcrush.backend.acceptance.step;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -17,7 +18,7 @@ public class ManagerStampCreateStep {
                 .body(stampCreateRequest)
                 .contentType(JSON)
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)

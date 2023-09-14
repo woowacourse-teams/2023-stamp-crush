@@ -2,6 +2,7 @@ package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -29,7 +30,7 @@ public class ManagerCafeCouponSettingUpdateStep {
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                 .body(request)
 
                 .when()

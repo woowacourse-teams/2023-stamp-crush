@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindResultDto;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -24,18 +26,21 @@ public class VisitorProfilesFindApiDocsControllerTest extends DocsControllerTest
     @Test
     void 고객의_프로필_조회() throws Exception {
         // given
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         when(visitorProfilesFindService.findVisitorProfile(CUSTOMER.getId()))
                 .thenReturn(
                         new VisitorProfileFindResultDto(CUSTOMER.getId(), "jena", "01012345678",
                                 "yenawee@gmail.com")
                 );
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
 
         // when, then
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/profiles")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
+                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
                 .andDo(document("visitor/profiles/find-profiles",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

@@ -1,6 +1,7 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -14,7 +15,7 @@ public class ManagerCafeCouponSettingFindStep {
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .get("/api/admin/coupon-setting/" + couponId + "?cafe-id=" + cafeId)
@@ -29,7 +30,7 @@ public class ManagerCafeCouponSettingFindStep {
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .get("/api/admin/coupon-setting?cafe-id=" + cafeId)

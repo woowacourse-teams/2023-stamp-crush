@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -24,15 +25,17 @@ public class VisitorProfilesCommandApiDocsControllerTest extends DocsControllerT
     @Test
     void 고객이_전화번호_등록() throws Exception {
         // given
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         VisitorProfilesPhoneNumberUpdateRequest request = new VisitorProfilesPhoneNumberUpdateRequest("01012345678");
-
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
         // when, then
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post("/api/profiles/phone-number")
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
+                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
                 .andDo(document("visitor/profiles/post-phonenumber",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

@@ -104,9 +104,12 @@ public class ManagerCafeCommandService {
         cafeStampCoordinateRepository.save(new CafeStampCoordinate(10, 233, 100, defaultCafeCouponDesign));
     }
 
-    public void updateCafeInfo(CafeUpdateDto cafeUpdateDto, Long cafeId) {
+    public void updateCafeInfo(Long ownerId, CafeUpdateDto cafeUpdateDto, Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException("존재하지 않는 사장입니다."));
+        cafe.validateOwnership(owner);
         cafe.updateCafeAdditionalInformation(
                 cafeUpdateDto.getIntroduction(),
                 cafeUpdateDto.getOpenTime(),
