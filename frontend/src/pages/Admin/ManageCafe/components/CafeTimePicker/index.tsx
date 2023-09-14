@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { Time } from '../../../../../types/utils';
 import { StepTitle, Wrapper } from '../../style';
 import TimePicker from '../../TimeRangePicker';
@@ -5,8 +6,8 @@ import TimePicker from '../../TimeRangePicker';
 interface CafeTimerPicker {
   openTime: Time;
   closeTime: Time;
-  setOpenTime: React.Dispatch<React.SetStateAction<Time>>;
-  setCloseTime: React.Dispatch<React.SetStateAction<Time>>;
+  setOpenTime: Dispatch<SetStateAction<Time>>;
+  setCloseTime: Dispatch<SetStateAction<Time>>;
 }
 
 const CafeTimePicker = ({ openTime, closeTime, setOpenTime, setCloseTime }: CafeTimerPicker) => {
