@@ -157,3 +157,4 @@ export const DEFAULT_CAFE = {
 };
 
 export const INTRO_LIMITATION = 150;
+export const PHONE_NUMBER_REGEX = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;

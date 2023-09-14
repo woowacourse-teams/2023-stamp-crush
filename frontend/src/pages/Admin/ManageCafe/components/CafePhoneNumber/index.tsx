@@ -1,4 +1,5 @@
 import { Input } from '../../../../../components/Input';
+import { PHONE_NUMBER_REGEX } from '../../../../../constants';
 import { parsePhoneNumber } from '../../../../../utils';
 import { StepTitle, Wrapper } from '../../style';
 
@@ -15,7 +16,7 @@ const CafePhoneNumber = ({ phoneNumber, inputPhoneNumber }: CafePhoneNumberProps
         id="phone-number-input"
         placeholder="전화번호를 입력해주세요"
         maxLength={phoneNumber.startsWith('02') ? 12 : 13}
-        pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+        pattern={PHONE_NUMBER_REGEX.source}
         onChange={inputPhoneNumber}
         value={parsePhoneNumber(phoneNumber)}
       />
