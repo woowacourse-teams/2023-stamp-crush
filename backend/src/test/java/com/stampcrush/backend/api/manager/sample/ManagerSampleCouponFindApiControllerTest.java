@@ -6,8 +6,7 @@ import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindRe
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
-import com.stampcrush.backend.helper.AuthHelper;
-import com.stampcrush.backend.helper.AuthHelper.OwnerAuthorization;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
-import static com.stampcrush.backend.helper.AuthHelper.createOwnerAuthorization;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -41,15 +39,15 @@ class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
 
     @Test
     void 샘플_쿠폰_조회_요청_시_인증이_안되면_401_상태코드를_반환한다() throws Exception {
-        OwnerAuthorization ownerAuthorization = AuthHelper.createOwnerAuthorization(OwnerFixture.GITCHAN);
+        Owner owner = OwnerFixture.GITCHAN;
 
-        when(ownerRepository.findByLoginId(ownerAuthorization.getOwner().getLoginId()))
+        when(ownerRepository.findByLoginId(owner.getLoginId()))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(
                         get("/api/admin/coupon-samples")
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, ownerAuthorization.getBasicAuthHeader())
+                                .header(AUTHORIZATION, "Bearer " + BearerAuthHelper.generateToken(owner.getId()))
                 )
                 .andExpect(status().isUnauthorized());
     }
@@ -58,10 +56,10 @@ class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
     void 샘플_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
         Owner owner = OwnerFixture.GITCHAN;
 
-        OwnerAuthorization ownerAuthorization = createOwnerAuthorization(owner);
         int maxStampCount = 8;
 
-        when(ownerRepository.findByLoginId(ownerAuthorization.getOwner().getLoginId()))
+        when(ownerRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLoginId(owner.getLoginId()))
                 .thenReturn(Optional.of(owner));
 
         when(managerSampleCouponFindService.findSampleCouponsByMaxStampCount(maxStampCount))
@@ -77,7 +75,7 @@ class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
         mockMvc.perform(
                         get("/api/admin/coupon-samples?max-stamp-count=" + maxStampCount)
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, ownerAuthorization.getBasicAuthHeader())
+                                .header(AUTHORIZATION, "Bearer " + BearerAuthHelper.generateToken(owner.getId()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("sampleFrontImages").isNotEmpty())

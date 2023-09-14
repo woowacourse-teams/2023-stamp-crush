@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -27,14 +28,17 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
         // given
         Long cafeId = 1L;
         Long customerId = 1L;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CouponCreateRequest request = new CouponCreateRequest(cafeId);
         when(managerCouponCommandService.createCoupon(OWNER.getId(), cafeId, customerId)).thenReturn(1L);
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons", customerId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-coupon",
                                 preprocessRequest(prettyPrint()),
@@ -60,13 +64,16 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
         // given
         Long couponId = 1L;
         Long customerId = 1L;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
         StampCreateRequest request = new StampCreateRequest(3);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customerId, couponId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-stamp",
                                 preprocessRequest(prettyPrint()),

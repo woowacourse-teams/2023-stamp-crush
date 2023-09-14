@@ -2,6 +2,7 @@ package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.manager.reward.request.RewardUsedUpdateRequest;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -15,7 +16,9 @@ public class ManagerRewardStep {
                 .log().all()
                 .contentType(JSON)
                 .body(rewardUsedUpdateRequest)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+
                 .when()
                 .patch("/api/admin/customers/" + customerId + "/rewards/" + rewardId)
                 .then()
@@ -29,7 +32,9 @@ public class ManagerRewardStep {
                 .queryParam("cafe-id", cafeId)
                 .queryParam("used", false)
                 .contentType(JSON)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+
                 .when()
                 .get("/api/admin/customers/" + customerId + "/rewards")
                 .then()

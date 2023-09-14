@@ -1,6 +1,7 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
@@ -14,7 +15,7 @@ public final class VisitorCafeFindStep {
                 .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().preemptive()
-                .basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
 
                 .when()
                 .get("/api/cafes/" + cafeId)

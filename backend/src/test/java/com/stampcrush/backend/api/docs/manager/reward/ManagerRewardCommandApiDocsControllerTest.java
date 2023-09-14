@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,13 +27,15 @@ public class ManagerRewardCommandApiDocsControllerTest extends DocsControllerTes
         // given
         Long cafeId = 1L;
         Long rewardId = 1L;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         RewardUsedUpdateRequest request = new RewardUsedUpdateRequest(cafeId, true);
-
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/admin/customers/{customerId}/rewards/{rewardId}", cafeId, rewardId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/reward/use-reward",
                                 preprocessRequest(prettyPrint()),

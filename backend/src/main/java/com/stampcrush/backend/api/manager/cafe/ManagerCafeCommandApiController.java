@@ -43,7 +43,7 @@ public class ManagerCafeCommandApiController {
     ) {
         CafeUpdateDto cafeUpdateDto = request.toServiceDto();
 
-        managerCafeCommandService.updateCafeInfo(cafeUpdateDto, cafeId);
+        managerCafeCommandService.updateCafeInfo(owner.getId(), cafeUpdateDto, cafeId);
         return ResponseEntity.ok().build();
     }
 }

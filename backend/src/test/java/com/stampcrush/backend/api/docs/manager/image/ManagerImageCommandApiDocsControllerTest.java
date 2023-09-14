@@ -4,12 +4,16 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
+import java.util.Optional;
+
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -23,12 +27,16 @@ public class ManagerImageCommandApiDocsControllerTest extends DocsControllerTest
         MockMultipartFile multipartFile = new MockMultipartFile(
                 "image", "image.jpg", MediaType.IMAGE_JPEG.toString(), "image data".getBytes()
         );
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(managerImageCommandService.uploadImageAndReturnUrl(multipartFile)).thenReturn("imageUrl");
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.multipart("/api/admin/images")
                         .file(multipartFile)
-                )
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
+
                 .andDo(document("manager/image/upload",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

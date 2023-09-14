@@ -10,6 +10,7 @@ import java.util.Optional;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -23,8 +24,11 @@ public class VisitorCouponCommandApiDocsControllerTest extends DocsControllerTes
     @Test
     void 쿠폰_삭제() throws Exception {
         // given
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId()))
                 .thenReturn(Optional.of(CUSTOMER));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
 
         doNothing()
                 .when(visitorCouponCommandService)
@@ -33,7 +37,7 @@ public class VisitorCouponCommandApiDocsControllerTest extends DocsControllerTes
         mockMvc.perform(
                         RestDocumentationRequestBuilders.delete("/api/coupons/{couponId}", 1L)
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, CUSTOMER_BASIC_HEADER)
+                                .header(AUTHORIZATION, CUSTOMER_BEARER_HEADER)
                 )
                 .andDo(document("visitor/coupon/delete-coupon",
                                 preprocessRequest(prettyPrint()),

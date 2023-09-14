@@ -14,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,7 +45,7 @@ public class ManagerCafeCouponSettingFindApiControllerTest extends ControllerSli
                 )
         );
 
-        given(cafeCouponSettingFindService.findCouponSetting(anyLong(), anyLong()))
+        given(cafeCouponSettingFindService.findCouponSetting(any(), anyLong(), anyLong()))
                 .willReturn(resultDto);
 
         // when, then

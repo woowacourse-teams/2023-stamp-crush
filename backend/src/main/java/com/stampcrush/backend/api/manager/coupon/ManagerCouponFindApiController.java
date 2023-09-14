@@ -26,7 +26,7 @@ public class ManagerCouponFindApiController {
             OwnerAuth owner,
             @PathVariable("cafeId") Long cafeId
     ) {
-        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(cafeId);
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(owner.getId(), cafeId);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
                 .toList();
@@ -41,7 +41,7 @@ public class ManagerCouponFindApiController {
             @RequestParam("cafe-id") Long cafeId,
             @RequestParam("active") boolean active
     ) {
-        List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = managerCouponFindService.findAccumulatingCoupon(cafeId, customerId);
+        List<CustomerAccumulatingCouponFindResultDto> accumulatingCoupon = managerCouponFindService.findAccumulatingCoupon(owner.getId(), cafeId, customerId);
 
         List<CustomerAccumulatingCouponFindResponse> accumulatingResponses = accumulatingCoupon.stream()
                 .map(CustomerAccumulatingCouponFindResponse::from)

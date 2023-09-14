@@ -16,6 +16,7 @@ import java.util.Optional;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -28,9 +29,12 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
     void 현재_카페의_쿠폰_디자인_정책_조회() throws Exception {
         // given
         Long CAFE_ID = 1L;
+        Long ownerId = OWNER.getId();
+
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerCafeCouponSettingFindService.findCafeCouponSetting(CAFE_ID)).thenReturn(
+        when(managerCafeCouponSettingFindService.findCafeCouponSetting(ownerId, CAFE_ID)).thenReturn(
                 new CafeCouponSettingFindResultDto("frontImageUrl", "backImageUrl",
                         "stampImageUrl", List.of(
                         new CafeCouponCoordinateFindResultDto(1, 1, 1),
@@ -39,11 +43,13 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
                         new CafeCouponCoordinateFindResultDto(4, 4, 4),
                         new CafeCouponCoordinateFindResultDto(5, 5, 5))
                 ));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/coupon-setting?cafe-id=" + CAFE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/cafe/find-current-cafe-coupon-design",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
@@ -74,9 +80,12 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
         // given
         Long CAFE_ID = 1L;
         Long COUPON_ID = 1L;
+        Long ownerId = OWNER.getId();
+
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerCafeCouponSettingFindService.findCouponSetting(CAFE_ID, COUPON_ID)).thenReturn(
+        when(managerCafeCouponSettingFindService.findCouponSetting(ownerId, CAFE_ID, COUPON_ID)).thenReturn(
                 new CafeCouponSettingFindResultDto("frontImageUrl", "backImageUrl",
                         "stampImageUrl", List.of(
                         new CafeCouponCoordinateFindResultDto(1, 1, 1),
@@ -85,11 +94,13 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
                         new CafeCouponCoordinateFindResultDto(4, 4, 4),
                         new CafeCouponCoordinateFindResultDto(5, 5, 5))
                 ));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/coupon-setting/{couponId}?cafe-id=" + CAFE_ID, COUPON_ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/cafe/find-coupon-design-when-coupon-issued",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
