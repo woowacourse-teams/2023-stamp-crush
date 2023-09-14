@@ -6,7 +6,7 @@ import Alert from '../../../../components/Alert';
 import { ROUTER_PATH } from '../../../../constants';
 import useDialPad from '../../../../hooks/useDialPad';
 import useModal from '../../../../hooks/useModal';
-import { CustomerPhoneNumberRes } from '../../../../types/api';
+import { CustomerPhoneNumberRes } from '../../../../types/api/response';
 import { removeHypen } from '../../../../utils';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
 

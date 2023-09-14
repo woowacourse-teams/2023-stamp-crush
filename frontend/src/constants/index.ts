@@ -1,4 +1,5 @@
-import { StampCountOption, RouterPath } from '../types';
+import { StampCountOption } from '../types/domain/coupon';
+import { RouterPath } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
@@ -139,4 +140,7 @@ export const MEGA_BYTE = 1024 ** 2;
 
 export const IMAGE_MAX_SIZE = 5 * MEGA_BYTE;
 
-export const BASE_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_BASE_URL;
+export const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_DEV_URL
+    : process.env.REACT_APP_BASE_URL;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coupon as CouponType } from '../../../../types';
+import { Coupon as CouponType } from '../../../../types/domain/coupon';
 import { CouponWrapper, ImageForLoading } from './style';
 import CouponLoading from '../../../../assets/coupon_load_img_for_customer.png';
 

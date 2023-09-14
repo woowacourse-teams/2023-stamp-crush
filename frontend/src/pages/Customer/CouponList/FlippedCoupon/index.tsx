@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import { StampCoordinate } from '../../../../types/domain/coupon';
 import { BackImage, CouponContainer, CouponWrapper, FrontImage, StampImage } from './style';
-import { StampCoordinate } from '../../../../types';
 
 export interface FlippedCouponProps {
   frontImageUrl: string;

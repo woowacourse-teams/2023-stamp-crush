@@ -1,13 +1,13 @@
 import { api, ownerHeader } from '.';
-import {
-  CafeIdParams,
-  CafeInfoReqBody,
-  CustomerIdParams,
-  MutateReq,
-  RewardIdParams,
-  RewardReqBody,
-} from '../types/api';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
+import {
+  MutateReq,
+  RewardReqBody,
+  RewardIdParams,
+  CustomerIdParams,
+  CafeInfoReqBody,
+  CafeIdParams,
+} from '../types/api/request';
 
 export const patchReward = async ({
   params,
