@@ -155,3 +155,5 @@ export const DEFAULT_CAFE = {
   roadAddress: '',
   detailAddress: '',
 };
+
+export const INTRO_LIMITATION = 150;

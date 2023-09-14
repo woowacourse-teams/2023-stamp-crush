@@ -1,3 +1,4 @@
+import { INTRO_LIMITATION } from '../../../../../constants';
 import { StepTitle } from '../../style';
 import { RestrictionLabel, TextArea } from './style';
 
@@ -17,8 +18,8 @@ const CafeIntroduction = ({ introduction, inputIntroduction }: CafeIntroductionP
         maxLength={150}
         value={introduction}
       />
-      <RestrictionLabel $isExceed={!introduction ? false : introduction.length >= 150}>
-        {!introduction ? '0/150' : `${introduction.length}/150`}
+      <RestrictionLabel $isExceed={!introduction ? false : introduction.length >= INTRO_LIMITATION}>
+        {`${introduction ? introduction.length : '0'}/${INTRO_LIMITATION}`}
       </RestrictionLabel>
     </>
   );
