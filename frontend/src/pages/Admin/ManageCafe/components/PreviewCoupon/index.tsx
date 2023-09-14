@@ -12,7 +12,7 @@ const PreviewCoupon = () => {
 
   return (
     <PreviewCouponBackImage>
-      {couponDesignData.backImageUrl !== '' ? (
+      {couponDesignData.backImageUrl ? (
         <PreviewBackImage src={couponDesignData.backImageUrl} />
       ) : (
         <p>쿠폰 뒷면 이미지가 들어갈 공간입니다.</p>
