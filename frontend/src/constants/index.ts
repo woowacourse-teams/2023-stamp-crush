@@ -13,6 +13,10 @@ export const TEMPLATE_MENU = {
 
 export const PHONE_NUMBER_LENGTH = 13;
 
+export const ENTER_KEY_INDEX = 11;
+
+export const BACK_KEY_INDEX = 9;
+
 export const TEMPLATE_OPTIONS = [
   {
     key: 'coupon-front',

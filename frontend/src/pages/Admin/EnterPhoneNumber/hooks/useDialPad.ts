@@ -1,9 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { REGEX, ROUTER_PATH } from '../../../../constants';
+import {
+  BACK_KEY_INDEX,
+  ENTER_KEY_INDEX,
+  PHONE_NUMBER_LENGTH,
+  REGEX,
+  ROUTER_PATH,
+} from '../../../../constants';
 import { removeHyphen } from '../../../../utils';
-import { DialKeyType } from '../Dialpad';
+import { DialKeyType, DIAL_KEYS } from '../Dialpad';
 import useGetCustomer from './useGetCustomer';
 import usePostTemporaryCustomer from './usePostTemporaryCustomer';
 
@@ -41,17 +47,17 @@ const useDialPad = (openModal: () => void) => {
   const navigateNextPage = () => {
     if (!customer) return;
 
-    if (customer.customer.length === 0) {
+    if (customer.length === 0) {
       openModal();
       return;
     }
 
     if (location.pathname === ROUTER_PATH.enterStamp) {
-      navigate(ROUTER_PATH.earnStamp, { state: customer.customer[0] });
+      navigate(ROUTER_PATH.earnStamp, { state: customer[0] });
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {
-      navigate(ROUTER_PATH.useReward, { state: customer.customer[0] });
+      navigate(ROUTER_PATH.useReward, { state: customer[0] });
     }
   };
 
@@ -74,7 +80,7 @@ const useDialPad = (openModal: () => void) => {
   };
 
   const sendPhoneNumber = () => {
-    if (phoneNumber.length === 13) {
+    if (phoneNumber.length === PHONE_NUMBER_LENGTH) {
       setIsDone(true);
       navigateNextPage();
     }
@@ -83,17 +89,17 @@ const useDialPad = (openModal: () => void) => {
   const handlePadPressed = (dialKey: DialKeyType) => () => {
     if (phoneNumberRef.current) phoneNumberRef.current.focus();
 
-    if (dialKey === '←') {
+    if (dialKey === DIAL_KEYS[BACK_KEY_INDEX]) {
       setPhoneNumber((prev) => removeNumber(prev));
       return;
     }
 
-    if (dialKey === '입력') {
+    if (dialKey === DIAL_KEYS[ENTER_KEY_INDEX]) {
       sendPhoneNumber();
       return;
     }
 
-    if (phoneNumber.length > 12) return;
+    if (phoneNumber.length > PHONE_NUMBER_LENGTH - 1) return;
 
     setPhoneNumber((prev) => addHyphen(prev + dialKey));
   };

@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Alert from '../../../../components/Alert';
-import { ROUTER_PATH } from '../../../../constants';
+import { PHONE_NUMBER_LENGTH, ROUTER_PATH } from '../../../../constants';
 import useModal from '../../../../hooks/useModal';
 import useDialPad from '../hooks/useDialPad';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
 
-const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
+export const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
 
 export type DialKeyType = (typeof DIAL_KEYS)[number];
 
@@ -61,7 +61,7 @@ const Dialpad = () => {
         type="text"
         autoFocus
         minLength={4}
-        maxLength={13}
+        maxLength={PHONE_NUMBER_LENGTH}
         onChange={handlePhoneNumber}
         onKeyDown={handleKeyDown}
         autoComplete="off"
