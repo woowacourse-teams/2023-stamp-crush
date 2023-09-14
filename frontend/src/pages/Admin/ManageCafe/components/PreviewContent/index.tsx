@@ -26,7 +26,7 @@ const PreviewContent = ({ openTime, closeTime, phoneNumber, cafeInfo }: PreviewC
       </Text>
       <Text>
         <FaLocationDot size={25} />
-        {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
+        {`${cafeInfo.roadAddress} ${cafeInfo.detailAddress}`}
       </Text>
     </PreviewContentContainer>
   );
