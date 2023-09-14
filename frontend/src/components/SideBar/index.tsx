@@ -57,7 +57,7 @@ const SideBar = () => {
   const modifyPolicyCoupon = ROUTER_PATH.modifyCouponPolicy;
   const designCouponRoutes = [ROUTER_PATH.templateCouponDesign, ROUTER_PATH.customCouponDesign];
   const enterStamp = ROUTER_PATH.enterStamp;
-  const stampRoutes = [ROUTER_PATH.earnStamp];
+  const stampRoutes = [ROUTER_PATH.selectCoupon, ROUTER_PATH.earnStamp];
   const enterReward = ROUTER_PATH.enterReward;
   const rewardRoutes = [ROUTER_PATH.useReward];
 

@@ -50,6 +50,6 @@ class VisitorProfilesFindApiControllerTest extends ControllerSliceTest {
                 .andExpect(jsonPath("customers[0].id").value(customer.getId()))
                 .andExpect(jsonPath("customers[0].nickname").value(customer.getNickname()))
                 .andExpect(jsonPath("customers[0].phoneNumber").value(customer.getPhoneNumber()))
-                .andExpect(jsonPath("customers[0].registerType").value(TEMPORARY.name().toLowerCase()));
+                .andExpect(jsonPath("customers[0].registerType").value(TEMPORARY.getCustomerType()));
     }
 }

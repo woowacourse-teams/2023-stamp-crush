@@ -22,5 +22,3 @@ export interface DateParseOption {
   hasMonth: boolean;
   hasDay: boolean;
 }
-
-export type TemplateMenu = '쿠폰(앞)' | '쿠폰(뒤)' | '스탬프';
