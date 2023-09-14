@@ -13,13 +13,13 @@ import { DialKeyType, DIAL_KEYS } from '../Dialpad';
 import useGetCustomer from './useGetCustomer';
 import usePostTemporaryCustomer from './usePostTemporaryCustomer';
 
-const addHyphen = (phoneNumber: string) => {
+const addHyphenToPhoneNumber = (phoneNumber: string) => {
   return phoneNumber.length === 9
     ? phoneNumber.substring(0, 8) + '-' + phoneNumber.substring(8, phoneNumber.length)
     : phoneNumber;
 };
 
-const removeNumber = (phoneNumber: string) => {
+const erasePhoneNumberWithHyphen = (phoneNumber: string) => {
   if (phoneNumber.length < 5) return phoneNumber;
   if (phoneNumber.length === 10) return phoneNumber.substring(0, 8);
   return phoneNumber.substring(0, phoneNumber.length - 1);
@@ -63,7 +63,7 @@ const useDialPad = (openModal: () => void) => {
 
   const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
     if (!REGEX.number.test(removeHyphen(e.target.value))) return;
-    setPhoneNumber(addHyphen(e.target.value));
+    setPhoneNumber(addHyphenToPhoneNumber(e.target.value));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -75,7 +75,7 @@ const useDialPad = (openModal: () => void) => {
 
     if (e.key === 'Backspace') {
       e.preventDefault();
-      setPhoneNumber(removeNumber(e.target.value));
+      setPhoneNumber(erasePhoneNumberWithHyphen(e.target.value));
     }
   };
 
@@ -90,7 +90,7 @@ const useDialPad = (openModal: () => void) => {
     if (phoneNumberRef.current) phoneNumberRef.current.focus();
 
     if (dialKey === DIAL_KEYS[BACK_KEY_INDEX]) {
-      setPhoneNumber((prev) => removeNumber(prev));
+      setPhoneNumber((prev) => erasePhoneNumberWithHyphen(prev));
       return;
     }
 
@@ -101,7 +101,7 @@ const useDialPad = (openModal: () => void) => {
 
     if (phoneNumber.length > PHONE_NUMBER_LENGTH - 1) return;
 
-    setPhoneNumber((prev) => addHyphen(prev + dialKey));
+    setPhoneNumber((prev) => addHyphenToPhoneNumber(prev + dialKey));
   };
 
   return {
