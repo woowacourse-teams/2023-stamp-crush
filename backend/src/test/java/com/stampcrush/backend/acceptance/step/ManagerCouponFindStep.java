@@ -25,7 +25,6 @@ public class ManagerCouponFindStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .queryParam("cafe-id", cafeId)
                 .queryParam("active", true)
 

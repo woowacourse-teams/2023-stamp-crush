@@ -46,7 +46,6 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                         .queryParam("active", "true")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
-//                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/coupon/find-coupon",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -87,8 +86,6 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes/{cafeId}/customers", cafeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
-//                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
-//                .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/coupon/find-customer-list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),

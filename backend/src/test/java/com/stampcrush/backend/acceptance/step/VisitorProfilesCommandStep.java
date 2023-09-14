@@ -22,8 +22,6 @@ public final class VisitorProfilesCommandStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(customer.getId()))
 
-//                .basic(customer.getLoginId(), customer.getEncryptedPassword())
-
                 .when()
                 .post("/api/profiles/phone-number")
 

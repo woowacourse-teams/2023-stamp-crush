@@ -1,9 +1,10 @@
 package com.stampcrush.backend.auth.application.util;
 
-public class BearerParser {
+public final class BearerParser {
 
     private static final String TOKEN_AUTHORIZATION_HEADER = "bearer";
     private static final String DELIMITER = " ";
+    private static final int KEY_VALUE_PAIR = 2;
 
     public static boolean isBearerAuthType(String authorization) {
         return haveAuthorizationHeader(authorization) &&
@@ -21,7 +22,7 @@ public class BearerParser {
     }
 
     private static boolean haveAuthorizationValue(String authorization) {
-        return authorization.split(DELIMITER).length == 2;
+        return authorization.split(DELIMITER).length == KEY_VALUE_PAIR;
     }
 
     public static String parseAuthorization(String authorization) {

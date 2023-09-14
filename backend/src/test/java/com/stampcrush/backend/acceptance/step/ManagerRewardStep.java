@@ -19,7 +19,6 @@ public class ManagerRewardStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .patch("/api/admin/customers/" + customerId + "/rewards/" + rewardId)
                 .then()
@@ -36,7 +35,6 @@ public class ManagerRewardStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .get("/api/admin/customers/" + customerId + "/rewards")
                 .then()

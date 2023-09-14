@@ -121,7 +121,6 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
                 .body(temporaryCustomerCreateRequest)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .post("/api/admin/temporary-customers")
@@ -138,7 +137,6 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
                 .param("phone-number", phoneNumber)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .get("/api/admin/customers")
@@ -154,7 +152,6 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
                 .body(request)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .post("/api/admin/temporary-customers")

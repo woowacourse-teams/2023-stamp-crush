@@ -101,7 +101,6 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/coupon-setting/{couponId}?cafe-id=" + CAFE_ID, COUPON_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
-//                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/cafe/find-coupon-design-when-coupon-issued",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

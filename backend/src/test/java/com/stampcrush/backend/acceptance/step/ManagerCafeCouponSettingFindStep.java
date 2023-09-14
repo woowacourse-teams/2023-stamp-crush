@@ -16,7 +16,6 @@ public class ManagerCafeCouponSettingFindStep {
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .get("/api/admin/coupon-setting/" + couponId + "?cafe-id=" + cafeId)
@@ -32,7 +31,6 @@ public class ManagerCafeCouponSettingFindStep {
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
 
                 .when()
                 .get("/api/admin/coupon-setting?cafe-id=" + cafeId)

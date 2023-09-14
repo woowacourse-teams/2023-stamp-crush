@@ -47,7 +47,6 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
                         RestDocumentationRequestBuilders.get("/api/stamp-histories")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
-//                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
                 .andDo(document("visitor/visithistory/find-stamphistory",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

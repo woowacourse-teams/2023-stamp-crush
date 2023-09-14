@@ -31,7 +31,6 @@ public class ManagerCafeCouponSettingUpdateStep {
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .body(request)
 
                 .when()

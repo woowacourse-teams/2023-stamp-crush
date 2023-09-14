@@ -46,7 +46,6 @@ public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
                         .queryParam("used", "false")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
-//                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
                 .andDo(document("manager/reward/find-reward",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

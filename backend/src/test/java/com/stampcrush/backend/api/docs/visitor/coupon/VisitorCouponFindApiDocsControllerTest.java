@@ -50,7 +50,6 @@ public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
                 RestDocumentationRequestBuilders.get("/api/coupons")
                         .contentType(APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
-//                                .header(AUTHORIZATION, CUSTOMER_BASIC_HEADER)
                 .andDo(document("visitor/coupon/coupon-list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),

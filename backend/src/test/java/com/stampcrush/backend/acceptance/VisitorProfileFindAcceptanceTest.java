@@ -30,7 +30,6 @@ public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
                 .log().all()
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(customer.getId()))
-//                .basic(customer.getLoginId(), customer.getEncryptedPassword())
 
                 .when()
                 .get("/api/profiles")
@@ -66,7 +65,6 @@ public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
                 .log().all()
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(customer.getId()))
-//                .basic(customer.getLoginId(), customer.getEncryptedPassword())
 
                 .when()
                 .get("/api/profiles")

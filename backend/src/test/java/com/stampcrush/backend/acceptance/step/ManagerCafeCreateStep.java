@@ -27,8 +27,6 @@ public class ManagerCafeCreateStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
                 .when()
                 .post("/api/admin/cafes")
 

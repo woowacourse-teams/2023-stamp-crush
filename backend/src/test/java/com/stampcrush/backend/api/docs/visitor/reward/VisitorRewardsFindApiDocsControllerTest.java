@@ -48,7 +48,6 @@ public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest 
                                 .param("used", "false")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
-//                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
                 .andDo(document("visitor/rewards/find-rewards",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

@@ -34,7 +34,7 @@ public class ManagerCafeCouponSettingCommandService {
     public void updateCafeCouponSetting(Long ownerId, Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
         Cafe cafe = findExistingCafe(cafeId);
         Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장이 업습니다."));
+                .orElseThrow(() -> new OwnerNotFoundException("사장이 없습니다."));
         cafe.validateOwnership(owner);
         deletePreviousSetting(cafe);
         createNewSetting(cafe, cafeCouponSettingDto);

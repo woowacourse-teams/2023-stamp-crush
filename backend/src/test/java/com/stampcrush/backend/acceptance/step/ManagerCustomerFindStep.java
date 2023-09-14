@@ -17,8 +17,6 @@ public class ManagerCustomerFindStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", cafeId)
 

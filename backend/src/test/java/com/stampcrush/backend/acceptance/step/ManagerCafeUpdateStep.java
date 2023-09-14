@@ -23,8 +23,6 @@ public class ManagerCafeUpdateStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
                 .when()
                 .patch("/api/admin/cafes/" + cafeId)
 

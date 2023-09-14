@@ -80,7 +80,6 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                         .body(cafeCreateRequest)
                         .auth().preemptive()
                         .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                        .basic(owner.getLoginId(), owner.getEncryptedPassword())
                         .when()
                         .post("/api/admin/cafes")
                         .thenReturn()
@@ -95,7 +94,6 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .get("/api/admin/customers/" + customerId + "/rewards")
                 .thenReturn()
@@ -109,7 +107,6 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 .body(rewardUsedUpdateRequest)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .patch("/api/admin/customers/" + customerId + "/rewards/" + rewardId);
     }
@@ -120,7 +117,6 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 .body(favoritesUpdateRequest)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(customer.getId()))
-//                .basic(customer.getLoginId(), customer.getEncryptedPassword())
                 .when()
                 .post("/api/cafes/" + cafeId + "/favorites")
                 .then()

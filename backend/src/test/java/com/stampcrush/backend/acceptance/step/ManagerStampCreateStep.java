@@ -20,7 +20,6 @@ public class ManagerStampCreateStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
                 .when()
                 .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customer.getId(), couponId)
 

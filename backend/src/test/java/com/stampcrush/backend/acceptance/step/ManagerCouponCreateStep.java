@@ -26,8 +26,6 @@ public class ManagerCouponCreateStep {
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
-//                .basic(owner.getLoginId(), owner.getEncryptedPassword())
-
                 .when()
                 .post("/api/admin/customers/" + customerId + "/coupons")
 
