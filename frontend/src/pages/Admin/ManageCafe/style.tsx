@@ -16,9 +16,9 @@ export const StepTitle = styled.p`
 `;
 
 export const ManageCafeForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 40%;
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  width: 100%;
   gap: 40px;
 
   & > button {
@@ -28,17 +28,10 @@ export const ManageCafeForm = styled.form`
 
 export const Wrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 400px;
   flex-direction: column;
   gap: 8px;
-`;
-
-export const TextArea = styled.textarea`
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  padding: 10px;
-  resize: none;
-  height: 100px;
-  font-size: 16px;
 `;
 
 export const PreviewContainer = styled.section`
@@ -67,46 +60,11 @@ export const PreviewOverviewContainer = styled.div`
   }
 `;
 
-export const PreviewContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 80px;
-  left: 50px;
-  width: 200px;
-  height: 100px;
-  gap: 20px;
-
-  :nth-child(n) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-  }
-`;
-
-export const PreviewCouponBackImage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 70px;
-  left: 22px;
-  width: 270px;
-  height: 150px;
-  font-size: 16px;
-  font-weight: 500;
-  background: white;
-  border: 3px dotted black;
-`;
-
-export const RestrictionLabel = styled.label<{ $isExceed: boolean }>`
-  color: ${({ $isExceed }) => ($isExceed ? 'tomato' : '#aaa')};
-  margin-left: auto;
-`;
-
-export const PreviewBackImage = styled.img`
+export const ManageCafeGridContainer = styled.div`
+  display: grid;
   width: 100%;
-  height: 100%;
+  height: 90%;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 40px;
+  gap: 40px;
 `;
