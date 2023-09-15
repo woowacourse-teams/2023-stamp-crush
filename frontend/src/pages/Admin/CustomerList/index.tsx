@@ -6,12 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import SelectBox from '../../../components/SelectBox';
 import { getCustomers } from '../../../api/get';
 import { CUSTOMERS_ORDER_OPTIONS, INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import { Customer } from '../../../types';
-import { CustomersRes } from '../../../types/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import { useNavigate } from 'react-router-dom';
+import { Customer } from '../../../types/domain/customer';
+import { CustomersRes } from '../../../types/api/response';
 
 const CustomerList = () => {
   const navigate = useNavigate();

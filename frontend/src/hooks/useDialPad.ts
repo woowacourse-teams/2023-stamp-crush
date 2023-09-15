@@ -2,8 +2,8 @@ import { PHONE_NUMBER_LENGTH, REGEX, ROUTER_PATH } from '../constants';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { DialKeyType } from '../pages/Admin/EnterPhoneNumber/Dialpad';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CustomerPhoneNumber } from '../types';
 import { removeHypen } from '../utils';
+import { CustomerPhoneNumber } from '../types/domain/customer';
 
 const addHypen = (phoneNumber: string) => {
   return phoneNumber.length === 8
@@ -37,7 +37,7 @@ const useDialPad = () => {
     }
 
     if (location.pathname === ROUTER_PATH.enterStamp) {
-      navigate(ROUTER_PATH.selectCoupon, { state: customerState });
+      navigate(ROUTER_PATH.earnStamp, { state: customerState });
     }
 
     if (location.pathname === ROUTER_PATH.enterReward) {

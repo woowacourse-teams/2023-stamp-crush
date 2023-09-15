@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StampcrushWhiteLogo } from '../../assets';
-import { Option } from '../../types';
 import {
   Container,
   EmptyContent,
@@ -23,6 +22,7 @@ import {
 } from 'react-icons/pi';
 import { IoIosLogOut } from 'react-icons/io';
 import { ROUTER_PATH } from '../../constants';
+import { Option } from '../../types/utils';
 
 const SIDE_BAR_OPTIONS: Option[] = [
   { key: '', value: '' },
@@ -57,7 +57,7 @@ const SideBar = () => {
   const modifyPolicyCoupon = ROUTER_PATH.modifyCouponPolicy;
   const designCouponRoutes = [ROUTER_PATH.templateCouponDesign, ROUTER_PATH.customCouponDesign];
   const enterStamp = ROUTER_PATH.enterStamp;
-  const stampRoutes = [ROUTER_PATH.selectCoupon, ROUTER_PATH.earnStamp];
+  const stampRoutes = [ROUTER_PATH.earnStamp];
   const enterReward = ROUTER_PATH.enterReward;
   const rewardRoutes = [ROUTER_PATH.useReward];
 

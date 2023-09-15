@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Option } from '../../types';
+import { Option } from '../../types/utils';
 import { LabelContent, TabBarContainer, TabBarInput, TabBarItem, TabBarLabel } from './style';
 
 interface TabBarProps {

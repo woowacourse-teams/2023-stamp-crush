@@ -6,7 +6,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './CouponDetail';
-import type { CouponRes } from '../../../types/api';
 import Alert from '../../../components/Alert';
 import useModal from '../../../hooks/useModal';
 import { postIsFavorites } from '../../../api/post';
@@ -15,6 +14,7 @@ import Header from './Header';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { isNotEmptyArray } from '../../../utils';
+import { CouponRes } from '../../../types/api/response';
 
 const CouponList = () => {
   const navigate = useNavigate();

@@ -1,11 +1,6 @@
 import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
-import {
-  ExpireDateOptionValue,
-  StampCountOptionValue,
-  DateParseOption,
-  Time,
-  NotEmptyArray,
-} from '../types';
+import { ExpireDateOptionValue, StampCountOptionValue } from '../types/domain/coupon';
+import { Time, DateParseOption, NotEmptyArray } from '../types/utils';
 
 export const formatDate = (dateString: string) => {
   const dateArray = dateString.split(':');
