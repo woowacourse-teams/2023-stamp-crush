@@ -75,7 +75,7 @@ const ManageCafe = () => {
       <PreviewContainer>
         <Text variant="subTitle">미리보기</Text>
         <PreviewImageWrapper $width={312} $height={594}>
-          <PreviewCafeImage cafeImage={cafeImage} />
+          <PreviewCafeImage cafeImageUrl={cafeImage} />
           <PreviewCoupon />
           <PreviewOverview cafeName={cafeInfo.name} introduction={introduction} />
           <PreviewContent

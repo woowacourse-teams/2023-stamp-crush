@@ -2,13 +2,13 @@ import { PreviewImage } from '../../../CouponDesign/CustomCouponDesign/style';
 import defaultCafeImg from '../../../../../assets/default_cafe_bg.png';
 
 interface PreviewCafeImgProps {
-  cafeImage: string;
+  cafeImageUrl: string;
 }
 
-const PreviewCafeImage = ({ cafeImage }: PreviewCafeImgProps) => {
+const PreviewCafeImage = ({ cafeImageUrl }: PreviewCafeImgProps) => {
   return (
     <PreviewImage
-      src={!cafeImage ? defaultCafeImg : cafeImage}
+      src={!cafeImageUrl ? defaultCafeImg : cafeImageUrl}
       $width={312}
       $height={594}
       $opacity={0.25}
