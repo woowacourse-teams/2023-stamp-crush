@@ -21,7 +21,7 @@ public class ManagerJoinStep {
                 .body(request)
 
                 .when()
-                .post("/api/login/owner/register/test/token")
+                .post("/api/admin/login/register/test/token")
 
                 .then()
                 .log().all()
