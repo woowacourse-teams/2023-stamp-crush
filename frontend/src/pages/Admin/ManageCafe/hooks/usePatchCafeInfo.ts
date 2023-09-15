@@ -1,21 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
-import { postEarnStamp } from '../../../../api/post';
+import { patchCafeInfo } from '../../../../api/patch';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../../constants';
 
-const usePostEarnStamp = () => {
+const usePatchCafeInfo = () => {
   const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: postEarnStamp,
+  return useMutation(patchCafeInfo, {
     onSuccess: () => {
-      alert('스탬프 적립에 성공했습니다.');
       navigate(ROUTER_PATH.customerList);
     },
     onError: () => {
-      throw new Error('스탬프 적립에 실패했습니다.');
+      throw new Error('카페 정보 등록에 실패했습니다.');
     },
   });
 };
 
-export default usePostEarnStamp;
+export default usePatchCafeInfo;

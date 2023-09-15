@@ -1,4 +1,4 @@
-package com.stampcrush.backend.auth.request;
+package com.stampcrush.backend.auth.api.request;
 
 import com.stampcrush.backend.auth.OAuthProvider;
 import lombok.RequiredArgsConstructor;

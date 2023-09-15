@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,14 +27,16 @@ class ManagerCustomerFindApiDocsControllerTest extends DocsControllerTest {
     @Test
     void 고객_조회_요청_사장_모드() throws Exception {
         // given
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(managerCustomerFindService.findCustomer("01012345678")).thenReturn(List.of(new CustomerFindDto(1L, "윤생1234", "01012345678")));
-
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers")
                         .param("phone-number", "01012345678")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/customer/find-customer",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),

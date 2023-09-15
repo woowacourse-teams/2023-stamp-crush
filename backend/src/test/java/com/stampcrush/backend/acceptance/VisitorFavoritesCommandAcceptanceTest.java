@@ -6,6 +6,7 @@ import com.stampcrush.backend.api.manager.reward.response.RewardFindResponse;
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
@@ -34,8 +35,7 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
     void 즐겨찾기를_등록한다() {
         // given
         Customer customer = 가입_회원_생성_후_가입_고객_반환();
-        System.out.println(customer.getLoginId());
-        System.out.println(customer.getEncryptedPassword());
+
         Owner owner = 카페_사장_생성_후_사장_반환();
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
         Long cafeId = 카페_생성_후_카페_아이디_반환(owner, cafeCreateRequest);
@@ -78,7 +78,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 given()
                         .contentType(JSON)
                         .body(cafeCreateRequest)
-                        .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                        .auth().preemptive()
+                        .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                         .when()
                         .post("/api/admin/cafes")
                         .thenReturn()
@@ -91,7 +92,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 .queryParam("cafe-id", cafeId)
                 .queryParam("used", false)
                 .contentType(JSON)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                 .when()
                 .get("/api/admin/customers/" + customerId + "/rewards")
                 .thenReturn()
@@ -103,7 +105,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
         given()
                 .contentType(JSON)
                 .body(rewardUsedUpdateRequest)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                 .when()
                 .patch("/api/admin/customers/" + customerId + "/rewards/" + rewardId);
     }
@@ -112,7 +115,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
         return given()
                 .contentType(JSON)
                 .body(favoritesUpdateRequest)
-                .auth().preemptive().basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
                 .when()
                 .post("/api/cafes/" + cafeId + "/favorites")
                 .then()

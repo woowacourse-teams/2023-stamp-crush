@@ -3,7 +3,7 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.auth.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.임시_회원_가입_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.임시_고객_회원_가입_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorLinkDataStep.회원_데이터_연동_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -35,11 +35,11 @@ public class VisitorLinkDataAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 기존_임시회원의_데이터와_연동한다() {
-        Long temporaryCustomerId = 임시_회원_가입_요청하고_아이디_반환("01038626099");
+        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환("01038626099");
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
         OAuthRegisterCustomerCreateRequest registerCustomerCreateRequest = O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST;
-        String accessToken = 회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
+        String accessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
         Long registerCustomerId = authTokensGenerator.extractMemberId(accessToken);
 
         ExtractableResponse<Response> response = 회원_데이터_연동_요청(accessToken, new VisitorProfilesLinkDataRequest(temporaryCustomer.getId()));

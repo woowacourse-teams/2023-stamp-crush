@@ -13,6 +13,10 @@ export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
 
 export const PHONE_NUMBER_LENGTH = 13;
 
+export const ENTER_KEY_INDEX = 11;
+
+export const BACK_KEY_INDEX = 9;
+
 export const TEMPLATE_OPTIONS = [
   {
     key: 'coupon-front',
@@ -143,3 +147,18 @@ export const BASE_URL =
   process.env.NODE_ENV === 'development'
     ? process.env.REACT_APP_DEV_URL
     : process.env.REACT_APP_BASE_URL;
+
+export const DEFAULT_CAFE = {
+  id: 0,
+  name: '',
+  introduction: '',
+  openTime: '',
+  closeTime: '',
+  telephoneNumber: '',
+  cafeImageUrl: '',
+  roadAddress: '',
+  detailAddress: '',
+};
+
+export const INTRO_LIMITATION = 150;
+export const PHONE_NUMBER_REGEX = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;

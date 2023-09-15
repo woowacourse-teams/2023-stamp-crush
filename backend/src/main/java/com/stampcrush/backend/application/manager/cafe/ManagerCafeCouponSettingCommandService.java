@@ -5,11 +5,14 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.exception.CafeNotFoundException;
+import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +29,13 @@ public class ManagerCafeCouponSettingCommandService {
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
+    private final OwnerRepository ownerRepository;
 
-    public void updateCafeCouponSetting(Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
+    public void updateCafeCouponSetting(Long ownerId, Long cafeId, CafeCouponSettingDto cafeCouponSettingDto) {
         Cafe cafe = findExistingCafe(cafeId);
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException("사장이 없습니다."));
+        cafe.validateOwnership(owner);
         deletePreviousSetting(cafe);
         createNewSetting(cafe, cafeCouponSettingDto);
     }

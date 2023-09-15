@@ -49,6 +49,7 @@ import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -70,7 +71,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.time.LocalTime;
 import java.util.Base64;
 
-import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
+import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -107,10 +108,12 @@ public abstract class DocsControllerTest {
     protected static final Owner OWNER = OWNER3;
     protected static final Cafe CAFE = new Cafe(CAFE_ID, "cafe", LocalTime.NOON, LocalTime.MIDNIGHT,
             "010123432445", "imageUrl", "intro", "road", "detail", "1234", OWNER);
-    protected static final Customer CUSTOMER = REGISTER_CUSTOMER_GITCHAN;
+    protected static final Customer CUSTOMER = REGISTER_CUSTOMER_GITCHAN_SAVED;
 
     protected static String OWNER_BASIC_HEADER;
     protected static String CUSTOMER_BASIC_HEADER;
+    protected static String OWNER_BEARER_HEADER;
+    protected static String CUSTOMER_BEARER_HEADER;
 
     protected MockMvc mockMvc;
 
@@ -193,15 +196,17 @@ public abstract class DocsControllerTest {
     protected ManagerOAuthLoginService managerOAuthLoginService;
 
     @MockBean
-    public AuthTokensGenerator authTokensGenerator;
+    public CafeRepository cafeRepository;
 
     @MockBean
-    public CafeRepository cafeRepository;
+    public AuthTokensGenerator authTokensGenerator;
 
     @BeforeAll
     static void setUpAuth() {
         OWNER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((OWNER.getLoginId() + ":" + OWNER.getEncryptedPassword()).getBytes());
         CUSTOMER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((CUSTOMER.getLoginId() + ":" + CUSTOMER.getEncryptedPassword()).getBytes());
+        OWNER_BEARER_HEADER = "Bearer " + BearerAuthHelper.generateToken(OWNER.getId());
+        CUSTOMER_BEARER_HEADER = "Bearer " + BearerAuthHelper.generateToken(CUSTOMER.getId());
     }
 
     @BeforeEach

@@ -44,12 +44,12 @@ public class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends Accepta
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {
         // given, when
-        Cafe savedCafe = cafeRepository.save(cafeOfSavedOwner(ownerRepository.save(GITCHAN)));
-
+        Owner owner = ownerRepository.save(GITCHAN);
+        Cafe savedCafe = cafeRepository.save(cafeOfSavedOwner(owner));
         CafePolicy savedCafePolicy = cafePolicyRepository.save(cafePolicyOfSavedCafe(savedCafe));
         CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(cafeCouponDesignOfSavedCafe(savedCafe));
 
-        ExtractableResponse<Response> response = 카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, GITCHAN, savedCafe.getId());
+        ExtractableResponse<Response> response = 카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, owner, savedCafe.getId());
 
         // then
         assertAll(

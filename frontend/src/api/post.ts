@@ -72,6 +72,7 @@ export const postUploadImage = async (file: File) => {
   formData.append('image', file);
 
   return await fetch(`${BASE_URL}/admin/images`, {
+    ...ownerHeader(),
     method: 'POST',
     body: formData,
   });
