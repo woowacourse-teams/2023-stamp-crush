@@ -9,12 +9,4 @@ export const PreviewContentContainer = styled.div`
   width: 200px;
   height: 100px;
   gap: 20px;
-
-  :nth-child(n) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-  }
 `;
