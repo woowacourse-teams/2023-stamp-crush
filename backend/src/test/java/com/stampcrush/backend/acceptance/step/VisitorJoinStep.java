@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance.step;
 
-import com.stampcrush.backend.auth.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

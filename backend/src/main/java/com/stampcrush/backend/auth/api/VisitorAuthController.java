@@ -2,7 +2,7 @@ package com.stampcrush.backend.auth.api;
 
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.VisitorAuthService;
-import com.stampcrush.backend.auth.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
