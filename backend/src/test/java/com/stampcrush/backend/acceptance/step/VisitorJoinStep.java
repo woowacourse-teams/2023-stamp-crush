@@ -22,7 +22,7 @@ public class VisitorJoinStep {
                 .contentType(JSON)
 
                 .when()
-                .post("/api/login/temporary/test?phone-number=" + phoneNumber)
+                .post("/api/login/customer/temporary/test?phone-number=" + phoneNumber)
 
                 .then()
                 .log().all()
@@ -41,7 +41,7 @@ public class VisitorJoinStep {
                 .body(request)
 
                 .when()
-                .post("/api/login/register/test/token")
+                .post("/api/login/customer/register/test/token")
 
                 .then()
                 .log().all()
