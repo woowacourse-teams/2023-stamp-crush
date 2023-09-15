@@ -6,7 +6,7 @@ import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
 import { getCoupon, getCurrentCouponDesign } from '../../../api/get';
 import { postEarnStamp } from '../../../api/post';
 import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
-import FlippedCoupon from '../../Customer/CouponList/FlippedCoupon';
+import FlippedCoupon from '../../Customer/CouponList/components/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
