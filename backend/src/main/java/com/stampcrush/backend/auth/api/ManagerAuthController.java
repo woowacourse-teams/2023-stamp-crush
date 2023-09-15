@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api/admin/login")
 public class ManagerAuthController {
 
     private final ManagerAuthService managerAuthService;
 
-    @PostMapping("/owner/register/test/token")
+    @PostMapping("/register/test/token")
     public ResponseEntity<AuthTokensResponse> joinManager(
             @RequestBody OAuthRegisterOwnerCreateRequest request
     ) {
