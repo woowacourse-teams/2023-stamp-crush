@@ -24,8 +24,8 @@ public class ManagerAuthController {
         return ResponseEntity.ok().body(
                 managerAuthService.join(
                         request.getNickname(),
-                        request.getOAuthProvider(),
-                        request.getOAuthId()
+                        request.getoAuthProvider(),
+                        request.getoAuthId()
                 )
         );
     }
