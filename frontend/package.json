@@ -18,6 +18,7 @@
     "dev": "webpack-dev-server --config webpack.dev.js --open --hot",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack --config webpack.dev.js",
+    "inspect": "webpack --config webpack.inspect.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome",
     "storybook": "storybook dev -p 6006",
