@@ -26,10 +26,10 @@ public abstract class ControllerSliceTest {
     public CustomerRepository customerRepository;
 
     @MockBean
-    public AuthTokensGenerator authTokensGenerator;
-
-    @MockBean
     public CafeRepository cafeRepository;
+
+    @SpyBean
+    public AuthTokensGenerator authTokensGenerator;
 
     @SpyBean
     public JwtTokenProvider jwtTokenProvider;
