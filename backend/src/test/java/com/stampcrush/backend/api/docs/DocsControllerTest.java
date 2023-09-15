@@ -46,7 +46,6 @@ import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.KorNamingConverter;
-import com.stampcrush.backend.config.interceptor.OwnerAuthInterceptor;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -62,7 +61,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -73,7 +71,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.time.LocalTime;
 import java.util.Base64;
 
-import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
