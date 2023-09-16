@@ -11,24 +11,17 @@ import {
   ProgressBarContainer,
   StampCount,
 } from './style';
+import { Coupon, CouponInfo } from '../../../../../types/domain/coupon';
 
 interface CafeInfoProps {
-  cafeName: string;
-  stampCount: number;
-  maxStampCount: number;
-  isFavorites: boolean;
-  frontImageUrl: string;
+  cafeInfo: Coupon;
+  couponInfo: CouponInfo;
   onClickStar: () => void;
 }
 
-const CafeInfo = ({
-  cafeName,
-  stampCount,
-  maxStampCount,
-  isFavorites,
-  frontImageUrl,
-  onClickStar,
-}: CafeInfoProps) => {
+const CafeInfo = ({ cafeInfo, couponInfo, onClickStar }: CafeInfoProps) => {
+  const { name: cafeName, isFavorites } = cafeInfo.cafeInfo;
+  const { stampCount, maxStampCount, frontImageUrl } = couponInfo;
   return (
     <>
       <InfoContainer>

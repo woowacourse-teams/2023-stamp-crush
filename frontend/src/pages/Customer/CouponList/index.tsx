@@ -1,142 +1,55 @@
-import Coupon from './Coupon';
+import Coupon from './components/Coupon';
 import { CouponListContainer, InfoContainer } from './style';
-import { TouchEvent, useEffect, useRef, useState } from 'react';
-import { getCoupons } from '../../../api/get';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
-import CouponDetail from './CouponDetail';
+import CouponDetail from './components/CouponDetail';
 import Alert from '../../../components/Alert';
 import useModal from '../../../hooks/useModal';
-import { postIsFavorites } from '../../../api/post';
-import CafeInfo from './CafeInfo';
-import Header from './Header';
+import CafeInfo from './components/CafeInfo';
+import Header from './components/Header';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { isNotEmptyArray } from '../../../utils';
-import { CouponRes } from '../../../types/api/response';
+import useGetCoupons from './hooks/useGetCoupons';
+import usePostIsFavorites from './hooks/usePostIsFavorites';
+import useCouponDetail from './hooks/useCouponDetail';
+import useCouponList from './hooks/useCouponList';
+import EmptyCoupon from './components/EmptyCoupon';
 
 const CouponList = () => {
   const navigate = useNavigate();
   const { customerProfile } = useCustomerProfile();
-
   const { isOpen, openModal, closeModal } = useModal();
   const [alertMessage, setAlertMessage] = useState('');
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLast, setIsLast] = useState(false);
-  const [isDetail, setIsDetail] = useState(false);
-  const [isFlippedCouponShown, setIsFlippedCouponShown] = useState(false);
-
   const couponListContainerRef = useRef<HTMLDivElement>(null);
-
-  const [startY, setStartY] = useState(0);
-  const [endY, setEndY] = useState(0);
-
   const queryClient = useQueryClient();
 
-  const {
-    data: couponData,
-    status: couponStatus,
-    refetch: refetchCoupons,
-  } = useQuery<CouponRes>(['coupons'], getCoupons);
+  const { data: coupons, status: couponStatus, refetch: refetchCoupons } = useGetCoupons();
+
+  const { isDetail, isFlippedCouponShown, openCouponDetail, closeCouponDetail } = useCouponDetail();
+  const { isLast, currentIndex, setCurrentIndex, onTouchStart, onTouchEnd, onTouchMove } =
+    useCouponList(couponListContainerRef, isDetail, coupons!);
+
+  const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, queryClient, currentIndex);
 
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
     if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
-    if (couponData && isNotEmptyArray(couponData.coupons)) {
-      setCurrentIndex(couponData.coupons.length - 1);
+    if (coupons && isNotEmptyArray(coupons)) {
+      setCurrentIndex(coupons.length - 1);
     }
-  }, [couponData, customerProfile?.profile.phoneNumber]);
-
-  const { mutate: mutateIsFavorites } = useMutation(postIsFavorites, {
-    onSuccess: () => {
-      closeModal();
-    },
-    onMutate: async () => {
-      await queryClient.cancelQueries(['coupons']);
-      queryClient.setQueryData<CouponRes>(['coupons'], (prev) => {
-        if (!prev) return;
-        prev.coupons[currentIndex].cafeInfo.isFavorites =
-          !prev.coupons[currentIndex].cafeInfo.isFavorites;
-        return undefined;
-      });
-    },
-  });
+  }, [coupons, customerProfile?.profile.phoneNumber]);
 
   if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
   if (couponStatus === 'loading') return <CustomerLoadingSpinner />;
 
-  const { coupons } = couponData;
-
-  if (coupons.length === 0)
-    return (
-      <>
-        <Header />
-        <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
-      </>
-    );
+  if (coupons.length === 0) return <EmptyCoupon />;
 
   const currentCoupon = coupons[currentIndex];
   const [currentCouponInfo] = currentCoupon.couponInfos;
-
-  const swapCoupon = (e: TouchEvent<HTMLDivElement>) => {
-    if (!couponListContainerRef.current || isDetail) return;
-    if (coupons.length === 1) return;
-
-    const coupon = couponListContainerRef.current.lastElementChild;
-    if (e.target !== coupon) return;
-    setIsLast(true);
-
-    setTimeout(() => {
-      setIsLast(false);
-      couponListContainerRef.current?.prepend(coupon);
-      const newCoupon = couponListContainerRef.current?.lastElementChild;
-      if (newCoupon instanceof HTMLButtonElement) newCoupon.focus();
-    }, 700);
-  };
-
-  const changeCurrentIndex = (index: number) => {
-    setCurrentIndex((prevIndex) => {
-      if (coupons) return index === 0 ? coupons.length - 1 : index - 1;
-      return prevIndex;
-    });
-  };
-
-  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    setStartY(e.touches[0].clientY);
-  };
-
-  const onTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    setEndY(e.touches[0].clientY);
-  };
-
-  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
-    const deltaY = startY - endY;
-    if (deltaY < 100 || deltaY > 250) return;
-
-    const dataIndex = e.target instanceof HTMLButtonElement ? e.target.dataset.index : undefined;
-    if (dataIndex !== undefined) {
-      changeCurrentIndex(Number(dataIndex));
-      setStartY(0);
-      setEndY(0);
-      swapCoupon(e);
-    }
-  };
-
-  const openCouponDetail = () => {
-    setIsDetail(true);
-
-    setTimeout(() => {
-      setIsFlippedCouponShown(true);
-    }, 700);
-  };
-
-  const closeCouponDetail = () => {
-    setIsDetail(false);
-    setIsFlippedCouponShown(false);
-  };
 
   const openAlert = () => {
     openModal();
@@ -165,11 +78,8 @@ const CouponList = () => {
       ) : (
         <>
           <CafeInfo
-            cafeName={currentCoupon.cafeInfo.name}
-            stampCount={currentCouponInfo.stampCount}
-            maxStampCount={currentCouponInfo.maxStampCount}
-            isFavorites={currentCoupon.cafeInfo.isFavorites}
-            frontImageUrl={currentCouponInfo.frontImageUrl}
+            cafeInfo={currentCoupon}
+            couponInfo={currentCouponInfo}
             onClickStar={openAlert}
           />
           <CouponListContainer
@@ -196,7 +106,7 @@ const CouponList = () => {
             coupon={currentCoupon}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
-            refetchCoupons={refetchCoupons}
+            refetchCoupons={refetchCoupons} // 없앨 수 있을 것 같다.
             closeDetail={closeCouponDetail}
           />
           {isOpen && (
