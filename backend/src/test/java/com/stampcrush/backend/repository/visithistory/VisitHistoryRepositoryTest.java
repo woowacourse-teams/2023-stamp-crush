@@ -67,7 +67,6 @@ class VisitHistoryRepositoryTest {
 
     @Test
     void 특정_카페에_대한_특정_고객의_방문_이력을_조회한다() {
-//        Customer.createRegisteredCustomer("jena", "01012345678", OAuthProvider.KAKAO, 123L);
         // given
         Customer registered = Customer.registeredCustomerBuilder()
                 .nickname("jena")
@@ -121,5 +120,36 @@ class VisitHistoryRepositoryTest {
         // then
         assertThat(customer1Cafe1VisitHistory).usingRecursiveComparison().isEqualTo(expected1);
         assertThat(customer2Cafe2VisitHistory).usingRecursiveComparison().isEqualTo(expected2);
+    }
+
+    @Test
+    void 카페_아이디와_고객_아이디로_방문횟수를_조회한다() {
+        Customer registered = Customer.registeredCustomerBuilder()
+                .nickname("jena")
+                .phoneNumber("01012345678")
+                .build();
+        Customer customer1 = customerRepository.save(registered);
+
+        Customer customer2 = customerRepository.save(Customer.temporaryCustomerBuilder()
+                .phoneNumber("010000011111")
+                .build());
+
+        Owner cafe1Owner = ownerRepository.save(new Owner("owner1", "owner1Id", "owner1Pw", "01076532456"));
+        Cafe cafe1 = cafeRepository.save(new Cafe("우아한카페",
+                LocalTime.NOON,
+                LocalTime.MIDNIGHT,
+                "01012345678",
+                "cafeImageUrl",
+                "introduction",
+                "roadAddress",
+                "detailAddress",
+                "buisnessRegistrationNumber",
+                cafe1Owner
+        ));
+
+        VisitHistory visitHistory1 = visitHistoryRepository.save(new VisitHistory(cafe1, customer1, 3));
+        VisitHistory visitHistory2 = visitHistoryRepository.save(new VisitHistory(cafe1, customer2, 5));
+
+        assertThat(visitHistoryRepository.findByCafeIdAndCustomerId(cafe1.getId(), customer1.getId())).containsExactly(visitHistory1);
     }
 }
