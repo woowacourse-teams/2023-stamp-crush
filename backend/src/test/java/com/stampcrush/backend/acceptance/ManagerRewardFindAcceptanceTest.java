@@ -105,8 +105,6 @@ public class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         Customer customer = Customer.registeredCustomerBuilder()
                 .nickname("leo")
                 .email("leo@gmail.com")
-                .loginId("leoId")
-                .encryptedPassword("pw")
                 .oAuthProvider(OAuthProvider.KAKAO)
                 .oAuthId(123L)
                 .build();
