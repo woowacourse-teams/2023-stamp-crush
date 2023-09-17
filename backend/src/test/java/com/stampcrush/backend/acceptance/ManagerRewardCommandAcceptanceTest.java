@@ -6,55 +6,52 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.reward.request.RewardUsedUpdateRequest;
 import com.stampcrush.backend.api.manager.reward.response.RewardFindResponse;
 import com.stampcrush.backend.api.manager.reward.response.RewardsFindResponse;
-import com.stampcrush.backend.auth.OAuthProvider;
-import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환_2;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
 import static com.stampcrush.backend.acceptance.step.ManagerRewardStep.리워드_목록_조회;
 import static com.stampcrush.backend.acceptance.step.ManagerRewardStep.리워드_사용;
-import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
+import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청_2;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-public class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
-
-    // TODO 회원가입, 로그인 구현 후 제거
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    // TODO 회원가입, 로그인 구현 후 제거
-    @Autowired
-    private CustomerRepository customerRepository;
+class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 카페사장이_가입_회원의_리워드를_사용한다() {
         // given
-        Customer customer = 가입_회원_생성_후_가입_고객_반환();
-        Owner owner = 카페_사장_생성_후_사장_반환();
+        OAuthRegisterCustomerCreateRequest registerCustomerCreateRequest = O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
+        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
+        Long customerId = authTokensGenerator.extractMemberId(accessTokenCustomer);
+
+        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
+
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
+
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(accessTokenOwner, couponCreateRequest, customerId);
         StampCreateRequest stampCreateRequest = new StampCreateRequest(10);
-        쿠폰에_스탬프를_적립_요청(owner, customer, couponId, stampCreateRequest);
-        ExtractableResponse<Response> response = 리워드_목록_조회(owner, cafeId, customer.getId());
+        쿠폰에_스탬프를_적립_요청_2(accessTokenOwner, customerId, couponId, stampCreateRequest);
+        ExtractableResponse<Response> response = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
         List<RewardFindResponse> rewards = response.body().as(RewardsFindResponse.class).getRewards();
         Long rewardId = rewards.get(0).getId();
 
         //when
         RewardUsedUpdateRequest request = new RewardUsedUpdateRequest(cafeId, true);
-        리워드_사용(owner, request, customer.getId(), rewardId);
-        ExtractableResponse<Response> actual = 리워드_목록_조회(owner, cafeId, customer.getId());
+        리워드_사용(accessTokenOwner, request, customerId, rewardId);
+        ExtractableResponse<Response> actual = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
         List<RewardFindResponse> restRewards = actual.body().as(RewardsFindResponse.class).getRewards();
 
         // then
@@ -67,22 +64,25 @@ public class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페사장이_임시_회원의_리워드를_사용할_수_없다() {
         // given
-        Customer customer = 임시_회원_생성_후_가입_고객_반환();
-        Owner owner = 카페_사장_생성_후_사장_반환();
+        Long customerId = 임시_고객_회원_가입_요청하고_아이디_반환("01011111111");
+
+        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
+
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(accessTokenOwner, couponCreateRequest, customerId);
         StampCreateRequest stampCreateRequest = new StampCreateRequest(10);
-        쿠폰에_스탬프를_적립_요청(owner, customer, couponId, stampCreateRequest);
-        ExtractableResponse<Response> response = 리워드_목록_조회(owner, cafeId, customer.getId());
+        쿠폰에_스탬프를_적립_요청_2(accessTokenOwner, customerId, couponId, stampCreateRequest);
+        ExtractableResponse<Response> response = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
         List<RewardFindResponse> rewards = response.body().as(RewardsFindResponse.class).getRewards();
         Long rewardId = rewards.get(0).getId();
 
         //when
         RewardUsedUpdateRequest request = new RewardUsedUpdateRequest(cafeId, true);
-        리워드_사용(owner, request, customer.getId(), rewardId);
-        ExtractableResponse<Response> actual = 리워드_목록_조회(owner, cafeId, customer.getId());
+        리워드_사용(accessTokenOwner, request, customerId, rewardId);
+        ExtractableResponse<Response> actual = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
         List<RewardFindResponse> restRewards = actual.body().as(RewardsFindResponse.class).getRewards();
 
         // then
@@ -95,51 +95,31 @@ public class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페_사장이_자신의_카페_리워드가_아니면_사용할_수_없다() {
         // given
-        Customer customer = 가입_회원_생성_후_가입_고객_반환();
-        Owner owner = 카페_사장_생성_후_사장_반환();
-        Owner notOwner = ownerRepository.save(new Owner("notowner", "id", "pw", "01093726453"));
+        OAuthRegisterCustomerCreateRequest registerCustomerCreateRequest = O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
+        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
+        Long customerId = authTokensGenerator.extractMemberId(accessTokenCustomer);
+
+        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
+
+        OAuthRegisterOwnerCreateRequest registerNotOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST_2;
+        String accessTokenNotOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerNotOwnerCreateRequest);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(accessTokenOwner, couponCreateRequest, customerId);
         StampCreateRequest stampCreateRequest = new StampCreateRequest(10);
-        쿠폰에_스탬프를_적립_요청(owner, customer, couponId, stampCreateRequest);
-        ExtractableResponse<Response> rewardsResponse = 리워드_목록_조회(owner, cafeId, customer.getId());
+        쿠폰에_스탬프를_적립_요청_2(accessTokenOwner, customerId, couponId, stampCreateRequest);
+        ExtractableResponse<Response> rewardsResponse = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
         List<RewardFindResponse> rewards = rewardsResponse.body().as(RewardsFindResponse.class).getRewards();
         Long rewardId = rewards.get(0).getId();
 
         //when
         RewardUsedUpdateRequest request = new RewardUsedUpdateRequest(cafeId, true);
-        ExtractableResponse<Response> response = 리워드_사용(notOwner, request, customer.getId(), rewardId);
+        ExtractableResponse<Response> response = 리워드_사용(accessTokenNotOwner, request, customerId, rewardId);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(401);
-    }
-
-    // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
-    private Customer 가입_회원_생성_후_가입_고객_반환() {
-        Customer customer = Customer.registeredCustomerBuilder()
-                .nickname("leo")
-                .email("leo@gmail.com")
-                .loginId("leoId")
-                .encryptedPassword("pw")
-                .oAuthProvider(OAuthProvider.KAKAO)
-                .oAuthId(123L)
-                .build();
-        return customerRepository.save(customer);
-    }
-
-    // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
-    private Customer 임시_회원_생성_후_가입_고객_반환() {
-        Customer customer = Customer.temporaryCustomerBuilder()
-                .phoneNumber("01011111111")
-                .build();
-        return customerRepository.save(customer);
-    }
-
-    // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
-    private Owner 카페_사장_생성_후_사장_반환() {
-        return ownerRepository.save(new Owner("hardy", "hardyId", "1234", "01011111111"));
+        assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value());
     }
 }
