@@ -15,6 +15,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +45,7 @@ public class ManagerImageCommandApiDocsControllerTest extends DocsControllerTest
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("이미지 업로드")
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("imageUrl").description("업로드한 이미지의 Url")
                                                 )

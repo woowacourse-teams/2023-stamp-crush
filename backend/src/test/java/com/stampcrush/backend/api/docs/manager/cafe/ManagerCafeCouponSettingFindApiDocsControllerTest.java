@@ -23,7 +23,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsControllerTest {
+class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 현재_카페의_쿠폰_디자인_정책_조회() throws Exception {
@@ -57,7 +57,7 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("카페의 현재 쿠폰 디자인 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("cafe-id").description("카페 Id"))
                                                 .responseFields(
                                                         fieldWithPath("frontImageUrl").description("프론트 이미지 URL"),
@@ -108,7 +108,7 @@ public class ManagerCafeCouponSettingFindApiDocsControllerTest extends DocsContr
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("쿠폰이 발급될때의 쿠폰 디자인 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("cafe-id").description("카페 Id"))
                                                 .responseFields(
                                                         fieldWithPath("frontImageUrl").description("프론트 이미지 URL"),

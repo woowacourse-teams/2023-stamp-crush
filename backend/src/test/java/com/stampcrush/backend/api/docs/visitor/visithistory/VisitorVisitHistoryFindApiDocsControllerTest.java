@@ -23,7 +23,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsControllerTest {
+class VisitorVisitHistoryFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 스탬프_적립내역_조회() throws Exception {
@@ -54,7 +54,7 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("스탬프 적립내역 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("stampHistories[].id").description("적립내역 ID"),
                                                         fieldWithPath("stampHistories[].cafeName").description("카페 이름"),
