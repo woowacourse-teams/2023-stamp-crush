@@ -1,16 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postRegisterCafe } from '../../../../api/post';
-import { useCafeQuery } from '../../../../hooks/useRedirectRegisterPage';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../../constants';
 
 const usePostRegisterCafe = () => {
   const navigate = useNavigate();
-  const { refetch: refetchCafe } = useCafeQuery();
+
+  const queryClient = useQueryClient();
 
   return useMutation(postRegisterCafe, {
     onSuccess: () => {
-      refetchCafe();
+      queryClient.invalidateQueries({ queryKey: ['cafe'] });
       navigate(ROUTER_PATH.customerList);
     },
     onError: () => {
