@@ -20,6 +20,7 @@ public class VisitorAuthController {
 
     private final VisitorAuthService visitorAuthService;
 
+    @Deprecated
     @PostMapping("/temporary/test")
     public ResponseEntity<Void> joinTemporaryCustomer(
             @RequestParam("phone-number") String phoneNumber
