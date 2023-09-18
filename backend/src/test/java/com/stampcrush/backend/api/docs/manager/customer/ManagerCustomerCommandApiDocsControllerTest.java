@@ -44,7 +44,7 @@ class ManagerCustomerCommandApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("임시 고객 생성")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("phoneNumber").description("고객 전화번호"))
                                                 .requestSchema(Schema.schema("TemporaryCustomerCreateRequest"))
                                                 .responseHeaders(headerWithName("Location").description("/customers/{customerId}"))

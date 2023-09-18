@@ -21,7 +21,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTest {
+class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 쿠폰_신규_발급() throws Exception {
@@ -47,7 +47,7 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("쿠폰 신규 발급")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("cafeId").description("카페 ID"))
                                                 .requestSchema(Schema.schema("CouponCreateRequest"))
                                                 .responseFields(fieldWithPath("couponId").description("쿠폰 ID"))
@@ -82,7 +82,7 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("스탬프 적립")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("earningStampCount").description("적립할 스탬프 개수"))
                                                 .requestSchema(Schema.schema("StampCreateRequest"))
                                                 .build()

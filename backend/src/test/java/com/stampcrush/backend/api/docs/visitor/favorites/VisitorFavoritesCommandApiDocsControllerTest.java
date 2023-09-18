@@ -20,7 +20,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorFavoritesCommandApiDocsControllerTest extends DocsControllerTest {
+class VisitorFavoritesCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 즐겨찾기_등록_해제_요청() throws Exception {
@@ -43,7 +43,7 @@ public class VisitorFavoritesCommandApiDocsControllerTest extends DocsController
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("카페 즐겨찾기 등록/해제")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("isFavorites").description("등록(true)/ 해제(false)"))
                                                 .requestSchema(Schema.schema("FavoritesUpdateRequest"))
                                                 .build()
