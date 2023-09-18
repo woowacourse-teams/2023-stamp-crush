@@ -24,7 +24,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
+class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 고객의_리워드_조회() throws Exception {
@@ -53,7 +53,7 @@ public class ManagerRewardFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("고객의 리워드 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("cafe-id").description("카페 Id"),
                                                         parameterWithName("used").description("false"))
                                                 .responseFields(

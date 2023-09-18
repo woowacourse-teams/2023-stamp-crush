@@ -44,7 +44,7 @@ class ManagerCustomerFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("전화번호로 고객 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("phone-number").description("입력한 전화번호"))
                                                 .responseFields(
                                                         fieldWithPath("customer[].id").description("고객 ID"),

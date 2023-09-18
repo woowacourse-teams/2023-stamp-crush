@@ -24,7 +24,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
+class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 고객의_쿠폰_조회() throws Exception {
@@ -53,7 +53,7 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                 ResourceSnippetParameters.builder()
                                         .tag("사장 모드")
                                         .description("고객의 쿠폰 조회")
-                                        .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                        .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                         .queryParameters(ResourceDocumentation.parameterWithName("cafe-id").description("카페 Id"),
                                                 ResourceDocumentation.parameterWithName("active").description("true(활성화된 쿠폰만 조회)"))
                                         .responseFields(
@@ -93,7 +93,7 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                 ResourceSnippetParameters.builder()
                                         .tag("사장 모드")
                                         .description("고객 목록 조회")
-                                        .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                        .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                         .responseFields(
                                                 fieldWithPath("customers[].id").description("고객 ID"),
                                                 fieldWithPath("customers[].nickname").description("닉네임"),

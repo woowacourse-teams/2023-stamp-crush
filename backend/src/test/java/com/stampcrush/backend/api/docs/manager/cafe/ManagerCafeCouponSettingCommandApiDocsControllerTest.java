@@ -22,7 +22,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsControllerTest {
+class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 쿠폰_디자인_및_정책_수정() throws Exception {
@@ -54,7 +54,7 @@ public class ManagerCafeCouponSettingCommandApiDocsControllerTest extends DocsCo
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("쿠폰 디자인 및 정책 수정")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("cafe-id").description("카페 ID"))
                                                 .requestFields(
                                                         fieldWithPath("frontImageUrl").description("쿠폰 앞면 이미지 URL"),
