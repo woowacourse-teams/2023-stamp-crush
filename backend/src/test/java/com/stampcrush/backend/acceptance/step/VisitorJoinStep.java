@@ -11,12 +11,14 @@ import static io.restassured.http.ContentType.JSON;
 
 public class VisitorJoinStep {
 
+    @Deprecated
     public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String phoneNumber) {
         ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(phoneNumber);
         String location = response.header("Location");
         return Long.valueOf(location.split("/")[2]);
     }
 
+    @Deprecated
     public static ExtractableResponse<Response> 임시_고객_회원_가입_요청(String phoneNumber) {
         return RestAssured.given()
                 .log().all()
