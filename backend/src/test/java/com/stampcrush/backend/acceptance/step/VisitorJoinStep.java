@@ -1,6 +1,7 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
+import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -10,6 +11,10 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
 public class VisitorJoinStep {
+
+    public static final OAuthRegisterCustomerCreateRequest REGISTER_CUSTOMER_CREATE_REQUEST = new OAuthRegisterCustomerCreateRequest(
+            "깃짱", "gitchan@naver.com", OAuthProvider.KAKAO, 123142L
+    );
 
     @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
     public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String phoneNumber) {
