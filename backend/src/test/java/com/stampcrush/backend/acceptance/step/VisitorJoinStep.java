@@ -16,6 +16,8 @@ public class VisitorJoinStep {
             "깃짱", "gitchan@naver.com", OAuthProvider.KAKAO, 123142L
     );
 
+    public static final TemporaryCustomerCreateRequest TEMPORARY_CUSTOMER_CREATE_REQUEST = new TemporaryCustomerCreateRequest("01012345678");
+
     @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
     public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String phoneNumber) {
         ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(phoneNumber);
