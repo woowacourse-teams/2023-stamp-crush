@@ -5,31 +5,30 @@ import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.auth.OAuthProvider;
-import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 
+import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.전화번호로_고객_조회_요청;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.임시_고객_회원_가입_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.임시_고객_회원_가입_요청하고_아이디_반환;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
 public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
 
-    private static final OAuthRegisterOwnerCreateRequest OWNER_CREATE_REQUEST = new OAuthRegisterOwnerCreateRequest(
-            "깃짱", OAuthProvider.KAKAO, 123234L
-    );
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -46,11 +45,11 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
         Owner owner = ownerRepository.findById(ownerId).get();
 
-        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환("01012345678");
+        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환(ownerAccessToken, new TemporaryCustomerCreateRequest("01012345678"));
         Customer customer = customerRepository.findById(temporaryCustomerId).get();
 
         // when
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -67,11 +66,11 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
         Owner owner = ownerRepository.findById(ownerId).get();
 
-        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환("01012345678");
+        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환(ownerAccessToken, new TemporaryCustomerCreateRequest("01012345678"));
         Customer customer = customerRepository.findById(temporaryCustomerId).get();
 
         // when
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -88,7 +87,7 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
         Owner owner = ownerRepository.findById(ownerId).get();
 
-        ExtractableResponse<Response> response = requestFindCustomerByPhoneNumber(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -106,7 +105,7 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = ownerRepository.findById(ownerId).get();
 
         // when
-        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환("01012345678");
+        Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환(ownerAccessToken, new TemporaryCustomerCreateRequest("01012345678"));
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
         // then
@@ -123,40 +122,15 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
         Owner owner = ownerRepository.findById(ownerId).get();
 
+        String accessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest(
+                "깃짱", "gitchan@gmail.com", OAuthProvider.KAKAO, 12314124L
+        ));
         Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환("01012345678");
         Customer temporaryCustomer = customerRepository.findById(temporaryCustomerId).get();
 
-        TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(temporaryCustomer.getPhoneNumber());
+        ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(ownerAccessToken, new TemporaryCustomerCreateRequest(temporaryCustomer.getPhoneNumber()));
 
         // when, then
-        RestAssured.given()
-                .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(temporaryCustomerCreateRequest)
-                .auth().preemptive()
-                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-
-                .when()
-                .post("/api/admin/temporary-customers")
-
-                .then()
-                .statusCode(BAD_REQUEST.value())
-                .extract();
-    }
-
-    private ExtractableResponse<Response> requestFindCustomerByPhoneNumber(Owner owner, String phoneNumber) {
-        return RestAssured.given().
-                log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param("phone-number", phoneNumber)
-                .auth().preemptive()
-                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-
-                .when()
-                .get("/api/admin/customers")
-
-                .then()
-                .log().all()
-                .extract();
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value());
     }
 }
