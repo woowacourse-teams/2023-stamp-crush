@@ -64,16 +64,17 @@ const EarnStamp = () => {
           <Text>
             현재 스탬프 개수: {coupon.coupons[0].stampCount}/{coupon.coupons[0].maxStampCount}
           </Text>
+          <Text>스탬프 적립: {stamp}개</Text>
           <Spacing $size={8} />
           <FlippedCoupon
             frontImageUrl={couponDesignData.frontImageUrl}
             backImageUrl={couponDesignData.backImageUrl}
             stampImageUrl={couponDesignData.stampImageUrl}
-            stampCount={coupon.coupons[0].stampCount}
+            stampCount={coupon.coupons[0].stampCount + stamp}
             coordinates={couponDesignData.coordinates}
             isShown={true}
           />
-          <Spacing $size={45} />
+          <Spacing $size={5} />
           <span>쿠폰 유효기간: {coupon.coupons[0].expireDate}까지</span>
         </CouponSelectorWrapper>
         <Button onClick={earnStamp}>적립</Button>
