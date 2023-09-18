@@ -1,5 +1,6 @@
 package com.stampcrush.backend.acceptance.step;
 
+import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -23,6 +24,28 @@ public class VisitorJoinStep {
 
                 .when()
                 .post("/api/login/temporary/test?phone-number=" + phoneNumber)
+
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String accessToken, TemporaryCustomerCreateRequest request) {
+        ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(accessToken, request);
+        String location = response.header("Location");
+        return Long.valueOf(location.split("/")[2]);
+    }
+
+    public static ExtractableResponse<Response> 임시_고객_회원_가입_요청(String accessToken, TemporaryCustomerCreateRequest request) {
+        return RestAssured.given()
+                .log().all()
+                .contentType(JSON)
+                .auth().preemptive()
+                .oauth2(accessToken)
+                .body(request)
+
+                .when()
+                .post("/api/admin/temporary-customers")
 
                 .then()
                 .log().all()
