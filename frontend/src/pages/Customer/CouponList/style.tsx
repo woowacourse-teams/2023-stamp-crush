@@ -87,6 +87,11 @@ export const CouponListContainer = styled.div<{
   height: 150px;
   transition: all 0.1s;
 
+  /** iPhone SE */
+  @media only screen and (min-device-width: 320px) and (max-device-width: 375px) {
+    height: 10px;
+  }
+
   :nth-last-child(1) {
     z-index: ${({ $isShown }) => ($isShown ? '-1' : '3')};
     transform: translateY(15px) scale(1.05);
