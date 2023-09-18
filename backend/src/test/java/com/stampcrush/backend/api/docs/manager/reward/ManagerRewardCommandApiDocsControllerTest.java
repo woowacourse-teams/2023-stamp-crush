@@ -20,7 +20,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerRewardCommandApiDocsControllerTest extends DocsControllerTest {
+class ManagerRewardCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 리워드_사용() throws Exception {
@@ -44,7 +44,7 @@ public class ManagerRewardCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("리워드 사용")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("cafeId").description("카페 Id"),
                                                         fieldWithPath("used").description("사용(true)"))
                                                 .requestSchema(Schema.schema("RewardUsedUpdateRequest"))

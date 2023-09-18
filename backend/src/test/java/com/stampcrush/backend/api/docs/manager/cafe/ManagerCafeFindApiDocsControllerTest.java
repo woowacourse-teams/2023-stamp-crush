@@ -44,7 +44,7 @@ class ManagerCafeFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("카페 정보 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("cafes[].id").description("카페 ID"),
                                                         fieldWithPath("cafes[].name").description("카페 이름"),
