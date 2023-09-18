@@ -11,14 +11,14 @@ import static io.restassured.http.ContentType.JSON;
 
 public class VisitorJoinStep {
 
-    @Deprecated
+    @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
     public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String phoneNumber) {
         ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(phoneNumber);
         String location = response.header("Location");
         return Long.valueOf(location.split("/")[2]);
     }
 
-    @Deprecated
+    @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
     public static ExtractableResponse<Response> 임시_고객_회원_가입_요청(String phoneNumber) {
         return RestAssured.given()
                 .log().all()
