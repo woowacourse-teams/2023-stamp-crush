@@ -24,7 +24,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카�
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorCouponFindStep.고객의_쿠폰_카페별로_1개씩_조회_요청;
-import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -49,7 +49,7 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         String gitchanAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("깃짱", OAuthProvider.KAKAO, 123L));
         String jenaAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("제나", OAuthProvider.KAKAO, 12341L));
 
-        String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_CREATE_REQUEST);
+        String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
         Customer customer = customerRepository.findById(customerId).get();
 
@@ -99,7 +99,7 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         String gitchanAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("깃짱", OAuthProvider.KAKAO, 123L));
         String jenaAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("제나", OAuthProvider.KAKAO, 12341L));
 
-        String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_CREATE_REQUEST);
+        String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
         Customer customer = customerRepository.findById(customerId).get();
 

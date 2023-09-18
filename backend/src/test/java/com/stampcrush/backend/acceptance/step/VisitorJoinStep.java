@@ -12,7 +12,7 @@ import static io.restassured.http.ContentType.JSON;
 
 public class VisitorJoinStep {
 
-    public static final OAuthRegisterCustomerCreateRequest REGISTER_CUSTOMER_CREATE_REQUEST = new OAuthRegisterCustomerCreateRequest(
+    public static final OAuthRegisterCustomerCreateRequest REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST = new OAuthRegisterCustomerCreateRequest(
             "깃짱", "gitchan@naver.com", OAuthProvider.KAKAO, 123142L
     );
 
