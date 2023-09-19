@@ -16,7 +16,7 @@ import useGetCoupons from './hooks/useGetCoupons';
 import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
-import EmptyCoupon from './components/EmptyCoupon';
+import HomeTemplate from './components/HomeTemplate';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -43,10 +43,17 @@ const CouponList = () => {
     }
   }, [coupons, customerProfile?.profile.phoneNumber]);
 
-  if (couponStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (couponStatus === 'loading') return <CustomerLoadingSpinner />;
+  if (couponStatus === 'error') {
+    return <HomeTemplate>에러가 발생했습니다.</HomeTemplate>;
+  }
+  if (couponStatus === 'loading')
+    return (
+      <HomeTemplate>
+        <CustomerLoadingSpinner />
+      </HomeTemplate>
+    );
 
-  if (coupons.length === 0) return <EmptyCoupon />;
+  if (coupons.length === 0) return <HomeTemplate>보유하고 있는 쿠폰이 없습니다.</HomeTemplate>;
 
   const currentCoupon = coupons[currentIndex];
   const [currentCouponInfo] = currentCoupon.couponInfos;
