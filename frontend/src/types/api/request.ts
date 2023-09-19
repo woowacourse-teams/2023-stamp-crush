@@ -96,3 +96,7 @@ export interface StampEarningReq {
   customerId: string;
   couponId: string;
 }
+
+export interface CustomerLinkDataReqBody {
+  id: number;
+}
