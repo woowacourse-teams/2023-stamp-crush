@@ -1,16 +1,19 @@
 package com.stampcrush.backend.api.visitor.profile.response;
 
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfileFindByPhoneNumberResultDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class VisitorProfilesFindByPhoneNumberResponse {
 
-    private final List<VisitorProfileFindByPhoneNumberResponse> customers;
+    private List<VisitorProfileFindByPhoneNumberResponse> customers;
 
     public static VisitorProfilesFindByPhoneNumberResponse from(VisitorProfileFindByPhoneNumberResultDto dto) {
         if (dto == null) {
