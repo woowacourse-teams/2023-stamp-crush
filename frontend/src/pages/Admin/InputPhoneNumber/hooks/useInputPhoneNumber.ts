@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../../constants';
+import { PHONE_NUMBER_LENGTH, ROUTER_PATH } from '../../../../constants';
 import useGetCustomerRegisterType from './useGetCustomerRegisterType';
 import usePostCustomerLinkData from './usePostCustomerLinkData';
 import usePostCustomerPhoneNumber from './usePostCustomerPhoneNumber';
@@ -16,12 +16,16 @@ const useInputPhoneNumber = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const submitPhoneNumber = async () => {
-    if (!customerRegisterType) return;
-    if (phoneNumber.length < 13) {
+  const submitPhoneNumber = () => {
+    if (phoneNumber.length < PHONE_NUMBER_LENGTH) {
       alert('전화번호를 모두 입력해주세요.');
       return;
     }
+    registerPhoneNumber();
+  };
+
+  const registerPhoneNumber = async () => {
+    if (!customerRegisterType) return;
 
     /** 순서가 바뀌면 안되는 로직입니다. */
     // 임시회원이 아닌 유저가 정상적인 전화번호를 등록하려고 할때
