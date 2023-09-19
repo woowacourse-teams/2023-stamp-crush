@@ -6,11 +6,9 @@ import com.stampcrush.backend.api.manager.reward.response.RewardFindResponse;
 import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
-import com.stampcrush.backend.repository.user.TemporaryCustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -31,37 +29,43 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
 
     // TODO 회원가입, 로그인 구현 후 제거
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
-
-    // TODO 회원가입, 로그인 구현 후 제거
-    @Autowired
-    private TemporaryCustomerRepository temporaryCustomerRepository;
+    private CustomerRepository customerRepository;
 
     @Test
     void 즐겨찾기를_등록한다() {
         // given
-        RegisterCustomer customer = 가입_회원_생성_후_가입_고객_반환();
+        Customer customer = 가입_회원_생성_후_가입_고객_반환();
+
         Owner owner = 카페_사장_생성_후_사장_반환();
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
         Long cafeId = 카페_생성_후_카페_아이디_반환(owner, cafeCreateRequest);
         FavoritesUpdateRequest request = new FavoritesUpdateRequest(Boolean.TRUE);
 
         // when
-        int statusCode = 즐겨찾기_등록(request, customer, cafeId)
-                .statusCode();
+        ExtractableResponse<Response> response = 즐겨찾기_등록(request, customer, cafeId);
 
         // then
-        assertThat(statusCode).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
-    private RegisterCustomer 가입_회원_생성_후_가입_고객_반환() {
-        return registerCustomerRepository.save(new RegisterCustomer("leo", "01022222222", "leoId", "5678"));
+    private Customer 가입_회원_생성_후_가입_고객_반환() {
+        Customer customer = Customer.registeredCustomerBuilder()
+                .nickname("leo")
+                .phoneNumber("01022222222")
+                .loginId("leoId")
+                .encryptedPassword("leoPw")
+                .build();
+        return customerRepository.save(customer);
+
     }
 
     // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
     private Customer 임시_회원_생성_후_가입_고객_반환() {
-        return temporaryCustomerRepository.save(TemporaryCustomer.from("01011111111"));
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01011111111")
+                .build();
+        return customerRepository.save(customer);
     }
 
     // TODO 회원가입, 로그인 구현 후 API CAll 로 대체
@@ -74,7 +78,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 given()
                         .contentType(JSON)
                         .body(cafeCreateRequest)
-                        .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                        .auth().preemptive()
+                        .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                         .when()
                         .post("/api/admin/cafes")
                         .thenReturn()
@@ -87,7 +92,8 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
                 .queryParam("cafe-id", cafeId)
                 .queryParam("used", false)
                 .contentType(JSON)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                 .when()
                 .get("/api/admin/customers/" + customerId + "/rewards")
                 .thenReturn()
@@ -99,16 +105,18 @@ public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
         given()
                 .contentType(JSON)
                 .body(rewardUsedUpdateRequest)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
                 .when()
                 .patch("/api/admin/customers/" + customerId + "/rewards/" + rewardId);
     }
 
-    private ExtractableResponse<Response> 즐겨찾기_등록(FavoritesUpdateRequest favoritesUpdateRequest, RegisterCustomer customer, Long cafeId) {
+    private ExtractableResponse<Response> 즐겨찾기_등록(FavoritesUpdateRequest favoritesUpdateRequest, Customer customer, Long cafeId) {
         return given()
                 .contentType(JSON)
                 .body(favoritesUpdateRequest)
-                .auth().preemptive().basic(customer.getLoginId(), customer.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(customer.getId()))
                 .when()
                 .post("/api/cafes/" + cafeId + "/favorites")
                 .then()

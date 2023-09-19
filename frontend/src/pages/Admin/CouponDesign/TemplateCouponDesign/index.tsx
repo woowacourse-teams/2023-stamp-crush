@@ -7,7 +7,6 @@ import {
   SaveButtonWrapper,
 } from '../CustomCouponDesign/style';
 import useUploadImage from '../../../../hooks/useUploadImage';
-import { CouponDesignLocation, StampCoordinate } from '../../../../types';
 import { useState } from 'react';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
 import CustomCouponSection from '../CustomCouponSection';
@@ -18,8 +17,9 @@ import ChoiceTemplate from '../ChoiceTemplate';
 import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
 import CouponPreviewImg from '../../../../assets/coupon_preview.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
-import { CouponSettingReqBody } from '../../../../types/api';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
+import { CouponSettingReqBody } from '../../../../types/api/request';
+import { CouponDesignLocation, StampCoordinate } from '../../../../types/domain/coupon';
 
 const TemplateCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();

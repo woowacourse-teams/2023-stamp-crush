@@ -8,13 +8,14 @@ import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ import static org.mockito.BDDMockito.given;
 public class ManagerCouponFindServiceTest {
 
     private static Cafe cafe;
+    private static Owner owner;
     private static Customer customer1;
     private static Customer customer2;
     private static CouponPolicy couponPolicy1;
@@ -61,11 +63,22 @@ public class ManagerCouponFindServiceTest {
     @Mock
     private RewardRepository rewardRepository;
 
+    @Mock
+    private OwnerRepository ownerRepository;
+
     @BeforeAll
     static void setUp() {
-        cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", null);
-        customer1 = new TemporaryCustomer(1L, "customer1", "phone");
-        customer2 = new TemporaryCustomer(2L, "customer2", "phone");
+        owner = new Owner(1L, "owner", "ownerId", "ownerPassword", "01010010");
+        cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", owner);
+//        customer1 = new TemporaryCustomer(1L, "customer1", "phone");
+        customer1 = Customer.temporaryCustomerBuilder()
+                .id(1L)
+                .phoneNumber("01012345678")
+                .build();
+        customer2 = Customer.temporaryCustomerBuilder()
+                .id(2L)
+                .phoneNumber("01098765432")
+                .build();
         couponPolicy1 = new CouponPolicy(10, "reward", 6);
         couponPolicy2 = new CouponPolicy(15, "reward", 6);
     }
@@ -83,6 +96,8 @@ public class ManagerCouponFindServiceTest {
         Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, couponPolicy2);
         VisitHistory visitHistory2 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, 5);
 
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(couponRepository.findByCafe(any()))
@@ -98,7 +113,7 @@ public class ManagerCouponFindServiceTest {
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 1, coupon1CreatedAt);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result, customer2Result);
@@ -113,6 +128,8 @@ public class ManagerCouponFindServiceTest {
         coupon1.expire();
         VisitHistory visitHistory = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
 
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(couponRepository.findByCafe(any()))
@@ -122,7 +139,7 @@ public class ManagerCouponFindServiceTest {
 
         CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0);
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, 1, coupon1CreatedAt);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result);
@@ -134,18 +151,22 @@ public class ManagerCouponFindServiceTest {
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
         Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer1));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(coupon));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
         cafe.getPolicies().add(new CafePolicy(10, "americano", 6, false, cafe));
 
         // when
-        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
+        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
 
         // then
         CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
@@ -166,19 +187,22 @@ public class ManagerCouponFindServiceTest {
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
         Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
 
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer1));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(coupon));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
         cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), false, cafe));
 
-
         // when
-        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L);
+        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);
 
         // then
         CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
@@ -220,6 +244,8 @@ public class ManagerCouponFindServiceTest {
         coupon2.accumulate(customer2EarningStampCount);
         VisitHistory customer2visitHistory1 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, customer2EarningStampCount);
 
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
         given(couponRepository.findByCafe(any()))
@@ -228,6 +254,8 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(List.of(customer1VisitHistory1, customer1VisitHistory2));
         given(visitHistoryRepository.findByCafeAndCustomer(cafe, customer2))
                 .willReturn(List.of(customer2visitHistory1));
+        given(ownerRepository.findById(anyLong()))
+                .willReturn(Optional.of(cafe.getOwner()));
 
         // when
         CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2
@@ -237,7 +265,7 @@ public class ManagerCouponFindServiceTest {
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 2, coupon1CreatedAt);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(anyLong());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result, customer2Result);

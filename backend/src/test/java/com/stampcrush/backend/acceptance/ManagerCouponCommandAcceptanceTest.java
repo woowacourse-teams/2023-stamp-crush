@@ -6,10 +6,12 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponsFindResponse;
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpd
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
@@ -38,13 +41,13 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     private OwnerRepository ownerRepository;
 
     @Autowired
-    private RegisterCustomerRepository registerCustomerRepository;
+    private CustomerRepository customerRepository;
 
     private static Response 고객_조회_요청(Owner owner, Long savedCafeId) {
         return given()
                 .log().all()
                 .auth().preemptive()
-                .basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", savedCafeId);
@@ -55,7 +58,7 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         // given
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
+        Customer savedCustomer = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
@@ -83,11 +86,37 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 내카페가_아닌_카페의_쿠폰을_발급할수_없다() {
+        // given
+        Owner owner = ownerRepository.save(new Owner("owner", "id1", "pw1", "01029384234"));
+        Owner notOwner = ownerRepository.save(new Owner("notowner", "id2", "pw2", "01049384234"));
+
+        Customer savedCustomer = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
+
+        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        CouponCreateRequest request = new CouponCreateRequest(cafeId);
+
+        // when
+        ExtractableResponse<Response> response = 쿠폰_생성_요청(notOwner, request, savedCustomer.getId());
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(401);
+    }
+
+    @Test
     void 스탬프를_적립한다() {
         // given
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer savedCustomer = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
+        Customer savedCustomer = customerRepository.save(
+                Customer.registeredCustomerBuilder()
+                        .nickname("name")
+                        .phoneNumber("phone")
+                        .loginId("id")
+                        .encryptedPassword("pw")
+                        .build()
+        );
+
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
@@ -165,11 +194,24 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         // given
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        RegisterCustomer customer1 = registerCustomerRepository.save(new RegisterCustomer("name", "phone", "id", "pw"));
+        Customer customer1 = customerRepository.save(
+                Customer.registeredCustomerBuilder()
+                        .nickname("name")
+                        .phoneNumber("phone")
+                        .loginId("id")
+                        .encryptedPassword("pw")
+                        .build()
+        );
         CouponCreateRequest reqeust1 = new CouponCreateRequest(savedCafeId);
         Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust1, customer1.getId());
-
-        RegisterCustomer customer2 = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        Customer customer2 = customerRepository.save(
+                Customer.registeredCustomerBuilder()
+                        .nickname("name2")
+                        .phoneNumber("phone2")
+                        .loginId("id2")
+                        .encryptedPassword("pw2")
+                        .build()
+        );
         CouponCreateRequest reqeust2 = new CouponCreateRequest(savedCafeId);
         Long coupon2Id = 쿠폰_생성_요청하고_아이디_반환(owner, reqeust2, customer2.getId());
 
@@ -235,7 +277,14 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
 
-        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        Customer customer = customerRepository.save(
+                Customer.registeredCustomerBuilder()
+                        .nickname("name2")
+                        .phoneNumber("phone2")
+                        .loginId("id2")
+                        .encryptedPassword("pw2")
+                        .build()
+        );
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
         Long oldCouponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest oldCouponStampCreate = new StampCreateRequest(3);
@@ -267,7 +316,12 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
 
-        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        Customer customer = customerRepository.save(Customer.registeredCustomerBuilder()
+                .nickname("name2")
+                .phoneNumber("phone2")
+                .loginId("id2")
+                .encryptedPassword("pw2")
+                .build());
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
         Long oldCouponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest oldCouponStampCreate = new StampCreateRequest(10); // 리워드 받고 쿠폰 만료됨
@@ -286,7 +340,12 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         Owner owner = 사장_생성();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
 
-        RegisterCustomer customer = registerCustomerRepository.save(new RegisterCustomer("name2", "phone2", "id2", "pw2"));
+        Customer customer = customerRepository.save(Customer.registeredCustomerBuilder()
+                .nickname("name2")
+                .phoneNumber("phone2")
+                .loginId("id2")
+                .encryptedPassword("pw2")
+                .build());
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(savedCafeId);
         Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
         StampCreateRequest stampCreateRequest = new StampCreateRequest(3);

@@ -9,9 +9,9 @@ import {
 } from './style';
 import { Spacing } from '../../../../style/layout/common';
 import Text from '../../../../components/Text';
-import { CouponCreated } from '../../../../types';
 import { GrSelect } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectLarge } from 'react-icons/md';
+import { CouponCreated } from '../../../../types/domain/coupon';
 
 interface CreatedTypeProps {
   value: CouponCreated;
@@ -33,7 +33,6 @@ const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
           type="radio"
           name="create-formula"
           value="template"
-          defaultChecked
           onChange={changeSelectValue}
         />
         <Label htmlFor="template" $isChecked={value === 'template'}>

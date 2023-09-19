@@ -7,6 +7,7 @@ import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindR
 import com.stampcrush.backend.fixture.CafeFixture;
 import com.stampcrush.backend.fixture.CouponFixture;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import java.util.List;
@@ -14,18 +15,20 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
+class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 고객의_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
+        when(customerRepository.findById(CUSTOMER.getId()))
+                .thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId()))
                 .thenReturn(Optional.of(CUSTOMER));
 
@@ -40,12 +43,13 @@ public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
                                 )
                         )
                 );
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
 
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/coupons")
                                 .contentType(APPLICATION_JSON)
-                                .header(AUTHORIZATION, CUSTOMER_BASIC_HEADER)
-                )
+                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
                 .andDo(document("visitor/coupon/coupon-list",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
@@ -53,7 +57,7 @@ public class VisitorCouponFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("쿠폰 리스트 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("coupons[].cafeInfo.id").description("카페 ID"),
                                                         fieldWithPath("coupons[].cafeInfo.name").description("카페 이름"),

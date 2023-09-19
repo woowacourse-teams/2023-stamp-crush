@@ -17,29 +17,35 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
+class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 고객의_쿠폰_조회() throws Exception {
         // given
         Long customerId = 1L;
         Long cafeId = 1L;
+        Long ownerId = CAFE.getOwner().getId();
 
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
-        when(managerCouponFindService.findAccumulatingCoupon(cafeId, customerId)).thenReturn(List.of(new CustomerAccumulatingCouponFindResultDto(1L, 1L, "윤생", 3, LocalDateTime.MIN, false, 10)));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(CAFE.getOwner()));
+        when(managerCouponFindService.findAccumulatingCoupon(ownerId, cafeId, customerId)).thenReturn(List.of(new CustomerAccumulatingCouponFindResultDto(1L, 1L, "윤생", 3, LocalDateTime.MIN, false, 10)));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/customers/{customerId}/coupons", customerId)
                         .queryParam("cafe-id", String.valueOf(cafeId))
                         .queryParam("active", "true")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/coupon/find-coupon",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -47,7 +53,7 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                 ResourceSnippetParameters.builder()
                                         .tag("사장 모드")
                                         .description("고객의 쿠폰 조회")
-                                        .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                        .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                         .queryParameters(ResourceDocumentation.parameterWithName("cafe-id").description("카페 Id"),
                                                 ResourceDocumentation.parameterWithName("active").description("true(활성화된 쿠폰만 조회)"))
                                         .responseFields(
@@ -67,13 +73,19 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
     void 고객_목록_조회() throws Exception {
         // given
         Long cafeId = 1L;
+        Long ownerId = OWNER.getId();
+
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
-        when(managerCouponFindService.findCouponsByCafe(cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10)));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
+        when(managerCouponFindService.findCouponsByCafe(ownerId, cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10)));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes/{cafeId}/customers", cafeId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/coupon/find-customer-list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -81,7 +93,7 @@ public class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                 ResourceSnippetParameters.builder()
                                         .tag("사장 모드")
                                         .description("고객 목록 조회")
-                                        .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                        .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                         .responseFields(
                                                 fieldWithPath("customers[].id").description("고객 ID"),
                                                 fieldWithPath("customers[].nickname").description("닉네임"),

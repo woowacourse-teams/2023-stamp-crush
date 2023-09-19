@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.ul`
   display: flex;
   flex-direction: column;
   overflow: scroll;
@@ -40,7 +40,7 @@ export const InfoContainer = styled.span`
   line-height: 16px;
 `;
 
-export const CustomerBox = styled.ul`
+export const CustomerBox = styled.li`
   display: flex;
   justify-content: space-between;
   min-height: 90px;

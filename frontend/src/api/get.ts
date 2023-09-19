@@ -1,27 +1,30 @@
 import { api, customerHeader, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants';
-import { CouponDesign } from '../types';
 import {
+  QueryReq,
+  PhoneNumberParams,
   CafeIdParams,
-  CafeInfoRes,
-  CafeRes,
-  CouponRes,
   CustomerIdParams,
+  MaxStampCountParams,
+  UsedParams,
+  OAuthTokenParams,
+  CouponIdParams,
+} from '../types/api/request';
+import {
+  CafeRes,
   CustomerPhoneNumberRes,
   CustomersRes,
   IssuedCouponsRes,
-  MaxStampCountParams,
-  OAuthJWTRes,
-  OAuthTokenParams,
-  MyRewardRes,
-  PhoneNumberParams,
-  QueryReq,
-  RewardRes,
   SampleCouponRes,
+  CouponRes,
+  CafeInfoRes,
+  MyRewardRes,
   StampHistoryRes,
-  UsedParams,
+  OAuthJWTRes,
   CustomerProfileRes,
-} from '../types/api';
+  RewardRes,
+} from '../types/api/response';
+import { CouponDesign } from '../types/domain/coupon';
 
 export const getCafe = async () => {
   return await api.get<CafeRes>('/admin/cafes', ownerHeader());
@@ -112,6 +115,16 @@ export const getCouponDesign = async ({ params }: QueryReq<CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CouponDesign>(
     `/admin/coupon-setting?cafe-id=${params.cafeId}`,
+    ownerHeader(),
+  );
+};
+
+export const getCurrentCouponDesign = async ({
+  params,
+}: QueryReq<CouponIdParams & CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CouponDesign>(
+    `/admin/coupon-setting/${params.couponId}?cafe-id=${params.cafeId}`,
     ownerHeader(),
   );
 };

@@ -6,8 +6,7 @@ import com.stampcrush.backend.api.manager.customer.response.CustomersFindRespons
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
+import com.stampcrush.backend.helper.BearerAuthHelper;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.RestAssured;
@@ -42,7 +41,9 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 전화번호로_가입_고객을_조회한다() {
         // given
-        Customer customer = new RegisterCustomer("제나", "01012345678", "jena", "1234");
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build();
         customerRepository.save(customer);
 
         // when
@@ -59,7 +60,9 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 전화번호로_임시_고객을_조회한다() {
         // given
-        Customer customer = TemporaryCustomer.from("01012345678");
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build();
         customerRepository.save(customer);
 
         // when
@@ -105,7 +108,9 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 존재하는_회원의_번호로_고객을_생성하려면_에러를_발생한다() {
         // given
-        Customer customer = TemporaryCustomer.from("01012345678");
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build();
         customerRepository.save(customer);
         TemporaryCustomerCreateRequest temporaryCustomerCreateRequest = new TemporaryCustomerCreateRequest(customer.getPhoneNumber());
 
@@ -114,7 +119,8 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
                 .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(temporaryCustomerCreateRequest)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .post("/api/admin/temporary-customers")
@@ -129,7 +135,8 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
                 log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .param("phone-number", phoneNumber)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .get("/api/admin/customers")
@@ -143,7 +150,8 @@ public class ManagerCustomerCommandAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
-                .auth().preemptive().basic(owner.getLoginId(), owner.getEncryptedPassword())
+                .auth().preemptive()
+                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
                 .post("/api/admin/temporary-customers")

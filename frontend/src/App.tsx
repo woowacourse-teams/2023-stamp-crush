@@ -5,7 +5,13 @@ import { theme } from './style/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: false,
+    },
+  },
+});
 
 const App = () => {
   return (

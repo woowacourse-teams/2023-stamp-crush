@@ -1,16 +1,17 @@
 import { api, customerHeader, ownerHeader } from '.';
+import { BASE_URL } from '../constants';
 import {
-  CouponSettingReqBody,
-  StampEarningReqBody,
-  CafeRegisterReqBody,
-  IssueCouponReqBody,
-  RegisterUserReqBody,
-  CafeIdParams,
   MutateReq,
-  IsFavoritesReqBody,
-  CustomerIdParams,
+  StampEarningReqBody,
   CouponIdParams,
-} from '../types/api';
+  CustomerIdParams,
+  RegisterUserReqBody,
+  IssueCouponReqBody,
+  CouponSettingReqBody,
+  CafeIdParams,
+  CafeRegisterReqBody,
+  IsFavoritesReqBody,
+} from '../types/api/request';
 
 export const postEarnStamp = async ({
   params,
@@ -24,7 +25,7 @@ export const postEarnStamp = async ({
   );
 };
 
-export const postRegisterUser = async ({ body }: MutateReq<RegisterUserReqBody>) => {
+export const postTemporaryCustomer = async ({ body }: MutateReq<RegisterUserReqBody>) => {
   return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader(), body);
 };
 
@@ -70,7 +71,8 @@ export const postUploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  return await fetch(`${process.env.REACT_APP_BASE_URL}/admin/images`, {
+  return await fetch(`${BASE_URL}/admin/images`, {
+    ...ownerHeader(),
     method: 'POST',
     body: formData,
   });

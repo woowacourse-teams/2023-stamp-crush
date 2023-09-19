@@ -1,4 +1,4 @@
-import loadingSpinner from '../../assets/loading_spinner.gif';
+import loadingSpinner from '../../assets/loading_spinner.svg';
 import { LoadingContainer } from './style';
 
 const LoadingSpinner = () => {

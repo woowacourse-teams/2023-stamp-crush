@@ -5,6 +5,7 @@ import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CouponNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +29,9 @@ public class ManagerCafeCouponSettingFindServiceTest {
     @Mock
     private CouponRepository couponRepository;
 
+    @Mock
+    private OwnerRepository ownerRepository;
+
     @Test
     void 쿠폰_세팅을_조회할_때_카페_정보가_존재하지_않으면_예외가_발생한다() {
         // given
@@ -37,7 +41,7 @@ public class ManagerCafeCouponSettingFindServiceTest {
                 .thenReturn(Optional.empty());
 
         // when, then
-        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(cafeId, 1L))
+        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(1L, cafeId, 1L))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -45,13 +49,16 @@ public class ManagerCafeCouponSettingFindServiceTest {
     void 쿠폰_세팅을_조회할_때_쿠폰_디자인이_존재하지_않으면_예외가_발생한다() {
         // given
         Long cafeId = 1L;
+        Long ownerId = GITCHAN_CAFE.getOwner().getId();
 
         when(cafeRepository.findById(cafeId))
                 .thenReturn(Optional.of(GITCHAN_CAFE));
+        when(ownerRepository.findById(any()))
+                .thenReturn(Optional.of(GITCHAN_CAFE.getOwner()));
         when(couponRepository.findById(any()))
                 .thenReturn(Optional.empty());
         // when, then
-        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(cafeId, 1L))
+        assertThatThrownBy(() -> managerCafeCouponSettingFindService.findCouponSetting(ownerId, cafeId, 1L))
                 .isInstanceOf(CouponNotFoundException.class);
     }
 }

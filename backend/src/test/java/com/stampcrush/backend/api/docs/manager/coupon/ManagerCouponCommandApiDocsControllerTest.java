@@ -14,27 +14,31 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTest {
+class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 쿠폰_신규_발급() throws Exception {
         // given
         Long cafeId = 1L;
         Long customerId = 1L;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         CouponCreateRequest request = new CouponCreateRequest(cafeId);
-        when(managerCouponCommandService.createCoupon(cafeId, customerId)).thenReturn(1L);
+        when(managerCouponCommandService.createCoupon(OWNER.getId(), cafeId, customerId)).thenReturn(1L);
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons", customerId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-coupon",
                                 preprocessRequest(prettyPrint()),
@@ -43,7 +47,7 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("쿠폰 신규 발급")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("cafeId").description("카페 ID"))
                                                 .requestSchema(Schema.schema("CouponCreateRequest"))
                                                 .responseFields(fieldWithPath("couponId").description("쿠폰 ID"))
@@ -60,13 +64,16 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
         // given
         Long couponId = 1L;
         Long customerId = 1L;
+        when(ownerRepository.findById(OWNER.getId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(OWNER.getId());
         StampCreateRequest request = new StampCreateRequest(3);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customerId, couponId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, OWNER_BASIC_HEADER)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(document("manager/coupon/create-stamp",
                                 preprocessRequest(prettyPrint()),
@@ -75,7 +82,7 @@ public class ManagerCouponCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("사장 모드")
                                                 .description("스탬프 적립")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .requestFields(fieldWithPath("earningStampCount").description("적립할 스탬프 개수"))
                                                 .requestSchema(Schema.schema("StampCreateRequest"))
                                                 .build()

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -25,13 +26,15 @@ class VisitorCafeFindApiDocsControllerTest extends DocsControllerTest {
     @Test
     void 카페_조회_요청_고객_모드() throws Exception {
         // given
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
         when(visitorCafeFindService.findCafeById(CAFE_ID)).thenReturn(new CafeInfoFindByCustomerResultDto(CAFE_ID, "우아한카페", "안녕하세요", LocalTime.MIDNIGHT, LocalTime.NOON, "01012345678", "http://imge.co", "서울시 송파구", "루터회관"));
-
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/cafes/{cafeId}", CAFE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
+                        .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
                 .andDo(document("visitor/cafe/find-cafe-info",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
@@ -39,7 +42,7 @@ class VisitorCafeFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("카페 정보 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("cafe.id").description("카페 ID"),
                                                         fieldWithPath("cafe.name").description("카페 이름"),

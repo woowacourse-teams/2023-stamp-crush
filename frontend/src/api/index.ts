@@ -1,13 +1,6 @@
-import { worker } from '../mocks/browser';
+import { BASE_URL } from '../constants';
 
 const request = async (path: string, init?: RequestInit) => {
-  let BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  if (process.env.NODE_ENV === 'development') {
-    worker.start({ onUnhandledRequest: 'bypass' });
-    BASE_URL = '';
-  }
-
   const response = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {
@@ -48,13 +41,11 @@ export const api = {
 export const customerHeader = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem('login-token')}`,
-    'Content-Type': 'application/json',
   },
 });
 
 export const ownerHeader = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem('admin-login-token')}`,
-    'Content-Type': 'application/json',
   },
 });

@@ -23,8 +23,17 @@ public class VisitorProfilesCommandApiController {
             CustomerAuth customer,
             @Valid @RequestBody VisitorProfilesPhoneNumberUpdateRequest request
     ) {
-        System.out.println("request.getPhoneNumber() = " + request.getPhoneNumber());
         visitorProfilesCommandService.registerPhoneNumber(customer.getId(), request.getPhoneNumber());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/link-data")
+    public ResponseEntity<Void> linkData(
+            CustomerAuth customer,
+            @RequestBody VisitorProfilesLinkDataRequest request
+    ) {
+        VisitorProfilesLinkDataDto dto = request.toDto();
+        visitorProfilesCommandService.linkData(customer.getId(), dto);
         return ResponseEntity.ok().build();
     }
 }

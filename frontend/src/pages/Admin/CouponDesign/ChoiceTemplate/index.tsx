@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { ChoiceTemplateContainer, SampleImg, SampleImageContainer } from './style';
+import { ChoiceTemplateContainer } from './style';
 import TabBar from '../../../../components/TabBar';
 import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
-import { useQuery } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
-import { getCouponSamples } from '../../../../api/get';
-import { parseStampCount } from '../../../../utils';
-import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../../../types';
-import { SampleCouponRes } from '../../../../types/api';
+import {
+  SampleBackCouponImage,
+  SampleImage,
+  StampCoordinate,
+} from '../../../../types/domain/coupon';
+import SampleImageList from './SampleImageList';
 
 interface ChoiceTemplateProps {
   frontImageUrl: string;
@@ -28,38 +28,10 @@ const ChoiceTemplate = ({
   setStampImageUrl,
   setStampCoordinates,
 }: ChoiceTemplateProps) => {
-  const location = useLocation();
   const [templateSelect, setTemplateSelect] = useState(TEMPLATE_MENU.FRONT_IMAGE);
   const [selectedImageUrl, setSelectedImageUrl] = useState('');
-  const maxStampCount = parseStampCount(location.state.stampCount);
-
-  const { data: sampleImages, status } = useQuery<SampleCouponRes>(
-    ['coupon-samples', maxStampCount],
-    () => getCouponSamples({ params: { maxStampCount } }),
-    {
-      staleTime: Infinity,
-    },
-  );
-
-  if (status === 'loading') return <div>페이지 로딩중..</div>;
-  if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
-
-  // TODO: 네이밍 변경
-  const getImageFromData = (templateSelected: string): SampleImage[] | SampleBackCouponImage[] => {
-    switch (templateSelected) {
-      case TEMPLATE_MENU.FRONT_IMAGE:
-        return sampleImages.sampleFrontImages;
-      case TEMPLATE_MENU.BACK_IMAGE:
-        return sampleImages.sampleBackImages;
-      case TEMPLATE_MENU.STAMP:
-        return sampleImages.sampleStampImages;
-      default:
-        return [];
-    }
-  };
 
   const selectTabBar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTemplateSelect(e.target.value);
     switch (e.target.value) {
       case TEMPLATE_MENU.FRONT_IMAGE:
         setSelectedImageUrl(frontImageUrl);
@@ -71,8 +43,9 @@ const ChoiceTemplate = ({
         setSelectedImageUrl(stampImageUrl);
         break;
       default:
-        break;
+        throw new Error('유효하지 않은 템플릿 입니다.');
     }
+    setTemplateSelect(e.target.value);
   };
 
   const selectSampleImage = (imageUrl: string, coordinates?: StampCoordinate[]) => {
@@ -89,9 +62,17 @@ const ChoiceTemplate = ({
         setStampImageUrl(imageUrl);
         break;
       default:
-        break;
+        throw new Error('유효하지 않은 템플릿 입니다.');
     }
     setSelectedImageUrl(imageUrl);
+  };
+
+  const clickSampleImage = (image: SampleImage | SampleBackCouponImage) => () => {
+    if ('stampCoordinates' in image) {
+      selectSampleImage(image.imageUrl, image.stampCoordinates);
+      return;
+    }
+    selectSampleImage(image.imageUrl);
   };
 
   return (
@@ -104,23 +85,11 @@ const ChoiceTemplate = ({
         height={54}
         width={350}
       />
-      <SampleImageContainer>
-        {getImageFromData(templateSelect).map((element) => (
-          <SampleImg
-            key={element.id}
-            src={element.imageUrl}
-            $templateType={templateSelect}
-            $isSelected={selectedImageUrl === element.imageUrl}
-            onClick={() => {
-              if ('stampCoordinates' in element) {
-                selectSampleImage(element.imageUrl, element.stampCoordinates);
-              } else {
-                selectSampleImage(element.imageUrl);
-              }
-            }}
-          />
-        ))}
-      </SampleImageContainer>
+      <SampleImageList
+        templateSelect={templateSelect}
+        selectedImageUrl={selectedImageUrl}
+        clickSampleImage={clickSampleImage}
+      />
     </ChoiceTemplateContainer>
   );
 };

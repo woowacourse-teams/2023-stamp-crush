@@ -1,11 +1,9 @@
 package com.stampcrush.backend.config;
 
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.config.interceptor.BasicAuthInterceptor;
-import com.stampcrush.backend.config.resolver.CustomerArgumentResolver;
-import com.stampcrush.backend.config.resolver.OwnerArgumentResolver;
-import com.stampcrush.backend.repository.user.OwnerRepository;
-import com.stampcrush.backend.repository.user.RegisterCustomerRepository;
+import com.stampcrush.backend.config.interceptor.CustomerAuthInterceptor;
+import com.stampcrush.backend.config.interceptor.OwnerAuthInterceptor;
+import com.stampcrush.backend.config.resolver.CustomerAuthArgumentResolver;
+import com.stampcrush.backend.config.resolver.OwnerAuthArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -18,27 +16,33 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final BasicAuthInterceptor basicAuthInterceptor;
-    private final OwnerRepository ownerRepository;
-    private final RegisterCustomerRepository registerCustomerRepository;
-    private final AuthTokensGenerator authTokensGenerator;
+    //    private final BasicAuthInterceptor basicAuthInterceptor;
+    private final OwnerAuthInterceptor ownerAuthInterceptor;
+    private final CustomerAuthInterceptor customerAuthInterceptor;
+
+    private final OwnerAuthArgumentResolver ownerAuthArgumentResolver;
+    private final CustomerAuthArgumentResolver customerAuthArgumentResolver;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(basicAuthInterceptor)
+        registry.addInterceptor(ownerAuthInterceptor)
+                .addPathPatterns("/api/admin/**")
+                .excludePathPatterns("/api/admin/login/**");
+
+        registry.addInterceptor(customerAuthInterceptor)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns(
-                        "/api/swagger-ui/**",
-                        "/api/docs/**",
-                        "/api/admin/login/**",
-                        "/api/login/**",
-                        "/api/admin/images"
-                );
+                .excludePathPatterns
+                        (
+                                "/api/admin/**",
+                                "/api/login/**",
+                                "/api/swagger-ui/**",
+                                "/api/docs/**"
+                        );
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new OwnerArgumentResolver(ownerRepository, authTokensGenerator));
-        resolvers.add(new CustomerArgumentResolver(registerCustomerRepository, authTokensGenerator));
+        resolvers.add(ownerAuthArgumentResolver);
+        resolvers.add(customerAuthArgumentResolver);
     }
 }

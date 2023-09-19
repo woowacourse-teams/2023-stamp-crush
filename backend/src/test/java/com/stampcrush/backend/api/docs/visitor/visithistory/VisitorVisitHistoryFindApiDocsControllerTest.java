@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -22,12 +23,15 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsControllerTest {
+class VisitorVisitHistoryFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 스탬프_적립내역_조회() throws Exception {
         // given
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
         when(customerRepository.findByLoginId(CUSTOMER.getLoginId())).thenReturn(Optional.of(CUSTOMER));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(CUSTOMER.getId());
 
         CustomerStampHistoryFindResultDto expected1 =
                 new CustomerStampHistoryFindResultDto(1L, "cafe1", 3, LocalDateTime.now());
@@ -42,7 +46,7 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/api/stamp-histories")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BASIC_HEADER))
+                                .header(HttpHeaders.AUTHORIZATION, CUSTOMER_BEARER_HEADER))
                 .andDo(document("visitor/visithistory/find-stamphistory",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
@@ -50,7 +54,7 @@ public class VisitorVisitHistoryFindApiDocsControllerTest extends DocsController
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("스탬프 적립내역 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("stampHistories[].id").description("적립내역 ID"),
                                                         fieldWithPath("stampHistories[].cafeName").description("카페 이름"),

@@ -3,44 +3,47 @@ import { ROUTER_PATH } from './constants';
 
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
-import CouponList from './pages/CouponList';
+import CouponList from './pages/Customer/CouponList';
 import EnterPhoneNumber from './pages/Admin/EnterPhoneNumber';
-import Login from './pages/Login';
+import Login from './pages/Customer/Login';
 import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import RegisterCafe from './pages/Admin/RegisterCafe';
-import MyPage from './pages/MyPage';
+import MyPage from './pages/Customer/MyPage';
 import Template from './components/Template';
 import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
-import SelectCoupon from './pages/Admin/EarnStamp/SelectCoupon';
 import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
-import RewardList from './pages/RewardList';
-import RewardHistoryPage from './pages/HistoryPage/RewardHistory';
-import StampHistoryPage from './pages/HistoryPage/StampHistory';
+import RewardList from './pages/Customer/RewardList';
+import RewardHistoryPage from './pages/Customer/HistoryPage/RewardHistory';
+import StampHistoryPage from './pages/Customer/HistoryPage/StampHistory';
 import Auth from './pages/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
-import InputPhoneNumber from './pages/InputPhoneNumber';
+import InputPhoneNumber from './pages/Admin/InputPhoneNumber';
+import CustomerNotFound from './pages/NotFound/CustomerNotFound';
+import PrivateProvider from './provider/PrivateProvider';
 
 const AdminRoot = () => {
   return (
-    <>
+    <PrivateProvider consumer={'admin'}>
       <Template>
         <Outlet />
       </Template>
-    </>
+    </PrivateProvider>
   );
 };
 
 const CustomerRoot = () => {
   return (
-    <CustomerTemplate>
-      <Outlet />
-    </CustomerTemplate>
+    <PrivateProvider consumer={'customer'}>
+      <CustomerTemplate>
+        <Outlet />
+      </CustomerTemplate>
+    </PrivateProvider>
   );
 };
 
@@ -72,21 +75,19 @@ const Router = () => {
         },
         { path: ROUTER_PATH.manageCafe, element: <ManageCafe /> },
         { path: ROUTER_PATH.registerCafe, element: <RegisterCafe /> },
-        { path: ROUTER_PATH.selectCoupon, element: <SelectCoupon /> },
         { path: ROUTER_PATH.earnStamp, element: <EarnStamp /> },
         { path: ROUTER_PATH.useReward, element: <RewardPage /> },
       ],
     },
     // 고객
+    { path: ROUTER_PATH.auth, element: <Auth /> },
+    { path: ROUTER_PATH.login, element: <Login /> },
     {
       path: '/',
       element: <CustomerRoot />,
-      errorElement: <NotFound />,
+      errorElement: <CustomerNotFound />,
       children: [
         { index: true, element: <CouponList /> },
-        { path: ROUTER_PATH.auth, element: <Auth /> },
-        { path: ROUTER_PATH.login, element: <Login /> },
-        { path: ROUTER_PATH.signup, element: <SignUp /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },

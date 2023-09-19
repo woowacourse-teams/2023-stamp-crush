@@ -3,8 +3,6 @@ package com.stampcrush.backend.application.manager.customer;
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.RegisterCustomer;
-import com.stampcrush.backend.entity.user.TemporaryCustomer;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,7 +26,10 @@ class ManagerCustomerFindServiceTest {
     @Test
     void 전화번호로_가입_고객을_조회한다() {
         // given
-        Customer customer = new RegisterCustomer("제나", "01012345678", "jena", "1234");
+        Customer customer = Customer.registeredCustomerBuilder()
+                .nickname("제나")
+                .phoneNumber("01012345678")
+                .build();
         when(customerRepository.findByPhoneNumber(customer.getPhoneNumber())).thenReturn(Collections.singletonList(customer));
 
         // when
@@ -41,7 +42,9 @@ class ManagerCustomerFindServiceTest {
     @Test
     void 전화번호로_임시_고객을_조회한다() {
         // given
-        Customer customer = TemporaryCustomer.from("01012345678");
+        Customer customer = Customer.temporaryCustomerBuilder()
+                .phoneNumber("01012345678")
+                .build();
         when(customerRepository.findByPhoneNumber(customer.getPhoneNumber())).thenReturn(Collections.singletonList(customer));
 
         // when
