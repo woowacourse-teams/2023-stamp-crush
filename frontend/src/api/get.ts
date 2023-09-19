@@ -133,3 +133,11 @@ export const getStampHistories = async () => {
 export const getCustomerProfile = async () => {
   return await api.get<CustomerProfileRes>('/profiles', customerHeader());
 };
+
+export const getCustomerRegisterType = async ({ params }: QueryReq<PhoneNumberParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.get<CustomerRegisterTypeRes>(
+    `/customers/profiles/search?phone-number=${params.phoneNumber}`,
+    customerHeader(),
+  );
+};
