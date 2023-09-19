@@ -19,7 +19,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorCouponCommandApiDocsControllerTest extends DocsControllerTest {
+class VisitorCouponCommandApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 쿠폰_삭제() throws Exception {
@@ -46,7 +46,7 @@ public class VisitorCouponCommandApiDocsControllerTest extends DocsControllerTes
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("쿠폰 삭제")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .build()
                                 )
                         )

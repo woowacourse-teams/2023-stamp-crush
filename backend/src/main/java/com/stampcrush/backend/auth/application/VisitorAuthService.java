@@ -28,6 +28,7 @@ public class VisitorAuthService {
         return authTokensGenerator.generate(customerId);
     }
 
+    @Deprecated
     public Long joinTemporaryCustomer(String phoneNumber) {
         Customer customer = Customer.temporaryCustomerBuilder()
                 .phoneNumber(phoneNumber)

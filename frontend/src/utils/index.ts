@@ -91,7 +91,7 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
   }
 };
 
-export const removeHypen = (value: string) => value.replaceAll('-', '');
+export const removeHyphen = (value: string) => value.replaceAll('-', '');
 
 export const isNotEmptyArray = <T>(array: T[]): array is NotEmptyArray<T> => {
   return array.length > 0;

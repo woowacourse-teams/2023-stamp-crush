@@ -1,17 +1,21 @@
 import { StampCountOption } from '../types/domain/coupon';
-import { RouterPath } from '../types/utils';
+import { RouterPath, TemplateMenu } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
 } as const;
 
-export const TEMPLATE_MENU = {
+export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
   FRONT_IMAGE: '쿠폰(앞)',
   BACK_IMAGE: '쿠폰(뒤)',
   STAMP: '스탬프',
 };
 
 export const PHONE_NUMBER_LENGTH = 13;
+
+export const ENTER_KEY_INDEX = 11;
+
+export const BACK_KEY_INDEX = 9;
 
 export const TEMPLATE_OPTIONS = [
   {
@@ -112,7 +116,6 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   modifyCouponPolicy: '/admin/modify-coupon-policy',
   registerCafe: '/admin/register-cafe',
   earnStamp: '/admin/earn-stamp',
-  selectCoupon: '/admin/select-coupon',
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
   useReward: '/admin/use-reward',

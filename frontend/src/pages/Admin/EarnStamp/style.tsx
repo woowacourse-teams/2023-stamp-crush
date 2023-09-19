@@ -18,6 +18,7 @@ export const CouponSelectorWrapper = styled.div`
   flex-direction: column;
   position: absolute;
   top: 0;
+  gap: 10px;
   right: -350px;
 
   & > h1 {

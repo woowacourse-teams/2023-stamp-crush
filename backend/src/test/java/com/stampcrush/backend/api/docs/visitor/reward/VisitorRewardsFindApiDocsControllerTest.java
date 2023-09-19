@@ -24,7 +24,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest {
+class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest {
 
     @Test
     void 리워드_조회() throws Exception {
@@ -55,7 +55,7 @@ public class VisitorRewardsFindApiDocsControllerTest extends DocsControllerTest 
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("리워드 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .queryParameters(parameterWithName("used").description("false(사용 가능한 리워드), true(사용한 리워드)"))
                                                 .responseFields(
                                                         fieldWithPath("rewards[].id").description("리워드 ID"),
