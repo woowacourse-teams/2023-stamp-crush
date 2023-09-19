@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import { AlertContainer, BackDrop, OptionContainer, OptionWrapper, TextContainer } from './style';
-import CiCircleAlert from '../../assets/ci_circle_alert.svg';
+import { CiCircleAlert } from '../../assets';
 
 export interface AlertProps {
   text: string;

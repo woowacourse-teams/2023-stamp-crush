@@ -10,8 +10,8 @@ import {
 import { Spacing } from '../../../../style/layout/common';
 import Text from '../../../../components/Text';
 import { GrSelect } from '@react-icons/all-files/gr/GrSelect';
-import MdOutlinePhotoSizeSelectLarge from '../../../../assets/md_outline_photo_size_select_large.svg';
 import { CouponCreated } from '../../../../types/domain/coupon';
+import { MdOutlinePhotoSizeSelectLarge } from '../../../../assets';
 
 interface CreatedTypeProps {
   value: CouponCreated;

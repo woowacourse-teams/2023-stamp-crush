@@ -13,7 +13,6 @@ import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
 import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
 import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
 import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
-import FaLocationDot from '../../../../assets/fa_location_dot.svg';
 import { parsePhoneNumber } from '../../../../utils';
 import {
   QueryObserverResult,
@@ -29,6 +28,7 @@ import Alert from '../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { CouponRes } from '../../../../types/api/response';
 import { Coupon } from '../../../../types/domain/coupon';
+import { FaLocationDot } from '../../../../assets';
 
 interface CouponDetailProps {
   isDetail: boolean;

@@ -1,11 +1,11 @@
 import Text from '../../../../../components/Text';
 import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
 import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
-import FaLocationDot from '../../../../../assets/fa_location_dot.svg';
 import { parsePhoneNumber, parseTime } from '../../../../../utils';
 import { Cafe } from '../../../../../types/domain/cafe';
 import { Time } from '../../../../../types/utils';
 import { PreviewContentContainer } from './style';
+import { FaLocationDot } from '../../../../../assets';
 
 interface PreviewContentProps {
   openTime: Time;

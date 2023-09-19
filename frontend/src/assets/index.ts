@@ -11,3 +11,5 @@ export { default as PiUserListLight } from './user_list.svg';
 export { default as PiGiftLight } from './gift.svg';
 export { default as PiStampLight } from './stamp.svg';
 export { default as MdOutlinePhotoSizeSelectLarge } from './md_outline_photo_size_select_large.svg';
+export { default as CiCircleAlert } from './ci_circle_alert.svg';
+export { default as FaLocationDot } from './fa_location_dot.svg';
