@@ -1,6 +1,5 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.acceptance.step.VisitorVisitHistoriesFindStep;
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
@@ -25,6 +24,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorVisitHistoriesFindStep.고객의_카페_방문_이력_조회;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -78,8 +78,7 @@ public class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(hardyOwner, customer, hardyCafeCoupon, new StampCreateRequest(3));
 
         // when
-        System.out.println("실제 조회 요청");
-        ExtractableResponse<Response> response = VisitorVisitHistoriesFindStep.고객의_카페_방문_이력_조회(customer);
+        ExtractableResponse<Response> response = 고객의_카페_방문_이력_조회(customerAccessToken);
         CustomerStampHistoriesFindResponse result = response.body().as(CustomerStampHistoriesFindResponse.class);
 
         CustomerStampHistoryFindResponse historyResponse1 = new CustomerStampHistoryFindResponse(1L, "hardyCafe", 2, "aaa");
