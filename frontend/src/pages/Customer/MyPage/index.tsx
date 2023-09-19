@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../constants';
 import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
-import { BiArrowBack } from 'react-icons/bi';
+import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
-import { AiOutlineUnorderedList, AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
+import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
 
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,

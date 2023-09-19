@@ -9,8 +9,8 @@ import {
 } from './style';
 import { Spacing } from '../../../../style/layout/common';
 import Text from '../../../../components/Text';
-import { GrSelect } from 'react-icons/gr';
-import { MdOutlinePhotoSizeSelectLarge } from 'react-icons/md';
+import { GrSelect } from '@react-icons/all-files/gr/GrSelect';
+import MdOutlinePhotoSizeSelectLarge from '../../../../assets/md_outline_photo_size_select_large.svg';
 import { CouponCreated } from '../../../../types/domain/coupon';
 
 interface CreatedTypeProps {
@@ -58,7 +58,7 @@ const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
             커스텀할게요.
           </TypeDescription>
           <IconWrapper>
-            <MdOutlinePhotoSizeSelectLarge size={30} />
+            <MdOutlinePhotoSizeSelectLarge width={30} height={30} />
           </IconWrapper>
         </Label>
       </InputContainer>

@@ -1,4 +1,4 @@
-import { AiOutlineUpload } from 'react-icons/ai';
+import { AiOutlineUpload } from '@react-icons/all-files/ai/AiOutlineUpload';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,

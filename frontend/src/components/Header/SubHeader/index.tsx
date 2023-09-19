@@ -1,7 +1,7 @@
 import { ArrowIconWrapper, HeaderContainer } from './style';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../constants';
-import { BiArrowBack } from 'react-icons/bi';
+import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
 
 interface SubHeaderProps {
   title: string;

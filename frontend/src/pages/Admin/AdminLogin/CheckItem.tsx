@@ -1,5 +1,5 @@
-import CheckIconSrc from '../../../assets/check.svg';
-import { CheckIcon, CheckItemContainer } from './style';
+import CheckIconSVG from '../../../assets/check.svg';
+import { CheckItemContainer } from './style';
 
 interface CheckItemProps {
   text: string;
@@ -8,7 +8,7 @@ interface CheckItemProps {
 const CheckItem = ({ text }: CheckItemProps) => {
   return (
     <CheckItemContainer>
-      <CheckIcon src={CheckIconSrc} />
+      <CheckIconSVG width={18} height={18} />
       {text}
     </CheckItemContainer>
   );

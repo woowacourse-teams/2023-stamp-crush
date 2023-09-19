@@ -1,10 +1,10 @@
-import loadingSpinner from '../../assets/loading_spinner.svg';
+import LoadingSpinnerSVG from '../../assets/loading_spinner.svg';
 import { LoadingContainer } from './style';
 
 const LoadingSpinner = () => {
   return (
     <LoadingContainer>
-      <img src={loadingSpinner} alt="로딩 중입니다." />
+      <LoadingSpinnerSVG />
     </LoadingContainer>
   );
 };
