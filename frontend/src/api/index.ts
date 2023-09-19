@@ -16,7 +16,7 @@ const request = async (path: string, init?: RequestInit) => {
       localStorage.setItem('admin-login-token', '');
       const REDIRECT_URL =
         process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (BASE_URL as string);
-      location.href = REDIRECT_URL;
+      location.href = `${REDIRECT_URL}/login`;
     }
     throw new Error(response.status.toString());
   }
