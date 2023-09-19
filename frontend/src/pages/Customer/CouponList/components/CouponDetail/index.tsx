@@ -12,13 +12,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import { FaRegClock, FaPhoneAlt, FaRegBell, FaRegTrashAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { parsePhoneNumber } from '../../../../../utils';
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCafeInfo } from '../../../../../api/get';
 import { deleteCoupon } from '../../../../../api/delete';
 import useModal from '../../../../../hooks/useModal';
@@ -30,21 +24,14 @@ interface CouponDetailProps {
   isDetail: boolean;
   isShown: boolean;
   coupon: Coupon;
-  refetchCoupons: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<Coupon[], unknown>>;
   closeDetail: () => void;
 }
 
-const CouponDetail = ({
-  isDetail,
-  isShown,
-  coupon,
-  refetchCoupons,
-  closeDetail,
-}: CouponDetailProps) => {
+const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailProps) => {
   const [couponInfos] = coupon.couponInfos;
   const cafeId = coupon.cafeInfo.id;
+  const queryClient = useQueryClient();
+
   const { isOpen, openModal, closeModal } = useModal();
 
   const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
@@ -57,7 +44,8 @@ const CouponDetail = ({
   const { mutate: mutateDeleteCoupon } = useMutation(() => deleteCoupon(couponInfos.id), {
     onSuccess: () => {
       closeDetail();
-      refetchCoupons();
+      queryClient.invalidateQueries(['coupons']);
+
       closeModal();
     },
   });

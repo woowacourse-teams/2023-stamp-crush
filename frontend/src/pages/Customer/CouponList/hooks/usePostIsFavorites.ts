@@ -1,12 +1,10 @@
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postIsFavorites } from '../../../../api/post';
 import { CouponRes } from '../../../../types/api/response';
 
-const usePostIsFavorites = (
-  closeModal: () => void,
-  queryClient: QueryClient,
-  currentIndex: number,
-) => {
+const usePostIsFavorites = (closeModal: () => void, currentIndex: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation(postIsFavorites, {
     onSuccess: () => {
       closeModal();

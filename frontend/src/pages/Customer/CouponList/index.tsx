@@ -1,7 +1,6 @@
 import Coupon from './components/Coupon';
 import { CouponListContainer, InfoContainer } from './style';
 import { useEffect, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './components/CouponDetail';
@@ -24,15 +23,14 @@ const CouponList = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [alertMessage, setAlertMessage] = useState('');
   const couponListContainerRef = useRef<HTMLDivElement>(null);
-  const queryClient = useQueryClient();
 
-  const { data: coupons, status: couponStatus, refetch: refetchCoupons } = useGetCoupons();
+  const { data: coupons, status: couponStatus } = useGetCoupons();
 
   const { isDetail, isFlippedCouponShown, openCouponDetail, closeCouponDetail } = useCouponDetail();
   const { isLast, currentIndex, setCurrentIndex, onTouchStart, onTouchEnd, onTouchMove } =
     useCouponList(couponListContainerRef, isDetail, coupons!);
 
-  const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, queryClient, currentIndex);
+  const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, currentIndex);
 
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
@@ -113,7 +111,6 @@ const CouponList = () => {
             coupon={currentCoupon}
             isDetail={isDetail}
             isShown={isFlippedCouponShown}
-            refetchCoupons={refetchCoupons} // 없앨 수 있을 것 같다.
             closeDetail={closeCouponDetail}
           />
           {isOpen && (
