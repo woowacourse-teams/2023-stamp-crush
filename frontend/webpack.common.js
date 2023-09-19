@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 dotenv.config();
 
 module.exports = {
@@ -28,9 +29,13 @@ module.exports = {
         },
       },
       {
-        test: /\.(jpg|png|gif|svg|woff|woff2|eot|ttf|otf)$/,
+        test: /\.(jpg|png|gif|woff|woff2|eot|ttf|otf)$/,
         include: path.resolve(__dirname, 'src/assets'),
         type: 'asset/resource',
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       },
     ],
   },
@@ -41,5 +46,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
+    new BundleAnalyzerPlugin(),
   ],
 };

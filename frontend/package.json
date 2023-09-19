@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-query": "^4.29.25",
     "@tanstack/react-query-devtools": "^4.29.25",
     "react": "^18.2.0",
@@ -32,6 +33,7 @@
     "@storybook/react": "^7.0.27",
     "@storybook/react-webpack5": "^7.0.27",
     "@storybook/testing-library": "^0.0.14-next.2",
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^4.29.25",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
