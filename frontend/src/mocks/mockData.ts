@@ -572,5 +572,5 @@ export const stampHistorys = {
 
 export const customerRegisterType = [
   { id: 1, nickname: '가입유저', phoneNumber: '01011111111', registerType: 'register' },
-  { id: 2, nickname: '임시유저', phoneNumber: '01022222222', registerType: 'register' },
+  { id: 2, nickname: '임시유저', phoneNumber: '01022222222', registerType: 'temporary' },
 ];
