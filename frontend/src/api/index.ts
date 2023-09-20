@@ -9,7 +9,17 @@ const request = async (path: string, init?: RequestInit) => {
     },
   });
 
-  if (!response.ok) throw new Error(response.status.toString());
+  if (!response.ok) {
+    if (response.status === 401) {
+      // TODO: 현재는 로그인에 실패하면 모든 토큰을 비워버림. 추후 고객 페이지 요청과 사장님 페이지의 요청의 에러핸들링을 분리해야함.
+      localStorage.setItem('login-token', '');
+      localStorage.setItem('admin-login-token', '');
+      const REDIRECT_URL =
+        process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (BASE_URL as string);
+      location.href = `${REDIRECT_URL}/login`;
+    }
+    throw new Error(response.status.toString());
+  }
   return response;
 };
 
