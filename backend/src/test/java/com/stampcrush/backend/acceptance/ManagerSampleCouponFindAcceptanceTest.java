@@ -2,7 +2,6 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
@@ -59,8 +58,6 @@ public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
     void 최대_스탬프_개수로_쿠폰_샘플을_필터링해서_조회한다() {
         // given, when
         String accessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
-        Long ownerId = authTokensGenerator.extractMemberId(accessToken);
-        Owner owner = ownerRepository.findById(ownerId).get();
 
         ExtractableResponse<Response> response = 샘플_쿠폰_조회_요청(accessToken, 8);
 
@@ -77,8 +74,6 @@ public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
     void 해당하는_최대_스탬프_개수의_샘플_쿠폰이_없으면_뒷면이_조회되지_않는다() {
         // given, when
         String accessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
-        Long ownerId = authTokensGenerator.extractMemberId(accessToken);
-        Owner owner = ownerRepository.findById(ownerId).get();
 
         ExtractableResponse<Response> response = 샘플_쿠폰_조회_요청(accessToken, 10);
 
