@@ -6,6 +6,7 @@ import {
   ContentContainer,
   CouponDetailContainer,
   DeleteButton,
+  DetailItem,
   OverviewContainer,
 } from './style';
 import { BiArrowBack } from 'react-icons/bi';
@@ -94,28 +95,32 @@ const CouponDetail = ({
           <Text>{cafeData.cafe.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
-          <Text ariaLabel="쿠폰 정책">
+          <DetailItem>
             <FaRegBell size={22} />
-            {`${couponInfos.rewardName} 무료!`}
-          </Text>
-          {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
-            <Text ariaLabel="영업 시간">
-              <FaRegClock size={22} />
-              {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
-            </Text>
-          )}
-          {cafeData.cafe.telephoneNumber && (
-            <Text ariaLabel="전화번호">
-              <FaPhoneAlt size={22} />
-              {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
-            </Text>
-          )}
-          {cafeData.cafe.roadAddress && (
-            <Text ariaLabel="주소">
-              <FaLocationDot size={22} />
-              {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
-            </Text>
-          )}
+            <Text ariaLabel="쿠폰 정책">{`${couponInfos.rewardName} 무료!`}</Text>
+          </DetailItem>
+          <DetailItem>
+            {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
+              <Text ariaLabel="영업 시간">
+                <FaRegClock size={22} />
+                {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+              </Text>
+            )}
+          </DetailItem>
+          <DetailItem>
+            <FaPhoneAlt size={22} />
+            {cafeData.cafe.telephoneNumber && (
+              <Text ariaLabel="전화번호">{parsePhoneNumber(cafeData.cafe.telephoneNumber)}</Text>
+            )}
+          </DetailItem>
+          <DetailItem>
+            <FaLocationDot size={22} />
+            {cafeData.cafe.roadAddress && (
+              <Text ariaLabel="주소">
+                {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+              </Text>
+            )}
+          </DetailItem>
         </ContentContainer>
       </CouponDetailContainer>
       {isOpen && (

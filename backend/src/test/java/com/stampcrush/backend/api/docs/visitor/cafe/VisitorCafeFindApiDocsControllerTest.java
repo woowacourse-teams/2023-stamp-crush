@@ -42,7 +42,7 @@ class VisitorCafeFindApiDocsControllerTest extends DocsControllerTest {
                                         ResourceSnippetParameters.builder()
                                                 .tag("고객 모드")
                                                 .description("카페 정보 조회")
-                                                .requestHeaders(headerWithName("Authorization").description("임시(Basic)"))
+                                                .requestHeaders(headerWithName("Authorization").description("Bearer"))
                                                 .responseFields(
                                                         fieldWithPath("cafe.id").description("카페 ID"),
                                                         fieldWithPath("cafe.name").description("카페 이름"),

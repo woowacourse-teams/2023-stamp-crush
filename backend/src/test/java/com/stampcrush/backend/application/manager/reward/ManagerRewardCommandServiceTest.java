@@ -8,10 +8,12 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ class ManagerRewardCommandServiceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private VisitHistoryRepository visitHistoryRepository;
+
     private Owner owner_1;
     private Owner owner_2;
     private Cafe cafe_1;
@@ -81,6 +86,8 @@ class ManagerRewardCommandServiceTest {
         temporaryCustomer = customerRepository.save(Customer.temporaryCustomerBuilder()
                 .phoneNumber("01033333333")
                 .build());
+
+        VisitHistory visitHistory = visitHistoryRepository.save(new VisitHistory(cafe_1, registerCustomer_1, 3));
 
         unusedReward = rewardRepository.save(new Reward("Americano", registerCustomer_1, cafe_1));
     }
