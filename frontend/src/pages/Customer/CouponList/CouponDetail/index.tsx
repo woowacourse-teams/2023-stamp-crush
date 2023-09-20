@@ -98,7 +98,7 @@ const CouponDetail = ({
           <Text>{cafeData.cafe.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
-          <DetailItem>
+          <Text ariaLabel="쿠폰 정책">
             <FaRegBell size={22} />
             {`${couponInfos.rewardName} 무료!`}
           </Text>
