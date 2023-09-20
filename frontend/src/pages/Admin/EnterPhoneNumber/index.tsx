@@ -1,4 +1,5 @@
 import Dialpad from './Dialpad';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import {
   Container,
   IconWrapper,
@@ -9,7 +10,7 @@ import {
   TableTitleItem,
   Title,
 } from './style';
-import { IoIosArrowBack } from 'react-icons/io';
+
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '../../../constants';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
