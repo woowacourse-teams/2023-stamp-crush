@@ -106,10 +106,14 @@ const SideBar = () => {
     navigate(SIDE_BAR_OPTIONS[index].value);
   };
 
+  const navigateCustomerList = () => {
+    navigate(ROUTER_PATH.customerList);
+  };
+
   return (
     <Container>
       <LogoHeader $currentIndex={currentIndex}>
-        <LogoImgWrapper>
+        <LogoImgWrapper onClick={navigateCustomerList}>
           <LogoImg src={StampcrushWhiteLogo} alt="스탬프크러쉬 로고" />
         </LogoImgWrapper>
       </LogoHeader>

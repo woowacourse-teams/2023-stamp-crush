@@ -42,13 +42,6 @@ const MyPage = () => {
 
   return (
     <>
-      <ArrowIconWrapper
-        onClick={navigatePage('couponList')}
-        aria-label="홈으로 돌아가기"
-        role="button"
-      >
-        <BiArrowBack size={24} />
-      </ArrowIconWrapper>
       <NicknameContainer>
         <Nickname>{customerProfile?.profile.nickname}</Nickname>님
       </NicknameContainer>
