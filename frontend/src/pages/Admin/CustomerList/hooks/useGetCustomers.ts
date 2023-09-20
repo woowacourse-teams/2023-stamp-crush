@@ -5,7 +5,7 @@ import { CustomersRes } from '../../../../types/api/response';
 import { Customer } from '../../../../types/domain/customer';
 import { Option } from '../../../../types/utils';
 
-interface CustomerOrderOption extends Omit<Option, 'key'> {
+export interface CustomerOrderOption extends Omit<Option, 'key'> {
   key: keyof Customer;
 }
 
