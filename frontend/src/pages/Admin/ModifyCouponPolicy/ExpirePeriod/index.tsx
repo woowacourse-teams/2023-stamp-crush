@@ -4,7 +4,7 @@ import SelectBox from '../../../../components/SelectBox';
 import { EXPIRE_DATE_OPTIONS } from '../../../../constants';
 import { Dispatch, SetStateAction } from 'react';
 import { WarningText } from './style';
-import { AiFillWarning } from 'react-icons/ai';
+import { AiFillWarning } from '@react-icons/all-files/ai/AiFillWarning';
 import { Option } from '../../../../types/utils';
 
 interface ExpirePeriodProps {
