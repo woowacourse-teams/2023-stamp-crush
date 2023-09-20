@@ -8,7 +8,7 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
-import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
+import com.stampcrush.backend.exception.VisitHistoryNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -33,7 +33,7 @@ public class ManagerRewardFindService {
         List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeIdAndCustomerId(rewardFindDto.getCafeId(), rewardFindDto.getCustomerId());
 
         if (visitHistories.isEmpty()) {
-            throw new OwnerUnAuthorizationException("카페의 고객이 아닙니다");
+            throw new VisitHistoryNotFoundException("카페의 고객이 아닙니다");
         }
 
         Cafe cafe = cafeRepository.findById(rewardFindDto.getCafeId())
