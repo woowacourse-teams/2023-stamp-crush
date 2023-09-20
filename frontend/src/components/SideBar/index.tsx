@@ -14,13 +14,13 @@ import {
 } from './style';
 import { useEffect, useState } from 'react';
 import {
-  PiUserListLight,
-  PiBuildingsLight,
-  PiStampLight,
   PiBookOpenTextLight,
+  PiBuildingsLight,
   PiGiftLight,
-} from 'react-icons/pi';
-import { IoIosLogOut } from 'react-icons/io';
+  PiStampLight,
+  PiUserListLight,
+} from '../../assets';
+import { IoIosLogOut } from '@react-icons/all-files/io/IoIosLogOut';
 import { ROUTER_PATH } from '../../constants';
 import { Option } from '../../types/utils';
 
@@ -36,11 +36,11 @@ const SIDE_BAR_OPTIONS: Option[] = [
 
 const SIDEBAR_ICONS = [
   <></>,
-  <PiUserListLight size={26} key="customer-list" />,
-  <PiBuildingsLight size={26} key="manage-cafe" />,
-  <PiBookOpenTextLight size={26} key="modify-coupon-policy" />,
-  <PiStampLight size={26} key="earn-stamp" />,
-  <PiGiftLight size={26} key="use-reward" />,
+  <PiUserListLight width={26} height={26} key="user-list" />,
+  <PiBuildingsLight width={26} height={26} key="user-list" />,
+  <PiBookOpenTextLight width={26} height={26} key="user-list" />,
+  <PiStampLight width={26} height={26} key="user-list" />,
+  <PiGiftLight width={26} height={26} key="user-list" />,
   <></>,
 ];
 
@@ -113,8 +113,8 @@ const SideBar = () => {
   return (
     <Container>
       <LogoHeader $currentIndex={currentIndex}>
-        <LogoImgWrapper onClick={navigateCustomerList}>
-          <LogoImg src={StampcrushWhiteLogo} alt="스탬프크러쉬 로고" />
+        <LogoImgWrapper>
+          <LogoImg />
         </LogoImgWrapper>
       </LogoHeader>
       <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>

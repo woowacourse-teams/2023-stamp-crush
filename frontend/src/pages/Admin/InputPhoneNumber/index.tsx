@@ -47,7 +47,7 @@ const InputPhoneNumber = () => {
 
   return (
     <Container>
-      <img src={LoginLogo} alt="스탬프크러쉬 로고" width={200} />
+      <LoginLogo width={200} />
       <Input
         id="input-phone-number"
         label={'전화번호'}
