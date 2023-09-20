@@ -6,7 +6,7 @@ import { CUSTOMERS_ORDER_OPTIONS } from '../../../constants';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
-import useGetCustomers from './hooks/useGetCustomers';
+import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 
 const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();
@@ -14,7 +14,7 @@ const CustomerList = () => {
     key: 'stampCount',
     value: '스탬프순',
   });
-  const { data: customers, status } = useGetCustomers(cafeId, orderOption);
+  const { data: customers, status } = useGetCustomers(cafeId, orderOption as CustomerOrderOption);
 
   if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
