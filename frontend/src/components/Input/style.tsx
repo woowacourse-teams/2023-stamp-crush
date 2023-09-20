@@ -9,7 +9,7 @@ type StyledInputProps = {
   $required?: boolean;
 };
 
-const SIZE: Record<string, string> = {
+const SIZE: Record<InputWidth, string> = {
   small: '410px',
   medium: '550px',
   fill: '100%',
