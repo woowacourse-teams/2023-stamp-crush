@@ -28,6 +28,7 @@ public class ManagerCustomerCommandService {
 
     private void checkExistCustomer(String phoneNumber) {
         if (!customerRepository.findByPhoneNumber(phoneNumber).isEmpty()) {
+            // TODO: OwnerBadRequestException일까?
             throw new CustomerBadRequestException("이미 존재하는 회원입니다");
         }
     }
