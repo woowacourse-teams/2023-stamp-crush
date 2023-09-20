@@ -6,6 +6,7 @@ import {
   ContentContainer,
   CouponDetailContainer,
   DeleteButton,
+  DetailItem,
   OverviewContainer,
 } from './style';
 import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
@@ -97,7 +98,7 @@ const CouponDetail = ({
           <Text>{cafeData.cafe.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
-          <Text ariaLabel="쿠폰 정책">
+          <DetailItem>
             <FaRegBell size={22} />
             {`${couponInfos.rewardName} 무료!`}
           </Text>

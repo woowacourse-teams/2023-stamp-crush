@@ -106,6 +106,10 @@ const SideBar = () => {
     navigate(SIDE_BAR_OPTIONS[index].value);
   };
 
+  const navigateCustomerList = () => {
+    navigate(ROUTER_PATH.customerList);
+  };
+
   return (
     <Container>
       <LogoHeader $currentIndex={currentIndex}>
