@@ -79,7 +79,7 @@ public class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
 
         // when
         System.out.println("실제 조회 요청");
-        ExtractableResponse<Response> response = VisitorVisitHistoriesFindStep.고객의_카페_방문_이력_조회(customer);
+        ExtractableResponse<Response> response = VisitorVisitHistoriesFindStep.고객의_카페_방문_이력_조회(customerAccessToken);
         CustomerStampHistoriesFindResponse result = response.body().as(CustomerStampHistoriesFindResponse.class);
 
         CustomerStampHistoryFindResponse historyResponse1 = new CustomerStampHistoryFindResponse(1L, "hardyCafe", 2, "aaa");
