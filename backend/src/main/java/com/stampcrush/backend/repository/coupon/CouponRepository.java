@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
+    // TODO: coupon_policy, coupon_design을 같이 가져오자
     @Query("select distinct cp from Coupon cp left join fetch cp.stamps join fetch cp.cafe join fetch cp.customer where cp.cafe = :cafe")
     List<Coupon> findByCafe(@Param("cafe") Cafe cafe);
 
