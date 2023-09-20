@@ -12,13 +12,13 @@ import {
 } from './style';
 
 interface CustomersProps {
-  customersData: CustomersRes;
+  customers: Customer[];
 }
 
-const Customers = ({ customersData }: CustomersProps) => {
+const Customers = ({ customers }: CustomersProps) => {
   return (
     <Container>
-      {customersData.customers.map(
+      {customers.map(
         ({
           id,
           nickname,
