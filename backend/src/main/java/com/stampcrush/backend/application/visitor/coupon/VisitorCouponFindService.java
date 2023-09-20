@@ -31,7 +31,7 @@ public class VisitorCouponFindService {
     public List<CustomerCouponFindResultDto> findOneCouponForOneCafe(Long customerId) {
         // TODO: customer를 찾아서 쿼리하지 않고, 곧바로 cusotmerId를 쿼리에 사용해도 될 것 같음.
         Customer customer = findExistingCustomer(customerId);
-        List<Coupon> coupons = couponRepository.findFilteredAndSortedCoupons(customer, CouponStatus.ACCUMULATING);
+        List<Coupon> coupons = couponRepository.findCouponsByCustomerAndStatus(customer, CouponStatus.ACCUMULATING);
 
         return coupons.stream()
                 .map(coupon -> formatToDto(customer, coupon))

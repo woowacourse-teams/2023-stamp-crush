@@ -166,7 +166,7 @@ class CouponRepositoryTest2 {
         Coupon jenaCafeCoupon = saveCoupon(jenaCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
 
         // when
-        List<Coupon> findCoupon = couponRepository.findFilteredAndSortedCoupons(savedCustomer, CouponStatus.ACCUMULATING);
+        List<Coupon> findCoupon = couponRepository.findCouponsByCustomerAndStatus(savedCustomer, CouponStatus.ACCUMULATING);
 
         // then
         assertThat(findCoupon).containsExactlyInAnyOrder(gitchanCafeCoupon, jenaCafeCoupon);
@@ -187,7 +187,7 @@ class CouponRepositoryTest2 {
         changeCafeCouponStatusToRewarded(gitchanCafeCoupon, gitchanCafeCouponPolicy.getMaxStampCount());
 
         // when
-        List<Coupon> findCoupon = couponRepository.findFilteredAndSortedCoupons(savedCustomer, CouponStatus.ACCUMULATING);
+        List<Coupon> findCoupon = couponRepository.findCouponsByCustomerAndStatus(savedCustomer, CouponStatus.ACCUMULATING);
 
         // then
         assertThat(findCoupon).containsOnly(jenaCafeCoupon);
