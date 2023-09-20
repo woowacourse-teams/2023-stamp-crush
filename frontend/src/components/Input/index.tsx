@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
 import { BaseInput, InputContainer, InputWidth, Label, LabelWrapper, Required } from './style';
 
 const REQUIRED = '*' as const;
@@ -6,11 +6,7 @@ const REQUIRED = '*' as const;
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
-  type?: HTMLInputTypeAttribute;
   width?: InputWidth;
-  placeholder?: string;
-  maxLength?: number;
-  required?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
