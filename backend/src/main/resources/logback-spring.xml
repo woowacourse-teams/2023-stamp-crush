@@ -3,7 +3,7 @@
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
 
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d{HH:mm:ss.SSS} %clr([request-id: %X{requestId:-startup}]) %clr(%X{requestUrl} %X{requestMethod}){green} | %clr(authorization : %X{authorization}){faint} | [%t] %-5level %logger{36}%n %msg}"/>
+              value="%d{HH:mm:ss.SSS} %clr([request-id: %X{requestId:-startup}]) %clr(%X{requestUrl} %X{requestMethod}){green} | %clr(authorization : %X{authorization}){faint} | [%t] %-5level %logger%n %msg}"/>
 
     <property name="SQL_LOG_PATTERN"
               value="%d{HH:mm:ss.SSS} %clr([request-id: %X{requestId:-startup}]) %clr(%X{requestUrl} %X{requestMethod}){green} | [%t] %-5level %logger{36}%n"/>
@@ -14,6 +14,17 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE_INFO" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -93,11 +104,25 @@
 
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./logs/info.log</file>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <timestamp/>
+                <message/>
+            </providers>
+            <jsonGeneratorDecorator class="net.logstash.logback.decorate.CompositeJsonGeneratorDecorator">
+                <decorator class="net.logstash.logback.decorate.PrettyPrintingJsonGeneratorDecorator"/>
+            </jsonGeneratorDecorator>
+            <timestampPattern>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampPattern>
         </encoder>
+
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>./was-logs/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>./was-info/warn.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -118,12 +143,16 @@
         <root level="WARN">
             <appender-ref ref="FILE_WARN"/>
             <appender-ref ref="FILE_ERROR"/>
+            <appender-ref ref="FILE_INFO"/>
         </root>
         <logger level="DEBUG" name="org.hibernate.SQL">
             <appender-ref ref="SQL"/>
         </logger>
         <logger level="TRACE" name="org.hibernate.orm.jdbc.bind">
             <appender-ref ref="SQL_PARAMETER"/>
+        </logger>
+        <logger name="com.stampcrush.backend.config.RequestLoggingFilter">
+            <appender-ref ref="FILE_INFO"/>
         </logger>
     </springProfile>
 </configuration>
