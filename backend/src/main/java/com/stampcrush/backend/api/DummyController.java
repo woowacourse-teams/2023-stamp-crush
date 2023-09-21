@@ -1,11 +1,8 @@
 package com.stampcrush.backend.api;
 
-import com.stampcrush.backend.application.manager.cafe.ManagerCafeCommandService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class DummyController {
 
-    private final ManagerCafeCommandService managerCafeCommandService;
-    private final CafeRepository cafeRepository;
-    private final OwnerRepository ownerRepository;
-
     private final ManagerCustomerCommandService managerCustomerCommandService;
-
     private final ManagerCouponCommandService managerCouponCommandService;
 
-
-    @PostMapping("/api/dummy")
+    @PostMapping("/api/admin/dummy")
     public ResponseEntity<Void> inputDummy() {
 
         int phone = 10000000;
@@ -45,11 +36,8 @@ public class DummyController {
                 log.info("error {} {}", phone, stamp);
                 continue;
             }
-
         }
 
         return ResponseEntity.ok().build();
     }
-
-
 }
