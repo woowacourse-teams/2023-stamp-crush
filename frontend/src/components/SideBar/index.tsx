@@ -114,7 +114,7 @@ const SideBar = () => {
     <Container>
       <LogoHeader $currentIndex={currentIndex}>
         <LogoImgWrapper>
-          <LogoImg />
+          <StampcrushWhiteLogo onClick={navigateCustomerList} />
         </LogoImgWrapper>
       </LogoHeader>
       <SideBarContainer $prevIndex={currentIndex - 1} $nextIndex={currentIndex + 1}>
