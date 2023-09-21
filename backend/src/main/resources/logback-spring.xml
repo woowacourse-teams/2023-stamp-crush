@@ -121,6 +121,10 @@
             <timestampPattern>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampPattern>
         </encoder>
 
+        <!--        json 형식 아닌 encoder-->
+        <!--        <encoder>-->
+        <!--            <pattern>${FILE_WARNING_PATTERN}</pattern>-->
+        <!--        </encoder>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>./was-info/warn.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -140,10 +144,9 @@
     </springProfile>
 
     <springProfile name="dev">
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="FILE_WARN"/>
             <appender-ref ref="FILE_ERROR"/>
-            <appender-ref ref="FILE_INFO"/>
         </root>
         <logger level="DEBUG" name="org.hibernate.SQL">
             <appender-ref ref="SQL"/>
