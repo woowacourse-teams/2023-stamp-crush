@@ -9,7 +9,19 @@ const request = async (path: string, init?: RequestInit) => {
     },
   });
 
-  if (!response.ok) throw new Error(response.status.toString());
+  if (!response.ok) {
+    if (response.status === 401) {
+      const isAdminRequest = path.startsWith('/admin');
+      const expiredTokenKey = isAdminRequest ? 'admin-login-token' : 'login-token';
+      localStorage.setItem(expiredTokenKey, '');
+      const redirectUrl = `${location.origin}${isAdminRequest ? '/admin' : ''}`;
+      if (!location.pathname.endsWith('/login')) {
+        location.href = `${redirectUrl}/login`;
+      }
+    }
+
+    throw new Error(response.status.toString());
+  }
   return response;
 };
 

@@ -28,9 +28,13 @@ module.exports = {
         },
       },
       {
-        test: /\.(jpg|png|gif|svg|woff|woff2|eot|ttf|otf)$/,
+        test: /\.(jpg|png|gif|woff|woff2|eot|ttf|otf)$/,
         include: path.resolve(__dirname, 'src/assets'),
         type: 'asset/resource',
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       },
     ],
   },

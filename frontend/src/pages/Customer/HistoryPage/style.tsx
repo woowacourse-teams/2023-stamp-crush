@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const DateTitle = styled.div`
   background-color: #eee;
-  color: #871e90;
+  color: ${({ theme }) => theme.colors.main};
   padding: 5px 0px 5px 20px;
 `;
 

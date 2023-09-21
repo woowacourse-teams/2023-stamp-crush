@@ -1,5 +1,6 @@
 import Color from 'color-thief-react';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar } from '@react-icons/all-files/ai/AiFillStar';
+import { AiOutlineStar } from '@react-icons/all-files/ai/AiOutlineStar';
 import ProgressBar from '../../../../../components/ProgressBar';
 import { addGoogleProxyUrl } from '../../../../../utils';
 import {
