@@ -17,7 +17,7 @@ public class DummyController {
     private final ManagerCustomerCommandService managerCustomerCommandService;
     private final ManagerCouponCommandService managerCouponCommandService;
 
-    @PostMapping("/api/admin/dummy")
+    @PostMapping("/api/admin/login/dummy")
     public ResponseEntity<Void> inputDummy() {
 
         int phone = 10000000;
