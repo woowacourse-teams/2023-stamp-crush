@@ -14,14 +14,14 @@ import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
 import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
 import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 import { parsePhoneNumber } from '../../../../../utils';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getCafeInfo } from '../../../../../api/get';
-import { deleteCoupon } from '../../../../../api/delete';
 import useModal from '../../../../../hooks/useModal';
 import Alert from '../../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { Coupon } from '../../../../../types/domain/coupon';
 import { FaLocationDot } from '../../../../../assets';
+import useDeleteCoupon from './hooks/useDeleteCoupon';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -33,25 +33,15 @@ interface CouponDetailProps {
 const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailProps) => {
   const [couponInfos] = coupon.couponInfos;
   const cafeId = coupon.cafeInfo.id;
-  const queryClient = useQueryClient();
 
   const { isOpen, openModal, closeModal } = useModal();
 
   const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
-    queryFn: () => {
-      return getCafeInfo({ params: { cafeId } });
-    },
+    queryFn: () => getCafeInfo({ params: { cafeId } }),
     enabled: cafeId !== 0,
   });
 
-  const { mutate: mutateDeleteCoupon } = useMutation(() => deleteCoupon(couponInfos.id), {
-    onSuccess: () => {
-      closeDetail();
-      queryClient.invalidateQueries(['coupons']);
-
-      closeModal();
-    },
-  });
+  const { mutate: mutateDeleteCoupon } = useDeleteCoupon(couponInfos.id, closeDetail, closeModal);
 
   const openDeleteAlert = () => {
     openModal();
