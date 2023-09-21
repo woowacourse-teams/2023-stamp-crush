@@ -25,7 +25,6 @@ export const LogoImgWrapper = styled.button`
   display: flex;
   align-self: flex-start;
   background: transparent;
-  width: 150px;
   padding: 0 0 40px 40px;
 
   cursor: pointer;
