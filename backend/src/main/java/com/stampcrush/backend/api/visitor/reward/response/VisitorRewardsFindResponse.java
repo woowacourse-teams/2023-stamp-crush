@@ -1,7 +1,9 @@
 package com.stampcrush.backend.api.visitor.reward.response;
 
 import com.stampcrush.backend.application.visitor.reward.dto.VisitorRewardsFindResultDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -9,10 +11,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class VisitorRewardsFindResponse {
 
-    private final List<VisitorRewardFindResponse> rewards;
+    private List<VisitorRewardFindResponse> rewards;
 
     public static VisitorRewardsFindResponse from(List<VisitorRewardsFindResultDto> dtos) {
         return new VisitorRewardsFindResponse(
