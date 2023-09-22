@@ -27,4 +27,20 @@ public class ManagerStampCreateStep {
                 .log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 쿠폰에_스탬프를_적립_요청_2(String accessToken, Long customerId, Long couponId, StampCreateRequest stampCreateRequest) {
+        return given()
+                .log().all()
+                .body(stampCreateRequest)
+                .contentType(JSON)
+                .auth().preemptive()
+                .oauth2(accessToken)
+
+                .when()
+                .post("/api/admin/customers/{customerId}/coupons/{couponId}/stamps", customerId, couponId)
+
+                .then()
+                .log().all()
+                .extract();
+    }
 }
