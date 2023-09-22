@@ -26,11 +26,10 @@ public class ManagerOAuthLoginService {
     }
 
     private Long findOrCreateOwner(OAuthInfoResponse oAuthInfo) {
-        return ownerRepository.findByOAuthProviderAndOAuthId(
+        return ownerRepository.findIdByOAuthProviderAndOAuthId(
                         oAuthInfo.getOAuthProvider(),
                         oAuthInfo.getOAuthId()
                 )
-                .map(Owner::getId)
                 .orElseGet(() -> createOwner(oAuthInfo));
     }
 

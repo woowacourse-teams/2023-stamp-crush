@@ -62,8 +62,8 @@ class RegisterCustomerRepositoryTest {
                 .build();
 
         Customer savedCustomer = customerRepository.save(customer);
-        Customer findCustomer = customerRepository.findByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
+        Long customerId = customerRepository.findIdByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
 
-        assertThat(savedCustomer).isEqualTo(findCustomer);
+        assertThat(savedCustomer.getId()).isEqualTo(customerId);
     }
 }
