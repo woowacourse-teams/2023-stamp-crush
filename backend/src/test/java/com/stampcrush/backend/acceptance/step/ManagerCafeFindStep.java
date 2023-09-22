@@ -5,38 +5,35 @@ import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
-public class ManagerCustomerFindStep {
+public class ManagerCafeFindStep {
 
-    public static ExtractableResponse<Response> 고객_목록_조회_요청(Owner owner, Long cafeId) {
-        return given()
+    public static ExtractableResponse<Response> 자신의_카페_조회_요청(String accessToken) {
+        return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+                .oauth2(accessToken)
 
                 .when()
-                .get("/api/admin/cafes/{cafeId}/customers", cafeId)
+                .get("/api/admin/cafes")
 
                 .then()
                 .log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 전화번호로_고객_조회_요청(Owner owner, String phoneNumber) {
+    public static ExtractableResponse<Response> 오너의_모든_카페를_조회(Owner owner) {
         return RestAssured.given()
                 .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param("phone-number", phoneNumber)
+                .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
 
                 .when()
-                .get("/api/admin/customers")
+                .get("/api/admin/cafes")
 
                 .then()
                 .log().all()

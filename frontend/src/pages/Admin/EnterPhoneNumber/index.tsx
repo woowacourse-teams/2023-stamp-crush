@@ -45,6 +45,7 @@ const EnterPhoneNumber = () => {
               <TableTitleItem>수집 목적</TableTitleItem>
               <TableTitleItem>수집 항목</TableTitleItem>
               <TableTitleItem>수집 근거</TableTitleItem>
+              <TableTitleItem>수집 기간</TableTitleItem>
             </RowContainer>
             <RowContainer>
               <TableItem>
@@ -52,6 +53,7 @@ const EnterPhoneNumber = () => {
               </TableItem>
               <TableItem>전화번호</TableItem>
               <TableItem>개인정보 보호법 제 15조 1항</TableItem>
+              <TableItem>회원탈퇴 시까지</TableItem>
             </RowContainer>
           </PrivacyBox>
           <Dialpad />

@@ -25,6 +25,7 @@ export const IconWrapper = styled.div`
 export const Container = styled.div`
   display: flex;
   height: 100%;
+
   @media screen and (max-width: 700px) {
     justify-content: center;
   }
@@ -32,7 +33,6 @@ export const Container = styled.div`
 
 export const PrivacyBox = styled.section`
   padding: 50px 5%;
-  width: 53%;
 
   & > p {
     font-size: 16px;
@@ -53,10 +53,10 @@ export const PrivacyBox = styled.section`
 
 export const RowContainer = styled.div`
   display: grid;
-  grid-template-columns: 2.8fr 1.2fr 2fr;
+  grid-template-columns: 2.8fr 1.2fr 2fr 2fr;
   grid-template-rows: 1;
   border: 1px solid #888;
-  width: 75%;
+  width: 100%;
 
   &:last-child {
     border-top: none;
@@ -77,6 +77,7 @@ export const TableItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 
   color: black;
   width: 100%;

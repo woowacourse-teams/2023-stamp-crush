@@ -33,4 +33,26 @@ public class ManagerCouponCreateStep {
                 .log().all()
                 .extract();
     }
+
+    public static Long 쿠폰_생성_요청하고_아이디_반환_2(String accessToken, CouponCreateRequest request, Long customerId) {
+        ExtractableResponse<Response> response = 쿠폰_생성_요청_2(accessToken, request, customerId);
+        CouponCreateResponse couponCreateResponse = response.body().as(CouponCreateResponse.class);
+        return couponCreateResponse.getCouponId();
+    }
+
+    public static ExtractableResponse<Response> 쿠폰_생성_요청_2(String accessToken, CouponCreateRequest request, Long customerId) {
+        return RestAssured.given()
+                .log().all()
+                .contentType(JSON)
+                .body(request)
+                .auth().preemptive()
+                .oauth2(accessToken)
+
+                .when()
+                .post("/api/admin/customers/" + customerId + "/coupons")
+
+                .then()
+                .log().all()
+                .extract();
+    }
 }

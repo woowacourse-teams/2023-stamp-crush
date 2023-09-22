@@ -25,12 +25,29 @@ public class ManagerCafeCouponSettingUpdateStep {
             6
     );
 
+    @Deprecated
     public static ExtractableResponse<Response> 카페_쿠폰_정책_수정_요청(CafeCouponSettingUpdateRequest request, Owner owner, Long cafeId) {
         return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+                .body(request)
+
+                .when()
+                .post("/api/admin/coupon-setting?cafe-id=" + cafeId)
+
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 카페_쿠폰_정책_수정_요청(CafeCouponSettingUpdateRequest request, String ownerAccessToken, Long cafeId) {
+        return RestAssured.given()
+                .log().all()
+                .contentType(JSON)
+                .auth().preemptive()
+                .oauth2(ownerAccessToken)
                 .body(request)
 
                 .when()

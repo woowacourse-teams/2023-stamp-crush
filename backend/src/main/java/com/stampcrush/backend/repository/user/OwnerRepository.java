@@ -14,8 +14,8 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     Optional<Owner> findByNickname(String nickname);
 
-    @Query("SELECT o FROM Owner o WHERE o.oAuthProvider = :oAuthProvider AND o.oAuthId = :oAuthId")
-    Optional<Owner> findByOAuthProviderAndOAuthId(
+    @Query("SELECT o.id FROM Owner o WHERE o.oAuthProvider = :oAuthProvider AND o.oAuthId = :oAuthId")
+    Optional<Long> findIdByOAuthProviderAndOAuthId(
             @Param("oAuthProvider") OAuthProvider oAuthProvider,
             @Param("oAuthId") Long oAuthId
     );
