@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import { ROUTER_PATH } from './constants';
-
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/Customer/CouponList';
@@ -23,7 +22,7 @@ import Auth from './pages/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
-import InputPhoneNumber from './pages/Admin/InputPhoneNumber';
+import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 
