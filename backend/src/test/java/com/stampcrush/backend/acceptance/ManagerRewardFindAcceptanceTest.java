@@ -12,6 +12,7 @@ import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,7 +73,7 @@ public class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 리워드_목록_조회(notOwner, cafeId, customer.getId());
 
         // then
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_UNAUTHORIZED);
     }
 
     @Test
@@ -97,7 +98,7 @@ public class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 리워드_목록_조회(owner, cafeId, notMyCustomer.getId());
 
         // then
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
     }
 
     // TODO 회원가입, 로그인 구현 후 API CAll 로 대체

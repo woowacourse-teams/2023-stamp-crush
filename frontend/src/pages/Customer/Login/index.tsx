@@ -18,7 +18,7 @@ const Login = () => {
   return (
     <Template>
       <Container>
-        <LogoImg src={LoginLogo} />
+        <LoginLogo />
         <ServiceIntro>흩어져있는 종이 쿠폰을 한번에!</ServiceIntro>
         <ServiceIntroSub>카페쿠폰 관리 서비스</ServiceIntroSub>
         <LoginLink href={KAKAO_LOGIN_PAGE_URL}>

@@ -9,9 +9,11 @@ import {
   DetailItem,
   OverviewContainer,
 } from './style';
-import { BiArrowBack } from 'react-icons/bi';
-import { FaRegClock, FaPhoneAlt, FaRegBell, FaRegTrashAlt } from 'react-icons/fa';
-import { FaLocationDot } from 'react-icons/fa6';
+import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
+import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
+import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
+import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
+import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 import { parsePhoneNumber } from '../../../../utils';
 import {
   QueryObserverResult,
@@ -27,6 +29,7 @@ import Alert from '../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { CouponRes } from '../../../../types/api/response';
 import { Coupon } from '../../../../types/domain/coupon';
+import { FaLocationDot } from '../../../../assets';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -95,32 +98,28 @@ const CouponDetail = ({
           <Text>{cafeData.cafe.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
-          <DetailItem>
+          <Text ariaLabel="쿠폰 정책">
             <FaRegBell size={22} />
-            <Text ariaLabel="쿠폰 정책">{`${couponInfos.rewardName} 무료!`}</Text>
-          </DetailItem>
-          <DetailItem>
-            {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
-              <Text ariaLabel="영업 시간">
-                <FaRegClock size={22} />
-                {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
-              </Text>
-            )}
-          </DetailItem>
-          <DetailItem>
-            <FaPhoneAlt size={22} />
-            {cafeData.cafe.telephoneNumber && (
-              <Text ariaLabel="전화번호">{parsePhoneNumber(cafeData.cafe.telephoneNumber)}</Text>
-            )}
-          </DetailItem>
-          <DetailItem>
-            <FaLocationDot size={22} />
-            {cafeData.cafe.roadAddress && (
-              <Text ariaLabel="주소">
-                {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
-              </Text>
-            )}
-          </DetailItem>
+            {`${couponInfos.rewardName} 무료!`}
+          </Text>
+          {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
+            <Text ariaLabel="영업 시간">
+              <FaRegClock size={22} />
+              {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+            </Text>
+          )}
+          {cafeData.cafe.telephoneNumber && (
+            <Text ariaLabel="전화번호">
+              <FaPhoneAlt size={22} />
+              {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
+            </Text>
+          )}
+          {cafeData.cafe.roadAddress && (
+            <Text ariaLabel="주소">
+              <FaLocationDot width={22} height={22} />
+              {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+            </Text>
+          )}
         </ContentContainer>
       </CouponDetailContainer>
       {isOpen && (
