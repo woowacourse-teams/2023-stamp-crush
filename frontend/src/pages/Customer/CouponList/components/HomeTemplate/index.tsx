@@ -1,12 +1,8 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import { InfoContainer } from '../../style';
 import Header from '../Header';
 
-interface HomeTemplateProps {
-  children?: ReactNode;
-}
-
-const HomeTemplate = ({ children }: HomeTemplateProps) => {
+const HomeTemplate = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
