@@ -16,6 +16,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpd
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환_2;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_GITCHAN_JOIN_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorCouponDeleteStep.쿠폰_삭제_요청;
@@ -46,7 +47,7 @@ public class VisitorCouponCommandAcceptanceTest extends AcceptanceTest {
         Long gitchanCafeId = 카페_생성_요청하고_아이디_반환_2(gitchanAccessToken, CAFE_CREATE_REQUEST);
         카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, gitchanAccessToken, gitchanCafeId);
 
-        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
+        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환_2(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
 
         ExtractableResponse<Response> response = 쿠폰_삭제_요청(customerAccessToken, gitchanCafeCouponId);
 
