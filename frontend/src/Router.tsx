@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import { ROUTER_PATH } from './constants';
-
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/Customer/CouponList';

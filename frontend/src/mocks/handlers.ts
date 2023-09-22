@@ -11,6 +11,7 @@ import {
   usedCustomerRewards,
   customerRewards,
   stampHistorys,
+  customerRegisterType,
 } from './mockData';
 
 const customerList = [...customers];
@@ -346,5 +347,17 @@ export const handlers = [
       ctx.status(200),
       ctx.json({ profile: { id: 10, nickname: '강영민', phoneNumber: null, email: null } }),
     );
+  }),
+
+  rest.get('/customers/profiles/search', (req, res, ctx) => {
+    const phoneNumber = req.url.searchParams.get('phone-number');
+
+    if (phoneNumber === '01011111111')
+      return res(ctx.status(200), ctx.json({ customers: [customerRegisterType[0]] }));
+
+    if (phoneNumber === '01022222222')
+      return res(ctx.status(200), ctx.json({ customers: [customerRegisterType[1]] }));
+
+    return res(ctx.status(200), ctx.json({ customers: [] }));
   }),
 ];

@@ -22,7 +22,7 @@ const RewardName = ({ rewardName, setRewardName }: RewardNameProps) => {
         value={rewardName}
         type="text"
         placeholder="ex) 아메리카노, 무료 음료 한잔"
-        width={400}
+        width="small"
         maxLength={20}
         onChange={handleRewardName}
       />
