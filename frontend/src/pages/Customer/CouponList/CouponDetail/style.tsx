@@ -11,6 +11,7 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   background: white;
   max-width: 450px;
   transform: translateY(100%);
+  z-index: 1;
 
   ${({ $isDetail }) =>
     $isDetail &&
@@ -74,14 +75,30 @@ export const CafeImage = styled.img`
   object-fit: cover;
 `;
 
+export const DetailItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  & > :first-child {
+    min-width: 22px;
+    min-height: 22px;
+  }
+`;
+
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
   bottom: 15%;
   left: 50px;
-  width: 345px;
+  width: 310px;
   gap: 10px;
+
+  /** iPhone SE */
+  @media only screen and (min-device-width: 320px) and (max-device-width: 375px) {
+    width: 290px;
+  }
 
   :nth-child(n) {
     display: flex;

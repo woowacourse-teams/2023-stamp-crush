@@ -1,5 +1,5 @@
 import { BaseInput, Container, SearchButton } from './style';
-import { BsSearch } from 'react-icons/bs';
+import { BsSearch } from '@react-icons/all-files/bs/BsSearch';
 import { ChangeEvent, FormEvent, InputHTMLAttributes } from 'react';
 
 export interface SearchBarProps extends InputHTMLAttributes<HTMLInputElement> {

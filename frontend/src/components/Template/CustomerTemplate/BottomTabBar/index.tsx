@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { TabBarContainer, TapBarItem } from './style';
-import { AiOutlineHome, AiOutlineGift, AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineHome } from '@react-icons/all-files/ai/AiOutlineHome';
+import { AiOutlineGift } from '@react-icons/all-files/ai/AiOutlineGift';
+import { AiOutlineUser } from '@react-icons/all-files/ai/AiOutlineUser';
 import { ROUTER_PATH } from '../../../../constants';
 import { RouterPath } from '../../../../types/utils';
 

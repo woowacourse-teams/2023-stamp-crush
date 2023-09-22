@@ -1,10 +1,11 @@
 import Text from '../../../../../components/Text';
-import { FaRegClock, FaPhoneAlt } from 'react-icons/fa';
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
+import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
 import { parsePhoneNumber, parseTime } from '../../../../../utils';
 import { Cafe } from '../../../../../types/domain/cafe';
 import { Time } from '../../../../../types/utils';
 import { PreviewContentContainer } from './style';
+import { FaLocationDot } from '../../../../../assets';
 
 interface PreviewContentProps {
   openTime: Time;
@@ -25,7 +26,7 @@ const PreviewContent = ({ openTime, closeTime, phoneNumber, cafeInfo }: PreviewC
         {parsePhoneNumber(phoneNumber)}
       </Text>
       <Text>
-        <FaLocationDot size={25} />
+        <FaLocationDot width={25} height={25} />
         {`${cafeInfo.roadAddress} ${cafeInfo.detailAddress}`}
       </Text>
     </PreviewContentContainer>

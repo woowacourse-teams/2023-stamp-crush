@@ -21,3 +21,9 @@ export interface CustomerProfile {
   phoneNumber: string | null;
   email: string | null;
 }
+
+export interface CustomerRegisterType extends CustomerPhoneNumber {
+  registerType: RegisterType;
+}
+
+export type RegisterType = 'temporary' | 'register';
