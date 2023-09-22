@@ -11,6 +11,7 @@ import {
   CafeIdParams,
   CafeRegisterReqBody,
   IsFavoritesReqBody,
+  CustomerLinkDataReqBody,
 } from '../types/api/request';
 
 export const postEarnStamp = async ({
@@ -80,4 +81,8 @@ export const postUploadImage = async (file: File) => {
 
 export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserReqBody>) => {
   return await api.post<RegisterUserReqBody>('/profiles/phone-number', customerHeader(), body);
+};
+
+export const postCustomerLinkData = async ({ body }: MutateReq<CustomerLinkDataReqBody>) => {
+  return await api.post<CustomerLinkDataReqBody>('/profiles/link-data', customerHeader(), body);
 };
