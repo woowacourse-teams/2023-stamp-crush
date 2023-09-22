@@ -9,12 +9,13 @@ import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateReques
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.*;
+import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST_2;
+import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환_2;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
@@ -23,6 +24,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠�
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.auth.OAuthProvider.KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
@@ -97,6 +99,6 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 리워드_목록_조회(accessTokenOwner, cafeId, notMyCustomerId);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value());
+        assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value());
     }
 }
