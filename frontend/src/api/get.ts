@@ -137,7 +137,7 @@ export const getCustomerProfile = async () => {
 export const getCustomerRegisterType = async ({ params }: QueryReq<PhoneNumberParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   return await api.get<CustomerRegisterTypeRes>(
-    `/customers/profiles/search?phone-number=${params.phoneNumber}`,
+    `/profiles/search?phone-number=${params.phoneNumber}`,
     customerHeader(),
   );
 };
