@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
-import static com.stampcrush.backend.acceptance.step.VisitorProfilesCommandStep.고객의_전화번호_등록_요청_token;
+import static com.stampcrush.backend.acceptance.step.VisitorProfilesCommandStep.고객의_전화번호_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
@@ -36,7 +36,7 @@ public class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
 
         String accessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(request);
 
-        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청_token(accessToken, new VisitorProfilesPhoneNumberUpdateRequest("01012345678"));
+        ExtractableResponse<Response> response = 고객의_전화번호_등록_요청(accessToken, new VisitorProfilesPhoneNumberUpdateRequest("01012345678"));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
