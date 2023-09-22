@@ -2,13 +2,16 @@ package com.stampcrush.backend.repository.user;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.fixture.CustomerFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @KorNamingConverter
 @DataJpaTest
@@ -42,6 +45,21 @@ class CustomerRepositoryTest {
         List<Customer> customers = customerRepository.findByPhoneNumber(notExistPhoneNumber);
 
         // then
-        assertThat(customers.isEmpty()).isTrue();
+        assertThat(customers).isEmpty();
+    }
+
+    @Test
+    void 회원_삭제() {
+        final Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED);
+        final Optional<Customer> customerBeforeDelete = customerRepository.findById(savedCustomer.getId());
+
+        customerRepository.deleteCustomerById(savedCustomer.getId());
+        final Optional<Customer> customerAfterDelete = customerRepository.findById(savedCustomer.getId());
+
+        assertAll(
+                () -> assertThat(customerBeforeDelete).isNotEmpty(),
+                () -> assertThat(customerBeforeDelete.get().getId()).isEqualTo(savedCustomer.getId()),
+                () -> assertThat(customerAfterDelete).isEmpty()
+        );
     }
 }

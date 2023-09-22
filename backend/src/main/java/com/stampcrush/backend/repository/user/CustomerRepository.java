@@ -20,4 +20,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             @Param("oAuthProvider") OAuthProvider oAuthProvider,
             @Param("oAuthId") Long oAuthId
     );
+
+    void deleteCustomerById(Long id);
 }
