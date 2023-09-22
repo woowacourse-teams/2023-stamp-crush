@@ -9,8 +9,8 @@ const useInputPhoneNumber = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState('');
   const { data: customerRegisterType } = useGetCustomerRegisterType(phoneNumber);
-  const { mutate: mutatePhoneNumber } = usePostCustomerPhoneNumber();
-  const { mutate: mutateLinkData } = usePostCustomerLinkData();
+  const { mutateAsync: mutatePhoneNumber } = usePostCustomerPhoneNumber();
+  const { mutateAsync: mutateLinkData } = usePostCustomerLinkData();
 
   const changePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
     setPhoneNumber(e.target.value);
@@ -24,20 +24,21 @@ const useInputPhoneNumber = () => {
     registerPhoneNumber();
   };
 
-  const registerPhoneNumber = () => {
+  const registerPhoneNumber = async () => {
     if (!customerRegisterType) return;
 
     /** 순서가 바뀌면 안되는 로직입니다. */
     // 임시회원이 아닌 유저가 정상적인 전화번호를 등록하려고 할때
     if (customerRegisterType.length === 0) {
-      mutatePhoneNumber(phoneNumber);
+      await mutatePhoneNumber(phoneNumber);
       navigate(ROUTER_PATH.couponList);
       return;
     }
 
     // 임시회원이 자신의 전화번호를 연동하려고 할 때
     if (customerRegisterType[0].registerType === 'temporary') {
-      mutateLinkData(customerRegisterType[0].id);
+      await mutateLinkData(customerRegisterType[0].id);
+      alert('전화번호 등록이 완료되었습니다! 다시 한번 로그인해주세요 😄.');
       localStorage.setItem('login-token', '');
       navigate(ROUTER_PATH.login);
     }
