@@ -1,14 +1,22 @@
 import { styled } from 'styled-components';
 
+export type InputWidth = 'small' | 'medium' | 'fill';
+
 type StyledInputProps = {
-  $width?: number;
+  $width?: InputWidth;
   $center?: boolean;
   disabled?: boolean;
   $required?: boolean;
 };
 
+const SIZE: Record<InputWidth, string> = {
+  small: '410px',
+  medium: '550px',
+  fill: '100%',
+};
+
 export const BaseInput = styled.input<StyledInputProps>`
-  width: ${(props) => (props.$width ? `${props.$width}px` : '100%')};
+  width: ${(props) => (props.$width ? SIZE[props.$width] : '100%')};
   padding: 8px 4px;
 
   border: none;

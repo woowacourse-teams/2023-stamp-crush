@@ -44,6 +44,10 @@ export interface CustomerIdParams {
   customerId: number;
 }
 
+export interface PhoneNumberParams {
+  phoneNumber: string;
+}
+
 // body 타입
 export interface CouponSettingReqBody extends CouponDesign {
   reward: string;
@@ -91,4 +95,8 @@ export interface StampEarningReq {
   earningStampCount: number;
   customerId: string;
   couponId: string;
+}
+
+export interface CustomerLinkDataReqBody {
+  id: number;
 }

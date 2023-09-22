@@ -6,11 +6,14 @@ import {
   ContentContainer,
   CouponDetailContainer,
   DeleteButton,
+  DetailItem,
   OverviewContainer,
 } from './style';
-import { BiArrowBack } from 'react-icons/bi';
-import { FaRegClock, FaPhoneAlt, FaRegBell, FaRegTrashAlt } from 'react-icons/fa';
-import { FaLocationDot } from 'react-icons/fa6';
+import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
+import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
+import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
+import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
+import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 import { parsePhoneNumber } from '../../../../utils';
 import {
   QueryObserverResult,
@@ -26,6 +29,7 @@ import Alert from '../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { CouponRes } from '../../../../types/api/response';
 import { Coupon } from '../../../../types/domain/coupon';
+import { FaLocationDot } from '../../../../assets';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -112,7 +116,7 @@ const CouponDetail = ({
           )}
           {cafeData.cafe.roadAddress && (
             <Text ariaLabel="주소">
-              <FaLocationDot size={22} />
+              <FaLocationDot width={22} height={22} />
               {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
             </Text>
           )}

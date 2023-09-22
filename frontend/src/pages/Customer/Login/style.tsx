@@ -36,7 +36,7 @@ export const LoginLink = styled.a`
 `;
 
 export const KakaoLoginImg = styled.img`
-  width: 240px;
+  width: 215px;
   height: 50px;
 `;
 

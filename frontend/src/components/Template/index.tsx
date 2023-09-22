@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import SideBar from '../SideBar';
 import { BaseTemplate, Footer, PageContainer, SideBarWrapper } from './style';
 
-import { AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineMail } from '@react-icons/all-files/ai/AiOutlineMail';
 
 const Template = ({ children }: PropsWithChildren) => {
   return (

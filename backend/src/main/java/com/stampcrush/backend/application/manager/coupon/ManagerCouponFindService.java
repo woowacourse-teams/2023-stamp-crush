@@ -55,6 +55,11 @@ public class ManagerCouponFindService {
         for (CustomerCoupons customerCoupon : customerCoupons) {
             Coupons coupons = new Coupons(customerCoupon.coupons);
             VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
+
+            if (visitHistories.getVisitCount() == 0) {
+                continue;
+            }
+
             // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
             cafeCustomerFindResultDtos.add(

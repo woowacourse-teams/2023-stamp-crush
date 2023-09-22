@@ -1,6 +1,11 @@
 import { Cafe } from '../domain/cafe';
 import { SampleImage, SampleBackCouponImage, Coupon, IssuedCoupon } from '../domain/coupon';
-import { CustomerPhoneNumber, Customer, CustomerProfile } from '../domain/customer';
+import {
+  CustomerPhoneNumber,
+  Customer,
+  CustomerProfile,
+  CustomerRegisterType,
+} from '../domain/customer';
 import { Reward, RewardHistoryType } from '../domain/reward';
 import { StampHistoryType } from '../domain/stamp';
 
@@ -64,4 +69,8 @@ export interface ImageUploadRes {
 
 export interface RewardRes {
   rewards: Reward[];
+}
+
+export interface CustomerRegisterTypeRes {
+  customers: CustomerRegisterType[];
 }

@@ -9,6 +9,7 @@ import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateReques
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
