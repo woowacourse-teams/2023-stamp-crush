@@ -5,6 +5,10 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomersFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
+import com.stampcrush.backend.auth.OAuthProvider;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
+import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -24,7 +28,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.고객_목록_조회_요청;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
 import static com.stampcrush.backend.fixture.OwnerFixture.JENA;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +42,9 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 고객_목록을_조회한다() {
@@ -93,27 +102,37 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 고객의_쿠폰을_조회한다() {
+    void 고객의_적립중인_쿠폰을_조회한다() {
         // given
-        Owner owner = ownerRepository.save(JENA);
+        String managerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("jena", OAuthProvider.KAKAO, 123L));
+        Long managerId = authTokensGenerator.extractMemberId(managerToken);
+        Owner owner = ownerRepository.findById(managerId).get();
 
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        Customer youngho = customerRepository.save(Customer.registeredCustomerBuilder().nickname("youngho").build());
+
+        String leoVisitorToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("leo", "email", OAuthProvider.KAKAO, 123L));
+        Long leoVisitorId = authTokensGenerator.extractMemberId(leoVisitorToken);
+        Customer leoVisitor = customerRepository.findById(leoVisitorId).get();
+
+        String jenaVisitorToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("jena", "email", OAuthProvider.KAKAO, 123L));
+        Long jenaVisitorId = authTokensGenerator.extractMemberId(jenaVisitorToken);
+        Customer jenaVisitor = customerRepository.findById(jenaVisitorId).get();
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, youngho.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, leoVisitor.getId());
 
         StampCreateRequest stampCreateRequest1 = new StampCreateRequest(7);
         StampCreateRequest stampCreateRequest2 = new StampCreateRequest(5);
 
-        쿠폰에_스탬프를_적립_요청(owner, youngho, couponId, stampCreateRequest1);
-        쿠폰에_스탬프를_적립_요청(owner, youngho, couponId, stampCreateRequest2);
+        쿠폰에_스탬프를_적립_요청(owner, leoVisitor, couponId, stampCreateRequest1);
+        쿠폰에_스탬프를_적립_요청(owner, leoVisitor, couponId, stampCreateRequest2);
 
         // when
+        System.out.println("실제 비즈니스 로직");
         String expireDate = LocalDate.now().plusMonths(6).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
-        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(couponId + 1, youngho.getId(), youngho.getNickname(), 2, expireDate, Boolean.FALSE, 10);
-        List<CustomerAccumulatingCouponFindResponse> response = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, youngho);
+        CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(couponId + 1, leoVisitor.getId(), leoVisitor.getNickname(), 2, expireDate, Boolean.FALSE, 10);
+        List<CustomerAccumulatingCouponFindResponse> response = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, leoVisitor);
 
         // then
         assertThat(response).containsExactlyInAnyOrder(expected);

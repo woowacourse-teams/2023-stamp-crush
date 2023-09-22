@@ -6,6 +6,9 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CafeCustomerFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponFindResponse;
 import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCouponsFindResponse;
+import com.stampcrush.backend.auth.OAuthProvider;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
+import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -27,7 +30,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_YOUNGHO;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -43,6 +48,9 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private AuthTokensGenerator authTokensGenerator;
+
     private static Response 고객_조회_요청(Owner owner, Long savedCafeId) {
         return given()
                 .log().all()
@@ -56,15 +64,24 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 쿠폰을_발급한다() {
         // given
-        Owner owner = 사장_생성();
+        String managerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+        Long managerId = authTokensGenerator.extractMemberId(managerToken);
+        Owner owner = ownerRepository.findById(managerId).get();
+
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        Customer savedCustomer = customerRepository.save(REGISTER_CUSTOMER_YOUNGHO);
+        String customerToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer", "email", OAuthProvider.KAKAO, 123L));
+        Long customerId = authTokensGenerator.extractMemberId(customerToken);
+        Customer customer = customerRepository.findById(customerId).get();
+
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
         // when
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, savedCustomer.getId());
+        System.out.println("실제 비즈니스 로직");
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, customerId);
 
-        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, savedCustomer);
+        // then
+        System.out.println("쿠폰 발급 결과 조회");
+        List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, customer);
 
         // then
         assertAll(
@@ -74,8 +91,8 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                         .containsExactlyInAnyOrder(
                                 new CustomerAccumulatingCouponFindResponse(
                                         couponId,
-                                        savedCustomer.getId(),
-                                        savedCustomer.getNickname(),
+                                        customerId,
+                                        customer.getNickname(),
                                         0,
                                         null,
                                         false,
@@ -106,7 +123,9 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     @Test
     void 스탬프를_적립한다() {
         // given
-        Owner owner = 사장_생성();
+        String managerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+        Long managerId = authTokensGenerator.extractMemberId(managerToken);
+        Owner owner = ownerRepository.findById(managerId).get();
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
         Customer savedCustomer = customerRepository.save(
                 Customer.registeredCustomerBuilder()
@@ -119,12 +138,15 @@ public class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
-        // when
         Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, savedCustomer.getId());
 
+        // when
+        System.out.println("실제 비즈니스 로직 시작");
         StampCreateRequest stampCreateRequest = new StampCreateRequest(4);
         쿠폰에_스탬프를_적립_요청(owner, savedCustomer, couponId, stampCreateRequest);
 
+        // then
+        System.out.println("적립 여부 확인을 위한 api 호출");
         List<CustomerAccumulatingCouponFindResponse> coupons = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, savedCustomer);
 
         // then
