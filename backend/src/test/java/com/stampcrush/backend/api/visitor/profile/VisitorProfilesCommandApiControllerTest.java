@@ -2,6 +2,7 @@ package com.stampcrush.backend.api.visitor.profile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.ControllerSliceTest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
