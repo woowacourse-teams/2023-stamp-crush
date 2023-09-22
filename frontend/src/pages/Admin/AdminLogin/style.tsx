@@ -65,6 +65,10 @@ export const CheckItemContainer = styled.div`
   text-align: center;
   color: #2a1d1f;
   font-weight: 300;
+
+  svg {
+    margin-right: 10px;
+  }
 `;
 
 export const CheckIcon = styled.img`

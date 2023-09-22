@@ -20,8 +20,8 @@ const AdminLogin = () => {
   return (
     <Container>
       <LoginContent>
-        <LoginLogo width={200} />
-        <Title>안녕하세요 사장님!:)</Title>
+        <LoginLogo width={208} />
+        <Title>안녕하세요 사장님! :)</Title>
         <SubTitle>스탬프크러쉬입니다.</SubTitle>
         <Text>쿠폰 관리, 이제는 온라인으로 만나보세요.</Text>
         <CheckList>

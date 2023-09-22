@@ -8,7 +8,7 @@ interface CheckItemProps {
 const CheckItem = ({ text }: CheckItemProps) => {
   return (
     <CheckItemContainer>
-      <CheckIconSVG width={18} height={18} />
+      <CheckIconSVG width={24} height={24} />
       {text}
     </CheckItemContainer>
   );

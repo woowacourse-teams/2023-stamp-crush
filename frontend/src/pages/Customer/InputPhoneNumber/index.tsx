@@ -20,7 +20,7 @@ const InputPhoneNumber = () => {
 
   return (
     <Form onSubmit={submitPhoneNumber}>
-      <LoginLogo width={200} />
+      <LoginLogo width={208} />
       <Input
         id="input-phone-number"
         label={'전화번호'}
