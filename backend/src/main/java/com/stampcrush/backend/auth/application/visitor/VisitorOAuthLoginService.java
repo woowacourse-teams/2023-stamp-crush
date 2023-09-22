@@ -26,11 +26,10 @@ public class VisitorOAuthLoginService {
     }
 
     private Long findOrCreateCustomer(OAuthInfoResponse oAuthInfo) {
-        return customerRepository.findByOAuthProviderAndOAuthId(
+        return customerRepository.findIdByOAuthProviderAndOAuthId(
                         oAuthInfo.getOAuthProvider(),
                         oAuthInfo.getOAuthId()
                 )
-                .map(Customer::getId)
                 .orElseGet(() -> createCustomer(oAuthInfo));
     }
 

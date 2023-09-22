@@ -43,9 +43,9 @@ class OwnerRepositoryTest {
         Owner savedOwner = ownerRepository.save(owner);
 
         // when
-        Owner findOwner = ownerRepository.findByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
+        Long ownerId = ownerRepository.findIdByOAuthProviderAndOAuthId(oauthProvider, oAuthId).get();
 
         // then
-        assertThat(savedOwner).isEqualTo(findOwner);
+        assertThat(savedOwner.getId()).isEqualTo(ownerId);
     }
 }
