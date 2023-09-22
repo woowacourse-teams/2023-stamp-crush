@@ -5,9 +5,7 @@ const useGetCoupons = () => {
   return useQuery({
     queryKey: ['coupons'],
     queryFn: getCoupons,
-    select: (data) => {
-      return data.coupons;
-    },
+    select: (data) => data.coupons,
   });
 };
 
