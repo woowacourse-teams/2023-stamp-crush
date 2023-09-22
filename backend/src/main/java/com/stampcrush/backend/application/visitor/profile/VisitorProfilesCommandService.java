@@ -64,4 +64,8 @@ public class VisitorProfilesCommandService {
 
         return findCustomer.get();
     }
+
+    public void cancelMembership(final Long customerId) {
+        customerRepository.deleteCustomerById(customerId);
+    }
 }
