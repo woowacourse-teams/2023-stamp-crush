@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.visitor.profile;
+package com.stampcrush.backend.api.visitor.profile.request;
 
 import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfilesLinkDataDto;
 import lombok.AllArgsConstructor;

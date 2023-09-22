@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
