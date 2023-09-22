@@ -20,8 +20,8 @@ interface CafeInfoProps {
   onClickStar: () => void;
 }
 
-const CafeInfo = ({ cafeInfo, couponInfo, onClickStar }: CafeInfoProps) => {
-  const { name: cafeName, isFavorites } = cafeInfo.cafeInfo;
+const CafeInfo = ({ cafeInfo: { cafeInfo }, couponInfo, onClickStar }: CafeInfoProps) => {
+  const { name: cafeName, isFavorites } = cafeInfo;
   const { stampCount, maxStampCount, frontImageUrl } = couponInfo;
   return (
     <>
