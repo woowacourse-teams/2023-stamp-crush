@@ -49,7 +49,7 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         List<RewardFindResponse> rewards = rewardsResponse.body().as(RewardsFindResponse.class).getRewards();
 
         // then
-        assertThat(rewards.size()).isEqualTo(1);
+        assertThat(rewards).hasSize(1);
     }
 
     @Test
