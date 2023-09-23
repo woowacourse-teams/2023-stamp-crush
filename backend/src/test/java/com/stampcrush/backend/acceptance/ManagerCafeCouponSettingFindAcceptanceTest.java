@@ -6,7 +6,6 @@ import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.OwnerFixture;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
@@ -16,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingFindStep.카페의_현재_쿠폰_디자인_정책_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingFindStep.쿠폰이_발급될때의_쿠폰_디자인_조회_요청;
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.*;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ManagerCafeCouponSettingFindAcceptanceTest extends AcceptanceTest {
@@ -32,14 +34,14 @@ class ManagerCafeCouponSettingFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페_사장은_쿠폰이_발급되었을_때_쿠폰_디자인_조회_가능하다() {
         // given
-        Owner owner = ownerRepository.save(OwnerFixture.JENA);
-        Customer customer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_JENA);
+        String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
+       String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
 
-        Long cafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        Long cafeId = 카페_생성_요청하고_아이디_반환_2(ownerAccessToken, CAFE_CREATE_REQUEST);
 
 
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, couponCreateRequest, customer.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(owner, couponCreateRequest, customer.getId());
 
 
         // when
