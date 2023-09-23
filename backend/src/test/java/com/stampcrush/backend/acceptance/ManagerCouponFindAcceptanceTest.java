@@ -10,9 +10,7 @@ import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateReques
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -28,17 +26,14 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.고객_목록_조회_요청;
-import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
-import static com.stampcrush.backend.fixture.OwnerFixture.JENA;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private OwnerRepository ownerRepository;
+class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -49,23 +44,34 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 고객_목록을_조회한다() {
         // given
-        Owner owner = ownerRepository.save(JENA);
+        String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
 
-        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
-        Customer youngho = customerRepository.save(Customer.registeredCustomerBuilder().nickname("youngho").build());
-        Customer gitchan = customerRepository.save(Customer.registeredCustomerBuilder().nickname("gitchan").build());
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerAccessToken, CAFE_CREATE_REQUEST);
+
+        OAuthRegisterCustomerCreateRequest request1 =
+                new OAuthRegisterCustomerCreateRequest("youngho", "e", OAuthProvider.KAKAO, 293827L);
+        OAuthRegisterCustomerCreateRequest request2 =
+                new OAuthRegisterCustomerCreateRequest("gitchan", "m", OAuthProvider.KAKAO, 483726L);
+
+        String younghoToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(request1);
+        Long younghoId = authTokensGenerator.extractMemberId(younghoToken);
+        Customer youngho = customerRepository.findById(younghoId).get();
+
+        String gitchanToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(request2);
+        Long gitchanId = authTokensGenerator.extractMemberId(gitchanToken);
+        Customer gitchan = customerRepository.findById(gitchanId).get();
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
-        Long couponId1 = 쿠폰_생성_요청하고_아이디_반환(owner, request, youngho.getId());
-        Long couponId2 = 쿠폰_생성_요청하고_아이디_반환(owner, request, gitchan.getId());
+        Long couponId1 = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, younghoId);
+        Long couponId2 = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, gitchanId);
 
         StampCreateRequest stampCreateRequest1 = new StampCreateRequest(7);
         StampCreateRequest stampCreateRequest2 = new StampCreateRequest(5);
 
-        쿠폰에_스탬프를_적립_요청(owner, youngho, couponId1, stampCreateRequest1);
-        쿠폰에_스탬프를_적립_요청(owner, youngho, couponId1, stampCreateRequest2);
-        쿠폰에_스탬프를_적립_요청(owner, gitchan, couponId2, stampCreateRequest1);
+        쿠폰에_스탬프를_적립_요청(ownerAccessToken, younghoId, couponId1, stampCreateRequest1);
+        쿠폰에_스탬프를_적립_요청(ownerAccessToken, younghoId, couponId1, stampCreateRequest2);
+        쿠폰에_스탬프를_적립_요청(ownerAccessToken, gitchanId, couponId2, stampCreateRequest1);
 
         String firstVisitDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
 
@@ -73,7 +79,7 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         CafeCustomerFindResponse expected1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true);
         CafeCustomerFindResponse expected2 = new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true);
 
-        ExtractableResponse<Response> response = 고객_목록_조회_요청(owner, savedCafeId);
+        ExtractableResponse<Response> response = 고객_목록_조회_요청(ownerAccessToken, savedCafeId);
 
         CafeCustomersFindResponse actual = response.body().as(CafeCustomersFindResponse.class);
 
@@ -84,55 +90,49 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 내_카페가_아닌_고객의_고객목록_조회_불가능() {
         // given
-        Owner owner = ownerRepository.save(JENA);
-        Owner notOwner = ownerRepository.save(new Owner("notOwner", "id", "pw", "01029384726"));
+        String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
+        String notOwnerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST_2);
 
-        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerAccessToken, CAFE_CREATE_REQUEST);
         Customer gitchan = customerRepository.save(REGISTER_CUSTOMER_GITCHAN);
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
-        Long couponId2 = 쿠폰_생성_요청하고_아이디_반환(owner, request, gitchan.getId());
+        Long couponId2 = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, gitchan.getId());
 
         // when
-        ExtractableResponse<Response> response = 고객_목록_조회_요청(notOwner, savedCafeId);
+        ExtractableResponse<Response> response = 고객_목록_조회_요청(notOwnerAccessToken, savedCafeId);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value());
     }
 
     @Test
     void 고객의_적립중인_쿠폰을_조회한다() {
         // given
-        String managerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("jena", OAuthProvider.KAKAO, 123L));
-        Long managerId = authTokensGenerator.extractMemberId(managerToken);
-        Owner owner = ownerRepository.findById(managerId).get();
+        String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("jena", OAuthProvider.KAKAO, 123L));
+        Long managerId = authTokensGenerator.extractMemberId(ownerToken);
 
-        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerToken, CAFE_CREATE_REQUEST);
 
         String leoVisitorToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("leo", "email", OAuthProvider.KAKAO, 123L));
         Long leoVisitorId = authTokensGenerator.extractMemberId(leoVisitorToken);
         Customer leoVisitor = customerRepository.findById(leoVisitorId).get();
 
-        String jenaVisitorToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("jena", "email", OAuthProvider.KAKAO, 123L));
-        Long jenaVisitorId = authTokensGenerator.extractMemberId(jenaVisitorToken);
-        Customer jenaVisitor = customerRepository.findById(jenaVisitorId).get();
-
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
 
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, leoVisitor.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request, leoVisitorId);
 
         StampCreateRequest stampCreateRequest1 = new StampCreateRequest(7);
         StampCreateRequest stampCreateRequest2 = new StampCreateRequest(5);
 
-        쿠폰에_스탬프를_적립_요청(owner, leoVisitor, couponId, stampCreateRequest1);
-        쿠폰에_스탬프를_적립_요청(owner, leoVisitor, couponId, stampCreateRequest2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, leoVisitorId, couponId, stampCreateRequest1);
+        쿠폰에_스탬프를_적립_요청(ownerToken, leoVisitorId, couponId, stampCreateRequest2);
 
         // when
-        System.out.println("실제 비즈니스 로직");
         String expireDate = LocalDate.now().plusMonths(6).format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
         CustomerAccumulatingCouponFindResponse expected = new CustomerAccumulatingCouponFindResponse(couponId + 1, leoVisitor.getId(), leoVisitor.getNickname(), 2, expireDate, Boolean.FALSE, 10);
-        List<CustomerAccumulatingCouponFindResponse> response = 고객의_쿠폰_조회하고_결과_반환(owner, savedCafeId, leoVisitor);
+        List<CustomerAccumulatingCouponFindResponse> response = 고객의_쿠폰_조회하고_결과_반환(ownerToken, savedCafeId, leoVisitorId);
 
         // then
         assertThat(response).containsExactlyInAnyOrder(expected);
@@ -141,22 +141,22 @@ public class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 내_카페가_아닌_카페의_고객의_쿠폰은_조회_불가능() {
         // given
-        Owner owner = ownerRepository.save(JENA);
-        Owner notOwner = ownerRepository.save(new Owner("notOwner", "id", "pw", "01029384726"));
+        String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
+        String notOwnerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST_2);
 
-        Long savedCafeId = 카페_생성_요청하고_아이디_반환(owner, CAFE_CREATE_REQUEST);
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerAccessToken, CAFE_CREATE_REQUEST);
         Customer youngho = customerRepository.save(Customer.registeredCustomerBuilder().nickname("youngho").build());
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환(owner, request, youngho.getId());
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, youngho.getId());
 
         StampCreateRequest stampCreateRequest1 = new StampCreateRequest(7);
-        쿠폰에_스탬프를_적립_요청(owner, youngho, couponId, stampCreateRequest1);
+        쿠폰에_스탬프를_적립_요청(ownerAccessToken, youngho.getId(), couponId, stampCreateRequest1);
 
         // when
-        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, notOwner, youngho);
+        ExtractableResponse<Response> response = 고객의_쿠폰_조회_요청(savedCafeId, notOwnerAccessToken, youngho.getId());
 
         // then
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value());
     }
 }

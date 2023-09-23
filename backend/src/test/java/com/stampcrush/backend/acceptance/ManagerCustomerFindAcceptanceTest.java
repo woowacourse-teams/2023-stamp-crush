@@ -4,11 +4,8 @@ import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCrea
 import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse;
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -21,29 +18,21 @@ import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.임시_고�
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.OK;
 
-public class ManagerCustomerFindAcceptanceTest extends AcceptanceTest {
+class ManagerCustomerFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 전화번호로_가입_고객을_조회한다() {
         // given
         String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
-        Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
-        Owner owner = ownerRepository.findById(ownerId).get();
 
         Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환(ownerAccessToken, new TemporaryCustomerCreateRequest("01012345678"));
         Customer customer = customerRepository.findById(temporaryCustomerId).get();
 
         // when
-        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(ownerAccessToken, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -57,14 +46,12 @@ public class ManagerCustomerFindAcceptanceTest extends AcceptanceTest {
     void 전화번호로_임시_고객을_조회한다() {
         // given
         String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
-        Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
-        Owner owner = ownerRepository.findById(ownerId).get();
 
         Long temporaryCustomerId = 임시_고객_회원_가입_요청하고_아이디_반환(ownerAccessToken, new TemporaryCustomerCreateRequest("01012345678"));
         Customer customer = customerRepository.findById(temporaryCustomerId).get();
 
         // when
-        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(ownerAccessToken, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then
@@ -78,10 +65,8 @@ public class ManagerCustomerFindAcceptanceTest extends AcceptanceTest {
     void 고객이_존재하지_않는_경우_빈_배열을_반환한다() {
         // given, when
         String ownerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
-        Long ownerId = authTokensGenerator.extractMemberId(ownerAccessToken);
-        Owner owner = ownerRepository.findById(ownerId).get();
 
-        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(owner, "01012345678");
+        ExtractableResponse<Response> response = 전화번호로_고객_조회_요청(ownerAccessToken, "01012345678");
         CustomersFindResponse customers = response.body().as(CustomersFindResponse.class);
 
         // then

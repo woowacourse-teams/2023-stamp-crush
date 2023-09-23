@@ -20,8 +20,8 @@ import org.springframework.http.HttpStatus;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
-import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환_2;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorCouponFindStep.고객의_쿠폰_카페별로_1개씩_조회_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST;
@@ -29,7 +29,7 @@ import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
+class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -53,22 +53,22 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
         Customer customer = customerRepository.findById(customerId).get();
 
-        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환_2(gitchanAccessToken, CAFE_CREATE_REQUEST);
+        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchanAccessToken, CAFE_CREATE_REQUEST);
         Cafe gitchanCafe = cafeRepository.findById(gitchanCafeId).get();
         카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, gitchanAccessToken, gitchanCafeId);
 
-        Long jenaCafeId = 카페_생성_요청하고_아이디_반환_2(jenaAccessToken, CAFE_CREATE_REQUEST);
+        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jenaAccessToken, CAFE_CREATE_REQUEST);
         Cafe jenaCafe = cafeRepository.findById(jenaCafeId).get();
         카페_쿠폰_정책_수정_요청(CAFE_COUPON_SETTING_UPDATE_REQUEST, jenaAccessToken, jenaCafeId);
 
-        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환_2(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
+        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
         Coupon gitchanCafeCoupon = couponRepository.findById(gitchanCafeCouponId).get();
 
-        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환_2(jenaAccessToken, new CouponCreateRequest(jenaCafeId), customer.getId());
+        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(jenaAccessToken, new CouponCreateRequest(jenaCafeId), customer.getId());
         Coupon jenaCafeCoupon = couponRepository.findById(jenaCafeCouponId).get();
 
         // when
-        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customer);
+        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerAccessToken);
 
         // then
         assertAll(
@@ -94,8 +94,6 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
     @Disabled
     void 여러_개의_쿠폰이_있는_경우_ACCUMULATING인_쿠폰만_조회된다() {
         // given
-
-        // TODO: Owner에 대한 회원가입 로직이 생기면 요청으로 대체한다.
         String gitchanAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("깃짱", OAuthProvider.KAKAO, 123L));
         String jenaAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("제나", OAuthProvider.KAKAO, 12341L));
 
@@ -103,15 +101,15 @@ public class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
         Customer customer = customerRepository.findById(customerId).get();
 
-        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환_2(gitchanAccessToken, CAFE_CREATE_REQUEST);
-        Long jenaCafeId = 카페_생성_요청하고_아이디_반환_2(jenaAccessToken, CAFE_CREATE_REQUEST);
+        Long gitchanCafeId = 카페_생성_요청하고_아이디_반환(gitchanAccessToken, CAFE_CREATE_REQUEST);
+        Long jenaCafeId = 카페_생성_요청하고_아이디_반환(jenaAccessToken, CAFE_CREATE_REQUEST);
 
-        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환_2(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
-        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환_2(jenaAccessToken, new CouponCreateRequest(jenaCafeId), customer.getId());
+        Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
+        Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(jenaAccessToken, new CouponCreateRequest(jenaCafeId), customer.getId());
         accumulateCouponUntilRewarded(gitchanCafeCouponId);
 
         // when
-        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customer);
+        ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerAccessToken);
 
         // then
         assertAll(
