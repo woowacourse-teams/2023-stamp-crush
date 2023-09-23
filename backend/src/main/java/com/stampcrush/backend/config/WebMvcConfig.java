@@ -16,7 +16,6 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    //    private final BasicAuthInterceptor basicAuthInterceptor;
     private final OwnerAuthInterceptor ownerAuthInterceptor;
     private final CustomerAuthInterceptor customerAuthInterceptor;
 

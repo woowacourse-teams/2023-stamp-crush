@@ -18,7 +18,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends AcceptanceTest {
 
-
     @Test
     void 카페_사장은_쿠폰_세팅에_대한_내용을_수정할_수_있다() {
         // given, when
