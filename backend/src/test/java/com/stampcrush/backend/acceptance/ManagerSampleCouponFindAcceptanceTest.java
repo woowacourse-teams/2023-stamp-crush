@@ -1,12 +1,10 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,12 +32,6 @@ class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private SampleStampImageRepository sampleStampImageRepository;
-
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @BeforeEach
     void setUp() {

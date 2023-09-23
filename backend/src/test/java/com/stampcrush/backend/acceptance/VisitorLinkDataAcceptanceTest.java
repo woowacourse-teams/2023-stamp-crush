@@ -4,13 +4,10 @@ import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCrea
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
@@ -29,12 +26,6 @@ class VisitorLinkDataAcceptanceTest extends AcceptanceTest {
             OAuthProvider.KAKAO,
             1235436L
     );
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 기존_임시회원의_데이터와_연동한다() {

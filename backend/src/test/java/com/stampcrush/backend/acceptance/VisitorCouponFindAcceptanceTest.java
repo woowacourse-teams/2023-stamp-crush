@@ -3,18 +3,13 @@ package com.stampcrush.backend.acceptance;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
@@ -30,18 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private CafeRepository cafeRepository;
-
-    @Autowired
-    private CouponRepository couponRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 카페당_하나의_쿠폰을_조회할_수_있다() {

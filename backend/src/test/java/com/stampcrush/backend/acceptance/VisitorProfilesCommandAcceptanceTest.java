@@ -4,7 +4,6 @@ import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNu
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import jakarta.persistence.EntityManager;
@@ -26,10 +25,6 @@ class VisitorProfilesCommandAcceptanceTest extends AcceptanceTest {
             .loginId(null)
             .encryptedPassword(null)
             .build();
-
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @Autowired
     private EntityManager entityManager;

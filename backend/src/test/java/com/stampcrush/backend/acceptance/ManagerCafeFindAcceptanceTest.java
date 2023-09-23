@@ -7,15 +7,14 @@ import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeFindStep.자신의_카페_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
@@ -24,11 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ManagerCafeFindAcceptanceTest extends AcceptanceTest {
-
-    private static final CafeCreateRequest CAFE_CREATE_REQUEST = new CafeCreateRequest("깃짱카페", "서울시", "구체적인 주소", "127837267817");
-
-    @Autowired
-    private CafeRepository cafeRepository;
 
     @Test
     void 카페_사장은_카페의_현재_쿠폰_디자인_정책_조회_가능하다() {

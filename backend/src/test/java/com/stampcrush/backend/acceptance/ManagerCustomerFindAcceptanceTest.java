@@ -5,11 +5,9 @@ import com.stampcrush.backend.api.manager.customer.response.CustomerFindResponse
 import com.stampcrush.backend.api.manager.customer.response.CustomersFindResponse;
 import com.stampcrush.backend.application.manager.customer.dto.CustomerFindDto;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.전화번호로_고객_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
@@ -19,9 +17,6 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpStatus.OK;
 
 class ManagerCustomerFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @Test
     void 전화번호로_가입_고객을_조회한다() {

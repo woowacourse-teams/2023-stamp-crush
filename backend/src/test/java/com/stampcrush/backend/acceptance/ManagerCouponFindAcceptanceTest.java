@@ -8,13 +8,10 @@ import com.stampcrush.backend.api.manager.coupon.response.CustomerAccumulatingCo
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,12 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 고객_목록을_조회한다() {

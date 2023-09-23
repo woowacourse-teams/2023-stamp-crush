@@ -2,11 +2,9 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.cafe.response.CafeCouponSettingFindResponse;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingFindStep.카페의_현재_쿠폰_디자인_정책_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingFindStep.쿠폰이_발급될때의_쿠폰_디자인_조회_요청;
@@ -21,9 +19,6 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerCafeCouponSettingFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 카페_사장은_쿠폰이_발급되었을_때_쿠폰_디자인_조회_가능하다() {

@@ -2,13 +2,9 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
-import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
@@ -21,15 +17,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CafeRepository cafeRepository;
-
-    @Autowired
-    private CafeCouponDesignRepository cafeCouponDesignRepository;
-
-    @Autowired
-    private CafePolicyRepository cafePolicyRepository;
 
 
     @Test

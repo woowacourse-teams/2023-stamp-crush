@@ -6,11 +6,9 @@ import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustome
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
@@ -23,9 +21,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CafeRepository cafeRepository;
 
     @Test
     void 고객이_카페정보를_조회한다() {

@@ -1,14 +1,10 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.user.CustomerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.CAFE_COUPON_SETTING_UPDATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
@@ -25,15 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 class VisitorCouponCommandAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private CouponRepository couponRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @Test
     void 쿠폰을_삭제할_수_있다() {
