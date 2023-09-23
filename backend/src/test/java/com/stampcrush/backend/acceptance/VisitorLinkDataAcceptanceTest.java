@@ -21,7 +21,7 @@ import static com.stampcrush.backend.acceptance.step.VisitorLinkDataStep.회원_
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class VisitorLinkDataAcceptanceTest extends AcceptanceTest {
+class VisitorLinkDataAcceptanceTest extends AcceptanceTest {
 
     private static final OAuthRegisterCustomerCreateRequest O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST = new OAuthRegisterCustomerCreateRequest(
             "깃짱",

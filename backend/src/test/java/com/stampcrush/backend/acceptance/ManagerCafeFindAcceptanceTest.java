@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ManagerCafeFindAcceptanceTest extends AcceptanceTest {
+class ManagerCafeFindAcceptanceTest extends AcceptanceTest {
 
     private static final CafeCreateRequest CAFE_CREATE_REQUEST = new CafeCreateRequest("깃짱카페", "서울시", "구체적인 주소", "127837267817");
 

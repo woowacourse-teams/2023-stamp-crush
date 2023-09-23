@@ -15,7 +15,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-public class ManagerCafeCommandAcceptanceTest extends AcceptanceTest {
+class ManagerCafeCommandAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 카페_사장이_자기_카페_정보_업데이트() {

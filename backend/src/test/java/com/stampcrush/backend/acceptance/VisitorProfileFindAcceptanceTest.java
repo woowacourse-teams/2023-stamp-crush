@@ -19,7 +19,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
+class VisitorProfileFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;

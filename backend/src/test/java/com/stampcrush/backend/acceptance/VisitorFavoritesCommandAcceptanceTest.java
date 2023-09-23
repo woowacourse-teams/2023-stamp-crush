@@ -21,7 +21,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
+class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
 
     // TODO 회원가입, 로그인 구현 후 제거
     @Autowired

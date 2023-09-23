@@ -12,7 +12,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사�
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ManagerJoinAcceptanceTest extends AcceptanceTest {
+class ManagerJoinAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private OwnerRepository ownerRepository;

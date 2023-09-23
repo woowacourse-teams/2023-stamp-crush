@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
-public class VisitorCouponCommandAcceptanceTest extends AcceptanceTest {
+class VisitorCouponCommandAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
