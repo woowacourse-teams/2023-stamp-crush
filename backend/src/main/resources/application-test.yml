@@ -26,3 +26,7 @@ s3:
   bucket: test
   base-url: test
   dir: test
+
+slack:
+  webhook:
+    url: test

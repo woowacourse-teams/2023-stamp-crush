@@ -2,6 +2,7 @@ package com.stampcrush.backend.application.manager.coupon;
 
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
+import com.stampcrush.backend.application.manager.event.StampCreateEvent;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -76,6 +78,9 @@ public class ManageCouponCommandServiceTest {
     @Mock
     private VisitHistoryRepository visitHistoryRepository;
 
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
+
     private static Cafe cafe;
     private static Customer customer;
     private static Owner owner;
@@ -110,7 +115,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(List.of(currentCoupon));
 
         // when
-        managerCouponCommandService.createCoupon(1L,1L, 1L);
+        managerCouponCommandService.createCoupon(1L, 1L, 1L);
 
         // then
         then(couponRepository).should(times(1)).save(any());
@@ -136,7 +141,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Collections.emptyList());
 
         // when
-        managerCouponCommandService.createCoupon(1L,1L, 1L);
+        managerCouponCommandService.createCoupon(1L, 1L, 1L);
 
         // then
         then(couponRepository).should(times(1)).save(any());
@@ -155,7 +160,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L, 1L))
                 .isInstanceOf(CustomerNotFoundException.class);
     }
 
@@ -166,7 +171,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L, 1L))
                 .isInstanceOf(CafeNotFoundException.class);
     }
 
@@ -183,7 +188,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(owner));
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L, 1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -202,7 +207,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L,1L, 1L))
+        assertThatThrownBy(() -> managerCouponCommandService.createCoupon(1L, 1L, 1L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -347,6 +352,23 @@ public class ManageCouponCommandServiceTest {
         then(rewardRepository).should(times(2)).save(any());
         then(couponRepository).should(times(1)).save(any());
         then(visitHistoryRepository).should(times(1)).save(any());
+    }
+
+    @Test
+    void 스탬프_적립에_성공하면_스탬프_적립_이벤트가_발행된다() {
+        // given, when
+        int maxStampCount = 10;
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
+
+        StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2 + 2);
+        managerCouponCommandService.createStamp(stampCreateDto);
+
+        // then
+        then(rewardRepository).should(times(2)).save(any());
+        then(couponRepository).should(times(2)).save(any());
+        then(visitHistoryRepository).should(times(1)).save(any());
+        then(eventPublisher).should(times(1)).publishEvent(any(StampCreateEvent.class));
     }
 
     private void 스탬프_적립을_위해_필요한_엔티티를_조회한다(int maxStampCount, Coupon coupon) {
