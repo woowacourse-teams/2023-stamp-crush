@@ -11,7 +11,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, label, type, width = 'fill', placeholder, maxLength, required = false }: InputProps,
+    {
+      id,
+      label,
+      type,
+      width = 'fill',
+      placeholder,
+      maxLength,
+      required = false,
+      ...props
+    }: InputProps,
     ref,
   ) => {
     return (
@@ -29,6 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           maxLength={maxLength}
           required={required}
           autoComplete="off"
+          {...props}
         />
       </InputContainer>
     );
