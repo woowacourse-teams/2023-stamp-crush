@@ -1,12 +1,10 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.sample.SampleBackImage;
 import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
 import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
 import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
 import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,14 +15,11 @@ import org.springframework.http.HttpStatus;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerSampleCouponFindStep.샘플_쿠폰_조회_요청;
-import static com.stampcrush.backend.fixture.SampleCouponFixture.SAMPLE_BACK_IMAGE;
-import static com.stampcrush.backend.fixture.SampleCouponFixture.SAMPLE_COORDINATES_SIZE_EIGHT;
-import static com.stampcrush.backend.fixture.SampleCouponFixture.SAMPLE_FRONT_IMAGE;
-import static com.stampcrush.backend.fixture.SampleCouponFixture.SAMPLE_STAMP_IMAGE;
+import static com.stampcrush.backend.fixture.SampleCouponFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
+class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private SampleFrontImageRepository sampleFrontImageRepository;
@@ -37,12 +32,6 @@ public class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private SampleStampImageRepository sampleStampImageRepository;
-
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
 
     @BeforeEach
     void setUp() {
