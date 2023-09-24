@@ -15,13 +15,13 @@ public class ManagerCafeUpdateStep {
 
     public static final CafeUpdateRequest cafeUpdateRequest = new CafeUpdateRequest("hi", LocalTime.MIDNIGHT, LocalTime.NOON, "010123421253", "cafeimage");
 
-    public static ExtractableResponse<Response> 카페_정보_업데이트_요청(Owner owner, CafeUpdateRequest cafeUpdateRequest, Long cafeId) {
+    public static ExtractableResponse<Response> 카페_정보_업데이트_요청(String accessToken, CafeUpdateRequest cafeUpdateRequest, Long cafeId) {
         return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .body(cafeUpdateRequest)
                 .auth().preemptive()
-                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
+                .oauth2(accessToken)
 
                 .when()
                 .patch("/api/admin/cafes/" + cafeId)

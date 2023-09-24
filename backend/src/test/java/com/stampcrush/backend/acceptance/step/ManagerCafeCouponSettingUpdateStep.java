@@ -1,8 +1,6 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCouponSettingUpdateRequest;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.helper.BearerAuthHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -25,29 +23,12 @@ public class ManagerCafeCouponSettingUpdateStep {
             6
     );
 
-    @Deprecated
-    public static ExtractableResponse<Response> 카페_쿠폰_정책_수정_요청(CafeCouponSettingUpdateRequest request, Owner owner, Long cafeId) {
+    public static ExtractableResponse<Response> 카페_쿠폰_정책_수정_요청(CafeCouponSettingUpdateRequest request, String accessToken, Long cafeId) {
         return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
-                .oauth2(BearerAuthHelper.generateToken(owner.getId()))
-                .body(request)
-
-                .when()
-                .post("/api/admin/coupon-setting?cafe-id=" + cafeId)
-
-                .then()
-                .log().all()
-                .extract();
-    }
-
-    public static ExtractableResponse<Response> 카페_쿠폰_정책_수정_요청(CafeCouponSettingUpdateRequest request, String ownerAccessToken, Long cafeId) {
-        return RestAssured.given()
-                .log().all()
-                .contentType(JSON)
-                .auth().preemptive()
-                .oauth2(ownerAccessToken)
+                .oauth2(accessToken)
                 .body(request)
 
                 .when()

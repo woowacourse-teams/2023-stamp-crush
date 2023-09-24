@@ -1,25 +1,23 @@
 package com.stampcrush.backend.acceptance.step;
 
+import com.stampcrush.backend.api.visitor.favorites.request.FavoritesUpdateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
-public class VisitorRewardFindStep {
+public class VisitorFavoritesCommandStep {
 
-    public static ExtractableResponse<Response> 리워드_목록_조회(String accessToken) {
+    public static ExtractableResponse<Response> 즐겨찾기_등록(String accessToken, FavoritesUpdateRequest favoritesUpdateRequest, Long cafeId) {
         return given()
-                .log().all()
-                .queryParam("used", false)
                 .contentType(JSON)
+                .body(favoritesUpdateRequest)
                 .auth().preemptive()
                 .oauth2(accessToken)
-
                 .when()
-                .get("/api/rewards")
+                .post("/api/cafes/" + cafeId + "/favorites")
                 .then()
-                .log().all()
                 .extract();
     }
 }
