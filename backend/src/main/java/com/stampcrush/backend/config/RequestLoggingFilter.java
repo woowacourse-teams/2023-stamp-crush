@@ -23,7 +23,6 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("????");
         log.info("thread-id : {}, thread-name: {}, pool-size: {}", Thread.currentThread().getId(), Thread.currentThread().getName(), executor.getPoolSize());
         MDC.put("requestId", UUID.randomUUID().toString());
         MDC.put("requestMethod", request.getMethod());
