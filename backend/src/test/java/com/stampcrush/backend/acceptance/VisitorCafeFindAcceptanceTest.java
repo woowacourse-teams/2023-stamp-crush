@@ -6,26 +6,21 @@ import com.stampcrush.backend.application.visitor.cafe.dto.CafeInfoFindByCustome
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
-import com.stampcrush.backend.repository.cafe.CafeRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorCafeFindStep.고객의_카페_정보_조회_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-public class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private CafeRepository cafeRepository;
+class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 고객이_카페정보를_조회한다() {
@@ -36,7 +31,7 @@ public class VisitorCafeFindAcceptanceTest extends AcceptanceTest {
         OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
         String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
 
-        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, CAFE_CREATE_REQUEST);
+        Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, CAFE_CREATE_REQUEST);
         Cafe cafe = cafeRepository.findById(cafeId).get();
 
         // when

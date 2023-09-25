@@ -13,14 +13,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST;
-import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_OWNER_CREATE_REQUEST_2;
-import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
-import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환_2;
-import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환_2;
+import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.*;
+import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerRewardStep.리워드_목록_조회;
-import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청_2;
+import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.auth.OAuthProvider.KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,11 +38,11 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, cafeCreateRequest);
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(accessTokenOwner, couponCreateRequest, customerId);
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(accessTokenOwner, couponCreateRequest, customerId);
         StampCreateRequest stampCreateRequest = new StampCreateRequest(10);
-        쿠폰에_스탬프를_적립_요청_2(accessTokenOwner, customerId, couponId, stampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(accessTokenOwner, customerId, couponId, stampCreateRequest);
 
         // when
         ExtractableResponse<Response> rewardsResponse = 리워드_목록_조회(accessTokenOwner, cafeId, customerId);
@@ -68,11 +66,11 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         String accessTokenNotOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerNotOwnerCreateRequest);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, cafeCreateRequest);
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
-        Long couponId = 쿠폰_생성_요청하고_아이디_반환_2(accessTokenOwner, couponCreateRequest, customerId);
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(accessTokenOwner, couponCreateRequest, customerId);
         StampCreateRequest stampCreateRequest = new StampCreateRequest(10);
-        쿠폰에_스탬프를_적립_요청_2(accessTokenOwner, customerId, couponId, stampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(accessTokenOwner, customerId, couponId, stampCreateRequest);
 
         // when
         ExtractableResponse<Response> response = 리워드_목록_조회(accessTokenNotOwner, cafeId, customerId);
@@ -93,7 +91,7 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
         Long notMyCustomerId = authTokensGenerator.extractMemberId(accessTokenNotCustomer);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
-        Long cafeId = 카페_생성_요청하고_아이디_반환_2(accessTokenOwner, cafeCreateRequest);
+        Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, cafeCreateRequest);
 
         // when
         ExtractableResponse<Response> response = 리워드_목록_조회(accessTokenOwner, cafeId, notMyCustomerId);

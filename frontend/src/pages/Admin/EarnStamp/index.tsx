@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
 import { useEffect, useState } from 'react';
 import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
-import FlippedCoupon from '../../Customer/CouponList/FlippedCoupon';
+import FlippedCoupon from '../../Customer/CouponList/components/FlippedCoupon';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';

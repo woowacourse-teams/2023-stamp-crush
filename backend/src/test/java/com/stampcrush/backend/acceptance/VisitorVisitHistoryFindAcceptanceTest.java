@@ -8,15 +8,9 @@ import com.stampcrush.backend.api.visitor.visithistory.response.CustomerStampHis
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
-import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
-import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.repository.user.CustomerRepository;
-import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
@@ -28,16 +22,7 @@ import static com.stampcrush.backend.acceptance.step.VisitorVisitHistoriesFindSt
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private AuthTokensGenerator authTokensGenerator;
-
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
+class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 고객의_카페_방문_이력을_조회한다() {
@@ -45,13 +30,10 @@ public class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
         OAuthRegisterCustomerCreateRequest oauthRegister = new OAuthRegisterCustomerCreateRequest("leo", "email", OAuthProvider.KAKAO, 123L);
         String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(oauthRegister);
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
-        Customer customer = customerRepository.findById(customerId).get();
 
         OAuthRegisterOwnerCreateRequest leoManager = new OAuthRegisterOwnerCreateRequest("leoManager", OAuthProvider.KAKAO, 123L);
         String leoManagerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(leoManager);
-        Long leoManagerId = authTokensGenerator.extractMemberId(leoManagerToken);
-        Owner leoOwner = ownerRepository.findById(leoManagerId).get();
-        Long leoCafe = 카페_생성_요청하고_아이디_반환(leoOwner, new CafeCreateRequest(
+        Long leoCafe = 카페_생성_요청하고_아이디_반환(leoManagerToken, new CafeCreateRequest(
                 "leoCafe",
                 "송파구",
                 "상세주소",
@@ -60,22 +42,20 @@ public class VisitorVisitHistoryFindAcceptanceTest extends AcceptanceTest {
 
         OAuthRegisterOwnerCreateRequest hardyManager = new OAuthRegisterOwnerCreateRequest("hardy", OAuthProvider.KAKAO, 123L);
         String hardyManagerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(hardyManager);
-        Long hardyManagerId = authTokensGenerator.extractMemberId(hardyManagerToken);
-        Owner hardyOwner = ownerRepository.findById(hardyManagerId).get();
-        Long hardyCafe = 카페_생성_요청하고_아이디_반환(hardyOwner, new CafeCreateRequest(
+        Long hardyCafe = 카페_생성_요청하고_아이디_반환(hardyManagerToken, new CafeCreateRequest(
                 "hardyCafe",
                 "설입",
                 "어딘가",
                 "qqq"
         ));
 
-        Long leoCafeCoupon = 쿠폰_생성_요청하고_아이디_반환(leoOwner, new CouponCreateRequest(leoCafe), customerId);
-        Long hardyCafeCoupon = 쿠폰_생성_요청하고_아이디_반환(hardyOwner, new CouponCreateRequest(hardyCafe), customerId);
-        쿠폰에_스탬프를_적립_요청(leoOwner, customer, leoCafeCoupon, new StampCreateRequest(2));
-        쿠폰에_스탬프를_적립_요청(hardyOwner, customer, hardyCafeCoupon, new StampCreateRequest(2));
-        쿠폰에_스탬프를_적립_요청(leoOwner, customer, leoCafeCoupon, new StampCreateRequest(1));
-        쿠폰에_스탬프를_적립_요청(hardyOwner, customer, hardyCafeCoupon, new StampCreateRequest(2));
-        쿠폰에_스탬프를_적립_요청(hardyOwner, customer, hardyCafeCoupon, new StampCreateRequest(3));
+        Long leoCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(leoManagerToken, new CouponCreateRequest(leoCafe), customerId);
+        Long hardyCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(hardyManagerToken, new CouponCreateRequest(hardyCafe), customerId);
+        쿠폰에_스탬프를_적립_요청(leoManagerToken, customerId, leoCafeCouponId, new StampCreateRequest(2));
+        쿠폰에_스탬프를_적립_요청(hardyManagerToken, customerId, hardyCafeCouponId, new StampCreateRequest(2));
+        쿠폰에_스탬프를_적립_요청(leoManagerToken, customerId, leoCafeCouponId, new StampCreateRequest(1));
+        쿠폰에_스탬프를_적립_요청(hardyManagerToken, customerId, hardyCafeCouponId, new StampCreateRequest(2));
+        쿠폰에_스탬프를_적립_요청(hardyManagerToken, customerId, hardyCafeCouponId, new StampCreateRequest(3));
 
         // when
         ExtractableResponse<Response> response = 고객의_카페_방문_이력_조회(customerAccessToken);

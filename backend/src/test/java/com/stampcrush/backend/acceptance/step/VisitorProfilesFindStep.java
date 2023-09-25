@@ -1,16 +1,14 @@
 package com.stampcrush.backend.acceptance.step;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
-public class ManagerCustomerFindStep {
+public class VisitorProfilesFindStep {
 
-    public static ExtractableResponse<Response> 고객_목록_조회_요청(String accessToken, Long cafeId) {
+    public static ExtractableResponse<Response> 고객의_프로필_조회_요청(String accessToken) {
         return given()
                 .log().all()
                 .contentType(JSON)
@@ -18,23 +16,20 @@ public class ManagerCustomerFindStep {
                 .oauth2(accessToken)
 
                 .when()
-                .get("/api/admin/cafes/{cafeId}/customers", cafeId)
+                .get("/api/profiles")
 
                 .then()
-                .log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 전화번호로_고객_조회_요청(String accessToken, String phoneNumber) {
-        return RestAssured.given()
+    public static ExtractableResponse<Response> 전화번호로_고객의_프로필_조회_요청(String accessToken, String phoneNumber) {
+        return given()
                 .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param("phone-number", phoneNumber)
                 .auth().preemptive()
                 .oauth2(accessToken)
 
                 .when()
-                .get("/api/admin/customers")
+                .get("/api/profiles/search?phone-number=" + phoneNumber)
 
                 .then()
                 .log().all()

@@ -4,6 +4,12 @@ import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.common.DataCleaner;
 import com.stampcrush.backend.common.DataClearExtension;
 import com.stampcrush.backend.common.KorNamingConverter;
+import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
+import com.stampcrush.backend.repository.cafe.CafeRepository;
+import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.user.CustomerRepository;
+import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +27,24 @@ public class AcceptanceTest {
 
     @Autowired
     protected AuthTokensGenerator authTokensGenerator;
+
+    @Autowired
+    protected CafeRepository cafeRepository;
+
+    @Autowired
+    protected CafeCouponDesignRepository cafeCouponDesignRepository;
+
+    @Autowired
+    protected CafePolicyRepository cafePolicyRepository;
+
+    @Autowired
+    protected CustomerRepository customerRepository;
+
+    @Autowired
+    protected OwnerRepository ownerRepository;
+
+    @Autowired
+    protected CouponRepository couponRepository;
 
     @LocalServerPort
     private int port;

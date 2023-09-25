@@ -18,27 +18,6 @@ public class VisitorJoinStep {
 
     public static final TemporaryCustomerCreateRequest TEMPORARY_CUSTOMER_CREATE_REQUEST = new TemporaryCustomerCreateRequest("01012345678");
 
-    @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
-    public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String phoneNumber) {
-        ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(phoneNumber);
-        String location = response.header("Location");
-        return Long.valueOf(location.split("/")[2]);
-    }
-
-    @Deprecated // 프로덕션에서 해당하는 API가 있어서, 사용하지 않음.
-    public static ExtractableResponse<Response> 임시_고객_회원_가입_요청(String phoneNumber) {
-        return RestAssured.given()
-                .log().all()
-                .contentType(JSON)
-
-                .when()
-                .post("/api/login/temporary/test?phone-number=" + phoneNumber)
-
-                .then()
-                .log().all()
-                .extract();
-    }
-
     public static Long 임시_고객_회원_가입_요청하고_아이디_반환(String accessToken, TemporaryCustomerCreateRequest request) {
         ExtractableResponse<Response> response = 임시_고객_회원_가입_요청(accessToken, request);
         String location = response.header("Location");

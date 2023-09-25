@@ -1,6 +1,7 @@
 package com.stampcrush.backend.application.manager.coupon;
 
 import com.stampcrush.backend.application.manager.coupon.dto.StampCreateDto;
+import com.stampcrush.backend.application.manager.event.StampCreateEvent;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
@@ -26,6 +27,7 @@ import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +49,7 @@ public class ManagerCouponCommandService {
     private final OwnerRepository ownerRepository;
     private final RewardRepository rewardRepository;
     private final VisitHistoryRepository visitHistoryRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
@@ -105,6 +108,7 @@ public class ManagerCouponCommandService {
 
         VisitHistory visitHistory = new VisitHistory(cafe, customer, earningStampCount);
         visitHistoryRepository.save(visitHistory);
+        eventPublisher.publishEvent(new StampCreateEvent(customer.getPhoneNumber(), stampCreateDto.getEarningStampCount()));
         if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
             coupon.accumulate(earningStampCount);
             return;
