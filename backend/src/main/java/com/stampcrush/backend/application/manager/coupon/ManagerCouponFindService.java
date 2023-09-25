@@ -47,36 +47,28 @@ public class ManagerCouponFindService {
                 .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
         cafe.validateOwnership(owner);
 
-        List<CustomerCoupons> customerCoupons = findCouponsGroupedByCustomers(cafe);
-
+        List<Coupon> allCustomerCoupons = couponRepository.findByCafe(cafe);
+        Map<Customer, List<Coupon>> customerCouponMap = mapCouponsByCustomer(allCustomerCoupons);
         List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
-        for (CustomerCoupons customerCoupon : customerCoupons) {
-            Coupons coupons = new Coupons(customerCoupon.coupons);
-            VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
+        for (Map.Entry<Customer, List<Coupon>> customerEntry : customerCouponMap.entrySet()) {
+            Coupons coupons = new Coupons(customerEntry.getValue());
+            Customer customer = customerEntry.getKey();
 
+            VisitHistories visitHistories = findVisitHistories(cafe, customer);
             if (visitHistories.getVisitCount() == 0) {
                 continue;
             }
-
-            // TODO: CustomerCouponStatistics 없애도 될 것 같다.
             CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(
-                    new CafeCustomerFindResultDto(
-                            customerCoupon.customer.getId(),
-                            customerCoupon.customer.getNickname(),
-                            customerCouponStatistics.getStampCount(),
-                            (int) countUnusedRewards(cafe, customerCoupon.customer),
-                            // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
-                            visitHistories.getVisitCount(),
-                            visitHistories.getFirstVisitDate(),
-                            customerCoupon.customer.isRegistered(),
-                            customerCouponStatistics.getMaxStampCount(),
-                            visitHistories.getRecentVisitDate()
-                    )
-            );
+            int unusedRewards = (int) countUnusedRewards(cafe, customer);
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customer, customerCouponStatistics, visitHistories, unusedRewards));
         }
 
         return cafeCustomerFindResultDtos;
+    }
+
+    private Map<Customer, List<Coupon>> mapCouponsByCustomer(List<Coupon> coupons) {
+        return coupons.stream()
+                .collect(groupingBy(Coupon::getCustomer));
     }
 
     private Cafe findExistingCafe(Long cafeId) {
@@ -84,17 +76,8 @@ public class ManagerCouponFindService {
                 .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
     }
 
-    private List<CustomerCoupons> findCouponsGroupedByCustomers(Cafe cafe) {
-        List<Coupon> coupons = couponRepository.findByCafe(cafe);
-        Map<Customer, List<Coupon>> customerCouponMap = coupons.stream()
-                .collect(groupingBy(Coupon::getCustomer));
-        return customerCouponMap.keySet().stream()
-                .map(iter -> new CustomerCoupons(iter, customerCouponMap.get(iter)))
-                .toList();
-    }
-
-    private VisitHistories findVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
-        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
+    private VisitHistories findVisitHistories(Cafe cafe, Customer customer) {
+        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customer);
 
         return new VisitHistories(visitHistories);
     }
@@ -121,8 +104,5 @@ public class ManagerCouponFindService {
 
     private long countUnusedRewards(Cafe cafe, Customer customer) {
         return rewardRepository.countByCafeAndCustomerAndUsed(cafe, customer, Boolean.FALSE);
-    }
-
-    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 }
