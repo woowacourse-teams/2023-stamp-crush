@@ -15,7 +15,6 @@ import java.util.List;
 import static com.slack.api.webhook.WebhookPayloads.payload;
 
 @Component
-//@RequiredArgsConstructor
 public class StampAccumulatingEventHandler {
 
     @Value("${slack.webhook.url}")
@@ -25,13 +24,15 @@ public class StampAccumulatingEventHandler {
 
     @TransactionalEventListener
     public void process(StampCreateEvent stampCreateEvent) {
+        String userPhone = stampCreateEvent.getUserPhone();
+        int stampCount = stampCreateEvent.getStampCount();
         try {
             slackClient.send(webHookUrl, payload(p -> p
                     .text("스탬프 적립 발생")
-                    .attachments(List.of(createStampInfo(stampCreateEvent.getUserPhone(), stampCreateEvent.getStampCount())))
+                    .attachments(List.of(createStampInfo(userPhone, stampCount)))
             ));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(String.format("%s 번호 스탬프 %d개 적립 알림 전송 실패", userPhone, stampCount), e);
         }
     }
 
