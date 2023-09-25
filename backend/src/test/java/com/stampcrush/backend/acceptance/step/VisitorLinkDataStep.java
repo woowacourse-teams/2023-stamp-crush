@@ -1,6 +1,6 @@
 package com.stampcrush.backend.acceptance.step;
 
-import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
