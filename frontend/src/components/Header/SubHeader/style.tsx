@@ -9,7 +9,7 @@ export const ArrowIconWrapper = styled.button`
   background: transparent;
 `;
 
-export const HeaderContainer = styled.title`
+export const HeaderContainer = styled.header`
   display: flex;
   position: relative;
   align-items: center;
