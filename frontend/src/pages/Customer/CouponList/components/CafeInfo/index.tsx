@@ -1,8 +1,8 @@
 import Color from 'color-thief-react';
 import { AiFillStar } from '@react-icons/all-files/ai/AiFillStar';
 import { AiOutlineStar } from '@react-icons/all-files/ai/AiOutlineStar';
-import ProgressBar from '../../../../components/ProgressBar';
-import { addGoogleProxyUrl } from '../../../../utils';
+import ProgressBar from '../../../../../components/ProgressBar';
+import { addGoogleProxyUrl } from '../../../../../utils';
 import {
   BackDrop,
   CafeName,
@@ -12,24 +12,17 @@ import {
   ProgressBarContainer,
   StampCount,
 } from './style';
+import { Coupon, CouponInfo } from '../../../../../types/domain/coupon';
 
 interface CafeInfoProps {
-  cafeName: string;
-  stampCount: number;
-  maxStampCount: number;
-  isFavorites: boolean;
-  frontImageUrl: string;
+  cafeInfo: Coupon;
+  couponInfo: CouponInfo;
   onClickStar: () => void;
 }
 
-const CafeInfo = ({
-  cafeName,
-  stampCount,
-  maxStampCount,
-  isFavorites,
-  frontImageUrl,
-  onClickStar,
-}: CafeInfoProps) => {
+const CafeInfo = ({ cafeInfo: { cafeInfo }, couponInfo, onClickStar }: CafeInfoProps) => {
+  const { name: cafeName, isFavorites } = cafeInfo;
+  const { stampCount, maxStampCount, frontImageUrl } = couponInfo;
   return (
     <>
       <InfoContainer>
