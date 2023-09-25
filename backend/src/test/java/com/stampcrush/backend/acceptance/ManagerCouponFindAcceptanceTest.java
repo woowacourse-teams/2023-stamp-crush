@@ -260,7 +260,10 @@ class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         String notOwnerAccessToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST_2);
 
         Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerAccessToken, CAFE_CREATE_REQUEST);
-        Customer youngho = customerRepository.save(Customer.registeredCustomerBuilder().nickname("youngho").build());
+
+        String leoVisitorToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("leo", "email", OAuthProvider.KAKAO, 123L));
+        Long leoVisitorId = authTokensGenerator.extractMemberId(leoVisitorToken);
+        Customer youngho = customerRepository.findById(leoVisitorId).get();
 
         CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
         Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, youngho.getId());
