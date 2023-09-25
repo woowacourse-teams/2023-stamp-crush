@@ -26,9 +26,10 @@ public class CafeCustomerFindResultDto {
     private LocalDateTime firstVisitDate;
     private boolean isRegistered;
     private int maxStampCount;
+    private LocalDateTime recentVisitDate;
 
     public static CafeCustomerFindResultDto of(Customer customer, CustomerCouponStatistics customerCouponStatistics,
-                                               int visitCount, LocalDateTime firstVisitDate) {
+                                               int visitCount, LocalDateTime firstVisitDate, LocalDateTime recentVisitDate) {
         return new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),
@@ -37,7 +38,8 @@ public class CafeCustomerFindResultDto {
                 visitCount,
                 firstVisitDate,
                 customer.isRegistered(),
-                customerCouponStatistics.getMaxStampCount()
+                customerCouponStatistics.getMaxStampCount(),
+                recentVisitDate
         );
     }
 }

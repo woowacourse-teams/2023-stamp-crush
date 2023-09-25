@@ -72,7 +72,8 @@ public class ManagerCouponFindService {
                             visitHistories.getVisitCount(),
                             visitHistories.getFirstVisitDate(),
                             customerCoupon.customer.isRegistered(),
-                            customerCouponStatistics.getMaxStampCount()
+                            customerCouponStatistics.getMaxStampCount(),
+                            visitHistories.getRecentVisitDate()
                     )
             );
         }

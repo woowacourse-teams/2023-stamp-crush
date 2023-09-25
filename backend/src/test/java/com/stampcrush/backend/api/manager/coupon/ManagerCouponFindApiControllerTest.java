@@ -30,8 +30,8 @@ public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 카페에_방문한_고객들의_정보를_조회한다() throws Exception {
         // given, when
-        CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10);
-        CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), true, 10);
+        CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10, null);
+        CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), true, 10, null);
         given(managerCouponFindService.findCouponsByCafe(anyLong(), anyLong()))
                 .willReturn(List.of(customerInfo1, customerInfo2));
 

@@ -111,8 +111,8 @@ public class ManagerCouponFindServiceTest {
         CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 10);
         CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 0, 15);
 
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 1, coupon1CreatedAt);
-        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 1, coupon1CreatedAt, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt, coupon2CreatedAt);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
@@ -138,7 +138,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(List.of(visitHistory));
 
         CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0);
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, 1, coupon1CreatedAt);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, 1, coupon1CreatedAt, coupon1CreatedAt);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
@@ -220,7 +220,6 @@ public class ManagerCouponFindServiceTest {
     @Test
     void 카페의_고객_목록_조회_시_방문횟수와_첫_방문일을_계산한다() {
         // given
-
         int rewardCount = 0;
 
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
@@ -263,8 +262,8 @@ public class ManagerCouponFindServiceTest {
         CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(customer2EarningStampCount, rewardCount,
                 couponPolicy2.getMaxStampCount());
 
-        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 2, coupon1CreatedAt);
-        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt);
+        CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, 2, coupon1CreatedAt, coupon1UpdatedAt);
+        CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, 1, coupon2CreatedAt, coupon2CreatedAt);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
