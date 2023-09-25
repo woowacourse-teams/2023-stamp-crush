@@ -8,6 +8,7 @@ import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.CustomerType;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.CouponDesignFixture;
 import com.stampcrush.backend.fixture.CouponPolicyFixture;
@@ -191,6 +192,48 @@ class CouponRepositoryTest2 {
 
         // then
         assertThat(findCoupon).containsOnly(jenaCafeCoupon);
+    }
+
+    @Test
+    void 임시회원의_쿠폰만_조회한다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+
+        Customer regGit = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer tmpCustomer1 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_1);
+        Customer tmpCustomer2 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_2);
+
+        Coupon regGitCoupon = saveCoupon(gitchanCafe, regGit, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon tmpCoupon1 = saveCoupon(gitchanCafe, tmpCustomer1, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
+        Coupon tmpCoupon2 = saveCoupon(gitchanCafe, tmpCustomer2, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_3), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3));
+
+        // then
+        List<Coupon> tmpCustomerCoupons = couponRepository.findByCafeAndCustomerType(gitchanCafe, CustomerType.TEMPORARY);
+        assertAll(
+                () -> assertThat(tmpCustomerCoupons).containsExactlyInAnyOrder(tmpCoupon1, tmpCoupon2),
+                () -> assertThat(tmpCustomerCoupons).doesNotContain(regGitCoupon)
+        );
+    }
+
+    @Test
+    void 가입회원의_쿠폰만_조회한다() {
+        // given, when
+        Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
+
+        Customer regGit = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer tmpCustomer1 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_1);
+        Customer tmpCustomer2 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_2);
+
+        Coupon regGitCoupon = saveCoupon(gitchanCafe, regGit, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon tmpCoupon1 = saveCoupon(gitchanCafe, tmpCustomer1, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
+        Coupon tmpCoupon2 = saveCoupon(gitchanCafe, tmpCustomer2, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_3), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3));
+
+        // then
+        List<Coupon> regCustomerCoupons = couponRepository.findByCafeAndCustomerType(gitchanCafe, CustomerType.REGISTER);
+        assertAll(
+                () -> assertThat(regCustomerCoupons).containsExactlyInAnyOrder(regGitCoupon),
+                () -> assertThat(regCustomerCoupons).doesNotContain(tmpCoupon1, tmpCoupon2)
+        );
     }
 
     private Cafe createCafe(Owner owner) {

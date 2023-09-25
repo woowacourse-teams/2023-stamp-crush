@@ -4,6 +4,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.CustomerType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,9 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     // TODO: coupon_policy, coupon_design을 같이 가져오자
     @Query("select distinct cp from Coupon cp left join fetch cp.stamps join fetch cp.cafe join fetch cp.customer where cp.cafe = :cafe")
     List<Coupon> findByCafe(@Param("cafe") Cafe cafe);
+
+    @Query("select distinct cp from Coupon cp left join fetch cp.stamps join fetch cp.cafe join fetch cp.customer c where cp.cafe = :cafe and c.customerType = :customerType")
+    List<Coupon> findByCafeAndCustomerType(@Param("cafe") Cafe cafe, @Param("customerType") CustomerType customerType);
 
     List<Coupon> findByCafeAndCustomerAndStatus(@Param("cafe") Cafe cafe, @Param("customer") Customer customer, @Param("status") CouponStatus status);
 
