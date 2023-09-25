@@ -13,7 +13,6 @@ import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
-import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
@@ -38,7 +37,6 @@ public class ManagerCouponFindService {
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
-    private final CafePolicyRepository cafePolicyRepository;
     private final VisitHistoryRepository visitHistoryRepository;
     private final RewardRepository rewardRepository;
     private final OwnerRepository ownerRepository;
