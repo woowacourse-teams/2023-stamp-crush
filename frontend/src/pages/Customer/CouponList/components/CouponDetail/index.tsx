@@ -1,12 +1,11 @@
 import FlippedCoupon from '../FlippedCoupon';
-import Text from '../../../../components/Text';
+import Text from '../../../../../components/Text';
 import {
   CafeImage,
   CloseButton,
   ContentContainer,
   CouponDetailContainer,
   DeleteButton,
-  DetailItem,
   OverviewContainer,
 } from './style';
 import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
@@ -14,58 +13,35 @@ import { FaRegClock } from '@react-icons/all-files/fa/FaRegClock';
 import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
 import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
 import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
-import { parsePhoneNumber } from '../../../../utils';
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query';
-import { getCafeInfo } from '../../../../api/get';
-import { deleteCoupon } from '../../../../api/delete';
-import useModal from '../../../../hooks/useModal';
-import Alert from '../../../../components/Alert';
-import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
-import { CouponRes } from '../../../../types/api/response';
-import { Coupon } from '../../../../types/domain/coupon';
-import { FaLocationDot } from '../../../../assets';
+import { parsePhoneNumber } from '../../../../../utils';
+import { useQuery } from '@tanstack/react-query';
+import { getCafeInfo } from '../../../../../api/get';
+import useModal from '../../../../../hooks/useModal';
+import Alert from '../../../../../components/Alert';
+import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { Coupon } from '../../../../../types/domain/coupon';
+import { FaLocationDot } from '../../../../../assets';
+import useDeleteCoupon from './hooks/useDeleteCoupon';
 
 interface CouponDetailProps {
   isDetail: boolean;
   isShown: boolean;
   coupon: Coupon;
-  refetchCoupons: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<CouponRes, unknown>>;
   closeDetail: () => void;
 }
 
-const CouponDetail = ({
-  isDetail,
-  isShown,
-  coupon,
-  refetchCoupons,
-  closeDetail,
-}: CouponDetailProps) => {
+const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailProps) => {
   const [couponInfos] = coupon.couponInfos;
   const cafeId = coupon.cafeInfo.id;
+
   const { isOpen, openModal, closeModal } = useModal();
 
   const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
-    queryFn: () => {
-      return getCafeInfo({ params: { cafeId } });
-    },
+    queryFn: () => getCafeInfo({ params: { cafeId } }),
     enabled: cafeId !== 0,
   });
 
-  const { mutate: mutateDeleteCoupon } = useMutation(() => deleteCoupon(couponInfos.id), {
-    onSuccess: () => {
-      closeDetail();
-      refetchCoupons();
-      closeModal();
-    },
-  });
+  const { mutate: mutateDeleteCoupon } = useDeleteCoupon(couponInfos.id, closeDetail, closeModal);
 
   const openDeleteAlert = () => {
     openModal();

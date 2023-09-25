@@ -11,7 +11,8 @@ export const LoadingContainer = styled.div`
 
 export const CustomerLoadingContainer = styled(LoadingContainer)`
   position: absolute;
-
+  width: 85%;
+  height: 50vh;
   z-index: 999;
   background: transparent;
 `;
