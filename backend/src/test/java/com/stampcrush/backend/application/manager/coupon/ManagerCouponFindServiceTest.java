@@ -13,6 +13,7 @@ import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
@@ -58,6 +59,9 @@ public class ManagerCouponFindServiceTest {
 
     @Mock
     private OwnerRepository ownerRepository;
+
+    @Mock
+    private RewardRepository rewardRepository;
 
     @BeforeAll
     static void setUp() {
