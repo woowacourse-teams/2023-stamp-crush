@@ -7,6 +7,7 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Coupons;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.CustomerType;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
@@ -48,22 +49,8 @@ public class ManagerCouponFindService {
         cafe.validateOwnership(owner);
 
         List<Coupon> allCustomerCoupons = couponRepository.findByCafe(cafe);
-        Map<Customer, List<Coupon>> customerCouponMap = mapCouponsByCustomer(allCustomerCoupons);
-        List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
-        for (Map.Entry<Customer, List<Coupon>> customerEntry : customerCouponMap.entrySet()) {
-            Coupons coupons = new Coupons(customerEntry.getValue());
-            Customer customer = customerEntry.getKey();
-
-            VisitHistories visitHistories = findVisitHistories(cafe, customer);
-            if (visitHistories.getVisitCount() == 0) {
-                continue;
-            }
-            CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            int unusedRewards = (int) countUnusedRewards(cafe, customer);
-            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customer, customerCouponStatistics, visitHistories, unusedRewards));
-        }
-
-        return cafeCustomerFindResultDtos;
+        Map<Customer, List<Coupon>> customerCoupons = mapCouponsByCustomer(allCustomerCoupons);
+        return produceCouponStatistics(cafe, customerCoupons);
     }
 
     private Map<Customer, List<Coupon>> mapCouponsByCustomer(List<Coupon> coupons) {
@@ -80,6 +67,34 @@ public class ManagerCouponFindService {
         List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customer);
 
         return new VisitHistories(visitHistories);
+    }
+
+    private List<CafeCustomerFindResultDto> produceCouponStatistics(Cafe cafe, Map<Customer, List<Coupon>> customerCouponMap) {
+        List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
+        for (Map.Entry<Customer, List<Coupon>> customerEntry : customerCouponMap.entrySet()) {
+            Coupons coupons = new Coupons(customerEntry.getValue());
+            Customer customer = customerEntry.getKey();
+
+            VisitHistories visitHistories = findVisitHistories(cafe, customer);
+            if (visitHistories.getVisitCount() == 0) {
+                continue;
+            }
+            CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
+            int unusedRewards = (int) countUnusedRewards(cafe, customer);
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customer, customerCouponStatistics, visitHistories, unusedRewards));
+        }
+        return cafeCustomerFindResultDtos;
+    }
+
+    public List<CafeCustomerFindResultDto> findCouponsByCafeAndCustomerType(Long ownerId, Long cafeId, String customerType) {
+        Cafe cafe = findExistingCafe(cafeId);
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        cafe.validateOwnership(owner);
+
+        List<Coupon> allCustomerCoupons = couponRepository.findByCafeAndCustomerType(cafe, CustomerType.from(customerType));
+        Map<Customer, List<Coupon>> customerCouponMap = mapCouponsByCustomer(allCustomerCoupons);
+        return produceCouponStatistics(cafe, customerCouponMap);
     }
 
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long ownerId, Long cafeId, Long customerId) {
