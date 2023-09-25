@@ -80,7 +80,7 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerCouponFindService.findCouponsByCafe(ownerId, cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, null)));
+        when(managerCouponFindService.findCouponsByCafe(ownerId, cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
         when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
         when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
@@ -104,7 +104,8 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                                 fieldWithPath("customers[].visitCount").description("방문 횟수"),
                                                 fieldWithPath("customers[].firstVisitDate").description("첫 방문 날짜"),
                                                 fieldWithPath("customers[].isRegistered").description("임시/가입 회원 여부"),
-                                                fieldWithPath("customers[].maxStampCount").description("최대 스탬프 개수"))
+                                                fieldWithPath("customers[].maxStampCount").description("최대 스탬프 개수"),
+                                                fieldWithPath("customers[].recentVisitDate").description("최근 방문 일자"))
                                         .responseSchema(Schema.schema("CafeCustomersFindResponse"))
                                         .build())))
                 .andExpect(status().isOk());

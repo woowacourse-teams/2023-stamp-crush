@@ -23,7 +23,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.고객_목록_조회_요청;
-import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST_2;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
@@ -67,15 +69,15 @@ class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
         String firstVisitDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
 
         // when
-        CafeCustomerFindResponse expected1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true);
-        CafeCustomerFindResponse expected2 = new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true);
+        CafeCustomerFindResponse expected1 = new CafeCustomerFindResponse(1L, youngho.getNickname(), 2, 1, 2, 10, firstVisitDate, true, null);
+        CafeCustomerFindResponse expected2 = new CafeCustomerFindResponse(2L, gitchan.getNickname(), 7, 0, 1, 10, firstVisitDate, true, null);
 
         ExtractableResponse<Response> response = 고객_목록_조회_요청(ownerAccessToken, savedCafeId);
 
         CafeCustomersFindResponse actual = response.body().as(CafeCustomersFindResponse.class);
 
         // then
-        assertThat(actual.getCustomers()).containsExactlyInAnyOrder(expected1, expected2);
+        assertThat(actual.getCustomers()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("recentVisitDate").containsExactlyInAnyOrder(expected1, expected2);
     }
 
     @Test

@@ -20,6 +20,7 @@ public class CafeCustomerFindResponse {
     private final int maxStampCount;
     private final String firstVisitDate;
     private final Boolean isRegistered;
+    private final String recentVisitDate;
 
     public static CafeCustomerFindResponse from(CafeCustomerFindResultDto serviceDto) {
         return new CafeCustomerFindResponse(
@@ -30,7 +31,8 @@ public class CafeCustomerFindResponse {
                 serviceDto.getVisitCount(),
                 serviceDto.getMaxStampCount(),
                 serviceDto.getFirstVisitDate().format(DateTimeFormatter.ofPattern("yyyy:MM:dd")),
-                serviceDto.isRegistered()
+                serviceDto.isRegistered(),
+                serviceDto.getRecentVisitDate().format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))
         );
     }
 }
