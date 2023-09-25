@@ -1,12 +1,21 @@
 package com.stampcrush.backend.api.visitor.profile;
 
+import com.stampcrush.backend.entity.coupon.Coupon;
+import com.stampcrush.backend.entity.favorites.Favorites;
+import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
+import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.favorites.FavoritesRepository;
+import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
+import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -14,10 +23,26 @@ import java.util.Optional;
 public class VisitorCancelMembershipService {
 
     private final CustomerRepository customerRepository;
+    private final RewardRepository rewardRepository;
+    private final FavoritesRepository favoritesRepository;
+    private final VisitHistoryRepository visitHistoryRepository;
+    private final CouponRepository couponRepository;
 
     public void cancelMembership(Long customerId) {
-        // TODO: 회원 탈퇴 기능 구현
         Customer customer = findExistingCustomer(customerId);
+
+        List<Coupon> coupons = couponRepository.findByCustomer(customer);
+        couponRepository.deleteAll(coupons);
+
+        List<Reward> rewards = rewardRepository.findByCustomer(customer);
+        rewardRepository.deleteAll(rewards);
+
+        List<Favorites> favorites = favoritesRepository.findByCustomer(customer);
+        favoritesRepository.deleteAll(favorites);
+
+        List<VisitHistory> visitHistories = visitHistoryRepository.findByCustomer(customer);
+        visitHistoryRepository.deleteAll(visitHistories);
+
         customerRepository.delete(customer);
     }
 

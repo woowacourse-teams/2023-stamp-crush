@@ -64,7 +64,7 @@ public class Coupon extends BaseDate {
     @JoinColumn(name = "coupon_policy_id")
     private CouponPolicy couponPolicy;
 
-    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, fetch = LAZY)
+    @OneToMany(mappedBy = "coupon", fetch = LAZY, cascade = CascadeType.ALL)
     private List<Stamp> stamps = new ArrayList<>();
 
     public Coupon(LocalDateTime createdAt, LocalDateTime updatedAt,

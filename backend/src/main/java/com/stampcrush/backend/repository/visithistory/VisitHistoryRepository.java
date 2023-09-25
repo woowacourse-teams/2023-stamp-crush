@@ -14,4 +14,6 @@ public interface VisitHistoryRepository extends JpaRepository<VisitHistory, Long
     List<VisitHistory> findVisitHistoriesByCustomer(Customer customer);
 
     List<VisitHistory> findByCafeIdAndCustomerId(Long cafeId, Long customerId);
+
+    List<VisitHistory> findByCustomer(Customer customer);
 }
