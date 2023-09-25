@@ -11,10 +11,8 @@ import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
-import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
@@ -56,13 +54,7 @@ public class ManagerCouponFindServiceTest {
     private CustomerRepository customerRepository;
 
     @Mock
-    private CafePolicyRepository cafePolicyRepository;
-
-    @Mock
     private VisitHistoryRepository visitHistoryRepository;
-
-    @Mock
-    private RewardRepository rewardRepository;
 
     @Mock
     private OwnerRepository ownerRepository;
@@ -71,7 +63,7 @@ public class ManagerCouponFindServiceTest {
     static void setUp() {
         owner = new Owner(1L, "owner", "ownerId", "ownerPassword", "01010010");
         cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", owner);
-//        customer1 = new TemporaryCustomer(1L, "customer1", "phone");
+
         customer1 = Customer.temporaryCustomerBuilder()
                 .id(1L)
                 .phoneNumber("01012345678")
