@@ -19,6 +19,6 @@ public enum CustomerType {
         return Arrays.stream(CustomerType.values())
                 .filter(value -> value.type.equals(input))
                 .findAny()
-                .orElseThrow(() -> new NotFoundException(String.format("%s 와 일치하는 CustomerType이 없습니다")));
+                .orElseThrow(() -> new NotFoundException(String.format("%s 와 일치하는 CustomerType이 없습니다", input)));
     }
 }
