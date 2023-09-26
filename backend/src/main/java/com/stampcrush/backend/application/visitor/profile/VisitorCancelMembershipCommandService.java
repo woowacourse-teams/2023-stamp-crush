@@ -1,4 +1,4 @@
-package com.stampcrush.backend.api.visitor.profile;
+package com.stampcrush.backend.application.visitor.profile;
 
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.favorites.Favorites;
