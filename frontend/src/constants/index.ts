@@ -1,5 +1,5 @@
 import { StampCountOption } from '../types/domain/coupon';
-import { RouterPath, TemplateMenu } from '../types/utils';
+import { Option, RouterPath, TemplateMenu } from '../types/utils';
 
 export const REGEX = {
   number: /^[0-9]+$/,
@@ -45,6 +45,13 @@ export const CUSTOMERS_ORDER_OPTIONS = [
     key: 'visitCount',
     value: '방문횟수순',
   },
+  { key: 'recentVisitDate', value: '최근방문순' },
+];
+
+export const REGISTER_TYPE_OPTION: Option[] = [
+  { key: 'register', value: '회원' },
+  { key: 'temporary', value: '임시' },
+  { key: 'all', value: '전체' },
 ];
 
 export const STAMP_COUNT_OPTIONS: StampCountOption[] = [

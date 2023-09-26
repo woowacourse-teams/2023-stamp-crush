@@ -21,9 +21,30 @@ export const EmptyCustomers = styled.p`
 
 export const Container = styled.div`
   display: flex;
-  align-self: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
-  margin-top: 30px;
-  margin-right: 30px;
+  margin-top: 40px;
+  padding: 0 20px;
+`;
+
+export const TabContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const RegisterTypeTab = styled.button<{ $isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: ${({ $isSelected, theme }) => ($isSelected ? 'none' : `1px solid ${theme.colors.main}`)};
+  border-radius: 5px;
+  width: 60px;
+  height: 30px;
+  color: ${({ $isSelected }) => ($isSelected ? 'white' : '#222')};
+  background: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.main : 'transparent')};
+
+  &:hover {
+    opacity: 70%;
+  }
 `;
