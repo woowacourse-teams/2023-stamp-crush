@@ -6,7 +6,6 @@ import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNu
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -51,7 +53,6 @@ class VisitorProfilesCommandApiControllerTest extends ControllerSliceTest {
     }
 
     @Test
-    @Disabled
     void 전화번호가_기존과_중복되면_BAD_REQUEST_상태코드를_반환한다() throws Exception {
         doThrow(CustomerBadRequestException.class)
                 .when(visitorProfilesCommandService)
