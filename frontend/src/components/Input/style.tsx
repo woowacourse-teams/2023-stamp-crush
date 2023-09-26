@@ -17,7 +17,7 @@ const SIZE: Record<InputWidth, string> = {
 
 export const BaseInput = styled.input<StyledInputProps>`
   width: ${(props) => (props.$width ? SIZE[props.$width] : '100%')};
-  padding: 4px 4px;
+  padding: 8px 4px;
 
   border: none;
   text-align: ${(props) => (props.$center ? 'center' : 'initial')};
