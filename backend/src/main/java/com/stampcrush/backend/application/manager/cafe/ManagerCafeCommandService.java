@@ -29,10 +29,6 @@ public class ManagerCafeCommandService {
 
     private final CafeRepository cafeRepository;
     private final OwnerRepository ownerRepository;
-    private final SampleFrontImageRepository sampleFrontImageRepository;
-    private final SampleBackImageRepository sampleBackImageRepository;
-    private final SampleStampImageRepository sampleStampImageRepository;
-    private final SampleStampCoordinateRepository sampleStampCoordinateRepository;
     private final CafePolicyRepository cafePolicyRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
@@ -69,21 +65,6 @@ public class ManagerCafeCommandService {
     }
 
     private void assignDefaultSampleCafeCouponToCafe(Cafe savedCafe) {
-//        SampleFrontImage defaultSampleFrontImage = sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);
-//        SampleBackImage defaultSampleBackImage = sampleBackImageRepository.save(SAMPLE_BACK_IMAGE);
-//        SampleStampImage defaultSampleStampImage = sampleStampImageRepository.save(SAMPLE_STAMP_IMAGE);
-
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(1, 37, 50, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(2, 86, 50, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(3, 134, 50, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(4, 182, 50, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(5, 233, 50, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(6, 37, 100, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(7, 86, 100, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(8, 134, 100, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(9, 182, 100, defaultSampleBackImage));
-//        sampleStampCoordinateRepository.save(new SampleStampCoordinate(10, 233, 100, defaultSampleBackImage));
-
         CafeCouponDesign defaultCafeCouponDesign = cafeCouponDesignRepository.save(new CafeCouponDesign(
                 SampleImages.FRONT_IMAGE_URL,
                 SampleImages.BACK_IMAGE_URL,
