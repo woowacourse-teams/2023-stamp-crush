@@ -29,6 +29,7 @@ const AdminLogin = () => {
           <CheckItem text="쿠폰 적립 고객 리스트 제공" />
         </CheckList>
         <AdminLoginForm />
+        <RedirectLink to={ROUTER_PATH.adminSignUp}>회원가입</RedirectLink>
         <RedirectContainer>
           <span>고객님이신가요? </span>
           <RedirectLink to={ROUTER_PATH.login}>고객님 로그인</RedirectLink>
