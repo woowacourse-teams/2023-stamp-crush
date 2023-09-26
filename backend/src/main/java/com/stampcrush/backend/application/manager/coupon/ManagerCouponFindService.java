@@ -44,13 +44,17 @@ public class ManagerCouponFindService {
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long ownerId, Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        Owner owner = findOwner(ownerId);
         cafe.validateOwnership(owner);
 
         List<Coupon> allCustomerCoupons = couponRepository.findByCafe(cafe);
         Map<Customer, List<Coupon>> customerCoupons = mapCouponsByCustomer(allCustomerCoupons);
         return produceCouponStatistics(cafe, customerCoupons);
+    }
+
+    private Owner findOwner(Long ownerId) {
+        return ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException(String.format("%d id 사장을 찾지 못했습니다.", ownerId)));
     }
 
     private Map<Customer, List<Coupon>> mapCouponsByCustomer(List<Coupon> coupons) {
@@ -60,7 +64,7 @@ public class ManagerCouponFindService {
 
     private Cafe findExistingCafe(Long cafeId) {
         return cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
+                .orElseThrow(() -> new CafeNotFoundException(String.format("%d id는 존재하지 않는 카페 입니다.", cafeId)));
     }
 
     private VisitHistories findVisitHistories(Cafe cafe, Customer customer) {
@@ -88,8 +92,7 @@ public class ManagerCouponFindService {
 
     public List<CafeCustomerFindResultDto> findCouponsByCafeAndCustomerType(Long ownerId, Long cafeId, String customerType) {
         Cafe cafe = findExistingCafe(cafeId);
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        Owner owner = findOwner(ownerId);
         cafe.validateOwnership(owner);
 
         List<Coupon> allCustomerCoupons = couponRepository.findByCafeAndCustomerType(cafe, CustomerType.from(customerType));
@@ -98,9 +101,8 @@ public class ManagerCouponFindService {
     }
 
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long ownerId, Long cafeId, Long customerId) {
-        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 카페 입니다."));
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        Cafe cafe = findExistingCafe(cafeId);
+        Owner owner = findOwner(ownerId);
         cafe.validateOwnership(owner);
 
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 고객 입니다."));
