@@ -1,6 +1,5 @@
 package com.stampcrush.backend.acceptance;
 
-import com.stampcrush.backend.acceptance.step.ManagerStampCreateStep;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
@@ -19,6 +18,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorCouponFindStep.고객의_쿠폰_카페별로_1개씩_조회_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
@@ -90,7 +90,7 @@ class VisitorCouponFindAcceptanceTest extends AcceptanceTest {
         Long gitchanCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(gitchanAccessToken, new CouponCreateRequest(gitchanCafeId), customer.getId());
         Long jenaCafeCouponId = 쿠폰_생성_요청하고_아이디_반환(jenaAccessToken, new CouponCreateRequest(jenaCafeId), customer.getId());
 
-        ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청(gitchanAccessToken, customerId, gitchanCafeCouponId, new StampCreateRequest(10));
+        쿠폰에_스탬프를_적립_요청(gitchanAccessToken, customerId, gitchanCafeCouponId, new StampCreateRequest(10));
 
         // when
         ExtractableResponse<Response> response = 고객의_쿠폰_카페별로_1개씩_조회_요청(customerAccessToken);

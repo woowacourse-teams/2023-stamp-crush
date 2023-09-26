@@ -16,7 +16,6 @@ import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -30,9 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @KorNamingConverter
 @DataJpaTest
 class CouponRepositoryTest2 {
-
-    @Autowired
-    private EntityManager em;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -139,9 +135,6 @@ class CouponRepositoryTest2 {
         for (int i = 0; i < stampCount; i++) {
             gitchanCafeCoupon.accumulate(1);
         }
-
-        em.flush();
-        em.clear();
 
         Coupon findCoupon = couponRepository.findById(gitchanCafeCoupon.getId()).get();
 
