@@ -5,11 +5,12 @@ import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
-
+import { AiOutlineUserDelete } from '@react-icons/all-files/ai/AiOutlineUserDelete';
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,
   <AiOutlineUnorderedList key="stampHistory" />,
   <AiOutlineLogout key="logout" />,
+  <AiOutlineUserDelete key="customerCancellation" />,
 ];
 
 const MYPAGE_NAV_OPTIONS = [
@@ -25,6 +26,10 @@ const MYPAGE_NAV_OPTIONS = [
     key: 'logout',
     value: '로그아웃',
   },
+  {
+    key: 'customerCancellation',
+    value: '회원 탈퇴',
+  },
 ];
 
 const MyPage = () => {
@@ -33,6 +38,7 @@ const MyPage = () => {
 
   const navigatePage = (key: string) => () => {
     if (key === 'logout') {
+      // TODO: 완전한 로그아웃 구현해야 함.
       localStorage.setItem('login-token', '');
       navigate(ROUTER_PATH.login);
       return;
