@@ -25,6 +25,7 @@ import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesig
 import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
+import CustomerCancellation from './pages/Customer/Cancellation';
 
 const AdminRoot = () => {
   return (
@@ -92,6 +93,7 @@ const Router = () => {
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
         { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
         { path: ROUTER_PATH.inputPhoneNumber, element: <InputPhoneNumber /> },
+        { path: ROUTER_PATH.customerCancellation, element: <CustomerCancellation /> },
       ],
     },
   ]);
