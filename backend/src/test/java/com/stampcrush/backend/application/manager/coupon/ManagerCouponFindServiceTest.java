@@ -107,8 +107,8 @@ public class ManagerCouponFindServiceTest {
         // when
         VisitHistories customer1VisitHistories = new VisitHistories(List.of(visitHistory1));
         VisitHistories customer2VisitHistories = new VisitHistories(List.of(visitHistory2));
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 0, 10);
-        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 0, 15);
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 10);
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 15);
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
@@ -137,7 +137,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(List.of(visitHistory));
 
         VisitHistories visitHistories = new VisitHistories(List.of(visitHistory));
-        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0, 0);
+        CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0);
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, visitHistories, 0);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
@@ -260,10 +260,8 @@ public class ManagerCouponFindServiceTest {
         VisitHistories customer1VisitHistories = new VisitHistories(List.of(customer1VisitHistory1, customer1VisitHistory2));
         VisitHistories customer2VisitHistories = new VisitHistories(List.of(customer2visitHistory1));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2
-                , rewardCount, couponPolicy1.getMaxStampCount());
-        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(customer2EarningStampCount, rewardCount,
-                couponPolicy2.getMaxStampCount());
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, couponPolicy1.getMaxStampCount());
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(customer2EarningStampCount, couponPolicy2.getMaxStampCount());
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
@@ -307,8 +305,7 @@ public class ManagerCouponFindServiceTest {
         // when
         VisitHistories visitHistories = new VisitHistories(List.of(customer1VisitHistory1, customer1VisitHistory2));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2
-                , rewardCount, couponPolicy1.getMaxStampCount());
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, couponPolicy1.getMaxStampCount());
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, visitHistories, 0);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
