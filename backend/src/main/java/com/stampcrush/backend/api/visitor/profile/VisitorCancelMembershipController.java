@@ -14,7 +14,7 @@ public class VisitorCancelMembershipController {
 
     private final VisitorCancelMembershipService visitorProfilesCommandService;
 
-    @DeleteMapping("/cancel-membership")
+    @DeleteMapping("/customers")
     public ResponseEntity<Void> cancelMembership(
             CustomerAuth customer
     ) {

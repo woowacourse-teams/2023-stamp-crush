@@ -16,7 +16,7 @@ public class VisitorCancelMembershipStep {
                 .oauth2(accessToken)
 
                 .when()
-                .delete("/api/cancel-membership")
+                .delete("/api/customers")
 
                 .then()
                 .log().all()
