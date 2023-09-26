@@ -8,7 +8,7 @@ import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.favorites.FavoritesRepository;
-import org.junit.jupiter.api.Disabled;
+import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,6 +34,9 @@ public class VisitorFavoritesCommandServiceTest {
     @Mock
     private FavoritesRepository favoritesRepository;
 
+    @Mock
+    private CustomerRepository customerRepository;
+
     @Test
     void 존재하지_않는_카페를_즐겨찾기에_등록_또는_해제_하려하면_예외를_던진다() {
         // given
@@ -54,18 +57,19 @@ public class VisitorFavoritesCommandServiceTest {
     }
 
     @Test
-    @Disabled
-        // TODO: 하디는 해결하시오
     void 카페를_즐겨찾기_목록에_이미_존재하지_않을_경우_새로_만들어_저장한다() {
         // given
         Customer customer = Customer.registeredCustomerBuilder()
+                .id(1L)
                 .nickname("hardy")
                 .phoneNumber("01000000000")
                 .build();
         Long cafeId = 1L;
         Boolean isFavorites = Boolean.TRUE;
-        Cafe cafe = new Cafe("하디카페", "동작구", "이수동", "1111", new Owner("하디", "hardy@", "1234", "010111111111"));
+        Cafe cafe = new Cafe(1L, "하디카페", "동작구", "이수동", "1111", new Owner("하디", "hardy@", "1234", "010111111111"));
 
+        when(customerRepository.findById(anyLong()))
+                .thenReturn(Optional.of(customer));
         when(cafeRepository.findById(anyLong()))
                 .thenReturn(Optional.of(cafe));
         when(favoritesRepository.findByCafeAndCustomer(cafe, customer))
@@ -81,22 +85,23 @@ public class VisitorFavoritesCommandServiceTest {
     }
 
     @Test
-    @Disabled
-        // TODO: 하디는 해결하시오
     void 카페를_즐겨찾기_목록에_이미_존재할_경우_새로_저장하지_않고_변경한다() {
         // given
         Customer customer = Customer.registeredCustomerBuilder()
+                .id(1L)
                 .nickname("hardy")
                 .phoneNumber("01000000000")
                 .build();
         Long cafeId = 1L;
         Boolean isFavorites = Boolean.TRUE;
-        Cafe cafe = new Cafe("하디카페", "동작구", "이수동", "1111", new Owner("하디", "hardy@", "1234", "010111111111"));
+        Cafe cafe = new Cafe(1L, "하디카페", "동작구", "이수동", "1111", new Owner("하디", "hardy@", "1234", "010111111111"));
         Favorites favorites = new Favorites(cafe, customer, isFavorites);
 
+        when(customerRepository.findById(anyLong()))
+                .thenReturn(Optional.of(customer));
         when(cafeRepository.findById(anyLong()))
                 .thenReturn(Optional.of(cafe));
-        when(favoritesRepository.findByCafeAndCustomer(cafe, customer))
+        when(favoritesRepository.findByCafeAndCustomer(any(), any()))
                 .thenReturn(Optional.of(favorites));
 
         // when
