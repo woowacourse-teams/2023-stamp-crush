@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -23,7 +22,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor(access = PROTECTED)
 @SQLDelete(sql = "UPDATE customer SET deleted = true WHERE customer_id = ?")
 @Where(clause = "deleted = false")
