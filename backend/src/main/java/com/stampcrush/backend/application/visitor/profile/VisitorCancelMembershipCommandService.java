@@ -12,7 +12,6 @@ import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +45,6 @@ public class VisitorCancelMembershipCommandService {
         customerRepository.delete(customer);
     }
 
-    @NotNull
     private Customer findExistingCustomer(Long customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (customer.isEmpty()) {
