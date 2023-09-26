@@ -25,13 +25,13 @@ public class ManagerCustomerFindStep {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 고객_타입_별_목록_조회_요청(String accessToken, Long cafeId, String status) {
+    public static ExtractableResponse<Response> 고객_타입_별_목록_조회_요청(String accessToken, Long cafeId, String customerType) {
         return given()
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(accessToken)
-                .queryParam("status", status)
+                .queryParam("customer-type", customerType)
                 .when()
                 .get("/api/admin/cafes/{cafeId}/customers", cafeId)
                 .then()

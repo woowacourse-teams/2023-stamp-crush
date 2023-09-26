@@ -126,7 +126,7 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes/{cafeId}/customers", cafeId)
-                        .param("status", "register")
+                        .param("customer-type", "register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
                 .andDo(document("manager/coupon/find-customer-type-list",

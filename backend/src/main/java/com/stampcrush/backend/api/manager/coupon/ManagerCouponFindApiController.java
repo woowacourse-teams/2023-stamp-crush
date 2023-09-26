@@ -38,13 +38,13 @@ public class ManagerCouponFindApiController {
         return ResponseEntity.ok(new CafeCustomersFindResponse(cafeCustomerFindResponses));
     }
 
-    @GetMapping(value = "/cafes/{cafeId}/customers", params = "status")
+    @GetMapping(value = "/cafes/{cafeId}/customers", params = "customer-type")
     public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafeAndStatus(
             OwnerAuth owner,
             @PathVariable("cafeId") Long cafeId,
-            @RequestParam("status") String status
+            @RequestParam("customer-type") String customerType
     ) {
-        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafeAndCustomerType(owner.getId(), cafeId, status);
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafeAndCustomerType(owner.getId(), cafeId, customerType);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
                 .toList();
