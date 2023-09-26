@@ -34,6 +34,7 @@ const AdminLoginForm = () => {
       </LoginWrapper>
       <Spacing $size={12} />
       <Button size="large">로그인</Button>
+      <Spacing $size={8} />
     </LoginForm>
   );
 };
