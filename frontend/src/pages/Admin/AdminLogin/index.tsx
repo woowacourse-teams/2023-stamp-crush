@@ -12,7 +12,7 @@ import {
   CheckList,
 } from './style';
 import BackgroundImgSrc from '../../../assets/admin_login_background.jpg';
-import CheckItem from './CheckItem';
+import CheckItem from './components/CheckItem';
 import AdminLoginForm from './components/AdminLoginForm';
 
 const AdminLogin = () => {
