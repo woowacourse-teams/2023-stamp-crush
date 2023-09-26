@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class VisitorCancelMembershipService {
+public class VisitorCancelMembershipCommandService {
 
     private final CustomerRepository customerRepository;
     private final RewardRepository rewardRepository;

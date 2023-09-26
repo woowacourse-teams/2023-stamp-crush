@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class VisitorCancelMembershipController {
+public class VisitorCancelMembershipCommandController {
 
-    private final VisitorCancelMembershipService visitorProfilesCommandService;
+    private final VisitorCancelMembershipCommandService visitorProfilesCommandService;
 
     @DeleteMapping("/customers")
     public ResponseEntity<Void> cancelMembership(
