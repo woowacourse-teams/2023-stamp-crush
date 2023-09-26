@@ -17,7 +17,6 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -57,7 +56,6 @@ class CouponRepositoryTest2 {
     private CouponStampCoordinateRepository couponStampCoordinateRepository;
 
     @Test
-    @Disabled
     void 쿠폰_디자인에_읽기_전용인_좌표를_조회한다() {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
@@ -68,9 +66,6 @@ class CouponRepositoryTest2 {
 
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
         Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(couponDesign), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
-
-        em.flush();
-        em.clear();
 
         Coupon findCoupon = couponRepository.findById(gitchanCafeCoupon.getId()).get();
         List<CouponStampCoordinate> couponStampCoordinates = findCoupon.getCouponDesign().getCouponStampCoordinates();
