@@ -110,4 +110,45 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
                                         .build())))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void 고객_타입_별_목록_조회() throws Exception {
+        // given
+        Long cafeId = 1L;
+        Long ownerId = OWNER.getId();
+
+        when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
+        when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
+        when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
+        when(managerCouponFindService.findCouponsByCafeAndCustomerType(ownerId, cafeId, "register")).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
+        when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
+        when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
+
+        // when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/cafes/{cafeId}/customers", cafeId)
+                        .param("status", "register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, OWNER_BEARER_HEADER))
+                .andDo(document("manager/coupon/find-customer-type-list",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(
+                                ResourceSnippetParameters.builder()
+                                        .tag("사장 모드")
+                                        .description("고객 타입 별 목록 조회")
+                                        .requestHeaders(headerWithName("Authorization").description("Bearer"))
+                                        .responseFields(
+                                                fieldWithPath("customers[].id").description("고객 ID"),
+                                                fieldWithPath("customers[].nickname").description("닉네임"),
+                                                fieldWithPath("customers[].stampCount").description("스탬프 개수"),
+                                                fieldWithPath("customers[].rewardCount").description("리워드 개수"),
+                                                fieldWithPath("customers[].visitCount").description("방문 횟수"),
+                                                fieldWithPath("customers[].firstVisitDate").description("첫 방문 날짜"),
+                                                fieldWithPath("customers[].isRegistered").description("임시/가입 회원 여부"),
+                                                fieldWithPath("customers[].maxStampCount").description("최대 스탬프 개수"),
+                                                fieldWithPath("customers[].recentVisitDate").description("최근 방문 일자"))
+                                        .responseSchema(Schema.schema("CafeCustomersFindResponse"))
+                                        .build())))
+                .andExpect(status().isOk());
+    }
 }
