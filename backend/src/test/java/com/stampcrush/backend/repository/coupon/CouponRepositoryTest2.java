@@ -60,7 +60,7 @@ class CouponRepositoryTest2 {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
 
-        CouponDesign couponDesign = CouponDesignFixture.COUPON_DESIGN_1;
+        CouponDesign couponDesign = couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1);
         CouponStampCoordinate coordinates = new CouponStampCoordinate(1, 1, 1, couponDesign);
         addCouponStampCoordinate(List.of(coordinates), couponDesign);
 
