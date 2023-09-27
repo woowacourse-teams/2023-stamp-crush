@@ -47,6 +47,7 @@ import com.stampcrush.backend.auth.api.ManagerOAuthController;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.auth.repository.BlackListRepository;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
@@ -121,62 +122,91 @@ public abstract class DocsControllerTest {
 
     @Autowired
     protected WebApplicationContext ctx;
+
     @Autowired
     protected ObjectMapper objectMapper;
 
     @MockBean
+    protected BlackListRepository blackListRepository;
+
+    @MockBean
     protected CafeRepository cafeRepository;
+
     @MockBean
     protected OwnerRepository ownerRepository;
+
     @MockBean
     protected CustomerRepository customerRepository;
+
     @MockBean
     protected AuthTokensGenerator authTokensGenerator;
 
     @MockBean
     protected ManagerCafeFindService managerCafeFindService;
+
     @MockBean
     protected VisitorCafeFindService visitorCafeFindService;
+
     @MockBean
     protected ManagerCustomerFindService managerCustomerFindService;
+
     @MockBean
     protected ManagerCustomerCommandService managerCustomerCommandService;
+
     @MockBean
     protected VisitorCouponFindService visitorCouponFindService;
+
     @MockBean
     protected VisitorFavoritesCommandService visitorFavoritesCommandService;
+
     @MockBean
     protected ManagerCafeCommandService managerCafeCommandService;
+
     @MockBean
     protected ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
+
     @MockBean
     protected ManagerSampleCouponFindService managerSampleCouponFindService;
+
     @MockBean
     protected ManagerCouponCommandService managerCouponCommandService;
+
     @MockBean
     protected ManagerCouponFindService managerCouponFindService;
+
     @MockBean
     protected ManagerRewardCommandService managerRewardCommandService;
+
     @MockBean
     protected ManagerRewardFindService managerRewardFindService;
+
     @MockBean
     protected VisitorCouponCommandService visitorCouponCommandService;
+
     @MockBean
     protected VisitorRewardsFindService visitorRewardsFindService;
+
     @MockBean
     protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
+
     @MockBean
     protected VisitorProfilesCommandService visitorProfilesCommandService;
+
     @MockBean
     protected VisitorCancelMembershipCommandService visitorCancelMembershipCommandService;
+
     @MockBean
     protected VisitorProfilesFindService visitorProfilesFindService;
+
     @MockBean
     protected ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
+
     @MockBean
     protected ManagerImageCommandService managerImageCommandService;
+
     @MockBean
     protected ManagerOAuthService managerOAuthService;
+
     @MockBean
     protected ManagerOAuthLoginService managerOAuthLoginService;
 
