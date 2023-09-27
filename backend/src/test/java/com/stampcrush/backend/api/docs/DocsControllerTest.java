@@ -1,6 +1,7 @@
 package com.stampcrush.backend.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stampcrush.backend.api.docs.visitor.profile.VisitorCancelMembershipCommandApiDocsController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingFindApiController;
@@ -17,6 +18,7 @@ import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.api.visitor.profile.VisitorCancelMembershipCommandController;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesCommandApiController;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesFindApiController;
 import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
@@ -79,7 +81,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @KorNamingConverter
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@WebMvcTest({ManagerCafeFindApiController.class,
+@WebMvcTest({
+        ManagerCafeFindApiController.class,
         VisitorCafeFindApiController.class,
         ManagerCustomerFindApiController.class,
         ManagerCustomerCommandApiController.class,
@@ -96,7 +99,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorRewardsFindController.class,
         VisitorVisitHistoryFindApiController.class,
         VisitorProfilesCommandApiController.class,
+        VisitorCancelMembershipCommandController.class,
         VisitorProfilesFindApiController.class,
+        VisitorCancelMembershipCommandApiDocsController.class,
         ManagerCafeCouponSettingFindApiController.class,
         ManagerImageCommandApiController.class,
         ManagerOAuthController.class
