@@ -85,9 +85,9 @@ public class ManagerCafeCommandService {
 //        sampleStampCoordinateRepository.save(new SampleStampCoordinate(10, 233, 100, defaultSampleBackImage));
 
         CafeCouponDesign defaultCafeCouponDesign = cafeCouponDesignRepository.save(new CafeCouponDesign(
-                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-50-06-263937.png",
-                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-29-33-133005.png",
-                "https://dnv0gl9rzyzod.cloudfront.net/prod/2023-08-17-08-54-58-672655.png",
+                SampleImages.FRONT_IMAGE_URL,
+                SampleImages.BACK_IMAGE_URL,
+                SampleImages.STAMP_IMAGE_URL,
                 false,
                 savedCafe
         ));

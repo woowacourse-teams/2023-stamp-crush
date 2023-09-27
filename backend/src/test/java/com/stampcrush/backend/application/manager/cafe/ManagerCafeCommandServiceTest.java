@@ -24,7 +24,6 @@ import com.stampcrush.backend.repository.user.OwnerRepository;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -109,7 +108,6 @@ public class ManagerCafeCommandServiceTest {
     }
 
     @Test
-    @Disabled
     void 카페를_등록할_때_쿠폰이미지는_기본이미지로_저장된다() {
         // given
         CafeCreateDto cafeCreateDto = getCafeCreateDto();
@@ -125,14 +123,13 @@ public class ManagerCafeCommandServiceTest {
         // then
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(cafeCouponDesign).isPresent();
-        softAssertions.assertThat(cafeCouponDesign.get().getFrontImageUrl()).isEqualTo(sampleFrontImage.getImageUrl());
-        softAssertions.assertThat(cafeCouponDesign.get().getBackImageUrl()).isEqualTo(sampleBackImage.getImageUrl());
-        softAssertions.assertThat(cafeCouponDesign.get().getStampImageUrl()).isEqualTo(sampleStampImage.getImageUrl());
+        softAssertions.assertThat(cafeCouponDesign.get().getFrontImageUrl()).isEqualTo(SampleImages.FRONT_IMAGE_URL);
+        softAssertions.assertThat(cafeCouponDesign.get().getBackImageUrl()).isEqualTo(SampleImages.BACK_IMAGE_URL);
+        softAssertions.assertThat(cafeCouponDesign.get().getStampImageUrl()).isEqualTo(SampleImages.STAMP_IMAGE_URL);
         softAssertions.assertAll();
     }
 
     @Test
-    @Disabled
     void 카페를_등록할_때_스탬프_좌표는_10개가_저장된다() {
         // given
         Integer expectedStampCoordinatesCount = 10;
