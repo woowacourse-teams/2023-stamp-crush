@@ -1,0 +1,12 @@
+{
+  "name": "스탬프크러쉬",
+  "icons": [
+    {
+      "src": "/src/assets/login_logo.svg",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "display": "fullscreen",
+  "description": "흩어져있는 종이쿠폰 한번에 관리하자 ✨"
+}
