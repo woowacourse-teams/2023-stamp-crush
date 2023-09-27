@@ -1,5 +1,7 @@
 package com.stampcrush.backend.entity.user;
 
+import com.stampcrush.backend.application.manager.owner.util.PasswordEncryptor;
+import com.stampcrush.backend.application.manager.owner.util.PasswordValidator;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.exception.OwnerUnAuthorizationException;
@@ -34,6 +36,11 @@ public class Owner extends BaseDate {
     @Column(name = "oauth_id")
     private Long oAuthId;
 
+    public static Owner of(String loginId, String password) {
+        PasswordValidator.validatePassword(password);
+        return new Owner(null, loginId, PasswordEncryptor.encrypt(password), null);
+    }
+
     public Owner(Long id, String nickname, String loginId, String encryptedPassword, String phoneNumber) {
         this.id = id;
         this.nickname = nickname;
@@ -62,8 +69,13 @@ public class Owner extends BaseDate {
         this.oAuthId = oAuthId;
     }
 
-    public void checkPassword(String encryptedPassword) {
-        if (!this.encryptedPassword.equals(encryptedPassword)) {
+    public static void validatePassword(String password) {
+
+    }
+
+    public void checkPassword(String password) {
+        String hashedPassword = PasswordEncryptor.encrypt(password);
+        if (!this.encryptedPassword.equals(hashedPassword)) {
             throw new OwnerUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
