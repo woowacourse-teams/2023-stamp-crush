@@ -1,7 +1,9 @@
 package com.stampcrush.backend.api.visitor.profile;
 
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
+import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfilesLinkDataDto;
 import com.stampcrush.backend.config.resolver.CustomerAuth;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

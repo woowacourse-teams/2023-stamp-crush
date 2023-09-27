@@ -30,4 +30,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     List<Coupon> findCouponsByCustomerAndStatus(Customer customer, CouponStatus couponStatus);
 
     Optional<Coupon> findByIdAndCustomerId(Long id, Long customerId);
+
+    List<Coupon> findByCustomer(Customer customer);
 }
