@@ -33,13 +33,25 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
         if (!authTokensGenerator.isValidToken(accessToken)) {
 
             String refreshToken = getRefreshToken(request);
-            if (blackListRepository.isValidRefreshToken(refreshToken)) {
-                // TODO: Access Token, Refresh Token 재발급
+            if (authTokensGenerator.isValidToken(refreshToken) && blackListRepository.isValidRefreshToken(refreshToken)) {
                 Long customerId = getCustomerId(accessToken);
+                customerRepository.findById(customerId)
+                        .orElseThrow(() -> new UnAuthorizationException("인증할 수 없습니다."));
+
                 AuthTokensResponse newTokens = authTokensGenerator.generate(customerId);
+
                 request.setAttribute("Authorization", newTokens.getAccessToken());
+
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("refreshToken")) {
+                            cookie.setValue(newTokens.getRefreshToken());
+                        }
+                    }
+                }
+                return true;
             }
-            // TODO: 인증 안됨
 
             throw new UnAuthorizationException("인증할 수 없습니다.");
         }
