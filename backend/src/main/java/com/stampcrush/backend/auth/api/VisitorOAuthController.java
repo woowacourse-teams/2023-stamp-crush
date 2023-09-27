@@ -4,6 +4,8 @@ import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.KakaoLoginParams;
 import com.stampcrush.backend.auth.application.visitor.VisitorOAuthLoginService;
 import com.stampcrush.backend.auth.application.visitor.VisitorOAuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -33,8 +35,14 @@ public class VisitorOAuthController {
     }
 
     @GetMapping("/kakao/token")
-    public ResponseEntity<AuthTokensResponse> authorizeUser(@RequestParam("code") String authorizationCode) {
+    public ResponseEntity<AuthTokensResponse> authorizeUser(@RequestParam("code") String authorizationCode, HttpServletResponse response) {
         KakaoLoginParams params = new KakaoLoginParams(authorizationCode);
-        return ResponseEntity.ok(visitorOAuthLoginService.login(params));
+        AuthTokensResponse tokensResponse = visitorOAuthLoginService.login(params);
+
+        Cookie refreshToken = new Cookie("refreshToken", tokensResponse.getRefreshToken());
+        refreshToken.setHttpOnly(true);
+        response.addCookie(refreshToken);
+
+        return ResponseEntity.ok(tokensResponse);
     }
 }
