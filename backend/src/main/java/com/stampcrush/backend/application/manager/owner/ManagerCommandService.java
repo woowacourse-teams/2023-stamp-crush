@@ -35,6 +35,7 @@ public class ManagerCommandService {
         return ownerRepository.findByLoginId(loginId).isPresent();
     }
 
+    @Transactional(readOnly = true)
     public AuthTokensResponse login(OwnerLoginDto ownerLoginDto) {
         Owner owner = ownerRepository.findByLoginId(ownerLoginDto.getLoginId())
                 .orElseThrow(() -> new OwnerNotFoundException("존재하지 않는 아이디 입니다."));
