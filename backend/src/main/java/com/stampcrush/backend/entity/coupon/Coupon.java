@@ -5,7 +5,16 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CafePolicyNotFoundException;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -99,13 +108,6 @@ public class Coupon extends BaseDate {
                 .map(date -> LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), date.getHour(), date.getMinute()))
                 .collect(Collectors.toSet())
                 .size();
-    }
-
-    public LocalDateTime compareCreatedAtAndReturnEarlier(LocalDateTime visitTime) {
-        if (this.getCreatedAt().isBefore(visitTime)) {
-            return this.getCreatedAt();
-        }
-        return visitTime;
     }
 
     public LocalDateTime calculateExpireDate() {
