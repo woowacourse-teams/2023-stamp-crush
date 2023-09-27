@@ -14,7 +14,7 @@ public class PasswordEncryptor {
             digest.update(password.getBytes());
             return Base64.getEncoder().encodeToString(digest.digest());
         } catch (NoSuchAlgorithmException exception) {
-            throw new IllegalArgumentException("오너 생성 실패");
+            throw new IllegalArgumentException("암호화 알고리즘이 존재하지 않습니다.");
         }
     }
 }
