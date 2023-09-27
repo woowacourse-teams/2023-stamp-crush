@@ -7,7 +7,17 @@ import { Spacing } from '../../../../style/layout/common';
 import Button from '../../../../components/Button';
 
 const AdminLoginForm = () => {
-  const { isFocusedId, isFocusedPw, handleBlur, handleFocus, loginAdmin } = useAdminLogin();
+  const {
+    isFocusedId,
+    isFocusedPw,
+    handleBlur,
+    handleFocus,
+    loginAdmin,
+    loginId,
+    password,
+    getLoginId,
+    getPassword,
+  } = useAdminLogin();
 
   return (
     <LoginForm onSubmit={loginAdmin}>
@@ -17,6 +27,9 @@ const AdminLoginForm = () => {
           id="admin-login"
           placeholder="아이디"
           minLength={5}
+          maxLength={20}
+          value={loginId}
+          onChange={getLoginId}
           onFocus={handleFocus('ID')}
           onBlur={handleBlur}
         />
@@ -28,6 +41,10 @@ const AdminLoginForm = () => {
           id="admin-password"
           type="password"
           placeholder="비밀번호"
+          minLength={8}
+          maxLength={30}
+          value={password}
+          onChange={getPassword}
           onFocus={handleFocus('PW')}
           onBlur={handleBlur}
         />

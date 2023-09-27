@@ -1,16 +1,33 @@
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import usePostAdminLogin from './usePostAdminLogin';
 
 type FocusType = 'ID' | 'PW';
 
 const useAdminLogin = () => {
-  const navigate = useNavigate();
+  const [loginId, setLoginId] = useState('');
+  const [password, setPassword] = useState('');
+
   const [isFocusedId, setIsFocusedId] = useState(false);
   const [isFocusedPw, setIsFocusedPw] = useState(false);
+  const { mutate: mutateAdminLogin, isSuccess } = usePostAdminLogin();
 
   const loginAdmin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate('/admin');
+
+    mutateAdminLogin({
+      body: {
+        loginId,
+        password,
+      },
+    });
+  };
+
+  const getLoginId = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginId(e.target.value);
+  };
+
+  const getPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   const handleFocus = (type: FocusType) => () => {
@@ -33,7 +50,17 @@ const useAdminLogin = () => {
     setIsFocusedPw(false);
   };
 
-  return { handleBlur, handleFocus, isFocusedId, isFocusedPw, loginAdmin };
+  return {
+    handleBlur,
+    handleFocus,
+    isFocusedId,
+    isFocusedPw,
+    loginAdmin,
+    loginId,
+    password,
+    getLoginId,
+    getPassword,
+  };
 };
 
 export default useAdminLogin;
