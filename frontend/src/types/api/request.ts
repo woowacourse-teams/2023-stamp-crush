@@ -105,3 +105,8 @@ export interface StampEarningReq {
 export interface CustomerLinkDataReqBody {
   id: number;
 }
+
+export interface AdminAccountDataReqBody {
+  loginId: string;
+  password: string;
+}
