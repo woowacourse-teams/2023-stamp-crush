@@ -1,5 +1,6 @@
-import { CustomersRes } from '../../../../types/api/response';
 import { Customer } from '../../../../types/domain/customer';
+import { Option } from '../../../../types/utils';
+import { formatDate } from '../../../../utils';
 import {
   Container,
   Badge,
@@ -12,6 +13,7 @@ import {
 } from './style';
 
 interface CustomersProps {
+  registerTypeOption: Option;
   customers: Customer[];
 }
 
@@ -26,7 +28,7 @@ const Customers = ({ customers }: CustomersProps) => {
           maxStampCount,
           rewardCount,
           isRegistered,
-          firstVisitDate,
+          recentVisitDate,
           visitCount,
         }: Customer) => (
           <CustomerBox key={id}>
@@ -42,7 +44,7 @@ const Customers = ({ customers }: CustomersProps) => {
             </LeftInfo>
             <RightInfo>
               <InfoContainer>
-                첫 방문일: {firstVisitDate}
+                최근 방문일: {formatDate(recentVisitDate)}
                 <br /> 방문 횟수: {visitCount}번
               </InfoContainer>
             </RightInfo>
