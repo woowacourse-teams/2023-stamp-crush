@@ -1,7 +1,6 @@
 package com.stampcrush.backend.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stampcrush.backend.api.docs.visitor.profile.VisitorCancelMembershipCommandApiDocsController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingCommandApiController;
 import com.stampcrush.backend.api.manager.cafe.ManagerCafeCouponSettingFindApiController;
@@ -101,7 +100,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorProfilesCommandApiController.class,
         VisitorCancelMembershipCommandController.class,
         VisitorProfilesFindApiController.class,
-        VisitorCancelMembershipCommandApiDocsController.class,
         ManagerCafeCouponSettingFindApiController.class,
         ManagerImageCommandApiController.class,
         ManagerOAuthController.class
