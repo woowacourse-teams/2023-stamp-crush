@@ -25,6 +25,20 @@ public class ManagerCustomerFindStep {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 고객_타입_별_목록_조회_요청(String accessToken, Long cafeId, String customerType) {
+        return given()
+                .log().all()
+                .contentType(JSON)
+                .auth().preemptive()
+                .oauth2(accessToken)
+                .queryParam("customer-type", customerType)
+                .when()
+                .get("/api/admin/cafes/{cafeId}/customers", cafeId)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 전화번호로_고객_조회_요청(String accessToken, String phoneNumber) {
         return RestAssured.given()
                 .log().all()

@@ -25,7 +25,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponFindStep.고객의_쿠폰_조회하고_결과_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCustomerFindStep.고객_목록_조회_요청;
-import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST_2;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static io.restassured.RestAssured.given;
@@ -218,7 +220,8 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 1,
                 10,
                 null,
-                true);
+                true,
+                null);
 
         CafeCustomerFindResponse customer2Expected = new CafeCustomerFindResponse(
                 coupon2Id,
@@ -228,9 +231,10 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 1,
                 10,
                 null,
-                true);
+                true,
+                null);
 
-        assertThat(customers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("visitCount", "firstVisitDate")
+        assertThat(customers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("visitCount", "firstVisitDate", "recentVisitDate")
                 .containsExactlyInAnyOrder(customer1Expected, customer2Expected);
     }
 

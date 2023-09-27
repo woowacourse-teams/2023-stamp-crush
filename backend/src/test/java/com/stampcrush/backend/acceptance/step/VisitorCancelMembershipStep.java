@@ -1,28 +1,25 @@
 package com.stampcrush.backend.acceptance.step;
 
-import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 import static io.restassured.http.ContentType.JSON;
 
-public class VisitorLinkDataStep {
+public class VisitorCancelMembershipStep {
 
-    public static ExtractableResponse<Response> 회원_데이터_연동_요청(String accessToken, VisitorProfilesLinkDataRequest request) {
+    public static ExtractableResponse<Response> 가입_고객_회원_탈퇴_요청(String accessToken) {
         return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .auth().preemptive()
                 .oauth2(accessToken)
-                .body(request)
 
                 .when()
-                .post("/api/profiles/link-data")
+                .delete("/api/customers")
 
                 .then()
                 .log().all()
                 .extract();
     }
 }
-

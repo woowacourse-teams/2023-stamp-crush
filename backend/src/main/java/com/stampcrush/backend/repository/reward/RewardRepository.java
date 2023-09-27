@@ -14,4 +14,6 @@ public interface RewardRepository extends JpaRepository<Reward, Long> {
     List<Reward> findAllByCustomerAndUsed(Customer customer, boolean used);
 
     Long countByCafeAndCustomerAndUsed(Cafe cafe, Customer customer, Boolean used);
+
+    List<Reward> findByCustomer(Customer customer);
 }

@@ -2,7 +2,13 @@ package com.stampcrush.backend.application.manager.coupon.dto;
 
 import com.stampcrush.backend.application.manager.coupon.CustomerCouponStatistics;
 import com.stampcrush.backend.entity.user.Customer;
-import lombok.*;
+import com.stampcrush.backend.entity.visithistory.VisitHistories;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -21,18 +27,20 @@ public class CafeCustomerFindResultDto {
     private LocalDateTime firstVisitDate;
     private boolean isRegistered;
     private int maxStampCount;
+    private LocalDateTime recentVisitDate;
 
     public static CafeCustomerFindResultDto of(Customer customer, CustomerCouponStatistics customerCouponStatistics,
-                                               int visitCount, LocalDateTime firstVisitDate) {
+                                               VisitHistories visitHistories, int unusedRewards) {
         return new CafeCustomerFindResultDto(
                 customer.getId(),
                 customer.getNickname(),
                 customerCouponStatistics.getStampCount(),
-                customerCouponStatistics.getRewardCount(),
-                visitCount,
-                firstVisitDate,
+                unusedRewards,
+                visitHistories.getVisitCount(),
+                visitHistories.getFirstVisitDate(),
                 customer.isRegistered(),
-                customerCouponStatistics.getMaxStampCount()
+                customerCouponStatistics.getMaxStampCount(),
+                visitHistories.getRecentVisitDate()
         );
     }
 }

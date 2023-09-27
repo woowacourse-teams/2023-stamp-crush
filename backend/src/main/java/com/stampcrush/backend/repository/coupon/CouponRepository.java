@@ -4,6 +4,7 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.CustomerType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,9 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select distinct cp from Coupon cp left join fetch cp.stamps join fetch cp.cafe join fetch cp.customer where cp.cafe = :cafe")
     List<Coupon> findByCafe(@Param("cafe") Cafe cafe);
 
+    @Query("select distinct cp from Coupon cp left join fetch cp.stamps join fetch cp.cafe join fetch cp.customer c where cp.cafe = :cafe and c.customerType = :customerType")
+    List<Coupon> findByCafeAndCustomerType(@Param("cafe") Cafe cafe, @Param("customerType") CustomerType customerType);
+
     List<Coupon> findByCafeAndCustomerAndStatus(@Param("cafe") Cafe cafe, @Param("customer") Customer customer, @Param("status") CouponStatus status);
 
     // TODO: 즐겨찾기가 붙어있는지 등에 따라 정렬하기로 했었는데, 현재 로직에서는 정렬을 하고 있지 않아서, 아래 메서드로 대체함
@@ -26,4 +30,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     List<Coupon> findCouponsByCustomerAndStatus(Customer customer, CouponStatus couponStatus);
 
     Optional<Coupon> findByIdAndCustomerId(Long id, Long customerId);
+
+    List<Coupon> findByCustomer(Customer customer);
 }
