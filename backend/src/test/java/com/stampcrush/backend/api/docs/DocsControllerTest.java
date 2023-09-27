@@ -45,6 +45,7 @@ import com.stampcrush.backend.auth.api.ManagerOAuthController;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthLoginService;
 import com.stampcrush.backend.auth.application.manager.ManagerOAuthService;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.auth.repository.BlackListRepository;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
@@ -122,6 +123,9 @@ public abstract class DocsControllerTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockBean
+    protected BlackListRepository blackListRepository;
 
     @MockBean
     protected ManagerCafeFindService managerCafeFindService;

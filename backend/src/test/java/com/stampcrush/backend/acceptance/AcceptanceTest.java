@@ -1,6 +1,7 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
+import com.stampcrush.backend.auth.repository.BlackListRepository;
 import com.stampcrush.backend.common.DataCleaner;
 import com.stampcrush.backend.common.DataClearExtension;
 import com.stampcrush.backend.common.KorNamingConverter;
@@ -27,6 +28,9 @@ public class AcceptanceTest {
 
     @Autowired
     protected AuthTokensGenerator authTokensGenerator;
+
+    @Autowired
+    protected BlackListRepository blackListRepository;
 
     @Autowired
     protected CafeRepository cafeRepository;
