@@ -35,8 +35,6 @@ public class ManagerCommandService {
         return ownerRepository.findByLoginId(loginId).isPresent();
     }
 
-    //TODO: 리프레쉬 토큰이 데이터베이스에 저장되면 readOnly 제거
-    @Transactional(readOnly = true)
     public AuthTokensResponse login(OwnerLoginDto ownerLoginDto) {
         Owner owner = ownerRepository.findByLoginId(ownerLoginDto.getLoginId())
                 .orElseThrow(() -> new OwnerNotFoundException("존재하지 않는 아이디 입니다."));
