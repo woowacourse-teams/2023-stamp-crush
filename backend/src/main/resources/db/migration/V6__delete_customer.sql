@@ -1,9 +1,6 @@
 ALTER TABLE customer
     ADD deleted BOOLEAN DEFAULT false;
 
-ALTER TABLE coupon
-    ADD deleted BOOLEAN DEFAULT false;
-
 ALTER TABLE coupon_design
     ADD deleted BOOLEAN DEFAULT false;
 
