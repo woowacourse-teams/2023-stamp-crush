@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class ManagerAuthService {
+public class ManagerAuthTestService {
 
     private final OwnerRepository ownerRepository;
     private final AuthTokensGenerator authTokensGenerator;

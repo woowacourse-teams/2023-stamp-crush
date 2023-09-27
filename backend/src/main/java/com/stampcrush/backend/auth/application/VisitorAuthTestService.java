@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class VisitorAuthService {
+public class VisitorAuthTestService {
 
     private final CustomerRepository customerRepository;
     private final AuthTokensGenerator authTokensGenerator;
