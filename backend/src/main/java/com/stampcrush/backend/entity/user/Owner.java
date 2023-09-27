@@ -69,10 +69,6 @@ public class Owner extends BaseDate {
         this.oAuthId = oAuthId;
     }
 
-    public static void validatePassword(String password) {
-
-    }
-
     public void checkPassword(String password) {
         String hashedPassword = PasswordEncryptor.encrypt(password);
         if (!this.encryptedPassword.equals(hashedPassword)) {
