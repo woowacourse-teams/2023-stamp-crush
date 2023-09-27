@@ -8,7 +8,6 @@ import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -26,8 +25,8 @@ import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class VisitorCancelMembershipAcceptanceTest extends AcceptanceTest {
 
@@ -46,14 +45,12 @@ class VisitorCancelMembershipAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @Disabled
-        // TODO: 반드시 통과해야 한다.
     void 잘못된_access_token을_보내는_경우에_회원_탈퇴할_수_없다() {
         String accessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
-        String wrongAccessToken = accessToken + "잘못되었지롱";
+        String wrongAccessToken = "조작되었지롱" + accessToken;
         ExtractableResponse<Response> response = 가입_고객_회원_탈퇴_요청(wrongAccessToken);
 
-        assertEquals(FORBIDDEN.value(), response.statusCode());
+        assertEquals(UNAUTHORIZED.value(), response.statusCode());
     }
 
     @Test
