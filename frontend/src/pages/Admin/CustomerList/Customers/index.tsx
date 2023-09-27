@@ -28,7 +28,7 @@ const Customers = ({ customers }: CustomersProps) => {
           maxStampCount,
           rewardCount,
           isRegistered,
-          firstVisitDate,
+          recentVisitDate,
           visitCount,
         }: Customer) => (
           <CustomerBox key={id}>
@@ -44,7 +44,7 @@ const Customers = ({ customers }: CustomersProps) => {
             </LeftInfo>
             <RightInfo>
               <InfoContainer>
-                최근 방문일: {formatDate(firstVisitDate)}
+                최근 방문일: {formatDate(recentVisitDate)}
                 <br /> 방문 횟수: {visitCount}번
               </InfoContainer>
             </RightInfo>
