@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ID_REGEX, PW_REGEX, ROUTER_PATH } from '../../../../constants';
+import usePostSignUp from './usePostSignUp';
 
 const useSignUp = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const useSignUp = () => {
 
   const [isValidId, setIsValidId] = useState(false);
   const [isValidPw, setIsValidPw] = useState(false);
+
+  const { mutate: mutateSignUp } = usePostSignUp();
 
   const signUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,12 +28,19 @@ const useSignUp = () => {
       return;
     }
 
-    if (!PW_REGEX.test(password) || password.length > 8 || password.length < 31) {
+    if (!PW_REGEX.test(password) || password.length < 8 || password.length > 30) {
       alert(
         '비밀번호는 영문자, 숫자 및 특수문자 조합이어야 하며, 8자 이상 30자 이하로 입력되어야 합니다.',
       );
       return;
     }
+
+    mutateSignUp({
+      body: {
+        loginId,
+        password,
+      },
+    });
     navigate(ROUTER_PATH.adminLogin);
   };
 
