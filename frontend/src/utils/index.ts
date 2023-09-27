@@ -11,7 +11,7 @@ export const formatDate = (dateString: string) => {
 
   const date = new Date(year, month, day);
 
-  const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+  const formattedDate = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`;
 
   return formattedDate;
 };
