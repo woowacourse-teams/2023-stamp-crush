@@ -23,7 +23,7 @@ const CustomerList = () => {
     key: 'stampCount',
     value: '스탬프순',
   });
-  const registerTypeKey = registerType.key === 'all' ? undefined : registerType.key;
+  const registerTypeKey = registerType.key === 'all' ? null : registerType.key;
   const { data: customers, status } = useGetCustomers(
     cafeId,
     orderOption as CustomerOrderOption,
