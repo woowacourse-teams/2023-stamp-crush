@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class VisitorCancelMembershipCommandController {
+public class VisitorCancelMembershipCommandApiController {
 
     private final VisitorCancelMembershipCommandService visitorProfilesCommandService;
 
