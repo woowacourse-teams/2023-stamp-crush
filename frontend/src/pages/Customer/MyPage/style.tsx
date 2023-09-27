@@ -26,11 +26,11 @@ export const Nickname = styled.span`
   margin-right: 5px;
 `;
 
-export const NavContainer = styled.li`
+export const NavContainer = styled.ul`
   list-style-type: none;
 `;
 
-export const NavWrapper = styled.ul`
+export const NavWrapper = styled.li`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -39,4 +39,9 @@ export const NavWrapper = styled.ul`
   padding: 0 25px;
 
   cursor: pointer;
+`;
+
+export const FeedbackLink = styled.a`
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.black};
 `;

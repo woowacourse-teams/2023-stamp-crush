@@ -9,6 +9,7 @@ import {
   UsedParams,
   OAuthTokenParams,
   CouponIdParams,
+  CustomerTypeParams,
 } from '../types/api/request';
 import {
   CafeRes,
@@ -63,9 +64,12 @@ export const getCustomer = async ({ params }: QueryReq<PhoneNumberParams>) => {
   );
 };
 
-export const getCustomers = async ({ params }: QueryReq<CafeIdParams>) => {
+export const getCustomers = async ({ params }: QueryReq<CafeIdParams & CustomerTypeParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.get<CustomersRes>(`/admin/cafes/${params.cafeId}/customers`, ownerHeader());
+  const requestUrl = params.customerType
+    ? `/admin/cafes/${params.cafeId}/customers?customer-type=${params.customerType}`
+    : `/admin/cafes/${params.cafeId}/customers`;
+  return await api.get<CustomersRes>(requestUrl, ownerHeader());
 };
 
 export const getCoupon = async ({ params }: QueryReq<CustomerIdParams & CafeIdParams>) => {
