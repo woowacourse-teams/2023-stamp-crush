@@ -7,6 +7,7 @@ export interface Customer {
   visitCount: number;
   firstVisitDate: string;
   isRegistered: boolean;
+  recentVisitDate: string;
 }
 
 export interface CustomerPhoneNumber {
