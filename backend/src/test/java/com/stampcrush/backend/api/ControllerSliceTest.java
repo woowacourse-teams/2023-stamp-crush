@@ -2,6 +2,7 @@ package com.stampcrush.backend.api;
 
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.auth.application.util.JwtTokenProvider;
+import com.stampcrush.backend.auth.repository.BlackListRepository;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -18,6 +19,9 @@ public abstract class ControllerSliceTest {
 
     @Autowired
     public MockMvc mockMvc;
+
+    @MockBean
+    public BlackListRepository blackListRepository;
 
     @MockBean
     public OwnerRepository ownerRepository;
