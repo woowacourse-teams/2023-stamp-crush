@@ -38,6 +38,7 @@ import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.application.visitor.profile.VisitorCancelMembershipCommandService;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesFindService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
@@ -182,6 +183,9 @@ public abstract class DocsControllerTest {
 
     @MockBean
     protected VisitorProfilesCommandService visitorProfilesCommandService;
+
+    @MockBean
+    protected VisitorCancelMembershipCommandService visitorCancelMembershipCommandService;
 
     @MockBean
     protected VisitorProfilesFindService visitorProfilesFindService;

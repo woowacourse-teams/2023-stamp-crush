@@ -2,10 +2,7 @@ package com.stampcrush.backend.api.docs.visitor.profile;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
-import com.stampcrush.backend.application.visitor.profile.VisitorCancelMembershipCommandService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -24,9 +21,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class VisitorCancelMembershipCommandApiDocsController extends DocsControllerTest {
-
-    @MockBean
-    private VisitorCancelMembershipCommandService visitorCancelMembershipCommandService;
 
     @Test
     void 고객_회원_탈퇴() throws Exception {
