@@ -47,7 +47,7 @@ class VisitorCancelMembershipAcceptanceTest extends AcceptanceTest {
     @Test
     void 잘못된_access_token을_보내는_경우에_회원_탈퇴할_수_없다() {
         String accessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
-        String wrongAccessToken = "조작되었지롱" + accessToken;
+        String wrongAccessToken = accessToken.substring(0, accessToken.length() - 6) + "조작되었지롱";
         ExtractableResponse<Response> response = 가입_고객_회원_탈퇴_요청(wrongAccessToken);
 
         assertEquals(UNAUTHORIZED.value(), response.statusCode());
