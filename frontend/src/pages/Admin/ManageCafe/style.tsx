@@ -19,6 +19,7 @@ export const ManageCafeForm = styled.form`
   display: grid;
   grid-template-rows: repeat(6, auto);
   width: 100%;
+  height: fit-content;
   gap: 40px;
 
   & > button {
