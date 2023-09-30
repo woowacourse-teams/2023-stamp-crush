@@ -57,7 +57,7 @@ export const ManageCafeGridContainer = styled.div`
   display: grid;
   width: 100%;
   height: 90%;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 400px 400px);
   padding-top: 40px;
   gap: 40px;
 `;
