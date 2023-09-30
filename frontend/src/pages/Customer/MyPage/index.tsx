@@ -5,6 +5,7 @@ import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
 import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
+import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,
@@ -28,7 +29,7 @@ const MYPAGE_NAV_OPTIONS = [
 ];
 
 const MyPage = () => {
-  const { customerProfile } = useCustomerProfile();
+  const { customerProfile } = useCustomerRedirectRegisterPage();
   const navigate = useNavigate();
 
   const navigatePage = (key: string) => () => {

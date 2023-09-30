@@ -16,8 +16,10 @@ import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
+import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 
 const CouponList = () => {
+  useCustomerRedirectRegisterPage();
   const navigate = useNavigate();
   const { customerProfile } = useCustomerProfile();
   const { isOpen, openModal, closeModal } = useModal();
@@ -35,7 +37,6 @@ const CouponList = () => {
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
-    if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
     if (coupons && isNotEmptyArray(coupons)) {
       setCurrentIndex(coupons.length - 1);
     }
