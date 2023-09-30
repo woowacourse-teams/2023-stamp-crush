@@ -41,6 +41,9 @@ public class VisitorOAuthController {
 
         Cookie refreshToken = new Cookie("refreshToken", tokensResponse.getRefreshToken());
         refreshToken.setHttpOnly(true);
+        refreshToken.setSecure(true);
+        refreshToken.setPath("/");
+        refreshToken.setMaxAge(604800);
         response.addCookie(refreshToken);
 
         return ResponseEntity.ok(tokensResponse);
