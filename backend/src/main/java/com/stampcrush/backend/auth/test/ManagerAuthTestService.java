@@ -1,4 +1,4 @@
-package com.stampcrush.backend.auth.application;
+package com.stampcrush.backend.auth.test;
 
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
@@ -6,8 +6,10 @@ import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile("test")
 @RequiredArgsConstructor
 @Service
 public class ManagerAuthTestService {
