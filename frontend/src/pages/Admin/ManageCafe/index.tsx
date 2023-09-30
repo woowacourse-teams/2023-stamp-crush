@@ -1,12 +1,6 @@
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';
-import {
-  ManageCafeForm,
-  ManageCafeGridContainer,
-  PageContainer,
-  PreviewContainer,
-  Wrapper,
-} from './style';
+import { ManageCafeForm, ManageCafeGridContainer, PreviewContainer, Wrapper } from './style';
 import { useMemo } from 'react';
 import { PreviewImageWrapper } from '../CouponDesign/CustomCouponDesign/style';
 import { DEFAULT_CAFE } from '../../../constants';
