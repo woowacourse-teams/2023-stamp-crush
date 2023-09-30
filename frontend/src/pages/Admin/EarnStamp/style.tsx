@@ -16,10 +16,8 @@ export const StepperGuide = styled.p`
 export const CouponSelectorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
+
   gap: 10px;
-  right: -350px;
 
   & > h1 {
     font-size: 20px;
@@ -32,16 +30,51 @@ export const CouponSelectorWrapper = styled.div`
 `;
 
 export const CouponSelectorContainer = styled.main`
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  margin-top: 40px;
-  height: 400px;
-  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 340px 150px);
+  width: 700px;
+  height: 450px;
+  align-items: center;
+  margin-top: 20px;
+
+  color: #777;
 
   & > button {
+    grid-column: 2/3;
+    font-size: 18px;
+  }
+`;
+
+export const StepperWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  height: 80px;
+  gap: 10px;
+
+  p {
     position: absolute;
     bottom: 0;
-    right: 0;
+    font-size: 14px;
+    color: dodgerblue;
+    line-height: 20px;
+  }
+`;
+
+export const TextWrapper = styled.div`
+  display: flex;
+  width: 300px;
+  align-items: center;
+  gap: 8px;
+
+  & :nth-child(n) {
+    font-size: 18px;
+  }
+
+  & :nth-child(2) {
+    width: 100px;
+    color: dodgerblue;
+    font-weight: bold;
   }
 `;
