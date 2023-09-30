@@ -2,7 +2,7 @@ package com.stampcrush.backend.auth.api;
 
 import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.KakaoLoginParams;
-import com.stampcrush.backend.auth.application.visitor.VisitorOAuthLoginService;
+import com.stampcrush.backend.auth.application.visitor.VisitorAuthLoginService;
 import com.stampcrush.backend.auth.application.visitor.VisitorOAuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -23,7 +20,7 @@ import java.net.URI;
 @RequestMapping("/api/login")
 public class VisitorOAuthController {
 
-    private final VisitorOAuthLoginService visitorOAuthLoginService;
+    private final VisitorAuthLoginService visitorAuthLoginService;
     private final VisitorOAuthService visitorOAuthService;
 
     @GetMapping("/kakao")
@@ -37,15 +34,28 @@ public class VisitorOAuthController {
     @GetMapping("/kakao/token")
     public ResponseEntity<AuthTokensResponse> authorizeUser(@RequestParam("code") String authorizationCode, HttpServletResponse response) {
         KakaoLoginParams params = new KakaoLoginParams(authorizationCode);
-        AuthTokensResponse tokensResponse = visitorOAuthLoginService.login(params);
+        AuthTokensResponse tokensResponse = visitorAuthLoginService.login(params);
 
-        Cookie refreshToken = new Cookie("refreshToken", tokensResponse.getRefreshToken());
-        refreshToken.setHttpOnly(true);
-        refreshToken.setSecure(true);
-        refreshToken.setPath("/");
-        refreshToken.setMaxAge(604800);
-        response.addCookie(refreshToken);
+        addRefreshTokenCookieToResponse(response, tokensResponse.getRefreshToken());
 
         return ResponseEntity.ok(tokensResponse);
+    }
+
+    @GetMapping("/reissue-token")
+    public ResponseEntity<AuthTokensResponse> reissueToken(@CookieValue(name = "refreshToken") String refreshToken, HttpServletResponse response) {
+        AuthTokensResponse authTokensResponse = visitorAuthLoginService.reissueToken(refreshToken);
+
+        addRefreshTokenCookieToResponse(response, authTokensResponse.getRefreshToken());
+
+        return ResponseEntity.ok(authTokensResponse);
+    }
+
+    private void addRefreshTokenCookieToResponse(HttpServletResponse response, String refreshToken) {
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(604800);
+        response.addCookie(refreshTokenCookie);
     }
 }

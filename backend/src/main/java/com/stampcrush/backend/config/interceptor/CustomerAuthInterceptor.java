@@ -1,6 +1,5 @@
 package com.stampcrush.backend.config.interceptor;
 
-import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.AuthTokensGenerator;
 import com.stampcrush.backend.auth.application.util.BearerParser;
 import com.stampcrush.backend.auth.repository.BlackListRepository;
@@ -31,27 +30,27 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
 
         String accessToken = BearerParser.parseAuthorization(authorization);
         if (!authTokensGenerator.isValidToken(accessToken)) {
-
-            String refreshToken = getRefreshToken(request);
-            if (authTokensGenerator.isValidToken(refreshToken) && blackListRepository.isValidRefreshToken(refreshToken)) {
-                Long customerId = getCustomerId(accessToken);
-                customerRepository.findById(customerId)
-                        .orElseThrow(() -> new UnAuthorizationException("인증할 수 없습니다."));
-
-                AuthTokensResponse newTokens = authTokensGenerator.generate(customerId);
-
-                request.setAttribute("Authorization", newTokens.getAccessToken());
-
-                Cookie[] cookies = request.getCookies();
-                if (cookies != null) {
-                    for (Cookie cookie : cookies) {
-                        if (cookie.getName().equals("refreshToken")) {
-                            cookie.setValue(newTokens.getRefreshToken());
-                        }
-                    }
-                }
-                return true;
-            }
+//
+//            String refreshToken = getRefreshToken(request);
+//            if (authTokensGenerator.isValidToken(refreshToken) && blackListRepository.isValidRefreshToken(refreshToken)) {
+//                Long customerId = getCustomerId(accessToken);
+//                customerRepository.findById(customerId)
+//                        .orElseThrow(() -> new UnAuthorizationException("인증할 수 없습니다."));
+//
+//                AuthTokensResponse newTokens = authTokensGenerator.generate(customerId);
+//
+//                request.setAttribute("Authorization", newTokens.getAccessToken());
+//
+//                Cookie[] cookies = request.getCookies();
+//                if (cookies != null) {
+//                    for (Cookie cookie : cookies) {
+//                        if (cookie.getName().equals("refreshToken")) {
+//                            cookie.setValue(newTokens.getRefreshToken());
+//                        }
+//                    }
+//                }
+//                return true;
+//            }
 
             throw new UnAuthorizationException("인증할 수 없습니다.");
         }
