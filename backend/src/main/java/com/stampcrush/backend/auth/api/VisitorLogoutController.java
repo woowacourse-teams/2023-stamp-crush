@@ -1,7 +1,6 @@
 package com.stampcrush.backend.auth.api;
 
 import com.stampcrush.backend.auth.application.visitor.VisitorLogoutService;
-import com.stampcrush.backend.config.resolver.CustomerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,9 @@ public class VisitorLogoutController {
     private final VisitorLogoutService visitorLogoutService;
 
     @GetMapping
-    public ResponseEntity<Void> logout(
-            CustomerAuth customer,
-            @CookieValue(name = "refreshToken") String refreshToken
+    public ResponseEntity<Void> logout(@CookieValue(name = "refreshToken") String refreshToken
     ) {
-        visitorLogoutService.logout(customer.getId(), refreshToken);
+        visitorLogoutService.logout(refreshToken);
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .location(URI.create("/"))
