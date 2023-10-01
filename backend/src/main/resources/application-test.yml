@@ -19,6 +19,16 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test;Mode=MySql
 
+oauth:
+  kakao:
+    client-id: test-client-id
+    client-secret: test-client-secret
+    redirect-uri-manager: http://localhost:3000/admin/login/auth/kakao
+    redirect-uri-visitor: http://localhost:3000/login/auth/kakao
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+
 jwt:
   secret-key: eyJpc3MiOiJ2ZWxvcGVydC5jb20iLCJleHAiOiIxNDg1MjcwMDAwMDAwIiwiaHR0cHM6Ly92ZWxvcGVydC5jb20vand0X2NsYWltcy9pc19hZG1pbiI6dHJ1ZSwidXNlcklkIjoiMTEwMjgzNzM3MjcxMDIiLCJ1c2VybmFtZSI6InZlbG9wZXJ0In0
 

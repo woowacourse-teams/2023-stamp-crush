@@ -9,11 +9,9 @@ import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.UnAuthorizationException;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Profile("!test")
 @Service
 public class VisitorAuthLoginService {
 

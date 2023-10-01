@@ -5,7 +5,6 @@ import com.stampcrush.backend.auth.application.util.OAuthLoginParams;
 import com.stampcrush.backend.auth.client.OAuthInfoResponse;
 import com.stampcrush.backend.auth.client.VisitorOAuthApiClient;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-@Profile("!test")
 public class VisitorOAuthService {
 
     private final String clientId;
