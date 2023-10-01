@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,8 +49,9 @@ class ManagerCommandApiControllerTest extends ControllerSliceTest {
     void 로그인_요청이_정상적일_경우_200_코드를_반환한다() throws Exception {
         // given
         OwnerLoginRequest ownerLoginRequest = new OwnerLoginRequest("loginID", "password123");
-        when(managerCommandService.login(OwnerLoginDto.from(ownerLoginRequest)))
-                .thenReturn(new AuthTokensResponse("token", "token", "bearer", 1L));
+        AuthTokensResponse token = new AuthTokensResponse("token", "token", "bearer", 1L);
+        when(managerCommandService.login(any(OwnerLoginDto.class))).thenReturn(token);
+
         String requestBody = new ObjectMapper().writeValueAsString(ownerLoginRequest);
 
         // when, then
