@@ -4,6 +4,7 @@ import com.stampcrush.backend.auth.api.response.AuthTokensResponse;
 import com.stampcrush.backend.auth.application.util.KakaoLoginParams;
 import com.stampcrush.backend.auth.application.visitor.VisitorAuthLoginService;
 import com.stampcrush.backend.auth.application.visitor.VisitorOAuthService;
+import com.stampcrush.backend.config.resolver.CustomerAuth;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,9 @@ public class VisitorOAuthController {
     }
 
     @GetMapping("/reissue-token")
-    public ResponseEntity<AuthTokensResponse> reissueToken(@CookieValue(name = "refreshToken") String refreshToken, HttpServletResponse response) {
-        AuthTokensResponse authTokensResponse = visitorAuthLoginService.reissueToken(refreshToken);
+    public ResponseEntity<AuthTokensResponse> reissueToken(CustomerAuth customer, @CookieValue(name = "refreshToken") String refreshToken, HttpServletResponse response) {
+        Long customerId = customer.getId();
+        AuthTokensResponse authTokensResponse = visitorAuthLoginService.reissueToken(customerId, refreshToken);
 
         addRefreshTokenCookieToResponse(response, authTokensResponse.getRefreshToken());
 

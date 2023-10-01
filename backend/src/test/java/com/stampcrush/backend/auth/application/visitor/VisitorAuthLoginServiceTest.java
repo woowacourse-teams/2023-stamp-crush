@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,6 +22,7 @@ class VisitorAuthLoginServiceTest {
 
     @Mock
     private BlackListRepository blackListRepository;
+
     @Mock
     private AuthTokensGenerator authTokensGenerator;
 
@@ -29,10 +31,9 @@ class VisitorAuthLoginServiceTest {
         String refreshToken = "validToken";
 
         when(authTokensGenerator.isValidToken(refreshToken)).thenReturn(true);
-        when(authTokensGenerator.extractMemberId(refreshToken)).thenReturn(1L);
         when(blackListRepository.isValidRefreshToken(refreshToken)).thenReturn(true);
 
-        assertDoesNotThrow(() -> visitorAuthLoginService.reissueToken(refreshToken));
+        assertDoesNotThrow(() -> visitorAuthLoginService.reissueToken(anyLong(), refreshToken));
     }
 
     @Test
@@ -41,7 +42,7 @@ class VisitorAuthLoginServiceTest {
 
         when(authTokensGenerator.isValidToken(refreshToken)).thenReturn(false);
 
-        assertThatThrownBy(() -> visitorAuthLoginService.reissueToken(refreshToken)).isInstanceOf(UnAuthorizationException.class);
+        assertThatThrownBy(() -> visitorAuthLoginService.reissueToken(anyLong(), refreshToken)).isInstanceOf(UnAuthorizationException.class);
     }
 
     @Test
@@ -51,6 +52,6 @@ class VisitorAuthLoginServiceTest {
         when(authTokensGenerator.isValidToken(refreshToken)).thenReturn(true);
         when(blackListRepository.isValidRefreshToken(refreshToken)).thenReturn(false);
 
-        assertThatThrownBy(() -> visitorAuthLoginService.reissueToken(refreshToken)).isInstanceOf(UnAuthorizationException.class);
+        assertThatThrownBy(() -> visitorAuthLoginService.reissueToken(anyLong(), refreshToken)).isInstanceOf(UnAuthorizationException.class);
     }
 }

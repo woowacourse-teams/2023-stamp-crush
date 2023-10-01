@@ -45,10 +45,9 @@ public class VisitorAuthLoginService {
         return customerRepository.save(customer).getId();
     }
 
-    public AuthTokensResponse reissueToken(String refreshToken) {
+    public AuthTokensResponse reissueToken(Long customerId, String refreshToken) {
         if (authTokensGenerator.isValidToken(refreshToken) && blackListRepository.isValidRefreshToken(refreshToken)) {
-            Long memberId = authTokensGenerator.extractMemberId(refreshToken);
-            return authTokensGenerator.generate(memberId);
+            return authTokensGenerator.generate(customerId);
         }
 
         throw new UnAuthorizationException("accessToken 재발급이 불가능합니다");
