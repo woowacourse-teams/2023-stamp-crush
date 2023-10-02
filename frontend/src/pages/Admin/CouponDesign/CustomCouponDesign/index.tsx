@@ -68,64 +68,53 @@ const CustomCouponDesign = () => {
 
   return (
     <>
-      <Spacing $size={40} />
       <CustomCouponDesignContainer>
-        <div>
-          <Text variant="pageTitle">쿠폰 제작 및 변경</Text>
-          <Spacing $size={40} />
-          <Text variant="subTitle">예상 쿠폰 이미지</Text>
-          <Spacing $size={20} />
-          <ImageUploadContainer>
-            <div>
-              <CustomCouponSection
-                label="쿠폰 앞면"
-                uploadImageInputId="coupon-front-image-input"
-                imgFileUrl={frontImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadFrontImageUrl}
-              />
-              <Spacing $size={32} />
-              <CustomCouponSection
-                label="쿠폰 뒷면"
-                uploadImageInputId="coupon-back-image-input"
-                imgFileUrl={backImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadBackImageUrl}
-              />
-            </div>
-            <RowSpacing $size={72} />
-            <div>
-              <CouponPreviewSection
-                isShown={true}
-                frontImageUrl={frontImageUrl}
-                backImageUrl={backImageUrl}
-                stampImageUrl={stampImageUrl}
-                stampCount={maxStampCount}
-                coordinates={stampCoordinates}
-              />
-              <Spacing $size={32} />
-              <CustomStampSection
-                label="스탬프"
-                uploadImageInputId="stamp-image-input"
-                imgFileUrl={stampImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadStampImage}
-              />
-            </div>
-          </ImageUploadContainer>
-          <StampCustomButtonWrapper>
+        <Text variant="pageTitle">쿠폰 제작 및 변경 - 커스텀</Text>
+        <ImageUploadContainer>
+          <div>
+            <CustomCouponSection
+              label="쿠폰 앞면"
+              uploadImageInputId="coupon-front-image-input"
+              imgFileUrl={frontImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadFrontImageUrl}
+            />
+            <Spacing $size={40} />
+            <CustomCouponSection
+              label="쿠폰 뒷면"
+              uploadImageInputId="coupon-back-image-input"
+              imgFileUrl={backImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadBackImageUrl}
+            />
+          </div>
+          <div>
+            <CustomStampSection
+              label="스탬프"
+              uploadImageInputId="stamp-image-input"
+              imgFileUrl={stampImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadStampImage}
+            />
+            <Spacing $size={40} />
             <Button variant="secondary" size="medium" onClick={customStampPosition}>
-              스탬프 위치 커스텀하기
+              스탬프 위치 설정하기
             </Button>
-          </StampCustomButtonWrapper>
-          <Spacing $size={40} />
-          <SaveButtonWrapper>
-            <Button variant="primary" size="medium" onClick={changeCouponDesignAndPolicy}>
-              저장하기
-            </Button>
-          </SaveButtonWrapper>
-        </div>
-        <RowSpacing $size={100} />
+          </div>
+          <CouponPreviewSection
+            isShown={true}
+            frontImageUrl={frontImageUrl}
+            backImageUrl={backImageUrl}
+            stampImageUrl={stampImageUrl}
+            stampCount={maxStampCount}
+            coordinates={stampCoordinates}
+          />
+        </ImageUploadContainer>
+        <SaveButtonWrapper>
+          <Button variant="primary" size="medium" onClick={changeCouponDesignAndPolicy}>
+            저장하기
+          </Button>
+        </SaveButtonWrapper>
       </CustomCouponDesignContainer>
       <StampCustomModal
         isOpen={isModalOpen}

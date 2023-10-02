@@ -1,4 +1,4 @@
-import { CouponPreviewHeader } from './style';
+import { CouponPreviewHeader, CustomCouponLabel } from './style';
 import { Spacing } from '../../../../style/layout/common';
 import {
   ImageUpLoadInput,
@@ -32,7 +32,7 @@ const CustomCouponSection = ({
   return (
     <>
       <CouponPreviewHeader>
-        <label>{label}</label>
+        <CustomCouponLabel>💳 {label}</CustomCouponLabel>
         <ImageUpLoadInput
           id={uploadImageInputId}
           type="file"
