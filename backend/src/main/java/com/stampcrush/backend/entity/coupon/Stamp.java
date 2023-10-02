@@ -7,11 +7,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
+@SQLDelete(sql = "UPDATE stamp SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Stamp extends BaseDate {
 
@@ -22,6 +26,8 @@ public class Stamp extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
+
+    private Boolean deleted = Boolean.FALSE;
 
     public void registerCoupon(Coupon coupon) {
         this.coupon = coupon;
