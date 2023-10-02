@@ -12,6 +12,7 @@ import {
   CafeRegisterReqBody,
   IsFavoritesReqBody,
   CustomerLinkDataReqBody,
+  AdminAccountDataReqBody,
 } from '../types/api/request';
 
 export const postEarnStamp = async ({
@@ -85,4 +86,12 @@ export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserRe
 
 export const postCustomerLinkData = async ({ body }: MutateReq<CustomerLinkDataReqBody>) => {
   return await api.post<CustomerLinkDataReqBody>('/profiles/link-data', customerHeader(), body);
+};
+
+export const postAdminLogin = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
+  return await api.post<AdminAccountDataReqBody>('/admin/login', ownerHeader(), body);
+};
+
+export const postAdminSignUp = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
+  return await api.post<AdminAccountDataReqBody>('/admin/owners', ownerHeader(), body);
 };

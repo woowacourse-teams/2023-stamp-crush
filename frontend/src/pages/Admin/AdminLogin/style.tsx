@@ -44,7 +44,7 @@ export const SubTitle = styled.h2`
 `;
 
 export const Text = styled.span`
-  margin: 80px 0 30px 0;
+  margin: 48px 0 16px 0;
   font-size: 18px;
 `;
 
@@ -80,6 +80,30 @@ export const CheckIcon = styled.img`
 export const CheckList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 90px;
+  gap: 12px;
+  margin-bottom: 30px;
+`;
+
+export const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+`;
+
+export const LoginWrapper = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    width: 250px;
+    padding: 4px 0 4px 28px;
+  }
+
+  svg {
+    position: absolute;
+    top: 2px;
+  }
 `;

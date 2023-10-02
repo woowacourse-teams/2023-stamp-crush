@@ -116,7 +116,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   adminLogin: '/admin/login',
   adminAuth: '/admin/login/auth/kakao',
   auth: '/login/auth/kakao',
-  adminSignup: '/admin/sign-up',
+  adminSignUp: '/admin/sign-up',
   enterReward: '/admin/enter-reward',
   enterStamp: '/admin/enter-stamp',
   manageCafe: '/admin/manage-cafe',
@@ -170,4 +170,6 @@ export const DEFAULT_CAFE = {
 export const INTRO_LIMITATION = 150;
 export const PHONE_NUMBER_REGEX = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
 
+export const ID_REGEX = /^[a-zA-Z0-9]+$/;
+export const PW_REGEX = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d!@#$%^*+=-]{7,30}$/;
 export const FEEDBACK_FORM_LINK = 'https://forms.gle/k2AsZnHQe7CKDBiBA';
