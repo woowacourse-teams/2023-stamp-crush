@@ -37,17 +37,6 @@ const CustomerList = () => {
   if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
 
-  if (customers.length === 0)
-    return (
-      <CustomerContainer>
-        <Text variant="pageTitle">내 고객 목록</Text>
-        <EmptyCustomers>
-          아직 보유고객이 없어요! <br />
-          카페를 방문한 고객에게 스탬프를 적립해 보세요.
-        </EmptyCustomers>
-      </CustomerContainer>
-    );
-
   return (
     <CustomerContainer>
       <Text variant="pageTitle">내 고객 목록</Text>
@@ -69,7 +58,14 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Customers registerTypeOption={registerType} customers={customers} />
+      {customers.length === 0 ? (
+        <EmptyCustomers>
+          <span>NO RESULT 🥲</span> 아직 고객이 없어요! <br />
+          카페를 방문한 고객에게 스탬프를 적립해 보세요.
+        </EmptyCustomers>
+      ) : (
+        <Customers registerTypeOption={registerType} customers={customers} />
+      )}
     </CustomerContainer>
   );
 };
