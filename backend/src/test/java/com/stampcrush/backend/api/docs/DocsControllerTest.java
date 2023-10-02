@@ -17,6 +17,7 @@ import com.stampcrush.backend.api.visitor.cafe.VisitorCafeFindApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponCommandApiController;
 import com.stampcrush.backend.api.visitor.coupon.VisitorCouponFindApiController;
 import com.stampcrush.backend.api.visitor.favorites.VisitorFavoritesCommandApiController;
+import com.stampcrush.backend.api.visitor.profile.VisitorCancelMembershipCommandApiController;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesCommandApiController;
 import com.stampcrush.backend.api.visitor.profile.VisitorProfilesFindApiController;
 import com.stampcrush.backend.api.visitor.reward.VisitorRewardsFindController;
@@ -37,6 +38,7 @@ import com.stampcrush.backend.application.visitor.cafe.VisitorCafeFindService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponCommandService;
 import com.stampcrush.backend.application.visitor.coupon.VisitorCouponFindService;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesCommandService;
+import com.stampcrush.backend.application.visitor.profile.VisitorCancelMembershipCommandService;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
 import com.stampcrush.backend.application.visitor.profile.VisitorProfilesFindService;
 import com.stampcrush.backend.application.visitor.reward.VisitorRewardsFindService;
@@ -79,7 +81,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @KorNamingConverter
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@WebMvcTest({ManagerCafeFindApiController.class,
+@WebMvcTest({
+        ManagerCafeFindApiController.class,
         VisitorCafeFindApiController.class,
         ManagerCustomerFindApiController.class,
         ManagerCustomerCommandApiController.class,
@@ -96,6 +99,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         VisitorRewardsFindController.class,
         VisitorVisitHistoryFindApiController.class,
         VisitorProfilesCommandApiController.class,
+        VisitorCancelMembershipCommandApiController.class,
         VisitorProfilesFindApiController.class,
         ManagerCafeCouponSettingFindApiController.class,
         ManagerImageCommandApiController.class,
@@ -110,8 +114,6 @@ public abstract class DocsControllerTest {
             "010123432445", "imageUrl", "intro", "road", "detail", "1234", OWNER);
     protected static final Customer CUSTOMER = REGISTER_CUSTOMER_GITCHAN_SAVED;
 
-    protected static String OWNER_BASIC_HEADER;
-    protected static String CUSTOMER_BASIC_HEADER;
     protected static String OWNER_BEARER_HEADER;
     protected static String CUSTOMER_BEARER_HEADER;
 
@@ -119,92 +121,67 @@ public abstract class DocsControllerTest {
 
     @Autowired
     protected WebApplicationContext ctx;
-
     @Autowired
     protected ObjectMapper objectMapper;
 
     @MockBean
-    protected ManagerCafeFindService managerCafeFindService;
-
+    protected CafeRepository cafeRepository;
     @MockBean
     protected OwnerRepository ownerRepository;
-
     @MockBean
     protected CustomerRepository customerRepository;
+    @MockBean
+    protected AuthTokensGenerator authTokensGenerator;
 
+    @MockBean
+    protected ManagerCafeFindService managerCafeFindService;
     @MockBean
     protected VisitorCafeFindService visitorCafeFindService;
-
     @MockBean
     protected ManagerCustomerFindService managerCustomerFindService;
-
     @MockBean
     protected ManagerCustomerCommandService managerCustomerCommandService;
-
     @MockBean
     protected VisitorCouponFindService visitorCouponFindService;
-
     @MockBean
     protected VisitorFavoritesCommandService visitorFavoritesCommandService;
-
     @MockBean
     protected ManagerCafeCommandService managerCafeCommandService;
-
     @MockBean
     protected ManagerCafeCouponSettingCommandService managerCafeCouponSettingCommandService;
-
     @MockBean
     protected ManagerSampleCouponFindService managerSampleCouponFindService;
-
     @MockBean
     protected ManagerCouponCommandService managerCouponCommandService;
-
     @MockBean
     protected ManagerCouponFindService managerCouponFindService;
-
     @MockBean
     protected ManagerRewardCommandService managerRewardCommandService;
-
     @MockBean
     protected ManagerRewardFindService managerRewardFindService;
-
     @MockBean
     protected VisitorCouponCommandService visitorCouponCommandService;
-
     @MockBean
     protected VisitorRewardsFindService visitorRewardsFindService;
-
     @MockBean
     protected VisitorVisitHistoryFindService visitorVisitHistoryFindService;
-
     @MockBean
     protected VisitorProfilesCommandService visitorProfilesCommandService;
-
+    @MockBean
+    protected VisitorCancelMembershipCommandService visitorCancelMembershipCommandService;
     @MockBean
     protected VisitorProfilesFindService visitorProfilesFindService;
-
     @MockBean
     protected ManagerCafeCouponSettingFindService managerCafeCouponSettingFindService;
-
     @MockBean
     protected ManagerImageCommandService managerImageCommandService;
-
     @MockBean
     protected ManagerOAuthService managerOAuthService;
-
     @MockBean
     protected ManagerOAuthLoginService managerOAuthLoginService;
 
-    @MockBean
-    public CafeRepository cafeRepository;
-
-    @MockBean
-    public AuthTokensGenerator authTokensGenerator;
-
     @BeforeAll
     static void setUpAuth() {
-        OWNER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((OWNER.getLoginId() + ":" + OWNER.getEncryptedPassword()).getBytes());
-        CUSTOMER_BASIC_HEADER = "Basic " + Base64.getEncoder().encodeToString((CUSTOMER.getLoginId() + ":" + CUSTOMER.getEncryptedPassword()).getBytes());
         OWNER_BEARER_HEADER = "Bearer " + BearerAuthHelper.generateToken(OWNER.getId());
         CUSTOMER_BEARER_HEADER = "Bearer " + BearerAuthHelper.generateToken(CUSTOMER.getId());
     }

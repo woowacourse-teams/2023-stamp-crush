@@ -7,6 +7,7 @@ import { DATE_PARSE_OPTION } from '../../../../constants';
 import HistoryPage from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { StampHistoryType } from '../../../../types/domain/stamp';
+import useCustomerRedirectRegisterPage from '../../../../hooks/useCustomerRedirectRegisterPage';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {
@@ -47,6 +48,8 @@ const StampHistoryPage = () => {
     queryFn: () => getStampHistories(),
   });
   const title = '스탬프 적립 내역';
+
+  useCustomerRedirectRegisterPage();
 
   if (stampStatus === 'loading') {
     return (

@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static com.stampcrush.backend.entity.user.CustomerType.REGISTER;
 import static com.stampcrush.backend.entity.user.CustomerType.TEMPORARY;
@@ -21,6 +23,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE customer SET deleted = true WHERE customer_id = ?")
+@Where(clause = "deleted = false")
 @Getter
 @Entity
 public class Customer {
@@ -50,6 +54,8 @@ public class Customer {
     @Enumerated(STRING)
     @Column(name = "customer_type")
     private CustomerType customerType;
+
+    private Boolean deleted = Boolean.FALSE;
 
     @Builder(builderMethodName = "registeredCustomerBuilder", builderClassName = "RegisterCustomer")
     public Customer(

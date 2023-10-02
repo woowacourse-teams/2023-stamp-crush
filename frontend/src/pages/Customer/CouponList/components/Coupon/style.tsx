@@ -7,6 +7,7 @@ export const CouponWrapper = styled.button<{ $src: string }>`
   top: 60%;
   background-image: url(${({ $src }) => $src});
   background-size: cover;
+  background-position: center;
   transform: translate(50%, -50%);
   transition: transform 0.1s;
   box-shadow: 0px -5px 10px -7px #aaa;

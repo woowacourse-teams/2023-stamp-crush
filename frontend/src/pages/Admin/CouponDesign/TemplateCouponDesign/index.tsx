@@ -1,11 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import Text from '../../../../components/Text';
-import { RowSpacing, Spacing } from '../../../../style/layout/common';
-import {
-  CustomCouponDesignContainer,
-  ImageUploadContainer,
-  SaveButtonWrapper,
-} from '../CustomCouponDesign/style';
+import { Spacing } from '../../../../style/layout/common';
+import { CustomCouponDesignContainer } from '../CustomCouponDesign/style';
 import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
 import { parseExpireDate, parseStampCount } from '../../../../utils';
@@ -20,6 +16,7 @@ import StampPreviewImg from '../../../../assets/stamp_preview.png';
 import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
 import { CouponSettingReqBody } from '../../../../types/api/request';
 import { CouponDesignLocation, StampCoordinate } from '../../../../types/domain/coupon';
+import { ImageUploadContainer, PreviewContainer, TemplateTabsContainer } from './style';
 
 const TemplateCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();
@@ -53,69 +50,59 @@ const TemplateCouponDesign = () => {
 
   return (
     <>
-      <Spacing $size={40} />
       <CustomCouponDesignContainer>
-        <div>
-          <Text variant="pageTitle">쿠폰 템플릿으로 제작</Text>
-          <Spacing $size={40} />
-          <Text variant="subTitle">예상 쿠폰 이미지</Text>
-          <Spacing $size={20} />
-
-          <ImageUploadContainer>
-            <div>
-              <CustomCouponSection
-                label="쿠폰 앞면"
-                uploadImageInputId="coupon-front-image-input"
-                imgFileUrl={frontImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadFrontImageUrl}
-              />
-              <Spacing $size={32} />
-              <CustomCouponSection
-                label="쿠폰 뒷면"
-                uploadImageInputId="coupon-back-image-input"
-                imgFileUrl={backImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadBackImageUrl}
-              />
-            </div>
-            <RowSpacing $size={72} />
-            <div>
-              <CouponPreviewSection
-                isShown={true}
-                frontImageUrl={frontImageUrl}
-                backImageUrl={backImageUrl}
-                stampImageUrl={stampImageUrl}
-                stampCount={maxStampCount}
-                coordinates={stampCoordinates}
-              />
-              <Spacing $size={32} />
-              <CustomStampSection
-                label="스탬프"
-                uploadImageInputId="stamp-image-input"
-                imgFileUrl={stampImageUrl}
-                isCustom={isCustom}
-                uploadImageFile={uploadStampImageUrl}
-              />
-            </div>
-          </ImageUploadContainer>
-          <Spacing $size={40} />
-          <SaveButtonWrapper>
+        <Text variant="pageTitle">쿠폰 제작 및 변경 - 템플릿</Text>
+        <ImageUploadContainer>
+          <div>
+            <CustomCouponSection
+              label="쿠폰 앞면"
+              uploadImageInputId="coupon-front-image-input"
+              imgFileUrl={frontImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadFrontImageUrl}
+            />
+            <Spacing $size={32} />
+            <CustomCouponSection
+              label="쿠폰 뒷면"
+              uploadImageInputId="coupon-back-image-input"
+              imgFileUrl={backImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadBackImageUrl}
+            />
+            <Spacing $size={32} />
+            <CustomStampSection
+              label="스탬프"
+              uploadImageInputId="stamp-image-input"
+              imgFileUrl={stampImageUrl}
+              isCustom={isCustom}
+              uploadImageFile={uploadStampImageUrl}
+            />
+          </div>
+          <PreviewContainer>
+            <CouponPreviewSection
+              isShown={true}
+              frontImageUrl={frontImageUrl}
+              backImageUrl={backImageUrl}
+              stampImageUrl={stampImageUrl}
+              stampCount={maxStampCount}
+              coordinates={stampCoordinates}
+            />
             <Button variant="primary" size="medium" onClick={changeCouponDesignAndPolicy}>
               저장하기
             </Button>
-          </SaveButtonWrapper>
-        </div>
-        <RowSpacing $size={100} />
-        <ChoiceTemplate
-          frontImageUrl={frontImageUrl}
-          backImageUrl={backImageUrl}
-          stampImageUrl={stampImageUrl}
-          setFrontImageUrl={setFrontImageUrl}
-          setBackImageUrl={setBackImageUrl}
-          setStampImageUrl={setStampImageUrl}
-          setStampCoordinates={setStampCoordinates}
-        />
+          </PreviewContainer>
+        </ImageUploadContainer>
+        <TemplateTabsContainer>
+          <ChoiceTemplate
+            frontImageUrl={frontImageUrl}
+            backImageUrl={backImageUrl}
+            stampImageUrl={stampImageUrl}
+            setFrontImageUrl={setFrontImageUrl}
+            setBackImageUrl={setBackImageUrl}
+            setStampImageUrl={setStampImageUrl}
+            setStampCoordinates={setStampCoordinates}
+          />
+        </TemplateTabsContainer>
       </CustomCouponDesignContainer>
     </>
   );

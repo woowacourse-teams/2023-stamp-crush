@@ -12,15 +12,13 @@ public class Coupons {
 
     public CustomerCouponStatistics calculateStatistics() {
         int stampCount = 0;
-        int rewardCount = 0;
         int maxStampCount = 0;
 
         for (Coupon coupon : coupons) {
             stampCount = calculateCurrentStampWhenUsingCoupon(stampCount, coupon);
-            rewardCount += addRewardCouponCount(coupon);
             maxStampCount = coupon.calculateMaxStampCountWhenAccumulating();
         }
-        return new CustomerCouponStatistics(stampCount, rewardCount, maxStampCount);
+        return new CustomerCouponStatistics(stampCount, maxStampCount);
     }
 
     private int calculateCurrentStampWhenUsingCoupon(int stampCount, Coupon coupon) {
@@ -28,12 +26,5 @@ public class Coupons {
             return coupon.getStampCount();
         }
         return stampCount;
-    }
-
-    private int addRewardCouponCount(Coupon coupon) {
-        if (coupon.isRewarded()) {
-            return 1;
-        }
-        return 0;
     }
 }

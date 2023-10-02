@@ -2,20 +2,25 @@ import { useQuery } from '@tanstack/react-query';
 import { getCustomers } from '../../../../api/get';
 import { INVALID_CAFE_ID } from '../../../../constants';
 import { CustomersRes } from '../../../../types/api/response';
-import { Customer } from '../../../../types/domain/customer';
+import { Customer, RegisterType } from '../../../../types/domain/customer';
 import { Option } from '../../../../types/utils';
 
 export interface CustomerOrderOption extends Omit<Option, 'key'> {
   key: keyof Customer;
 }
 
-const useGetCustomers = (cafeId: number, orderOption: CustomerOrderOption) => {
+const useGetCustomers = (
+  cafeId: number,
+  orderOption: CustomerOrderOption,
+  customerType?: RegisterType,
+) => {
   return useQuery<CustomersRes, Error, Customer[]>({
-    queryKey: ['customers'],
+    queryKey: ['customers', customerType],
     queryFn: () =>
       getCustomers({
         params: {
           cafeId,
+          customerType,
         },
       }),
     select: (data) =>

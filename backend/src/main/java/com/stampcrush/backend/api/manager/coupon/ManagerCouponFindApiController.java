@@ -10,7 +10,11 @@ import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatin
 import com.stampcrush.backend.config.resolver.OwnerAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -27,6 +31,20 @@ public class ManagerCouponFindApiController {
             @PathVariable("cafeId") Long cafeId
     ) {
         List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafe(owner.getId(), cafeId);
+        List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
+                .map(CafeCustomerFindResponse::from)
+                .toList();
+
+        return ResponseEntity.ok(new CafeCustomersFindResponse(cafeCustomerFindResponses));
+    }
+
+    @GetMapping(value = "/cafes/{cafeId}/customers", params = "customer-type")
+    public ResponseEntity<CafeCustomersFindResponse> findCustomersByCafeAndStatus(
+            OwnerAuth owner,
+            @PathVariable("cafeId") Long cafeId,
+            @RequestParam("customer-type") String customerType
+    ) {
+        List<CafeCustomerFindResultDto> coupons = managerCouponFindService.findCouponsByCafeAndCustomerType(owner.getId(), cafeId, customerType);
         List<CafeCustomerFindResponse> cafeCustomerFindResponses = coupons.stream()
                 .map(CafeCustomerFindResponse::from)
                 .toList();

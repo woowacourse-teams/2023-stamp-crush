@@ -1,15 +1,16 @@
 import { styled } from 'styled-components';
 
 export const Title = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  width: 100vw;
-  height: 110px;
+  width: 100%;
+  height: 80px;
   border-bottom: 3px solid ${({ theme }) => theme.colors.gray400};
   padding: auto 0;
   line-height: 110px;
-
-  text-align: center;
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 600;
 `;
 
@@ -24,7 +25,7 @@ export const IconWrapper = styled.div`
 
 export const Container = styled.div`
   display: flex;
-  height: 100%;
+  height: auto;
 
   @media screen and (max-width: 700px) {
     justify-content: center;
@@ -84,9 +85,4 @@ export const TableItem = styled.div`
   padding: 10px 10px;
   font-size: 12px;
   line-height: 24px;
-`;
-
-export const PageContainer = styled.div`
-  width: 100vw;
-  height: 87vh;
 `;

@@ -67,9 +67,6 @@ public class Reward extends BaseDate {
         if (used) {
             throw new IllegalArgumentException("이미 사용된 리워드 입니다.");
         }
-        if (isTemporaryCustomer()) {
-            throw new IllegalArgumentException("임시회원은 리워드를 사용할 수 없습니다.");
-        }
         if (isNotPublisher(cafe)) {
             throw new IllegalArgumentException("해당 카페에서 발행된 리워드가 아닙니다.");
         }
@@ -77,10 +74,6 @@ public class Reward extends BaseDate {
             throw new IllegalArgumentException("해당 리워드의 소유자가 아닙니다.");
         }
         used = true;
-    }
-
-    private boolean isTemporaryCustomer() {
-        return customer.isTemporaryCustomer();
     }
 
     private boolean isNotPublisher(Cafe cafe) {
