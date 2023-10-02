@@ -26,4 +26,15 @@ public class VisitHistories {
 
         return firstVisit.getCreatedAt();
     }
+
+    public LocalDateTime getRecentVisitDate() {
+        if (visitHistories.isEmpty()) {
+            return LocalDateTime.now();
+        }
+        VisitHistory recentVisit = visitHistories.stream()
+                .max(Comparator.comparing(BaseDate::getCreatedAt))
+                .get();
+
+        return recentVisit.getCreatedAt();
+    }
 }

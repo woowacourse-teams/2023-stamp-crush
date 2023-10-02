@@ -84,7 +84,7 @@ class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 카페사장이_임시_회원의_리워드를_사용할_수_없다() {
+    void 카페사장이_임시_회원의_리워드를_사용할_수_있다() {
         // given
         OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
         String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
@@ -110,7 +110,7 @@ class ManagerRewardCommandAcceptanceTest extends AcceptanceTest {
         // then
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(rewards.size()).isEqualTo(1);
-        softAssertions.assertThat(restRewards.size()).isEqualTo(1);
+        softAssertions.assertThat(restRewards.size()).isEqualTo(0);
         softAssertions.assertAll();
     }
 

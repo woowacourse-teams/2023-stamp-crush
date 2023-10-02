@@ -7,12 +7,13 @@ export const ChoiceTemplateContainer = styled.div`
 export const SampleImageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 42px;
+  padding: 20px;
   width: 100%;
   align-items: center;
   gap: 42px;
   overflow: scroll;
-  height: 80vh;
+  height: 87vh;
+  background: white;
 `;
 
 export const WarnMsg = styled.p`

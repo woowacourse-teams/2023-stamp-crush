@@ -3,17 +3,24 @@ import { PageContainer } from '../../../../style/layout/common';
 
 export const CustomCouponDesignContainer = styled(PageContainer)`
   display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
 
 export const ImageUploadContainer = styled.div`
   display: flex;
+  max-width: 80%;
   justify-content: space-between;
+  margin-top: 40px;
 `;
 
 export const SaveButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 `;
 
 export const PreviewImageWrapper = styled.div<{
@@ -31,7 +38,6 @@ export const PreviewImage = styled.img<{ $width: number; $height: number; $opaci
   width: ${({ $width }) => `${$width}px`};
   height: ${({ $height }) => `${$height}px`};
   opacity: ${({ $opacity }) => ($opacity ? $opacity : '1')};
-  object-fit: cover;
 `;
 
 export const ImageUpLoadInputLabel = styled.label`
@@ -57,6 +63,4 @@ export const ImageUpLoadInput = styled.input`
 
 export const StampCustomButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
 `;

@@ -1,7 +1,7 @@
 package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.customer.request.TemporaryCustomerCreateRequest;
-import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;

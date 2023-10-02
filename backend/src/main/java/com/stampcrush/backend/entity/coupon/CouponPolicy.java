@@ -7,12 +7,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE coupon_policy SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class CouponPolicy extends BaseDate {
 
@@ -25,6 +29,8 @@ public class CouponPolicy extends BaseDate {
     private String rewardName;
 
     private Integer expiredPeriod;
+
+    private Boolean deleted = Boolean.FALSE;
 
     public CouponPolicy(Integer maxStampCount, String rewardName, Integer expiredPeriod) {
         this.maxStampCount = maxStampCount;

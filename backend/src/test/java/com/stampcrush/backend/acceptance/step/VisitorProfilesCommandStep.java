@@ -1,10 +1,10 @@
 package com.stampcrush.backend.acceptance.step;
 
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
 public final class VisitorProfilesCommandStep {
@@ -13,7 +13,7 @@ public final class VisitorProfilesCommandStep {
             String accessToken,
             VisitorProfilesPhoneNumberUpdateRequest request
     ) {
-        return given()
+        return RestAssured.given()
                 .log().all()
                 .contentType(JSON)
                 .body(request)
@@ -24,6 +24,7 @@ public final class VisitorProfilesCommandStep {
                 .post("/api/profiles/phone-number")
 
                 .then()
+                .log().all()
                 .extract();
     }
 }

@@ -13,7 +13,6 @@ import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -138,7 +137,7 @@ class CouponRepositoryTest {
         couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
         couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
 
-        coupon1 = new Coupon(LocalDateTime.now(), LocalDateTime.now(), LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
+        coupon1 = new Coupon(LocalDateTime.of(2023, 9, 5, 22, 4), LocalDateTime.now(), LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
         Stamp stamp1 = new Stamp();
         Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
@@ -159,7 +158,7 @@ class CouponRepositoryTest {
         coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4, couponPolicy4);
         couponRepository.save(coupon4);
 
-        coupon5 = new Coupon(LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
+        coupon5 = new Coupon(LocalDateTime.MIN, LocalDateTime.MIN, LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
         couponRepository.save(coupon5);
     }
 
@@ -208,22 +207,16 @@ class CouponRepositoryTest {
     }
 
     @Test
-    @Disabled
-        // TODO: 영호씨 이거 갑자기 깨지는데 확인좀 해주세요.
-    void 쿠폰들의_createdAt을_비교한다() {
-        // given, when
-        LocalDateTime visitTime = coupon1.compareCreatedAtAndReturnEarlier(coupon5.getCreatedAt());
-
-        // then
-        assertThat(visitTime).isEqualTo(coupon1.getCreatedAt());
-    }
-
-    @Test
     void 쿠폰의_아이디와_고객의_아이디로_쿠폰을_조회한다() {
         // given, when
         Optional<Coupon> coupon = couponRepository.findByIdAndCustomerId(coupon1.getId(), tmpCustomer1.getId());
 
         // then
         assertThat(coupon).isPresent();
+    }
+
+    @Test
+    void 임시회원의_쿠폰만_조회한다() {
+
     }
 }

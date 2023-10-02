@@ -3,7 +3,7 @@ package com.stampcrush.backend.api.docs.visitor.profile;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.stampcrush.backend.api.docs.DocsControllerTest;
-import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataRequest;
+import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;

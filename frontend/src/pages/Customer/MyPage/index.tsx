@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../constants';
-import { ArrowIconWrapper, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
-import { BiArrowBack } from '@react-icons/all-files/bi/BiArrowBack';
+import { FEEDBACK_FORM_LINK, ROUTER_PATH } from '../../../constants';
+import { FeedbackLink, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
 import { AiOutlineUserDelete } from '@react-icons/all-files/ai/AiOutlineUserDelete';
+import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
+
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,
   <AiOutlineUnorderedList key="stampHistory" />,
@@ -59,6 +60,10 @@ const MyPage = () => {
             {option.value}
           </NavWrapper>
         ))}
+        <NavWrapper>
+          <AiOutlineFileText />
+          <FeedbackLink href={FEEDBACK_FORM_LINK}>만족도 조사</FeedbackLink>
+        </NavWrapper>
       </NavContainer>
     </>
   );

@@ -7,13 +7,13 @@ import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Coupons;
 import com.stampcrush.backend.entity.user.Customer;
+import com.stampcrush.backend.entity.user.CustomerType;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistories;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
 import com.stampcrush.backend.exception.CafeNotFoundException;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.exception.OwnerNotFoundException;
-import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
@@ -38,72 +38,71 @@ public class ManagerCouponFindService {
     private final CouponRepository couponRepository;
     private final CafeRepository cafeRepository;
     private final CustomerRepository customerRepository;
-    private final CafePolicyRepository cafePolicyRepository;
     private final VisitHistoryRepository visitHistoryRepository;
     private final RewardRepository rewardRepository;
     private final OwnerRepository ownerRepository;
 
     public List<CafeCustomerFindResultDto> findCouponsByCafe(Long ownerId, Long cafeId) {
         Cafe cafe = findExistingCafe(cafeId);
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        Owner owner = findOwner(ownerId);
         cafe.validateOwnership(owner);
 
-        List<CustomerCoupons> customerCoupons = findCouponsGroupedByCustomers(cafe);
+        List<Coupon> allCustomerCoupons = couponRepository.findByCafe(cafe);
+        Map<Customer, List<Coupon>> customerCoupons = mapCouponsByCustomer(allCustomerCoupons);
+        return produceCouponStatistics(cafe, customerCoupons);
+    }
 
-        List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
-        for (CustomerCoupons customerCoupon : customerCoupons) {
-            Coupons coupons = new Coupons(customerCoupon.coupons);
-            VisitHistories visitHistories = findVisitHistories(cafe, customerCoupon);
+    private Owner findOwner(Long ownerId) {
+        return ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new OwnerNotFoundException(String.format("%d id 사장을 찾지 못했습니다.", ownerId)));
+    }
 
-            if (visitHistories.getVisitCount() == 0) {
-                continue;
-            }
-
-            // TODO: CustomerCouponStatistics 없애도 될 것 같다.
-            CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
-            cafeCustomerFindResultDtos.add(
-                    new CafeCustomerFindResultDto(
-                            customerCoupon.customer.getId(),
-                            customerCoupon.customer.getNickname(),
-                            customerCouponStatistics.getStampCount(),
-                            (int) countUnusedRewards(cafe, customerCoupon.customer),
-                            // TODO: visitCount()는 select count(*)로, first visit date는 min(created_at)으로 가져오는게 더 효율적이지 않을까?
-                            visitHistories.getVisitCount(),
-                            visitHistories.getFirstVisitDate(),
-                            customerCoupon.customer.isRegistered(),
-                            customerCouponStatistics.getMaxStampCount()
-                    )
-            );
-        }
-
-        return cafeCustomerFindResultDtos;
+    private Map<Customer, List<Coupon>> mapCouponsByCustomer(List<Coupon> coupons) {
+        return coupons.stream()
+                .collect(groupingBy(Coupon::getCustomer));
     }
 
     private Cafe findExistingCafe(Long cafeId) {
         return cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new CafeNotFoundException("존재하지 않는 카페 입니다."));
+                .orElseThrow(() -> new CafeNotFoundException(String.format("%d id는 존재하지 않는 카페 입니다.", cafeId)));
     }
 
-    private List<CustomerCoupons> findCouponsGroupedByCustomers(Cafe cafe) {
-        List<Coupon> coupons = couponRepository.findByCafe(cafe);
-        Map<Customer, List<Coupon>> customerCouponMap = coupons.stream()
-                .collect(groupingBy(Coupon::getCustomer));
-        return customerCouponMap.keySet().stream()
-                .map(iter -> new CustomerCoupons(iter, customerCouponMap.get(iter)))
-                .toList();
-    }
-
-    private VisitHistories findVisitHistories(Cafe cafe, CustomerCoupons customerCoupon) {
-        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customerCoupon.customer);
+    private VisitHistories findVisitHistories(Cafe cafe, Customer customer) {
+        List<VisitHistory> visitHistories = visitHistoryRepository.findByCafeAndCustomer(cafe, customer);
 
         return new VisitHistories(visitHistories);
     }
 
+    private List<CafeCustomerFindResultDto> produceCouponStatistics(Cafe cafe, Map<Customer, List<Coupon>> customerCouponMap) {
+        List<CafeCustomerFindResultDto> cafeCustomerFindResultDtos = new ArrayList<>();
+        for (Map.Entry<Customer, List<Coupon>> customerEntry : customerCouponMap.entrySet()) {
+            Coupons coupons = new Coupons(customerEntry.getValue());
+            Customer customer = customerEntry.getKey();
+
+            VisitHistories visitHistories = findVisitHistories(cafe, customer);
+            if (visitHistories.getVisitCount() == 0) {
+                continue;
+            }
+            CustomerCouponStatistics customerCouponStatistics = coupons.calculateStatistics();
+            int unusedRewards = (int) countUnusedRewards(cafe, customer);
+            cafeCustomerFindResultDtos.add(CafeCustomerFindResultDto.of(customer, customerCouponStatistics, visitHistories, unusedRewards));
+        }
+        return cafeCustomerFindResultDtos;
+    }
+
+    public List<CafeCustomerFindResultDto> findCouponsByCafeAndCustomerType(Long ownerId, Long cafeId, String customerType) {
+        Cafe cafe = findExistingCafe(cafeId);
+        Owner owner = findOwner(ownerId);
+        cafe.validateOwnership(owner);
+
+        List<Coupon> allCustomerCoupons = couponRepository.findByCafeAndCustomerType(cafe, CustomerType.from(customerType));
+        Map<Customer, List<Coupon>> customerCouponMap = mapCouponsByCustomer(allCustomerCoupons);
+        return produceCouponStatistics(cafe, customerCouponMap);
+    }
+
     public List<CustomerAccumulatingCouponFindResultDto> findAccumulatingCoupon(Long ownerId, Long cafeId, Long customerId) {
-        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 카페 입니다."));
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
+        Cafe cafe = findExistingCafe(cafeId);
+        Owner owner = findOwner(ownerId);
         cafe.validateOwnership(owner);
 
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("존재하지 않는 고객 입니다."));
@@ -122,8 +121,5 @@ public class ManagerCouponFindService {
 
     private long countUnusedRewards(Cafe cafe, Customer customer) {
         return rewardRepository.countByCafeAndCustomerAndUsed(cafe, customer, Boolean.FALSE);
-    }
-
-    private record CustomerCoupons(Customer customer, List<Coupon> coupons) {
     }
 }

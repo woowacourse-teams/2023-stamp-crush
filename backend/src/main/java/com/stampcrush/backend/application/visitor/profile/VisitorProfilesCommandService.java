@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.visitor.profile;
 
-import com.stampcrush.backend.api.visitor.profile.VisitorProfilesLinkDataDto;
+import com.stampcrush.backend.application.visitor.profile.dto.VisitorProfilesLinkDataDto;
 import com.stampcrush.backend.auth.OAuthProvider;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.BadRequestException;

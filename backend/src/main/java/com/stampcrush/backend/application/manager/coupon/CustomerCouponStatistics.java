@@ -8,6 +8,5 @@ import lombok.RequiredArgsConstructor;
 public class CustomerCouponStatistics {
 
     private final int stampCount;
-    private final int rewardCount;
     private final int maxStampCount;
 }

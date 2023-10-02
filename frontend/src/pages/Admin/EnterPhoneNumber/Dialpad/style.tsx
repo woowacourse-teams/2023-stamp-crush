@@ -11,8 +11,7 @@ export const Container = styled.section`
 
 export const KeyContainer = styled.div`
   display: grid;
-  height: 100%;
-
+  height: 75vh;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
 `;
@@ -22,7 +21,7 @@ export const Pad = styled.button`
   align-items: center;
   justify-content: center;
   border: 1px solid black;
-
+  height: 125px;
   font-size: 50px;
   background-color: white;
   color: black;
@@ -40,7 +39,7 @@ export const Pad = styled.button`
 export const BaseInput = styled.input`
   outline: none;
   padding: 20px 0px;
-  height: 210px;
+  height: 100%;
   border: 1px solid black;
   border-top: none;
 

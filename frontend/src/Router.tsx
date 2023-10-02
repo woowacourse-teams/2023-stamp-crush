@@ -5,7 +5,7 @@ import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/Customer/CouponList';
 import EnterPhoneNumber from './pages/Admin/EnterPhoneNumber';
 import Login from './pages/Customer/Login';
-import SignUp from './pages/SignUp';
+import SignUp from './pages/Admin/SignUp';
 import NotFound from './pages/NotFound';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/Customer/MyPage';
@@ -51,7 +51,7 @@ const Router = () => {
   const router = createBrowserRouter([
     // 사장
     { path: ROUTER_PATH.adminLogin, element: <AdminLogin /> },
-    { path: ROUTER_PATH.adminSignup, element: <SignUp /> },
+    { path: ROUTER_PATH.adminSignUp, element: <SignUp /> },
     { path: ROUTER_PATH.adminAuth, element: <AdminAuth /> },
     { path: ROUTER_PATH.enterReward, element: <EnterPhoneNumber /> },
     { path: ROUTER_PATH.enterStamp, element: <EnterPhoneNumber /> },

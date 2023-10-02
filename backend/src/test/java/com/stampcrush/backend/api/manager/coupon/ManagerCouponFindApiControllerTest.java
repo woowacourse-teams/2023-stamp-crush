@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,13 +31,27 @@ public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
     @Test
     void 카페에_방문한_고객들의_정보를_조회한다() throws Exception {
         // given, when
-        CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10);
-        CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), true, 10);
+        CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10, null);
+        CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), true, 10, null);
         given(managerCouponFindService.findCouponsByCafe(anyLong(), anyLong()))
                 .willReturn(List.of(customerInfo1, customerInfo2));
 
         // then
         mockMvc.perform(get(API_PREFIX + "/cafes/{cafeId}/customers", 1L))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 카페에_방문한_고객들의_타입_별로_정보를_조회한다() throws Exception {
+        // given, when
+        CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10, null);
+        CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), false, 10, null);
+        given(managerCouponFindService.findCouponsByCafeAndCustomerType(anyLong(), anyLong(), anyString()))
+                .willReturn(List.of(customerInfo1, customerInfo2));
+
+        // then
+        mockMvc.perform(get(API_PREFIX + "/cafes/{cafeId}/customers", 1L)
+                        .param("status", "temporary"))
                 .andExpect(status().isOk());
     }
 

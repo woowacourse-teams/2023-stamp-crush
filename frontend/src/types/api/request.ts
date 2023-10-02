@@ -1,4 +1,5 @@
 import { CouponDesign } from '../domain/coupon';
+import { RegisterType } from '../domain/customer';
 
 /** react-query request query 추상화 타입 */
 export interface QueryReq<K = unknown> {
@@ -12,6 +13,10 @@ export interface MutateReq<T = unknown, K = unknown> {
 }
 
 // params 타입
+export interface CustomerTypeParams {
+  customerType?: RegisterType;
+}
+
 export interface CouponIdParams {
   couponId: number;
 }
@@ -99,4 +104,9 @@ export interface StampEarningReq {
 
 export interface CustomerLinkDataReqBody {
   id: number;
+}
+
+export interface AdminAccountDataReqBody {
+  loginId: string;
+  password: string;
 }

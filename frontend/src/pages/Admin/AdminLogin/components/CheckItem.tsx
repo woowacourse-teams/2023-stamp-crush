@@ -1,5 +1,5 @@
-import CheckIconSVG from '../../../assets/check.svg';
-import { CheckItemContainer } from './style';
+import CheckIconSVG from '../../../../assets/check.svg';
+import { CheckItemContainer } from '../style';
 
 interface CheckItemProps {
   text: string;
