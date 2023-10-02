@@ -56,13 +56,15 @@ public class RewardTest {
     }
 
     @Test
-    void 임시회원이_리워드를_사용하려하면_예외를_던진다() {
+    void 임시회원이_리워드를_사용한다() {
         //given
         Reward reward = new Reward("Americano", temporaryCustomer, cafe_1);
 
-        // when, then
-        assertThatThrownBy(() -> reward.useReward(temporaryCustomer, cafe_1))
-                .isInstanceOf(IllegalArgumentException.class);
+        // when
+        reward.useReward(temporaryCustomer, cafe_1);
+
+        // then
+        assertThat(reward.getUsed()).isTrue();
     }
 
     @Test
