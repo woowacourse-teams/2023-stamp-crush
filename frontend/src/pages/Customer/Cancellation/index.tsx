@@ -19,8 +19,8 @@ const CustomerCancellation = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const { mutate } = useDeleteCustomer();
 
-  const navigateMyPage = () => {
-    navigate(ROUTER_PATH.myPage);
+  const navigateCustomerSettingPage = () => {
+    navigate(ROUTER_PATH.customerSetting);
   };
 
   const deleteCustomer = () => {
@@ -29,7 +29,7 @@ const CustomerCancellation = () => {
 
   return (
     <>
-      <SubHeader title="회원탈퇴" onClickBack={navigateMyPage} />
+      <SubHeader title="회원탈퇴" onClickBack={navigateCustomerSettingPage} />
       <ContentContainer>
         <Title>탈퇴 안내</Title>
         <p>
