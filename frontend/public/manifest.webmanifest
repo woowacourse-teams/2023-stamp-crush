@@ -7,6 +7,6 @@
       "type": "image/png"
     }
   ],
-  "display": "fullscreen",
+  "display": "standalone",
   "description": "흩어져있는 종이쿠폰 한번에 관리하자 ✨"
 }
