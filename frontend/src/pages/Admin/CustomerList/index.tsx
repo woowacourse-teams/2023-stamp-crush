@@ -18,7 +18,7 @@ import { RegisterType } from '../../../types/domain/customer';
 
 const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();
-  const [registerType, setRegisterType] = useState<Option>({ key: 'register', value: '회원' });
+  const [registerType, setRegisterType] = useState<Option>({ key: 'all', value: '전체' });
   const [orderOption, setOrderOption] = useState({
     key: 'stampCount',
     value: '스탬프순',
