@@ -15,7 +15,6 @@ import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
-import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 
 const CouponList = () => {
   const navigate = useNavigate();
@@ -40,12 +39,12 @@ const CouponList = () => {
     }
   }, [coupons]);
 
-  const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
-    useCustomerRedirectRegisterPage();
+  // const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
+  //   useCustomerRedirectRegisterPage();
 
-  useEffect(() => {
-    if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
-  }, [customerProfile]);
+  // useEffect(() => {
+  //   if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
+  // }, [customerProfile]);
 
   if (couponStatus === 'error') {
     return <HomeTemplate>에러가 발생했습니다.</HomeTemplate>;

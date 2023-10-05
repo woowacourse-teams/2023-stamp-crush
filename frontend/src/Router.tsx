@@ -27,6 +27,7 @@ import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
 import Greeting from './pages/Customer/Greeting';
+import CustomerProfileProvider from './provider/CustomerProfileProvider';
 
 const AdminRoot = () => {
   return (
@@ -41,9 +42,11 @@ const AdminRoot = () => {
 const CustomerRoot = () => {
   return (
     <PrivateProvider consumer={'customer'}>
-      <CustomerTemplate>
-        <Outlet />
-      </CustomerTemplate>
+      <CustomerProfileProvider>
+        <CustomerTemplate>
+          <Outlet />
+        </CustomerTemplate>
+      </CustomerProfileProvider>
     </PrivateProvider>
   );
 };
