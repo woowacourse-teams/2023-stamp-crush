@@ -1,8 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
 import { useEffect, useState } from 'react';
-import { CouponSelectorContainer, CouponSelectorWrapper } from './style';
-import FlippedCoupon from '../../Customer/CouponList/components/FlippedCoupon';
+import { EarnStampContainer, StepperWrapper } from './style';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
@@ -14,6 +13,7 @@ import usePostIssueCoupon from './hooks/usePostIssueCoupon';
 import useGetCoupon from './hooks/useGetCoupon';
 import useGetCurrentCouponDesign from './hooks/useGetCurrentCouponDesign';
 import { isNotEmptyArray } from '../../../utils';
+import CouponIndicator from './components/CouponIndicator';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();
@@ -58,27 +58,17 @@ const EarnStamp = () => {
       <Text variant="pageTitle">스탬프 적립</Text>
       <Spacing $size={40} />
       <Text variant="subTitle">{state.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.</Text>
-      <CouponSelectorContainer>
-        <Stepper value={stamp} setValue={setStamp} />
-        <CouponSelectorWrapper>
-          <Text>
-            현재 스탬프 개수: {coupon.coupons[0].stampCount}/{coupon.coupons[0].maxStampCount}
-          </Text>
-          <Text>스탬프 적립: {stamp}개</Text>
-          <Spacing $size={8} />
-          <FlippedCoupon
-            frontImageUrl={couponDesignData.frontImageUrl}
-            backImageUrl={couponDesignData.backImageUrl}
-            stampImageUrl={couponDesignData.stampImageUrl}
-            stampCount={coupon.coupons[0].stampCount + stamp}
-            coordinates={couponDesignData.coordinates}
-            isShown={true}
-          />
-          <Spacing $size={5} />
-          <span>쿠폰 유효기간: {coupon.coupons[0].expireDate}까지</span>
-        </CouponSelectorWrapper>
-        <Button onClick={earnStamp}>적립</Button>
-      </CouponSelectorContainer>
+      <EarnStampContainer>
+        <CouponIndicator coupon={coupon} couponDesignData={couponDesignData} stamp={stamp} />
+        <StepperWrapper>
+          <Stepper value={stamp} setValue={setStamp} />
+          {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
+            <p>[알림] 지금부터 적립하는 스탬프는 새 쿠폰에 적립됩니다.</p>
+          )}
+          <Button onClick={earnStamp}>적립</Button>
+        </StepperWrapper>
+        {/**TODO: 보유 쿠폰의 발급 시기와 새 쿠폰의 발급 시기에 차이가 있는 케이스에 대한 대처가 필요 */}
+      </EarnStampContainer>
     </>
   );
 };
