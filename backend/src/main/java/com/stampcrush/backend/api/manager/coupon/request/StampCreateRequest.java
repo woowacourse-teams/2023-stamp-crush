@@ -1,7 +1,7 @@
 package com.stampcrush.backend.api.manager.coupon.request;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class StampCreateRequest {
 
     @NotNull
-    @PositiveOrZero
+    @Positive
     private Integer earningStampCount;
 }
