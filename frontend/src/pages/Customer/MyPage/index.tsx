@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { FEEDBACK_FORM_LINK, ROUTER_PATH } from '../../../constants';
 import { FeedbackLink, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
-import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
 import { AiOutlineUserDelete } from '@react-icons/all-files/ai/AiOutlineUserDelete';
 import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
 import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
+import { useEffect } from 'react';
 
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,
@@ -35,8 +35,13 @@ const MYPAGE_NAV_OPTIONS = [
 ];
 
 const MyPage = () => {
-  const { customerProfile } = useCustomerRedirectRegisterPage();
   const navigate = useNavigate();
+  const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
+    useCustomerRedirectRegisterPage();
+
+  useEffect(() => {
+    if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
+  }, [customerProfile]);
 
   const navigatePage = (key: string) => () => {
     if (key === 'logout') {

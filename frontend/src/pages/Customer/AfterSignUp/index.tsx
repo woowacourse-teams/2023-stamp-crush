@@ -16,7 +16,7 @@ const AfterSignUp = () => {
   return (
     <div>
       {customerProfile?.profile.nickname}님! 스탬프크러쉬에 가입하신 것을 환영합니다! 3초 후에
-      이동합니다.
+      서비스로 이동합니다.
     </div>
   );
 };

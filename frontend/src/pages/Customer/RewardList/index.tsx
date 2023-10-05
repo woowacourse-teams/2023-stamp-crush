@@ -3,15 +3,23 @@ import { getMyRewards } from '../../../api/get';
 import SubHeader from '../../../components/Header/SubHeader';
 import { CafeName, RewardContainer, RewardName, RewardWrapper } from './style';
 import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
+import { useEffect } from 'react';
+import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 const RewardList = () => {
   const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
     queryFn: () => getMyRewards({ params: { used: false } }),
   });
-  useCustomerRedirectRegisterPage();
+
+  const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
+    useCustomerRedirectRegisterPage();
+
+  useEffect(() => {
+    if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
+  }, [customerProfile]);
 
   if (rewardStatus === 'error') return <>에러가 발생했습니다.</>;
-  if (rewardStatus === 'loading') return <>로딩 중입니다.</>;
+  if (rewardStatus === 'loading') return <CustomerLoadingSpinner />;
 
   const { rewards } = rewardData;
 

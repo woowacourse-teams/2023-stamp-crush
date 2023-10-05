@@ -8,6 +8,7 @@ import HistoryPage from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { StampHistoryType } from '../../../../types/domain/stamp';
 import useCustomerRedirectRegisterPage from '../../../../hooks/useCustomerRedirectRegisterPage';
+import { useEffect } from 'react';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {
@@ -49,7 +50,12 @@ const StampHistoryPage = () => {
   });
   const title = '스탬프 적립 내역';
 
-  useCustomerRedirectRegisterPage();
+  const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
+    useCustomerRedirectRegisterPage();
+
+  useEffect(() => {
+    if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
+  }, [customerProfile]);
 
   if (stampStatus === 'loading') {
     return (

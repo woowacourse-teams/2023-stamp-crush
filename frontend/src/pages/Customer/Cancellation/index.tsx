@@ -10,14 +10,22 @@ import {
   Strong,
   Title,
 } from './style';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spacing } from '../../../style/layout/common';
 import useDeleteCustomer from './hooks/useDeleteCustomer';
+import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 
 const CustomerCancellation = () => {
   const navigate = useNavigate();
   const [isConfirm, setIsConfirm] = useState(false);
   const { mutate } = useDeleteCustomer();
+
+  const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
+    useCustomerRedirectRegisterPage();
+
+  useEffect(() => {
+    if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
+  }, [customerProfile]);
 
   const navigateMyPage = () => {
     navigate(ROUTER_PATH.myPage);
