@@ -1,13 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
 import { useEffect, useState } from 'react';
-import {
-  CouponSelectorContainer,
-  CouponSelectorWrapper,
-  StepperWrapper,
-  TextWrapper,
-} from './style';
-import FlippedCoupon from '../../Customer/CouponList/components/FlippedCoupon';
+import { EarnStampContainer, StepperWrapper } from './style';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
@@ -18,7 +12,8 @@ import { CustomerPhoneNumber } from '../../../types/domain/customer';
 import usePostIssueCoupon from './hooks/usePostIssueCoupon';
 import useGetCoupon from './hooks/useGetCoupon';
 import useGetCurrentCouponDesign from './hooks/useGetCurrentCouponDesign';
-import { formatDate, isNotEmptyArray } from '../../../utils';
+import { isNotEmptyArray } from '../../../utils';
+import CouponIndicator from './components/CouponIndicator';
 
 const EarnStamp = () => {
   const cafeId = useRedirectRegisterPage();
@@ -63,43 +58,8 @@ const EarnStamp = () => {
       <Text variant="pageTitle">스탬프 적립</Text>
       <Spacing $size={40} />
       <Text variant="subTitle">{state.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.</Text>
-      <CouponSelectorContainer>
-        <CouponSelectorWrapper>
-          <TextWrapper>
-            <Text>현재 스탬프 개수:</Text>
-            <Text>
-              {coupon.coupons[0].stampCount} / {coupon.coupons[0].maxStampCount}
-            </Text>
-          </TextWrapper>
-          <TextWrapper>
-            <Text>스탬프 적립: </Text>
-            <Text>{stamp}개</Text>
-          </TextWrapper>
-          <Spacing $size={8} />
-          <FlippedCoupon
-            frontImageUrl={couponDesignData.frontImageUrl}
-            backImageUrl={couponDesignData.backImageUrl}
-            stampImageUrl={couponDesignData.stampImageUrl}
-            stampCount={coupon.coupons[0].stampCount + stamp}
-            coordinates={couponDesignData.coordinates}
-            isShown={true}
-          />
-          <span>쿠폰 유효기간: {formatDate(coupon.coupons[0].expireDate)}까지</span>
-          {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
-            <>
-              <FlippedCoupon
-                frontImageUrl={couponDesignData.frontImageUrl}
-                backImageUrl={couponDesignData.backImageUrl}
-                stampImageUrl={couponDesignData.stampImageUrl}
-                stampCount={coupon.coupons[0].stampCount + stamp - coupon.coupons[0].maxStampCount}
-                coordinates={couponDesignData.coordinates}
-                isShown={true}
-              />
-              <p>새로 발급되는 쿠폰입니다.</p>
-            </>
-          )}
-          <Spacing $size={5} />
-        </CouponSelectorWrapper>
+      <EarnStampContainer>
+        <CouponIndicator coupon={coupon} couponDesignData={couponDesignData} stamp={stamp} />
         <StepperWrapper>
           <Stepper value={stamp} setValue={setStamp} />
           {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
@@ -108,7 +68,7 @@ const EarnStamp = () => {
           <Button onClick={earnStamp}>적립</Button>
         </StepperWrapper>
         {/**TODO: 보유 쿠폰의 발급 시기와 새 쿠폰의 발급 시기에 차이가 있는 케이스에 대한 대처가 필요 */}
-      </CouponSelectorContainer>
+      </EarnStampContainer>
     </>
   );
 };

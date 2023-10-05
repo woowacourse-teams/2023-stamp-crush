@@ -13,7 +13,7 @@ export const StepperGuide = styled.p`
   line-height: 25px;
 `;
 
-export const CouponSelectorWrapper = styled.div`
+export const CouponIndicatorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 480px;
@@ -29,7 +29,7 @@ export const CouponSelectorWrapper = styled.div`
   }
 `;
 
-export const CouponSelectorContainer = styled.main`
+export const EarnStampContainer = styled.main`
   display: grid;
   grid-template-columns: repeat(2, 340px 150px);
   width: 700px;
