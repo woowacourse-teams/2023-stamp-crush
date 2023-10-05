@@ -16,5 +16,6 @@ export const PreviewContentContainer = styled.div`
     justify-content: flex-start;
     gap: 10px;
     overflow: hidden;
+    line-height: 150%;
   }
 `;
