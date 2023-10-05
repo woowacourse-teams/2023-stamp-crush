@@ -108,7 +108,7 @@ public class ManagerCouponCommandService {
 
         VisitHistory visitHistory = new VisitHistory(cafe, customer, earningStampCount);
         visitHistoryRepository.save(visitHistory);
-        eventPublisher.publishEvent(new StampCreateEvent(customer.getPhoneNumber(), stampCreateDto.getEarningStampCount()));
+        eventPublisher.publishEvent(new StampCreateEvent(cafe.getName(), customer.getPhoneNumber(), stampCreateDto.getEarningStampCount()));
         if (coupon.isLessThanMaxStampAfterAccumulateStamp(earningStampCount)) {
             coupon.accumulate(earningStampCount);
             return;
