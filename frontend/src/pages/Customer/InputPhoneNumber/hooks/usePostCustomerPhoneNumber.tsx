@@ -10,7 +10,7 @@ const usePostCustomerPhoneNumber = () => {
     mutationFn: (phoneNumber: string) =>
       postCustomerPhoneNumber({ body: { phoneNumber: removeHyphen(phoneNumber) } }),
     onSuccess: () => {
-      navigate(ROUTER_PATH.afterSignUp);
+      navigate(ROUTER_PATH.greeting);
     },
   });
 };
