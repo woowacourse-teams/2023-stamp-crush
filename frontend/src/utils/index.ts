@@ -29,7 +29,7 @@ export const parseTime = (value: Time) => {
 };
 
 export const parsePhoneNumber = (phoneNumber: string | undefined) => {
-  if (!phoneNumber) return;
+  if (!phoneNumber) return '';
 
   const parsedPhoneNumber = phoneNumber.replace(/[^0-9]/g, '');
 
