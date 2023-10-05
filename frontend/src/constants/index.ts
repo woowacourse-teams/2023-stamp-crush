@@ -135,6 +135,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   stampHistory: '/stamp-history',
   inputPhoneNumber: '/input-phone-number',
   customerCancellation: '/cancellation',
+  afterSignUp: '/thanks-for-sign-up',
 } as const;
 
 export const PARAMS_ERROR_MESSAGE = '[ERROR] params를 지정해주세요.';

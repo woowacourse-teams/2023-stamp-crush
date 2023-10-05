@@ -26,6 +26,7 @@ import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
+import AfterSignUp from './pages/Customer/AfterSignUp';
 
 const AdminRoot = () => {
   return (
@@ -82,6 +83,7 @@ const Router = () => {
     // 고객
     { path: ROUTER_PATH.auth, element: <Auth /> },
     { path: ROUTER_PATH.login, element: <Login /> },
+    { path: ROUTER_PATH.afterSignUp, element: <AfterSignUp /> },
     {
       path: '/',
       element: <CustomerRoot />,
