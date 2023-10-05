@@ -1,5 +1,10 @@
 import { styled } from 'styled-components';
 
+export const CreatedTypePageContainer = styled.div`
+  display: flex;
+  gap: 40px;
+`;
+
 export const ButtonContainer = styled.div<{ $step: number }>`
   display: flex;
   justify-content: ${({ $step }) => ($step === 1 ? 'flex-end' : 'space-between')};

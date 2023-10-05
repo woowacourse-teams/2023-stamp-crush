@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from '../../../components/Button';
-import { ButtonContainer, StepContainer, StepWrapper } from './style';
+import { ButtonContainer, CreatedTypePageContainer, StepContainer, StepWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
 import Text from '../../../components/Text';
 import CreatedType from './CreatedType';
@@ -12,6 +12,7 @@ import useStep from './hooks/useStep';
 import { EXPIRE_DATE_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../constants';
 import { CouponCreated } from '../../../types/domain/coupon';
 import { Option } from '../../../types/utils';
+import CurrentCouponImages from './components/CurrentCouponImages';
 
 const ModifyCouponPolicy = () => {
   const [createdType, setCreatedType] = useState<CouponCreated>('template');
@@ -41,7 +42,12 @@ const ModifyCouponPolicy = () => {
           {(() => {
             switch (step) {
               case MODIFY_STEP_NUMBER.createdType:
-                return <CreatedType value={createdType} setValue={setCreatedType} />;
+                return (
+                  <CreatedTypePageContainer>
+                    <CreatedType value={createdType} setValue={setCreatedType} />
+                    <CurrentCouponImages />
+                  </CreatedTypePageContainer>
+                );
               case MODIFY_STEP_NUMBER.maxStampCount:
                 return (
                   <MaxStampCount

@@ -24,7 +24,7 @@ const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
   };
 
   return (
-    <>
+    <section>
       <Text variant="subTitle">step1. 쿠폰을 어떻게 제작하시겠어요?</Text>
       <Spacing $size={30} />
       <InputContainer>
@@ -62,7 +62,7 @@ const CreatedType = ({ value, setValue }: CreatedTypeProps) => {
           </IconWrapper>
         </Label>
       </InputContainer>
-    </>
+    </section>
   );
 };
 
