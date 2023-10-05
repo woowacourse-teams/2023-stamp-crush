@@ -5,7 +5,6 @@ export const useCustomerProfile = () => {
   const { data: customerProfile, status } = useQuery({
     queryKey: ['customerProfile'],
     queryFn: async () => await getCustomerProfile(),
-    staleTime: Infinity,
   });
 
   return { customerProfile, status };
