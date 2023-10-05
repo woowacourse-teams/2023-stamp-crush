@@ -16,7 +16,7 @@ export const StepperGuide = styled.p`
 export const CouponSelectorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
+  height: 480px;
   gap: 10px;
 
   & > h1 {
@@ -38,27 +38,28 @@ export const CouponSelectorContainer = styled.main`
   margin-top: 20px;
 
   color: #777;
-
-  & > button {
-    grid-column: 2/3;
-    font-size: 18px;
-  }
 `;
 
 export const StepperWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   width: 340px;
-  height: 80px;
-  gap: 10px;
+  height: 250px;
+  gap: 250px;
 
   p {
     position: absolute;
-    bottom: 0;
+    bottom: 220px;
     font-size: 14px;
     color: dodgerblue;
     line-height: 20px;
+  }
+
+  & > :last-child {
+    width: 140px;
+    font-size: 18px;
   }
 `;
 

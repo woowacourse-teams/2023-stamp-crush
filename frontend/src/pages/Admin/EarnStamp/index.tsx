@@ -84,16 +84,30 @@ const EarnStamp = () => {
             coordinates={couponDesignData.coordinates}
             isShown={true}
           />
-          <Spacing $size={5} />
           <span>쿠폰 유효기간: {formatDate(coupon.coupons[0].expireDate)}까지</span>
+          {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
+            <>
+              <FlippedCoupon
+                frontImageUrl={couponDesignData.frontImageUrl}
+                backImageUrl={couponDesignData.backImageUrl}
+                stampImageUrl={couponDesignData.stampImageUrl}
+                stampCount={coupon.coupons[0].stampCount + stamp - coupon.coupons[0].maxStampCount}
+                coordinates={couponDesignData.coordinates}
+                isShown={true}
+              />
+              <p>새로 발급되는 쿠폰입니다.</p>
+            </>
+          )}
+          <Spacing $size={5} />
         </CouponSelectorWrapper>
         <StepperWrapper>
           <Stepper value={stamp} setValue={setStamp} />
           {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
             <p>[알림] 지금부터 적립하는 스탬프는 새 쿠폰에 적립됩니다.</p>
           )}
+          <Button onClick={earnStamp}>적립</Button>
         </StepperWrapper>
-        <Button onClick={earnStamp}>적립</Button>
+        {/**TODO: 보유 쿠폰의 발급 시기와 새 쿠폰의 발급 시기에 차이가 있는 케이스에 대한 대처가 필요 */}
       </CouponSelectorContainer>
     </>
   );
