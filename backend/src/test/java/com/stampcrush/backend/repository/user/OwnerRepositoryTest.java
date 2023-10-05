@@ -1,6 +1,7 @@
 package com.stampcrush.backend.repository.user;
 
 import com.stampcrush.backend.auth.OAuthProvider;
+import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@KorNamingConverter
 @DataJpaTest
 class OwnerRepositoryTest {
 

@@ -1,14 +1,14 @@
 package com.stampcrush.backend.application.manager.coupon.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StampCreateDto {
 
-    private Long ownerId;
-    private Long customerId;
-    private Long couponId;
-    private Integer earningStampCount;
+    private final Long ownerId;
+    private final Long customerId;
+    private final Long couponId;
+    private final Integer earningStampCount;
 }

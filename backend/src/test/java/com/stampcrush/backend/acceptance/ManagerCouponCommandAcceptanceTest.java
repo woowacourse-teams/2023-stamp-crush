@@ -13,6 +13,7 @@ import com.stampcrush.backend.entity.user.Customer;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -135,6 +136,27 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 스탬프_0개_적립하면_예외_발생한다() {
+        // given
+        String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerToken, CAFE_CREATE_REQUEST);
+        String customerToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer", "email", OAuthProvider.KAKAO, 123L));
+        Long customerId = authTokensGenerator.extractMemberId(customerToken);
+
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
+
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request, customerId);
+
+        // when
+        StampCreateRequest stampCreateRequest = new StampCreateRequest(0);
+        ExtractableResponse<Response> response = 쿠폰에_스탬프를_적립_요청(ownerToken, customerId, couponId, stampCreateRequest);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     void 사장님_인증_정보_없이_쿠폰을_생성하려고_하면_예외발생() {
         // given
         CouponCreateRequest request = new CouponCreateRequest(1L);
@@ -191,7 +213,6 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         CouponCreateRequest request1 = new CouponCreateRequest(savedCafeId);
 
         Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request1, customerId);
-
 
         String customerToken2 = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer2", "email2", OAuthProvider.KAKAO, 1293L));
         Long customerId2 = authTokensGenerator.extractMemberId(customerToken2);
