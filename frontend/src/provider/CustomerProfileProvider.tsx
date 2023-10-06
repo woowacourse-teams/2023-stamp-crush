@@ -14,7 +14,7 @@ const CustomerProfileProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (
       status === 'success' &&
-      !customerProfile?.profile.phoneNumber &&
+      !customerProfile.profile.phoneNumber &&
       location.pathname !== ROUTER_PATH.inputPhoneNumber
     ) {
       alert('전화번호 등록 후 사용해주세요.');
