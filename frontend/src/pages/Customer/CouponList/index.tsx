@@ -8,7 +8,6 @@ import Alert from '../../../components/Alert';
 import useModal from '../../../hooks/useModal';
 import CafeInfo from './components/CafeInfo';
 import Header from './components/Header';
-import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { isNotEmptyArray } from '../../../utils';
 import useGetCoupons from './hooks/useGetCoupons';
@@ -16,12 +15,10 @@ import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
-import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 
 const CouponList = () => {
-  useCustomerRedirectRegisterPage();
   const navigate = useNavigate();
-  const { customerProfile } = useCustomerProfile();
+
   const { isOpen, openModal, closeModal } = useModal();
   const [alertMessage, setAlertMessage] = useState('');
   const couponListContainerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +37,7 @@ const CouponList = () => {
     if (coupons && isNotEmptyArray(coupons)) {
       setCurrentIndex(coupons.length - 1);
     }
-  }, [coupons, customerProfile?.profile.phoneNumber]);
+  }, [coupons]);
 
   if (couponStatus === 'error') {
     return <HomeTemplate>에러가 발생했습니다.</HomeTemplate>;

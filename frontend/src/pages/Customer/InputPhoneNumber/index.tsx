@@ -15,7 +15,7 @@ const InputPhoneNumber = () => {
   const { phoneNumber, changePhoneNumber, submitPhoneNumber } = useInputPhoneNumber();
 
   useEffect(() => {
-    if (customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.couponList);
+    if (customerProfile.profile.phoneNumber) navigate(ROUTER_PATH.couponList);
   }, [customerProfile]);
 
   return (
