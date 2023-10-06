@@ -15,7 +15,7 @@ const RewardList = () => {
 
   const { rewards } = rewardData;
 
-  if (rewards.length === 0 || rewardStatus === 'success')
+  if (rewards.length === 0)
     return (
       <>
         <SubHeader title="내 리워드" />
