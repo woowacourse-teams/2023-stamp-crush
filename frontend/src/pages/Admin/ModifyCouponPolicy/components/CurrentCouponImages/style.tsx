@@ -9,15 +9,16 @@ export const CurrentCouponContainer = styled.section`
   margin-left: 120px;
   padding: 16px;
 
-  :first-child {
+  h1 {
     font-size: 20px;
-  }
-
-  :nth-child(2n + 1) {
     margin-bottom: 16px;
   }
 
-  :nth-child(2n + 2) {
+  div {
+    margin-bottom: 16px;
+  }
+
+  span {
     color: #777;
     margin-bottom: 8px;
   }

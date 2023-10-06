@@ -12,16 +12,16 @@ const CurrentCouponImages = () => {
 
   return (
     <CurrentCouponContainer>
-      <p>현재 쿠폰 이미지</p>
-      <label>앞면</label>
+      <h1>현재 쿠폰 이미지</h1>
+      <span>앞면</span>
       <CouponImageFrame>
         <Image src={couponDesignData?.frontImageUrl} />
       </CouponImageFrame>
-      <label>뒷면</label>
+      <span>뒷면</span>
       <CouponImageFrame>
         <Image src={couponDesignData?.backImageUrl} />
       </CouponImageFrame>
-      <label>스탬프</label>
+      <span>스탬프</span>
       <StampImageFrame>
         <Image src={couponDesignData?.stampImageUrl} />
       </StampImageFrame>
