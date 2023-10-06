@@ -50,3 +50,9 @@ export const ButtonContainer = styled.div`
   justify-content: space-around;
   align-items: center;
 `;
+
+export const StampImage = styled.img`
+  object-fit: contain;
+  width: 70px;
+  height: 70px;
+`;

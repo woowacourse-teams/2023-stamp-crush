@@ -6,7 +6,6 @@ import { RewardHistoryDateProperties, RewardHistoryType } from '../../../../type
 import { DATE_PARSE_OPTION } from '../../../../constants';
 import HistoryPage from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
-import useCustomerRedirectRegisterPage from '../../../../hooks/useCustomerRedirectRegisterPage';
 
 export const concatHistoryDate = (
   reward: RewardHistoryType,
@@ -45,7 +44,6 @@ const RewardHistoryPage = () => {
     queryFn: () => getMyRewards({ params: { used: true } }),
   });
   const title = '리워드 사용 내역';
-  useCustomerRedirectRegisterPage();
 
   if (rewardStatus === 'loading')
     return (

@@ -27,6 +27,8 @@ import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
 import CustomerSetting from './pages/Customer/CustomerSetting';
+import Greeting from './pages/Customer/Greeting';
+import CustomerProfileProvider from './provider/CustomerProfileProvider';
 
 const AdminRoot = () => {
   return (
@@ -41,9 +43,11 @@ const AdminRoot = () => {
 const CustomerRoot = () => {
   return (
     <PrivateProvider consumer={'customer'}>
-      <CustomerTemplate>
-        <Outlet />
-      </CustomerTemplate>
+      <CustomerProfileProvider>
+        <CustomerTemplate>
+          <Outlet />
+        </CustomerTemplate>
+      </CustomerProfileProvider>
     </PrivateProvider>
   );
 };
@@ -83,6 +87,7 @@ const Router = () => {
     // 고객
     { path: ROUTER_PATH.auth, element: <Auth /> },
     { path: ROUTER_PATH.login, element: <Login /> },
+    { path: ROUTER_PATH.greeting, element: <Greeting /> },
     {
       path: '/',
       element: <CustomerRoot />,

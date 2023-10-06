@@ -12,7 +12,7 @@ export const PreviewCouponBackImage = styled.div`
   font-size: 16px;
   font-weight: 500;
   background: white;
-  border: 3px dotted black;
+  box-shadow: 0px -2px 15px -2px #888;
 `;
 
 export const PreviewBackImage = styled.img`

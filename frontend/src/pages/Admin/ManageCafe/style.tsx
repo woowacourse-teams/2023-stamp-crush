@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-export const PageContainer = styled.main`
-  display: flex;
-  justify-content: space-between;
-
-  width: 90%;
-  padding-top: 40px;
-`;
-
 export const StepTitle = styled.p`
   font-size: 18px;
   font-weight: 600;
@@ -18,7 +10,8 @@ export const StepTitle = styled.p`
 export const ManageCafeForm = styled.form`
   display: grid;
   grid-template-rows: repeat(6, auto);
-  width: 100%;
+  width: fit-content;
+  height: fit-content;
   gap: 40px;
 
   & > button {
@@ -64,7 +57,7 @@ export const ManageCafeGridContainer = styled.div`
   display: grid;
   width: 100%;
   height: 90%;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 400px 400px);
   padding-top: 40px;
   gap: 40px;
 `;
