@@ -1,5 +1,10 @@
 import { styled } from 'styled-components';
 
+export const CreatedTypePageContainer = styled.div`
+  display: flex;
+  gap: 40px;
+`;
+
 export const Label = styled.label<{ $isChecked: boolean }>`
   position: relative;
   width: 200px;
