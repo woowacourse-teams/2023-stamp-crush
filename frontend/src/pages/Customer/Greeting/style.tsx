@@ -21,10 +21,12 @@ export const Container = styled.section`
   }
 `;
 
-export const NicknameWrapper = styled.header`
+export const NicknameWrapper = styled.h1`
   font-weight: bold;
   margin-left: 4px;
   margin-right: 2px;
 `;
 
-export const GreetingWrapper = styled.header``;
+export const GreetingWrapper = styled.h2`
+  line-height: 24px;
+`;
