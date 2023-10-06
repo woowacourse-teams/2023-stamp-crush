@@ -4,6 +4,11 @@ export const CurrentCouponContainer = styled.section`
   display: flex;
   flex-direction: column;
 
+  border: 3px solid ${({ theme }) => theme.colors.main};
+  border-radius: 16px;
+  margin-left: 120px;
+  padding: 16px;
+
   :first-child {
     font-size: 20px;
   }
@@ -19,8 +24,8 @@ export const CurrentCouponContainer = styled.section`
 `;
 
 export const CouponImageFrame = styled.div`
-  width: 270px;
-  height: 150px;
+  width: 225px;
+  height: 125px;
 
   background: white;
   box-shadow: 0px -2px 15px -2px #888;
