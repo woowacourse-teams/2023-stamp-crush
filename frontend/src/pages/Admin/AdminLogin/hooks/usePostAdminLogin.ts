@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { postAdminLogin } from '../../../../api/post';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../../constants';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const usePostAdminLogin = () => {
   const navigate = useNavigate();

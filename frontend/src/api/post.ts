@@ -1,5 +1,4 @@
-import { api, customerHeader, ownerHeader } from '.';
-import { BASE_URL } from '../constants';
+import { BASE_URL, api, customerHeader, ownerHeader } from '.';
 import {
   MutateReq,
   StampEarningReqBody,

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../constants';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import { Container, NicknameWrapper, GreetingWrapper } from './style';
 import { LoginLogo } from '../../../assets';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const Greeting = () => {
   const navigate = useNavigate();

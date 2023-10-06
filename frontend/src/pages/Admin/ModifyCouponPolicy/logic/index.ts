@@ -1,4 +1,4 @@
-import { ROUTER_PATH } from '../../../../constants';
+import ROUTER_PATH from '../../../../constants/routerPath';
 import { CouponCreated } from '../../../../types/domain/coupon';
 
 export const selectRoutePathByCreatedType = (createdType: CouponCreated) => {

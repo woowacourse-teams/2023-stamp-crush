@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Alert from '../../../../components/Alert';
-import { PHONE_NUMBER_LENGTH, ROUTER_PATH } from '../../../../constants';
+import { PHONE_NUMBER_LENGTH } from '../../../../constants';
 import useModal from '../../../../hooks/useModal';
 import useDialPad from '../hooks/useDialPad';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 export const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
 

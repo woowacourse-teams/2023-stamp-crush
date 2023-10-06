@@ -5,7 +5,6 @@ import {
   EmptyContent,
   LabelContent,
   LogoHeader,
-  LogoImg,
   LogoImgWrapper,
   LogoutButton,
   LogoutContainer,
@@ -21,8 +20,9 @@ import {
   PiUserListLight,
 } from '../../assets';
 import { IoIosLogOut } from '@react-icons/all-files/io/IoIosLogOut';
-import { ROUTER_PATH } from '../../constants';
+
 import { Option } from '../../types/utils';
+import ROUTER_PATH from '../../constants/routerPath';
 
 const SIDE_BAR_OPTIONS: Option[] = [
   { key: '', value: '' },

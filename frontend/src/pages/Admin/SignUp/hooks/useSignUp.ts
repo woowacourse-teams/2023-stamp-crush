@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ID_REGEX, PW_REGEX, ROUTER_PATH } from '../../../../constants';
 import usePostSignUp from './usePostSignUp';
+import REGEX from '../../../../constants/regex';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const useSignUp = () => {
   const navigate = useNavigate();
@@ -23,12 +24,12 @@ const useSignUp = () => {
       return;
     }
 
-    if (!ID_REGEX.test(loginId) || loginId.length < 5 || loginId.length > 20) {
+    if (!REGEX.id.test(loginId) || loginId.length < 5 || loginId.length > 20) {
       alert('아이디는 5~20글자의 영문자와 숫자만 허용됩니다.');
       return;
     }
 
-    if (!PW_REGEX.test(password) || password.length < 8 || password.length > 30) {
+    if (!REGEX.password.test(password) || password.length < 8 || password.length > 30) {
       alert(
         '비밀번호는 영문자, 숫자 및 특수문자 조합이어야 하며, 8자 이상 30자 이하로 입력되어야 합니다.',
       );
@@ -54,12 +55,14 @@ const useSignUp = () => {
 
   const validateId = (e: ChangeEvent<HTMLInputElement>) => {
     setLoginId(e.target.value);
-    loginId.length > 0 && !ID_REGEX.test(loginId) ? setIsValidId(true) : setIsValidId(false);
+    loginId.length > 0 && !REGEX.id.test(loginId) ? setIsValidId(true) : setIsValidId(false);
   };
 
   const validatePw = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    password.length > 0 && !PW_REGEX.test(password) ? setIsValidPw(true) : setIsValidPw(false);
+    password.length > 0 && !REGEX.password.test(password)
+      ? setIsValidPw(true)
+      : setIsValidPw(false);
   };
 
   return {

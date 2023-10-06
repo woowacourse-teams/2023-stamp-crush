@@ -2,7 +2,7 @@ import { PropsWithChildren, createContext, useEffect } from 'react';
 import { useCustomerProfile } from '../hooks/useCustomerProfile';
 import { CustomerProfileRes } from '../types/api/response';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../constants';
+import ROUTER_PATH from '../constants/routerPath';
 
 const CustomerProfileContext = createContext<CustomerProfileRes | undefined>(undefined);
 

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../../../components/Header/SubHeader';
-import { ROUTER_PATH } from '../../../constants';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 interface HistoryPageProps {
   title: string;

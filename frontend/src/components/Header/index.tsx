@@ -1,7 +1,7 @@
 import { HeaderContainer, LogoImg, LogoutButton } from './style';
 import AdminHeaderLogo from '../../assets/admin_header_logo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../constants';
+import ROUTER_PATH from '../../constants/routerPath';
 
 const Header = () => {
   const navigate = useNavigate();

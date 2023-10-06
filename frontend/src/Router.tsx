@@ -1,5 +1,4 @@
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
-import { ROUTER_PATH } from './constants';
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/Customer/CouponList';
@@ -28,6 +27,7 @@ import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
 import Greeting from './pages/Customer/Greeting';
 import CustomerProfileProvider from './provider/CustomerProfileProvider';
+import ROUTER_PATH from './constants/routerPath';
 
 const AdminRoot = () => {
   return (

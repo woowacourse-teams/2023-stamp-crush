@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Spacing } from '../../../style/layout/common';
 import { getReward } from '../../../api/get';
 import { patchReward } from '../../../api/patch';
-import { INVALID_CAFE_ID, ROUTER_PATH } from '../../../constants';
+import { INVALID_CAFE_ID } from '../../../constants';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import {
   MutateReq,
@@ -15,6 +15,7 @@ import {
   CustomerIdParams,
 } from '../../../types/api/request';
 import { Reward } from '../../../types/domain/reward';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const RewardPage = () => {
   const cafeId = useRedirectRegisterPage();

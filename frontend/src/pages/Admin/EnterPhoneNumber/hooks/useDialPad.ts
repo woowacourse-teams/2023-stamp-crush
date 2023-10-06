@@ -1,17 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  BACK_KEY_INDEX,
-  ENTER_KEY_INDEX,
-  PHONE_NUMBER_LENGTH,
-  REGEX,
-  ROUTER_PATH,
-} from '../../../../constants';
+import { BACK_KEY_INDEX, ENTER_KEY_INDEX, PHONE_NUMBER_LENGTH } from '../../../../constants';
 import { removeHyphen } from '../../../../utils';
 import { DialKeyType, DIAL_KEYS } from '../Dialpad';
 import useGetCustomer from './useGetCustomer';
 import usePostTemporaryCustomer from './usePostTemporaryCustomer';
+import REGEX from '../../../../constants/regex';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const addHyphenToPhoneNumber = (phoneNumber: string) => {
   return phoneNumber.length === 9
