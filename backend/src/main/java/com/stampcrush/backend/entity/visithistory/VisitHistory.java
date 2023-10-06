@@ -4,9 +4,10 @@ import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +15,9 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@SQLDelete(sql = "UPDATE visit_history SET deleted = true WHERE customer_id = ?")
+@Where(clause = "deleted = false")
 @Getter
 @Entity
 public class VisitHistory extends BaseDate {
@@ -34,6 +36,8 @@ public class VisitHistory extends BaseDate {
 
     private int stampCount;
 
+    private Boolean deleted = false;
+
     public VisitHistory(LocalDateTime createdAt, LocalDateTime updatedAt, Cafe cafe, Customer customer, int stampCount) {
         super(createdAt, updatedAt);
         this.cafe = cafe;
@@ -42,7 +46,7 @@ public class VisitHistory extends BaseDate {
     }
 
     public VisitHistory(Cafe cafe, Customer customer, int stampCount) {
-        this(null, cafe, customer, stampCount);
+        this(null, null, cafe, customer, stampCount);
     }
 
     public String getCafeName() {
