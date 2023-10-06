@@ -39,13 +39,6 @@ const CouponList = () => {
     }
   }, [coupons]);
 
-  // const { customerProfile, hasPhoneNumber, redirectCustomerWithoutPhoneNumber } =
-  //   useCustomerRedirectRegisterPage();
-
-  // useEffect(() => {
-  //   if (!hasPhoneNumber) redirectCustomerWithoutPhoneNumber();
-  // }, [customerProfile]);
-
   if (couponStatus === 'error') {
     return <HomeTemplate>에러가 발생했습니다.</HomeTemplate>;
   }
