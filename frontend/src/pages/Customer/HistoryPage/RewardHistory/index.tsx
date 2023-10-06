@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyRewards } from '../../../../api/get';
-import { CafeName, HistoryItem, DateTitle, HistoryList } from '../style';
+import { CafeName, HistoryItem, DateTitle, HistoryList, EmptyList } from '../style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
 import { RewardHistoryDateProperties, RewardHistoryType } from '../../../../types/domain/reward';
 import { DATE_PARSE_OPTION } from '../../../../constants';
@@ -45,23 +45,29 @@ const RewardHistoryPage = () => {
   });
   const title = '리워드 사용 내역';
 
-  if (rewardStatus === 'loading') {
+  if (rewardStatus === 'loading')
     return (
       <HistoryPage title={title}>
         <CustomerLoadingSpinner />
       </HistoryPage>
     );
-  }
-  if (rewardStatus === 'error') {
+
+  if (rewardStatus === 'error')
     return <HistoryPage title={title}>에러가 발생했습니다. 잠시 후 다시시도해주세요.</HistoryPage>;
-  }
 
   const rewardEntries = Array.from(transformRewardsToMap(rewardData.rewards, 'usedAt').entries());
+
+  if (rewardEntries.length === 0)
+    return (
+      <HistoryPage title={title}>
+        <EmptyList>아직 사용내역이 없어요 🥲</EmptyList>
+      </HistoryPage>
+    );
 
   return (
     <HistoryPage title={title}>
       <ul>
-        {rewardEntries.map(([key, rewards]) => (
+        {rewardEntries.reverse().map(([key, rewards]) => (
           <li key={key}>
             <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <HistoryList key={key}>

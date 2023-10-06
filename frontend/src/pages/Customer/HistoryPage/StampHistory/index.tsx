@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getStampHistories } from '../../../../api/get';
-import { CafeName, DateTitle, HistoryItem, HistoryList } from '../style';
+import { CafeName, DateTitle, EmptyList, HistoryItem, HistoryList } from '../style';
 
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
 import { DATE_PARSE_OPTION } from '../../../../constants';
@@ -60,10 +60,18 @@ const StampHistoryPage = () => {
   }
 
   const stampEntries = Array.from(transformStampsToMap(stampData.stampHistories).entries());
+
+  if (stampEntries.length === 0)
+    return (
+      <HistoryPage title={title}>
+        <EmptyList>아직 적립내역이 없어요 🥲</EmptyList>
+      </HistoryPage>
+    );
+
   return (
     <HistoryPage title={title}>
       <ul>
-        {stampEntries.map(([key, stamps]) => (
+        {stampEntries.reverse().map(([key, stamps]) => (
           <li key={key}>
             <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <HistoryList key={key}>

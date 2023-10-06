@@ -135,6 +135,7 @@ export const ROUTER_PATH: Record<string, RouterPath> = {
   stampHistory: '/stamp-history',
   inputPhoneNumber: '/input-phone-number',
   customerCancellation: '/cancellation',
+  customerSetting: '/customer-setting',
   greeting: '/greeting',
 } as const;
 
@@ -170,8 +171,8 @@ export const DEFAULT_CAFE = {
 };
 
 export const INTRO_LIMITATION = 150;
-export const PHONE_NUMBER_REGEX = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
 
+export const PHONE_NUMBER_REGEX = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
 export const ID_REGEX = /^[a-zA-Z0-9]+$/;
 export const PW_REGEX = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d!@#$%^*+=-]{7,30}$/;
 export const FEEDBACK_FORM_LINK = 'https://forms.gle/k2AsZnHQe7CKDBiBA';
