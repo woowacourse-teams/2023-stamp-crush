@@ -33,6 +33,7 @@ const useInputPhoneNumber = () => {
     // 임시회원이 아닌 유저가 정상적인 전화번호를 등록하려고 할때
     if (customerRegisterType.length === 0) {
       await mutatePhoneNumber(phoneNumber);
+      navigate(ROUTER_PATH.greeting);
       return;
     }
 
