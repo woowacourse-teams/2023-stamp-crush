@@ -1,8 +1,8 @@
-package com.stampcrush.backend.api.manager.coupon;
+package com.stampcrush.backend.api.manager.customer;
 
 import com.stampcrush.backend.api.ControllerSliceTest;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,21 +19,21 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = ManagerCouponFindApiController.class,
+@WebMvcTest(value = ManagerCustomerFindService.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
+class ManagerCustomerFindApiControllerTest extends ControllerSliceTest {
 
-    public static String API_PREFIX = "/api/admin";
+    private static String API_PREFIX = "/api/admin";
 
     @MockBean
-    private ManagerCouponFindService managerCouponFindService;
+    private ManagerCustomerFindService managerCustomerFindService;
 
     @Test
     void 카페에_방문한_고객들의_정보를_조회한다() throws Exception {
         // given, when
         CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10, null);
         CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), true, 10, null);
-        given(managerCouponFindService.findCouponsByCafe(anyLong(), anyLong()))
+        given(managerCustomerFindService.findCouponsByCafe(anyLong(), anyLong()))
                 .willReturn(List.of(customerInfo1, customerInfo2));
 
         // then
@@ -46,7 +46,7 @@ public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
         // given, when
         CafeCustomerFindResultDto customerInfo1 = new CafeCustomerFindResultDto(1L, "name1", 5, 0, 3, LocalDateTime.now(), false, 10, null);
         CafeCustomerFindResultDto customerInfo2 = new CafeCustomerFindResultDto(2L, "name2", 6, 0, 6, LocalDateTime.now(), false, 10, null);
-        given(managerCouponFindService.findCouponsByCafeAndCustomerType(anyLong(), anyLong(), anyString()))
+        given(managerCustomerFindService.findCouponsByCafeAndCustomerType(anyLong(), anyLong(), anyString()))
                 .willReturn(List.of(customerInfo1, customerInfo2));
 
         // then

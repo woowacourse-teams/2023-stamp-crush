@@ -3,6 +3,7 @@ package com.stampcrush.backend.application.manager.coupon;
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
 import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatingCouponFindResultDto;
+import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
@@ -33,7 +34,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 @ServiceSliceTest
-public class ManagerCouponFindServiceTest {
+public class ManagerCustomerFindServiceTest {
 
     private static Cafe cafe;
     private static Owner owner;
@@ -43,7 +44,7 @@ public class ManagerCouponFindServiceTest {
     private static CouponPolicy couponPolicy2;
 
     @InjectMocks
-    private ManagerCouponFindService managerCouponFindService;
+    private ManagerCustomerFindService managerCustomerFindService;
 
     @Mock
     private CouponRepository couponRepository;
@@ -112,7 +113,7 @@ public class ManagerCouponFindServiceTest {
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCustomerFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result, customer2Result);
@@ -139,7 +140,7 @@ public class ManagerCouponFindServiceTest {
         VisitHistories visitHistories = new VisitHistories(List.of(visitHistory));
         CustomerCouponStatistics customer1Statistics = new CustomerCouponStatistics(0, 0);
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statistics, visitHistories, 0);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCustomerFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result);
@@ -166,7 +167,7 @@ public class ManagerCouponFindServiceTest {
         cafe.getPolicies().add(new CafePolicy(10, "americano", 6, false, cafe));
 
         // when
-        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
+        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCustomerFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
 
         // then
         CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
@@ -202,7 +203,7 @@ public class ManagerCouponFindServiceTest {
         cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), false, cafe));
 
         // when
-        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);
+        List<CustomerAccumulatingCouponFindResultDto> findResult = managerCustomerFindService.findAccumulatingCoupon(1L, 1L, 1L);
 
         // then
         CustomerAccumulatingCouponFindResultDto expected = new CustomerAccumulatingCouponFindResultDto(1L,
@@ -265,7 +266,7 @@ public class ManagerCouponFindServiceTest {
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCustomerFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result, customer2Result);
@@ -308,7 +309,7 @@ public class ManagerCouponFindServiceTest {
         CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, couponPolicy1.getMaxStampCount());
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, visitHistories, 0);
-        List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());
+        List<CafeCustomerFindResultDto> couponsByCafe = managerCustomerFindService.findCouponsByCafe(owner.getId(), cafe.getId());
 
         // then
         assertThat(couponsByCafe).containsExactlyInAnyOrder(customer1Result);

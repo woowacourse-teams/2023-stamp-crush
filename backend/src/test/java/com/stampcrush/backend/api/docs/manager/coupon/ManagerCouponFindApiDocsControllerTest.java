@@ -38,7 +38,7 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
         when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(CAFE.getOwner()));
-        when(managerCouponFindService.findAccumulatingCoupon(ownerId, cafeId, customerId)).thenReturn(List.of(new CustomerAccumulatingCouponFindResultDto(1L, 1L, "윤생", 3, LocalDateTime.MIN, false, 10)));
+        when(managerCustomerFindService.findAccumulatingCoupon(ownerId, cafeId, customerId)).thenReturn(List.of(new CustomerAccumulatingCouponFindResultDto(1L, 1L, "윤생", 3, LocalDateTime.MIN, false, 10)));
         when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
         when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
@@ -80,7 +80,7 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerCouponFindService.findCouponsByCafe(ownerId, cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
+        when(managerCustomerFindService.findCouponsByCafe(ownerId, cafeId)).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
         when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
         when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 
@@ -120,7 +120,7 @@ class ManagerCouponFindApiDocsControllerTest extends DocsControllerTest {
         when(ownerRepository.findByLoginId(OWNER.getLoginId())).thenReturn(Optional.of(OWNER));
         when(ownerRepository.findById(ownerId)).thenReturn(Optional.of(OWNER));
         when(cafeRepository.findById(CAFE_ID)).thenReturn(Optional.of(CAFE));
-        when(managerCouponFindService.findCouponsByCafeAndCustomerType(ownerId, cafeId, "register")).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
+        when(managerCustomerFindService.findCouponsByCafeAndCustomerType(ownerId, cafeId, "register")).thenReturn(List.of(new CafeCustomerFindResultDto(1L, "레오", 3, 12, 30, LocalDateTime.MIN, true, 10, LocalDateTime.MIN)));
         when(authTokensGenerator.isValidToken(anyString())).thenReturn(true);
         when(authTokensGenerator.extractMemberId(anyString())).thenReturn(ownerId);
 

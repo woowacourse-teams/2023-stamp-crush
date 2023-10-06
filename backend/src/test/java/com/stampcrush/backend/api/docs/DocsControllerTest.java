@@ -27,7 +27,6 @@ import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingC
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeCouponSettingFindService;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
 import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerCommandService;
 import com.stampcrush.backend.application.manager.customer.ManagerCustomerFindService;
 import com.stampcrush.backend.application.manager.image.ManagerImageCommandService;
@@ -71,7 +70,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalTime;
-import java.util.Base64;
 
 import static com.stampcrush.backend.fixture.CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED;
 import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
@@ -153,8 +151,6 @@ public abstract class DocsControllerTest {
     protected ManagerSampleCouponFindService managerSampleCouponFindService;
     @MockBean
     protected ManagerCouponCommandService managerCouponCommandService;
-    @MockBean
-    protected ManagerCouponFindService managerCouponFindService;
     @MockBean
     protected ManagerRewardCommandService managerRewardCommandService;
     @MockBean
