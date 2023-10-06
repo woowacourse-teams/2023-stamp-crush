@@ -1,10 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getStampHistories } from '../../../../api/get';
 import { CafeName, DateTitle, HistoryItem, HistoryList } from '../style';
-
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
-import { DATE_PARSE_OPTION } from '../../../../constants';
-import HistoryPage from '../HistoryPage';
+import HistoryPage, { DATE_PARSE_OPTION } from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { StampHistoryType } from '../../../../types/domain/stamp';
 

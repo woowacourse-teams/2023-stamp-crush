@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCustomers } from '../../../../api/get';
-import { INVALID_CAFE_ID } from '../../../../constants';
 import { CustomersRes } from '../../../../types/api/response';
 import { Customer, RegisterType } from '../../../../types/domain/customer';
 import { Option } from '../../../../types/utils';
+import { INVALID_CAFE_ID } from '../../../../constants/magicNumber';
 
 export interface CustomerOrderOption extends Omit<Option, 'key'> {
   key: keyof Customer;

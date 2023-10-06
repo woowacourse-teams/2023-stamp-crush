@@ -11,7 +11,7 @@ import { MODIFY_STEP_NUMBER } from './common/constant';
 import useStep from './hooks/useStep';
 import { CouponCreated, StampCountOption } from '../../../types/domain/coupon';
 import { Option } from '../../../types/utils';
-import { EXPIRE_DATE_NONE } from '../../../constants';
+import { EXPIRE_DATE_NONE } from '../../../constants/magicString';
 
 export const EXPIRE_DATE_OPTIONS = [
   {

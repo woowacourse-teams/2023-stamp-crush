@@ -1,5 +1,5 @@
 import { api, ownerHeader } from '.';
-import { PARAMS_ERROR_MESSAGE } from '../constants';
+import { PARAMS_ERROR_MESSAGE } from '../constants/magicString';
 import {
   MutateReq,
   RewardReqBody,
