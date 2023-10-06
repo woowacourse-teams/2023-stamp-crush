@@ -49,9 +49,9 @@ export const CUSTOMERS_ORDER_OPTIONS = [
 ];
 
 export const REGISTER_TYPE_OPTION: Option[] = [
+  { key: 'all', value: '전체' },
   { key: 'register', value: '회원' },
   { key: 'temporary', value: '임시' },
-  { key: 'all', value: '전체' },
 ];
 
 export const STAMP_COUNT_OPTIONS: StampCountOption[] = [
