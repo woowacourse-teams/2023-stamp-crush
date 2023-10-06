@@ -3,10 +3,8 @@ import { FEEDBACK_FORM_LINK, ROUTER_PATH } from '../../../constants';
 import { FeedbackLink, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
-import { AiOutlineUserDelete } from '@react-icons/all-files/ai/AiOutlineUserDelete';
 import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
 import { GrUserSettings } from '@react-icons/all-files/gr/GrUserSettings';
-import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 
 const ICONS = [

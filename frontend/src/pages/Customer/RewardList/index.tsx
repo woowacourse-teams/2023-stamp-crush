@@ -1,10 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyRewards } from '../../../api/get';
 import SubHeader from '../../../components/Header/SubHeader';
-import useCustomerRedirectRegisterPage from '../../../hooks/useCustomerRedirectRegisterPage';
 import { CafeName, EmptyList, RewardContainer, RewardName, RewardWrapper } from './style';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
-        
 
 const RewardList = () => {
   const { data: rewardData, status: rewardStatus } = useQuery(['myRewards'], {
