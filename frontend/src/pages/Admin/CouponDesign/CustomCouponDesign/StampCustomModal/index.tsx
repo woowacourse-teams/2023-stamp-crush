@@ -1,6 +1,13 @@
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useRef, useState } from 'react';
 import Modal from '../../../../../components/Modal';
-import { BackCouponWrapper, BackImage, ButtonContainer, Stamp, StampBadge } from './style';
+import {
+  BackCouponWrapper,
+  BackImage,
+  ButtonContainer,
+  Stamp,
+  StampBadge,
+  StampImage,
+} from './style';
 import Text from '../../../../../components/Text';
 import Button from '../../../../../components/Button';
 import { StampCoordinate } from '../../../../../types/domain/coupon';
@@ -80,7 +87,7 @@ const StampCustomModal = ({
             {drawStampCoordinates.map((coord, index) => (
               <Stamp key={index} $x={coord.xCoordinate} $y={coord.yCoordinate}>
                 <StampBadge>{index + 1}</StampBadge>
-                <img src={stampImgFileUrl} width={50} height={50} />
+                <StampImage src={stampImgFileUrl} />
               </Stamp>
             ))}
             <BackImage src={backImgFileUrl} />

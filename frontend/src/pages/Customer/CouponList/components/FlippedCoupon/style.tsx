@@ -46,12 +46,12 @@ export const BackImage = styled(CouponImage)`
 `;
 
 export const StampImage = styled.img<{ $x: number; $y: number }>`
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   position: absolute;
-  top: ${({ $y }) => `${$y - 12.5}px`};
-  right: ${({ $x }) => `${$x - 12.5}px`};
-  object-fit: cover;
+  top: ${({ $y }) => `${$y - 17.5}px`};
+  right: ${({ $x }) => `${$x - 17.5}px`};
+  object-fit: contain;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transform: rotateY(180deg);
