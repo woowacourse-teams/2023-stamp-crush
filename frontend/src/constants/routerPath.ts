@@ -24,6 +24,7 @@ const ROUTER_PATH: Record<string, RouterPath> = {
   stampHistory: '/stamp-history',
   inputPhoneNumber: '/input-phone-number',
   customerCancellation: '/cancellation',
+  customerSetting: '/customer-setting',
   greeting: '/greeting',
 } as const;
 

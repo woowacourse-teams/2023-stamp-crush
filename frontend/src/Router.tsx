@@ -25,6 +25,7 @@ import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
+import CustomerSetting from './pages/Customer/CustomerSetting';
 import Greeting from './pages/Customer/Greeting';
 import CustomerProfileProvider from './provider/CustomerProfileProvider';
 import ROUTER_PATH from './constants/routerPath';
@@ -99,6 +100,7 @@ const Router = () => {
         { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
         { path: ROUTER_PATH.inputPhoneNumber, element: <InputPhoneNumber /> },
         { path: ROUTER_PATH.customerCancellation, element: <CustomerCancellation /> },
+        { path: ROUTER_PATH.customerSetting, element: <CustomerSetting /> },
       ],
     },
   ]);
