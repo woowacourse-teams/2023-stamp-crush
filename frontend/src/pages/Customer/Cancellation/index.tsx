@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../../../components/Header/SubHeader';
-import { ROUTER_PATH } from '../../../constants';
 import {
   CancellationButton,
   CheckParagraph,
@@ -13,14 +12,15 @@ import {
 import { useState } from 'react';
 import { Spacing } from '../../../style/layout/common';
 import useDeleteCustomer from './hooks/useDeleteCustomer';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const CustomerCancellation = () => {
   const navigate = useNavigate();
   const [isConfirm, setIsConfirm] = useState(false);
   const { mutate } = useDeleteCustomer();
 
-  const navigateMyPage = () => {
-    navigate(ROUTER_PATH.myPage);
+  const navigateCustomerSettingPage = () => {
+    navigate(ROUTER_PATH.customerSetting);
   };
 
   const deleteCustomer = () => {
@@ -29,7 +29,7 @@ const CustomerCancellation = () => {
 
   return (
     <>
-      <SubHeader title="회원탈퇴" onClickBack={navigateMyPage} />
+      <SubHeader title="회원탈퇴" onClickBack={navigateCustomerSettingPage} />
       <ContentContainer>
         <Title>탈퇴 안내</Title>
         <p>

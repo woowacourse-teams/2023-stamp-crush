@@ -1,10 +1,33 @@
 import { Spacing } from '../../../../style/layout/common';
 import Text from '../../../../components/Text';
 import SelectBox from '../../../../components/SelectBox';
-import { STAMP_COUNT_CUSTOM_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../../constants';
 import { Dispatch, SetStateAction } from 'react';
 import { CouponCreated } from '../../../../types/domain/coupon';
 import { Option } from '../../../../types/utils';
+import { STAMP_COUNT_OPTIONS } from '..';
+
+const STAMP_COUNT_CUSTOM_OPTIONS = [
+  {
+    key: 'eight',
+    value: '8개',
+  },
+  {
+    key: 'nine',
+    value: '9개',
+  },
+  {
+    key: 'ten',
+    value: '10개',
+  },
+  {
+    key: 'eleven',
+    value: '11개',
+  },
+  {
+    key: 'twelve',
+    value: '12개',
+  },
+];
 
 interface MaxStampCountProps {
   createdType: CouponCreated;

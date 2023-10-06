@@ -1,13 +1,34 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer } from './style';
 import TabBar from '../../../../components/TabBar';
-import { TEMPLATE_MENU, TEMPLATE_OPTIONS } from '../../../../constants';
 import {
   SampleBackCouponImage,
   SampleImage,
   StampCoordinate,
 } from '../../../../types/domain/coupon';
 import SampleImageList from './SampleImageList';
+import { TemplateMenu } from '../../../../types/utils';
+
+export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
+  FRONT_IMAGE: '쿠폰(앞)',
+  BACK_IMAGE: '쿠폰(뒤)',
+  STAMP: '스탬프',
+};
+
+export const TEMPLATE_OPTIONS = [
+  {
+    key: 'coupon-front',
+    value: TEMPLATE_MENU.FRONT_IMAGE,
+  },
+  {
+    key: 'coupon-back',
+    value: TEMPLATE_MENU.BACK_IMAGE,
+  },
+  {
+    key: 'stamp',
+    value: TEMPLATE_MENU.STAMP,
+  },
+];
 
 interface ChoiceTemplateProps {
   frontImageUrl: string;

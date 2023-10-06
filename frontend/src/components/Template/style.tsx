@@ -22,6 +22,7 @@ export const PageContainer = styled.div`
   background: white;
   border-radius: 20px;
   box-shadow: 7px 5px 5px 3px rgba(0, 0, 0, 0.25);
+  overflow: scroll;
 `;
 
 export const Footer = styled.div`

@@ -13,13 +13,11 @@ export const StepperGuide = styled.p`
   line-height: 25px;
 `;
 
-export const CouponSelectorWrapper = styled.div`
+export const CouponIndicatorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
+  height: 480px;
   gap: 10px;
-  right: -350px;
 
   & > h1 {
     font-size: 20px;
@@ -31,17 +29,53 @@ export const CouponSelectorWrapper = styled.div`
   }
 `;
 
-export const CouponSelectorContainer = styled.main`
+export const EarnStampContainer = styled.main`
+  display: grid;
+  grid-template-columns: repeat(2, 340px 150px);
+  width: 700px;
+  height: 450px;
+  align-items: center;
+  margin-top: 20px;
+
+  color: #777;
+`;
+
+export const StepperWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 400px;
-  margin-top: 40px;
-  height: 400px;
-  position: relative;
+  justify-content: space-around;
+  width: 340px;
+  height: 250px;
+  gap: 250px;
 
-  & > button {
+  p {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 220px;
+    font-size: 14px;
+    color: dodgerblue;
+    line-height: 20px;
+  }
+
+  & > :last-child {
+    width: 140px;
+    font-size: 18px;
+  }
+`;
+
+export const TextWrapper = styled.div`
+  display: flex;
+  width: 300px;
+  align-items: center;
+  gap: 8px;
+
+  & :nth-child(n) {
+    font-size: 18px;
+  }
+
+  & :nth-child(2) {
+    width: 100px;
+    color: dodgerblue;
+    font-weight: bold;
   }
 `;

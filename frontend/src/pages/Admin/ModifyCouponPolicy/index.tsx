@@ -9,9 +9,39 @@ import ExpiredPeriod from './ExpirePeriod';
 import RewardName from './RewardName';
 import { MODIFY_STEP_NUMBER } from './common/constant';
 import useStep from './hooks/useStep';
-import { EXPIRE_DATE_OPTIONS, STAMP_COUNT_OPTIONS } from '../../../constants';
-import { CouponCreated } from '../../../types/domain/coupon';
+import { CouponCreated, StampCountOption } from '../../../types/domain/coupon';
 import { Option } from '../../../types/utils';
+import { EXPIRE_DATE_NONE } from '../../../constants/magicString';
+
+export const EXPIRE_DATE_OPTIONS = [
+  {
+    key: 'six-month',
+    value: '6개월',
+  },
+  {
+    key: 'twelve-month',
+    value: '12개월',
+  },
+  {
+    key: 'infinity',
+    value: EXPIRE_DATE_NONE,
+  },
+];
+
+export const STAMP_COUNT_OPTIONS: StampCountOption[] = [
+  {
+    key: 'eight',
+    value: '8개',
+  },
+  {
+    key: 'ten',
+    value: '10개',
+  },
+  {
+    key: 'twelve',
+    value: '12개',
+  },
+];
 
 const ModifyCouponPolicy = () => {
   const [createdType, setCreatedType] = useState<CouponCreated>('template');

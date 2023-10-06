@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../constants';
+import ROUTER_PATH from '../constants/routerPath';
 
 interface PrivateProviderProps {
   consumer: 'customer' | 'admin';

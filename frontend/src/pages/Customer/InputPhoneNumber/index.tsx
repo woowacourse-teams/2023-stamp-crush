@@ -4,10 +4,10 @@ import Button from '../../../components/Button';
 import { useEffect } from 'react';
 import { parsePhoneNumber } from '../../../utils';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../constants';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import useInputPhoneNumber from './hooks/useInputPhoneNumber';
 import { Form } from './style';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const InputPhoneNumber = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const InputPhoneNumber = () => {
   const { phoneNumber, changePhoneNumber, submitPhoneNumber } = useInputPhoneNumber();
 
   useEffect(() => {
-    if (customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.couponList);
+    if (customerProfile.profile.phoneNumber) navigate(ROUTER_PATH.couponList);
   }, [customerProfile]);
 
   return (

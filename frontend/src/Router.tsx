@@ -1,5 +1,4 @@
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
-import { ROUTER_PATH } from './constants';
 import CustomerList from './pages/Admin/CustomerList';
 import ManageCafe from './pages/Admin/ManageCafe';
 import CouponList from './pages/Customer/CouponList';
@@ -26,6 +25,10 @@ import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
 import CustomerCancellation from './pages/Customer/Cancellation';
+import CustomerSetting from './pages/Customer/CustomerSetting';
+import Greeting from './pages/Customer/Greeting';
+import CustomerProfileProvider from './provider/CustomerProfileProvider';
+import ROUTER_PATH from './constants/routerPath';
 
 const AdminRoot = () => {
   return (
@@ -40,9 +43,11 @@ const AdminRoot = () => {
 const CustomerRoot = () => {
   return (
     <PrivateProvider consumer={'customer'}>
-      <CustomerTemplate>
-        <Outlet />
-      </CustomerTemplate>
+      <CustomerProfileProvider>
+        <CustomerTemplate>
+          <Outlet />
+        </CustomerTemplate>
+      </CustomerProfileProvider>
     </PrivateProvider>
   );
 };
@@ -82,6 +87,7 @@ const Router = () => {
     // 고객
     { path: ROUTER_PATH.auth, element: <Auth /> },
     { path: ROUTER_PATH.login, element: <Login /> },
+    { path: ROUTER_PATH.greeting, element: <Greeting /> },
     {
       path: '/',
       element: <CustomerRoot />,
@@ -94,6 +100,7 @@ const Router = () => {
         { path: ROUTER_PATH.stampHistory, element: <StampHistoryPage /> },
         { path: ROUTER_PATH.inputPhoneNumber, element: <InputPhoneNumber /> },
         { path: ROUTER_PATH.customerCancellation, element: <CustomerCancellation /> },
+        { path: ROUTER_PATH.customerSetting, element: <CustomerSetting /> },
       ],
     },
   ]);

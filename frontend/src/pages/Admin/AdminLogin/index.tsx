@@ -1,5 +1,4 @@
 import { LoginLogo } from '../../../assets';
-import { ROUTER_PATH } from '../../../constants';
 import {
   Container,
   LoginContent,
@@ -14,6 +13,7 @@ import {
 import BackgroundImgSrc from '../../../assets/admin_login_background.jpg';
 import CheckItem from './components/CheckItem';
 import AdminLoginForm from './components/AdminLoginForm';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const AdminLogin = () => {
   return (

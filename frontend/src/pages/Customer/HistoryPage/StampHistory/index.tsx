@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getStampHistories } from '../../../../api/get';
-import { CafeName, DateTitle, HistoryItem, HistoryList } from '../style';
-
+import { CafeName, DateTitle, EmptyList, HistoryItem, HistoryList } from '../style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
-import { DATE_PARSE_OPTION } from '../../../../constants';
-import HistoryPage from '../HistoryPage';
+import HistoryPage, { DATE_PARSE_OPTION } from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { StampHistoryType } from '../../../../types/domain/stamp';
-import useCustomerRedirectRegisterPage from '../../../../hooks/useCustomerRedirectRegisterPage';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {
@@ -49,8 +46,6 @@ const StampHistoryPage = () => {
   });
   const title = '스탬프 적립 내역';
 
-  useCustomerRedirectRegisterPage();
-
   if (stampStatus === 'loading') {
     return (
       <HistoryPage title={title}>
@@ -63,10 +58,18 @@ const StampHistoryPage = () => {
   }
 
   const stampEntries = Array.from(transformStampsToMap(stampData.stampHistories).entries());
+
+  if (stampEntries.length === 0)
+    return (
+      <HistoryPage title={title}>
+        <EmptyList>아직 적립내역이 없어요 🥲</EmptyList>
+      </HistoryPage>
+    );
+
   return (
     <HistoryPage title={title}>
       <ul>
-        {stampEntries.map(([key, stamps]) => (
+        {stampEntries.reverse().map(([key, stamps]) => (
           <li key={key}>
             <DateTitle>{parseStringDateToKorean(key, DATE_PARSE_OPTION)}</DateTitle>
             <HistoryList key={key}>

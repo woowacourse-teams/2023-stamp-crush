@@ -27,3 +27,10 @@ export const RewardName = styled.span`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
 `;
+
+export const EmptyList = styled.p`
+  color: gray;
+  text-align: center;
+  margin: auto;
+  line-height: 24px;
+`;

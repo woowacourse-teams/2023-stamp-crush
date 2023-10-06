@@ -1,4 +1,4 @@
-import { TEMPLATE_MENU } from '../../../../constants';
+import { TEMPLATE_MENU } from '.';
 import { SampleCouponRes } from '../../../../types/api/response';
 import { SampleImage, SampleBackCouponImage } from '../../../../types/domain/coupon';
 import { TemplateMenu } from '../../../../types/utils';
