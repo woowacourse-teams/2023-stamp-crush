@@ -3,8 +3,7 @@ import { getMyRewards } from '../../../../api/get';
 import { CafeName, HistoryItem, DateTitle, HistoryList, EmptyList } from '../style';
 import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
 import { RewardHistoryDateProperties, RewardHistoryType } from '../../../../types/domain/reward';
-import { DATE_PARSE_OPTION } from '../../../../constants';
-import HistoryPage from '../HistoryPage';
+import HistoryPage, { DATE_PARSE_OPTION } from '../HistoryPage';
 import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 export const concatHistoryDate = (

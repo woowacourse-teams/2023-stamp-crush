@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postRegisterCafe } from '../../../../api/post';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../../constants';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const usePostRegisterCafe = () => {
   const navigate = useNavigate();

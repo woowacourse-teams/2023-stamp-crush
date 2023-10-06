@@ -3,7 +3,6 @@ import Button from '../../../components/Button';
 import { ManageCafeForm, ManageCafeGridContainer, PreviewContainer, Wrapper } from './style';
 import { useMemo } from 'react';
 import { PreviewImageWrapper } from '../CouponDesign/CustomCouponDesign/style';
-import { DEFAULT_CAFE } from '../../../constants';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import { Cafe } from '../../../types/domain/cafe';
@@ -18,6 +17,18 @@ import CafeImageUpload from './components/CafeImageUpload';
 import CafePhoneNumber from './components/CafePhoneNumber';
 import CafeTimePicker from './components/CafeTimePicker';
 import PreviewOverview from './components/PreviewOverview';
+
+const DEFAULT_CAFE = {
+  id: 0,
+  name: '',
+  introduction: '',
+  openTime: '',
+  closeTime: '',
+  telephoneNumber: '',
+  cafeImageUrl: '',
+  roadAddress: '',
+  detailAddress: '',
+};
 
 const ManageCafe = () => {
   const cafeId = useRedirectRegisterPage();

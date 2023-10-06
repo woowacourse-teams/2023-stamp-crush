@@ -1,7 +1,6 @@
 import Coupon from './components/Coupon';
 import { CouponListContainer, InfoContainer } from './style';
 import { useEffect, useRef, useState } from 'react';
-import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './components/CouponDetail';
 import Alert from '../../../components/Alert';
@@ -15,6 +14,7 @@ import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const CouponList = () => {
   const navigate = useNavigate();

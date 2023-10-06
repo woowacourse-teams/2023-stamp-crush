@@ -1,9 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PHONE_NUMBER_LENGTH, ROUTER_PATH } from '../../../../constants';
 import useGetCustomerRegisterType from './useGetCustomerRegisterType';
 import usePostCustomerLinkData from './usePostCustomerLinkData';
 import usePostCustomerPhoneNumber from './usePostCustomerPhoneNumber';
+import ROUTER_PATH from '../../../../constants/routerPath';
+import { PHONE_NUMBER_LENGTH } from '../../../../constants/magicNumber';
 
 const useInputPhoneNumber = () => {
   const navigate = useNavigate();

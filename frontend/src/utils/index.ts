@@ -1,4 +1,5 @@
-import { EXPIRE_DATE_MAX, EXPIRE_DATE_NONE, IMAGE_MAX_SIZE } from '../constants';
+import { EXPIRE_DATE_MAX, IMAGE_MAX_SIZE } from '../constants/magicNumber';
+import { EXPIRE_DATE_NONE } from '../constants/magicString';
 import { ExpireDateOptionValue, StampCountOptionValue } from '../types/domain/coupon';
 import { Time, DateParseOption, NotEmptyArray } from '../types/utils';
 

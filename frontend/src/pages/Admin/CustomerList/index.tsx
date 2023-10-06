@@ -8,13 +8,34 @@ import {
 import Text from '../../../components/Text';
 import { useState } from 'react';
 import SelectBox from '../../../components/SelectBox';
-import { CUSTOMERS_ORDER_OPTIONS, REGISTER_TYPE_OPTION } from '../../../constants';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 import { Option } from '../../../types/utils';
 import { RegisterType } from '../../../types/domain/customer';
+
+const CUSTOMERS_ORDER_OPTIONS: CustomerOrderOption[] = [
+  {
+    key: 'stampCount',
+    value: '스탬프순',
+  },
+  {
+    key: 'rewardCount',
+    value: '리워드순',
+  },
+  {
+    key: 'visitCount',
+    value: '방문횟수순',
+  },
+  { key: 'recentVisitDate', value: '최근방문순' },
+];
+
+const REGISTER_TYPE_OPTION: Option[] = [
+  { key: 'all', value: '전체' },
+  { key: 'register', value: '회원' },
+  { key: 'temporary', value: '임시' },
+];
 
 const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();

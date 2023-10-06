@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { FEEDBACK_FORM_LINK, ROUTER_PATH } from '../../../constants';
 import { FeedbackLink, NavContainer, NavWrapper, Nickname, NicknameContainer } from './style';
 import { AiOutlineUnorderedList } from '@react-icons/all-files/ai/AiOutlineUnorderedList';
 import { AiOutlineLogout } from '@react-icons/all-files/ai/AiOutlineLogout';
 import { AiOutlineFileText } from '@react-icons/all-files/ai/AiOutlineFileText';
 import { GrUserSettings } from '@react-icons/all-files/gr/GrUserSettings';
 import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
+import ROUTER_PATH from '../../../constants/routerPath';
+
+const FEEDBACK_FORM_LINK = 'https://forms.gle/k2AsZnHQe7CKDBiBA';
 
 const ICONS = [
   <AiOutlineUnorderedList key="rewardHistory" />,

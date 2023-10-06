@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../../../components/Header/SubHeader';
-import { ROUTER_PATH } from '../../../constants';
 import {
   CancellationButton,
   CheckParagraph,
@@ -13,6 +12,7 @@ import {
 import { useState } from 'react';
 import { Spacing } from '../../../style/layout/common';
 import useDeleteCustomer from './hooks/useDeleteCustomer';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const CustomerCancellation = () => {
   const navigate = useNavigate();
