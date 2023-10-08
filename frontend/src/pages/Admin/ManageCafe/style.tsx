@@ -63,5 +63,7 @@ export const ManageCafeGridContainer = styled.div`
 `;
 
 export const DefaultCafeImage = styled.div`
+  width: 100%;
+  height: 100%;
   background: white;
 `;
