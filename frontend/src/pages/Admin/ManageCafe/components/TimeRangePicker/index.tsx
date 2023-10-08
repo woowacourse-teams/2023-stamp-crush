@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Time } from '../../../../types/utils';
+import { Time } from '../../../../../types/utils';
 import { TimePickerWrapper, TimeRangePickerContainer } from './style';
 
 interface TimePickerProps {

@@ -14,14 +14,14 @@ import { FaPhoneAlt } from '@react-icons/all-files/fa/FaPhoneAlt';
 import { FaRegBell } from '@react-icons/all-files/fa/FaRegBell';
 import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 import { parsePhoneNumber } from '../../../../../utils';
-import { useQuery } from '@tanstack/react-query';
-import { getCafeInfo } from '../../../../../api/get';
 import useModal from '../../../../../hooks/useModal';
 import Alert from '../../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { Coupon } from '../../../../../types/domain/coupon';
 import { FaLocationDot } from '../../../../../assets';
 import useDeleteCoupon from './hooks/useDeleteCoupon';
+import { DefaultCafeImage } from '../../../../Admin/ManageCafe/style';
+import useGetCafeInfo from './hooks/useGetCafeInfo';
 
 interface CouponDetailProps {
   isDetail: boolean;
@@ -31,21 +31,11 @@ interface CouponDetailProps {
 }
 
 const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailProps) => {
+  const { isOpen, openModal, closeModal } = useModal();
   const [couponInfos] = coupon.couponInfos;
   const cafeId = coupon.cafeInfo.id;
-
-  const { isOpen, openModal, closeModal } = useModal();
-
-  const { data: cafeData, status: cafeStatus } = useQuery(['cafeInfos', cafeId], {
-    queryFn: () => getCafeInfo({ params: { cafeId } }),
-    enabled: cafeId !== 0,
-  });
-
+  const { data: cafeInfo, status: cafeStatus } = useGetCafeInfo(cafeId);
   const { mutate: mutateDeleteCoupon } = useDeleteCoupon(couponInfos.id, closeDetail, closeModal);
-
-  const openDeleteAlert = () => {
-    openModal();
-  };
 
   // TODO: 로딩, 에러 컴포넌트 만들기
   if (cafeStatus === 'loading') return <CustomerLoadingSpinner />;
@@ -54,7 +44,7 @@ const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailPr
   return (
     <>
       <CouponDetailContainer $isDetail={isDetail}>
-        <CafeImage src={cafeData.cafe.cafeImageUrl} />
+        {!cafeInfo.cafeImageUrl ? <DefaultCafeImage /> : <CafeImage src={cafeInfo.cafeImageUrl} />}
         <FlippedCoupon
           frontImageUrl={couponInfos.frontImageUrl}
           backImageUrl={couponInfos.backImageUrl}
@@ -66,34 +56,34 @@ const CouponDetail = ({ isDetail, isShown, coupon, closeDetail }: CouponDetailPr
         <CloseButton onClick={closeDetail} aria-label="홈으로 돌아가기" role="button">
           <BiArrowBack size={24} />
         </CloseButton>
-        <DeleteButton onClick={openDeleteAlert}>
+        <DeleteButton onClick={openModal}>
           <FaRegTrashAlt size={24} />
         </DeleteButton>
         <OverviewContainer>
           <Text variant="subTitle">{coupon.cafeInfo.name}</Text>
-          <Text>{cafeData.cafe.introduction}</Text>
+          <Text>{cafeInfo.introduction}</Text>
         </OverviewContainer>
         <ContentContainer>
           <Text ariaLabel="쿠폰 정책">
             <FaRegBell size={22} />
             {`${couponInfos.rewardName} 무료!`}
           </Text>
-          {cafeData.cafe.openTime && cafeData.cafe.closeTime && (
+          {cafeInfo.openTime && cafeInfo.closeTime && (
             <Text ariaLabel="영업 시간">
               <FaRegClock size={22} />
-              {`${cafeData.cafe.openTime} - ${cafeData.cafe.closeTime}`}
+              {`${cafeInfo.openTime} - ${cafeInfo.closeTime}`}
             </Text>
           )}
-          {cafeData.cafe.telephoneNumber && (
+          {cafeInfo.telephoneNumber && (
             <Text ariaLabel="전화번호">
               <FaPhoneAlt size={22} />
-              {parsePhoneNumber(cafeData.cafe.telephoneNumber)}
+              {parsePhoneNumber(cafeInfo.telephoneNumber)}
             </Text>
           )}
-          {cafeData.cafe.roadAddress && (
+          {cafeInfo.roadAddress && (
             <Text ariaLabel="주소">
               <FaLocationDot width={22} height={22} />
-              {cafeData.cafe.roadAddress + ' ' + cafeData.cafe.detailAddress}
+              {cafeInfo.roadAddress + ' ' + cafeInfo.detailAddress}
             </Text>
           )}
         </ContentContainer>
