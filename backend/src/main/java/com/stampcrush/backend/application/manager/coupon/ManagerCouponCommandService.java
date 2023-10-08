@@ -6,8 +6,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.reward.Reward;
 import com.stampcrush.backend.entity.user.Customer;
@@ -19,8 +17,6 @@ import com.stampcrush.backend.exception.OwnerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -44,8 +40,6 @@ public class ManagerCouponCommandService {
     private final CustomerRepository customerRepository;
     private final CafeCouponDesignRepository cafeCouponDesignRepository;
     private final CafePolicyRepository cafePolicyRepository;
-    private final CouponDesignRepository couponDesignRepository;
-    private final CouponPolicyRepository couponPolicyRepository;
     private final OwnerRepository ownerRepository;
     private final RewardRepository rewardRepository;
     private final VisitHistoryRepository visitHistoryRepository;
@@ -87,14 +81,8 @@ public class ManagerCouponCommandService {
     }
 
     private Coupon issueCoupon(Customer customer, Cafe cafe, CafePolicy cafePolicy, CafeCouponDesign cafeCouponDesign) {
-        CouponDesign couponDesign = cafeCouponDesign.copy();
-        couponDesignRepository.save(couponDesign);
-        CouponPolicy couponPolicy = cafePolicy.copy();
-        couponPolicyRepository.save(couponPolicy);
-
-        LocalDate expiredDate = LocalDate.now().plusMonths(couponPolicy.getExpiredPeriod());
-
-        return new Coupon(expiredDate, customer, cafe, couponDesign, couponPolicy);
+        LocalDate expiredDate = LocalDate.now().plusMonths(cafePolicy.getExpirePeriod());
+        return new Coupon(expiredDate, customer, cafe, cafeCouponDesign, cafePolicy);
     }
 
     public void createStamp(StampCreateDto stampCreateDto) {
@@ -127,12 +115,12 @@ public class ManagerCouponCommandService {
     }
 
     private CafeCouponDesign findCafeCouponDesign(Cafe cafe) {
-        return cafeCouponDesignRepository.findByCafe(cafe)
+        return cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     private CafePolicy findCafePolicy(Cafe cafe) {
-        return cafePolicyRepository.findByCafe(cafe)
+        return cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe)
                 .orElseThrow(IllegalArgumentException::new);
     }
 

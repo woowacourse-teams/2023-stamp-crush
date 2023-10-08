@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CafePolicyRepository extends JpaRepository<CafePolicy, Long> {
 
-    Optional<CafePolicy> findByCafe(Cafe cafe);
+    Optional<CafePolicy> findByCafeAndDeletedIsFalse(Cafe cafe);
 
     List<CafePolicy> findByCafeAndCreatedAtGreaterThan(Cafe cafe, LocalDateTime createdAt);
 }

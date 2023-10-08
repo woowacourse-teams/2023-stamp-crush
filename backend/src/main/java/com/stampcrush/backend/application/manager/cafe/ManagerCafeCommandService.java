@@ -69,7 +69,6 @@ public class ManagerCafeCommandService {
                 SampleImages.FRONT_IMAGE_URL,
                 SampleImages.BACK_IMAGE_URL,
                 SampleImages.STAMP_IMAGE_URL,
-                false,
                 savedCafe
         ));
 

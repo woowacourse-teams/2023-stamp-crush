@@ -8,8 +8,8 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.fixture.CustomerFixture;
+import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
-import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -41,7 +41,7 @@ class VisitorCouponFindServiceTest {
     private CouponRepository couponRepository;
 
     @Mock
-    private CouponStampCoordinateRepository couponStampCoordinateRepository;
+    private CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     @Test
     void 하나의_카페당_하나의_쿠폰을_조회할_때_고객정보가_없으면_예외처리한다() {
@@ -93,7 +93,7 @@ class VisitorCouponFindServiceTest {
                                                 gitchanCoupon.getCafe(),
                                                 gitchanCoupon,
                                                 true,
-                                                gitchanCoupon.getCouponDesign().getCouponStampCoordinates()
+                                                gitchanCoupon.getCafeCouponDesign().getCafeStampCoordinates()
                                         )))
         );
     }

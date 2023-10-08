@@ -115,7 +115,7 @@ public class ManagerCafeCommandServiceTest {
         // when
         Long cafeId = managerCafeCommandService.createCafe(cafeCreateDto);
         Cafe cafe = cafeRepository.findById(cafeId).get();
-        Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
+        Optional<CafeCouponDesign> cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
                 .stream()
                 .filter(design -> design.getCafe().getId().equals(cafeId))
                 .findAny();

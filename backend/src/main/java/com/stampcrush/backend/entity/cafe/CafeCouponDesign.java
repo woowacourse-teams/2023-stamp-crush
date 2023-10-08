@@ -1,13 +1,10 @@
 package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +16,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @SQLDelete(sql = "UPDATE cafe_coupon_design SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
 @Entity
 public class CafeCouponDesign extends BaseDate {
 
@@ -33,7 +29,7 @@ public class CafeCouponDesign extends BaseDate {
 
     private String stampImageUrl;
 
-    private Boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
@@ -42,11 +38,10 @@ public class CafeCouponDesign extends BaseDate {
     @OneToMany(mappedBy = "cafeCouponDesign")
     private List<CafeStampCoordinate> cafeStampCoordinates = new ArrayList<>();
 
-    public CafeCouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl, Boolean deleted, Cafe cafe) {
+    public CafeCouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl, Cafe cafe) {
         this.frontImageUrl = frontImageUrl;
         this.backImageUrl = backImageUrl;
         this.stampImageUrl = stampImageUrl;
-        this.deleted = deleted;
         this.cafe = cafe;
     }
 
@@ -54,12 +49,7 @@ public class CafeCouponDesign extends BaseDate {
         this.deleted = true;
     }
 
-    public CouponDesign copy() {
-        CouponDesign couponDesign = new CouponDesign(frontImageUrl, backImageUrl, stampImageUrl);
-        for (CafeStampCoordinate cafeStampCoordinate : cafeStampCoordinates) {
-            CouponStampCoordinate couponStampCoordinate = cafeStampCoordinate.copy(couponDesign);
-            couponDesign.addCouponStampCoordinate(couponStampCoordinate);
-        }
-        return couponDesign;
+    public void addCouponStampCoordinate(CafeStampCoordinate cafeStampCoordinate) {
+        cafeStampCoordinates.add(cafeStampCoordinate);
     }
 }

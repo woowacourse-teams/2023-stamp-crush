@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface CafeCouponDesignRepository extends JpaRepository<CafeCouponDesign, Long> {
 
-    Optional<CafeCouponDesign> findByCafe(Cafe cafe);
+    Optional<CafeCouponDesign> findByCafeAndDeletedIsFalse(Cafe cafe);
 }

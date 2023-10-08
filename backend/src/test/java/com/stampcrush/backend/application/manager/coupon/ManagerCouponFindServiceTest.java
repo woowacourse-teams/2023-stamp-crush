@@ -6,7 +6,6 @@ import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatin
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistories;
@@ -18,6 +17,7 @@ import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import com.stampcrush.backend.repository.visithistory.VisitHistoryRepository;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,8 +39,7 @@ public class ManagerCouponFindServiceTest {
     private static Owner owner;
     private static Customer customer1;
     private static Customer customer2;
-    private static CouponPolicy couponPolicy1;
-    private static CouponPolicy couponPolicy2;
+    private static CafePolicy cafePolicy;
 
     @InjectMocks
     private ManagerCouponFindService managerCouponFindService;
@@ -63,8 +62,8 @@ public class ManagerCouponFindServiceTest {
     @Mock
     private RewardRepository rewardRepository;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         owner = new Owner(1L, "owner", "ownerId", "ownerPassword", "01010010");
         cafe = new Cafe(1L, "name", "road", "detailAddress", "phone", owner);
 
@@ -76,8 +75,7 @@ public class ManagerCouponFindServiceTest {
                 .id(2L)
                 .phoneNumber("01098765432")
                 .build();
-        couponPolicy1 = new CouponPolicy(10, "reward", 6);
-        couponPolicy2 = new CouponPolicy(15, "reward", 6);
+        cafePolicy = new CafePolicy(10, "reward", 6, cafe);
     }
 
     @Test
@@ -85,12 +83,12 @@ public class ManagerCouponFindServiceTest {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
-        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
         VisitHistory visitHistory1 = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
 
         LocalDateTime coupon2CreatedAt = LocalDateTime.now();
         LocalDateTime coupon2UpdatedAt = LocalDateTime.now();
-        Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, couponPolicy2);
+        Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, cafePolicy);
         VisitHistory visitHistory2 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, 5);
 
         given(ownerRepository.findById(anyLong()))
@@ -108,7 +106,7 @@ public class ManagerCouponFindServiceTest {
         VisitHistories customer1VisitHistories = new VisitHistories(List.of(visitHistory1));
         VisitHistories customer2VisitHistories = new VisitHistories(List.of(visitHistory2));
         CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(0, 10);
-        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 15);
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(0, 10);
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
@@ -123,7 +121,7 @@ public class ManagerCouponFindServiceTest {
         // given, when
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
-        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
         coupon1.expire();
         VisitHistory visitHistory = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, 3);
 
@@ -150,7 +148,7 @@ public class ManagerCouponFindServiceTest {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
-        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
@@ -162,8 +160,7 @@ public class ManagerCouponFindServiceTest {
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe.getOwner()));
 
-        cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(10, "americano", 6, false, cafe));
+        cafePolicy.delete();
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
@@ -185,7 +182,7 @@ public class ManagerCouponFindServiceTest {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
-        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
 
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(owner));
@@ -199,7 +196,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), false, cafe));
+        cafe.getPolicies().add(new CafePolicy(cafePolicy.getMaxStampCount(), cafePolicy.getReward(), cafePolicy.getExpirePeriod(), cafe));
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);
@@ -228,7 +225,7 @@ public class ManagerCouponFindServiceTest {
         int customer1EarningStampCount1 = 3;
         int customer1EarningStampCount2 = 2;
 
-        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon1 = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
         coupon1.accumulate(customer1EarningStampCount1);
         VisitHistory customer1VisitHistory1 = new VisitHistory(coupon1CreatedAt, null, cafe, customer1, customer1EarningStampCount1);
         coupon1.accumulate(customer1EarningStampCount2);
@@ -239,7 +236,7 @@ public class ManagerCouponFindServiceTest {
 
         int customer2EarningStampCount = 5;
 
-        Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, couponPolicy2);
+        Coupon coupon2 = new Coupon(coupon2CreatedAt, coupon2UpdatedAt, LocalDate.EPOCH, customer2, cafe, null, cafePolicy);
         coupon2.accumulate(customer2EarningStampCount);
         VisitHistory customer2visitHistory1 = new VisitHistory(coupon2CreatedAt, null, cafe, customer2, customer2EarningStampCount);
 
@@ -260,8 +257,8 @@ public class ManagerCouponFindServiceTest {
         VisitHistories customer1VisitHistories = new VisitHistories(List.of(customer1VisitHistory1, customer1VisitHistory2));
         VisitHistories customer2VisitHistories = new VisitHistories(List.of(customer2visitHistory1));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, couponPolicy1.getMaxStampCount());
-        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(customer2EarningStampCount, couponPolicy2.getMaxStampCount());
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, cafePolicy.getMaxStampCount());
+        CustomerCouponStatistics customer2Statics = new CustomerCouponStatistics(customer2EarningStampCount, cafePolicy.getMaxStampCount());
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, customer1VisitHistories, 0);
         CafeCustomerFindResultDto customer2Result = CafeCustomerFindResultDto.of(customer2, customer2Statics, customer2VisitHistories, 0);
@@ -282,7 +279,7 @@ public class ManagerCouponFindServiceTest {
         int customer1EarningStampCount1 = 3;
         int customer1EarningStampCount2 = 2;
 
-        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, couponPolicy1);
+        Coupon coupon = new Coupon(coupon1CreatedAt, coupon1UpdatedAt, LocalDate.EPOCH, customer1, cafe, null, cafePolicy);
         coupon.accumulate(customer1EarningStampCount1);
         LocalDateTime firstVisit = LocalDateTime.of(2023, 5, 13, 4, 23);
         VisitHistory customer1VisitHistory1 = new VisitHistory(firstVisit, null, cafe, customer1, customer1EarningStampCount1);
@@ -305,7 +302,7 @@ public class ManagerCouponFindServiceTest {
         // when
         VisitHistories visitHistories = new VisitHistories(List.of(customer1VisitHistory1, customer1VisitHistory2));
 
-        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, couponPolicy1.getMaxStampCount());
+        CustomerCouponStatistics customer1Statics = new CustomerCouponStatistics(customer1EarningStampCount1 + customer1EarningStampCount2, cafePolicy.getMaxStampCount());
 
         CafeCustomerFindResultDto customer1Result = CafeCustomerFindResultDto.of(customer1, customer1Statics, visitHistories, 0);
         List<CafeCustomerFindResultDto> couponsByCafe = managerCouponFindService.findCouponsByCafe(owner.getId(), cafe.getId());

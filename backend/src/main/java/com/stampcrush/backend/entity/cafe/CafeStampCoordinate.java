@@ -1,8 +1,6 @@
 package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,9 +33,5 @@ public class CafeStampCoordinate extends BaseDate {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.cafeCouponDesign = cafeCouponDesign;
-    }
-
-    public CouponStampCoordinate copy(CouponDesign couponDesign) {
-        return new CouponStampCoordinate(stampOrder, xCoordinate, yCoordinate, couponDesign);
     }
 }

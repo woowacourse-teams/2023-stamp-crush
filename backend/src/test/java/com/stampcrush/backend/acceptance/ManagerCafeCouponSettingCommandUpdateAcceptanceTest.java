@@ -30,11 +30,11 @@ class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends AcceptanceTest
         // then
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(NO_CONTENT.value()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getFrontImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getFrontImageUrl()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getBackImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getBackImageUrl()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getStampImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getStampImageUrl()),
-                () -> assertThat(cafePolicyRepository.findByCafe(cafe).get().getExpirePeriod()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getExpirePeriod()),
-                () -> assertThat(cafePolicyRepository.findByCafe(cafe).get().getReward()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getReward())
+                () -> assertThat(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe).get().getFrontImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getFrontImageUrl()),
+                () -> assertThat(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe).get().getBackImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getBackImageUrl()),
+                () -> assertThat(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe).get().getStampImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getStampImageUrl()),
+                () -> assertThat(cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe).get().getExpirePeriod()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getExpirePeriod()),
+                () -> assertThat(cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe).get().getReward()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getReward())
         );
     }
 

@@ -54,22 +54,21 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
+        deletedCafePolicy.delete();
 
         CafePolicy notDeletedCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
 
-        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafe(savedCafe);
+        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(savedCafe);
 
         // then
         assertAll(
@@ -101,17 +100,16 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
+        oldCafePolicy.delete();
 
         CafePolicy newCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
@@ -142,7 +140,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );

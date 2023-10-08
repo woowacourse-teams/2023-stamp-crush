@@ -6,7 +6,6 @@ import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -34,10 +33,20 @@ class CafeCouponDesignRepositoryTest {
         // given, when
         Cafe savedCafe = createCafe(OwnerFixture.GITCHAN);
 
-        CafeCouponDesign deletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, true);
-        CafeCouponDesign notDeletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, false);
+        CafeCouponDesign deletedCafeCouponDesign = cafeCouponDesignRepository.save(
+                new CafeCouponDesign(
+                        "#", "#", "#", savedCafe
+                )
+        );
+        deletedCafeCouponDesign.delete();
 
-        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafe(savedCafe);
+        CafeCouponDesign notDeletedCafeCouponDesign = cafeCouponDesignRepository.save(
+                new CafeCouponDesign(
+                        "#", "#", "#", savedCafe
+                )
+        );
+
+        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(savedCafe);
 
         // then
         assertAll(
@@ -56,14 +65,6 @@ class CafeCouponDesignRepositoryTest {
                         "어쩌고",
                         "0101010101",
                         savedOwner
-                )
-        );
-    }
-
-    private CafeCouponDesign saveCafeCouponDesign(Cafe savedCafe, boolean deleted) {
-        return cafeCouponDesignRepository.save(
-                new CafeCouponDesign(
-                        "#", "#", "#", deleted, savedCafe
                 )
         );
     }

@@ -2,13 +2,15 @@ package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.coupon.Stamp;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -40,10 +42,10 @@ class CouponRepositoryTest {
     private CafeRepository cafeRepository;
 
     @Autowired
-    private CouponDesignRepository couponDesignRepository;
+    private CafeCouponDesignRepository cafeCouponDesignRepository;
 
     @Autowired
-    private CouponPolicyRepository couponPolicyRepository;
+    private CafePolicyRepository cafePolicyRepository;
 
     @Autowired
     private OwnerRepository ownerRepository;
@@ -58,17 +60,11 @@ class CouponRepositoryTest {
     private Cafe cafe1;
     private Cafe cafe2;
 
-    private CouponDesign couponDesign1;
-    private CouponDesign couponDesign2;
-    private CouponDesign couponDesign3;
-    private CouponDesign couponDesign4;
-    private CouponDesign couponDesign5;
+    private CafeCouponDesign cafeCouponDesign1;
+    private CafeCouponDesign cafeCouponDesign2;
 
-    private CouponPolicy couponPolicy1;
-    private CouponPolicy couponPolicy2;
-    private CouponPolicy couponPolicy3;
-    private CouponPolicy couponPolicy4;
-    private CouponPolicy couponPolicy5;
+    private CafePolicy cafePolicy1;
+    private CafePolicy cafePolicy2;
 
     // coupon1, REWARD상태, cafe1 -> stamp2개
     // coupon2, USING상태, cafe1 -> stamp1개
@@ -125,19 +121,13 @@ class CouponRepositoryTest {
                 "11111111",
                 ownerRepository.save(new Owner("이름", "아이디", "비번", "번호"))));
 
-        couponDesign1 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign2 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign3 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign4 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
-        couponDesign5 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        cafeCouponDesign1 = cafeCouponDesignRepository.save(new CafeCouponDesign("front", "back", "stamp", cafe1));
+        cafeCouponDesign2 = cafeCouponDesignRepository.save(new CafeCouponDesign("front", "back", "stamp", cafe2));
 
-        couponPolicy1 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy2 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy3 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy4 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
-        couponPolicy5 = couponPolicyRepository.save(new CouponPolicy(10, "아메리카노", 8));
+        cafePolicy1 = cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, cafe1));
+        cafePolicy2 = cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, cafe2));
 
-        coupon1 = new Coupon(LocalDateTime.of(2023, 9, 5, 22, 4), LocalDateTime.now(), LocalDate.EPOCH, tmpCustomer1, cafe1, couponDesign1, couponPolicy1);
+        coupon1 = new Coupon(LocalDateTime.of(2023, 9, 5, 22, 4), LocalDateTime.now(), LocalDate.EPOCH, tmpCustomer1, cafe1, cafeCouponDesign1, cafePolicy1);
         Stamp stamp1 = new Stamp();
         Stamp stamp2 = new Stamp();
         stamp1.registerCoupon(coupon1);
@@ -145,20 +135,20 @@ class CouponRepositoryTest {
         Coupon save = couponRepository.save(coupon1);
         save.reward();
 
-        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, couponDesign2, couponPolicy2);
+        coupon2 = new Coupon(LocalDate.EPOCH, registerCustomer1, cafe1, cafeCouponDesign1, cafePolicy1);
         Stamp stamp3 = new Stamp();
         stamp3.registerCoupon(coupon2);
         couponRepository.save(coupon2);
 
-        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, couponDesign3, couponPolicy3);
+        coupon3 = new Coupon(LocalDate.EPOCH, tmpCustomer2, cafe2, cafeCouponDesign2, cafePolicy2);
         Stamp stamp4 = new Stamp();
         stamp4.registerCoupon(coupon3);
         couponRepository.save(coupon3);
 
-        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, couponDesign4, couponPolicy4);
+        coupon4 = new Coupon(LocalDate.EPOCH, tmpCustomer3, cafe2, cafeCouponDesign2, cafePolicy2);
         couponRepository.save(coupon4);
 
-        coupon5 = new Coupon(LocalDateTime.MIN, LocalDateTime.MIN, LocalDate.EPOCH, registerCustomer2, cafe2, couponDesign5, couponPolicy5);
+        coupon5 = new Coupon(LocalDateTime.MIN, LocalDateTime.MIN, LocalDate.EPOCH, registerCustomer2, cafe2, cafeCouponDesign2, cafePolicy2);
         couponRepository.save(coupon5);
     }
 
@@ -200,7 +190,7 @@ class CouponRepositoryTest {
     void 쿠폰의_유효기간_만료일을_계산한다() {
         // given, when
         LocalDateTime expiredDate = coupon1.calculateExpireDate();
-        LocalDateTime expected = coupon1.getCreatedAt().plusMonths(couponPolicy1.getExpiredPeriod());
+        LocalDateTime expected = coupon1.getCreatedAt().plusMonths(cafePolicy1.getExpirePeriod());
 
         // then
         assertThat(expiredDate).isEqualTo(expected);

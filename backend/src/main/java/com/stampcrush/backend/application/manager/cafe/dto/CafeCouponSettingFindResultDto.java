@@ -1,6 +1,6 @@
 package com.stampcrush.backend.application.manager.cafe.dto;
 
-import com.stampcrush.backend.entity.coupon.CouponDesign;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -15,12 +15,12 @@ public class CafeCouponSettingFindResultDto {
     private final String stampImageUrl;
     private final List<CafeCouponCoordinateFindResultDto> coordinates;
 
-    public static CafeCouponSettingFindResultDto from(CouponDesign couponDesign) {
+    public static CafeCouponSettingFindResultDto from(CafeCouponDesign cafeCouponDesign) {
         return new CafeCouponSettingFindResultDto(
-                couponDesign.getFrontImageUrl(),
-                couponDesign.getBackImageUrl(),
-                couponDesign.getStampImageUrl(),
-                couponDesign.getCouponStampCoordinates().stream()
+                cafeCouponDesign.getFrontImageUrl(),
+                cafeCouponDesign.getBackImageUrl(),
+                cafeCouponDesign.getStampImageUrl(),
+                cafeCouponDesign.getCafeStampCoordinates().stream()
                         .map(stamp -> new CafeCouponCoordinateFindResultDto(
                                 stamp.getStampOrder(),
                                 stamp.getXCoordinate(),

@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,7 +55,7 @@ public class ManagerCafeCouponSettingCommandService {
     }
 
     private void deleteCafePolicy(Cafe cafe) {
-        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafe(cafe);
+        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
             cafePolicyRepository.delete(currentCafePolicy);
@@ -64,7 +63,7 @@ public class ManagerCafeCouponSettingCommandService {
     }
 
     private void deleteCafeCouponDesign(Cafe cafe) {
-        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe);
+        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
             cafeCouponDesignRepository.delete(currentCafeCouponDesign);
@@ -82,10 +81,9 @@ public class ManagerCafeCouponSettingCommandService {
                 cafePolicyDto.getMaxStampCount(),
                 cafePolicyDto.getReward(),
                 cafePolicyDto.getExpirePeriod(),
-                false,
                 cafe
         );
-        CafePolicy savedCafePolicy = cafePolicyRepository.save(newCafePolicy);
+        cafePolicyRepository.save(newCafePolicy);
     }
 
     private void createNewCafeCouponDesign(Cafe cafe, CafeCouponSettingDto cafeCouponSettingDto) {
@@ -94,7 +92,6 @@ public class ManagerCafeCouponSettingCommandService {
                 cafeCouponDesignDto.getFrontImageUrl(),
                 cafeCouponDesignDto.getBackImageUrl(),
                 cafeCouponDesignDto.getStampImageUrl(),
-                false,
                 cafe
         );
         CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(newCafeCouponDesign);
@@ -105,7 +102,7 @@ public class ManagerCafeCouponSettingCommandService {
                     coordinate.getYCoordinate(),
                     savedCafeCouponDesign
             );
-            CafeStampCoordinate savedCafeStampCoordinate = cafeStampCoordinateRepository.save(newCafeStampCoordinate);
+            cafeStampCoordinateRepository.save(newCafeStampCoordinate);
         }
     }
 }

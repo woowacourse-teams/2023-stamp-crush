@@ -7,7 +7,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -16,8 +15,6 @@ import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -64,12 +61,6 @@ public class ManageCouponCommandServiceTest {
     private CafePolicyRepository cafePolicyRepository;
 
     @Mock
-    private CouponDesignRepository couponDesignRepository;
-
-    @Mock
-    private CouponPolicyRepository couponPolicyRepository;
-
-    @Mock
     private OwnerRepository ownerRepository;
 
     @Mock
@@ -84,7 +75,7 @@ public class ManageCouponCommandServiceTest {
     private static Cafe cafe;
     private static Customer customer;
     private static Owner owner;
-    private static CouponPolicy couponPolicy;
+    private static CafePolicy cafePolicy;
 
     @BeforeAll
     static void setUp() {
@@ -94,23 +85,23 @@ public class ManageCouponCommandServiceTest {
                 .id(1L)
                 .phoneNumber("01012345678")
                 .build();
-        couponPolicy = new CouponPolicy(10, "reward", 6);
+        cafePolicy = new CafePolicy(10, "reward", 6, cafe);
     }
 
     @Test
     void 적립중인_쿠폰이_있으면_새로운_쿠폰을_발급하고_기존_쿠폰은_만료된다() {
         // given
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         given(customerRepository.findById(anyLong()))
                 .willReturn(Optional.of(customer));
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
-        given(cafePolicyRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, false, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", false, null)));
+        given(cafePolicyRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
+        given(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(currentCoupon));
 
@@ -119,8 +110,6 @@ public class ManageCouponCommandServiceTest {
 
         // then
         then(couponRepository).should(times(1)).save(any());
-        then(couponDesignRepository).should(times(1)).save(any());
-        then(couponPolicyRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.EXPIRED);
     }
 
@@ -133,10 +122,10 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
-        given(cafePolicyRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, false, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", false, null)));
+        given(cafePolicyRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
+        given(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(Collections.emptyList());
 
@@ -145,8 +134,6 @@ public class ManageCouponCommandServiceTest {
 
         // then
         then(couponRepository).should(times(1)).save(any());
-        then(couponDesignRepository).should(times(1)).save(any());
-        then(couponPolicyRepository).should(times(1)).save(any());
     }
 
     @Test
@@ -182,7 +169,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(customer));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
-        given(cafePolicyRepository.findByCafe(any()))
+        given(cafePolicyRepository.findByCafeAndDeletedIsFalse(any()))
                 .willReturn(Optional.empty());
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(owner));
@@ -201,9 +188,9 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(owner));
         given(cafeRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe));
-        given(cafePolicyRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, false, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
+        given(cafePolicyRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
+        given(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(any()))
                 .willReturn(Optional.empty());
 
         // then
@@ -215,7 +202,7 @@ public class ManageCouponCommandServiceTest {
     void 추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프만_적립한다() {
         // given, when
         int maxStampCount = 10;
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, 1);
@@ -232,7 +219,7 @@ public class ManageCouponCommandServiceTest {
     void 추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수와_같으면_리워드를_생성한다() {
         // given, when
         int maxStampCount = 10;
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount);
@@ -249,7 +236,7 @@ public class ManageCouponCommandServiceTest {
     void 추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_나머지_스탬프가_찍힌다() {
         // given, when
         int maxStampCount = 10;
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2 + 2);
@@ -265,7 +252,7 @@ public class ManageCouponCommandServiceTest {
     void 추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_찍을_스탬프가_없다면_쿠폰을_발급하지_않는다() {
         // given, when
         int maxStampCount = 10;
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2);
@@ -280,7 +267,7 @@ public class ManageCouponCommandServiceTest {
     @Test
     void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수보다_적으면_스탬프만_적립한다() {
         // given
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         currentCoupon.accumulate(4);
         int maxStampCount = 10;
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
@@ -300,7 +287,7 @@ public class ManageCouponCommandServiceTest {
     @Test
     void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수와_같으면_리워드를_생성한다() {
         // givem
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         currentCoupon.accumulate(4);
         int maxStampCount = 10;
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
@@ -321,7 +308,7 @@ public class ManageCouponCommandServiceTest {
     @Test
     void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_나머지_스탬프가_찍힌다() {
         // given
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         currentCoupon.accumulate(4);
         int maxStampCount = 10;
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
@@ -340,7 +327,7 @@ public class ManageCouponCommandServiceTest {
     @Test
     void 기존에_스탬프가_있는_쿠폰에_추가_적립한_스탬프로_리워드를_받기_위한_스탬프_개수를_초과하면_리워드를_생성하고_새로운_쿠폰에_찍을_스탬프가_없다면_쿠폰을_발급하지_않는다() {
         // given, when
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         currentCoupon.accumulate(4);
         int maxStampCount = 10;
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
@@ -358,7 +345,7 @@ public class ManageCouponCommandServiceTest {
     void 스탬프_적립에_성공하면_스탬프_적립_이벤트가_발행된다() {
         // given, when
         int maxStampCount = 10;
-        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, couponPolicy);
+        Coupon currentCoupon = new Coupon(LocalDate.EPOCH, customer, cafe, null, cafePolicy);
         스탬프_적립을_위해_필요한_엔티티를_조회한다(maxStampCount, currentCoupon);
 
         StampCreateDto stampCreateDto = new StampCreateDto(1L, 1L, 1L, maxStampCount * 2 + 2);
@@ -378,10 +365,10 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(customer));
         given(cafeRepository.findAllByOwner(any()))
                 .willReturn(List.of(cafe));
-        given(cafePolicyRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafePolicy(maxStampCount, "reward", 6, false, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
-                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", false, null)));
+        given(cafePolicyRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafePolicy(maxStampCount, "reward", 6, cafe)));
+        given(cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(any()))
+                .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findById(any()))
                 .willReturn(Optional.of(coupon));
     }

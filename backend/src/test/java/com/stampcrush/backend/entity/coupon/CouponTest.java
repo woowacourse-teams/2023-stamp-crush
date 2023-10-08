@@ -2,8 +2,11 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
+import com.stampcrush.backend.fixture.CafeCouponDesignFixture;
+import com.stampcrush.backend.fixture.CafePolicyFixture;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -32,7 +35,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy());
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1);
 
         // then
         assertAll(
@@ -54,7 +57,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy());
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1);
 
         // when
         coupon.reward();
@@ -79,7 +82,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when
@@ -103,15 +106,15 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when
-        coupon.accumulate(2);
+        coupon.accumulate(10);
 
         // then
         assertThat(coupon.getStatus()).isSameAs(CouponStatus.REWARDED);
-        assertThat(coupon.getStampCount()).isEqualTo(2);
+        assertThat(coupon.getStampCount()).isEqualTo(10);
     }
 
     @Test
@@ -127,15 +130,15 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when
-        coupon.accumulate(2);
+        coupon.accumulate(10);
 
         // then
         assertThat(coupon.getStatus()).isSameAs(CouponStatus.REWARDED);
-        assertThat(coupon.getStampCount()).isEqualTo(2);
+        assertThat(coupon.getStampCount()).isEqualTo(10);
     }
 
     @Test
@@ -151,7 +154,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when
@@ -175,7 +178,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when
@@ -198,7 +201,7 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")), CafeCouponDesignFixture.COUPON_DESIGN_1, CafePolicyFixture.COUPON_POLICY_1
         );
 
         // when

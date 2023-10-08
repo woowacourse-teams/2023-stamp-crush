@@ -5,7 +5,6 @@ import com.stampcrush.backend.application.manager.cafe.dto.CafeCouponSettingFind
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.exception.CafeCouponSettingNotFoundException;
 import com.stampcrush.backend.exception.CafeNotFoundException;
@@ -37,7 +36,7 @@ public class ManagerCafeCouponSettingFindService {
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException("사장을 찾지 못했습니다."));
         cafe.validateOwnership(owner);
-        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe)
+        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndDeletedIsFalse(cafe)
                 .orElseThrow(() -> new CafeCouponSettingNotFoundException("카페 디자인을 찾을 수 없습니다."));
         return new CafeCouponSettingFindResultDto(
                 cafeCouponDesign.getFrontImageUrl(),
@@ -58,7 +57,7 @@ public class ManagerCafeCouponSettingFindService {
         cafe.validateOwnership(owner);
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(() -> new CouponNotFoundException("couponId: " + couponId + " 쿠폰을 찾지 못했습니다."));
-        CouponDesign couponDesign = coupon.getCouponDesign();
+        CafeCouponDesign couponDesign = coupon.getCafeCouponDesign();
         return CafeCouponSettingFindResultDto.from(couponDesign);
     }
 }
