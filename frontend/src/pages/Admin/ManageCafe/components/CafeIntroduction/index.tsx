@@ -1,4 +1,4 @@
-import { INTRO_LIMITATION } from '../../../../../constants';
+import { INTRO_LIMITATION } from '../../../../../constants/magicNumber';
 import { StepTitle } from '../../style';
 import { RestrictionLabel, TextArea } from './style';
 

@@ -1,4 +1,4 @@
-import { EXPIRE_DATE_NONE } from '../../constants';
+import { EXPIRE_DATE_NONE } from '../../constants/magicString';
 import { Coordinate, Option } from '../utils';
 
 export interface Coupon {

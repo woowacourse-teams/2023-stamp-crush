@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCafe } from '../api/get';
 import { useNavigate } from 'react-router-dom';
-import { INVALID_CAFE_ID } from '../constants';
+import { INVALID_CAFE_ID } from '../constants/magicNumber';
 
 export const useCafeQuery = () => {
   const result = useQuery({

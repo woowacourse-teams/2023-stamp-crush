@@ -3,8 +3,8 @@ import { TabBarContainer, TapBarItem } from './style';
 import { AiOutlineHome } from '@react-icons/all-files/ai/AiOutlineHome';
 import { AiOutlineGift } from '@react-icons/all-files/ai/AiOutlineGift';
 import { AiOutlineUser } from '@react-icons/all-files/ai/AiOutlineUser';
-import { ROUTER_PATH } from '../../../../constants';
 import { RouterPath } from '../../../../types/utils';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const BOTTOM_TABS = [
   { path: [ROUTER_PATH.couponList], icon: <AiOutlineHome size={28} />, label: '홈' },

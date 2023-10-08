@@ -14,19 +14,20 @@ interface PreviewContentProps {
   cafeInfo: Cafe;
 }
 
+//TODO: cafes API에 리워드명 받을지 논의
 const PreviewContent = ({ openTime, closeTime, phoneNumber, cafeInfo }: PreviewContentProps) => {
   return (
     <PreviewContentContainer>
       <Text>
-        <FaRegClock size={25} />
+        <FaRegClock size={22} />
         {`${parseTime(openTime)} - ${parseTime(closeTime)}`}
       </Text>
       <Text>
-        <FaPhoneAlt size={25} />
+        <FaPhoneAlt size={22} />
         {parsePhoneNumber(phoneNumber)}
       </Text>
       <Text>
-        <FaLocationDot width={25} height={25} />
+        <FaLocationDot width={22} height={22} />
         {`${cafeInfo.roadAddress} ${cafeInfo.detailAddress}`}
       </Text>
     </PreviewContentContainer>

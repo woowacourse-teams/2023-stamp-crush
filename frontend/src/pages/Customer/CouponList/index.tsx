@@ -1,14 +1,12 @@
 import Coupon from './components/Coupon';
 import { CouponListContainer, InfoContainer } from './style';
 import { useEffect, useRef, useState } from 'react';
-import { ROUTER_PATH } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './components/CouponDetail';
 import Alert from '../../../components/Alert';
 import useModal from '../../../hooks/useModal';
 import CafeInfo from './components/CafeInfo';
 import Header from './components/Header';
-import { useCustomerProfile } from '../../../hooks/useCustomerProfile';
 import CustomerLoadingSpinner from '../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { isNotEmptyArray } from '../../../utils';
 import useGetCoupons from './hooks/useGetCoupons';
@@ -16,10 +14,11 @@ import usePostIsFavorites from './hooks/usePostIsFavorites';
 import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const CouponList = () => {
   const navigate = useNavigate();
-  const { customerProfile } = useCustomerProfile();
+
   const { isOpen, openModal, closeModal } = useModal();
   const [alertMessage, setAlertMessage] = useState('');
   const couponListContainerRef = useRef<HTMLDivElement>(null);
@@ -35,11 +34,10 @@ const CouponList = () => {
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
       navigate(ROUTER_PATH.login);
-    if (!customerProfile?.profile.phoneNumber) navigate(ROUTER_PATH.phoneNumber);
     if (coupons && isNotEmptyArray(coupons)) {
       setCurrentIndex(coupons.length - 1);
     }
-  }, [coupons, customerProfile?.profile.phoneNumber]);
+  }, [coupons]);
 
   if (couponStatus === 'error') {
     return <HomeTemplate>에러가 발생했습니다.</HomeTemplate>;

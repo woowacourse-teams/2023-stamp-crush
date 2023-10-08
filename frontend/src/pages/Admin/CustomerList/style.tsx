@@ -16,7 +16,18 @@ export const CustomerBoxContainer = styled.div`
 
 export const EmptyCustomers = styled.p`
   display: flex;
-  margin: 80px 10px;
+  flex-direction: column;
+  margin: 180px 30px;
+  line-height: 24px;
+  text-align: center;
+  color: gray;
+
+  & > span {
+    color: #222;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
 `;
 
 export const Container = styled.div`

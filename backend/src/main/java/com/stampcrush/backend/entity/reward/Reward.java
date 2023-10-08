@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +18,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
+@SQLDelete(sql = "UPDATE reward SET deleted = true WHERE customer_id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Reward extends BaseDate {
 
@@ -34,6 +38,8 @@ public class Reward extends BaseDate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
+
+    private Boolean deleted = Boolean.FALSE;
 
     public Reward(
             LocalDateTime createdAt,

@@ -1,5 +1,9 @@
 import { Input } from '../../../../../components/Input';
-import { PHONE_NUMBER_REGEX } from '../../../../../constants';
+import {
+  PHONE_NUMBER_START_WITHOUT_02,
+  PHONE_NUMBER_START_WITH_02,
+} from '../../../../../constants/magicNumber';
+import REGEX from '../../../../../constants/regex';
 import { parsePhoneNumber } from '../../../../../utils';
 import { StepTitle, Wrapper } from '../../style';
 
@@ -15,8 +19,10 @@ const CafePhoneNumber = ({ phoneNumber, inputPhoneNumber }: CafePhoneNumberProps
       <Input
         id="phone-number-input"
         placeholder="전화번호를 입력해주세요"
-        maxLength={phoneNumber.startsWith('02') ? 12 : 13}
-        pattern={PHONE_NUMBER_REGEX.source}
+        maxLength={
+          phoneNumber.startsWith('02') ? PHONE_NUMBER_START_WITH_02 : PHONE_NUMBER_START_WITHOUT_02
+        }
+        pattern={REGEX.phoneNumber.source}
         onChange={inputPhoneNumber}
         value={parsePhoneNumber(phoneNumber)}
       />

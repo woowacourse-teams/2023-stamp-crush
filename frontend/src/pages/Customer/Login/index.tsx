@@ -1,10 +1,11 @@
+import { BASE_URL } from '../../../api';
 import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
-import { BASE_URL, ROUTER_PATH } from '../../../constants';
+import ROUTER_PATH from '../../../constants/routerPath';
+
 import {
   Container,
   KakaoLoginImg,
   LoginLink,
-  LogoImg,
   RedirectLink,
   ServiceIntro,
   ServiceIntroSub,

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAdminOAuthToken } from '../../../api/get';
-import { ROUTER_PATH } from '../../../constants';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const AdminAuth = () => {
   const navigate = useNavigate();

@@ -18,3 +18,9 @@ export const HistoryItem = styled.li`
 export const CafeName = styled.span`
   font-weight: 700;
 `;
+
+export const EmptyList = styled.p`
+  color: gray;
+  text-align: center;
+  margin: auto;
+`;

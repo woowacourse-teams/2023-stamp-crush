@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCoupon } from '../../../../api/get';
-import { INVALID_CAFE_ID } from '../../../../constants';
 import { IssuedCouponsRes } from '../../../../types/api/response';
 import { CustomerPhoneNumber } from '../../../../types/domain/customer';
+import { INVALID_CAFE_ID } from '../../../../constants/magicNumber';
 
 const useGetCoupon = (cafeId: number, customer: CustomerPhoneNumber) => {
   return useQuery<IssuedCouponsRes>(['coupon'], {

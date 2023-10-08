@@ -74,3 +74,7 @@ export interface RewardRes {
 export interface CustomerRegisterTypeRes {
   customers: CustomerRegisterType[];
 }
+
+export interface AdminLoginRes {
+  token: string;
+}

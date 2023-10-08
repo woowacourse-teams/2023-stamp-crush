@@ -1,4 +1,7 @@
-import { BASE_URL } from '../constants';
+export const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_DEV_URL
+    : process.env.REACT_APP_BASE_URL;
 
 const request = async (path: string, init?: RequestInit) => {
   const response = await fetch(`${BASE_URL}${path}`, {

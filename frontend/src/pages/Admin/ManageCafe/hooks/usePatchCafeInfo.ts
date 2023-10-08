@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { patchCafeInfo } from '../../../../api/patch';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../../constants';
+import ROUTER_PATH from '../../../../constants/routerPath';
 
 const usePatchCafeInfo = () => {
   const navigate = useNavigate();

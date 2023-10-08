@@ -8,7 +8,6 @@ import {
 import Text from '../../../components/Text';
 import { useState } from 'react';
 import SelectBox from '../../../components/SelectBox';
-import { CUSTOMERS_ORDER_OPTIONS, REGISTER_TYPE_OPTION } from '../../../constants';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Customers from './Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
@@ -16,9 +15,31 @@ import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 import { Option } from '../../../types/utils';
 import { RegisterType } from '../../../types/domain/customer';
 
+const CUSTOMERS_ORDER_OPTIONS: CustomerOrderOption[] = [
+  {
+    key: 'stampCount',
+    value: '스탬프순',
+  },
+  {
+    key: 'rewardCount',
+    value: '리워드순',
+  },
+  {
+    key: 'visitCount',
+    value: '방문횟수순',
+  },
+  { key: 'recentVisitDate', value: '최근방문순' },
+];
+
+const REGISTER_TYPE_OPTION: Option[] = [
+  { key: 'all', value: '전체' },
+  { key: 'register', value: '회원' },
+  { key: 'temporary', value: '임시' },
+];
+
 const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();
-  const [registerType, setRegisterType] = useState<Option>({ key: 'register', value: '회원' });
+  const [registerType, setRegisterType] = useState<Option>({ key: 'all', value: '전체' });
   const [orderOption, setOrderOption] = useState({
     key: 'stampCount',
     value: '스탬프순',
@@ -36,17 +57,6 @@ const CustomerList = () => {
 
   if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <CustomerContainer>Error</CustomerContainer>;
-
-  if (customers.length === 0)
-    return (
-      <CustomerContainer>
-        <Text variant="pageTitle">내 고객 목록</Text>
-        <EmptyCustomers>
-          아직 보유고객이 없어요! <br />
-          카페를 방문한 고객에게 스탬프를 적립해 보세요.
-        </EmptyCustomers>
-      </CustomerContainer>
-    );
 
   return (
     <CustomerContainer>
@@ -69,7 +79,14 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Customers registerTypeOption={registerType} customers={customers} />
+      {customers.length === 0 ? (
+        <EmptyCustomers>
+          <span>NO RESULT 🥲</span> 아직 고객이 없어요! <br />
+          카페를 방문한 고객에게 스탬프를 적립해 보세요.
+        </EmptyCustomers>
+      ) : (
+        <Customers registerTypeOption={registerType} customers={customers} />
+      )}
     </CustomerContainer>
   );
 };

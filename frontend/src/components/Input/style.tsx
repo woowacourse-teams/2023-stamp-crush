@@ -25,13 +25,14 @@ export const BaseInput = styled.input<StyledInputProps>`
 
   background: transparent;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-  transition: 0.4s ease-in-out;
+  transition: 200ms ease-in-out;
 
   &:focus {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.main};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.point};
     outline: none;
-    transition: 0.4s ease-in-out;
+    transition: 200ms ease-in-out;
   }
+
   &::placeholder {
     color: #aaa;
   }

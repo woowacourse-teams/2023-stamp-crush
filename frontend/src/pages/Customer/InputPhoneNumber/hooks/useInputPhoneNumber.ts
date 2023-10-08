@@ -1,9 +1,10 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PHONE_NUMBER_LENGTH, ROUTER_PATH } from '../../../../constants';
 import useGetCustomerRegisterType from './useGetCustomerRegisterType';
 import usePostCustomerLinkData from './usePostCustomerLinkData';
 import usePostCustomerPhoneNumber from './usePostCustomerPhoneNumber';
+import ROUTER_PATH from '../../../../constants/routerPath';
+import { PHONE_NUMBER_LENGTH } from '../../../../constants/magicNumber';
 
 const useInputPhoneNumber = () => {
   const navigate = useNavigate();
@@ -16,7 +17,9 @@ const useInputPhoneNumber = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const submitPhoneNumber = () => {
+  const submitPhoneNumber = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (phoneNumber.length < PHONE_NUMBER_LENGTH) {
       alert('전화번호를 모두 입력해주세요.');
       return;
@@ -31,7 +34,7 @@ const useInputPhoneNumber = () => {
     // 임시회원이 아닌 유저가 정상적인 전화번호를 등록하려고 할때
     if (customerRegisterType.length === 0) {
       await mutatePhoneNumber(phoneNumber);
-      navigate(ROUTER_PATH.couponList);
+      navigate(ROUTER_PATH.greeting);
       return;
     }
 

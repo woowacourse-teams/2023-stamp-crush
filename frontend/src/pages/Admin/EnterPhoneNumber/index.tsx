@@ -10,9 +10,9 @@ import {
   Title,
 } from './style';
 import { useNavigate } from 'react-router-dom';
-import { ROUTER_PATH } from '../../../constants';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import PrivateProvider from '../../../provider/PrivateProvider';
+import ROUTER_PATH from '../../../constants/routerPath';
 
 const EnterPhoneNumber = () => {
   useRedirectRegisterPage();

@@ -1,7 +1,13 @@
 import { PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../../../components/Header/SubHeader';
-import { ROUTER_PATH } from '../../../constants';
+import ROUTER_PATH from '../../../constants/routerPath';
+
+export const DATE_PARSE_OPTION = {
+  hasYear: false,
+  hasMonth: true,
+  hasDay: true,
+};
 
 interface HistoryPageProps {
   title: string;

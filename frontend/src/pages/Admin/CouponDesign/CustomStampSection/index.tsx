@@ -9,6 +9,7 @@ import {
 import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
 import StampLoadImg from '../../../../assets/stamp_load_img.png';
 import StampPreviewImg from '../../../../assets/stamp_preview.png';
+import { CouponPreviewHeader, CustomCouponLabel } from '../CustomCouponSection/style';
 
 interface CustomStampSectionProps {
   label: string;
@@ -29,17 +30,20 @@ const CustomStampSection = ({
 
   return (
     <>
-      <label>{label}</label>
-      <Spacing $size={4} />
-      <ImageUpLoadInput
-        id={uploadImageInputId}
-        type="file"
-        accept="image/jpg,image/png,image/jpeg,image/gif"
-        onChange={uploadImageFile}
-      />
-      {isCustom && (
-        <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>이미지 업로드 +</ImageUpLoadInputLabel>
-      )}
+      <CouponPreviewHeader>
+        <CustomCouponLabel>💮 {label}</CustomCouponLabel>
+        <ImageUpLoadInput
+          id={uploadImageInputId}
+          type="file"
+          accept="image/jpg,image/png,image/jpeg,image/gif"
+          onChange={uploadImageFile}
+        />
+        {isCustom && (
+          <ImageUpLoadInputLabel htmlFor={uploadImageInputId}>
+            이미지 업로드 +
+          </ImageUpLoadInputLabel>
+        )}
+      </CouponPreviewHeader>
       <Spacing $size={8} />
       <PreviewImageWrapper $height={50} $width={50}>
         <PreviewImage
