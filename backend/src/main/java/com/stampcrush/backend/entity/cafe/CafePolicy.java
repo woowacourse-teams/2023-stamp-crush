@@ -58,4 +58,16 @@ public class CafePolicy extends BaseDate {
     public boolean isPrevious() {
         return deleted;
     }
+
+    @Override
+    public String toString() {
+        return "CafePolicy{" +
+                "id=" + id +
+                ", maxStampCount=" + maxStampCount +
+                ", reward='" + reward + '\'' +
+                ", expirePeriod=" + expirePeriod +
+                ", deleted=" + deleted +
+                '}' + '\n' +
+        getCreatedAt();
+    }
 }

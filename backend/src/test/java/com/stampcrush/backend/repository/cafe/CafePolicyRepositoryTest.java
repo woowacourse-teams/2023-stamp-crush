@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -143,8 +144,11 @@ class CafePolicyRepositoryTest {
                         savedCafe
                 )
         );
-
+        System.out.println("currentPolicy = " + currentPolicy);
         List<CafePolicy> cafePolicies = cafePolicyRepository.findByCafeAndCreatedAtGreaterThan(savedCafe, currentPolicy.getCreatedAt());
+        for (CafePolicy cafePolicy : cafePolicies) {
+            System.out.println("cafePolicy = " + cafePolicy);
+        }
         assertThat(cafePolicies).isEmpty();
     }
 }
