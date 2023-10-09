@@ -214,18 +214,23 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request1, customerId);
 
+        StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId, coupon1Id, coupon1StampCreateRequest);
+
         String customerToken2 = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer2", "email2", OAuthProvider.KAKAO, 1293L));
         Long customerId2 = authTokensGenerator.extractMemberId(customerToken2);
         Customer customer2 = customerRepository.findById(customerId2).get();
 
+        int customer2EarningStamp = 21;
+
         CouponCreateRequest request2 = new CouponCreateRequest(savedCafeId);
         Long coupon2Id = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id, new StampCreateRequest(10));
+        Long coupon2Id2 = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id2, new StampCreateRequest(10));
+        Long coupon2Id3 = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id3, new StampCreateRequest(1));
 
-        StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
-        쿠폰에_스탬프를_적립_요청(ownerToken, customerId, coupon1Id, coupon1StampCreateRequest);
-
-        StampCreateRequest coupon2StampCreateRequest = new StampCreateRequest(21);
-        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id, coupon2StampCreateRequest);
 
         // when
         List<CafeCustomerFindResponse> customers = 고객_목록_조회_요청(ownerToken, savedCafeId)
@@ -247,8 +252,8 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         CafeCustomerFindResponse customer2Expected = new CafeCustomerFindResponse(
                 coupon2Id,
                 customer2.getNickname(),
-                coupon2StampCreateRequest.getEarningStampCount() % 10,
-                coupon2StampCreateRequest.getEarningStampCount() / 10,
+                customer2EarningStamp % 10,
+                customer2EarningStamp / 10,
                 1,
                 10,
                 null,
