@@ -157,6 +157,27 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 스탬프_10개_초과해서_적립하면_예외_발생한다() {
+        // given
+        String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerToken, CAFE_CREATE_REQUEST);
+        String customerToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer", "email", OAuthProvider.KAKAO, 123L));
+        Long customerId = authTokensGenerator.extractMemberId(customerToken);
+
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
+
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request, customerId);
+
+        // when
+        StampCreateRequest stampCreateRequest = new StampCreateRequest(11);
+        ExtractableResponse<Response> response = 쿠폰에_스탬프를_적립_요청(ownerToken, customerId, couponId, stampCreateRequest);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value());
+    }
+
+    @Test
     void 사장님_인증_정보_없이_쿠폰을_생성하려고_하면_예외발생() {
         // given
         CouponCreateRequest request = new CouponCreateRequest(1L);
@@ -230,7 +251,6 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id2, new StampCreateRequest(10));
         Long coupon2Id3 = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
         쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id3, new StampCreateRequest(1));
-
 
         // when
         List<CafeCustomerFindResponse> customers = 고객_목록_조회_요청(ownerToken, savedCafeId)
