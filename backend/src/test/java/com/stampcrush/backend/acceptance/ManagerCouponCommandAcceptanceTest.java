@@ -13,7 +13,6 @@ import com.stampcrush.backend.entity.user.Customer;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -35,6 +34,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
@@ -153,7 +153,28 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 쿠폰에_스탬프를_적립_요청(ownerToken, customerId, couponId, stampCreateRequest);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value());
+    }
+
+    @Test
+    void 스탬프_10개_초과해서_적립하면_예외_발생한다() {
+        // given
+        String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerToken, CAFE_CREATE_REQUEST);
+        String customerToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer", "email", OAuthProvider.KAKAO, 123L));
+        Long customerId = authTokensGenerator.extractMemberId(customerToken);
+
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
+
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request, customerId);
+
+        // when
+        StampCreateRequest stampCreateRequest = new StampCreateRequest(11);
+        ExtractableResponse<Response> response = 쿠폰에_스탬프를_적립_요청(ownerToken, customerId, couponId, stampCreateRequest);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value());
     }
 
     @Test
@@ -214,18 +235,22 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         Long coupon1Id = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request1, customerId);
 
+        StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId, coupon1Id, coupon1StampCreateRequest);
+
         String customerToken2 = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer2", "email2", OAuthProvider.KAKAO, 1293L));
         Long customerId2 = authTokensGenerator.extractMemberId(customerToken2);
         Customer customer2 = customerRepository.findById(customerId2).get();
 
+        int customer2EarningStamp = 21;
+
         CouponCreateRequest request2 = new CouponCreateRequest(savedCafeId);
         Long coupon2Id = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
-
-        StampCreateRequest coupon1StampCreateRequest = new StampCreateRequest(5);
-        쿠폰에_스탬프를_적립_요청(ownerToken, customerId, coupon1Id, coupon1StampCreateRequest);
-
-        StampCreateRequest coupon2StampCreateRequest = new StampCreateRequest(21);
-        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id, coupon2StampCreateRequest);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id, new StampCreateRequest(10));
+        Long coupon2Id2 = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id2, new StampCreateRequest(10));
+        Long coupon2Id3 = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request2, customerId2);
+        쿠폰에_스탬프를_적립_요청(ownerToken, customerId2, coupon2Id3, new StampCreateRequest(1));
 
         // when
         List<CafeCustomerFindResponse> customers = 고객_목록_조회_요청(ownerToken, savedCafeId)
@@ -247,8 +272,8 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
         CafeCustomerFindResponse customer2Expected = new CafeCustomerFindResponse(
                 coupon2Id,
                 customer2.getNickname(),
-                coupon2StampCreateRequest.getEarningStampCount() % 10,
-                coupon2StampCreateRequest.getEarningStampCount() / 10,
+                customer2EarningStamp % 10,
+                customer2EarningStamp / 10,
                 1,
                 10,
                 null,
@@ -366,5 +391,26 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
 
         assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
                 .containsExactlyInAnyOrder(expected);
+    }
+
+    @Test
+    void 스탬프_10개_초과_적립_요청하면_예외_발생한다() {
+        // given
+        String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
+
+        Long savedCafeId = 카페_생성_요청하고_아이디_반환(ownerToken, CAFE_CREATE_REQUEST);
+        String customerToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterCustomerCreateRequest("customer", "email", OAuthProvider.KAKAO, 123L));
+        Long customerId = authTokensGenerator.extractMemberId(customerToken);
+
+        CouponCreateRequest request = new CouponCreateRequest(savedCafeId);
+
+        Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerToken, request, customerId);
+
+        // when
+        StampCreateRequest stampCreateRequest = new StampCreateRequest(11);
+        ExtractableResponse<Response> response = 쿠폰에_스탬프를_적립_요청(ownerToken, customerId, couponId, stampCreateRequest);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value());
     }
 }
