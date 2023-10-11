@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Time } from '../../../../../types/utils';
 import { StepTitle, Wrapper } from '../../style';
-import TimePicker from '../../TimeRangePicker';
+import TimePicker from '../TimeRangePicker';
 
 interface CafeTimerPicker {
   openTime: Time;
