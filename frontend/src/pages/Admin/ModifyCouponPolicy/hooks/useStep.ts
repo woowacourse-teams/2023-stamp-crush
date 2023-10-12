@@ -1,10 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { MODIFY_STEP_NUMBER } from '../common/constant';
-import { selectRoutePathByCreatedType } from '../logic';
 import { CouponCreated } from '../../../../types/domain/coupon';
 import { Option } from '../../../../types/utils';
 import ROUTER_PATH from '../../../../constants/routerPath';
+import { MODIFY_STEP_NUMBER } from '..';
+
+const selectRoutePathByCreatedType = (createdType: CouponCreated) => {
+  switch (createdType) {
+    case 'template':
+      return ROUTER_PATH.templateCouponDesign;
+    case 'custom':
+      return ROUTER_PATH.customCouponDesign;
+    default:
+      throw new Error('[ERROR]: 쿠폰 생성 타입이 잘못되었습니다.');
+  }
+};
 
 const useStep = (
   createdType: CouponCreated,

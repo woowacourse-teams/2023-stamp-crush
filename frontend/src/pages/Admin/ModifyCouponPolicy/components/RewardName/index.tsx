@@ -1,7 +1,7 @@
-import { Spacing } from '../../../../style/layout/common';
-import Text from '../../../../components/Text';
+import { Spacing } from '../../../../../style/layout/common';
+import Text from '../../../../../components/Text';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Input } from '../../../../components/Input';
+import { Input } from '../../../../../components/Input';
 
 interface RewardNameProps {
   rewardName: string;

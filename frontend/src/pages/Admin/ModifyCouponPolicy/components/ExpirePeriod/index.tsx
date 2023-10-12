@@ -1,11 +1,11 @@
-import { Spacing } from '../../../../style/layout/common';
-import Text from '../../../../components/Text';
-import SelectBox from '../../../../components/SelectBox';
+import { Spacing } from '../../../../../style/layout/common';
+import Text from '../../../../../components/Text';
+import SelectBox from '../../../../../components/SelectBox';
 import { Dispatch, SetStateAction } from 'react';
 import { WarningText } from './style';
 import { AiFillWarning } from '@react-icons/all-files/ai/AiFillWarning';
-import { Option } from '../../../../types/utils';
-import { EXPIRE_DATE_OPTIONS } from '..';
+import { Option } from '../../../../../types/utils';
+import { EXPIRE_DATE_OPTIONS } from '../..';
 
 interface ExpirePeriodProps {
   expirePeriod: Option;

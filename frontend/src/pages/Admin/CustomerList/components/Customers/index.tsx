@@ -1,6 +1,6 @@
-import { Customer } from '../../../../types/domain/customer';
-import { Option } from '../../../../types/utils';
-import { formatDate } from '../../../../utils';
+import { Customer } from '../../../../../types/domain/customer';
+import { Option } from '../../../../../types/utils';
+import { formatDate } from '../../../../../utils';
 import {
   Container,
   Badge,

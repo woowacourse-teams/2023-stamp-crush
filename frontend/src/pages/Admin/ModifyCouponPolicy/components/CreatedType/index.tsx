@@ -8,12 +8,12 @@ import {
   TypeDescription,
   TypeTitle,
 } from './style';
-import { Spacing } from '../../../../style/layout/common';
-import Text from '../../../../components/Text';
+import { Spacing } from '../../../../../style/layout/common';
+import Text from '../../../../../components/Text';
 import { GrSelect } from '@react-icons/all-files/gr/GrSelect';
-import { CouponCreated } from '../../../../types/domain/coupon';
-import { MdOutlinePhotoSizeSelectLarge } from '../../../../assets';
-import CurrentCouponImages from '../components/CurrentCouponImages';
+import { CouponCreated } from '../../../../../types/domain/coupon';
+import { MdOutlinePhotoSizeSelectLarge } from '../../../../../assets';
+import CurrentCouponImages from '../CurrentCouponImages';
 
 interface CreatedTypeProps {
   value: CouponCreated;

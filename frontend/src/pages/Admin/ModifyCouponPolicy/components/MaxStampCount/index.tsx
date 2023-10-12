@@ -1,10 +1,10 @@
-import { Spacing } from '../../../../style/layout/common';
-import Text from '../../../../components/Text';
-import SelectBox from '../../../../components/SelectBox';
+import { Spacing } from '../../../../../style/layout/common';
+import Text from '../../../../../components/Text';
+import SelectBox from '../../../../../components/SelectBox';
 import { Dispatch, SetStateAction } from 'react';
-import { CouponCreated } from '../../../../types/domain/coupon';
-import { Option } from '../../../../types/utils';
-import { STAMP_COUNT_OPTIONS } from '..';
+import { CouponCreated } from '../../../../../types/domain/coupon';
+import { Option } from '../../../../../types/utils';
+import { STAMP_COUNT_OPTIONS } from '../..';
 
 const STAMP_COUNT_CUSTOM_OPTIONS = [
   {

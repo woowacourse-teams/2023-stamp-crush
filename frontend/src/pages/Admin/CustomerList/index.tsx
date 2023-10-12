@@ -10,7 +10,7 @@ import Text from '../../../components/Text';
 import { useState } from 'react';
 import SelectBox from '../../../components/SelectBox';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import Customers from './Customers';
+import Customers from './components/Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 import { Option } from '../../../types/utils';
