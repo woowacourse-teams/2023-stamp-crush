@@ -27,9 +27,13 @@ const CUSTOMER_TABS = [
 
 const ADMIN_TABS = [
   { path: [ROUTER_PATH.customerList], icon: <FaListUl size={28} />, label: '고객 목록' },
-  { path: [ROUTER_PATH.enterStamp], icon: <FaStamp size={28} />, label: '스탬프 적립' },
   {
-    path: [ROUTER_PATH.enterReward],
+    path: [ROUTER_PATH.enterStamp, ROUTER_PATH.earnStamp],
+    icon: <FaStamp size={28} />,
+    label: '스탬프 적립',
+  },
+  {
+    path: [ROUTER_PATH.enterReward, ROUTER_PATH.useReward],
     icon: <FaMedal size={28} />,
     label: '리워드 사용',
   },
