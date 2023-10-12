@@ -54,11 +54,11 @@ public class Coupon extends BaseDate {
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_coupon_design_id")
     private CafeCouponDesign cafeCouponDesign;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_policy_id")
     private CafePolicy cafePolicy;
 
