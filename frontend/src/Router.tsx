@@ -15,9 +15,7 @@ import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
 import CustomerTemplate from './components/Template/CustomerTemplate';
 import RewardList from './pages/Customer/RewardList';
-import RewardHistoryPage from './pages/Customer/HistoryPage/RewardHistory';
-import StampHistoryPage from './pages/Customer/HistoryPage/StampHistory';
-import Auth from './pages/Auth';
+import Auth from './pages/Customer/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
 import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
@@ -29,6 +27,8 @@ import CustomerSetting from './pages/Customer/CustomerSetting';
 import Greeting from './pages/Customer/Greeting';
 import CustomerProfileProvider from './provider/CustomerProfileProvider';
 import ROUTER_PATH from './constants/routerPath';
+import RewardHistoryPage from './pages/Customer/HistoryPage/components/RewardHistory';
+import StampHistoryPage from './pages/Customer/HistoryPage/components/StampHistory';
 
 const AdminRoot = () => {
   return (

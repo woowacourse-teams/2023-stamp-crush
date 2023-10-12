@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getStampHistories } from '../../../../api/get';
-import { CafeName, DateTitle, EmptyList, HistoryItem, HistoryList } from '../style';
-import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
-import HistoryPage, { DATE_PARSE_OPTION } from '../HistoryPage';
-import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
-import { StampHistoryType } from '../../../../types/domain/stamp';
+import HistoryPage, { DATE_PARSE_OPTION } from '../..';
+import { getStampHistories } from '../../../../../api/get';
+import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { StampHistoryType } from '../../../../../types/domain/stamp';
+import { transformEntries, sortMapByKey, parseStringDateToKorean } from '../../../../../utils';
+import { EmptyList, DateTitle, HistoryList, HistoryItem, CafeName } from '../../style';
 
 // TODO: RewardHistory와 타입 선언을 잘만 하면 재사용하게 만들 수 있을 것 같다.
 export const concatStampHistoryDate = (stamp: StampHistoryType) => {

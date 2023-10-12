@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyRewards } from '../../../../api/get';
-import { CafeName, HistoryItem, DateTitle, HistoryList, EmptyList } from '../style';
-import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../utils';
-import { RewardHistoryDateProperties, RewardHistoryType } from '../../../../types/domain/reward';
-import HistoryPage, { DATE_PARSE_OPTION } from '../HistoryPage';
-import CustomerLoadingSpinner from '../../../../components/LoadingSpinner/CustomerLoadingSpinner';
+import { getMyRewards } from '../../../../../api/get';
+import { CafeName, HistoryItem, DateTitle, HistoryList, EmptyList } from '../../style';
+import { parseStringDateToKorean, sortMapByKey, transformEntries } from '../../../../../utils';
+import { RewardHistoryDateProperties, RewardHistoryType } from '../../../../../types/domain/reward';
+import HistoryPage, { DATE_PARSE_OPTION } from '../..';
+import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 
 export const concatHistoryDate = (
   reward: RewardHistoryType,
