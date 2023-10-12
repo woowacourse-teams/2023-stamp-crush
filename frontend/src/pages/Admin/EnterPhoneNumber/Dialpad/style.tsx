@@ -7,6 +7,10 @@ export const Container = styled.section`
   border-right: 1px solid black;
   border-collapse: separate;
   min-width: 580px;
+
+  @media screen and (max-width: 450px) {
+    align-items: center;
+  }
 `;
 
 export const KeyContainer = styled.div`
@@ -14,6 +18,10 @@ export const KeyContainer = styled.div`
   height: 75vh;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
+
+  @media screen and (max-width: 450px) {
+    width: 100vw;
+  }
 `;
 
 export const Pad = styled.button`
@@ -49,5 +57,10 @@ export const BaseInput = styled.input`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 38px;
+    width: 100vw;
   }
 `;
