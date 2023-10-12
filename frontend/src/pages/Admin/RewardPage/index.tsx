@@ -72,7 +72,7 @@ const RewardPage = () => {
       <Text variant="pageTitle">리워드 사용</Text>
       <Spacing $size={36} />
       <RewardContainer>
-        <Text variant="pageTitle">{location.state.nickname}고객님</Text>
+        <Text variant="subTitle">{location.state.nickname} 고객님</Text>
         <Spacing $size={72} />
         <Text variant="subTitle">보유 리워드 내역</Text>
         <Spacing $size={42} />
