@@ -38,7 +38,7 @@ export const PreviewImage = styled.img<{ $width: number; $height: number; $opaci
   width: ${({ $width }) => `${$width}px`};
   height: ${({ $height }) => `${$height}px`};
   opacity: ${({ $opacity }) => ($opacity ? $opacity : '1')};
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 export const ImageUpLoadInputLabel = styled.label`

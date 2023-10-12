@@ -35,7 +35,7 @@ class VisitorRewardFindAcceptanceTest extends AcceptanceTest {
 
         Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, request, customerId);
 
-        int stampCountEnoughToCreateReward = 15;
+        int stampCountEnoughToCreateReward = 10;
         StampCreateRequest stampCreateRequest = new StampCreateRequest(stampCountEnoughToCreateReward);
 
         쿠폰에_스탬프를_적립_요청(ownerAccessToken, customerId, couponId, stampCreateRequest);
