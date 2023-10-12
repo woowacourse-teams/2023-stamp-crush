@@ -35,7 +35,7 @@ export const PageContainer = styled.div`
 
   @media screen and (max-width: 450px) {
     width: 90vw;
-    height: 100%;
+    height: calc(100vh - 140px);
     margin: 0 16px;
     padding: 16px;
   }
