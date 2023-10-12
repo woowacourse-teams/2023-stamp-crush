@@ -5,6 +5,11 @@ export const CustomerContainer = styled.div`
   flex-direction: column;
   margin-top: 40px;
   width: 100%;
+
+  @media screen and (max-width: 450px) {
+    margin-top: 10px;
+    height: 95%;
+  }
 `;
 
 export const CustomerBoxContainer = styled.div`
@@ -12,6 +17,10 @@ export const CustomerBoxContainer = styled.div`
   flex-direction: column;
   overflow: scroll;
   height: 540px;
+
+  @media screen and (max-width: 450px) {
+    height: 100%;
+  }
 `;
 
 export const EmptyCustomers = styled.p`
@@ -37,11 +46,21 @@ export const Container = styled.div`
   gap: 20px;
   margin-top: 40px;
   padding: 0 20px;
+
+  @media screen and (max-width: 450px) {
+    gap: 10px;
+    margin-top: 16px;
+    padding: 0;
+  }
 `;
 
 export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
+
+  @media screen and (max-width: 450px) {
+    gap: 4px;
+  }
 `;
 
 export const RegisterTypeTab = styled.button<{ $isSelected: boolean }>`
@@ -57,5 +76,9 @@ export const RegisterTypeTab = styled.button<{ $isSelected: boolean }>`
 
   &:hover {
     opacity: 70%;
+  }
+
+  @media screen and (max-width: 450px) {
+    width: 50px;
   }
 `;
