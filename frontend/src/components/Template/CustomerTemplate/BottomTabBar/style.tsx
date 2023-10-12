@@ -1,8 +1,12 @@
 import { styled } from 'styled-components';
 
-export const TabBarContainer = styled.div`
+interface TabBarProps {
+  isShow: boolean;
+}
+
+export const TabBarContainer = styled.div<TabBarProps>`
   position: fixed;
-  display: flex;
+  display: ${({ isShow }) => (isShow ? 'flex' : 'none')};
   justify-content: space-around;
   align-items: center;
   bottom: 0;
@@ -12,6 +16,10 @@ export const TabBarContainer = styled.div`
   border-radius: 8px 8px 0 0;
   box-shadow: 0px -4px 8px 0 rgba(0, 0, 0, 0.1);
   background: white;
+
+  @media screen and (max-width: 450px) {
+    display: flex;
+  }
 `;
 
 export const TapBarItem = styled.div<{ $isSelected: boolean }>`

@@ -5,8 +5,17 @@ import { AiOutlineGift } from '@react-icons/all-files/ai/AiOutlineGift';
 import { AiOutlineUser } from '@react-icons/all-files/ai/AiOutlineUser';
 import { RouterPath } from '../../../../types/utils';
 import ROUTER_PATH from '../../../../constants/routerPath';
+import { FaStamp } from '@react-icons/all-files/fa/FaStamp';
+import { FaListUl } from '@react-icons/all-files/fa/FaListUl';
+import { FaMedal } from '@react-icons/all-files/fa/FaMedal';
 
-const BOTTOM_TABS = [
+type UserType = 'admin' | 'customer';
+
+interface TabBarProps {
+  userType: UserType;
+}
+
+const CUSTOMER_TABS = [
   { path: [ROUTER_PATH.couponList], icon: <AiOutlineHome size={28} />, label: '홈' },
   { path: [ROUTER_PATH.rewardList], icon: <AiOutlineGift size={28} />, label: '리워드' },
   {
@@ -16,12 +25,24 @@ const BOTTOM_TABS = [
   },
 ];
 
-const BottomTabBar = () => {
+const ADMIN_TABS = [
+  { path: [ROUTER_PATH.customerList], icon: <FaListUl size={28} />, label: '고객 목록' },
+  { path: [ROUTER_PATH.enterStamp], icon: <FaStamp size={28} />, label: '스탬프 적립' },
+  {
+    path: [ROUTER_PATH.enterReward],
+    icon: <FaMedal size={28} />,
+    label: '리워드 사용',
+  },
+];
+
+const BottomTabBar = ({ userType }: TabBarProps) => {
   const location = useLocation();
 
+  const tabToShow = userType === 'admin' ? ADMIN_TABS : CUSTOMER_TABS;
+
   return (
-    <TabBarContainer>
-      {BOTTOM_TABS.map((tab, index) => (
+    <TabBarContainer isShow={userType === 'customer'}>
+      {tabToShow.map((tab, index) => (
         <TapBarItem key={index} $isSelected={tab.path.includes(location.pathname as RouterPath)}>
           <Link to={tab.path[0]}>
             {tab.icon}
