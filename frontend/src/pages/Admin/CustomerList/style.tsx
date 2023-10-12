@@ -59,3 +59,10 @@ export const RegisterTypeTab = styled.button<{ $isSelected: boolean }>`
     opacity: 70%;
   }
 `;
+
+export const CustomerCount = styled.span`
+  font-size: 16px;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: gray;
+`;
