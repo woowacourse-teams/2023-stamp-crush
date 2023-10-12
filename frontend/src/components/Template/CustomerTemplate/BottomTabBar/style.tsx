@@ -1,12 +1,8 @@
 import { styled } from 'styled-components';
 
-interface TabBarProps {
-  isShow: boolean;
-}
-
-export const TabBarContainer = styled.div<TabBarProps>`
+export const TabBarContainer = styled.div`
   position: fixed;
-  display: ${({ isShow }) => (isShow ? 'flex' : 'none')};
+  display: none;
   justify-content: space-around;
   align-items: center;
   bottom: 0;
