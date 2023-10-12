@@ -58,6 +58,10 @@ export const Footer = styled.div`
     font-size: 14px;
     color: #eee;
   }
+
+  @media screen {
+    display: none;
+  }
 `;
 
 export const LogoWrapper = styled.div`

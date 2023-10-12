@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { Spacing } from '../../../style/layout/common';
 import { useEffect, useState } from 'react';
-import { EarnStampContainer, StepperWrapper } from './style';
+import { EarnStampContainer, EarnStampPageContainer, StepperWrapper } from './style';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Button from '../../../components/Button';
@@ -53,23 +52,18 @@ const EarnStamp = () => {
   };
 
   return (
-    <>
-      <Spacing $size={40} />
+    <EarnStampPageContainer>
       <Text variant="pageTitle">스탬프 적립</Text>
-      <Spacing $size={40} />
-      <Text variant="subTitle">{state.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.</Text>
+      <p>{state.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.</p>
+      <Stepper value={stamp} setValue={setStamp} />
       <EarnStampContainer>
         <CouponIndicator coupon={coupon} couponDesignData={couponDesignData} stamp={stamp} />
         <StepperWrapper>
-          <Stepper value={stamp} setValue={setStamp} />
-          {coupon.coupons[0].stampCount + stamp > coupon.coupons[0].maxStampCount && (
-            <p>[알림] 지금부터 적립하는 스탬프는 새 쿠폰에 적립됩니다.</p>
-          )}
           <Button onClick={earnStamp}>적립</Button>
         </StepperWrapper>
         {/**TODO: 보유 쿠폰의 발급 시기와 새 쿠폰의 발급 시기에 차이가 있는 케이스에 대한 대처가 필요 */}
       </EarnStampContainer>
-    </>
+    </EarnStampPageContainer>
   );
 };
 
