@@ -24,6 +24,10 @@ export const NameContainer = styled.div`
   align-items: center;
   gap: 10px;
   color: #222;
+
+  @media screen and (max-width: 450px) {
+    width: 100px;
+  }
 `;
 
 export const RightInfo = styled.div`
@@ -38,6 +42,10 @@ export const InfoContainer = styled.span`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.text};
   line-height: 16px;
+
+  @media screen and (max-width: 450px) {
+    font-size: 13px;
+  }
 `;
 
 export const CustomerBox = styled.li`
@@ -54,6 +62,10 @@ export const CustomerBox = styled.li`
   &:first-of-type {
     margin-top: 20px;
   }
+
+  @media screen and (max-width: 450px) {
+    margin: 8px 0;
+  }
 `;
 
 export const LeftInfo = styled.div`
@@ -65,4 +77,8 @@ export const LeftInfo = styled.div`
 export const Name = styled.h1`
   font-size: 20px;
   font-weight: 500;
+
+  @media screen and (max-width: 450px) {
+    font-size: 16px;
+  }
 `;

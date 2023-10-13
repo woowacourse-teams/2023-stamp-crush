@@ -7,10 +7,19 @@ export const BaseTemplate = styled.main`
   height: 100vh;
   background: ${({ theme }) =>
     `linear-gradient(to bottom, ${theme.colors.main} 60%, ${theme.colors.point} 100%)`};
+
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const SideBarWrapper = styled.section`
   background: white;
+
+  @media screen and (max-width: 450px) {
+    display: none;
+  }
 `;
 
 export const PageContainer = styled.div`
@@ -23,6 +32,13 @@ export const PageContainer = styled.div`
   border-radius: 20px;
   box-shadow: 7px 5px 5px 3px rgba(0, 0, 0, 0.25);
   overflow: scroll;
+
+  @media screen and (max-width: 450px) {
+    width: 90vw;
+    height: calc(100vh - 140px);
+    margin: 0 16px;
+    padding: 16px;
+  }
 `;
 
 export const Footer = styled.div`
@@ -41,5 +57,20 @@ export const Footer = styled.div`
     gap: 5px;
     font-size: 14px;
     color: #eee;
+  }
+
+  @media screen {
+    display: none;
+  }
+`;
+
+export const LogoWrapper = styled.div`
+  display: none;
+
+  @media screen and (max-width: 450px) {
+    display: flex;
+    align-items: center;
+    width: 90vw;
+    padding: 10px 0;
   }
 `;

@@ -23,12 +23,20 @@ export const LoginContent = styled.div`
   align-items: center;
   height: 100vh;
   width: 37%;
+
+  @media screen and (max-width: 450px) {
+    width: 100%;
+  }
 `;
 
 export const BackgroundImg = styled.img`
   height: 100vh;
   width: 63%;
   object-fit: cover;
+
+  @media screen and (max-width: 450px) {
+    display: none;
+  }
 `;
 
 export const Title = styled.h1`

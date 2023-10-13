@@ -29,6 +29,7 @@ export const Container = styled.div`
 
   @media screen and (max-width: 700px) {
     justify-content: center;
+    touch-action: none;
   }
 `;
 
