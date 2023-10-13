@@ -3,7 +3,7 @@ import { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { removeHyphen } from '../../../../utils';
-import { DialKeyType, DIAL_KEYS } from '../Dialpad';
+import { DialKeyType, DIAL_KEYS } from '../components/Dialpad';
 import useGetCustomer from './useGetCustomer';
 import usePostTemporaryCustomer from './usePostTemporaryCustomer';
 import REGEX from '../../../../constants/regex';
