@@ -1,4 +1,4 @@
-import { PreviewImage } from '../../../CouponDesign/CustomCouponDesign/style';
+import { PreviewImage } from '../../../CustomCouponDesign/style';
 import { DefaultCafeImage } from '../../style';
 
 interface PreviewCafeImgProps {

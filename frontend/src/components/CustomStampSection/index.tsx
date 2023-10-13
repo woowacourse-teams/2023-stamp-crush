@@ -1,15 +1,17 @@
 import { ChangeEvent } from 'react';
-import { Spacing } from '../../../../style/layout/common';
+import { Spacing } from '../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-} from '../CustomCouponDesign/style';
-import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
-import StampLoadImg from '../../../../assets/stamp_load_img.png';
-import StampPreviewImg from '../../../../assets/stamp_preview.png';
+} from '../../pages/Admin/CustomCouponDesign/style';
+
+import { selectImgUrl, useLoadImg } from '../../hooks/useLoadImg';
 import { CouponPreviewHeader, CustomCouponLabel } from '../CustomCouponSection/style';
+
+import StampLoadImg from '../../assets/stamp_load_img.png';
+import StampPreviewImg from '../../assets/stamp_preview.png';
 
 interface CustomStampSectionProps {
   label: string;

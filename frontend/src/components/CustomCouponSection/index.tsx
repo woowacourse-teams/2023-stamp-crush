@@ -1,16 +1,16 @@
 import { CouponPreviewHeader, CustomCouponLabel } from './style';
-import { Spacing } from '../../../../style/layout/common';
+import { Spacing } from '../../style/layout/common';
 import {
   ImageUpLoadInput,
   ImageUpLoadInputLabel,
   PreviewImage,
   PreviewImageWrapper,
-} from '../CustomCouponDesign/style';
-import Text from '../../../../components/Text';
+} from '../../pages/Admin/CustomCouponDesign/style';
+import Text from '../Text';
 import { ChangeEvent } from 'react';
-import CouponLoadImg from '../../../../assets/coupon_loading_img.png';
-import CouponPreviewImg from '../../../../assets/coupon_preview.png';
-import { selectImgUrl, useLoadImg } from '../hooks/useLoadImg';
+import CouponLoadImg from '../../assets/coupon_loading_img.png';
+import CouponPreviewImg from '../../assets/coupon_preview.png';
+import { selectImgUrl, useLoadImg } from '../../hooks/useLoadImg';
 
 interface CustomCouponSectionProps {
   label: string;

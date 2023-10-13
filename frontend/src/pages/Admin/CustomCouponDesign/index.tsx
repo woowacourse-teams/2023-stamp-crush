@@ -1,25 +1,20 @@
-import {
-  CustomCouponDesignContainer,
-  ImageUploadContainer,
-  SaveButtonWrapper,
-  StampCustomButtonWrapper,
-} from './style';
-import { RowSpacing, Spacing } from '../../../../style/layout/common';
-import CustomCouponSection from '../CustomCouponSection';
-import CustomStampSection from '../CustomStampSection';
-import Button from '../../../../components/Button';
-import useUploadImage from '../../../../hooks/useUploadImage';
 import { useState } from 'react';
-import { parseExpireDate, parseStampCount } from '../../../../utils';
-import Text from '../../../../components/Text';
-import StampCustomModal from './StampCustomModal';
-import CouponPreviewSection from '../CouponPreviewSection';
 import { useLocation } from 'react-router-dom';
-import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
-import CouponPreviewImg from '../../../../assets/coupon_preview.png';
-import StampPreviewImg from '../../../../assets/stamp_preview.png';
-import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { CouponDesignLocation, StampCoordinate } from '../../../../types/domain/coupon';
+import { Spacing } from '../../../style/layout/common';
+import Button from '../../../components/Button';
+import Text from '../../../components/Text';
+import CouponPreviewSection from '../../../components/CouponPreviewSection';
+import StampCustomModal from './components/StampCustomModal';
+import useUploadImage from '../../../hooks/useUploadImage';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import { parseExpireDate, parseStampCount } from '../../../utils';
+import { CouponDesignLocation, StampCoordinate } from '../../../types/domain/coupon';
+import { CustomCouponDesignContainer, ImageUploadContainer, SaveButtonWrapper } from './style';
+import CouponPreviewImg from '../../../assets/coupon_preview.png';
+import StampPreviewImg from '../../../assets/stamp_preview.png';
+import CustomCouponSection from '../../../components/CustomCouponSection';
+import CustomStampSection from '../../../components/CustomStampSection';
+import { useMutateCouponPolicy } from '../../../hooks/useMutateCouponPolicy';
 
 const CustomCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();

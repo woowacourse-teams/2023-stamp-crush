@@ -9,7 +9,6 @@ import NotFound from './pages/NotFound';
 import RegisterCafe from './pages/Admin/RegisterCafe';
 import MyPage from './pages/Customer/MyPage';
 import Template from './components/Template';
-import CustomCouponDesign from './pages/Admin/CouponDesign/CustomCouponDesign';
 import ModifyCouponPolicy from './pages/Admin/ModifyCouponPolicy';
 import RewardPage from './pages/Admin/RewardPage';
 import EarnStamp from './pages/Admin/EarnStamp';
@@ -18,7 +17,6 @@ import RewardList from './pages/Customer/RewardList';
 import Auth from './pages/Customer/Auth';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminAuth from './pages/Admin/AdminAuth';
-import TemplateCouponDesign from './pages/Admin/CouponDesign/TemplateCouponDesign';
 import InputPhoneNumber from './pages/Customer/InputPhoneNumber';
 import CustomerNotFound from './pages/NotFound/CustomerNotFound';
 import PrivateProvider from './provider/PrivateProvider';
@@ -29,6 +27,8 @@ import CustomerProfileProvider from './provider/CustomerProfileProvider';
 import ROUTER_PATH from './constants/routerPath';
 import RewardHistoryPage from './pages/Customer/HistoryPage/components/RewardHistory';
 import StampHistoryPage from './pages/Customer/HistoryPage/components/StampHistory';
+import TemplateCouponDesign from './pages/Admin/TemplateCouponDesign';
+import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 
 const AdminRoot = () => {
   return (

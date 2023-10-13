@@ -1,22 +1,22 @@
 import { useLocation } from 'react-router-dom';
-import Text from '../../../../components/Text';
-import { Spacing } from '../../../../style/layout/common';
+import Text from '../../../components/Text';
+import { Spacing } from '../../../style/layout/common';
 import { CustomCouponDesignContainer } from '../CustomCouponDesign/style';
-import useUploadImage from '../../../../hooks/useUploadImage';
+import useUploadImage from '../../../hooks/useUploadImage';
 import { useState } from 'react';
-import { parseExpireDate, parseStampCount } from '../../../../utils';
-import CustomCouponSection from '../CustomCouponSection';
-import CouponPreviewSection from '../CouponPreviewSection';
-import CustomStampSection from '../CustomStampSection';
-import Button from '../../../../components/Button';
-import ChoiceTemplate from '../ChoiceTemplate';
-import { useMutateCouponPolicy } from '../hooks/useMutateCouponPolicy';
-import CouponPreviewImg from '../../../../assets/coupon_preview.png';
-import StampPreviewImg from '../../../../assets/stamp_preview.png';
-import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { CouponSettingReqBody } from '../../../../types/api/request';
-import { CouponDesignLocation, StampCoordinate } from '../../../../types/domain/coupon';
+import { parseExpireDate, parseStampCount } from '../../../utils';
+import Button from '../../../components/Button';
+import CouponPreviewImg from '../../../assets/coupon_preview.png';
+import StampPreviewImg from '../../../assets/stamp_preview.png';
+import { CouponSettingReqBody } from '../../../types/api/request';
+import { CouponDesignLocation, StampCoordinate } from '../../../types/domain/coupon';
 import { ImageUploadContainer, PreviewContainer, TemplateTabsContainer } from './style';
+import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
+import { useMutateCouponPolicy } from '../../../hooks/useMutateCouponPolicy';
+import CustomCouponSection from '../../../components/CustomCouponSection';
+import CustomStampSection from '../../../components/CustomStampSection';
+import CouponPreviewSection from '../../../components/CouponPreviewSection';
+import ChoiceTemplate from '../../../components/ChoiceTemplate';
 
 const TemplateCouponDesign = () => {
   const cafeId = useRedirectRegisterPage();

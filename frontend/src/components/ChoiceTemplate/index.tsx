@@ -1,13 +1,9 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { ChoiceTemplateContainer } from './style';
-import TabBar from '../../../../components/TabBar';
-import {
-  SampleBackCouponImage,
-  SampleImage,
-  StampCoordinate,
-} from '../../../../types/domain/coupon';
+import TabBar from '../TabBar';
+import { SampleBackCouponImage, SampleImage, StampCoordinate } from '../../types/domain/coupon';
 import SampleImageList from './SampleImageList';
-import { TemplateMenu } from '../../../../types/utils';
+import { TemplateMenu } from '../../types/utils';
 
 export const TEMPLATE_MENU: Record<string, TemplateMenu> = {
   FRONT_IMAGE: '쿠폰(앞)',
