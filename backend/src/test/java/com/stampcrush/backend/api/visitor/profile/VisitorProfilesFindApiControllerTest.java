@@ -30,9 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 class VisitorProfilesFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorProfilesFindService visitorProfilesFindService;
-
     @Test
     void 전화번호로_고객을_조회한다() throws Exception {
         Customer customer = CustomerFixture.TEMPORARY_CUSTOMER_1;

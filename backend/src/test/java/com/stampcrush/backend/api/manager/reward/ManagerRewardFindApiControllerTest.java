@@ -25,9 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerRewardFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private ManagerRewardFindService managerRewardFindService;
-
     @Test
     void 리워드_목록을_조회한다() throws Exception {
         // given

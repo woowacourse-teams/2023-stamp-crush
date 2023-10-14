@@ -27,9 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorCouponFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorCouponFindService visitorCouponFindService;
-
     @Test
     void 고객의_쿠폰_조회_요청_시_인증이_되면_200_상태코드와_응답을_반환한다() throws Exception {
         when(visitorCouponFindService.findOneCouponForOneCafe(any()))

@@ -22,9 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorCouponCommandApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorCouponCommandService visitorCouponCommandService;
-
     @Test
     void 삭제_하려는_쿠폰_정보가_올바르지_않은_경우_상태코드가_404_이다() throws Exception {
         // given

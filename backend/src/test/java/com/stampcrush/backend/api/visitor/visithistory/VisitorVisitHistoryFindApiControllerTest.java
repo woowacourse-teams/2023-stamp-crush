@@ -21,9 +21,6 @@ import static org.mockito.BDDMockito.given;
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorVisitHistoryFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorVisitHistoryFindService visitorVisitHistoryFindService;
-
     @Test
     void 고객의_스탬프_적립_내역을_조회한다() throws Exception {
         // given

@@ -25,9 +25,6 @@ public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
 
     public static String API_PREFIX = "/api/admin";
 
-    @MockBean
-    private ManagerCouponFindService managerCouponFindService;
-
     @Test
     void 카페에_방문한_고객들의_정보를_조회한다() throws Exception {
         // given, when

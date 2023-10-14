@@ -1,16 +1,12 @@
 package com.stampcrush.backend.api.manager.coupon;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.manager.coupon.request.CouponCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.coupon.response.CouponCreateResponse;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponCommandService;
 import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,12 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = ManagerCouponCommandApiController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 public class ManagerCouponCommandApiControllerTest extends ControllerSliceTest {
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private ManagerCouponCommandService managerCouponCommandService;
 
     public static String API_PREFIX = "/api/admin";
 

@@ -32,9 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 class VisitorRewardsFindControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorRewardsFindService visitorRewardsFindService;
-
     @Test
     void 고객모드에서_사용_가능한_리워드를_조회한다() throws Exception {
         // given, when

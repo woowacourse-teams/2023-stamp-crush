@@ -23,12 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorFavoritesCommandApiControllerTest extends ControllerSliceTest {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private VisitorFavoritesCommandService visitorFavoritesCommandService;
-
     @Test
     void 즐겨찾기를_등록한다() throws Exception {
         // given

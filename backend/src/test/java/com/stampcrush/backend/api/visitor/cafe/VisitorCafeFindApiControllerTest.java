@@ -25,9 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorCafeFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorCafeFindService visitorCafeFindService;
-
     @Test
     void 고객이_카페_정보를_요청한다() throws Exception {
         // given

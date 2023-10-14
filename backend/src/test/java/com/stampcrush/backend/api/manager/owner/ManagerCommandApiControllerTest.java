@@ -24,9 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerCommandApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private ManagerCommandService managerCommandService;
-
     @Test
     void 회원가입_요청이_정상적일_경우_201_코드를_반환한다() throws Exception {
         // given

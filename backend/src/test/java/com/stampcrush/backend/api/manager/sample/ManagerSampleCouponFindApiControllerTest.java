@@ -29,9 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private ManagerSampleCouponFindService managerSampleCouponFindService;
-
     @Test
     void 샘플_쿠폰_조회_요청한다() throws Exception {
         int maxStampCount = 8;

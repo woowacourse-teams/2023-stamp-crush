@@ -31,12 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 class VisitorProfilesCommandApiControllerTest extends ControllerSliceTest {
 
-    @MockBean
-    private VisitorProfilesCommandService visitorProfilesCommandService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void 전화번호를_정상_저장하면_200_상태코드를_반환한다() throws Exception {
         doNothing()
