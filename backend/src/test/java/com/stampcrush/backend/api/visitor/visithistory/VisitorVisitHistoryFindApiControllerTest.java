@@ -1,14 +1,8 @@
 package com.stampcrush.backend.api.visitor.visithistory;
 
 import com.stampcrush.backend.api.ControllerSliceTest;
-import com.stampcrush.backend.application.visitor.visithistory.VisitorVisitHistoryFindService;
 import com.stampcrush.backend.application.visitor.visithistory.dto.CustomerStampHistoryFindResultDto;
-import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -17,8 +11,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
-@WebMvcTest(value = VisitorVisitHistoryFindApiController.class,
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class VisitorVisitHistoryFindApiControllerTest extends ControllerSliceTest {
 
     @Test

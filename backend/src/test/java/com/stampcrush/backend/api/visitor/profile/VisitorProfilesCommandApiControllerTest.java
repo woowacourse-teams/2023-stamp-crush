@@ -1,18 +1,10 @@
 package com.stampcrush.backend.api.visitor.profile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesLinkDataRequest;
 import com.stampcrush.backend.api.visitor.profile.request.VisitorProfilesPhoneNumberUpdateRequest;
-import com.stampcrush.backend.application.visitor.profile.VisitorProfilesCommandService;
-import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.exception.CustomerBadRequestException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -24,11 +16,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(
-        value = VisitorProfilesCommandApiController.class,
-        excludeFilters =
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class)
-)
 class VisitorProfilesCommandApiControllerTest extends ControllerSliceTest {
 
     @Test

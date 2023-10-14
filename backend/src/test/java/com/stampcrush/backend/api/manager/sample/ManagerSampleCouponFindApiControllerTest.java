@@ -1,17 +1,9 @@
 package com.stampcrush.backend.api.manager.sample;
 
 import com.stampcrush.backend.api.ControllerSliceTest;
-import com.stampcrush.backend.application.manager.sample.ManagerSampleCouponFindService;
 import com.stampcrush.backend.application.manager.sample.dto.SampleCouponsFindResultDto;
-import com.stampcrush.backend.config.WebMvcConfig;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.fixture.SampleCouponFixture;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 
 import java.util.List;
 
@@ -24,9 +16,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = ManagerSampleCouponFindApiController.class,
-        excludeFilters =
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerSampleCouponFindApiControllerTest extends ControllerSliceTest {
 
     @Test
