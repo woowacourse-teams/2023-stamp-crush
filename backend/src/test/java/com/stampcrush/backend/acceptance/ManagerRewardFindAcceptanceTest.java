@@ -6,19 +6,20 @@ import com.stampcrush.backend.api.manager.coupon.request.StampCreateRequest;
 import com.stampcrush.backend.api.manager.reward.response.RewardFindResponse;
 import com.stampcrush.backend.api.manager.reward.response.RewardsFindResponse;
 import com.stampcrush.backend.auth.api.request.OAuthRegisterCustomerCreateRequest;
-import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.stampcrush.backend.acceptance.ManagerRewardCommandAcceptanceTest.*;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST_2;
 import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerRewardStep.리워드_목록_조회;
 import static com.stampcrush.backend.acceptance.step.ManagerStampCreateStep.쿠폰에_스탬프를_적립_요청;
+import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.auth.OAuthProvider.KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,12 +31,10 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 카페사장이_가입_회원의_리워드를_조회한다() {
         // given
-        OAuthRegisterCustomerCreateRequest registerCustomerCreateRequest = O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
-        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
+        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA);
         Long customerId = authTokensGenerator.extractMemberId(accessTokenCustomer);
 
-        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
-        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
         Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, cafeCreateRequest);
@@ -55,15 +54,11 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 자신의_카페가_아니면_리워드_조회_불가능하다() {
         // given
-        OAuthRegisterCustomerCreateRequest registerCustomerCreateRequest = O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA;
-        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(registerCustomerCreateRequest);
+        String accessTokenCustomer = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(O_AUTH_REGISTER_CUSTOMER_CREATE_REQUEST_JENA);
         Long customerId = authTokensGenerator.extractMemberId(accessTokenCustomer);
 
-        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
-        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
-
-        OAuthRegisterOwnerCreateRequest registerNotOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST_2;
-        String accessTokenNotOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerNotOwnerCreateRequest);
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
+        String accessTokenNotOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST_2);
 
         CafeCreateRequest cafeCreateRequest = new CafeCreateRequest("cafe", "잠실", "루터회관", "111111111");
         Long cafeId = 카페_생성_요청하고_아이디_반환(accessTokenOwner, cafeCreateRequest);
@@ -82,8 +77,7 @@ class ManagerRewardFindAcceptanceTest extends AcceptanceTest {
     @Test
     void 자신의_카페_고객이_아니면_리워드_조회가_불가능하다() {
         // given
-        OAuthRegisterOwnerCreateRequest registerOwnerCreateRequest = O_AUTH_OWNER_CREATE_REQUEST;
-        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(registerOwnerCreateRequest);
+        String accessTokenOwner = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OWNER_CREATE_REQUEST);
 
         OAuthRegisterCustomerCreateRequest registerNotCustomerCreateRequest =
                 new OAuthRegisterCustomerCreateRequest("notCustomer", "aa@naver.com", KAKAO, 392816L);
