@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = VisitorCouponCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class VisitorCouponCommandApiControllerTest extends ControllerSliceTest {
+class VisitorCouponCommandApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private VisitorCouponCommandService visitorCouponCommandService;

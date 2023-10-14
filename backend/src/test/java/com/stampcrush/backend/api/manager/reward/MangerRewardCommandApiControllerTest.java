@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = ManagerRewardCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class MangerRewardCommandApiControllerTest extends ControllerSliceTest {
+class MangerRewardCommandApiControllerTest extends ControllerSliceTest {
 
     @Autowired
     private ObjectMapper objectMapper;

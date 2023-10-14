@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = ManagerRewardFindApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerRewardFindApiControllerTest extends ControllerSliceTest {
+class ManagerRewardFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerRewardFindService managerRewardFindService;

@@ -2,88 +2,64 @@ package com.stampcrush.backend.api.manager.cafe;
 
 import com.stampcrush.backend.api.ControllerSliceTest;
 import com.stampcrush.backend.application.manager.cafe.ManagerCafeFindService;
-import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.helper.BearerAuthHelper;
-import org.junit.jupiter.api.BeforeEach;
+import com.stampcrush.backend.application.manager.cafe.dto.CafeFindResultDto;
+import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 
-import java.util.Base64;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-import static com.stampcrush.backend.fixture.OwnerFixture.OWNER3;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ManagerCafeFindApiController.class)
+@WebMvcTest(value = ManagerCafeFindApiController.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
 class ManagerCafeFindApiControllerTest extends ControllerSliceTest {
 
     @MockBean
     private ManagerCafeFindService managerCafeFindService;
 
-    private Owner owner;
-    private String basicAuthHeader;
-    private String bearerAuthHeader;
-
-    @BeforeEach
-    void setUp() {
-        owner = OWNER3;
-
-        String username = owner.getLoginId();
-        String password = owner.getEncryptedPassword();
-        basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-        bearerAuthHeader = "Bearer " + BearerAuthHelper.generateToken(owner.getId());
-    }
-
     @Test
-    void 카페_조회_요청_시_인증_헤더_정보가_없으면_401코드_반환() throws Exception {
-        // ownerId 로 넣어둔 1은 없어질거라 우선 매직넘버로 넣어둠
-        mockMvc.perform(get("/api/admin/cafes")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void 카페_조회_요청_시_사장_인증이_안되면_401코드_반환() throws Exception {
+    void 사장이_자신의_카페를_조회한다() throws Exception {
         // given
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.empty());
+        CafeFindResultDto resultDto =
+                new CafeFindResultDto(1L, "깃짱카페",
+                        LocalTime.NOON,
+                        LocalTime.MIDNIGHT,
+                        "01012345678",
+                        "cafeImageUrl",
+                        "introduction",
+                        "roadAddress",
+                        "businessRegistrationNumber",
+                        "introduction");
 
-        // when, then
-        mockMvc.perform(get("/api/admin/cafes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void 카페_조회_요청_시_사장_인증_되면_200코드_반환() throws Exception {
-        // given
-        when(ownerRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
-        when(ownerRepository.findByLoginId(owner.getLoginId())).thenReturn(Optional.of(owner));
+        given(managerCafeFindService.findCafesByOwner(any()))
+                .willReturn(List.of(resultDto));
 
         // when, then
         mockMvc.perform(
                         get("/api/admin/cafes")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader)
                 )
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void 카페_조회_요청_시_비밀번호가_틀리면_401코드_반환() throws Exception {
-        // given
-        when(ownerRepository.findByLoginId(owner.getLoginId()))
-                .thenReturn(Optional.of(new Owner("jena", "jenaId", "jnpw123", "01098765432")));
-
-        // when, then
-        mockMvc.perform(get("/api/admin/cafes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, bearerAuthHeader))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("cafes[0].id").value(resultDto.getId()))
+                .andExpect(jsonPath("cafes[0].name").value(resultDto.getName()))
+                .andExpect(jsonPath("cafes[0].openTime").value(resultDto.getOpenTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"))))
+                .andExpect(jsonPath("cafes[0].closeTime").value(resultDto.getCloseTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"))))
+                .andExpect(jsonPath("cafes[0].telephoneNumber").value(resultDto.getTelephoneNumber()))
+                .andExpect(jsonPath("cafes[0].cafeImageUrl").value(resultDto.getCafeImageUrl()))
+                .andExpect(jsonPath("cafes[0].roadAddress").value(resultDto.getRoadAddress()))
+                .andExpect(jsonPath("cafes[0].detailAddress").value(resultDto.getDetailAddress()))
+                .andExpect(jsonPath("cafes[0].businessRegistrationNumber").value(resultDto.getBusinessRegistrationNumber()))
+                .andExpect(jsonPath("cafes[0].introduction").value(resultDto.getIntroduction()));
     }
 }

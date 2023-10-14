@@ -13,13 +13,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = VisitorFavoritesCommandApiController.class,
         excludeFilters =
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class VisitorFavoritesCommandApiControllerTest extends ControllerSliceTest {
+class VisitorFavoritesCommandApiControllerTest extends ControllerSliceTest {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -28,7 +30,23 @@ public class VisitorFavoritesCommandApiControllerTest extends ControllerSliceTes
     private VisitorFavoritesCommandService visitorFavoritesCommandService;
 
     @Test
-    void 리워드를_사용할_때_isFavorites_가_null_이면_상태코드가_400_이다() throws Exception {
+    void 즐겨찾기를_등록한다() throws Exception {
+        // given
+        FavoritesUpdateRequest request = new FavoritesUpdateRequest(true);
+
+        doNothing().when(visitorFavoritesCommandService).changeFavorites(any(), any(), any());
+
+
+        // when, then
+        mockMvc.perform(
+                        post("/api/cafes/1/favorites")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 변경하려는_favorite_값이_null_이면_상태코드가_400_이다() throws Exception {
         // given
         FavoritesUpdateRequest request = new FavoritesUpdateRequest(null);
 
