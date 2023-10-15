@@ -1,14 +1,8 @@
 package com.stampcrush.backend.api.manager.coupon;
 
 import com.stampcrush.backend.api.ControllerSliceTest;
-import com.stampcrush.backend.application.manager.coupon.ManagerCouponFindService;
 import com.stampcrush.backend.application.manager.coupon.dto.CafeCustomerFindResultDto;
-import com.stampcrush.backend.config.WebMvcConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,14 +13,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = ManagerCouponFindApiController.class,
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
+class ManagerCouponFindApiControllerTest extends ControllerSliceTest {
 
     public static String API_PREFIX = "/api/admin";
-
-    @MockBean
-    private ManagerCouponFindService managerCouponFindService;
 
     @Test
     void 카페에_방문한_고객들의_정보를_조회한다() throws Exception {
