@@ -1,8 +1,5 @@
 import { AiOutlineUpload } from '@react-icons/all-files/ai/AiOutlineUpload';
-import {
-  ImageUpLoadInput,
-  ImageUpLoadInputLabel,
-} from '../../../CouponDesign/CustomCouponDesign/style';
+import { ImageUpLoadInput, ImageUpLoadInputLabel } from '../../../CustomCouponDesign/style';
 import { StepTitle } from '../../style';
 import { Wrapper } from './style';
 

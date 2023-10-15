@@ -1,4 +1,4 @@
-import Dialpad from './Dialpad';
+import Dialpad from './components/Dialpad';
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import {
   Container,
