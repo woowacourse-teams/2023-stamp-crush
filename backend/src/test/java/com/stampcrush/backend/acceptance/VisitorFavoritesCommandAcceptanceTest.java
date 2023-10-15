@@ -22,9 +22,6 @@ import static org.springframework.http.HttpStatus.OK;
 
 class VisitorFavoritesCommandAcceptanceTest extends AcceptanceTest {
 
-    @Autowired
-    private FavoritesRepository favoritesRepository;
-
     @Test
     void 즐겨찾기를_등록한다() {
         // given

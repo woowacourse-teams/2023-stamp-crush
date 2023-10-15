@@ -8,6 +8,11 @@ import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
+import com.stampcrush.backend.repository.favorites.FavoritesRepository;
+import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
+import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
+import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
+import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import io.restassured.RestAssured;
@@ -45,6 +50,21 @@ public class AcceptanceTest {
 
     @Autowired
     protected CouponRepository couponRepository;
+
+    @Autowired
+    protected SampleFrontImageRepository sampleFrontImageRepository;
+
+    @Autowired
+    protected SampleBackImageRepository sampleBackImageRepository;
+
+    @Autowired
+    protected SampleStampCoordinateRepository sampleStampCoordinateRepository;
+
+    @Autowired
+    protected SampleStampImageRepository sampleStampImageRepository;
+
+    @Autowired
+    protected FavoritesRepository favoritesRepository;
 
     @LocalServerPort
     private int port;
