@@ -1,23 +1,23 @@
 import { styled } from 'styled-components';
 
 interface TabBarProps {
-  $isShow: boolean;
+  $isCustomerMode: boolean;
 }
 
 export const TabBarContainer = styled.div<TabBarProps>`
   position: fixed;
-  display: ${({ $isShow }) => ($isShow ? 'flex' : 'none')};
+  display: ${({ $isCustomerMode: $isShow }) => ($isShow ? 'flex' : 'none')};
   justify-content: space-around;
   align-items: center;
   bottom: 0;
   width: 100%;
-  max-width: 450px;
+  max-width: ${({ $isCustomerMode: $isShow }) => ($isShow ? '450px' : '768px')};
   height: 80px;
   border-radius: 8px 8px 0 0;
   box-shadow: 0px -4px 8px 0 rgba(0, 0, 0, 0.1);
   background: white;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     display: flex;
   }
 `;

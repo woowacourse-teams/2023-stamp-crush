@@ -27,7 +27,7 @@ export const Container = styled.div`
   display: flex;
   height: auto;
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 768px) {
     justify-content: center;
     touch-action: none;
   }
@@ -48,7 +48,7 @@ export const PrivacyBox = styled.section`
     margin-bottom: 30px;
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
