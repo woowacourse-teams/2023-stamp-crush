@@ -45,7 +45,7 @@ const BottomTabBar = ({ userType }: TabBarProps) => {
   const tabToShow = userType === 'admin' ? ADMIN_TABS : CUSTOMER_TABS;
 
   return (
-    <TabBarContainer>
+    <TabBarContainer $isShow={userType === 'customer'}>
       {tabToShow.map((tab, index) => (
         <TapBarItem key={index} $isSelected={tab.path.includes(location.pathname as RouterPath)}>
           <Link to={tab.path[0]}>
