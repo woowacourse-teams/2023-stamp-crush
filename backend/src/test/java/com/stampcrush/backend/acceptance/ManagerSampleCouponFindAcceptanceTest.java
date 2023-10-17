@@ -21,18 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ManagerSampleCouponFindAcceptanceTest extends AcceptanceTest {
 
-    @Autowired
-    private SampleFrontImageRepository sampleFrontImageRepository;
-
-    @Autowired
-    private SampleBackImageRepository sampleBackImageRepository;
-
-    @Autowired
-    private SampleStampCoordinateRepository sampleStampCoordinateRepository;
-
-    @Autowired
-    private SampleStampImageRepository sampleStampImageRepository;
-
     @BeforeEach
     void setUp() {
         sampleFrontImageRepository.save(SAMPLE_FRONT_IMAGE);

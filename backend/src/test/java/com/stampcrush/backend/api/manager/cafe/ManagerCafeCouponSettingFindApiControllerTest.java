@@ -21,12 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = ManagerCafeCouponSettingFindApiController.class,
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfig.class))
-public class ManagerCafeCouponSettingFindApiControllerTest extends ControllerSliceTest {
-
-    @MockBean
-    private ManagerCafeCouponSettingFindService cafeCouponSettingFindService;
+class ManagerCafeCouponSettingFindApiControllerTest extends ControllerSliceTest {
 
     @Test
     void 카페의_카페_쿠폰_세팅을_조회한다() throws Exception {

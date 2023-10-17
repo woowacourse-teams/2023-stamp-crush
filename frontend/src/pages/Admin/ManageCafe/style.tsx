@@ -61,3 +61,9 @@ export const ManageCafeGridContainer = styled.div`
   padding-top: 40px;
   gap: 40px;
 `;
+
+export const DefaultCafeImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background: white;
+`;

@@ -3,15 +3,21 @@ import Button from '../../../components/Button';
 import { ButtonContainer, StepContainer, StepWrapper } from './style';
 import { Spacing } from '../../../style/layout/common';
 import Text from '../../../components/Text';
-import CreatedType from './CreatedType';
-import MaxStampCount from './MaxStampCount';
-import ExpiredPeriod from './ExpirePeriod';
-import RewardName from './RewardName';
-import { MODIFY_STEP_NUMBER } from './common/constant';
+import CreatedType from './components/CreatedType';
+import MaxStampCount from './components/MaxStampCount';
+import ExpiredPeriod from './components/ExpirePeriod';
+import RewardName from './components/RewardName';
 import useStep from './hooks/useStep';
 import { CouponCreated, StampCountOption } from '../../../types/domain/coupon';
 import { Option } from '../../../types/utils';
 import { EXPIRE_DATE_NONE } from '../../../constants/magicString';
+
+export const MODIFY_STEP_NUMBER = {
+  createdType: 1,
+  maxStampCount: 2,
+  rewardName: 3,
+  expirePeriod: 4,
+};
 
 export const EXPIRE_DATE_OPTIONS = [
   {

@@ -18,7 +18,7 @@ const CustomerTemplate = ({ children }: PropsWithChildren) => {
     <BaseCustomerTemplate $isHome={location.pathname === ROUTER_PATH.couponList}>
       <ContentContainer>
         {children}
-        {isTabBarVisible && <BottomTabBar />}
+        {isTabBarVisible && <BottomTabBar userType="customer" />}
       </ContentContainer>
     </BaseCustomerTemplate>
   );

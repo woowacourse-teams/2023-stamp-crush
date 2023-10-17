@@ -12,7 +12,7 @@ import static com.stampcrush.backend.acceptance.step.ManagerCreateStep.사장_�
 import static com.stampcrush.backend.acceptance.step.ManagerLoginStep.사장_로그인;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ManagerCommandAcceptanceTest extends AcceptanceTest {
+class ManagerCommandAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 사장을_생성한다() {

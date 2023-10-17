@@ -12,7 +12,7 @@ interface StepperProps {
 
 const Stepper = ({
   value,
-  minValue = 0,
+  minValue = 1,
   maxValue = 10,
   step = 1,
   height = 42,

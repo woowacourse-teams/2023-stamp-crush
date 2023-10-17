@@ -38,6 +38,12 @@ export const EarnStampContainer = styled.main`
   margin-top: 20px;
 
   color: #777;
+
+  @media screen and (max-width: 450px) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 export const StepperWrapper = styled.div`
@@ -77,5 +83,39 @@ export const TextWrapper = styled.div`
     width: 100px;
     color: dodgerblue;
     font-weight: bold;
+  }
+`;
+
+export const EarnStampPageContainer = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+
+  & > :nth-child(2) {
+    margin: 16px 0;
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 450px) {
+    & > :first-child {
+      margin-top: 40px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    & > :first-child {
+      margin-top: 10px;
+    }
+
+    & > :nth-child(2) {
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    & > :last-child button {
+      position: fixed;
+      right: 32px;
+      bottom: 110px;
+    }
   }
 `;

@@ -4,12 +4,13 @@ import {
   EmptyCustomers,
   TabContainer,
   RegisterTypeTab,
+  CustomerCount,
 } from './style';
 import Text from '../../../components/Text';
 import { useState } from 'react';
 import SelectBox from '../../../components/SelectBox';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import Customers from './Customers';
+import Customers from './components/Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 import { Option } from '../../../types/utils';
@@ -60,7 +61,9 @@ const CustomerList = () => {
 
   return (
     <CustomerContainer>
-      <Text variant="pageTitle">내 고객 목록</Text>
+      <Text variant="pageTitle">
+        내 고객 목록 <CustomerCount>총 {customers.length}명</CustomerCount>
+      </Text>
       <Container>
         <TabContainer>
           {REGISTER_TYPE_OPTION.map((option) => (

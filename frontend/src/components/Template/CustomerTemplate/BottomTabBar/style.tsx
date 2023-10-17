@@ -1,17 +1,25 @@
 import { styled } from 'styled-components';
 
-export const TabBarContainer = styled.div`
+interface TabBarProps {
+  $isCustomerMode: boolean;
+}
+
+export const TabBarContainer = styled.div<TabBarProps>`
   position: fixed;
-  display: flex;
+  display: ${({ $isCustomerMode: $isShow }) => ($isShow ? 'flex' : 'none')};
   justify-content: space-around;
   align-items: center;
   bottom: 0;
   width: 100%;
-  max-width: 450px;
+  max-width: ${({ $isCustomerMode: $isShow }) => ($isShow ? '450px' : '768px')};
   height: 80px;
   border-radius: 8px 8px 0 0;
   box-shadow: 0px -4px 8px 0 rgba(0, 0, 0, 0.1);
   background: white;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 export const TapBarItem = styled.div<{ $isSelected: boolean }>`

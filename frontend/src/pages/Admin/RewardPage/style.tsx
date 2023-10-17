@@ -48,7 +48,7 @@ export const RewardContainer = styled.section`
 `;
 
 export const RewardItemContainer = styled.ul`
-  width: 40%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -73,8 +73,11 @@ export const RewardItemWrapper = styled.li`
 `;
 
 export const RewardContent = styled.span`
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 20px;
+  font-size: 18px;
 
   padding: 5px;
   overflow: hidden;
