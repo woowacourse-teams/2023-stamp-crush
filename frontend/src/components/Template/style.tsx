@@ -8,7 +8,7 @@ export const BaseTemplate = styled.main`
   background: ${({ theme }) =>
     `linear-gradient(to bottom, ${theme.colors.main} 60%, ${theme.colors.point} 100%)`};
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
   }
@@ -17,7 +17,7 @@ export const BaseTemplate = styled.main`
 export const SideBarWrapper = styled.section`
   background: white;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -33,7 +33,7 @@ export const PageContainer = styled.div`
   box-shadow: 7px 5px 5px 3px rgba(0, 0, 0, 0.25);
   overflow: scroll;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     width: 90vw;
     height: calc(100vh - 140px);
     margin: 0 16px;
@@ -67,7 +67,7 @@ export const Footer = styled.div`
 export const LogoWrapper = styled.div`
   display: none;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     display: flex;
     align-items: center;
     width: 90vw;

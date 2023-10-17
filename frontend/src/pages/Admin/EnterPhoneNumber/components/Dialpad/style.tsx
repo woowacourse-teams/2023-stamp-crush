@@ -6,9 +6,9 @@ export const Container = styled.section`
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-collapse: separate;
-  min-width: 580px;
+  min-width: 768px;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     align-items: center;
   }
 `;
@@ -19,7 +19,7 @@ export const KeyContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     width: 100vw;
   }
 `;
@@ -59,7 +59,7 @@ export const BaseInput = styled.input`
     margin: 0;
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     font-size: 38px;
     width: 100vw;
   }
