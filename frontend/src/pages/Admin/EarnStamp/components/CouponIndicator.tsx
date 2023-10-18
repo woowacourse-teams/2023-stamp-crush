@@ -11,7 +11,6 @@ import { CouponIndicatorWrapper, StepperWrapper, TextWrapper } from '../style';
 import { CustomerPhoneNumber } from '../../../../types/domain/customer';
 import usePostEarnStamp from '../hooks/usePostEarnStamp';
 import usePostIssueCoupon from '../hooks/usePostIssueCoupon';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
 import EarnStampSkeleton from './EarnStampSkeleton';
 
 interface CouponIndicatorProps {
@@ -21,7 +20,6 @@ interface CouponIndicatorProps {
 }
 
 const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) => {
-  // return <EarnStampSkeleton />;
   const cafeId = useRedirectRegisterPage();
   const { mutate: mutatePostEarnStamp } = usePostEarnStamp();
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
@@ -38,7 +36,8 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
     }
   }, [coupon]);
 
-  if (couponStatus === 'error' || couponDesignStatus === 'error') return <p>Error</p>;
+  if (couponStatus === 'error' || couponDesignStatus === 'error')
+    return <p>쿠폰을 불러오는 데 실패했습니다.</p>;
   if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <EarnStampSkeleton />;
 
   const earnStamp = () => {
