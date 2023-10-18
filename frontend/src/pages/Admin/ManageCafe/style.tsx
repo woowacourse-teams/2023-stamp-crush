@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Skeleton } from '../../../components/Skeleton/style';
 
 export const StepTitle = styled.p`
   font-size: 18px;
@@ -10,6 +11,7 @@ export const StepTitle = styled.p`
 export const ManageCafeForm = styled.form`
   display: grid;
   grid-template-rows: repeat(6, auto);
+  position: relative;
   width: fit-content;
   height: fit-content;
   gap: 40px;
@@ -66,4 +68,14 @@ export const DefaultCafeImage = styled.div`
   width: 100%;
   height: 100%;
   background: white;
+`;
+
+export const SkeletonHeader = styled(Skeleton)`
+  width: 100px;
+  height: 24px;
+`;
+
+export const SkeletonPreview = styled(Skeleton)`
+  width: 312px;
+  height: 594px;
 `;

@@ -1,9 +1,16 @@
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';
-import { ManageCafeForm, ManageCafeGridContainer, PreviewContainer, Wrapper } from './style';
+import {
+  ManageCafeForm,
+  ManageCafeGridContainer,
+  PreviewContainer,
+  SkeletonHeader,
+  SkeletonPreview,
+  Wrapper,
+} from './style';
 import { useMemo } from 'react';
 import { PreviewImageWrapper } from '../CustomCouponDesign/style';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import { Cafe } from '../../../types/domain/cafe';
 import useGetCafe from './hooks/useGetCafe';
@@ -55,7 +62,7 @@ const ManageCafe = () => {
     cafeImage,
   } = useManageCafe(cafeId, cafeInfo, mutate);
 
-  if (status === 'loading') return <LoadingSpinner />;
+  // if (status === 'loading') return <LoadingSpinner />;
   if (status === 'error') return <>에러가 발생했습니다.</>;
 
   return (
@@ -78,18 +85,27 @@ const ManageCafe = () => {
         </Wrapper>
       </ManageCafeForm>
       <PreviewContainer>
-        <Text variant="subTitle">미리보기</Text>
-        <PreviewImageWrapper $width={312} $height={594}>
-          <PreviewCafeImage cafeImageUrl={cafeImage} />
-          <PreviewCoupon />
-          <PreviewOverview cafeName={cafeInfo.name} introduction={introduction} />
-          <PreviewContent
-            openTime={openTime}
-            closeTime={closeTime}
-            phoneNumber={phoneNumber}
-            cafeInfo={cafeInfo}
-          />
-        </PreviewImageWrapper>
+        {status === 'loading' ? (
+          <>
+            <SkeletonHeader />
+            <SkeletonPreview />
+          </>
+        ) : (
+          <>
+            <Text variant="subTitle">미리보기</Text>
+            <PreviewImageWrapper $width={312} $height={594}>
+              <PreviewCafeImage cafeImageUrl={cafeImage} />
+              <PreviewCoupon />
+              <PreviewOverview cafeName={cafeInfo.name} introduction={introduction} />
+              <PreviewContent
+                openTime={openTime}
+                closeTime={closeTime}
+                phoneNumber={phoneNumber}
+                cafeInfo={cafeInfo}
+              />
+            </PreviewImageWrapper>
+          </>
+        )}
       </PreviewContainer>
     </ManageCafeGridContainer>
   );
