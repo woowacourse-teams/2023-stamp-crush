@@ -1,10 +1,4 @@
-import {
-  CustomerContainer,
-  Container,
-  TabContainer,
-  RegisterTypeTab,
-  CustomerCount,
-} from './style';
+import { CustomerContainer, Container, TabContainer, RegisterTypeTab } from './style';
 import Text from '../../../components/Text';
 import { useState } from 'react';
 import SelectBox from '../../../components/SelectBox';
@@ -12,7 +6,6 @@ import Customers from './components/Customers';
 import { useRedirectRegisterPage } from '../../../hooks/useRedirectRegisterPage';
 import useGetCustomers, { CustomerOrderOption } from './hooks/useGetCustomers';
 import { Option } from '../../../types/utils';
-import { RegisterType } from '../../../types/domain/customer';
 
 const CUSTOMERS_ORDER_OPTIONS: CustomerOrderOption[] = [
   { key: 'recentVisitDate', value: '최근방문순' },
@@ -30,7 +23,7 @@ const CUSTOMERS_ORDER_OPTIONS: CustomerOrderOption[] = [
   },
 ];
 
-const REGISTER_TYPE_OPTION: Option[] = [
+export const REGISTER_TYPE_OPTION: Option[] = [
   { key: 'all', value: '전체' },
   { key: 'register', value: '회원' },
   { key: 'temporary', value: '임시' },
@@ -40,12 +33,7 @@ const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();
   const [registerType, setRegisterType] = useState<Option>({ key: 'all', value: '전체' });
   const [orderOption, setOrderOption] = useState({ key: 'recentVisitDate', value: '최근방문순' });
-  const registerTypeKey = registerType.key === 'all' ? null : registerType.key;
-  const { data: customers, status: customersStatus } = useGetCustomers(
-    cafeId,
-    orderOption as CustomerOrderOption,
-    registerTypeKey as RegisterType,
-  );
+  const { isError } = useGetCustomers(cafeId, orderOption as CustomerOrderOption);
 
   const changeRegisterType = (registerType: Option) => () => {
     setRegisterType(registerType);
@@ -53,9 +41,7 @@ const CustomerList = () => {
 
   return (
     <CustomerContainer>
-      <Text variant="pageTitle">
-        내 고객 목록 <CustomerCount>총 {customers?.length}명</CustomerCount>
-      </Text>
+      <Text variant="pageTitle">내 고객 목록</Text>
       <Container>
         <TabContainer>
           {REGISTER_TYPE_OPTION.map((option) => (
@@ -74,7 +60,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Customers customers={customers} customersStatus={customersStatus} />
+      <Customers registerType={registerType} isError={isError} />
     </CustomerContainer>
   );
 };

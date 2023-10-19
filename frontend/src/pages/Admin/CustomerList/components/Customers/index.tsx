@@ -1,7 +1,7 @@
 import Button from '../../../../../components/Button';
 import { Spacing } from '../../../../../style/layout/common';
 import { Customer } from '../../../../../types/domain/customer';
-import { Status } from '../../../../../types/utils';
+import { Option } from '../../../../../types/utils';
 import { formatDate } from '../../../../../utils';
 import {
   Container,
@@ -16,14 +16,22 @@ import {
   Skeleton,
   ErrorBox,
 } from './style';
+import { useQueryClient } from '@tanstack/react-query';
+import { CustomersRes } from '../../../../../types/api/response';
+import { CustomerCount } from '../../style';
 
 interface CustomersProps {
-  customers: Customer[] | undefined;
-  customersStatus: Status;
+  registerType: Option;
+  isError: boolean;
 }
 
-const Customers = ({ customers, customersStatus }: CustomersProps) => {
-  if (customersStatus === 'loading')
+const Customers = ({ registerType, isError }: CustomersProps) => {
+  const key = registerType.key === 'all' ? null : registerType.key;
+  const queryClient = useQueryClient();
+  const data = queryClient.getQueryData<CustomersRes>(['customers', key]);
+  const customers = data?.customers;
+
+  if (!customers && !isError)
     return (
       <>
         {[...Array(5)].map((x) => (
@@ -32,7 +40,7 @@ const Customers = ({ customers, customersStatus }: CustomersProps) => {
       </>
     );
 
-  if (customersStatus === 'error')
+  if (isError)
     return (
       <>
         <ErrorBox>
@@ -53,6 +61,7 @@ const Customers = ({ customers, customersStatus }: CustomersProps) => {
 
   return (
     <Container>
+      <CustomerCount>총 {customers?.length}명</CustomerCount>
       {customers?.map(
         ({
           id,
