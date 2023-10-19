@@ -114,3 +114,20 @@ export const Skeleton = styled.div`
     margin-top: 20px;
   }
 `;
+
+export const ErrorBox = styled.p`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 180px 30px;
+  line-height: 24px;
+  text-align: center;
+  color: gray;
+
+  & > span {
+    color: #222;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 15px;
+  }
+`;

@@ -1,3 +1,5 @@
+import Button from '../../../../../components/Button';
+import { Spacing } from '../../../../../style/layout/common';
 import { Customer } from '../../../../../types/domain/customer';
 import { Status } from '../../../../../types/utils';
 import { formatDate } from '../../../../../utils';
@@ -12,6 +14,7 @@ import {
   RightInfo,
   EmptyCustomers,
   Skeleton,
+  ErrorBox,
 } from './style';
 
 interface CustomersProps {
@@ -28,7 +31,17 @@ const Customers = ({ customers, customersStatus }: CustomersProps) => {
         ))}
       </>
     );
-  if (customersStatus === 'error') return <>error</>;
+
+  if (customersStatus === 'error')
+    return (
+      <>
+        <ErrorBox>
+          <span>Oops!</span> 데이터를 불러오는 과정에 오류가 생겼어요.
+          <Spacing $size={20} />
+          <Button variant="secondary">새로 고침</Button>
+        </ErrorBox>
+      </>
+    );
 
   if (customers?.length === 0)
     return (

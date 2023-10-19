@@ -46,7 +46,6 @@ const CustomerList = () => {
     orderOption as CustomerOrderOption,
     registerTypeKey as RegisterType,
   );
-  const customersCount = customers ? customers.length : 0;
 
   const changeRegisterType = (registerType: Option) => () => {
     setRegisterType(registerType);
@@ -55,7 +54,7 @@ const CustomerList = () => {
   return (
     <CustomerContainer>
       <Text variant="pageTitle">
-        내 고객 목록 <CustomerCount>총 {customersCount}명</CustomerCount>
+        내 고객 목록 <CustomerCount>총 {customers?.length}명</CustomerCount>
       </Text>
       <Container>
         <TabContainer>
