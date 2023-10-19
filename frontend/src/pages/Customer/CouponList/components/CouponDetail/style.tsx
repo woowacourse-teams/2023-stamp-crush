@@ -59,6 +59,17 @@ export const OverviewContainer = styled.div`
   :nth-child(2) {
     overflow: scroll;
     text-align: center;
+    padding: 8px;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
   }
 `;
 
