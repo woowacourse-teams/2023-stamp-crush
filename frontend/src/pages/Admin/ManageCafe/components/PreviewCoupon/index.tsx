@@ -7,8 +7,19 @@ const PreviewCoupon = () => {
   const cafeId = useRedirectRegisterPage();
   const { data: couponDesignData, status: couponDesignStatus } = useGetCouponDesign(cafeId);
 
-  if (couponDesignStatus === 'loading') return <LoadingSpinner />;
-  if (couponDesignStatus === 'error') return <p>쿠폰 이미지를 불러오는 데 실패했습니다.</p>;
+  if (couponDesignStatus === 'loading')
+    return (
+      <PreviewCouponBackImage>
+        <LoadingSpinner />
+      </PreviewCouponBackImage>
+    );
+
+  if (couponDesignStatus === 'error')
+    return (
+      <PreviewCouponBackImage>
+        <p>쿠폰 이미지를 불러오는 데 실패했습니다.</p>
+      </PreviewCouponBackImage>
+    );
 
   return (
     <PreviewCouponBackImage>
