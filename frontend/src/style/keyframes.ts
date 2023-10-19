@@ -21,3 +21,12 @@ export const popup = keyframes`
     opacity: 100%;
   }
 `;
+
+export const skeletonLoading = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;

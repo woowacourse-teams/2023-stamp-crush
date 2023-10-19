@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { skeletonLoading } from '../../../../../style/keyframes';
 
 export const Container = styled.ul`
   display: flex;
@@ -80,5 +81,36 @@ export const Name = styled.h1`
 
   @media screen and (max-width: 450px) {
     font-size: 16px;
+  }
+`;
+
+export const EmptyCustomers = styled.p`
+  display: flex;
+  flex-direction: column;
+  margin: 180px 30px;
+  line-height: 24px;
+  text-align: center;
+  color: gray;
+
+  & > span {
+    color: #222;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+`;
+
+export const Skeleton = styled.div`
+  width: 95%;
+  height: 90px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: ${skeletonLoading} 1.5s infinite;
+  margin: 20px 20px 0px 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 10px -3px ${({ theme }) => theme.colors.gray300};
+
+  :first-of-type {
+    margin-top: 20px;
   }
 `;

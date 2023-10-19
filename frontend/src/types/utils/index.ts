@@ -24,3 +24,5 @@ export interface DateParseOption {
 }
 
 export type TemplateMenu = '쿠폰(앞)' | '쿠폰(뒤)' | '스탬프';
+
+export type Status = 'loading' | 'error' | 'success';

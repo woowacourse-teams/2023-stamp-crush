@@ -1,5 +1,5 @@
 import { Customer } from '../../../../../types/domain/customer';
-import { Option } from '../../../../../types/utils';
+import { Status } from '../../../../../types/utils';
 import { formatDate } from '../../../../../utils';
 import {
   Container,
@@ -10,17 +10,37 @@ import {
   Name,
   NameContainer,
   RightInfo,
+  EmptyCustomers,
+  Skeleton,
 } from './style';
 
 interface CustomersProps {
-  registerTypeOption: Option;
-  customers: Customer[];
+  customers: Customer[] | undefined;
+  customersStatus: Status;
 }
 
-const Customers = ({ customers }: CustomersProps) => {
+const Customers = ({ customers, customersStatus }: CustomersProps) => {
+  if (customersStatus === 'loading')
+    return (
+      <>
+        {[...Array(5)].map((x) => (
+          <Skeleton key={x} />
+        ))}
+      </>
+    );
+  if (customersStatus === 'error') return <>error</>;
+
+  if (customers?.length === 0)
+    return (
+      <EmptyCustomers>
+        <span>NO RESULT 🥲</span> 아직 고객이 없어요! <br />
+        카페를 방문한 고객에게 스탬프를 적립해 보세요.
+      </EmptyCustomers>
+    );
+
   return (
     <Container>
-      {customers.map(
+      {customers?.map(
         ({
           id,
           nickname,
