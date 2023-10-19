@@ -1,17 +1,22 @@
 import { useEffect } from 'react';
-import Button from '../../../../components/Button';
-import Text from '../../../../components/Text';
-import { useRedirectRegisterPage } from '../../../../hooks/useRedirectRegisterPage';
-import { Spacing } from '../../../../style/layout/common';
-import { formatDate, isNotEmptyArray } from '../../../../utils';
-import FlippedCoupon from '../../../Customer/CouponList/components/FlippedCoupon';
-import useGetCoupon from '../hooks/useGetCoupon';
-import useGetCurrentCouponDesign from '../hooks/useGetCurrentCouponDesign';
-import { CouponIndicatorWrapper, StepperWrapper, TextWrapper } from '../style';
-import { CustomerPhoneNumber } from '../../../../types/domain/customer';
-import usePostEarnStamp from '../hooks/usePostEarnStamp';
-import usePostIssueCoupon from '../hooks/usePostIssueCoupon';
-import EarnStampSkeleton from './EarnStampSkeleton';
+import Button from '../../../../../components/Button';
+import Text from '../../../../../components/Text';
+import { useRedirectRegisterPage } from '../../../../../hooks/useRedirectRegisterPage';
+import { Spacing } from '../../../../../style/layout/common';
+import { formatDate, isNotEmptyArray } from '../../../../../utils';
+import FlippedCoupon from '../../../../Customer/CouponList/components/FlippedCoupon';
+import useGetCoupon from '../../hooks/useGetCoupon';
+import useGetCurrentCouponDesign from '../../hooks/useGetCurrentCouponDesign';
+import { CouponIndicatorWrapper, StepperWrapper, TextWrapper } from '../../style';
+import { CustomerPhoneNumber } from '../../../../../types/domain/customer';
+import usePostEarnStamp from '../../hooks/usePostEarnStamp';
+import usePostIssueCoupon from '../../hooks/usePostIssueCoupon';
+import EarnStampSkeleton from '../EarnStampSkeleton';
+import LoadingSpinner from '../LoadingSpinner';
+import Alert from '../../../../../components/Alert';
+import { useNavigate } from 'react-router-dom';
+import ROUTER_PATH from '../../../../../constants/routerPath';
+import { EmptyCouponIndicator } from './style';
 
 interface CouponIndicatorProps {
   stamp: number;
@@ -21,7 +26,9 @@ interface CouponIndicatorProps {
 
 const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) => {
   const cafeId = useRedirectRegisterPage();
-  const { mutate: mutatePostEarnStamp } = usePostEarnStamp();
+  const navigate = useNavigate();
+
+  const { mutate: mutatePostEarnStamp, status: earnStampStatus } = usePostEarnStamp();
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
 
   const { data: coupon, status: couponStatus } = useGetCoupon(cafeId, customer);
@@ -37,7 +44,11 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
   }, [coupon]);
 
   if (couponStatus === 'error' || couponDesignStatus === 'error')
-    return <p>쿠폰을 불러오는 데 실패했습니다.</p>;
+    return (
+      <EmptyCouponIndicator>
+        예기치 못한 오류가 발생하여 쿠폰을 불러오는 데 실패했습니다.
+      </EmptyCouponIndicator>
+    );
   if (couponStatus === 'loading' || couponDesignStatus === 'loading') return <EarnStampSkeleton />;
 
   const earnStamp = () => {
@@ -50,6 +61,10 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
         earningStampCount: stamp,
       },
     });
+  };
+
+  const goHome = () => {
+    navigate(ROUTER_PATH.customerList);
   };
 
   return (
@@ -91,8 +106,19 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
         <Spacing $size={5} />
       </CouponIndicatorWrapper>
       <StepperWrapper>
-        <Button onClick={earnStamp}>적립</Button>
+        <Button onClick={earnStamp}>
+          {earnStampStatus === 'loading' ? <LoadingSpinner /> : '적립'}
+        </Button>
       </StepperWrapper>
+      {earnStampStatus === 'error' && (
+        <Alert
+          text={'예기치 못한 오류가 발생하여\n쿠폰 적립에 실패했습니다.'}
+          rightOption={'홈으로 돌아가기'}
+          leftOption={'재시도'}
+          onClickRight={goHome}
+          onClickLeft={earnStamp}
+        />
+      )}
     </>
   );
 };
