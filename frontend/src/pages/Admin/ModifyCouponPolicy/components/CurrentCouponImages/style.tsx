@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const CurrentCouponContainer = styled.section`
   display: flex;
   flex-direction: column;
-
+  height: 493px;
   border: 3px solid ${({ theme }) => theme.colors.main};
   border-radius: 16px;
   margin-left: 120px;
