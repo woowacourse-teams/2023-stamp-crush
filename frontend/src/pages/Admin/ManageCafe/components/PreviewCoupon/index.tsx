@@ -1,7 +1,6 @@
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../../../hooks/useRedirectRegisterPage';
 import useGetCouponDesign from '../../hooks/useGetCouponDesign';
-import { PreviewBackImage, PreviewCouponBackImage } from './style';
+import { PreviewBackImage, PreviewCouponBackImage, SkeletonBackImg } from './style';
 
 const PreviewCoupon = () => {
   const cafeId = useRedirectRegisterPage();
@@ -10,7 +9,7 @@ const PreviewCoupon = () => {
   if (couponDesignStatus === 'loading')
     return (
       <PreviewCouponBackImage>
-        <LoadingSpinner />
+        <SkeletonBackImg />
       </PreviewCouponBackImage>
     );
 
