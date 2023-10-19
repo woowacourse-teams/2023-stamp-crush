@@ -2,6 +2,7 @@ import { TEMPLATE_MENU } from '.';
 import { SampleCouponRes } from '../../types/api/response';
 import { SampleImage, SampleBackCouponImage } from '../../types/domain/coupon';
 import { TemplateMenu } from '../../types/utils';
+import Button from '../Button';
 import { useSampleImages } from './hooks/useSampleImages';
 import { WarnMsg, SampleImageContainer, SampleImg, WarnMsgBox } from './style';
 
@@ -32,19 +33,32 @@ const SampleImageList = ({
   selectedImageUrl,
   clickSampleImage,
 }: SampleImageListProps) => {
-  const { data, status } = useSampleImages();
+  const { data, status, refetch } = useSampleImages();
 
-  if (status === 'loading') return <div>페이지 로딩중..</div>;
-  if (status === 'error') return <div> 이미지를 불러오는데 실패했습니다. 새로고침 해주세요. </div>;
+  const refetchSampleImages = () => {
+    refetch();
+  };
+
+  if (status === 'loading') return <SampleImageContainer>페이지 로딩중..</SampleImageContainer>;
+  if (status === 'error')
+    return (
+      <SampleImageContainer>
+        <div>샘플 이미지를 불러오는데 실패했습니다.</div>
+        <div>아래 버튼을 눌러 새로고침 해주세요.</div>
+        <Button onClick={refetchSampleImages}>새로고침</Button>
+      </SampleImageContainer>
+    );
 
   const sampleImages = getImagesFromData(data, templateSelect);
 
   if (!sampleImages.length) {
     return (
-      <WarnMsgBox>
-        <WarnMsg>템플릿이 존재하지 않아요:(</WarnMsg>
-        <WarnMsg>빠른 시일 내 준비하겠습니다.</WarnMsg>
-      </WarnMsgBox>
+      <SampleImageContainer>
+        <WarnMsgBox>
+          <WarnMsg>템플릿이 존재하지 않아요:(</WarnMsg>
+          <WarnMsg>빠른 시일 내 준비하겠습니다.</WarnMsg>
+        </WarnMsgBox>
+      </SampleImageContainer>
     );
   }
 
