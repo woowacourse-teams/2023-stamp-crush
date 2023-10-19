@@ -1,10 +1,17 @@
 import useGetCouponDesign from '../../../ManageCafe/hooks/useGetCouponDesign';
-import { CouponImageFrame, CurrentCouponContainer, Image, StampImageFrame } from './style';
+import {
+  CouponImageFrame,
+  CurrentCouponContainer,
+  ErrorContainer,
+  Image,
+  StampImageFrame,
+} from './style';
 import { useRedirectRegisterPage } from '../../../../../hooks/useRedirectRegisterPage';
 import CouponLoadImg from '../../../../../assets/coupon_loading_img.png';
 import StampLoadImg from '../../../../../assets/stamp_load_img.png';
 import { UseQueryResult } from '@tanstack/react-query';
 import { CouponDesign } from '../../../../../types/domain/coupon';
+import Button from '../../../../../components/Button';
 
 type ImgType = 'front' | 'back' | 'stamp';
 
@@ -33,7 +40,22 @@ const CurrentCouponImages = () => {
   const cafeId = useRedirectRegisterPage();
   const couponDesign = useGetCouponDesign(cafeId);
 
-  if (couponDesign.status === 'error') return <div>Error</div>;
+  const refetchCouponDesign = () => {
+    couponDesign.refetch();
+  };
+
+  if (couponDesign.status === 'error')
+    return (
+      <CurrentCouponContainer>
+        <ErrorContainer>
+          <div>오류가 발생했습니다. :(</div>
+          <div>아래 새로 고침 버튼을 눌러주세요.</div>
+          <div>쿠폰 미리보기를 확인하지 않으셔도</div>
+          <div>쿠폰 정책을 변경하실 수 있습니다.</div>
+          <Button onClick={refetchCouponDesign}>새로 고침</Button>
+        </ErrorContainer>
+      </CurrentCouponContainer>
+    );
 
   return (
     <CurrentCouponContainer>
