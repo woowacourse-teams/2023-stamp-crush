@@ -50,7 +50,7 @@ const GuideAlert = ({
   if (postTemporaryCustomerStatus === 'error')
     return (
       <Alert
-        text={'임시 회원 가입에 오류가 발생했어요. '}
+        text={'임시 가입에 오류가 발생했어요. '}
         rightOption={'홈으로'}
         onClickRight={exitPage}
       />
