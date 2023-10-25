@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import YeongdeokBlueLoad from '../assets/fonts/Yeongdeok_Blueroad.ttf';
 
 const GlobalStyle = createGlobalStyle`
 html,
@@ -106,10 +105,6 @@ nav,
 section {
   display: block;
 }
-@font-face {
-    font-family: 'YeongdeokBlueLoad';
-    src: url(${YeongdeokBlueLoad});
-}
 body {
   line-height: 1;
   font-family: 'YeongdeokBlueLoad';
@@ -139,6 +134,7 @@ button {
 :root {
   }
 * {
+  -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
 }
 `;

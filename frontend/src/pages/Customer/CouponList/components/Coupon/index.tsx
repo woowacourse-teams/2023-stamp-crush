@@ -7,10 +7,12 @@ interface CouponProps {
   coupon: CouponType;
   isFocused: boolean;
   dataIndex: number;
+  isOn: boolean;
+  index: number;
   onClick: () => void;
 }
 
-const Coupon = ({ coupon, isFocused, dataIndex, onClick }: CouponProps) => {
+const Coupon = ({ coupon, isFocused, dataIndex, onClick, isOn, index }: CouponProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const checkLoadImage = () => {
     setIsImageLoaded(true);
@@ -24,6 +26,8 @@ const Coupon = ({ coupon, isFocused, dataIndex, onClick }: CouponProps) => {
       aria-hidden={isFocused ? 'false' : 'true'}
       data-index={dataIndex}
       disabled={!isFocused}
+      $isOn={isOn}
+      $index={index}
     >
       <ImageForLoading
         src={coupon.couponInfos[0].frontImageUrl}

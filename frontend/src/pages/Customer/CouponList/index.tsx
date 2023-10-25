@@ -1,5 +1,5 @@
 import Coupon from './components/Coupon';
-import { CouponListContainer, InfoContainer } from './style';
+import { CouponListContainer, InfoContainer, ToggleContainer } from './style';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CouponDetail from './components/CouponDetail';
@@ -15,10 +15,11 @@ import useCouponDetail from './hooks/useCouponDetail';
 import useCouponList from './hooks/useCouponList';
 import HomeTemplate from './components/HomeTemplate';
 import ROUTER_PATH from '../../../constants/routerPath';
+import ToggleButton from '../../../components/ToggleButton';
 
 const CouponList = () => {
   const navigate = useNavigate();
-
+  const [isOn, setIsOn] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const [alertMessage, setAlertMessage] = useState('');
   const couponListContainerRef = useRef<HTMLDivElement>(null);
@@ -30,6 +31,10 @@ const CouponList = () => {
     useCouponList(couponListContainerRef, isDetail, coupons!);
 
   const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, currentIndex);
+
+  const toggle = () => {
+    setIsOn(!isOn);
+  };
 
   useEffect(() => {
     if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
@@ -80,19 +85,18 @@ const CouponList = () => {
         <InfoContainer>보유하고 있는 쿠폰이 없습니다.</InfoContainer>
       ) : (
         <>
-          <CafeInfo
-            cafeInfo={currentCoupon}
-            couponInfo={currentCouponInfo}
-            onClickStar={openAlert}
-          />
+          <ToggleContainer $isOn={isOn}>
+            {/* <span>즐겨찾기만 보기</span>
+            <ToggleButton isOn={isOn} toggle={toggle} /> */}
+            <span>쿠폰 펼치기</span>
+            <ToggleButton isOn={isOn} toggle={toggle} />
+          </ToggleContainer>
           <CouponListContainer
             ref={couponListContainerRef}
             $isLast={isLast}
             $isDetail={isDetail}
             $isShown={isFlippedCouponShown}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
+            $isOn={!isOn}
           >
             {coupons.map(({ cafeInfo, couponInfos }, index) => (
               <Coupon
@@ -102,6 +106,8 @@ const CouponList = () => {
                 onClick={openCouponDetail}
                 aria-label={`${cafeInfo.name} 쿠폰`}
                 isFocused={currentIndex === index}
+                isOn={!isOn}
+                index={index}
               />
             ))}
           </CouponListContainer>

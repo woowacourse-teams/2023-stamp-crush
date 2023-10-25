@@ -80,49 +80,33 @@ export const CouponListContainer = styled.div<{
   $isLast: boolean;
   $isDetail: boolean;
   $isShown: boolean;
+  $isOn: boolean;
 }>`
   display: flex;
-  justify-content: center;
-  position: relative;
-  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  height: ${({ $isOn }) => ($isOn ? '175px' : 'calc(85% - 100px)')};
   transition: all 0.1s;
+  margin: 0 auto;
+  overflow: scroll;
 
-  /** iPhone SE */
-  @media only screen and (min-device-width: 320px) and (max-device-width: 375px) {
-    height: 10px;
+  &::-webkit-scrollbar {
+    display: none;
   }
+`;
 
-  :nth-last-child(1) {
-    z-index: ${({ $isShown }) => ($isShown ? '-1' : '3')};
-    transform: translateY(15px) scale(1.05);
-    animation: ${({ $isLast }) =>
-      $isLast
-        ? css`
-            ${swap} 0.5s forwards
-          `
-        : 'none'};
-    transition: transform 0.4s;
-    cursor: pointer;
-  }
+export const ToggleContainer = styled.section<{ $isOn: boolean }>`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 20px;
 
-  ${({ $isDetail }) =>
-    $isDetail &&
-    css`
-      :nth-last-child(n) {
-        display: none;
-      }
-    `}
-
-  :nth-last-child(2) {
-    transform: translateY(0px) scale(1);
-    pointer-events: none;
-  }
-  :nth-last-child(3) {
-    transform: translateY(-15px) scale(0.95);
-    pointer-events: none;
-  }
-  :nth-last-child(n + 4) {
-    transform: translateY(-30px) scale(0.9);
-    pointer-events: none;
+  & > span {
+    font-size: 13px;
+    margin-right: 10px;
+    margin-left: 20px;
+    opacity: ${({ $isOn }) => ($isOn ? '100%' : '50%')};
+    transition: opacity 0.2s ease-in;
   }
 `;
