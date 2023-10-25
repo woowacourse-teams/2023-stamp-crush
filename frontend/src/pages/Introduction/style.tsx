@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface ButtonStyledProps {
@@ -167,8 +168,36 @@ export const OwnerPreview = styled.img`
 `;
 
 export const Footer = styled.footer`
-  width: 120%;
+  width: 110%;
   height: 30rem;
   background: #4d4d4d;
   margin-top: 10rem;
+`;
+
+export const SnsIconContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  height: 5rem;
+`;
+
+export const IconLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;
+
+export const ButtonLink = styled(Link)`
+  text-decoration: none;
+`;
+
+export const FooterContents = styled.div`
+  color: #989898;
+  line-height: 24px;
+  margin: 0 5rem;
+
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+    margin: 0 2rem;
+  }
 `;

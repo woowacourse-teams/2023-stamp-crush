@@ -1,11 +1,10 @@
-import { CustomerPreviewGif, StampcrushLogo, StampcrushWhiteLogo } from '../../assets';
+import { CustomerPreviewGif, StampcrushLogo } from '../../assets';
 import {
   Container,
   ServiceIntro,
   CustomerPreview,
   Header,
   Button,
-  ButtonContainer,
   ApplyButton,
   OwnerIntro,
   OwnerPreviewContainer,
@@ -13,28 +12,53 @@ import {
   Footer,
   DesktopButtonContainer,
   MobileButtonContainer,
+  SnsIconContainer,
+  IconLink,
+  FooterContents,
+  ButtonLink,
 } from './style';
 import { AiOutlineGithub } from '@react-icons/all-files/ai/AiOutlineGithub';
 import { AiFillYoutube } from '@react-icons/all-files/ai/AiFillYoutube';
+import { AiFillInstagram } from '@react-icons/all-files/ai/AiFillInstagram';
 import { RiServiceLine } from '@react-icons/all-files/ri/RiServiceLine';
 import { Parallax, ParallaxProvider } from 'react-scroll-parallax';
 import { OwnerPreview2Png, OwnerPreview3Png, OwnerPreview4Png } from '../../assets/png';
+import { useNavigate } from 'react-router-dom';
+import ROUTER_PATH from '../../constants/routerPath';
+import { AiOutlineMail } from '@react-icons/all-files/ai/AiOutlineMail';
+import {
+  GITHUB_STAMP_CRUSH,
+  INSTAGRAM_STAMP_CRUSH,
+  LINK_TO_APPLY_SERVICE,
+  YOUTUBE_STAMP_CRUSH,
+} from '../../constants/magicString';
 
 const Introduction = () => {
+  const navigate = useNavigate();
+
+  const navigatePage = (path: string) => () => {
+    navigate(path);
+  };
+
   return (
     <ParallaxProvider>
       <Container>
         <Header>
           <StampcrushLogo />
           <DesktopButtonContainer>
-            <Button>고객님 로그인</Button>
-            <Button $isFilled>사장님 로그인</Button>
+            <Button onClick={navigatePage(ROUTER_PATH.login)}>고객님 로그인</Button>
+            <Button onClick={navigatePage(ROUTER_PATH.adminLogin)} $isFilled>
+              사장님 로그인
+            </Button>
           </DesktopButtonContainer>
         </Header>
-        <ApplyButton>
-          서비스 상담 문의
-          <RiServiceLine size={24} />
-        </ApplyButton>
+        <ButtonLink to={LINK_TO_APPLY_SERVICE}>
+          <ApplyButton>
+            서비스 상담 문의
+            <RiServiceLine size={24} />
+          </ApplyButton>
+        </ButtonLink>
+
         <ServiceIntro>
           <span>STAMP CRUSH</span>
           <h1>
@@ -48,8 +72,10 @@ const Introduction = () => {
           </p>
         </ServiceIntro>
         <MobileButtonContainer>
-          <Button>고객님 로그인</Button>
-          <Button $isFilled>사장님 로그인</Button>
+          <Button onClick={navigatePage(ROUTER_PATH.login)}>고객님 로그인</Button>
+          <Button onClick={navigatePage(ROUTER_PATH.adminLogin)} $isFilled>
+            사장님 로그인
+          </Button>
         </MobileButtonContainer>
         <Parallax translateY={['150px', '-200px']} scale={[1, 1.2]}>
           <CustomerPreview src={CustomerPreviewGif} alt="서비스 고객모드 미리보기" />
@@ -67,8 +93,24 @@ const Introduction = () => {
           </Parallax>
         </OwnerPreviewContainer>
         <Footer>
-          <AiOutlineGithub />
-          <AiFillYoutube />
+          <FooterContents>
+            <SnsIconContainer>
+              <IconLink to={GITHUB_STAMP_CRUSH}>
+                <AiOutlineGithub size={34} />
+              </IconLink>
+              <IconLink to={YOUTUBE_STAMP_CRUSH}>
+                <AiFillYoutube size={34} />
+              </IconLink>
+              <IconLink to={INSTAGRAM_STAMP_CRUSH}>
+                <AiFillInstagram size={34} />
+              </IconLink>
+            </SnsIconContainer>
+            <span>
+              CONTACT <AiOutlineMail /> stampcrush12@gmail.com
+              <br />
+            </span>
+            <span>COPYRIGHT © 2023 STAMPCRUSH ALL RIGHTS RESERVED</span>
+          </FooterContents>
         </Footer>
       </Container>
     </ParallaxProvider>
