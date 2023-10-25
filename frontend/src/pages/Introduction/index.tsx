@@ -11,6 +11,8 @@ import {
   OwnerPreviewContainer,
   OwnerPreview,
   Footer,
+  DesktopButtonContainer,
+  MobileButtonContainer,
 } from './style';
 import { AiOutlineGithub } from '@react-icons/all-files/ai/AiOutlineGithub';
 import { AiFillYoutube } from '@react-icons/all-files/ai/AiFillYoutube';
@@ -24,10 +26,10 @@ const Introduction = () => {
       <Container>
         <Header>
           <StampcrushLogo />
-          <ButtonContainer>
+          <DesktopButtonContainer>
             <Button>고객님 로그인</Button>
             <Button $isFilled>사장님 로그인</Button>
-          </ButtonContainer>
+          </DesktopButtonContainer>
         </Header>
         <ApplyButton>
           서비스 상담 문의
@@ -45,6 +47,10 @@ const Introduction = () => {
             마시고 <br /> 종이쿠폰을 간편하게 적립하고 관리해보세요.
           </p>
         </ServiceIntro>
+        <MobileButtonContainer>
+          <Button>고객님 로그인</Button>
+          <Button $isFilled>사장님 로그인</Button>
+        </MobileButtonContainer>
         <Parallax translateY={['150px', '-200px']} scale={[1, 1.2]}>
           <CustomerPreview src={CustomerPreviewGif} alt="서비스 고객모드 미리보기" />
         </Parallax>
@@ -60,7 +66,6 @@ const Introduction = () => {
             <OwnerPreview src={OwnerPreview4Png} alt="서비스 고객모드 미리보기" />
           </Parallax>
         </OwnerPreviewContainer>
-
         <Footer>
           <AiOutlineGithub />
           <AiFillYoutube />

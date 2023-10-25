@@ -13,14 +13,27 @@ export const Header = styled.header`
   height: 78px;
   position: fixed;
   top: 0;
+  z-index: 20;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 5%, transparent);
 `;
 
 export const ButtonContainer = styled.section`
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+`;
+
+export const DesktopButtonContainer = styled(ButtonContainer)`
+  @media screen and (min-width: 450px) {
+    display: flex;
+  }
+`;
+
+export const MobileButtonContainer = styled(ButtonContainer)`
+  @media screen and (max-width: 450px) {
+    display: flex;
+  }
 `;
 
 export const Button = styled.button<ButtonStyledProps>`
@@ -36,13 +49,15 @@ export const Button = styled.button<ButtonStyledProps>`
 `;
 
 export const Container = styled.main`
-  font-family: sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  font-family: sans-serif;
+  width: 100%;
+  overflow-x: hidden;
   background: #fcf8f2;
+  padding: 0 20px;
 `;
 
 export const CustomerPreview = styled.img`
@@ -50,13 +65,16 @@ export const CustomerPreview = styled.img`
   border-radius: 20px;
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
   z-index: 2;
+
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 
 export const ServiceIntro = styled.main`
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* height: 30%; */
 
   & > span {
     font-size: 12px;
@@ -71,11 +89,19 @@ export const ServiceIntro = styled.main`
     margin-bottom: 40px;
     line-height: 62px;
 
+    @media screen and (max-width: 450px) {
+      font-size: 48px;
+    }
+
     & > span {
-      font-size: 52px;
+      font-size: 60px;
       font-weight: 900;
       color: #674ea7;
       text-emphasis-style: dot;
+
+      @media screen and (max-width: 450px) {
+        font-size: 52px;
+      }
     }
   }
 
@@ -111,14 +137,21 @@ export const OwnerIntro = styled.h2`
   font-weight: 700;
   margin: 10rem 0 0 0;
   line-height: 62px;
+
+  @media screen and (max-width: 450px) {
+    font-size: 42px;
+  }
 `;
 
 export const OwnerPreviewContainer = styled.section`
   display: flex;
   gap: 5rem;
-  overflow: hidden;
-  margin-top: 5rem;
-  padding: 2rem 0;
+  padding: 7rem 0 2rem 0;
+
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    padding: 7rem 0 2rem 0;
+  }
 `;
 
 export const OwnerPreview = styled.img`
@@ -126,11 +159,16 @@ export const OwnerPreview = styled.img`
   height: 400px;
   border-radius: 20px;
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 450px) {
+    width: 450px;
+    height: 300px;
+  }
 `;
 
 export const Footer = styled.footer`
-  width: 100%;
+  width: 120%;
   height: 30rem;
-  background: #808080;
+  background: #4d4d4d;
   margin-top: 10rem;
 `;
