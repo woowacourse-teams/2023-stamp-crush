@@ -1,22 +1,4 @@
-import { styled, keyframes, css } from 'styled-components';
-
-const fold = keyframes`
-from  { 
-    margin-top: 16px;
-    margin-bottom: 32px;
-  }
-  to {
-    margin: 0px; 
-  }
-`;
-
-const bounce = keyframes`
-  from  { margin: 0px; }
-  to {
-    margin-top: 16px;
-    margin-bottom: 32px;
-  }
-`;
+import { styled, css } from 'styled-components';
 
 export const CouponWrapper = styled.button<{ $src: string; $isOn: boolean; $index: number }>`
   width: 315px;
@@ -24,24 +6,21 @@ export const CouponWrapper = styled.button<{ $src: string; $isOn: boolean; $inde
   background-image: url(${({ $src }) => $src});
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 0px 10px 1px #aaa;
-  z-index: 2;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   -webkit-tap-highlight-color: transparent;
   z-index: ${({ $index }) => $index};
+  transition: transform 0.4s ease-in-out;
+
   ${({ $isOn, $index }) =>
-    $isOn &&
-    css`
-      position: absolute;
-      animation: ${fold} 0.5s ease-in;
-      transform: translateY(${$index * 3}rem);
-      transition: animation 0.5s ease-in;
-    `}
-  ${({ $isOn, $index }) =>
-    !$isOn &&
-    css`
-      animation: ${bounce} 0.5s ease ${$index * 0.05}s forwards;
-      transition: animation 0.5s ease-in;
-    `}
+    $isOn
+      ? css`
+          transform: translateY(-${$index * 6}rem);
+          transform: translateZ(${$index});
+        `
+      : css`
+          transform: translateY(${$index * 1}rem);
+        `}
 `;
 
 export const ImageForLoading = styled.img`

@@ -86,7 +86,7 @@ export const CouponListContainer = styled.div<{
   flex-direction: column;
   align-items: center;
   width: 350px;
-  height: ${({ $isOn }) => ($isOn ? '175px' : 'calc(85% - 100px)')};
+  min-height: 500px;
   transition: all 0.1s;
   margin: 0 auto;
   overflow: scroll;
