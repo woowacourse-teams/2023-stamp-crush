@@ -13,6 +13,7 @@ interface CouponProps {
 
 const Coupon = ({ coupon, dataIndex, onClick, isOn, index }: CouponProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   const checkLoadImage = () => {
     setIsImageLoaded(true);
   };

@@ -11,7 +11,8 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   background: white;
   max-width: 450px;
   transform: translateY(100%);
-  z-index: 1;
+  z-index: 110;
+  overscroll-behavior-x: none;
 
   ${({ $isDetail }) =>
     $isDetail &&
