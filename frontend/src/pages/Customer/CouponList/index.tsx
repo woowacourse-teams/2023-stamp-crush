@@ -37,8 +37,6 @@ const CouponList = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('login-token') === '' || !localStorage.getItem('login-token'))
-      navigate(ROUTER_PATH.login);
     if (coupons && isNotEmptyArray(coupons)) {
       setCurrentIndex(coupons.length - 1);
     }
@@ -86,8 +84,6 @@ const CouponList = () => {
       ) : (
         <>
           <ToggleContainer $isOn={isOn}>
-            {/* <span>즐겨찾기만 보기</span>
-            <ToggleButton isOn={isOn} toggle={toggle} /> */}
             <span>쿠폰 펼치기</span>
             <ToggleButton isOn={isOn} toggle={toggle} />
           </ToggleContainer>
