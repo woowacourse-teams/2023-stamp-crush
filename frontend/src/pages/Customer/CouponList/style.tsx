@@ -77,9 +77,6 @@ export const BackDrop = styled.div<{ $couponMainColor: string }>`
 `;
 
 export const CouponListContainer = styled.div<{
-  $isLast: boolean;
-  $isDetail: boolean;
-  $isShown: boolean;
   $isOn: boolean;
 }>`
   display: flex;
@@ -87,9 +84,10 @@ export const CouponListContainer = styled.div<{
   align-items: center;
   width: 350px;
   min-height: 500px;
+  padding-bottom: 200px;
   transition: all 0.1s;
   margin: 0 auto;
-  overflow: scroll;
+  overflow: ${({ $isOn }) => ($isOn ? 'hidden' : 'scroll')};
 
   &::-webkit-scrollbar {
     display: none;
