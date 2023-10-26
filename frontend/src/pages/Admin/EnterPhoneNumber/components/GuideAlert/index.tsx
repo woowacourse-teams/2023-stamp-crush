@@ -40,11 +40,9 @@ const GuideAlert = ({
 
   if (postTemporaryCustomerStatus === 'loading')
     return (
-      <>
-        <BackDrop>
-          <LoadingSpinner />
-        </BackDrop>
-      </>
+      <BackDrop>
+        <LoadingSpinner />
+      </BackDrop>
     );
 
   if (postTemporaryCustomerStatus === 'error')
@@ -57,27 +55,27 @@ const GuideAlert = ({
     );
 
   return (
-    <>
-      {location.pathname === ROUTER_PATH.enterStamp
-        ? isOpen && (
-            <Alert
-              text={phoneNumber + '님, 첫 스탬프 적립이 맞으신가요?'}
-              rightOption={'네'}
-              leftOption={'다시 입력'}
-              onClickRight={enterStampHandler}
-              onClickLeft={retryEnter}
-            />
-          )
-        : isOpen && (
-            <Alert
-              text={phoneNumber + '님은 \n스탬프크러쉬 회원이 아니에요 🥲'}
-              rightOption={'나가기'}
-              leftOption={'다시 입력'}
-              onClickRight={enterRewardHandler}
-              onClickLeft={retryEnter}
-            />
-          )}
-    </>
+    isOpen && (
+      <>
+        {location.pathname === ROUTER_PATH.enterStamp ? (
+          <Alert
+            text={phoneNumber + '님, 첫 스탬프 적립이 맞으신가요?'}
+            rightOption={'네'}
+            leftOption={'다시 입력'}
+            onClickRight={enterStampHandler}
+            onClickLeft={retryEnter}
+          />
+        ) : (
+          <Alert
+            text={phoneNumber + '님은 \n스탬프크러쉬 회원이 아니에요 🥲'}
+            rightOption={'나가기'}
+            leftOption={'다시 입력'}
+            onClickRight={enterRewardHandler}
+            onClickLeft={retryEnter}
+          />
+        )}
+      </>
+    )
   );
 };
 
