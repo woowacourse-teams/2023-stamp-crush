@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { getCustomers } from '../../../../api/get';
 import { CustomersRes } from '../../../../types/api/response';
 import { Customer, RegisterType } from '../../../../types/domain/customer';
@@ -10,7 +10,7 @@ export interface CustomerOrderOption extends Omit<Option, 'key'> {
   key: keyof Customer;
 }
 
-const useGetCustomers = (cafeId: number, orderOption: CustomerOrderOption) => {
+const useGetCustomers = (cafeId: number, key: string, orderOption: CustomerOrderOption) => {
   const allQueries = useQueries({
     queries: REGISTER_TYPE_OPTION.map(({ key }) => {
       const customerType = key === 'all' ? null : key;
@@ -34,9 +34,14 @@ const useGetCustomers = (cafeId: number, orderOption: CustomerOrderOption) => {
     }),
   });
 
-  const isError = !allQueries.every((query) => query.isSuccess);
+  const currentKeyIndex = REGISTER_TYPE_OPTION.findIndex((option) => option.key === key);
+  const customers = allQueries[currentKeyIndex].data;
+  const isError = !allQueries.every((query) => {
+    console.log(query);
+    return query.isSuccess;
+  });
 
-  return { isError };
+  return { customers, isError };
 };
 
 export default useGetCustomers;

@@ -33,7 +33,6 @@ const CustomerList = () => {
   const cafeId = useRedirectRegisterPage();
   const [registerType, setRegisterType] = useState<Option>({ key: 'all', value: '전체' });
   const [orderOption, setOrderOption] = useState({ key: 'recentVisitDate', value: '최근방문순' });
-  const { isError } = useGetCustomers(cafeId, orderOption as CustomerOrderOption);
 
   const changeRegisterType = (registerType: Option) => () => {
     setRegisterType(registerType);
@@ -60,7 +59,7 @@ const CustomerList = () => {
           setCheckedOption={setOrderOption}
         />
       </Container>
-      <Customers registerType={registerType} isError={isError} />
+      <Customers cafeId={cafeId} orderOption={orderOption} registerType={registerType} />
     </CustomerContainer>
   );
 };

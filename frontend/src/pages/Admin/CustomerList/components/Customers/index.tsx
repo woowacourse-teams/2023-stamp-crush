@@ -16,22 +16,27 @@ import {
   Skeleton,
   ErrorBox,
 } from './style';
-import { useQueryClient } from '@tanstack/react-query';
-import { CustomersRes } from '../../../../../types/api/response';
 import { CustomerCount } from '../../style';
+import useGetCustomers, { CustomerOrderOption } from '../../hooks/useGetCustomers';
 
 interface CustomersProps {
+  cafeId: number;
+  orderOption: Option;
   registerType: Option;
-  isError: boolean;
 }
 
-const Customers = ({ registerType, isError }: CustomersProps) => {
-  const key = registerType.key === 'all' ? null : registerType.key;
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<CustomersRes>(['customers', key]);
-  const customers = data?.customers;
+const Customers = ({ cafeId, orderOption, registerType }: CustomersProps) => {
+  const { customers, isError } = useGetCustomers(
+    cafeId,
+    registerType.key,
+    orderOption as CustomerOrderOption,
+  );
 
-  if (!customers && !isError)
+  const reload = () => {
+    location.reload();
+  };
+
+  if (!customers)
     return (
       <>
         {[...Array(5)].map((x) => (
@@ -46,7 +51,9 @@ const Customers = ({ registerType, isError }: CustomersProps) => {
         <ErrorBox>
           <span>Oops!</span> 데이터를 불러오는 과정에 오류가 생겼어요.
           <Spacing $size={20} />
-          <Button variant="secondary">새로 고침</Button>
+          <Button variant="secondary" onClick={reload}>
+            새로 고침
+          </Button>
         </ErrorBox>
       </>
     );
