@@ -1,7 +1,6 @@
 import { RouterPath } from '../types/utils';
 
 const ROUTER_PATH: Record<string, RouterPath> = {
-  intro: '/intro',
   customerList: '/admin',
   adminLogin: '/admin/login',
   adminAuth: '/admin/login/auth/kakao',

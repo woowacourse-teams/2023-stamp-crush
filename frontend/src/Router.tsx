@@ -29,7 +29,6 @@ import RewardHistoryPage from './pages/Customer/HistoryPage/components/RewardHis
 import StampHistoryPage from './pages/Customer/HistoryPage/components/StampHistory';
 import TemplateCouponDesign from './pages/Admin/TemplateCouponDesign';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
-import Intro from './pages/Intro';
 
 const AdminRoot = () => {
   return (
@@ -104,8 +103,6 @@ const Router = () => {
         { path: ROUTER_PATH.customerSetting, element: <CustomerSetting /> },
       ],
     },
-    // 소개 페이지
-    { path: ROUTER_PATH.intro, element: <Intro /> },
   ]);
 
   return <RouterProvider router={router} />;
