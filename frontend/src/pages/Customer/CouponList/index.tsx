@@ -38,7 +38,6 @@ const CouponList = () => {
         <CustomerLoadingSpinner />
       </HomeTemplate>
     );
-  console.log(currentIndex);
 
   const openAlert = (index: number) => () => {
     setCurrentIndex(index);
