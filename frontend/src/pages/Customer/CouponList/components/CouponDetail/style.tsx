@@ -27,17 +27,11 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
 
   > :nth-child(2) {
     position: absolute;
-    top: 68px;
+    top: 55px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
   }
-`;
-
-export const CouponNotification = styled.p`
-  position: absolute;
-  top: 100px;
-  left: 0px;
 `;
 
 export const OverviewContainer = styled.div`
@@ -45,10 +39,10 @@ export const OverviewContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 400px;
-  height: 130px;
+  height: 28%;
 
   position: absolute;
-  top: 260px;
+  top: 215px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -65,6 +59,17 @@ export const OverviewContainer = styled.div`
   :nth-child(2) {
     overflow: scroll;
     text-align: center;
+    padding: 8px;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
   }
 `;
 

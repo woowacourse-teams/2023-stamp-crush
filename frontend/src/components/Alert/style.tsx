@@ -53,7 +53,7 @@ export const OptionContainer = styled.div`
 `;
 
 export const OptionWrapper = styled.button<{ $option: string }>`
-  width: 50%;
+  width: 100%;
   height: 50px;
   color: ${(props) => (props.$option === 'left' ? '#888' : '#424242')};
 

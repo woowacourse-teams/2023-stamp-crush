@@ -1,23 +1,24 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import Alert from '../../../../../components/Alert';
+import { useNavigate } from 'react-router-dom';
 import useModal from '../../../../../hooks/useModal';
 import useDialPad from '../../hooks/useDialPad';
 import { BaseInput, Container, KeyContainer, Pad } from './style';
 import ROUTER_PATH from '../../../../../constants/routerPath';
 import { PHONE_NUMBER_LENGTH } from '../../../../../constants/magicNumber';
+import GuideAlert from '../GuideAlert';
 
 export const DIAL_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '입력'] as const;
 
 export type DialKeyType = (typeof DIAL_KEYS)[number];
 
 const Dialpad = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
   const {
-    setIsDone,
     phoneNumber,
     phoneNumberRef,
+    customerStatus,
+    postTemporaryCustomerStatus,
+    setIsDone,
     handlePhoneNumber,
     handleKeyDown,
     handlePadPressed,
@@ -36,25 +37,15 @@ const Dialpad = () => {
 
   return (
     <Container>
-      {location.pathname === ROUTER_PATH.enterStamp
-        ? isOpen && (
-            <Alert
-              text={phoneNumber + '님, 첫 스탬프 적립이 맞으신가요?'}
-              rightOption={'네'}
-              leftOption={'다시 입력'}
-              onClickRight={requestTemporaryCustomer}
-              onClickLeft={retryEnter}
-            />
-          )
-        : isOpen && (
-            <Alert
-              text={phoneNumber + '님은 \n스탬프크러쉬 회원이 아니에요 🥲'}
-              rightOption={'나가기'}
-              leftOption={'다시 입력'}
-              onClickRight={exitPage}
-              onClickLeft={retryEnter}
-            />
-          )}
+      <GuideAlert
+        isOpen={isOpen}
+        phoneNumber={phoneNumber}
+        customerStatus={customerStatus}
+        postTemporaryCustomerStatus={postTemporaryCustomerStatus}
+        enterStampHandler={requestTemporaryCustomer}
+        enterRewardHandler={exitPage}
+        retryEnter={retryEnter}
+      />
       <BaseInput
         id="phoneNumber"
         value={phoneNumber}
