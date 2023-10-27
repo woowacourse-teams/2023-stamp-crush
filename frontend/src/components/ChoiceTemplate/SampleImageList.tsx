@@ -5,6 +5,8 @@ import { TemplateMenu } from '../../types/utils';
 import Button from '../Button';
 import { useSampleImages } from './hooks/useSampleImages';
 import { WarnMsg, SampleImageContainer, SampleImg, WarnMsgBox } from './style';
+import CouponLoadImg from '../../assets/coupon_loading_img.png';
+import StampLoadImg from '../../assets/stamp_load_img.png';
 
 interface SampleImageListProps {
   templateSelect: TemplateMenu;
@@ -39,7 +41,21 @@ const SampleImageList = ({
     refetch();
   };
 
-  if (status === 'loading') return <SampleImageContainer>페이지 로딩중..</SampleImageContainer>;
+  if (status === 'loading')
+    return (
+      <SampleImageContainer>
+        {Array.from({ length: 5 }, (v, i) => i).map((element) => {
+          return (
+            <SampleImg
+              key={element}
+              src={templateSelect === '스탬프' ? StampLoadImg : CouponLoadImg}
+              $templateType={templateSelect}
+              $isSelected={false}
+            />
+          );
+        })}
+      </SampleImageContainer>
+    );
   if (status === 'error')
     return (
       <SampleImageContainer>
