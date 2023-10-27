@@ -21,7 +21,7 @@ const TYPE: Record<string, Record<string, string>> = {
 const SIZE: Record<string, Record<string, string>> = {
   medium: {
     padding: '8px 35px',
-    width: 'auto',
+    width: '200px',
   },
   large: {
     padding: '8px 0px',
