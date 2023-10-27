@@ -13,8 +13,10 @@ import useCouponDetail from './hooks/useCouponDetail';
 import HomeTemplate from './components/HomeTemplate';
 import ToggleButton from '../../../components/ToggleButton';
 import useToggleButton from '../../../hooks/useToggleButton';
+import { useQueryClient } from '@tanstack/react-query';
 
 const CouponList = () => {
+  const queryClient = useQueryClient();
   const [alertMessage, setAlertMessage] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const { isOn: isExpanded, toggle: expandCoupons } = useToggleButton();
@@ -22,7 +24,7 @@ const CouponList = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { isDetail, isFlippedCouponShown, openCouponDetail, closeCouponDetail } = useCouponDetail();
   const { data: coupons, status: couponStatus } = useGetCoupons(isCollected);
-  const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, currentIndex);
+  const { mutateAsync: mutateIsFavorites } = usePostIsFavorites(closeModal);
 
   const changeCurrentIndex = (index: number) => () => {
     setCurrentIndex(index);
@@ -48,8 +50,9 @@ const CouponList = () => {
     openModal();
   };
 
-  const changeFavorites = () => {
-    mutateIsFavorites({
+  const changeFavorites = async () => {
+    console.log('coupons: ', coupons);
+    await mutateIsFavorites({
       params: {
         cafeId: coupons[currentIndex].cafeInfo.id,
       },
@@ -57,6 +60,7 @@ const CouponList = () => {
         isFavorites: !coupons[currentIndex].cafeInfo.isFavorites,
       },
     });
+    queryClient.invalidateQueries({ queryKey: ['coupons'] });
   };
 
   return (

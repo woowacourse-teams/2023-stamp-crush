@@ -1,5 +1,4 @@
-import { css, styled } from 'styled-components';
-import { swap } from '../../../style/keyframes';
+import { styled } from 'styled-components';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -84,7 +83,7 @@ export const CouponListContainer = styled.div<{
   align-items: center;
   width: 350px;
   min-height: 500px;
-  padding-bottom: 200px;
+  padding: 10px 0 200px 0;
   transition: all 0.1s;
   margin: 0 auto;
   overflow: ${({ $isOn }) => ($isOn ? 'hidden' : 'scroll')};
@@ -102,7 +101,7 @@ export const ToggleContainer = styled.section<{ $isOn: boolean }>`
 
   & > span {
     font-size: 13px;
-    margin-right: 10px;
+    margin-right: 8px;
     margin-left: 20px;
     opacity: ${({ $isOn }) => ($isOn ? '100%' : '50%')};
     transition: opacity 0.2s ease-in;
