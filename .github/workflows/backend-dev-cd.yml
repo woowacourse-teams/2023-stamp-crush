@@ -1,7 +1,6 @@
 name: ✨ StampCrush backend DEV CD ✨
 
 env:
-  PROFILE: dev
   DOCKER_HUB_REPOSITORY: stampcrush/stampcrush-dev
 
 on:
@@ -11,8 +10,7 @@ on:
       - develop
     paths:
       - "backend/**"
-      - ".github/workflows/backend-dev.cd.yml"
-
+      
 jobs:
   backend-docker-build-and-push:
     runs-on: ubuntu-latest
