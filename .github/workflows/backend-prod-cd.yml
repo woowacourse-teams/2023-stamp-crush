@@ -10,7 +10,6 @@ on:
       - main
     paths: 
       - "backend/**" 
-      - ".github/workflows/backend-prod-cd.yml" 
 
 jobs: 
   backend-docker-build-and-push: 
