@@ -4,6 +4,7 @@ import Button from '../../../../../components/Button';
 import useReward from '../../hooks/useReward';
 import useMutateReward from '../../hooks/useMutateReward';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinnerSVG from '../../../../../assets/loading_spinner.svg';
 
 interface RewardItemListProps {
   cafeId: number;
@@ -13,6 +14,7 @@ interface RewardItemListProps {
 const isNotFoundUser = (error: Error) => {
   return error.message === '404';
 };
+
 const RewardItemList = ({ cafeId, customerId }: RewardItemListProps) => {
   const navigate = useNavigate();
   const reward = useReward(cafeId, customerId);
@@ -60,18 +62,18 @@ const RewardItemList = ({ cafeId, customerId }: RewardItemListProps) => {
   if (reward.status === 'loading') {
     return (
       <RewardItemListContainer>
-        <div>고객 정보 불러오는 중...</div>
+        <LoadingSpinnerSVG />
       </RewardItemListContainer>
     );
   }
 
-  if (reward.data.rewards.length === 0) {
+  if (reward.data.length === 0) {
     return <RewardItemListContainer>보유한 리워드가 없습니다.</RewardItemListContainer>;
   }
 
   return (
     <RewardItemListContainer>
-      {reward.data.rewards.map(({ id, name }: Reward) => (
+      {reward.data.map(({ id, name }: Reward) => (
         <RewardItem key={id}>
           <RewardName>{name}</RewardName>
           <Button onClick={() => activateRewardButton(id)}>사용</Button>
