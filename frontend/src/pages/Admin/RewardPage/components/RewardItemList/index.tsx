@@ -14,7 +14,6 @@ const isNotFoundUser = (error: Error) => {
   return error.message === '404';
 };
 const RewardItemList = ({ cafeId, customerId }: RewardItemListProps) => {
-  // TODO: 내카페의 고객이 아닌 고객의 리워드를 조회할 경우 ErrorMessage를 띄어줌
   const navigate = useNavigate();
   const reward = useReward(cafeId, customerId);
   const { mutate: mutateReward } = useMutateReward();
