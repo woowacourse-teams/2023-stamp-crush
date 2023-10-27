@@ -6,7 +6,7 @@ export const CustomerContainer = styled.div`
   margin-top: 40px;
   width: 100%;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     margin-top: 10px;
     height: 95%;
   }
@@ -18,7 +18,7 @@ export const CustomerBoxContainer = styled.div`
   overflow: scroll;
   height: 540px;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     height: 100%;
   }
 `;
@@ -31,7 +31,7 @@ export const Container = styled.div`
   margin-top: 40px;
   padding: 0 20px;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     gap: 10px;
     margin-top: 16px;
     padding: 0;
@@ -42,7 +42,7 @@ export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     gap: 4px;
   }
 `;
@@ -62,7 +62,7 @@ export const RegisterTypeTab = styled.button<{ $isSelected: boolean }>`
     opacity: 70%;
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     width: 50px;
   }
 `;

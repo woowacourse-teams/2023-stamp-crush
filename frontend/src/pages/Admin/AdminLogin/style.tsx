@@ -24,7 +24,7 @@ export const LoginContent = styled.div`
   height: 100vh;
   width: 37%;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -34,7 +34,7 @@ export const BackgroundImg = styled.img`
   width: 63%;
   object-fit: cover;
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;

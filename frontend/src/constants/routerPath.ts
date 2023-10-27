@@ -1,6 +1,7 @@
 import { RouterPath } from '../types/utils';
 
 const ROUTER_PATH: Record<string, RouterPath> = {
+  introduction: '/',
   customerList: '/admin',
   adminLogin: '/admin/login',
   adminAuth: '/admin/login/auth/kakao',
@@ -15,7 +16,7 @@ const ROUTER_PATH: Record<string, RouterPath> = {
   templateCouponDesign: '/template-coupon-design',
   customCouponDesign: '/custom-coupon-design',
   useReward: '/admin/use-reward',
-  couponList: '/',
+  couponList: '/coupon-list',
   login: '/login',
   signup: '/sign-up',
   myPage: '/my-page',

@@ -29,6 +29,7 @@ import RewardHistoryPage from './pages/Customer/HistoryPage/components/RewardHis
 import StampHistoryPage from './pages/Customer/HistoryPage/components/StampHistory';
 import TemplateCouponDesign from './pages/Admin/TemplateCouponDesign';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
+import Introduction from './pages/Introduction';
 
 const AdminRoot = () => {
   return (
@@ -54,6 +55,8 @@ const CustomerRoot = () => {
 
 const Router = () => {
   const router = createBrowserRouter([
+    // 소개 페이지
+    { path: ROUTER_PATH.introduction, element: <Introduction /> },
     // 사장
     { path: ROUTER_PATH.adminLogin, element: <AdminLogin /> },
     { path: ROUTER_PATH.adminSignUp, element: <SignUp /> },
@@ -93,7 +96,7 @@ const Router = () => {
       element: <CustomerRoot />,
       errorElement: <CustomerNotFound />,
       children: [
-        { index: true, element: <CouponList /> },
+        { path: ROUTER_PATH.couponList, element: <CouponList /> },
         { path: ROUTER_PATH.myPage, element: <MyPage /> },
         { path: ROUTER_PATH.rewardList, element: <RewardList /> },
         { path: ROUTER_PATH.rewardHistory, element: <RewardHistoryPage /> },
