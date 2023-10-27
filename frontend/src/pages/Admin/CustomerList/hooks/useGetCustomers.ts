@@ -36,10 +36,7 @@ const useGetCustomers = (cafeId: number, key: string, orderOption: CustomerOrder
 
   const currentKeyIndex = REGISTER_TYPE_OPTION.findIndex((option) => option.key === key);
   const customers = allQueries[currentKeyIndex].data;
-  const isError = !allQueries.every((query) => {
-    console.log(query);
-    return query.isSuccess;
-  });
+  const isError = !allQueries.every((query) => query.isSuccess);
 
   return { customers, isError };
 };
