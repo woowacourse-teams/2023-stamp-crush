@@ -98,7 +98,7 @@ export const ToggleContainer = styled.section<{ $isOn: boolean }>`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 1rem 20px;
+  padding: 2rem 40px;
 
   & > span {
     font-size: 13px;

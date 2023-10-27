@@ -40,23 +40,22 @@ const CouponList = () => {
 
   if (!isNotEmptyArray(coupons)) return <HomeTemplate>보유하고 있는 쿠폰이 없습니다.</HomeTemplate>;
 
-  const currentCoupon = coupons[currentIndex];
+  const openAlert = (index: number) => () => {
+    setCurrentIndex(index);
+    coupons[index].cafeInfo.isFavorites
+      ? setAlertMessage(`${coupons[index].cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
+      : setAlertMessage(`${coupons[index].cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
 
-  const openAlert = () => {
     openModal();
-
-    currentCoupon.cafeInfo.isFavorites
-      ? setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에서 해제하시겠어요?`)
-      : setAlertMessage(`${currentCoupon.cafeInfo.name}를\n 즐겨찾기에 등록하시겠어요?`);
   };
 
   const changeFavorites = () => {
     mutateIsFavorites({
       params: {
-        cafeId: currentCoupon.cafeInfo.id,
+        cafeId: coupons[currentIndex].cafeInfo.id,
       },
       body: {
-        isFavorites: !currentCoupon.cafeInfo.isFavorites,
+        isFavorites: !coupons[currentIndex].cafeInfo.isFavorites,
       },
     });
   };
@@ -77,11 +76,12 @@ const CouponList = () => {
             isOn={!isOn}
             index={index}
             onClick={changeCurrentIndex(index)}
+            onClickStar={openAlert(index)}
           />
         ))}
       </CouponListContainer>
       <CouponDetail
-        coupon={currentCoupon}
+        coupon={coupons[currentIndex]}
         isDetail={isDetail}
         isShown={isFlippedCouponShown}
         closeDetail={closeCouponDetail}
