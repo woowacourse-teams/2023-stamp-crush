@@ -65,7 +65,7 @@ const CouponList = () => {
       <Header />
       <ToggleContainer $isOn={isOn}>
         <span>쿠폰 펼치기</span>
-        <ToggleButton isOn={isOn} toggle={toggle} />
+        <ToggleButton isOn={isOn} toggle={toggle} disabled={coupons.length === 1} />
       </ToggleContainer>
       <CouponListContainer $isOn={!isOn}>
         {coupons.map(({ cafeInfo, couponInfos }, index) => (
