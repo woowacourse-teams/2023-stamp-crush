@@ -38,8 +38,7 @@ const CouponList = () => {
         <CustomerLoadingSpinner />
       </HomeTemplate>
     );
-
-  if (!isNotEmptyArray(coupons)) return <HomeTemplate>보유하고 있는 쿠폰이 없습니다.</HomeTemplate>;
+  console.log(currentIndex);
 
   const openAlert = (index: number) => () => {
     setCurrentIndex(index);
@@ -71,24 +70,30 @@ const CouponList = () => {
         <ToggleButton isOn={isExpanded} toggle={expandCoupons} disabled={coupons.length === 1} />
       </ToggleContainer>
       <CouponListContainer $isOn={!isExpanded}>
-        {coupons.map(({ cafeInfo, couponInfos }, index) => (
-          <Coupon
-            key={cafeInfo.id}
-            coupon={{ cafeInfo, couponInfos }}
-            dataIndex={index}
-            isOn={!isExpanded}
-            index={index}
-            onClick={changeCurrentIndex(index)}
-            onClickStar={openAlert(index)}
-          />
-        ))}
+        {!isNotEmptyArray(coupons) ? (
+          <p>보유하고 있는 쿠폰이 없습니다.</p>
+        ) : (
+          coupons.map(({ cafeInfo, couponInfos }, index) => (
+            <Coupon
+              key={cafeInfo.id}
+              coupon={{ cafeInfo, couponInfos }}
+              dataIndex={index}
+              isOn={!isExpanded}
+              index={index}
+              onClick={changeCurrentIndex(index)}
+              onClickStar={openAlert(index)}
+            />
+          ))
+        )}
       </CouponListContainer>
-      <CouponDetail
-        coupon={coupons[currentIndex]}
-        isDetail={isDetail}
-        isShown={isFlippedCouponShown}
-        closeDetail={closeCouponDetail}
-      />
+      {isDetail && (
+        <CouponDetail
+          coupon={coupons[currentIndex]}
+          isDetail={isDetail}
+          isShown={isFlippedCouponShown}
+          closeDetail={closeCouponDetail}
+        />
+      )}
       {isOpen && (
         <Alert
           text={alertMessage}

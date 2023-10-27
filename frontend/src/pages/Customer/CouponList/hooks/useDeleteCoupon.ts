@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCoupon } from '../../../../../../api/delete';
+import { deleteCoupon } from '../../../../api/delete';
 
 const useDeleteCoupon = (id: number, closeDetail: () => void, closeModal: () => void) => {
   const queryClient = useQueryClient();
