@@ -3,11 +3,11 @@ import { Container, ToggleSwitch } from './style';
 
 interface ToggleButtonProps {
   isOn: boolean;
-  disabled: boolean;
+  disabled?: boolean;
   toggle: () => void;
 }
 
-const ToggleButton = ({ isOn, toggle, disabled }: ToggleButtonProps) => {
+const ToggleButton = ({ isOn, toggle, disabled = false }: ToggleButtonProps) => {
   const clickToggleButton = () => {
     if (disabled) return;
 

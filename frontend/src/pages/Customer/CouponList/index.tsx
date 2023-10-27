@@ -17,10 +17,11 @@ import useToggleButton from '../../../hooks/useToggleButton';
 const CouponList = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { isOn, toggle } = useToggleButton();
+  const { isOn: isExpanded, toggle: expandCoupons } = useToggleButton();
+  const { isOn: isCollected, toggle: collectFavorites } = useToggleButton();
   const { isOpen, openModal, closeModal } = useModal();
   const { isDetail, isFlippedCouponShown, openCouponDetail, closeCouponDetail } = useCouponDetail();
-  const { data: coupons, status: couponStatus } = useGetCoupons();
+  const { data: coupons, status: couponStatus } = useGetCoupons(isCollected);
   const { mutate: mutateIsFavorites } = usePostIsFavorites(closeModal, currentIndex);
 
   const changeCurrentIndex = (index: number) => () => {
@@ -63,17 +64,19 @@ const CouponList = () => {
   return (
     <>
       <Header />
-      <ToggleContainer $isOn={isOn}>
+      <ToggleContainer $isOn={isExpanded}>
+        <span>즐겨찾기 모아보기</span>
+        <ToggleButton isOn={isCollected} toggle={collectFavorites} />
         <span>쿠폰 펼치기</span>
-        <ToggleButton isOn={isOn} toggle={toggle} disabled={coupons.length === 1} />
+        <ToggleButton isOn={isExpanded} toggle={expandCoupons} disabled={coupons.length === 1} />
       </ToggleContainer>
-      <CouponListContainer $isOn={!isOn}>
+      <CouponListContainer $isOn={!isExpanded}>
         {coupons.map(({ cafeInfo, couponInfos }, index) => (
           <Coupon
             key={cafeInfo.id}
             coupon={{ cafeInfo, couponInfos }}
             dataIndex={index}
-            isOn={!isOn}
+            isOn={!isExpanded}
             index={index}
             onClick={changeCurrentIndex(index)}
             onClickStar={openAlert(index)}
