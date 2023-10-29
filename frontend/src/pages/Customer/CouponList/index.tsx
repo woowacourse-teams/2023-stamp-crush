@@ -51,7 +51,6 @@ const CouponList = () => {
   };
 
   const changeFavorites = async () => {
-    console.log('coupons: ', coupons);
     await mutateIsFavorites({
       params: {
         cafeId: coupons[currentIndex].cafeInfo.id,
