@@ -1,5 +1,5 @@
 import Coupon from './components/Coupon';
-import { CouponListContainer, ToggleContainer } from './style';
+import { CouponListContainer, ToggleContainer, ToggleName } from './style';
 import { useRef, useState } from 'react';
 import CouponDetail from './components/CouponDetail';
 import Alert from '../../../components/Alert';
@@ -75,10 +75,10 @@ const CouponList = () => {
   return (
     <>
       <Header />
-      <ToggleContainer $isOn={isExpanded}>
-        <span>즐겨찾기 모아보기</span>
+      <ToggleContainer>
+        <ToggleName $isOn={isCollected}>즐겨찾기 모아보기</ToggleName>
         <ToggleButton isOn={isCollected} toggle={collectFavorites} />
-        <span>쿠폰 펼치기</span>
+        <ToggleName $isOn={isExpanded}>쿠폰 펼치기</ToggleName>
         <ToggleButton isOn={isExpanded} toggle={toggleWithReset} disabled={coupons.length === 1} />
       </ToggleContainer>
       <CouponListContainer ref={couponListContainerRef} $isOn={!isExpanded}>

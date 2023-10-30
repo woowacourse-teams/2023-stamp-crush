@@ -93,17 +93,17 @@ export const CouponListContainer = styled.div<{
   }
 `;
 
-export const ToggleContainer = styled.section<{ $isOn: boolean }>`
+export const ToggleContainer = styled.section`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 2rem 40px;
+`;
 
-  & > span {
-    font-size: 13px;
-    margin-right: 8px;
-    margin-left: 20px;
-    opacity: ${({ $isOn }) => ($isOn ? '100%' : '50%')};
-    transition: opacity 0.2s ease-in;
-  }
+export const ToggleName = styled.span<{ $isOn: boolean }>`
+  font-size: 13px;
+  margin-right: 8px;
+  margin-left: 20px;
+  opacity: ${({ $isOn }) => ($isOn ? '100%' : '50%')};
+  transition: opacity 0.2s ease-in;
 `;
