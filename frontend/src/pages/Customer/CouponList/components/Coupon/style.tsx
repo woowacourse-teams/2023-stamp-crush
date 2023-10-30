@@ -9,7 +9,7 @@ export const CouponWrapper = styled.button<{ $src: string; $isOn: boolean; $inde
   background-position: center;
 
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   -webkit-tap-highlight-color: transparent;
   z-index: ${({ $index }) => $index};
   transition: transform 0.4s ease-in-out;
@@ -22,7 +22,7 @@ export const CouponWrapper = styled.button<{ $src: string; $isOn: boolean; $inde
           transform: translateZ(${$index});
         `
       : css`
-          transform: translateY(${$index * 1}rem);
+          transform: translateY(${$index * 2}rem);
         `}
 `;
 
@@ -41,4 +41,14 @@ export const StarIconWrapper = styled.button`
     opacity: 60%;
     transform: scale(1.05);
   }
+`;
+
+export const ProgressBarWrapper = styled.div`
+  width: 315px;
+  position: absolute;
+  top: -10px;
+  right: 0;
+  left: 0;
+  border-radius: 10px 10px 0 0;
+  background: pink;
 `;

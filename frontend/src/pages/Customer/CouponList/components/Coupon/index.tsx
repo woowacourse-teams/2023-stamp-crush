@@ -1,9 +1,12 @@
 import { MouseEvent, MouseEventHandler, useState } from 'react';
 import { Coupon as CouponType } from '../../../../../types/domain/coupon';
-import { CouponWrapper, ImageForLoading, StarIconWrapper } from './style';
+import { CouponWrapper, ImageForLoading, ProgressBarWrapper, StarIconWrapper } from './style';
 import CouponLoading from '../../../../../assets/coupon_load_img_for_customer.png';
 import { AiFillStar } from '@react-icons/all-files/ai/AiFillStar';
 import { AiOutlineStar } from '@react-icons/all-files/ai/AiOutlineStar';
+import ProgressBar from '../../../../../components/ProgressBar';
+import Color from 'color-thief-react';
+import { addGoogleProxyUrl } from '../../../../../utils';
 
 interface CouponProps {
   coupon: CouponType;
@@ -26,9 +29,11 @@ const Coupon = ({ coupon, dataIndex, isOn, index, onClick, onClickStar }: Coupon
     setIsImageLoaded(true);
   };
 
+  const { frontImageUrl, stampCount, maxStampCount } = coupon.couponInfos[0];
+
   return (
     <CouponWrapper
-      $src={isImageLoaded ? coupon.couponInfos[0].frontImageUrl : CouponLoading}
+      $src={isImageLoaded ? frontImageUrl : CouponLoading}
       onClick={onClick}
       aria-label={coupon.cafeInfo.name}
       data-index={dataIndex}
@@ -42,11 +47,14 @@ const Coupon = ({ coupon, dataIndex, isOn, index, onClick, onClickStar }: Coupon
           <AiOutlineStar size={32} color="F9E000" />
         )}
       </StarIconWrapper>
-      <ImageForLoading
-        src={coupon.couponInfos[0].frontImageUrl}
-        onLoad={checkLoadImage}
-        alt={coupon.cafeInfo.name}
-      />
+      <ImageForLoading src={frontImageUrl} onLoad={checkLoadImage} alt={coupon.cafeInfo.name} />
+      <Color src={addGoogleProxyUrl(frontImageUrl)} format="hex" crossOrigin="anonymous">
+        {({ data }) => (
+          <ProgressBarWrapper>
+            <ProgressBar stampCount={stampCount} maxStampCount={maxStampCount} color={data} />
+          </ProgressBarWrapper>
+        )}
+      </Color>
     </CouponWrapper>
   );
 };

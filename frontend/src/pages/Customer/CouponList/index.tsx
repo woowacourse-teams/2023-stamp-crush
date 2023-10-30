@@ -1,6 +1,6 @@
 import Coupon from './components/Coupon';
 import { CouponListContainer, ToggleContainer } from './style';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CouponDetail from './components/CouponDetail';
 import Alert from '../../../components/Alert';
 import useModal from '../../../hooks/useModal';
@@ -25,6 +25,16 @@ const CouponList = () => {
   const { isDetail, isFlippedCouponShown, openCouponDetail, closeCouponDetail } = useCouponDetail();
   const { data: coupons, status: couponStatus } = useGetCoupons(isCollected);
   const { mutateAsync: mutateIsFavorites } = usePostIsFavorites(closeModal);
+  const couponListContainerRef = useRef<HTMLDivElement>(null);
+
+  const toggleWithReset = () => {
+    expandCoupons();
+    resetCouponListContainer();
+  };
+
+  const resetCouponListContainer = () => {
+    if (couponListContainerRef.current) couponListContainerRef.current.scrollTop = 0;
+  };
 
   const changeCurrentIndex = (index: number) => () => {
     setCurrentIndex(index);
@@ -69,9 +79,9 @@ const CouponList = () => {
         <span>즐겨찾기 모아보기</span>
         <ToggleButton isOn={isCollected} toggle={collectFavorites} />
         <span>쿠폰 펼치기</span>
-        <ToggleButton isOn={isExpanded} toggle={expandCoupons} disabled={coupons.length === 1} />
+        <ToggleButton isOn={isExpanded} toggle={toggleWithReset} disabled={coupons.length === 1} />
       </ToggleContainer>
-      <CouponListContainer $isOn={!isExpanded}>
+      <CouponListContainer ref={couponListContainerRef} $isOn={!isExpanded}>
         {!isNotEmptyArray(coupons) ? (
           <p>보유하고 있는 쿠폰이 없습니다.</p>
         ) : (

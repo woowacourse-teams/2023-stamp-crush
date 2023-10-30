@@ -51,7 +51,7 @@ const CafeInfo = ({ cafeInfo: { cafeInfo }, couponInfo, onClickStar }: CafeInfoP
             {({ data: color }) => (
               <>
                 <BackDrop $couponMainColor={color ? color : 'gray'} />
-                <ProgressBar stampCount={stampCount} maxCount={maxStampCount} color={color} />
+                <ProgressBar stampCount={stampCount} maxStampCount={maxStampCount} color={color} />
               </>
             )}
           </Color>
