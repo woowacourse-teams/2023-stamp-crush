@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
 @Profile({"local", "dev"})
-@RequestMapping("/api/dev/")
+@RequestMapping("/api/dev")
 public class DevAuthController {
 
     private final DevAuthService devAuthService;
