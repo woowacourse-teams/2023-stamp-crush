@@ -9,7 +9,7 @@ export const AlertContainer = styled.div`
   top: 50%;
   left: 50%;
   border-radius: 10px;
-  z-index: 100;
+  z-index: 200;
   transform: translate(-50%, -50%);
 `;
 
@@ -19,7 +19,7 @@ export const BackDrop = styled.div`
   left: 0;
   width: 100vw;
   height: 120vh;
-  z-index: 10;
+  z-index: 150;
   background-color: rgba(0, 0, 0, 0.3);
 `;
 

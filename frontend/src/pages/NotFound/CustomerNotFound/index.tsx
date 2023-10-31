@@ -6,7 +6,7 @@ const CustomerNotFound = () => {
       <h2>해당 페이지를 찾지 못했습니다.</h2>
       <Heading>404</Heading>
       <p>주소가 잘못되었거나 더 이상 제공되지 않는 페이지입니다.</p>
-      <Link href="/">홈으로 돌아가기</Link>
+      <Link href="/coupon-list">홈으로 돌아가기</Link>
     </Container>
   );
 };

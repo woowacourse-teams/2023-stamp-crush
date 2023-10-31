@@ -16,6 +16,7 @@ export const TabBarContainer = styled.div<TabBarProps>`
   border-radius: 8px 8px 0 0;
   box-shadow: 0px -4px 8px 0 rgba(0, 0, 0, 0.1);
   background: white;
+  z-index: 100;
 
   @media screen and (max-width: 768px) {
     display: flex;

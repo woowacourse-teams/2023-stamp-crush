@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCafeInfo } from '../../../../../../api/get';
+import { getCafeInfo } from '../../../../api/get';
 
 const useGetCafeInfo = (cafeId: number) =>
   useQuery(['cafeInfos', cafeId], {
