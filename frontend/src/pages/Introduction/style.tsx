@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Z_INDEX } from '../../constants/magicNumber';
 
 interface ButtonStyledProps {
   $isFilled?: boolean;
@@ -14,7 +15,7 @@ export const Header = styled.header`
   height: 78px;
   position: fixed;
   top: 0;
-  z-index: 20;
+  z-index: ${Z_INDEX.above};
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 5%, transparent);
 `;
 
@@ -65,7 +66,7 @@ export const CustomerPreview = styled.img`
   width: 415px;
   border-radius: 20px;
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  z-index: ${Z_INDEX.base};
 
   @media screen and (max-width: 450px) {
     width: 300px;
@@ -128,7 +129,7 @@ export const ApplyButton = styled.button`
   right: 4rem;
   font-size: 18px;
   font-weight: 600;
-  z-index: 10;
+  z-index: ${Z_INDEX.above};
 `;
 
 export const OwnerIntro = styled.h2`

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Z_INDEX } from '../../constants/magicNumber';
 
 export const BaseSelectBox = styled.span<{
   $minWidth: number;
@@ -63,7 +64,7 @@ export const BaseSelectBox = styled.span<{
       padding: 0;
       box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
       max-height: 400px;
-      z-index: 1;
+      z-index: ${Z_INDEX.above};
 
       label {
         border-top: 1px solid ${({ theme }) => theme.colors.gray};

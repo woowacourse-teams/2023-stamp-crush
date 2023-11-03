@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Z_INDEX } from '../../constants/magicNumber';
 
 export const LoadingContainer = styled.div`
   display: flex;
@@ -13,6 +14,6 @@ export const CustomerLoadingContainer = styled(LoadingContainer)`
   position: absolute;
   width: 85%;
   height: 50vh;
-  z-index: 999;
+  z-index: ${Z_INDEX.highest};
   background: transparent;
 `;

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Z_INDEX } from '../../constants/magicNumber';
 
 export const AlertContainer = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ export const AlertContainer = styled.div`
   top: 50%;
   left: 50%;
   border-radius: 10px;
-  z-index: 200;
+  z-index: ${Z_INDEX.highest + Z_INDEX.above};
   transform: translate(-50%, -50%);
 `;
 
@@ -19,7 +20,7 @@ export const BackDrop = styled.div`
   left: 0;
   width: 100vw;
   height: 120vh;
-  z-index: 150;
+  z-index: ${Z_INDEX.highest};
   background-color: rgba(0, 0, 0, 0.3);
 `;
 

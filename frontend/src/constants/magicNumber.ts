@@ -17,3 +17,11 @@ export const INTRO_LIMITATION = 150;
 export const PHONE_NUMBER_START_WITH_02 = 12;
 
 export const PHONE_NUMBER_START_WITHOUT_02 = 13;
+
+export const Z_INDEX = {
+  lowest: -99,
+  below: -10,
+  base: 0,
+  above: 10,
+  highest: 99,
+} as const;
