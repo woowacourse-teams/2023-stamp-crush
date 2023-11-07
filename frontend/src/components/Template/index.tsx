@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import SideBar from '../SideBar';
 import { BaseTemplate, Footer, LogoWrapper, PageContainer, SideBarWrapper } from './style';
 import { AiOutlineMail } from '@react-icons/all-files/ai/AiOutlineMail';
-import BottomTabBar from './CustomerTemplate/BottomTabBar';
+import BottomTabBar from '../BottomTabBar';
 import { StampcrushWhiteLogo } from '../../assets';
 
 const Template = ({ children }: PropsWithChildren) => {

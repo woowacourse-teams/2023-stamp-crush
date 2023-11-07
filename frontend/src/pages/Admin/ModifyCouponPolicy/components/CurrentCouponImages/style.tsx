@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const CurrentCouponContainer = styled.section`
   display: flex;
   flex-direction: column;
-
   border: 3px solid ${({ theme }) => theme.colors.main};
   border-radius: 16px;
   margin-left: 120px;
@@ -40,4 +39,13 @@ export const Image = styled.img`
 export const StampImageFrame = styled.div`
   width: 50px;
   height: 50px;
+`;
+
+export const ErrorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 493px; /* 내부 요소의 크기가 변경되면 변경해주어야 함. */
+  width: 225px;
 `;

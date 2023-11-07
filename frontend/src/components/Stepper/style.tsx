@@ -40,4 +40,8 @@ export const BaseStepperInput = styled.input<StyledStepperProps>`
   text-align: center;
   font-size: 20px;
   font-weight: 700;
+
+  &:focus {
+    outline: none;
+  }
 `;

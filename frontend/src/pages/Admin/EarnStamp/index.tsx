@@ -55,7 +55,7 @@ const EarnStamp = () => {
     <EarnStampPageContainer>
       <Text variant="pageTitle">스탬프 적립</Text>
       <p>{state.nickname} 고객에게 적립할 스탬프 갯수를 입력해주세요.</p>
-      <Stepper value={stamp} setValue={setStamp} />
+      <Stepper value={stamp} setValue={setStamp} onSubmit={earnStamp} />
       <EarnStampContainer>
         <CouponIndicator coupon={coupon} couponDesignData={couponDesignData} stamp={stamp} />
         <StepperWrapper>

@@ -1,4 +1,5 @@
 import { keyframes } from 'styled-components';
+import { Z_INDEX } from '../constants/magicNumber';
 
 export const swap = keyframes`
   50% {
@@ -7,7 +8,7 @@ export const swap = keyframes`
   }
   100% {
     transform: translateY(-45px) scale(0.85);
-    z-index: -1;
+    z-index: ${Z_INDEX.below};
   }
 `;
 
@@ -19,5 +20,14 @@ export const popup = keyframes`
   100% {
     transform: translateY(0);
     opacity: 100%;
+  }
+`;
+
+export const skeletonLoading = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 `;

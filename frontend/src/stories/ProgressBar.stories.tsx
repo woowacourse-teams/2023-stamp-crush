@@ -10,7 +10,7 @@ export default {
 
 const Template: StoryFn = (props) => (
   <Wrapper>
-    <ProgressBar stampCount={3} maxCount={8} {...props} />
+    <ProgressBar stampCount={3} maxStampCount={8} {...props} />
   </Wrapper>
 );
 

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { BaseCustomerTemplate, ContentContainer } from './style';
-import BottomTabBar from './BottomTabBar';
+import BottomTabBar from '../../BottomTabBar';
 import { useLocation } from 'react-router-dom';
 import { RouterPath } from '../../../types/utils';
 import ROUTER_PATH from '../../../constants/routerPath';

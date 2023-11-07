@@ -1,3 +1,5 @@
+import Button from '../../../../../components/Button';
+import { Spacing } from '../../../../../style/layout/common';
 import { Customer } from '../../../../../types/domain/customer';
 import { Option } from '../../../../../types/utils';
 import { formatDate } from '../../../../../utils';
@@ -10,17 +12,64 @@ import {
   Name,
   NameContainer,
   RightInfo,
+  EmptyCustomers,
+  Skeleton,
+  ErrorBox,
 } from './style';
+import { CustomerCount } from '../../style';
+import useGetCustomers, { CustomerOrderOption } from '../../hooks/useGetCustomers';
 
 interface CustomersProps {
-  registerTypeOption: Option;
-  customers: Customer[];
+  cafeId: number;
+  orderOption: Option;
+  registerType: Option;
 }
 
-const Customers = ({ customers }: CustomersProps) => {
+const Customers = ({ cafeId, orderOption, registerType }: CustomersProps) => {
+  const { customers, isError } = useGetCustomers(
+    cafeId,
+    registerType.key,
+    orderOption as CustomerOrderOption,
+  );
+
+  const reload = () => {
+    location.reload();
+  };
+
+  if (!customers)
+    return (
+      <>
+        {[...Array(5)].map((x) => (
+          <Skeleton key={x} />
+        ))}
+      </>
+    );
+
+  if (isError)
+    return (
+      <>
+        <ErrorBox>
+          <span>Oops!</span> 데이터를 불러오는 과정에 오류가 생겼어요.
+          <Spacing $size={20} />
+          <Button variant="secondary" onClick={reload}>
+            새로 고침
+          </Button>
+        </ErrorBox>
+      </>
+    );
+
+  if (customers?.length === 0)
+    return (
+      <EmptyCustomers>
+        <span>NO RESULT 🥲</span> 아직 고객이 없어요! <br />
+        카페를 방문한 고객에게 스탬프를 적립해 보세요.
+      </EmptyCustomers>
+    );
+
   return (
     <Container>
-      {customers.map(
+      <CustomerCount>총 {customers?.length}명</CustomerCount>
+      {customers?.map(
         ({
           id,
           nickname,

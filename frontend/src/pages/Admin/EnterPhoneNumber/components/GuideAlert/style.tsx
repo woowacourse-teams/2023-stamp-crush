@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Z_INDEX } from '../../../../../constants/magicNumber';
 
 export const BackDrop = styled.div`
   position: fixed;
@@ -6,6 +7,6 @@ export const BackDrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
+  z-index: ${Z_INDEX.highest};
   background-color: rgba(0, 0, 0, 0.3);
 `;

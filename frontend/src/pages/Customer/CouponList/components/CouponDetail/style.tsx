@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Z_INDEX } from '../../../../../constants/magicNumber';
 import { popup } from '../../../../../style/keyframes';
 
 export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
@@ -11,7 +12,8 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   background: white;
   max-width: 450px;
   transform: translateY(100%);
-  z-index: 1;
+  z-index: ${Z_INDEX.highest + Z_INDEX.below};
+  overscroll-behavior-x: none;
 
   ${({ $isDetail }) =>
     $isDetail &&
@@ -30,7 +32,6 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
     top: 55px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 999;
   }
 `;
 

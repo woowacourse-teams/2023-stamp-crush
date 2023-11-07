@@ -1,5 +1,4 @@
-import { css, styled } from 'styled-components';
-import { swap } from '../../../style/keyframes';
+import { styled } from 'styled-components';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -56,73 +55,35 @@ export const MaxStampCount = styled.span`
   color: #f3b209;
 `;
 
-export const BackDrop = styled.div<{ $couponMainColor: string }>`
-  z-index: -10;
-  width: 100%;
-  max-width: 450px;
-  overflow: hidden;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: linear-gradient(
-    white,
-    rgba(255, 255, 255, 0.5) 32%,
-    ${(props) => props.$couponMainColor} 80%,
-    white
-  );
-  opacity: 0.7;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 export const CouponListContainer = styled.div<{
-  $isLast: boolean;
-  $isDetail: boolean;
-  $isShown: boolean;
+  $isOn: boolean;
 }>`
   display: flex;
-  justify-content: center;
-  position: relative;
-  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  min-height: 500px;
+  padding: 10px 0 200px 0;
   transition: all 0.1s;
+  margin: 0 auto;
+  overflow: ${({ $isOn }) => ($isOn ? 'hidden' : 'scroll')};
 
-  /** iPhone SE */
-  @media only screen and (min-device-width: 320px) and (max-device-width: 375px) {
-    height: 10px;
+  &::-webkit-scrollbar {
+    display: none;
   }
+`;
 
-  :nth-last-child(1) {
-    z-index: ${({ $isShown }) => ($isShown ? '-1' : '3')};
-    transform: translateY(15px) scale(1.05);
-    animation: ${({ $isLast }) =>
-      $isLast
-        ? css`
-            ${swap} 0.5s forwards
-          `
-        : 'none'};
-    transition: transform 0.4s;
-    cursor: pointer;
-  }
+export const ToggleContainer = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2rem 40px;
+`;
 
-  ${({ $isDetail }) =>
-    $isDetail &&
-    css`
-      :nth-last-child(n) {
-        display: none;
-      }
-    `}
-
-  :nth-last-child(2) {
-    transform: translateY(0px) scale(1);
-    pointer-events: none;
-  }
-  :nth-last-child(3) {
-    transform: translateY(-15px) scale(0.95);
-    pointer-events: none;
-  }
-  :nth-last-child(n + 4) {
-    transform: translateY(-30px) scale(0.9);
-    pointer-events: none;
-  }
+export const ToggleName = styled.span<{ $isOn: boolean }>`
+  font-size: 13px;
+  margin-right: 8px;
+  margin-left: 20px;
+  opacity: ${({ $isOn }) => ($isOn ? '100%' : '50%')};
+  transition: opacity 0.2s ease-in;
 `;

@@ -13,3 +13,4 @@ export { default as PiStampLight } from './icons/stamp.svg';
 export { default as MdOutlinePhotoSizeSelectLarge } from './icons/md_outline_photo_size_select_large.svg';
 export { default as CiCircleAlert } from './icons/ci_circle_alert.svg';
 export { default as FaLocationDot } from './icons/fa_location_dot.svg';
+export { default as CustomerPreviewGif } from './customer_preview.gif';
