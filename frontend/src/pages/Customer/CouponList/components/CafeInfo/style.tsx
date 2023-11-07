@@ -40,3 +40,23 @@ export const MaxStampCount = styled.span`
   font-size: 24px;
   color: #f3b209;
 `;
+
+export const BackDrop = styled.div<{ $couponMainColor: string }>`
+  z-index: -10;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(
+    white,
+    rgba(255, 255, 255, 0.5) 32%,
+    ${({ $couponMainColor }) => $couponMainColor} 80%,
+    white
+  );
+  opacity: 0.7;
+  left: 50%;
+  transform: translateX(-50%);
+`;

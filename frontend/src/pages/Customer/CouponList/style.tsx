@@ -4,6 +4,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   width: 100%;
   height: 65px;
+  min-height: 65px;
   justify-content: space-between;
   align-items: center;
   padding: 0 25px;
@@ -77,7 +78,7 @@ export const ToggleContainer = styled.section`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 2rem 40px;
+  padding: 2rem;
 `;
 
 export const ToggleName = styled.span<{ $isOn: boolean }>`
