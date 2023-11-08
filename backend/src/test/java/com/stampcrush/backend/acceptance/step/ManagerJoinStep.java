@@ -22,6 +22,10 @@ public class ManagerJoinStep {
             "깃짱", OAuthProvider.KAKAO, 123L
     );
 
+    public static String 카페_사장_회원_가입_요청하고_Refresh_토큰_반환(OAuthRegisterOwnerCreateRequest request) {
+        ExtractableResponse<Response> response = 카페_사장_회원_가입_요청(request);
+        return response.jsonPath().getString("refreshToken");
+    }
 
     public static String 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OAuthRegisterOwnerCreateRequest request) {
         ExtractableResponse<Response> response = 카페_사장_회원_가입_요청(request);
