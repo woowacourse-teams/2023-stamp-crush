@@ -58,9 +58,8 @@ const Introduction = () => {
             <RiServiceLine size={24} />
           </ApplyButton>
         </ButtonLink>
-
         <ServiceIntro>
-          <span>STAMP CRUSH</span>
+          <span>STAMPCRUSH</span>
           <h1>
             이제 <br /> 종이쿠폰의 시대는 <br />
             <span>끝났다</span>

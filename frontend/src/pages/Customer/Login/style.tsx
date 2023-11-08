@@ -1,30 +1,52 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { Z_INDEX } from '../../../constants/magicNumber';
+
+export const BackgroundImage = styled.img`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+export const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 120vh;
+  z-index: ${Z_INDEX.above};
+  background-color: rgba(0, 0, 0, 0.3);
+`;
 
 export const Container = styled.div`
-  font-family: sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
 
-  & > img {
-    width: 200px;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: ${Z_INDEX.highest};
+
+  width: 80%;
+  background: #fcf8f2;
+  padding: 40px 10px;
+  border-radius: 10px;
+  box-shadow: 0px -4px 8px 0 rgba(0, 0, 0, 0.1);
 `;
 
 export const ServiceIntro = styled.span`
-  margin-top: 42px;
-  font-weight: 400;
-  font-size: 20px;
+  font-weight: 500;
+  font-size: 22px;
 `;
 
 export const ServiceIntroSub = styled.span`
-  margin-top: 8px;
-  font-weight: 300;
+  margin-top: 16px;
   font-size: 16px;
+  font-weight: 500;
+  color: #674ea7;
 `;
 
 export const LogoImg = styled.img`
@@ -32,7 +54,7 @@ export const LogoImg = styled.img`
 `;
 
 export const LoginLink = styled.a`
-  margin-top: 42px;
+  margin-top: 30px;
 `;
 
 export const KakaoLoginImg = styled.img`
@@ -42,7 +64,7 @@ export const KakaoLoginImg = styled.img`
 
 export const RedirectContainer = styled.div`
   margin-top: 18px;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const RedirectLink = styled(Link)`
