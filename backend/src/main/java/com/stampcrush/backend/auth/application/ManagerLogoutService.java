@@ -26,7 +26,7 @@ public class ManagerLogoutService {
             throw new UnAuthorizationException("[ERROR] 유효하지 않은 Refresh Token입니다!");
         }
 
-        if (!blackListRepository.isValidRefreshToken(refreshToken)) {
+        if (blackListRepository.existsByInvalidRefreshToken(refreshToken)) {
             throw new UnAuthorizationException("[ERROR] 이미 로그아웃된 사용자입니다!");
         }
 

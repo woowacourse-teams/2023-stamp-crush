@@ -2,10 +2,14 @@ package com.stampcrush.backend.auth.repository;
 
 import com.stampcrush.backend.auth.entity.BlackList;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(bl) > 0 THEN false ELSE true END FROM BlackList bl WHERE bl.invalidRefreshToken = :refreshToken")
-    boolean isValidRefreshToken(String refreshToken);
+    default boolean existsByInvalidRefreshToken(String refreshToken) {
+        return findByInvalidRefreshToken(refreshToken).isPresent();
+    }
+
+    Optional<BlackList> findByInvalidRefreshToken(String refreshToken);
 }

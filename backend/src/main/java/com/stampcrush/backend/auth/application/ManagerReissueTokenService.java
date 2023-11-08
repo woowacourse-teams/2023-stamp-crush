@@ -20,7 +20,7 @@ public class ManagerReissueTokenService {
         if (!authTokensGenerator.isValidToken(refreshToken)) {
             throw new UnAuthorizationException("[ERROR] 비정상 Refresh Token입니다!");
         }
-        if (!blackListRepository.isValidRefreshToken(refreshToken)) {
+        if (blackListRepository.existsByInvalidRefreshToken(refreshToken)) {
             throw new UnAuthorizationException("[ERROR] 이미 로그아웃한 사용자입니다. 다시 로그인해 주세요");
         }
 
