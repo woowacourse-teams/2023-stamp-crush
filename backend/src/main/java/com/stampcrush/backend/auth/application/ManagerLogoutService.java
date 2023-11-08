@@ -17,13 +17,13 @@ public class ManagerLogoutService {
     private final BlackListRepository blackListRepository;
 
     public void logout(final Long id, final String refreshToken) {
+        if (!authTokensGenerator.isValidToken(refreshToken)) {
+            throw new UnAuthorizationException("[ERROR] 유효하지 않은 Refresh Token입니다!");
+        }
+
         final Long ownerId = authTokensGenerator.extractMemberId(refreshToken);
         if (!ownerId.equals(id)) {
             throw new UnAuthorizationException("[ERROR] 로그인한 사용자의 Refresh Token이 아닙니다!");
-        }
-
-        if (!authTokensGenerator.isValidToken(refreshToken)) {
-            throw new UnAuthorizationException("[ERROR] 유효하지 않은 Refresh Token입니다!");
         }
 
         if (blackListRepository.existsByInvalidRefreshToken(refreshToken)) {
