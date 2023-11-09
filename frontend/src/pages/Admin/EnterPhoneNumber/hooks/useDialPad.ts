@@ -33,8 +33,9 @@ const useDialPad = (openModal: () => void) => {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
-  const { data: customer } = useGetCustomer(phoneNumber);
-  const { mutateAsync: mutateTemporaryCustomer } = usePostTemporaryCustomer();
+  const { data: customer, status: customerStatus } = useGetCustomer(phoneNumber);
+  const { mutateAsync: mutateTemporaryCustomer, status: postTemporaryCustomerStatus } =
+    usePostTemporaryCustomer();
 
   useEffect(() => {
     if (isDone) navigateNextPage();
@@ -106,9 +107,11 @@ const useDialPad = (openModal: () => void) => {
   };
 
   return {
-    setIsDone,
+    customerStatus,
+    postTemporaryCustomerStatus,
     phoneNumber,
     phoneNumberRef,
+    setIsDone,
     handlePhoneNumber,
     handleKeyDown,
     handlePadPressed,

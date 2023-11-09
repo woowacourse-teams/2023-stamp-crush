@@ -19,9 +19,9 @@ import Alert from '../../../../../components/Alert';
 import CustomerLoadingSpinner from '../../../../../components/LoadingSpinner/CustomerLoadingSpinner';
 import { Coupon } from '../../../../../types/domain/coupon';
 import { FaLocationDot } from '../../../../../assets';
-import useDeleteCoupon from './hooks/useDeleteCoupon';
 import { DefaultCafeImage } from '../../../../Admin/ManageCafe/style';
-import useGetCafeInfo from './hooks/useGetCafeInfo';
+import useGetCafeInfo from '../../hooks/useGetCafeInfo';
+import useDeleteCoupon from '../../hooks/useDeleteCoupon';
 
 interface CouponDetailProps {
   isDetail: boolean;

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Z_INDEX } from '../../../../../constants/magicNumber';
 import { popup } from '../../../../../style/keyframes';
 
 export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
@@ -11,7 +12,8 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
   background: white;
   max-width: 450px;
   transform: translateY(100%);
-  z-index: 1;
+  z-index: ${Z_INDEX.highest + Z_INDEX.below};
+  overscroll-behavior-x: none;
 
   ${({ $isDetail }) =>
     $isDetail &&
@@ -27,17 +29,10 @@ export const CouponDetailContainer = styled.section<{ $isDetail: boolean }>`
 
   > :nth-child(2) {
     position: absolute;
-    top: 68px;
+    top: 55px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 999;
   }
-`;
-
-export const CouponNotification = styled.p`
-  position: absolute;
-  top: 100px;
-  left: 0px;
 `;
 
 export const OverviewContainer = styled.div`
@@ -45,10 +40,10 @@ export const OverviewContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 400px;
-  height: 130px;
+  height: 28%;
 
   position: absolute;
-  top: 260px;
+  top: 215px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -65,6 +60,17 @@ export const OverviewContainer = styled.div`
   :nth-child(2) {
     overflow: scroll;
     text-align: center;
+    padding: 8px;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
   }
 `;
 

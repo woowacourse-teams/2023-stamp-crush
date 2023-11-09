@@ -1,4 +1,5 @@
 import { css, styled } from 'styled-components';
+import { Z_INDEX } from '../../../../../constants/magicNumber';
 
 export const CouponContainer = styled.div`
   display: flex;
@@ -32,17 +33,15 @@ export const CouponImage = styled.img`
   object-fit: cover;
   backface-visibility: hidden;
   box-shadow: 0px -2px 15px -2px #888;
-
-  z-index: 2;
 `;
 
 export const FrontImage = styled(CouponImage)`
-  z-index: 10;
+  z-index: ${Z_INDEX.above};
 `;
 
 export const BackImage = styled(CouponImage)`
   transform: rotateY(180deg);
-  z-index: 0;
+  z-index: ${Z_INDEX.base};
 `;
 
 export const StampImage = styled.img<{ $x: number; $y: number }>`
@@ -55,5 +54,5 @@ export const StampImage = styled.img<{ $x: number; $y: number }>`
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transform: rotateY(180deg);
-  z-index: 1;
+  z-index: ${Z_INDEX.above};
 `;

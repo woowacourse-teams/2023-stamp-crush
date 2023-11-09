@@ -5,9 +5,9 @@ import { CiCircleAlert } from '../../assets';
 export interface AlertProps {
   text: string;
   rightOption: string;
-  leftOption: string;
+  leftOption?: string;
   onClickRight: () => void;
-  onClickLeft: () => void;
+  onClickLeft?: () => void;
 }
 
 const Alert = ({ text, rightOption, leftOption, onClickLeft, onClickRight }: AlertProps) => {
@@ -20,9 +20,11 @@ const Alert = ({ text, rightOption, leftOption, onClickLeft, onClickRight }: Ale
           {text}
         </TextContainer>
         <OptionContainer>
-          <OptionWrapper $option={'left'} onClick={onClickLeft}>
-            {leftOption}
-          </OptionWrapper>
+          {leftOption && (
+            <OptionWrapper $option={'left'} onClick={onClickLeft}>
+              {leftOption}
+            </OptionWrapper>
+          )}
           <OptionWrapper $option={'right'} onClick={onClickRight}>
             {rightOption}
           </OptionWrapper>
