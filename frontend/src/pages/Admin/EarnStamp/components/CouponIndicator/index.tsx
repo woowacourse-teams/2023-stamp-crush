@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../../../../components/Button';
 import Text from '../../../../../components/Text';
 import { useRedirectRegisterPage } from '../../../../../hooks/useRedirectRegisterPage';
@@ -7,7 +7,12 @@ import { formatDate, isNotEmptyArray } from '../../../../../utils';
 import FlippedCoupon from '../../../../Customer/CouponList/components/FlippedCoupon';
 import useGetCoupon from '../../hooks/useGetCoupon';
 import useGetCurrentCouponDesign from '../../hooks/useGetCurrentCouponDesign';
-import { CouponIndicatorWrapper, StepperWrapper, TextWrapper } from '../../style';
+import {
+  CouponIndicatorWrapper,
+  EarnStampContainer,
+  StepperWrapper,
+  TextWrapper,
+} from '../../style';
 import { CustomerPhoneNumber } from '../../../../../types/domain/customer';
 import usePostEarnStamp from '../../hooks/usePostEarnStamp';
 import usePostIssueCoupon from '../../hooks/usePostIssueCoupon';
@@ -17,16 +22,17 @@ import Alert from '../../../../../components/Alert';
 import { useNavigate } from 'react-router-dom';
 import ROUTER_PATH from '../../../../../constants/routerPath';
 import { EmptyCouponIndicator } from './style';
+import Stepper from '../../../../../components/Stepper';
 
 interface CouponIndicatorProps {
-  stamp: number;
   customer: CustomerPhoneNumber;
   customerId: number;
 }
 
-const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) => {
+const CouponIndicator = ({ customer, customerId }: CouponIndicatorProps) => {
   const cafeId = useRedirectRegisterPage();
   const navigate = useNavigate();
+  const [stamp, setStamp] = useState(1);
 
   const { mutate: mutatePostEarnStamp, status: earnStampStatus } = usePostEarnStamp();
   const { mutate: mutateIssueCoupon } = usePostIssueCoupon(cafeId, customer);
@@ -68,8 +74,9 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
   };
 
   return (
-    <>
+    <EarnStampContainer>
       <CouponIndicatorWrapper>
+        <Stepper value={stamp} setValue={setStamp} onSubmit={earnStamp} />
         <TextWrapper>
           <Text>현재 스탬프 개수:</Text>
           <Text>
@@ -119,7 +126,7 @@ const CouponIndicator = ({ stamp, customer, customerId }: CouponIndicatorProps) 
           onClickLeft={earnStamp}
         />
       )}
-    </>
+    </EarnStampContainer>
   );
 };
 
