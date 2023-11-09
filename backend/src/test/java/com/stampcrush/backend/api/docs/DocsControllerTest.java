@@ -58,6 +58,8 @@ import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -106,6 +108,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         ManagerOAuthController.class
 })
 @ExtendWith({RestDocumentationExtension.class})
+@Execution(ExecutionMode.SAME_THREAD)
 public abstract class DocsControllerTest {
 
     protected static final Long CAFE_ID = 1L;

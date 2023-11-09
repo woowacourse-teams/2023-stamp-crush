@@ -42,6 +42,8 @@ import com.stampcrush.backend.config.WebMvcConfig;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -51,6 +53,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @KorNamingConverter
+@Execution(ExecutionMode.SAME_THREAD)
 @WebMvcTest(value = {ManagerCafeCouponSettingCommandApiController.class,
         ManagerCafeCouponSettingFindApiController.class,
         ManagerCafeFindApiController.class,
