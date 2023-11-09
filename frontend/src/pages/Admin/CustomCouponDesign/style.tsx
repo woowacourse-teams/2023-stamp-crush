@@ -46,15 +46,17 @@ export const ImageUpLoadInputLabel = styled.label`
   align-items: center;
   justify-content: center;
   gap: 5px;
-  width: 150px;
+  width: 100%;
   height: 40px;
   background: #eee;
   border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.text};
+  border: 1.5px solid ${({ theme }) => theme.colors.text};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
+
   &:hover {
     color: tomato;
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 

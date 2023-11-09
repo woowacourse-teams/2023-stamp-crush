@@ -1,14 +1,24 @@
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
 import { useRedirectRegisterPage } from '../../../../../hooks/useRedirectRegisterPage';
 import useGetCouponDesign from '../../hooks/useGetCouponDesign';
-import { PreviewBackImage, PreviewCouponBackImage } from './style';
+import { PreviewBackImage, PreviewCouponBackImage, SkeletonBackImg } from './style';
 
 const PreviewCoupon = () => {
   const cafeId = useRedirectRegisterPage();
   const { data: couponDesignData, status: couponDesignStatus } = useGetCouponDesign(cafeId);
 
-  if (couponDesignStatus === 'loading') return <LoadingSpinner />;
-  if (couponDesignStatus === 'error') return <p>쿠폰 이미지를 불러오는 데 실패했습니다.</p>;
+  if (couponDesignStatus === 'loading')
+    return (
+      <PreviewCouponBackImage>
+        <SkeletonBackImg />
+      </PreviewCouponBackImage>
+    );
+
+  if (couponDesignStatus === 'error')
+    return (
+      <PreviewCouponBackImage>
+        <p>쿠폰 이미지를 불러오는 데 실패했습니다.</p>
+      </PreviewCouponBackImage>
+    );
 
   return (
     <PreviewCouponBackImage>
