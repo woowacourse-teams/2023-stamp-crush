@@ -16,7 +16,7 @@ export const StepperGuide = styled.p`
 export const CouponIndicatorWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 480px;
+  height: 530px;
   gap: 10px;
 
   & > h1 {
