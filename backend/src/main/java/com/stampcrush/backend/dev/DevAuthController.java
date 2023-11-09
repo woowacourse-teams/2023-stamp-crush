@@ -7,27 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@Profile({"local", "dev"})
+@Profile({"local", "dev", "test"})
 @RequestMapping("/api/dev")
+@RestController
 public class DevAuthController {
 
     private final DevAuthService devAuthService;
-
-    @GetMapping("/register/admin/{joinedName}")
-    public ResponseEntity<AuthTokensResponse> managerSignUp(
-            @PathVariable String joinedName
-    ) {
-        return ResponseEntity.ok().body(devAuthService.joinManager(joinedName));
-    }
-
-    @GetMapping("/register/visitor/{joinedName}")
-    public ResponseEntity<AuthTokensResponse> visitorSignUp(
-            @PathVariable String joinedName
-    ) {
-        return ResponseEntity.ok().body(devAuthService.joinVisitor(joinedName));
-    }
 
     @GetMapping("/login/admin/{joinedName}")
     public ResponseEntity<AuthTokensResponse> managerLogin(
