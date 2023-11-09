@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Profile({"local", "dev"})
+@Profile({"local", "dev", "test"})
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -29,7 +29,23 @@ public class DevAuthService {
     private final CustomerRepository customerRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
-    public AuthTokensResponse joinManager(String nickname) {
+    public AuthTokensResponse loginManger(String nickName) {
+        if (!managerNameIdMap.containsKey(nickName)) {
+            joinManager(nickName);
+        }
+        Long id = managerNameIdMap.get(nickName);
+        return authTokensGenerator.generate(id);
+    }
+
+    public AuthTokensResponse loginVisitor(String nickName) {
+        if (!visitorNameIdMap.containsKey(nickName)) {
+            joinVisitor(nickName);
+        }
+        Long id = visitorNameIdMap.get(nickName);
+        return authTokensGenerator.generate(id);
+    }
+
+    private void joinManager(String nickname) {
         Owner owner = Owner.builder()
                 .nickname(nickname)
                 .oAuthProvider(OAuthProvider.NAVER)
@@ -38,10 +54,9 @@ public class DevAuthService {
         Owner savedOwner = ownerRepository.save(owner);
         Long ownerId = savedOwner.getId();
         managerNameIdMap.put(nickname, ownerId);
-        return authTokensGenerator.generate(ownerId);
     }
 
-    public AuthTokensResponse joinVisitor(String nickname) {
+    private void joinVisitor(String nickname) {
         Customer customer = Customer.registeredCustomerBuilder()
                 .nickname(nickname)
                 .email(nickname + "@test.com")
@@ -51,22 +66,5 @@ public class DevAuthService {
         Customer savedCustomer = customerRepository.save(customer);
         Long customerId = savedCustomer.getId();
         visitorNameIdMap.put(nickname, customerId);
-        return authTokensGenerator.generate(customerId);
-    }
-
-    public AuthTokensResponse loginManger(String nickName) {
-        Long id = managerNameIdMap.computeIfAbsent(nickName, (key) -> {
-            joinManager(nickName);
-            return managerNameIdMap.get(nickName);
-        });
-        return authTokensGenerator.generate(id);
-    }
-
-    public AuthTokensResponse loginVisitor(String nickName) {
-        Long id = visitorNameIdMap.computeIfAbsent(nickName, (key) -> {
-            joinVisitor(nickName);
-            return visitorNameIdMap.get(nickName);
-        });
-        return authTokensGenerator.generate(id);
     }
 }
