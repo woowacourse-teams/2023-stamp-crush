@@ -19,6 +19,8 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -26,9 +28,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @KorNamingConverter
+@Execution(ExecutionMode.SAME_THREAD)
 @ExtendWith(DataClearExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class AcceptanceTest {
+public abstract class AcceptanceTest {
 
     @Autowired
     protected AuthTokensGenerator authTokensGenerator;
