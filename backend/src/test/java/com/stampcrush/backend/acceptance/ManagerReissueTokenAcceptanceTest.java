@@ -37,7 +37,7 @@ class ManagerReissueTokenAcceptanceTest extends AcceptanceTest {
     void 로그아웃_이후에_해당_Refresh_Token을_사용해서_토큰_재발급을_받을_수_없다() {
         final ExtractableResponse<Response> authResponse = 카페_사장_회원_가입_요청(OWNER_CREATE_REQUEST);
         final String accessToken = authResponse.jsonPath().getString("accessToken");
-        final String refreshToken = authResponse.jsonPath().getString("refreshToken");
+        final String refreshToken = authResponse.cookie("REFRESH_TOKEN");
 
         카페_사장_로그_아웃_요청(accessToken, refreshToken);
 

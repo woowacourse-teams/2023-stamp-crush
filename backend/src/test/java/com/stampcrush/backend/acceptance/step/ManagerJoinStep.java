@@ -24,7 +24,7 @@ public class ManagerJoinStep {
 
     public static String 카페_사장_회원_가입_요청하고_Refresh_토큰_반환(OAuthRegisterOwnerCreateRequest request) {
         ExtractableResponse<Response> response = 카페_사장_회원_가입_요청(request);
-        return response.jsonPath().getString("refreshToken");
+        return response.cookie("REFRESH_TOKEN");
     }
 
     public static String 카페_사장_회원_가입_요청하고_액세스_토큰_반환(OAuthRegisterOwnerCreateRequest request) {
