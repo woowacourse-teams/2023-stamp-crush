@@ -71,7 +71,8 @@ export const getCustomers = async ({ params }: QueryReq<CafeIdParams & CustomerT
   const requestUrl = params.customerType
     ? `/admin/cafes/${params.cafeId}/customers?customer-type=${params.customerType}`
     : `/admin/cafes/${params.cafeId}/customers`;
-  return await api.get<CustomersRes>(requestUrl, ownerHeader());
+
+  return (await ownerInstance.get<CustomersRes>(requestUrl)).data;
 };
 
 export const getCoupon = async ({ params }: QueryReq<CustomerIdParams & CafeIdParams>) => {
