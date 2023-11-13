@@ -2,7 +2,11 @@ package com.stampcrush.backend.entity.cafe;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -30,6 +34,7 @@ public class CafePolicy extends BaseDate {
     private Integer expirePeriod;
 
     private Boolean deleted;
+    private Boolean isActivate;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
