@@ -14,7 +14,7 @@ export const patchReward = async ({
   body,
 }: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await ownerInstance.patch<RewardReqBody>(
+  await ownerInstance.patch<RewardReqBody>(
     `/admin/customers/${params.customerId}/rewards/${params.rewardId}`,
     body,
   );
