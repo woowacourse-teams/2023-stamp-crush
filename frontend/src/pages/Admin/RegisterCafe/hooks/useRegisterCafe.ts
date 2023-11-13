@@ -3,7 +3,7 @@ import { CafeRegisterReqBody, MutateReq } from '../../../../types/api/request';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 const useRegisterCafe = (
-  mutate: UseMutateFunction<Response, unknown, MutateReq<CafeRegisterReqBody, unknown>, unknown>,
+  mutate: UseMutateFunction<void, unknown, MutateReq<CafeRegisterReqBody, unknown>, unknown>,
 ) => {
   const businessRegistrationNumberInputRef = useRef<HTMLInputElement>(null);
   const cafeNameInputRef = useRef<HTMLInputElement>(null);

@@ -8,8 +8,8 @@ const useUploadImage = (initImgUrl = '') => {
   const [imgFileUrl, setImgFileUrl] = useState<string>(initImgUrl);
   const { mutate } = useMutation({
     mutationFn: (imageFile: File) => postUploadImage(imageFile),
-    onSuccess: async (res) => {
-      const body = (await res.json()) as ImageUploadRes;
+    onSuccess: (res) => {
+      const body = res.data as ImageUploadRes;
       setImgFileUrl(body.imageUrl);
     },
     onError: () => {

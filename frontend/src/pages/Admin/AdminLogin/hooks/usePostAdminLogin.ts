@@ -8,10 +8,12 @@ const usePostAdminLogin = () => {
   const navigate = useNavigate();
 
   return useMutation(postAdminLogin, {
-    onSuccess: async (res) => {
-      const resBody = await res.json();
+    onSuccess: (res) => {
+      const resBody = res.data;
       // TODO: it's will be remove.
-      localStorage.setItem('admin-login-token', resBody.accessToken);
+      // localStorage.setItem('admin-login-token', resBody.accessToken);
+
+      // 최초 로그인시 set token 로직
       setAdminAccessToken(resBody.accessToken);
 
       navigate(ROUTER_PATH.customerList);

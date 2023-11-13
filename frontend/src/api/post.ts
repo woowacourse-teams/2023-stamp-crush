@@ -1,4 +1,5 @@
-import { BASE_URL, api, customerHeader, ownerHeader } from '.';
+import { api, customerHeader } from '.';
+import { PARAMS_ERROR_MESSAGE } from '../constants/magicString';
 import {
   MutateReq,
   StampEarningReqBody,
@@ -13,21 +14,21 @@ import {
   CustomerLinkDataReqBody,
   AdminAccountDataReqBody,
 } from '../types/api/request';
+import { ownerInstance } from './axios';
 
 export const postEarnStamp = async ({
   params,
   body,
 }: MutateReq<StampEarningReqBody, CouponIdParams & CustomerIdParams>) => {
   if (!params) return;
-  return await api.post<StampEarningReqBody>(
+  await ownerInstance.post<StampEarningReqBody>(
     `/admin/customers/${params.customerId}/coupons/${params.couponId}/stamps`,
-    ownerHeader(),
     body,
   );
 };
 
 export const postTemporaryCustomer = async ({ body }: MutateReq<RegisterUserReqBody>) => {
-  return await api.post<RegisterUserReqBody>('/admin/temporary-customers', ownerHeader(), body);
+  await ownerInstance.post<RegisterUserReqBody>('/admin/temporary-customers', body);
 };
 
 export const postIssueCoupon = async ({
@@ -35,48 +36,54 @@ export const postIssueCoupon = async ({
   body,
 }: MutateReq<IssueCouponReqBody, CustomerIdParams>) => {
   if (!params) return;
-  return await api
-    .post<IssueCouponReqBody>(`/admin/customers/${params.customerId}/coupons`, ownerHeader(), body)
-    .then((response) => response.json());
+  await ownerInstance.post<IssueCouponReqBody>(
+    `/admin/customers/${params.customerId}/coupons`,
+    body,
+  );
 };
 
 export const postCouponSetting = async ({
   params,
   body,
 }: MutateReq<CouponSettingReqBody, CafeIdParams>) => {
-  if (!params) return;
-  return await api.post<CouponSettingReqBody>(
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  await ownerInstance.post<CouponSettingReqBody>(
     `/admin/coupon-setting?cafe-id=${params.cafeId}`,
-    ownerHeader(),
     body,
   );
 };
 
 export const postRegisterCafe = async ({ body }: MutateReq<CafeRegisterReqBody>) => {
-  return await api.post<CafeRegisterReqBody>('/admin/cafes', ownerHeader(), body);
-};
-
-export const postIsFavorites = async ({
-  params,
-  body,
-}: MutateReq<IsFavoritesReqBody, CafeIdParams>) => {
-  if (!params) return;
-  return await api.post<IsFavoritesReqBody>(
-    `/cafes/${params.cafeId}/favorites`,
-    customerHeader(),
-    body,
-  );
+  await ownerInstance.post<CafeRegisterReqBody>('/admin/cafes', body);
 };
 
 export const postUploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  return await fetch(`${BASE_URL}/admin/images`, {
-    ...ownerHeader(),
-    method: 'POST',
-    body: formData,
-  });
+  return await ownerInstance.post('/admin/images', formData);
+};
+
+export const postAdminLogin = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
+  return await ownerInstance.post('/admin/login', body);
+};
+
+export const postAdminSignUp = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
+  await ownerInstance.post('/admin/owners', body);
+};
+
+// 고객모드 api
+
+export const postIsFavorites = async ({
+  params,
+  body,
+}: MutateReq<IsFavoritesReqBody, CafeIdParams>) => {
+  if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
+  return await api.post<IsFavoritesReqBody>(
+    `/cafes/${params.cafeId}/favorites`,
+    customerHeader(),
+    body,
+  );
 };
 
 export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserReqBody>) => {
@@ -85,12 +92,4 @@ export const postCustomerPhoneNumber = async ({ body }: MutateReq<RegisterUserRe
 
 export const postCustomerLinkData = async ({ body }: MutateReq<CustomerLinkDataReqBody>) => {
   return await api.post<CustomerLinkDataReqBody>('/profiles/link-data', customerHeader(), body);
-};
-
-export const postAdminLogin = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
-  return await api.post<AdminAccountDataReqBody>('/admin/login', ownerHeader(), body);
-};
-
-export const postAdminSignUp = async ({ body }: MutateReq<AdminAccountDataReqBody>) => {
-  return await api.post<AdminAccountDataReqBody>('/admin/owners', ownerHeader(), body);
 };
