@@ -1,16 +1,15 @@
 import { BASE_URL } from '../../../api';
-import { LoginLogo, CustomerKakaoLoginButton } from '../../../assets';
-import ROUTER_PATH from '../../../constants/routerPath';
-
+import { CustomerKakaoLoginButton } from '../../../assets';
+import { CustomerLoginBackground } from '../../../assets/png';
 import {
   Container,
   KakaoLoginImg,
   LoginLink,
-  RedirectLink,
   ServiceIntro,
   ServiceIntroSub,
-  RedirectContainer,
   Template,
+  BackgroundImage,
+  Backdrop,
 } from './style';
 
 const Login = () => {
@@ -18,17 +17,14 @@ const Login = () => {
 
   return (
     <Template>
+      <BackgroundImage src={CustomerLoginBackground} />
+      <Backdrop />
       <Container>
-        <LoginLogo />
-        <ServiceIntro>흩어져있는 종이 쿠폰을 한번에!</ServiceIntro>
-        <ServiceIntroSub>카페쿠폰 관리 서비스</ServiceIntroSub>
+        <ServiceIntro>흩어져있는 종이 쿠폰을 한번에</ServiceIntro>
+        <ServiceIntroSub>카페 쿠폰 관리 서비스</ServiceIntroSub>
         <LoginLink href={KAKAO_LOGIN_PAGE_URL}>
           <KakaoLoginImg src={CustomerKakaoLoginButton} alt="카카오 로그인" />
         </LoginLink>
-        <RedirectContainer>
-          <span>사장님이신가요? </span>
-          <RedirectLink to={ROUTER_PATH.adminLogin}>사장님 로그인</RedirectLink>
-        </RedirectContainer>
       </Container>
     </Template>
   );
