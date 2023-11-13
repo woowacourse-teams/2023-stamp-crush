@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Skeleton } from '../../../../../components/Skeleton/style';
 
 export const PreviewCouponBackImage = styled.div`
   display: flex;
@@ -16,6 +17,11 @@ export const PreviewCouponBackImage = styled.div`
 `;
 
 export const PreviewBackImage = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+export const SkeletonBackImg = styled(Skeleton)`
   width: 100%;
   height: 100%;
 `;
