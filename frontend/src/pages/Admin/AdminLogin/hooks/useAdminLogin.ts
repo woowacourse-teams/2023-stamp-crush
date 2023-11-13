@@ -9,7 +9,7 @@ const useAdminLogin = () => {
 
   const [isFocusedId, setIsFocusedId] = useState(false);
   const [isFocusedPw, setIsFocusedPw] = useState(false);
-  const { mutate: mutateAdminLogin, isSuccess } = usePostAdminLogin();
+  const { mutate: mutateAdminLogin } = usePostAdminLogin();
 
   const loginAdmin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

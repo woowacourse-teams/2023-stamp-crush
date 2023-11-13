@@ -1,12 +1,11 @@
 import { PropsWithChildren, createContext, useState } from 'react';
+import { ownerInstance } from '../api/axios';
 
 interface AdminAccessTokenContextProps {
-  adminAccessToken: string;
   setAdminAccessToken: (token: string) => void;
 }
 
 export const AdminAccessTokenContext = createContext<AdminAccessTokenContextProps>({
-  adminAccessToken: '',
   setAdminAccessToken: (token) => {
     console.warn(
       `this token setter is invalid. it's seem to initialize function.\n token value : ${
@@ -17,15 +16,12 @@ export const AdminAccessTokenContext = createContext<AdminAccessTokenContextProp
 });
 
 export const AdminAccessTokenProvider = ({ children }: PropsWithChildren) => {
-  const [adminAccessToken, setAdminAccessToken] = useState('');
-  const setAdminAccessTokenWrapper = (token: string) => {
-    setAdminAccessToken(token);
+  const setAdminAccessToken = (token: string) => {
+    ownerInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
 
   return (
-    <AdminAccessTokenContext.Provider
-      value={{ adminAccessToken, setAdminAccessToken: setAdminAccessTokenWrapper }}
-    >
+    <AdminAccessTokenContext.Provider value={{ setAdminAccessToken }}>
       {children}
     </AdminAccessTokenContext.Provider>
   );
