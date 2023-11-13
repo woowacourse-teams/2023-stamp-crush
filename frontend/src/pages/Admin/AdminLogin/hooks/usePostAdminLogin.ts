@@ -2,12 +2,10 @@ import { useMutation } from '@tanstack/react-query';
 import { postAdminLogin } from '../../../../api/post';
 import { useNavigate } from 'react-router-dom';
 import ROUTER_PATH from '../../../../constants/routerPath';
-import { useContext } from 'react';
-import { AdminAccessTokenContext } from '../../../../context/accessToken';
+import { setAdminAccessToken } from '../../../../api/axios';
 
 const usePostAdminLogin = () => {
   const navigate = useNavigate();
-  const { setAdminAccessToken } = useContext(AdminAccessTokenContext);
 
   return useMutation(postAdminLogin, {
     onSuccess: async (res) => {
@@ -18,7 +16,7 @@ const usePostAdminLogin = () => {
 
       navigate(ROUTER_PATH.customerList);
     },
-    onError: (error) => {
+    onError: () => {
       alert('로그인에 실패했습니다.');
     },
   });

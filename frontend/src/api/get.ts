@@ -28,6 +28,7 @@ import {
   CustomerRegisterTypeRes,
 } from '../types/api/response';
 import { CouponDesign } from '../types/domain/coupon';
+import { instance, ownerInstance } from './axios';
 
 // 인증 header가 필요없는 api
 export const getAdminOAuthToken = async (
@@ -145,4 +146,8 @@ export const getCustomerRegisterType = async ({ params }: QueryReq<PhoneNumberPa
     `/profiles/search?phone-number=${params.phoneNumber}`,
     customerHeader(),
   );
+};
+
+export const getReissuedToken = async () => {
+  return (await instance.get('/api/admin/auth/reissue-token')).data;
 };

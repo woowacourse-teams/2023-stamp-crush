@@ -30,17 +30,14 @@ import StampHistoryPage from './pages/Customer/HistoryPage/components/StampHisto
 import TemplateCouponDesign from './pages/Admin/TemplateCouponDesign';
 import CustomCouponDesign from './pages/Admin/CustomCouponDesign';
 import Introduction from './pages/Introduction';
-import { AdminAccessTokenProvider } from './context/accessToken';
 
 const AdminRoot = () => {
   return (
-    <AdminAccessTokenProvider>
-      <PrivateProvider consumer={'admin'}>
-        <Template>
-          <Outlet />
-        </Template>
-      </PrivateProvider>
-    </AdminAccessTokenProvider>
+    <PrivateProvider consumer={'admin'}>
+      <Template>
+        <Outlet />
+      </Template>
+    </PrivateProvider>
   );
 };
 
