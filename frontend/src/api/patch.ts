@@ -15,12 +15,12 @@ export const patchReward = async ({
 }: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
   await ownerInstance.patch<RewardReqBody>(
-    `/admin/customers/${params.customerId}/rewards/${params.rewardId}`,
+    `/customers/${params.customerId}/rewards/${params.rewardId}`,
     body,
   );
 };
 
 export const patchCafeInfo = async ({ params, body }: MutateReq<CafeInfoReqBody, CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return (await ownerInstance.patch<CafeInfoReqBody>(`/admin/cafes/${params.cafeId}`, body)).data;
+  return (await ownerInstance.patch<CafeInfoReqBody>(`/cafes/${params.cafeId}`, body)).data;
 };

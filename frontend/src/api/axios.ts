@@ -22,7 +22,7 @@ const reissueToken = async (error: any) => {
 };
 
 export const ownerInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL + '/admin',
 });
 
 export const customerInstance = axios.create({
