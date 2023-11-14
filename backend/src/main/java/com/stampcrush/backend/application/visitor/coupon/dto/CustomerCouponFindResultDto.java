@@ -1,8 +1,8 @@
 package com.stampcrush.backend.application.visitor.coupon.dto;
 
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CustomerCouponFindResultDto {
             Cafe cafe,
             Coupon coupon,
             Boolean isFavorites,
-            List<CouponStampCoordinate> coordinates
+            List<CafeStampCoordinate> coordinates
     ) {
         CafeInfoDto cafeInfoDto = CafeInfoDto.of(cafe, isFavorites);
         CouponInfoDto couponInfoDto = CouponInfoDto.of(coupon, coordinates);
@@ -53,16 +53,16 @@ public class CustomerCouponFindResultDto {
         private final String stampImageUrl;
         private final List<CouponCoordinatesDto> coordinates;
 
-        public static CouponInfoDto of(Coupon coupon, List<CouponStampCoordinate> coordinates) {
+        public static CouponInfoDto of(Coupon coupon, List<CafeStampCoordinate> coordinates) {
             return new CouponInfoDto(
                     coupon.getId(),
                     coupon.getStatus(),
                     coupon.getStampCount(),
                     coupon.getCouponMaxStampCount(),
                     coupon.getRewardName(),
-                    coupon.getCouponDesign().getFrontImageUrl(),
-                    coupon.getCouponDesign().getBackImageUrl(),
-                    coupon.getCouponDesign().getStampImageUrl(),
+                    coupon.getCafeCouponDesign().getFrontImageUrl(),
+                    coupon.getCafeCouponDesign().getBackImageUrl(),
+                    coupon.getCafeCouponDesign().getStampImageUrl(),
                     coordinates.stream().map(CouponCoordinatesDto::from).toList()
             );
         }
@@ -75,7 +75,7 @@ public class CustomerCouponFindResultDto {
             private final Integer xCoordinate;
             private final Integer yCoordinate;
 
-            public static CouponCoordinatesDto from(CouponStampCoordinate coordinate) {
+            public static CouponCoordinatesDto from(CafeStampCoordinate coordinate) {
                 return new CouponCoordinatesDto(
                         coordinate.getStampOrder(),
                         coordinate.getXCoordinate(),

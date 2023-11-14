@@ -7,8 +7,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -17,8 +15,6 @@ import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
-import com.stampcrush.backend.repository.coupon.CouponDesignRepository;
-import com.stampcrush.backend.repository.coupon.CouponPolicyRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.reward.RewardRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -44,7 +40,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
 @ServiceSliceTest
-public class ManageCouponCommandServiceTest {
+class ManageCouponCommandServiceTest {
 
     @InjectMocks
     private ManagerCouponCommandService managerCouponCommandService;
@@ -65,12 +61,6 @@ public class ManageCouponCommandServiceTest {
     private CafePolicyRepository cafePolicyRepository;
 
     @Mock
-    private CouponDesignRepository couponDesignRepository;
-
-    @Mock
-    private CouponPolicyRepository couponPolicyRepository;
-
-    @Mock
     private OwnerRepository ownerRepository;
 
     @Mock
@@ -85,8 +75,8 @@ public class ManageCouponCommandServiceTest {
     private static Cafe cafe;
     private static Customer customer;
     private static Owner owner;
-    private static CouponPolicy couponPolicy;
-    private static CouponDesign couponDesign;
+    private static CafePolicy couponPolicy;
+    private static CafeCouponDesign couponDesign;
 
     @BeforeAll
     static void setUp() {
@@ -96,8 +86,8 @@ public class ManageCouponCommandServiceTest {
                 .id(1L)
                 .phoneNumber("01012345678")
                 .build();
-        couponPolicy = new CouponPolicy(10, "reward", 6);
-        couponDesign = new CouponDesign("front", "back", "stamp");
+        couponPolicy = new CafePolicy(10, "reward", 6, null);
+        couponDesign = new CafeCouponDesign("front", "back", "stamp", null);
     }
 
     @Test
@@ -122,8 +112,6 @@ public class ManageCouponCommandServiceTest {
 
         // then
         then(couponRepository).should(times(1)).save(any());
-        then(couponDesignRepository).should(times(1)).save(any());
-        then(couponPolicyRepository).should(times(1)).save(any());
         assertThat(currentCoupon.getStatus()).isEqualTo(CouponStatus.EXPIRED);
     }
 
@@ -148,8 +136,6 @@ public class ManageCouponCommandServiceTest {
 
         // then
         then(couponRepository).should(times(1)).save(any());
-        then(couponDesignRepository).should(times(1)).save(any());
-        then(couponPolicyRepository).should(times(1)).save(any());
     }
 
     @Test

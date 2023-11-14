@@ -21,15 +21,12 @@ public class VisitorAuthController {
     public ResponseEntity<AuthTokensResponse> joinRegisterCustomer(
             @RequestBody OAuthRegisterCustomerCreateRequest request
     ) {
-        final AuthTokensResponse response = visitorAuthService.join(
-                request.getNickname(),
-                request.getEmail(),
-                request.getoAuthProvider(),
-                request.getoAuthId()
-        );
-        System.out.println("response.toString() = " + response.toString());
         return ResponseEntity.ok().body(
-                response
-        );
+                visitorAuthService.join(
+                        request.getNickname(),
+                        request.getEmail(),
+                        request.getoAuthProvider(),
+                        request.getoAuthId()
+                ));
     }
 }

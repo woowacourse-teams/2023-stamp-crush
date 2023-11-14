@@ -66,4 +66,8 @@ public class CafePolicy extends BaseDate {
     public int calculateRewardCouponCount(int earningStampCount) {
         return earningStampCount / maxStampCount;
     }
+
+    public boolean isSameMaxStampCount(int stampCount) {
+        return stampCount == maxStampCount;
+    }
 }

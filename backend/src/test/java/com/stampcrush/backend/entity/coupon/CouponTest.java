@@ -2,6 +2,8 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,10 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy());
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(5, "#", 1, null)
+        );
 
         // then
         assertAll(
@@ -54,7 +59,10 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy());
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(5, "#", 1, null)
+        );
 
         // when
         coupon.reward();
@@ -79,7 +87,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(5, "#", 1, null)
         );
 
         // when
@@ -103,7 +113,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(2, "#", 1, null)
         );
 
         // when
@@ -127,7 +139,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(2, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(2, "#", 10, null)
         );
 
         // when
@@ -151,7 +165,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when
@@ -175,7 +191,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when
@@ -198,7 +216,9 @@ class CouponTest {
                 "잠실동12길",
                 "14층",
                 "11111111",
-                new Owner("이름", "아이디", "비번", "01012345678")), new CouponDesign(), new CouponPolicy(10, "짱", 10)
+                new Owner("이름", "아이디", "비번", "01012345678")),
+                new CafeCouponDesign("#", "#", "#", null),
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when

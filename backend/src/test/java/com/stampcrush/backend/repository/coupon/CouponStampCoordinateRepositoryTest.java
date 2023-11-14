@@ -3,7 +3,6 @@ package com.stampcrush.backend.repository.coupon;
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
-import com.stampcrush.backend.fixture.CouponDesignFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,8 +25,8 @@ class CouponStampCoordinateRepositoryTest {
     @Test
     void 쿠폰의_좌표를_쿠폰_디자인으로_필터링해서_조회한다() {
         // given, when
-        CouponDesign couponDesign1 = couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1);
-        CouponDesign couponDesign2 = couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2);
+        CouponDesign couponDesign1 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
+        CouponDesign couponDesign2 = couponDesignRepository.save(new CouponDesign("front", "back", "stamp"));
 
         CouponStampCoordinate couponStampCoordinateOfCouponDesign1 = couponStampCoordinateRepository.save(new CouponStampCoordinate(1, 1, 1, couponDesign1));
 
