@@ -194,7 +194,7 @@ class ManagerCouponFindAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> response = 고객_타입_별_목록_조회_요청(ownerAccessToken, savedCafeId, "invalid");
-        System.out.println(response.body().toString());
+
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
