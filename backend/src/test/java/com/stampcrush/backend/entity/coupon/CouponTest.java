@@ -115,7 +115,7 @@ class CouponTest {
                 "11111111",
                 new Owner("이름", "아이디", "비번", "01012345678")),
                 new CafeCouponDesign("#", "#", "#", null),
-                new CafePolicy(5, "#", 1, null)
+                new CafePolicy(2, "#", 1, null)
         );
 
         // when
@@ -141,7 +141,7 @@ class CouponTest {
                 "11111111",
                 new Owner("이름", "아이디", "비번", "01012345678")),
                 new CafeCouponDesign("#", "#", "#", null),
-                new CafePolicy(5, "#", 1, null)
+                new CafePolicy(2, "#", 10, null)
         );
 
         // when
@@ -167,7 +167,7 @@ class CouponTest {
                 "11111111",
                 new Owner("이름", "아이디", "비번", "01012345678")),
                 new CafeCouponDesign("#", "#", "#", null),
-                new CafePolicy(5, "#", 1, null)
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when
@@ -193,7 +193,7 @@ class CouponTest {
                 "11111111",
                 new Owner("이름", "아이디", "비번", "01012345678")),
                 new CafeCouponDesign("#", "#", "#", null),
-                new CafePolicy(5, "#", 1, null)
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when
@@ -218,7 +218,7 @@ class CouponTest {
                 "11111111",
                 new Owner("이름", "아이디", "비번", "01012345678")),
                 new CafeCouponDesign("#", "#", "#", null),
-                new CafePolicy(5, "#", 1, null)
+                new CafePolicy(10, "#", 10, null)
         );
 
         // when
