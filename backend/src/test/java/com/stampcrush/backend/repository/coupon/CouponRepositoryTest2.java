@@ -14,6 +14,8 @@ import com.stampcrush.backend.fixture.CouponDesignFixture;
 import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.OwnerFixture;
+import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
+import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
@@ -48,6 +50,12 @@ class CouponRepositoryTest2 {
 
     @Autowired
     private CouponPolicyRepository couponPolicyRepository;
+
+    @Autowired
+    private CafeCouponDesignRepository cafeCouponDesignRepository;
+
+    @Autowired
+    private CafePolicyRepository cafePolicyRepository;
 
     @Autowired
     private CouponStampCoordinateRepository couponStampCoordinateRepository;

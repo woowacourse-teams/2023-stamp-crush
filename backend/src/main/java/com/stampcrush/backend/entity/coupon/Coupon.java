@@ -25,7 +25,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -87,8 +86,23 @@ public class Coupon extends BaseDate {
         this.couponPolicy = couponPolicy;
     }
 
+    public Coupon(LocalDateTime createdAt, LocalDateTime updatedAt,
+                  LocalDate expiredDate, Customer customer,
+                  Cafe cafe, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
+        super(createdAt, updatedAt);
+        this.expiredDate = expiredDate;
+        this.customer = customer;
+        this.cafe = cafe;
+        this.cafeCouponDesign = cafeCouponDesign;
+        this.cafePolicy = cafePolicy;
+    }
+
     public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
         this(null, null, expiredDate, customer, cafe, couponDesign, couponPolicy);
+    }
+
+    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
+        this(null, null, expiredDate, customer, cafe, cafeCouponDesign, cafePolicy);
     }
 
     public void reward() {
