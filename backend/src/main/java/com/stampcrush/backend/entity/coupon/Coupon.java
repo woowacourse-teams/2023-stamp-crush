@@ -2,6 +2,7 @@ package com.stampcrush.backend.entity.coupon;
 
 import com.stampcrush.backend.entity.baseentity.BaseDate;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CafePolicyNotFoundException;
@@ -63,6 +64,14 @@ public class Coupon extends BaseDate {
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "coupon_policy_id")
     private CouponPolicy couponPolicy;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cafe_coupon_design_id")
+    private CafeCouponDesign cafeCouponDesign;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cafe_policy_id")
+    private CafePolicy cafePolicy;
 
     @OneToMany(mappedBy = "coupon", fetch = LAZY, cascade = CascadeType.ALL)
     private List<Stamp> stamps = new ArrayList<>();
