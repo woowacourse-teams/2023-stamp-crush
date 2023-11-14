@@ -12,5 +12,7 @@ public interface CafePolicyRepository extends JpaRepository<CafePolicy, Long> {
 
     Optional<CafePolicy> findByCafe(Cafe cafe);
 
+    Optional<CafePolicy> findByCafeAndIsActivateTrue(Cafe cafe);
+
     List<CafePolicy> findByCafeAndCreatedAtGreaterThan(Cafe cafe, LocalDateTime createdAt);
 }

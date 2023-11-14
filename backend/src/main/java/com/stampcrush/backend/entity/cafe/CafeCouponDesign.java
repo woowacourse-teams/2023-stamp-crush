@@ -38,8 +38,8 @@ public class CafeCouponDesign extends BaseDate {
 
     private String stampImageUrl;
 
-    private Boolean deleted;
-    private Boolean isActivate;
+    private Boolean deleted = Boolean.FALSE;
+    private Boolean isActivate = Boolean.TRUE;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
@@ -48,16 +48,19 @@ public class CafeCouponDesign extends BaseDate {
     @OneToMany(mappedBy = "cafeCouponDesign")
     private List<CafeStampCoordinate> cafeStampCoordinates = new ArrayList<>();
 
-    public CafeCouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl, Boolean deleted, Cafe cafe) {
+    public CafeCouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl, Cafe cafe) {
         this.frontImageUrl = frontImageUrl;
         this.backImageUrl = backImageUrl;
         this.stampImageUrl = stampImageUrl;
-        this.deleted = deleted;
         this.cafe = cafe;
     }
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public void disable() {
+        this.isActivate = Boolean.FALSE;
     }
 
     public CouponDesign copy() {

@@ -11,7 +11,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingFin
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
 import static com.stampcrush.backend.acceptance.step.ManagerCouponCreateStep.쿠폰_생성_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST_2;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.VisitorJoinStep.가입_고객_회원_가입_요청하고_액세스_토큰_반환;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -27,13 +29,10 @@ class ManagerCafeCouponSettingFindAcceptanceTest extends AcceptanceTest {
         String customerAccessToken = 가입_고객_회원_가입_요청하고_액세스_토큰_반환(REGISTER_CUSTOMER_GITCHAN_CREATE_REQUEST);
         Long customerId = authTokensGenerator.extractMemberId(customerAccessToken);
 
-
         Long cafeId = 카페_생성_요청하고_아이디_반환(ownerAccessToken, CAFE_CREATE_REQUEST);
-
 
         CouponCreateRequest couponCreateRequest = new CouponCreateRequest(cafeId);
         Long couponId = 쿠폰_생성_요청하고_아이디_반환(ownerAccessToken, couponCreateRequest, customerId);
-
 
         // when
         ExtractableResponse<Response> response = 쿠폰이_발급될때의_쿠폰_디자인_조회_요청(ownerAccessToken, cafeId, couponId);
@@ -77,7 +76,6 @@ class ManagerCafeCouponSettingFindAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(OK.value());
-
     }
 
     @Test

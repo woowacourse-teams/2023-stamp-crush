@@ -33,27 +33,30 @@ public class CafePolicy extends BaseDate {
 
     private Integer expirePeriod;
 
-    private Boolean deleted;
-    private Boolean isActivate;
+    private Boolean deleted = Boolean.FALSE;
+    private Boolean isActivate = Boolean.TRUE;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-    public CafePolicy(Integer maxStampCount, String reward, Integer expirePeriod, Boolean deleted, Cafe cafe) {
+    public CafePolicy(Integer maxStampCount, String reward, Integer expirePeriod, Cafe cafe) {
         this.maxStampCount = maxStampCount;
         this.reward = reward;
         this.expirePeriod = expirePeriod;
-        this.deleted = deleted;
         this.cafe = cafe;
     }
 
     public static CafePolicy createDefaultCafePolicy(Cafe cafe) {
-        return new CafePolicy(10, "아메리카노 1잔", 6, false, cafe);
+        return new CafePolicy(10, "아메리카노 1잔", 6, cafe);
     }
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public void disable() {
+        this.isActivate = Boolean.FALSE;
     }
 
     public CouponPolicy copy() {

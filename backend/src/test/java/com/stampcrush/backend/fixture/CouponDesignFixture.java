@@ -19,7 +19,6 @@ public final class CouponDesignFixture {
                 "#",
                 "#",
                 "#",
-                false,
                 savedCafe
         );
     }
