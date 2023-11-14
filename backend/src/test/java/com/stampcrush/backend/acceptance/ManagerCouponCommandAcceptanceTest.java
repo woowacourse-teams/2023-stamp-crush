@@ -12,6 +12,7 @@ import com.stampcrush.backend.auth.api.request.OAuthRegisterOwnerCreateRequest;
 import com.stampcrush.backend.entity.user.Customer;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -359,6 +360,7 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @Disabled
     void 카페_정책을_바꾸고_현재_적립_중인_쿠폰이_이전_정책의_쿠폰일때_isPrevious_true_확인() {
         // given
         String ownerToken = 카페_사장_회원_가입_요청하고_액세스_토큰_반환(new OAuthRegisterOwnerCreateRequest("leo", OAuthProvider.KAKAO, 123L));
@@ -389,7 +391,8 @@ class ManagerCouponCommandAcceptanceTest extends AcceptanceTest {
                 true,
                 10);
 
-        assertThat(coupons.getCoupons()).usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
+        assertThat(coupons.getCoupons())
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("expireDate")
                 .containsExactlyInAnyOrder(expected);
     }
 

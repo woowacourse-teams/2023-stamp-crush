@@ -37,7 +37,7 @@ public class CouponDesign extends BaseDate {
     @OneToMany(mappedBy = "couponDesign", cascade = CascadeType.ALL)
     private List<CouponStampCoordinate> couponStampCoordinates = new ArrayList<>();
 
-        private Boolean deleted = Boolean.FALSE;
+    private Boolean deleted = Boolean.FALSE;
 
     public CouponDesign(String frontImageUrl, String backImageUrl, String stampImageUrl) {
         this.frontImageUrl = frontImageUrl;

@@ -127,12 +127,12 @@ public class ManagerCouponCommandService {
     }
 
     private CafeCouponDesign findCafeCouponDesign(Cafe cafe) {
-        return cafeCouponDesignRepository.findByCafe(cafe)
+        return cafeCouponDesignRepository.findByCafeAndIsActivateTrue(cafe)
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     private CafePolicy findCafePolicy(Cafe cafe) {
-        return cafePolicyRepository.findByCafe(cafe)
+        return cafePolicyRepository.findByCafeAndIsActivateTrue(cafe)
                 .orElseThrow(IllegalArgumentException::new);
     }
 

@@ -39,7 +39,7 @@ public class CafeCouponDesign extends BaseDate {
     private String stampImageUrl;
 
     private Boolean deleted;
-    private Boolean isActivate;
+    private Boolean isActivate = Boolean.TRUE;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id")
@@ -58,6 +58,10 @@ public class CafeCouponDesign extends BaseDate {
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public void disable() {
+        this.isActivate = Boolean.FALSE;
     }
 
     public CouponDesign copy() {

@@ -32,7 +32,7 @@ class CafePolicyRepositoryTest {
     private OwnerRepository ownerRepository;
 
     @Test
-    void 특정_카페의_정책_중_삭제되지_않은_데이터만_조회한다() {
+    void 특정_카페의_정책_중_활성화된_데이터만_조회한다() {
         // given, when
         Cafe savedCafe = cafeRepository.save(
                 new Cafe(
@@ -69,7 +69,7 @@ class CafePolicyRepositoryTest {
                 )
         );
 
-        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafe(savedCafe);
+        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafeAndIsActivateTrue(savedCafe);
 
         // then
         assertAll(

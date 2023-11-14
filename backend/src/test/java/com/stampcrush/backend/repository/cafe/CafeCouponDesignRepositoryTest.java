@@ -6,7 +6,6 @@ import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.user.OwnerRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -30,14 +29,14 @@ class CafeCouponDesignRepositoryTest {
     private OwnerRepository ownerRepository;
 
     @Test
-    void 특정_카페의_디자인_중_삭제되지_않은_데이터만_조회한다() {
+    void 활성화된_쿠폰만_조회한다() {
         // given, when
         Cafe savedCafe = createCafe(OwnerFixture.GITCHAN);
 
         CafeCouponDesign deletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, true);
         CafeCouponDesign notDeletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, false);
 
-        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafe(savedCafe);
+        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndIsActivateTrue(savedCafe);
 
         // then
         assertAll(

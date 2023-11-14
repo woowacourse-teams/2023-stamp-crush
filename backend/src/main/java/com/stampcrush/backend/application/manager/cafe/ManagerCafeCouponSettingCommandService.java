@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class ManagerCafeCouponSettingCommandService {
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException("사장이 없습니다."));
         cafe.validateOwnership(owner);
-        deletePreviousSetting(cafe);
+        disablePreviousSetting(cafe);
         createNewSetting(cafe, cafeCouponSettingDto);
     }
 
@@ -50,24 +49,24 @@ public class ManagerCafeCouponSettingCommandService {
         return findCafe.get();
     }
 
-    private void deletePreviousSetting(Cafe cafe) {
-        deleteCafePolicy(cafe);
-        deleteCafeCouponDesign(cafe);
+    private void disablePreviousSetting(Cafe cafe) {
+        disableCafePolicy(cafe);
+        disableCafeCouponDesign(cafe);
     }
 
-    private void deleteCafePolicy(Cafe cafe) {
+    private void disableCafePolicy(Cafe cafe) {
         Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafe(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
-            cafePolicyRepository.delete(currentCafePolicy);
+            currentCafePolicy.disable();
         }
     }
 
-    private void deleteCafeCouponDesign(Cafe cafe) {
+    private void disableCafeCouponDesign(Cafe cafe) {
         Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
-            cafeCouponDesignRepository.delete(currentCafeCouponDesign);
+            currentCafeCouponDesign.disable();
         }
     }
 
