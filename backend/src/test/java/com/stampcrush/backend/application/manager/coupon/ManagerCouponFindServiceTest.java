@@ -32,7 +32,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 @ServiceSliceTest
-public class ManagerCouponFindServiceTest {
+class ManagerCouponFindServiceTest {
 
     private static Cafe cafe;
     private static Owner owner;
@@ -145,7 +145,7 @@ public class ManagerCouponFindServiceTest {
     }
 
     @Test
-    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같지_않으면_예전_정책의_쿠폰이다() {
+    void 쿠폰_정책이_disable되면_쿠폰을_조회했을때_예전_정책의_쿠폰이다() {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
@@ -161,8 +161,7 @@ public class ManagerCouponFindServiceTest {
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe.getOwner()));
 
-        cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(10, "americano", 6, cafe));
+        couponPolicy1.disable();
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
@@ -180,7 +179,7 @@ public class ManagerCouponFindServiceTest {
     }
 
     @Test
-    void 쿠폰_정책이_쿠폰의_카페의_정책과_내용이_같으면_현재_정책의_쿠폰이다() {
+    void 쿠폰_정책이_disable_되지_않으면_쿠폰을_조회했을때_현재_정책의_쿠폰이다() {
         // given
         LocalDateTime coupon1CreatedAt = LocalDateTime.now();
         LocalDateTime coupon1UpdatedAt = LocalDateTime.now();
@@ -196,9 +195,6 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(List.of(coupon));
         given(ownerRepository.findById(anyLong()))
                 .willReturn(Optional.of(cafe.getOwner()));
-
-        cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getReward(), couponPolicy1.getExpirePeriod(), cafe));
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);
