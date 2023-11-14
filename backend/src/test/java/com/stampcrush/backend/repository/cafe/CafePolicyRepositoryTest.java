@@ -32,7 +32,7 @@ class CafePolicyRepositoryTest {
     private OwnerRepository ownerRepository;
 
     @Test
-    void 특정_카페의_정책_중_삭제되지_않은_데이터만_조회한다() {
+    void 특정_카페의_정책_중_활성화된_데이터만_조회한다() {
         // given, when
         Cafe savedCafe = cafeRepository.save(
                 new Cafe(
@@ -49,33 +49,32 @@ class CafePolicyRepositoryTest {
                 )
         );
 
-        CafePolicy deletedCafePolicy = cafePolicyRepository.save(
+        CafePolicy disableCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
+        disableCafePolicy.disable();
 
-        CafePolicy notDeletedCafePolicy = cafePolicyRepository.save(
+        CafePolicy activeCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
 
-        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafe(savedCafe);
+        Optional<CafePolicy> filteredCafePolicy = cafePolicyRepository.findByCafeAndIsActivateTrue(savedCafe);
 
         // then
         assertAll(
                 () -> assertThat(filteredCafePolicy).isNotEmpty(),
-                () -> assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy),
-                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy)
+                () -> assertThat(filteredCafePolicy.get()).isEqualTo(activeCafePolicy),
+                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(disableCafePolicy)
         );
     }
 
@@ -101,7 +100,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
@@ -111,7 +109,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
@@ -142,7 +139,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );

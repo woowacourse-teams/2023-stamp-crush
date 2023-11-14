@@ -15,7 +15,6 @@ public final class CouponPolicyFixture {
                 2,
                 "아메리카노",
                 12,
-                false,
                 savedCafe
         );
     }

@@ -2,6 +2,8 @@ package com.stampcrush.backend.acceptance;
 
 import com.stampcrush.backend.api.manager.cafe.request.CafeCreateRequest;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,9 @@ import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpd
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCouponSettingUpdateStep.카페_쿠폰_정책_수정_요청;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.CAFE_CREATE_REQUEST;
 import static com.stampcrush.backend.acceptance.step.ManagerCafeCreateStep.카페_생성_요청하고_아이디_반환;
-import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.*;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.OWNER_CREATE_REQUEST_2;
+import static com.stampcrush.backend.acceptance.step.ManagerJoinStep.카페_사장_회원_가입_요청하고_액세스_토큰_반환;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -28,13 +32,16 @@ class ManagerCafeCouponSettingCommandUpdateAcceptanceTest extends AcceptanceTest
         Cafe cafe = cafeRepository.findById(cafeId).get();
 
         // then
+        CafeCouponDesign cafeCouponDesign = cafeCouponDesignRepository.findByCafeAndIsActivateTrue(cafe).get();
+        CafePolicy cafePolicy = cafePolicyRepository.findByCafeAndIsActivateTrue(cafe).get();
+
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(NO_CONTENT.value()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getFrontImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getFrontImageUrl()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getBackImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getBackImageUrl()),
-                () -> assertThat(cafeCouponDesignRepository.findByCafe(cafe).get().getStampImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getStampImageUrl()),
-                () -> assertThat(cafePolicyRepository.findByCafe(cafe).get().getExpirePeriod()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getExpirePeriod()),
-                () -> assertThat(cafePolicyRepository.findByCafe(cafe).get().getReward()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getReward())
+                () -> assertThat(cafeCouponDesign.getFrontImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getFrontImageUrl()),
+                () -> assertThat(cafeCouponDesign.getBackImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getBackImageUrl()),
+                () -> assertThat(cafeCouponDesign.getStampImageUrl()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getStampImageUrl()),
+                () -> assertThat(cafePolicy.getExpirePeriod()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getExpirePeriod()),
+                () -> assertThat(cafePolicy.getReward()).isEqualTo(CAFE_COUPON_SETTING_UPDATE_REQUEST.getReward())
         );
     }
 
