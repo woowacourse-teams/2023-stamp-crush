@@ -55,7 +55,7 @@ public class ManagerCafeCouponSettingCommandService {
     }
 
     private void disableCafePolicy(Cafe cafe) {
-        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafe(cafe);
+        Optional<CafePolicy> findCafePolicy = cafePolicyRepository.findByCafeAndIsActivateTrue(cafe);
         if (findCafePolicy.isPresent()) {
             CafePolicy currentCafePolicy = findCafePolicy.get();
             currentCafePolicy.disable();
@@ -63,7 +63,7 @@ public class ManagerCafeCouponSettingCommandService {
     }
 
     private void disableCafeCouponDesign(Cafe cafe) {
-        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafe(cafe);
+        Optional<CafeCouponDesign> findCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndIsActivateTrue(cafe);
         if (findCafeCouponDesign.isPresent()) {
             CafeCouponDesign currentCafeCouponDesign = findCafeCouponDesign.get();
             currentCafeCouponDesign.disable();
