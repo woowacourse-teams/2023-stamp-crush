@@ -111,14 +111,6 @@ public class Coupon extends BaseDate {
         return stamps.size();
     }
 
-    public int calculateVisitCount() {
-        return stamps.stream()
-                .map(BaseDate::getCreatedAt)
-                .map(date -> LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), date.getHour(), date.getMinute()))
-                .collect(Collectors.toSet())
-                .size();
-    }
-
     public LocalDateTime calculateExpireDate() {
         return this.getCreatedAt().plusMonths(this.couponPolicy.getExpiredPeriod());
     }
