@@ -163,7 +163,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(10, "americano", 6, false, cafe));
+        cafe.getPolicies().add(new CafePolicy(10, "americano", 6, cafe));
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(owner.getId(), 1L, 1L);
@@ -199,7 +199,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), false, cafe));
+        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), cafe));
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);

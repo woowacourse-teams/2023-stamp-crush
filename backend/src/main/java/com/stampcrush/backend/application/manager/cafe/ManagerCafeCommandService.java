@@ -13,10 +13,6 @@ import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
-import com.stampcrush.backend.repository.sample.SampleBackImageRepository;
-import com.stampcrush.backend.repository.sample.SampleFrontImageRepository;
-import com.stampcrush.backend.repository.sample.SampleStampCoordinateRepository;
-import com.stampcrush.backend.repository.sample.SampleStampImageRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -69,7 +65,6 @@ public class ManagerCafeCommandService {
                 SampleImages.FRONT_IMAGE_URL,
                 SampleImages.BACK_IMAGE_URL,
                 SampleImages.STAMP_IMAGE_URL,
-                false,
                 savedCafe
         ));
 

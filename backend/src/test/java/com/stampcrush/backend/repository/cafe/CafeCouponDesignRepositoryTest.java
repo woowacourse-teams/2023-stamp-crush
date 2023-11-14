@@ -62,7 +62,7 @@ class CafeCouponDesignRepositoryTest {
     private CafeCouponDesign saveCafeCouponDesign(Cafe savedCafe, boolean deleted) {
         return cafeCouponDesignRepository.save(
                 new CafeCouponDesign(
-                        "#", "#", "#", deleted, savedCafe
+                        "#", "#", "#", savedCafe
                 )
         );
     }

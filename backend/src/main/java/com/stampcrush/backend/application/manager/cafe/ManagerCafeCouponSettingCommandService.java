@@ -81,7 +81,6 @@ public class ManagerCafeCouponSettingCommandService {
                 cafePolicyDto.getMaxStampCount(),
                 cafePolicyDto.getReward(),
                 cafePolicyDto.getExpirePeriod(),
-                false,
                 cafe
         );
         CafePolicy savedCafePolicy = cafePolicyRepository.save(newCafePolicy);
@@ -93,7 +92,6 @@ public class ManagerCafeCouponSettingCommandService {
                 cafeCouponDesignDto.getFrontImageUrl(),
                 cafeCouponDesignDto.getBackImageUrl(),
                 cafeCouponDesignDto.getStampImageUrl(),
-                false,
                 cafe
         );
         CafeCouponDesign savedCafeCouponDesign = cafeCouponDesignRepository.save(newCafeCouponDesign);

@@ -54,7 +54,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
@@ -64,7 +63,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
@@ -101,7 +99,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
@@ -111,7 +108,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "아메리카노",
                         12,
-                        false,
                         savedCafe
                 )
         );
@@ -142,7 +138,6 @@ class CafePolicyRepositoryTest {
                         2,
                         "마카롱",
                         12,
-                        true,
                         savedCafe
                 )
         );
