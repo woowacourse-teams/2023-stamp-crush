@@ -71,4 +71,8 @@ public class CafeCouponDesign extends BaseDate {
         }
         return couponDesign;
     }
+
+    public void addCouponStampCoordinate(final CafeStampCoordinate stampCoordinate) {
+        cafeStampCoordinates.add(stampCoordinate);
+    }
 }

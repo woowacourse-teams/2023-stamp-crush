@@ -5,7 +5,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.user.Customer;
-import com.stampcrush.backend.exception.CafePolicyNotFoundException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -77,17 +76,6 @@ public class Coupon extends BaseDate {
 
     public Coupon(LocalDateTime createdAt, LocalDateTime updatedAt,
                   LocalDate expiredDate, Customer customer,
-                  Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
-        super(createdAt, updatedAt);
-        this.expiredDate = expiredDate;
-        this.customer = customer;
-        this.cafe = cafe;
-        this.couponDesign = couponDesign;
-        this.couponPolicy = couponPolicy;
-    }
-
-    public Coupon(LocalDateTime createdAt, LocalDateTime updatedAt,
-                  LocalDate expiredDate, Customer customer,
                   Cafe cafe, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
         super(createdAt, updatedAt);
         this.expiredDate = expiredDate;
@@ -95,10 +83,6 @@ public class Coupon extends BaseDate {
         this.cafe = cafe;
         this.cafeCouponDesign = cafeCouponDesign;
         this.cafePolicy = cafePolicy;
-    }
-
-    public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CouponDesign couponDesign, CouponPolicy couponPolicy) {
-        this(null, null, expiredDate, customer, cafe, couponDesign, couponPolicy);
     }
 
     public Coupon(LocalDate expiredDate, Customer customer, Cafe cafe, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
@@ -126,7 +110,7 @@ public class Coupon extends BaseDate {
     }
 
     public LocalDateTime calculateExpireDate() {
-        return this.getCreatedAt().plusMonths(this.couponPolicy.getExpiredPeriod());
+        return this.getCreatedAt().plusMonths(this.cafePolicy.getExpirePeriod());
     }
 
     public boolean isNotAccessible(Customer customer, Cafe cafe) {
@@ -138,13 +122,13 @@ public class Coupon extends BaseDate {
             Stamp stamp = new Stamp();
             stamp.registerCoupon(this);
         }
-        if (couponPolicy.isSameMaxStampCount(stamps.size())) {
+        if (cafePolicy.isSameMaxStampCount(stamps.size())) {
             status = CouponStatus.REWARDED;
         }
     }
 
     public void accumulateMaxStamp() {
-        for (int i = 0; i < couponPolicy.getMaxStampCount(); i++) {
+        for (int i = 0; i < cafePolicy.getMaxStampCount(); i++) {
             Stamp stamp = new Stamp();
             stamp.registerCoupon(this);
         }
@@ -152,44 +136,33 @@ public class Coupon extends BaseDate {
     }
 
     public int getCouponMaxStampCount() {
-        return couponPolicy.getMaxStampCount();
+        return cafePolicy.getMaxStampCount();
     }
 
     public int calculateMaxStampCountWhenAccumulating() {
         if (status == CouponStatus.ACCUMULATING) {
-            return couponPolicy.getMaxStampCount();
+            return cafePolicy.getMaxStampCount();
         }
         return 0;
     }
 
     public boolean isLessThanMaxStampAfterAccumulateStamp(int earningStampCount) {
-        return this.stamps.size() + earningStampCount < couponPolicy.getMaxStampCount();
+        return this.stamps.size() + earningStampCount < cafePolicy.getMaxStampCount();
     }
 
     public boolean isSameMaxStampAfterAccumulateStamp(int earningStampCount) {
-        return this.stamps.size() + earningStampCount == couponPolicy.getMaxStampCount();
+        return this.stamps.size() + earningStampCount == cafePolicy.getMaxStampCount();
     }
 
     public int calculateRestStampCountForReward() {
-        return couponPolicy.getMaxStampCount() - this.stamps.size();
+        return cafePolicy.getMaxStampCount() - this.stamps.size();
     }
 
     public String getRewardName() {
-        return couponPolicy.getRewardName();
+        return cafePolicy.getReward();
     }
 
     public boolean isPrevious() {
-        CafePolicy currentCafePolicy = findCurrentCafePolicy();
-        return couponPolicy.isPrevious(currentCafePolicy);
-    }
-
-    private CafePolicy findCurrentCafePolicy() {
-        List<CafePolicy> policies = cafe.getPolicies();
-
-        if (policies.isEmpty()) {
-            throw new CafePolicyNotFoundException("해당하는 카페의 정책이 존재하지 않습니다.");
-        }
-
-        return policies.get(0);
+        return !cafePolicy.getIsActivate();
     }
 }
