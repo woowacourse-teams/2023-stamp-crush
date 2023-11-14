@@ -2,6 +2,7 @@ package com.stampcrush.backend.fixture;
 
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
@@ -19,8 +20,8 @@ public final class CouponFixture {
             new CafePolicy(10, "아메리카노", 8, null)
     );
 
-    public static final List<CouponStampCoordinate> GITCHAN_CAFE_COUPON_STAMP_COORDINATE = List.of(
-            new CouponStampCoordinate(1, 1, 1, new CouponDesign("front", "back", "stamp"))
+    public static final List<CafeStampCoordinate> GITCHAN_CAFE_COUPON_STAMP_COORDINATE = List.of(
+            new CafeStampCoordinate(1, 1, 1, new CafeCouponDesign("front", "back", "stamp", null))
     );
 
     private CouponFixture() {

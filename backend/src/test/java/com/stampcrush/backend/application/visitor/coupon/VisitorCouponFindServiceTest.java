@@ -3,11 +3,13 @@ package com.stampcrush.backend.application.visitor.coupon;
 import com.stampcrush.backend.application.ServiceSliceTest;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
 import com.stampcrush.backend.fixture.CustomerFixture;
+import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -23,6 +25,7 @@ import static com.stampcrush.backend.fixture.CouponFixture.GITCHAN_CAFE_COUPON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ServiceSliceTest
@@ -42,6 +45,9 @@ class VisitorCouponFindServiceTest {
 
     @Mock
     private CouponStampCoordinateRepository couponStampCoordinateRepository;
+
+    @Mock
+    private CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     @Test
     void 하나의_카페당_하나의_쿠폰을_조회할_때_고객정보가_없으면_예외처리한다() {
@@ -73,6 +79,7 @@ class VisitorCouponFindServiceTest {
         long customerId = 1L;
         Customer customer = CustomerFixture.REGISTER_CUSTOMER_GITCHAN;
         Coupon gitchanCoupon = GITCHAN_CAFE_COUPON;
+        List<CafeStampCoordinate> cafeStampCoordinates = List.of(new CafeStampCoordinate(1, 2, 3, GITCHAN_CAFE_COUPON.getCafeCouponDesign()));
 
         when(customerRepository.findById(customerId))
                 .thenReturn(Optional.of(customer));
@@ -82,6 +89,9 @@ class VisitorCouponFindServiceTest {
 
         when(visitorFavoritesFindService.findIsFavorites(gitchanCoupon.getCafe(), customer))
                 .thenReturn(true);
+
+        when(cafeStampCoordinateRepository.findByCafeCouponDesign(any()))
+                .thenReturn(cafeStampCoordinates);
 
         assertAll(
                 () -> assertThat(visitorCouponFindService.findOneCouponForOneCafe(customerId)).isNotEmpty(),
@@ -93,7 +103,7 @@ class VisitorCouponFindServiceTest {
                                                 gitchanCoupon.getCafe(),
                                                 gitchanCoupon,
                                                 true,
-                                                gitchanCoupon.getCouponDesign().getCouponStampCoordinates()
+                                                cafeStampCoordinates
                                         )))
         );
     }

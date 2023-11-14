@@ -3,11 +3,12 @@ package com.stampcrush.backend.application.visitor.coupon;
 import com.stampcrush.backend.application.visitor.coupon.dto.CustomerCouponFindResultDto;
 import com.stampcrush.backend.application.visitor.favorites.VisitorFavoritesFindService;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.exception.CustomerNotFoundException;
+import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.coupon.CouponRepository;
 import com.stampcrush.backend.repository.coupon.CouponStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
@@ -27,6 +28,7 @@ public class VisitorCouponFindService {
     private final CustomerRepository customerRepository;
     private final CouponRepository couponRepository;
     private final CouponStampCoordinateRepository couponStampCoordinateRepository;
+    private final CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     public List<CustomerCouponFindResultDto> findOneCouponForOneCafe(Long customerId) {
         // TODO: customer를 찾아서 쿼리하지 않고, 곧바로 cusotmerId를 쿼리에 사용해도 될 것 같음.
@@ -41,7 +43,7 @@ public class VisitorCouponFindService {
     private CustomerCouponFindResultDto formatToDto(Customer customer, Coupon coupon) {
         Cafe cafe = coupon.getCafe();
         Boolean isFavorites = visitorFavoritesFindService.findIsFavorites(cafe, customer);
-        List<CouponStampCoordinate> coordinates = couponStampCoordinateRepository.findByCouponDesign(coupon.getCouponDesign());
+        List<CafeStampCoordinate> coordinates = cafeStampCoordinateRepository.findByCafeCouponDesign(coupon.getCafeCouponDesign());
         return CustomerCouponFindResultDto.of(cafe, coupon, isFavorites, coordinates);
     }
 

@@ -58,7 +58,7 @@ public class ManagerCafeCouponSettingFindService {
         cafe.validateOwnership(owner);
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(() -> new CouponNotFoundException("couponId: " + couponId + " 쿠폰을 찾지 못했습니다."));
-        CouponDesign couponDesign = coupon.getCouponDesign();
+        CafeCouponDesign couponDesign = coupon.getCafeCouponDesign();
         return CafeCouponSettingFindResultDto.from(couponDesign);
     }
 }
