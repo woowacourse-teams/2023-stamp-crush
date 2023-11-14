@@ -1,8 +1,9 @@
 package com.stampcrush.backend.fixture;
 
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStampCoordinate;
 
 import java.time.LocalDate;
@@ -14,8 +15,8 @@ public final class CouponFixture {
             LocalDate.EPOCH,
             CustomerFixture.REGISTER_CUSTOMER_GITCHAN_SAVED,
             CafeFixture.GITCHAN_CAFE,
-            new CouponDesign("front", "back", "stamp"),
-            new CouponPolicy(10, "아메리카노", 8)
+            new CafeCouponDesign("front", "back", "stamp", null),
+            new CafePolicy(10, "아메리카노", 8, null)
     );
 
     public static final List<CouponStampCoordinate> GITCHAN_CAFE_COUPON_STAMP_COORDINATE = List.of(

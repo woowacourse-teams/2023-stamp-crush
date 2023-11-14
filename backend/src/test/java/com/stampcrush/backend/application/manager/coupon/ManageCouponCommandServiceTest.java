@@ -7,8 +7,6 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponDesign;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
@@ -85,8 +83,8 @@ public class ManageCouponCommandServiceTest {
     private static Cafe cafe;
     private static Customer customer;
     private static Owner owner;
-    private static CouponPolicy couponPolicy;
-    private static CouponDesign couponDesign;
+    private static CafePolicy couponPolicy;
+    private static CafeCouponDesign couponDesign;
 
     @BeforeAll
     static void setUp() {
@@ -96,8 +94,8 @@ public class ManageCouponCommandServiceTest {
                 .id(1L)
                 .phoneNumber("01012345678")
                 .build();
-        couponPolicy = new CouponPolicy(10, "reward", 6);
-        couponDesign = new CouponDesign("front", "back", "stamp");
+        couponPolicy = new CafePolicy(10, "reward", 6, null);
+        couponDesign = new CafeCouponDesign("front", "back", "stamp", null);
     }
 
     @Test

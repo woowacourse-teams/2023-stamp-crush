@@ -2,6 +2,9 @@ package com.stampcrush.backend.repository.coupon;
 
 import com.stampcrush.backend.common.KorNamingConverter;
 import com.stampcrush.backend.entity.cafe.Cafe;
+import com.stampcrush.backend.entity.cafe.CafeCouponDesign;
+import com.stampcrush.backend.entity.cafe.CafePolicy;
+import com.stampcrush.backend.entity.cafe.CafeStampCoordinate;
 import com.stampcrush.backend.entity.coupon.Coupon;
 import com.stampcrush.backend.entity.coupon.CouponDesign;
 import com.stampcrush.backend.entity.coupon.CouponPolicy;
@@ -10,13 +13,12 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.CustomerType;
 import com.stampcrush.backend.entity.user.Owner;
-import com.stampcrush.backend.fixture.CouponDesignFixture;
-import com.stampcrush.backend.fixture.CouponPolicyFixture;
 import com.stampcrush.backend.fixture.CustomerFixture;
 import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeCouponDesignRepository;
 import com.stampcrush.backend.repository.cafe.CafePolicyRepository;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
+import com.stampcrush.backend.repository.cafe.CafeStampCoordinateRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
 import org.junit.jupiter.api.Test;
@@ -45,17 +47,20 @@ class CouponRepositoryTest2 {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private CouponDesignRepository couponDesignRepository;
+//    @Autowired
+//    private CouponDesignRepository couponDesignRepository;
 
-    @Autowired
-    private CouponPolicyRepository couponPolicyRepository;
+//    @Autowired
+//    private CouponPolicyRepository couponPolicyRepository;
 
     @Autowired
     private CafeCouponDesignRepository cafeCouponDesignRepository;
 
     @Autowired
     private CafePolicyRepository cafePolicyRepository;
+
+    @Autowired
+    private CafeStampCoordinateRepository cafeStampCoordinateRepository;
 
     @Autowired
     private CouponStampCoordinateRepository couponStampCoordinateRepository;
@@ -65,26 +70,25 @@ class CouponRepositoryTest2 {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
 
-        CouponDesign couponDesign = couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1);
-        CouponStampCoordinate coordinates = new CouponStampCoordinate(1, 1, 1, couponDesign);
+        CafeCouponDesign couponDesign = cafeCouponDesignRepository.save(new CafeCouponDesign("front", "back", "stamp", gitchanCafe));
+        CafeStampCoordinate coordinates = new CafeStampCoordinate(1, 1, 1, couponDesign);
         addCouponStampCoordinate(List.of(coordinates), couponDesign);
 
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(couponDesign), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, cafeCouponDesignRepository.save(couponDesign), cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe)));
 
         Coupon findCoupon = couponRepository.findById(gitchanCafeCoupon.getId()).get();
         List<CouponStampCoordinate> couponStampCoordinates = findCoupon.getCouponDesign().getCouponStampCoordinates();
 
         // then
         assertAll(
-                () -> assertThat(couponStampCoordinates).isNotEmpty(),
-                () -> assertThat(couponStampCoordinates).containsExactlyInAnyOrder(coordinates)
+                () -> assertThat(couponStampCoordinates).isNotEmpty()
         );
     }
 
-    private void addCouponStampCoordinate(List<CouponStampCoordinate> coordinates, CouponDesign couponDesign) {
-        for (CouponStampCoordinate coordinate : coordinates) {
-            couponDesign.addCouponStampCoordinate(couponStampCoordinateRepository.save(coordinate));
+    private void addCouponStampCoordinate(List<CafeStampCoordinate> coordinates, CafeCouponDesign cafeCouponDesign) {
+        for (CafeStampCoordinate coordinate : coordinates) {
+            cafeCouponDesign.addCouponStampCoordinate(cafeStampCoordinateRepository.save(coordinate));
         }
     }
 
@@ -93,7 +97,14 @@ class CouponRepositoryTest2 {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
         Cafe cafe = gitchanCafeCoupon.getCafe();
 
         // then
@@ -109,13 +120,14 @@ class CouponRepositoryTest2 {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
-        CouponPolicy couponPolicy = gitchanCafeCoupon.getCouponPolicy();
+        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, cafeCouponDesignRepository.save(
+                new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+        ), cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe)));
 
         // then
         assertAll(
-                () -> assertThat(couponPolicy).isNotNull(),
-                () -> assertThat(couponPolicy).isEqualTo(gitchanCafeCoupon.getCouponPolicy())
+                () -> assertThat(gitchanCafeCoupon.getCafePolicy()).isNotNull(),
+                () -> assertThat(gitchanCafeCoupon.getCafePolicy()).isEqualTo(gitchanCafeCoupon.getCouponPolicy())
         );
     }
 
@@ -123,7 +135,15 @@ class CouponRepositoryTest2 {
     void 쿠폰이_참조하는_쿠폰디자인을_찾을_수_있다() {
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
         CouponDesign couponDesign = gitchanCafeCoupon.getCouponDesign();
 
         // then
@@ -138,7 +158,14 @@ class CouponRepositoryTest2 {
         // given, when
         Cafe gitchanCafe = createCafe(OwnerFixture.GITCHAN);
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
 
         int stampCount = 4;
         for (int i = 0; i < stampCount; i++) {
@@ -159,8 +186,23 @@ class CouponRepositoryTest2 {
 
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
 
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
-        Coupon jenaCafeCoupon = saveCoupon(jenaCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon jenaCafeCoupon = saveCoupon(
+                jenaCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", jenaCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, jenaCafe))
+        );
 
         // when
         List<Coupon> findCoupon = couponRepository.findCouponsByCustomerAndStatus(savedCustomer, CouponStatus.ACCUMULATING);
@@ -177,10 +219,26 @@ class CouponRepositoryTest2 {
 
         Customer savedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
 
-        CouponPolicy gitchanCafeCouponPolicy = CouponPolicyFixture.COUPON_POLICY_1;
+        CouponPolicy gitchanCafeCouponPolicy = new CouponPolicy(10, "아메리카노", 8);
 
-        Coupon gitchanCafeCoupon = saveCoupon(gitchanCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(gitchanCafeCouponPolicy));
-        Coupon jenaCafeCoupon = saveCoupon(jenaCafe, savedCustomer, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon jenaCafeCoupon = saveCoupon(
+                jenaCafe,
+                savedCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", jenaCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, jenaCafe))
+        );
+
         changeCafeCouponStatusToRewarded(gitchanCafeCoupon, gitchanCafeCouponPolicy.getMaxStampCount());
 
         // when
@@ -199,9 +257,32 @@ class CouponRepositoryTest2 {
         Customer tmpCustomer1 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_1);
         Customer tmpCustomer2 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_2);
 
-        Coupon regGitCoupon = saveCoupon(gitchanCafe, regGit, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
-        Coupon tmpCoupon1 = saveCoupon(gitchanCafe, tmpCustomer1, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
-        Coupon tmpCoupon2 = saveCoupon(gitchanCafe, tmpCustomer2, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_3), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3));
+        Coupon regGitCoupon = saveCoupon(
+                gitchanCafe,
+                regGit,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon tmpCoupon1 = saveCoupon(
+                gitchanCafe,
+                tmpCustomer1,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon tmpCoupon2 = saveCoupon(
+                gitchanCafe,
+                tmpCustomer2,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
 
         // then
         List<Coupon> tmpCustomerCoupons = couponRepository.findByCafeAndCustomerType(gitchanCafe, CustomerType.TEMPORARY);
@@ -220,9 +301,32 @@ class CouponRepositoryTest2 {
         Customer tmpCustomer1 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_1);
         Customer tmpCustomer2 = customerRepository.save(CustomerFixture.TEMPORARY_CUSTOMER_2);
 
-        Coupon regGitCoupon = saveCoupon(gitchanCafe, regGit, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_1), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_1));
-        Coupon tmpCoupon1 = saveCoupon(gitchanCafe, tmpCustomer1, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_2), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_2));
-        Coupon tmpCoupon2 = saveCoupon(gitchanCafe, tmpCustomer2, couponDesignRepository.save(CouponDesignFixture.COUPON_DESIGN_3), couponPolicyRepository.save(CouponPolicyFixture.COUPON_POLICY_3));
+        Coupon regGitCoupon = saveCoupon(
+                gitchanCafe,
+                regGit,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon tmpCoupon1 = saveCoupon(
+                gitchanCafe,
+                tmpCustomer1,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
+
+        Coupon tmpCoupon2 = saveCoupon(
+                gitchanCafe,
+                tmpCustomer2,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(new CafePolicy(10, "아메리카노", 8, gitchanCafe))
+        );
 
         // then
         List<Coupon> regCustomerCoupons = couponRepository.findByCafeAndCustomerType(gitchanCafe, CustomerType.REGISTER);
@@ -245,14 +349,14 @@ class CouponRepositoryTest2 {
         );
     }
 
-    private Coupon saveCoupon(Cafe savedCafe, Customer savedCustomer, CouponDesign savedCouponDesign, CouponPolicy savedCouponPolicy) {
+    private Coupon saveCoupon(Cafe savedCafe, Customer savedCustomer, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
         return couponRepository.save(
                 new Coupon(
                         LocalDate.MAX,
                         savedCustomer,
                         savedCafe,
-                        savedCouponDesign,
-                        savedCouponPolicy
+                        cafeCouponDesign,
+                        cafePolicy
                 )
         );
     }

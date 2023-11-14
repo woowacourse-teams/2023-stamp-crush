@@ -6,7 +6,6 @@ import com.stampcrush.backend.application.manager.coupon.dto.CustomerAccumulatin
 import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.cafe.CafePolicy;
 import com.stampcrush.backend.entity.coupon.Coupon;
-import com.stampcrush.backend.entity.coupon.CouponPolicy;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistories;
@@ -39,8 +38,8 @@ public class ManagerCouponFindServiceTest {
     private static Owner owner;
     private static Customer customer1;
     private static Customer customer2;
-    private static CouponPolicy couponPolicy1;
-    private static CouponPolicy couponPolicy2;
+    private static CafePolicy couponPolicy1;
+    private static CafePolicy couponPolicy2;
 
     @InjectMocks
     private ManagerCouponFindService managerCouponFindService;
@@ -76,8 +75,8 @@ public class ManagerCouponFindServiceTest {
                 .id(2L)
                 .phoneNumber("01098765432")
                 .build();
-        couponPolicy1 = new CouponPolicy(10, "reward", 6);
-        couponPolicy2 = new CouponPolicy(15, "reward", 6);
+        couponPolicy1 = new CafePolicy(10, "reward", 6, null);
+        couponPolicy2 = new CafePolicy(15, "reward", 6, null);
     }
 
     @Test
@@ -199,7 +198,7 @@ public class ManagerCouponFindServiceTest {
                 .willReturn(Optional.of(cafe.getOwner()));
 
         cafe.getPolicies().clear();
-        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getRewardName(), couponPolicy1.getExpiredPeriod(), cafe));
+        cafe.getPolicies().add(new CafePolicy(couponPolicy1.getMaxStampCount(), couponPolicy1.getReward(), couponPolicy1.getExpirePeriod(), cafe));
 
         // when
         List<CustomerAccumulatingCouponFindResultDto> findResult = managerCouponFindService.findAccumulatingCoupon(1L, 1L, 1L);
