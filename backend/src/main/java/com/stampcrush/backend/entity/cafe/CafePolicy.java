@@ -60,10 +60,6 @@ public class CafePolicy extends BaseDate {
         this.isActivate = Boolean.FALSE;
     }
 
-    public boolean isActive() {
-        return isActivate;
-    }
-
     public CouponPolicy copy() {
         return new CouponPolicy(maxStampCount, reward, expirePeriod);
     }
