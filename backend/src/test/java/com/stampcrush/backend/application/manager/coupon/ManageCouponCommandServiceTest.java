@@ -112,7 +112,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
+        given(cafeCouponDesignRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(List.of(currentCoupon));
@@ -138,7 +138,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
+        given(cafeCouponDesignRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findByCafeAndCustomerAndStatus(any(), any(), any()))
                 .willReturn(Collections.emptyList());
@@ -206,7 +206,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(Optional.of(cafe));
         given(cafePolicyRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafePolicy(10, "reward", 6, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
+        given(cafeCouponDesignRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.empty());
 
         // then
@@ -383,7 +383,7 @@ public class ManageCouponCommandServiceTest {
                 .willReturn(List.of(cafe));
         given(cafePolicyRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafePolicy(maxStampCount, "reward", 6, cafe)));
-        given(cafeCouponDesignRepository.findByCafe(any()))
+        given(cafeCouponDesignRepository.findByCafeAndIsActivateTrue(any()))
                 .willReturn(Optional.of(new CafeCouponDesign("front", "back", "stamp", null)));
         given(couponRepository.findById(any()))
                 .willReturn(Optional.of(coupon));
