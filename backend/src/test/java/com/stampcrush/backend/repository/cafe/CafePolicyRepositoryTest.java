@@ -49,7 +49,7 @@ class CafePolicyRepositoryTest {
                 )
         );
 
-        CafePolicy deletedCafePolicy = cafePolicyRepository.save(
+        CafePolicy disableCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "마카롱",
@@ -57,8 +57,9 @@ class CafePolicyRepositoryTest {
                         savedCafe
                 )
         );
+        disableCafePolicy.disable();
 
-        CafePolicy notDeletedCafePolicy = cafePolicyRepository.save(
+        CafePolicy activeCafePolicy = cafePolicyRepository.save(
                 new CafePolicy(
                         2,
                         "아메리카노",
@@ -72,8 +73,8 @@ class CafePolicyRepositoryTest {
         // then
         assertAll(
                 () -> assertThat(filteredCafePolicy).isNotEmpty(),
-                () -> assertThat(filteredCafePolicy.get()).isEqualTo(notDeletedCafePolicy),
-                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(deletedCafePolicy)
+                () -> assertThat(filteredCafePolicy.get()).isEqualTo(activeCafePolicy),
+                () -> assertThat(filteredCafePolicy.get()).isNotEqualTo(disableCafePolicy)
         );
     }
 

@@ -31,24 +31,8 @@ class CafeCouponDesignRepositoryTest {
     @Test
     void 활성화된_쿠폰만_조회한다() {
         // given, when
-        Cafe savedCafe = createCafe(OwnerFixture.GITCHAN);
-
-        CafeCouponDesign deletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, true);
-        CafeCouponDesign notDeletedCafeCouponDesign = saveCafeCouponDesign(savedCafe, false);
-
-        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndIsActivateTrue(savedCafe);
-
-        // then
-        assertAll(
-                () -> assertThat(filteredCafeCouponDesign).isNotEmpty(),
-                () -> assertThat(filteredCafeCouponDesign.get()).isEqualTo(notDeletedCafeCouponDesign),
-                () -> assertThat(filteredCafeCouponDesign.get()).isNotEqualTo(deletedCafeCouponDesign)
-        );
-    }
-
-    private Cafe createCafe(Owner owner) {
-        Owner savedOwner = ownerRepository.save(owner);
-        return cafeRepository.save(
+        Owner savedOwner = ownerRepository.save(OwnerFixture.GITCHAN);
+        Cafe savedCafe = cafeRepository.save(
                 new Cafe(
                         "깃짱카페",
                         "서초구",
@@ -57,9 +41,22 @@ class CafeCouponDesignRepositoryTest {
                         savedOwner
                 )
         );
+
+        CafeCouponDesign disableCafeCouponDesign = saveCafeCouponDesign(savedCafe);
+        disableCafeCouponDesign.disable();
+        CafeCouponDesign activeCafeCoupnDesign = saveCafeCouponDesign(savedCafe);
+
+        Optional<CafeCouponDesign> filteredCafeCouponDesign = cafeCouponDesignRepository.findByCafeAndIsActivateTrue(savedCafe);
+
+        // then
+        assertAll(
+                () -> assertThat(filteredCafeCouponDesign).isNotEmpty(),
+                () -> assertThat(filteredCafeCouponDesign.get()).isEqualTo(activeCafeCoupnDesign),
+                () -> assertThat(filteredCafeCouponDesign.get()).isNotEqualTo(disableCafeCouponDesign)
+        );
     }
 
-    private CafeCouponDesign saveCafeCouponDesign(Cafe savedCafe, boolean deleted) {
+    private CafeCouponDesign saveCafeCouponDesign(Cafe savedCafe) {
         return cafeCouponDesignRepository.save(
                 new CafeCouponDesign(
                         "#", "#", "#", savedCafe
