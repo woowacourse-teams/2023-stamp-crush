@@ -10,6 +10,7 @@ import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @KorNamingConverter
 @DataJpaTest
@@ -79,6 +81,31 @@ class RewardRepositoryTest {
 
         // then
         assertThat(countOfUnusedReward).isEqualTo(4);
+    }
+
+    @Test
+    void 해당_고객의_리워드를_삭제한다() {
+        // given
+        Cafe cafe = createCafe(OwnerFixture.GITCHAN);
+        Customer customer1 = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer customer2 = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_1);
+
+        rewardRepository.save(new Reward("Reward1", customer1, cafe));
+        rewardRepository.save(new Reward("Reward2", customer1, cafe));
+        rewardRepository.save(new Reward("Reward3", customer1, cafe));
+        rewardRepository.save(new Reward("Reward4", customer1, cafe));
+        rewardRepository.save(new Reward("Reward5", customer1, cafe));
+
+        rewardRepository.save(new Reward("no delete", customer2, cafe));
+
+        // when
+        rewardRepository.deleteByCustomer(customer1.getId());
+
+        // then
+        assertAll(
+                () -> assertThat(rewardRepository.findByCustomer(customer1)).isEmpty(),
+                () -> assertThat(rewardRepository.findByCustomer(customer2)).isNotEmpty()
+        );
     }
 
     private Cafe createCafe(Owner owner) {
