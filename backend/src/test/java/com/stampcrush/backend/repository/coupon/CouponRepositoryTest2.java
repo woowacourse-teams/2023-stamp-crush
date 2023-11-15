@@ -471,11 +471,11 @@ class CouponRepositoryTest2 {
         );
 
         couponRepository.deleteByCustomer(deleteCouponCustomer.getId());
-        List<Coupon> deleteUserCoupons = couponRepository.findByCustomer(deleteCouponCustomer);
+
         // then
         assertAll(
-                () -> assertThat(deleteUserCoupons).isEmpty(),
-                () -> assertThat(gitchanCafeNoDeleteCoupon.getDeleted()).isFalse()
+                () -> assertThat(couponRepository.findByCustomer(deleteCouponCustomer)).isEmpty(),
+                () -> assertThat(couponRepository.findByCustomer(noDeleteCouponCustomer)).isNotEmpty()
         );
     }
 
