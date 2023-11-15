@@ -32,17 +32,10 @@ public class VisitorCancelMembershipCommandService {
     public void cancelMembership(Long customerId) {
         Customer customer = findExistingCustomer(customerId);
 
-        List<Coupon> coupons = couponRepository.findByCustomer(customer);
-        couponRepository.deleteAll(coupons);
-
-        List<Reward> rewards = rewardRepository.findByCustomer(customer);
-        rewardRepository.deleteAll(rewards);
-
-        List<Favorites> favorites = favoritesRepository.findByCustomer(customer);
-        favoritesRepository.deleteAll(favorites);
-
-        List<VisitHistory> visitHistories = visitHistoryRepository.findByCustomer(customer);
-        visitHistoryRepository.deleteAll(visitHistories);
+        couponRepository.deleteByCustomer(customerId);
+        rewardRepository.deleteByCustomer(customerId);
+        favoritesRepository.deleteByCustomer(customerId);
+        visitHistoryRepository.deleteByCustomer(customerId);
 
         customerRepository.delete(customer);
     }
