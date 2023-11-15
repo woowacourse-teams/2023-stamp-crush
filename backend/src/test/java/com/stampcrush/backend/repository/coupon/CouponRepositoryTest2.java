@@ -433,6 +433,52 @@ class CouponRepositoryTest2 {
         );
     }
 
+    @Test
+    void 고객의_쿠폰을_삭제한다_jpql() {
+        Owner savedOwner = ownerRepository.save(OwnerFixture.GITCHAN);
+        Cafe gitchanCafe = cafeRepository.save(
+                new Cafe(
+                        "깃짱카페",
+                        "서초구",
+                        "어쩌고",
+                        "0101010101",
+                        savedOwner
+                )
+        );
+        Customer deleteCouponCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer noDeleteCouponCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_1);
+
+        Coupon gitchanCafeCoupon = saveCoupon(
+                gitchanCafe,
+                deleteCouponCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(
+                        new CafePolicy(10, "아메리카노", 8, gitchanCafe)
+                )
+        );
+
+        Coupon gitchanCafeNoDeleteCoupon = saveCoupon(
+                gitchanCafe,
+                noDeleteCouponCustomer,
+                cafeCouponDesignRepository.save(
+                        new CafeCouponDesign("front", "back", "stamp", gitchanCafe)
+                ),
+                cafePolicyRepository.save(
+                        new CafePolicy(10, "아메리카노", 8, gitchanCafe)
+                )
+        );
+
+        couponRepository.deleteByCustomer(deleteCouponCustomer.getId());
+        List<Coupon> deleteUserCoupons = couponRepository.findByCustomer(deleteCouponCustomer);
+        // then
+        assertAll(
+                () -> assertThat(deleteUserCoupons).isEmpty(),
+                () -> assertThat(gitchanCafeNoDeleteCoupon.getDeleted()).isFalse()
+        );
+    }
+
     private Coupon saveCoupon(Cafe savedCafe, Customer savedCustomer, CafeCouponDesign cafeCouponDesign, CafePolicy cafePolicy) {
         return couponRepository.save(
                 new Coupon(
