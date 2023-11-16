@@ -1,0 +1,4 @@
+spring:
+  config:
+    import:
+      - security/application-dev2.yml
