@@ -26,6 +26,7 @@
 |:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
 | <img src="https://avatars.githubusercontent.com/u/62367797?v=4" alt="" width=200> | <img src="https://avatars.githubusercontent.com/u/56749516?v=4" alt="" width=200> | <img src="https://avatars.githubusercontent.com/u/107979804?v=4" alt="" width=200> |
 |                     [라잇](https://github.com/kangyeongmin)  ✨                      |                      [윤생](https://github.com/2yunseong) 🐿️                       |                       [깃짱](https://github.com/eunkeeee)   🌟                       |      
+|                         StampCrush CEO, Client Developer                          |                             Client Developer, Dev Ops                             |                          StampCrush CTO, Server Developer                          |      
 
 ## 스탬프크러쉬 1기 `2023.07 ~ 2023.10`
 
