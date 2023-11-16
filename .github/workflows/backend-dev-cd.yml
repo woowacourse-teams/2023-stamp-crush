@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./backend
-          file: ./backend/Dockerfile-dev
+          file: ./backend/Dockerfile-dev2
           push: true
           platforms: linux/arm64
           tags: ${{ env.DOCKER_HUB_REPOSITORY }}:latest
