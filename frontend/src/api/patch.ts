@@ -1,4 +1,3 @@
-import { api, ownerHeader } from '.';
 import { PARAMS_ERROR_MESSAGE } from '../constants/magicString';
 import {
   MutateReq,
@@ -8,20 +7,20 @@ import {
   CafeInfoReqBody,
   CafeIdParams,
 } from '../types/api/request';
+import { ownerInstance } from './axios';
 
 export const patchReward = async ({
   params,
   body,
 }: MutateReq<RewardReqBody, RewardIdParams & CustomerIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.patch<RewardReqBody>(
-    `/admin/customers/${params.customerId}/rewards/${params.rewardId}`,
-    ownerHeader(),
+  await ownerInstance.patch<RewardReqBody>(
+    `/customers/${params.customerId}/rewards/${params.rewardId}`,
     body,
   );
 };
 
 export const patchCafeInfo = async ({ params, body }: MutateReq<CafeInfoReqBody, CafeIdParams>) => {
   if (!params) throw new Error(PARAMS_ERROR_MESSAGE);
-  return await api.patch<CafeInfoReqBody>(`/admin/cafes/${params.cafeId}`, ownerHeader(), body);
+  return (await ownerInstance.patch<CafeInfoReqBody>(`/cafes/${params.cafeId}`, body)).data;
 };

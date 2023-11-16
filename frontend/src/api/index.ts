@@ -23,7 +23,7 @@ const request = async (path: string, init?: RequestInit) => {
       }
     }
 
-    throw new Error(response.status.toString());
+    throw new Error(`${response.status}:${response.statusText}`);
   }
   return response;
 };

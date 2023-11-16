@@ -15,6 +15,7 @@ const PrivateProvider = ({ consumer, children }: PrivateProviderProps & PropsWit
     if (localStorage.getItem(tokenKey) === '' || !localStorage.getItem(tokenKey)) {
       navigate(routePath);
     }
+    // 토큰이 비었으면 새로 발급을 해라
   }, [navigate]);
 
   return <>{children}</>;

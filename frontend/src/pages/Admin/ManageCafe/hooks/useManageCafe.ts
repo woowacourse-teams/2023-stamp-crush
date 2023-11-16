@@ -10,7 +10,7 @@ const useManageCafe = (
   cafeId: number,
   cafeInfo: Cafe,
   mutatePatchCafeInfo: UseMutateFunction<
-    Response,
+    CafeInfoReqBody,
     unknown,
     MutateReq<CafeInfoReqBody, CafeIdParams>,
     unknown
