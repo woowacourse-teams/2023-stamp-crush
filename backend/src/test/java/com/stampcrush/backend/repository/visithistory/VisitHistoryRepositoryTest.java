@@ -5,9 +5,12 @@ import com.stampcrush.backend.entity.cafe.Cafe;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.Owner;
 import com.stampcrush.backend.entity.visithistory.VisitHistory;
+import com.stampcrush.backend.fixture.CustomerFixture;
+import com.stampcrush.backend.fixture.OwnerFixture;
 import com.stampcrush.backend.repository.cafe.CafeRepository;
 import com.stampcrush.backend.repository.user.CustomerRepository;
 import com.stampcrush.backend.repository.user.OwnerRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @KorNamingConverter
 @DataJpaTest
@@ -151,5 +155,38 @@ class VisitHistoryRepositoryTest {
         VisitHistory visitHistory2 = visitHistoryRepository.save(new VisitHistory(cafe1, customer2, 5));
 
         assertThat(visitHistoryRepository.findByCafeIdAndCustomerId(cafe1.getId(), customer1.getId())).containsExactly(visitHistory1);
+    }
+
+    @Test
+    void 해당_고객의_방문_이력을_삭제한다() {
+        Cafe cafe = createCafe(OwnerFixture.GITCHAN);
+        Customer deletedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_GITCHAN);
+        Customer noDeletedCustomer = customerRepository.save(CustomerFixture.REGISTER_CUSTOMER_1);
+
+        visitHistoryRepository.save(new VisitHistory(cafe, deletedCustomer, 3));
+        visitHistoryRepository.save(new VisitHistory(cafe, deletedCustomer, 1));
+
+        visitHistoryRepository.save(new VisitHistory(cafe, noDeletedCustomer, 3));
+
+        visitHistoryRepository.deleteByCustomer(deletedCustomer.getId());
+
+        assertAll(
+                () -> assertThat(visitHistoryRepository.findByCustomer(deletedCustomer)).isEmpty(),
+                () -> assertThat(visitHistoryRepository.findByCustomer(noDeletedCustomer)).isNotEmpty()
+        );
+    }
+
+
+    private Cafe createCafe(Owner owner) {
+        Owner savedOwner = ownerRepository.save(owner);
+        return cafeRepository.save(
+                new Cafe(
+                        "깃짱카페",
+                        "서초구",
+                        "어쩌고",
+                        "0101010101",
+                        savedOwner
+                )
+        );
     }
 }

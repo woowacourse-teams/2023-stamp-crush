@@ -80,8 +80,6 @@ class VisitorCancelMembershipAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 가입_고객_회원_탈퇴_요청(customerToken);
 
         // then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(NO_CONTENT.value())
-        );
+        assertThat(response.statusCode()).isEqualTo(NO_CONTENT.value());
     }
 }

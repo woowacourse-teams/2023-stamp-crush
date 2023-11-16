@@ -6,6 +6,7 @@ import com.stampcrush.backend.entity.coupon.CouponStatus;
 import com.stampcrush.backend.entity.user.Customer;
 import com.stampcrush.backend.entity.user.CustomerType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -32,4 +33,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Optional<Coupon> findByIdAndCustomerId(Long id, Long customerId);
 
     List<Coupon> findByCustomer(Customer customer);
+
+    @Modifying
+    @Query(value = "update Coupon c set c.deleted = true where c.customer_id = :customerId", nativeQuery = true)
+    void deleteByCustomer(Long customerId);
 }
