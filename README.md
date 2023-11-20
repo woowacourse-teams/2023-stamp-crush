@@ -17,7 +17,7 @@
 
 [서비스 소개 페이지 바로가기](https://sites.google.com/woowahan.com/woowacourse-demo-5th/프로젝트/스탬프크러쉬)
 </div>
-ㅣ
+
 ## 팀원 소개
 
 ## 스탬프크러쉬 2기 `2023.10 ~ ing`
