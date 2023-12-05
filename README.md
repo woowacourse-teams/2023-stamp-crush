@@ -2,9 +2,11 @@
   <img width="300" alt="스크린샷 2022-09-30 오후 5 31 24" src="https://github.com/woowacourse-teams/2023-stamp-crush/assets/62367797/3779aae1-6cc1-4843-94cc-a5fd949e0a06">
   <h2> 흩어진 쿠폰 한번에 관리하자! </h2>
 <br>
-사장 모드 : stampcrush.site/admin
+<a href="https://www.stampcrush.site/">서비스 소개</a>
 <br>
-고객 모드 : stampcrush.site
+<a href="https://www.stampcrush.site/admin">사장 모드</a>
+<br>
+<a href="https://www.stampcrush.site/counpon-list">고객 모드</a>
   <br>
   <br>
   <strong>스탬프크러쉬</strong>는 온라인 쿠폰 적립 및 관리 플랫폼으로
