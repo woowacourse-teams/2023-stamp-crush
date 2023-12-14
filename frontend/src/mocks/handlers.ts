@@ -14,6 +14,8 @@ import {
   customerRegisterType,
 } from './mockData';
 
+const baseUrl = process.env.REACT_APP_DEV_URL;
+
 const customerList = [...customers];
 const coupons = [...mockCoupons];
 
@@ -78,24 +80,31 @@ export const handlers = [
     return res(ctx.status(204));
   }),
 
-  // 전화번호로 고객 조회
-  rest.get('/admin/customers', (req, res, ctx) => {
-    const phoneNumberQueryParam = req.url.searchParams.get('phone-number');
-    const findUserResult = customerList.find(
-      (customer) => customer.phoneNumber === phoneNumberQueryParam,
-    );
-
-    if (!findUserResult) {
-      return res(ctx.status(200), ctx.json({ customer: [] }));
-    }
-
-    return res(
-      ctx.status(200),
-      ctx.json({
-        customer: [findUserResult],
-      }),
-    );
+  // 고객 목록 조회
+  rest.get(`${baseUrl}/admin/cafes/:cafeId/customers`, (req, res, ctx) => {
+    const { cafeId } = req.params;
+    console.log(cafeId);
+    return res(ctx.status(200), ctx.json({ customers: customerList }));
   }),
+
+  // // 전화번호로 고객 조회
+  // rest.get('/admin/customers', (req, res, ctx) => {
+  //   const phoneNumberQueryParam = req.url.searchParams.get('phone-number');
+  //   const findUserResult = customerList.find(
+  //     (customer) => customer.phoneNumber === phoneNumberQueryParam,
+  //   );
+
+  //   if (!findUserResult) {
+  //     return res(ctx.status(200), ctx.json({ customer: [] }));
+  //   }
+
+  //   return res(
+  //     ctx.status(200),
+  //     ctx.json({
+  //       customer: [findUserResult],
+  //     }),
+  //   );
+  // }),
 
   // 임시 가입 고객 생성
   rest.post('/admin/temporary-customers', async (req, res, ctx) => {
@@ -103,14 +112,15 @@ export const handlers = [
     const newId = Math.floor(Math.random() * 1000 + 29);
 
     const createdCustomer = {
-      id: newId,
-      nickname: '레고(임시회원, 신규)',
-      phoneNumber: body.phoneNumber,
-      customerId: newId,
-      stampCount: 1,
-      expireDate: '2023:08:11',
-      isPrevious: 'false',
+      id: 1,
+      nickname: '박정규',
+      stampCount: 2,
+      rewardCount: 0,
+      visitCount: 1,
       maxStampCount: 10,
+      firstVisitDate: '2023:12:13',
+      isRegistered: true,
+      recentVisitDate: '2023:12:13',
     };
 
     customerList.push(createdCustomer);
@@ -187,7 +197,7 @@ export const handlers = [
       return res(ctx.status(400));
     }
 
-    const customerIndex = customerList.findIndex((e) => e.customerId === +customerId);
+    const customerIndex = customerList.findIndex((e) => e.id === +customerId);
 
     if (customerIndex === -1) {
       return res(ctx.status(400));
