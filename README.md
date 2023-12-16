@@ -155,24 +155,33 @@
 
   <table>
     <tr>
-      <td width="250">
+      <td width="300">
         <h3>쿠폰 접기/펼치기</h3> 
         <p>다수의 쿠폰이 존재할 때 쿠폰을 모아서 볼 수도 있고, 펼쳐서 볼 수도 있습니다.</p>
       </td>
-      <td width="250">
-        <h3>즐겨찾기 등록/해제</h3> 
-        <p>쿠폰 오른쪽 위의 별모양 아이콘을 눌러 카페 즐겨찾기 등록/해제할 수 있습니다.</p>
-      </td>
-      <td width="250">
-        <h3>즐겨찾기 모아보기</h3> 
-        <p>즐겨찾기 된 쿠폰만을 확인할 수 있습니다.</p>
+      <td width="300">
+        <h3>쿠폰 & 카페 상세</h3> 
+        <p>쿠폰을 터치/클릭하여 해당 쿠폰을 발급한 카페에 대한 정보를 확인할 수 있습니다.</p>
       </td>
     </tr>
     <tr>
-      <td><img src="docs/coupon-list.gif"/></td>
-      <td><img src="docs/fav-toggle.gif"/></td>
-      <td><img src="docs/fav-toggle-1.gif"/></td>
+      <td align="center"><img src="docs/coupon-list.gif" width="250"/></td>
+      <td align="center"><img src="docs/coupon-info.gif" width="250"/></td>
+    </tr>
     <tr>
+      <td width="300">
+        <h3>즐겨찾기 등록/해제</h3> 
+        <p>쿠폰 오른쪽 위의 별모양 아이콘을 눌러 카페 즐겨찾기 등록/해제할 수 있습니다.</p>
+      </td>
+      <td width="300">
+        <h3>즐겨찾기 모아보기</h3> 
+        <p>즐겨찾기한 쿠폰을 확인할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/fav-toggle.gif" width="250"/></td>
+      <td align="center"><img src="docs/fav-toggle-1.gif" width="250"/></td>
+    </tr>
   </table>
   
   <br/>
