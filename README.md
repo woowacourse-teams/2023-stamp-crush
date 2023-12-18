@@ -181,20 +181,6 @@
     </tr>
     <tr>
       <td>
-        <h3>쿠폰 상세 페이지</h3>
-        <p>쿠폰을 클릭/터치하여 쿠폰 정보 및 해당 쿠폰을 발급한 카페의 정보를 확인할 수 있습니다.</p>
-      </td>
-      <td>
-        <h3>리워드 페이지</h3>
-        <p>보유한 리워드를 확인할 수 있는 페이지입니다.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><img src="docs/coupon-info.gif"></td>
-      <td><img src="docs/my-reward.png"></td>
-    </tr>
-    <tr>
-      <td>
         <h3>마이 페이지</h3>
         <p>마이 페이지에서 서비스 사용 내역 조회 및 회원 탈퇴 등의 기능을 제공합니다.</p>
       </td>
@@ -204,8 +190,17 @@
       </td>
     </tr>
     <tr>
-      <td><img src="docs/my-page.png"></td>
-      <td><img src="docs/earn-record.png"></td>
+      <td align="center"><img src="docs/my-page.png" width="250"></td>
+      <td align="center"><img src="docs/earn-record.png" width="250"></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>리워드 페이지</h3>
+        <p>보유한 리워드를 확인할 수 있는 페이지입니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/my-reward.png" width="250"></td>
     </tr>
   </table>
   
