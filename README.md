@@ -21,6 +21,197 @@
 
 </div>
 
+<div align=left>
+
+# 사장 모드
+
+## 쿠폰 커스텀 기능
+
+### 쿠폰 제작 방식 선택( 템플릿 / 커스텀 )
+
+  <table>
+    <tr>
+      <img src="docs/template-or-custom.gif" width="600" alt="select between template and custom"/>
+    </tr>
+  </table>
+    <br/>
+    <br/>
+
+  <table>
+    <tr>
+      <td>
+      <h3>템플릿</h3>
+        <p>스탬프크러쉬가 <strong>제공하는 템플릿을 이용</strong>하여 쿠폰을 디자인할 수 있습니다.</p>
+      </td>
+      <td><img src="docs/make-template.gif" width="600" alt="make template coupon"/></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>커스텀</h3>
+        <p>사용자가 <strong>직접 파일을 업로드</strong>하여 쿠폰 디자인을 커스터마이징할 수 있습니다.</p>
+      </td>
+      <td><img src="docs/image-upload.gif" width="600" alt="coupon image upload"/></td>
+    </tr>
+  </table>
+
+  <br/>
+
+### 스탬프 위치 커스터마이징
+
+  <table>
+    <tr>
+      <td>쿠폰에 찍힐 <strong>스탬프 좌표와 순서를 커스터마이징</strong>합니다.</td>
+    </tr>
+    <tr>
+      <td><img src="docs/coupon-custom.gif" width="800" alt="coupon custom"/></td>
+    </tr>
+  </table>
+
+  <br/>
+  <br/>
+
+## 스탬프 적립
+
+  <table>
+    <tr>
+      <td>
+        <h3>서비스 첫 이용시</h3> 
+        <p>첫 방문 고객 확인 / 전화번호 입력 실수 방지를 위해 DB에 존재하지 않는 번호 입력 시 알림을 띄웁니다.</p></td>
+      <td>
+        <h3>서비스 가입 회원</h3> 
+        <p>입력받은 전화번호로 회원/비회원, 쿠폰 보유 여부, 스탬프 개수, 쿠폰 디자인 등 고객의 정보를 요청/응답합니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="docs/earn-first.gif"/></td>
+      <td><img src="docs/earn-twice.gif"></td>
+    <tr>
+  </table>
+
+  <table>
+    <tr>
+      <td><strong>쿠폰을 커스터마이징한 경우 사용자가 설정한 스탬프 위치와 순서에 맞게</strong> 스탬프가 찍힙니다.</td>
+    </tr>
+    <tr>
+      <td><img src="docs/earn-stamp-1.gif" width="800" alt="earn stamp"/></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <td>적립하고자 하는 스탬프의 개수가 쿠폰 최대 스탬프 개수를 넘어가면 새 쿠폰을 발급하여 스탬프를 적립합니다.</td>
+    </tr>
+    <tr>
+      <td><img src="docs/earn-stamp-2.gif" width="800" alt="earn stamp"/></td>
+    </tr>
+  </table>
+
+  <br/>
+  <br/>
+
+## 카페 관리
+
+### 카페 정보 입력
+
+  <table>
+    <tr>
+      <td>
+        <p>카페의 상세 정보를 입력할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="docs/cafe-info.gif"/></td>
+    <tr>
+  </table>
+  <br/>
+  <br/>
+
+### 고객 관리
+
+  <table>
+    <tr>
+      <td>
+        <h3>고객 목록 필터링</h3>
+        <p>스탬프 크러쉬 서비스 가입(회원) / 미가입(임시), 최근 방문순, 리워드 순 등 필터링이 가능합니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img src="docs/customer-filter.gif" width="800"/>
+      </td>
+    </tr>
+  </table>
+
+  <br/>
+  <br/>
+  <br/>
+
+# 고객 모드
+
+## 보유 쿠폰 조회 기능
+
+  <table>
+    <tr>
+      <td width="300">
+        <h3>쿠폰 접기/펼치기</h3> 
+        <p>다수의 쿠폰이 존재할 때 쿠폰을 모아서 볼 수도 있고, 펼쳐서 볼 수도 있습니다.</p>
+      </td>
+      <td width="300">
+        <h3>쿠폰 & 카페 상세</h3> 
+        <p>쿠폰을 터치/클릭하여 해당 쿠폰을 발급한 카페에 대한 정보를 확인할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/coupon-list.gif" width="250"/></td>
+      <td align="center"><img src="docs/coupon-info.gif" width="250"/></td>
+    </tr>
+    <tr>
+      <td width="300">
+        <h3>즐겨찾기 등록/해제</h3> 
+        <p>쿠폰 오른쪽 위의 별모양 아이콘을 눌러 카페 즐겨찾기 등록/해제할 수 있습니다.</p>
+      </td>
+      <td width="300">
+        <h3>즐겨찾기 모아보기</h3> 
+        <p>즐겨찾기한 쿠폰을 확인할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/fav-toggle.gif" width="250"/></td>
+      <td align="center"><img src="docs/fav-toggle-1.gif" width="250"/></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>마이 페이지</h3>
+        <p>마이 페이지에서 서비스 사용 내역 조회 및 회원 탈퇴 등의 기능을 제공합니다.</p>
+      </td>
+      <td>
+        <h3>스탬프 적립 내역</h3>
+        <p>스탬프를 적립한 카페와 스탬프 적립 개수, 적립 일자를 확인할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/my-page.png" width="250"></td>
+      <td align="center"><img src="docs/earn-record.png" width="250"></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>리워드 페이지</h3>
+        <p>보유한 리워드를 확인할 수 있는 페이지입니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"><img src="docs/my-reward.png" width="250"></td>
+    </tr>
+  </table>
+  
+  <br/>
+  <br/>
+  <br/>
+
+</div>
+
+---
+
 ## 팀원 소개
 
 |                                                                                               Frontend                                                                                               |                                                                                                        Frontend                                                                                                         |                                                                                                       Frontend                                                                                                        |
