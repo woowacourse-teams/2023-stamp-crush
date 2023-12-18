@@ -23,9 +23,9 @@
 
 <div align=left>
 
-# 주요 기능 소개
+# 사장 모드
 
-## 쿠폰 커스텀 기능(사장 모드)
+## 쿠폰 커스텀 기능
 
 ### 쿠폰 제작 방식 선택( 템플릿 / 커스텀 )
 
@@ -48,7 +48,7 @@
     <tr>
       <td>
         <h3>커스텀</h3>
-        <p>사용자가 <strong>직접 업로드한 파일을 이용</strong>하여 쿠폰 디자인을 커스터마이징할 수 있습니다.</p>
+        <p>사용자가 <strong>직접 파일을 업로드</strong>하여 쿠폰 디자인을 커스터마이징할 수 있습니다.</p>
       </td>
       <td><img src="docs/image-upload.gif" width="600" alt="coupon image upload"/></td>
     </tr>
@@ -60,7 +60,7 @@
 
   <table>
     <tr>
-      <td>쿠폰에 찍힐 <strong>스탬프 좌표와 순서를 커스터마이징</strong>하고 S3에 이미지를 업로드합니다.</td>
+      <td>쿠폰에 찍힐 <strong>스탬프 좌표와 순서를 커스터마이징</strong>합니다.</td>
     </tr>
     <tr>
       <td><img src="docs/coupon-custom.gif" width="800" alt="coupon custom"/></td>
@@ -70,15 +70,15 @@
   <br/>
   <br/>
 
-## 스탬프 적립(사장 모드)
+## 스탬프 적립
 
   <table>
     <tr>
       <td>
-        <h3>DB 미보유 전화번호</h3> 
+        <h3>서비스 첫 이용시</h3> 
         <p>첫 방문 고객 확인 / 전화번호 입력 실수 방지를 위해 DB에 존재하지 않는 번호 입력 시 알림을 띄웁니다.</p></td>
       <td>
-        <h3>DB 보유 전화번호</h3> 
+        <h3>서비스 가입 회원</h3> 
         <p>입력받은 전화번호로 회원/비회원, 쿠폰 보유 여부, 스탬프 개수, 쿠폰 디자인 등 고객의 정보를 요청/응답합니다.</p>
       </td>
     </tr>
@@ -109,23 +109,18 @@
   <br/>
   <br/>
 
-## 카페 관리(사장 모드)
+## 카페 관리
 
 ### 카페 정보 입력
 
   <table>
     <tr>
       <td>
-        <h3>[사장모드]</h3> 
-        <p>카페 대표 이미지, 전화번호, 영업 시간, 소개글 등을 입력할 수 있습니다.</p></td>
-      <td>
-        <h3>[고객모드]</h3> 
-        <p>쿠폰을 터치하여 카페의 정보를 확인할 수 있습니다.</p>
+        <p>카페의 상세 정보를 입력할 수 있습니다.</p>
       </td>
     </tr>
     <tr>
       <td><img src="docs/cafe-info.gif"/></td>
-      <td><img src="docs/coupon-info.gif"></td>
     <tr>
   </table>
   <br/>
@@ -151,7 +146,9 @@
   <br/>
   <br/>
 
-## 보유 쿠폰 조회 기능(고객 모드)
+# 고객 모드
+
+## 보유 쿠폰 조회 기능
 
   <table>
     <tr>
@@ -181,6 +178,34 @@
     <tr>
       <td align="center"><img src="docs/fav-toggle.gif" width="250"/></td>
       <td align="center"><img src="docs/fav-toggle-1.gif" width="250"/></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>쿠폰 상세 페이지</h3>
+        <p>쿠폰을 클릭/터치하여 쿠폰 정보 및 해당 쿠폰을 발급한 카페의 정보를 확인할 수 있습니다.</p>
+      </td>
+      <td>
+        <h3>리워드 페이지</h3>
+        <p>보유한 리워드를 확인할 수 있는 페이지입니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="docs/coupon-info.gif"></td>
+      <td><img src="docs/my-reward.png"></td>
+    </tr>
+    <tr>
+      <td>
+        <h3>마이 페이지</h3>
+        <p>마이 페이지에서 서비스 사용 내역 조회 및 회원 탈퇴 등의 기능을 제공합니다.</p>
+      </td>
+      <td>
+        <h3>스탬프 적립 내역</h3>
+        <p>스탬프를 적립한 카페와 스탬프 적립 개수, 적립 일자를 확인할 수 있습니다.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="docs/my-page.png"></td>
+      <td><img src="docs/earn-record.png"></td>
     </tr>
   </table>
   
